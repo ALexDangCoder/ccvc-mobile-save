@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cuper_date_picker_extension.dart';
@@ -190,6 +191,8 @@ class CupertinoDatePickerDateState
   late int textDirectionFactor;
   late CupertinoLocalizations localizations;
   List<int> days = <int>[];
+  List<int> months = <int>[];
+  bool isSelectDay = false;
   Alignment? alignCenterLeft;
   Alignment? alignCenterRight;
 
@@ -284,6 +287,9 @@ class CupertinoDatePickerDateState
   }
 
   bool _keepInValidRange(ScrollEndNotification notification) {
+    if(isSelectDay){
+      return true;
+    }
     final int desiredDay =
         DateTime(selectedYear, selectedMonth, selectedDay).day;
     if (desiredDay != selectedDay) {
@@ -382,6 +388,7 @@ class CupertinoDatePickerDateState
 
   void initDateTimeDayMinDate() {
     if (widget.minimumDate != null) {
+      monthController.jumpToItem(months.indexOf(selectedMonth));
       dayController.jumpToItem(days.indexOf(selectedDay - 1));
     }
   }

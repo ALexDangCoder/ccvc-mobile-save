@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 
-enum CalendarType { DAY, WEEK, MONTH ,YEAR}
+enum CalendarType { DAY, WEEK, MONTH, YEAR }
 
 extension CalendarExtension on CalendarType {
   CalendarIcon getIcon() {

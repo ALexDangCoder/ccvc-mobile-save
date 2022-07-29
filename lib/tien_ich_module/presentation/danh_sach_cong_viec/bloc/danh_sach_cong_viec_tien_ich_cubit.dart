@@ -25,9 +25,6 @@ import 'danh_sach_cong_viec_tien_ich_state.dart';
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
-  String dateChange = DateTime.now().toString();
-  String? noteChange;
-  String? titleChange;
   int countLoadMore = 1;
   TextEditingController searchControler = TextEditingController();
   Timer? _debounce;
@@ -61,7 +58,7 @@ class DanhSachCongViecTienIchCubit
     ),
   );
 
-  NguoiThucHienModel get dataNguoiThucHienModel =>
+  NguoiThucHienModel get getDataNguoiThucHienModel =>
       nguoiThucHienSubject.valueOrNull ??
       NguoiThucHienModel(
         id: '',
@@ -286,23 +283,38 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// them moi cong viec
-  Future<void> addTodo({String? fileName}) async {
-    if (titleChange != '') {
+  Future<void> addTodo({
+    required String title,
+    String? fileName,
+    String? date,
+    String? note,
+  }) async {
+    date ??= DateTime.now().toString();
+    if (title.isNotEmpty) {
       showLoading();
       final result = await tienIchRep.createTodo(
         CreateToDoRequest(
           groupId: statusDSCV.value == DSCVScreen.NCVM ? groupId : null,
-          label: titleChange,
+          label: title,
           isTicked: false,
           important: false,
           inUsed: true,
-          finishDay:
-              dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
-          note: noteChange == '' ? null : noteChange,
-          performer: dataNguoiThucHienModel.id == ''
-              ? null
-              : nguoiThucHienSubject.value.id,
-          filePath: fileName,
+          finishDay: checkData(
+            defaultData: DateTime.now().formatApi,
+            changeData: DateTime.parse(date).formatApi,
+          ),
+          note: checkData(
+            defaultData: null,
+            changeData: note,
+          ),
+          performer: checkData(
+            defaultData: null,
+            changeData: getDataNguoiThucHienModel.id,
+          ),
+          filePath: checkData(
+            defaultData: null,
+            changeData: fileName,
+          ),
         ),
       );
       result.when(
@@ -359,6 +371,22 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
+  /// check data xem can them moi, sưa, hay xóa
+  dynamic checkData({
+    dynamic changeData,
+    dynamic defaultData,
+    bool? isNeedNull,
+  }) {
+    if (isNeedNull ?? false) {
+      return null;
+    }
+    if (changeData == defaultData || changeData == null || changeData == '') {
+      return defaultData;
+    } else {
+      return changeData;
+    }
+  }
+
   /// xóa nhóm công việc
   Future<void> deleteGroupTodoList() async {
     showLoading();
@@ -375,70 +403,82 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
-  ///call and fill api autu
-  Future<void> callAndFillApiAuto() async {
-    await getCountTodoAndMenu();
-    await callAPITheoFilter(pageIndex: 10 * countLoadMore);
-  }
-
   ///chinh sưa và update công việc
   Future<void> editWork({
+    required TodoDSCVModel todo,
     bool? isTicked,
     bool? important,
     bool? inUsed,
     bool? isDeleted,
     String? filePathTodo,
-    bool? isDeleteFile,
-    required TodoDSCVModel todo,
+    String? title,
+    String? note,
+    String? date,
+    String? performer,
   }) async {
+    bool checkNeedNullOrNot({
+      String? defaultData,
+      String? changeData,
+    }) {
+      return ((changeData ?? '').isEmpty) &&
+          ((defaultData ?? '').isNotEmpty) &&
+          changeData != null;
+    }
+
     showLoading();
-    dynamic checkData({dynamic changeData, dynamic defaultData}) {
-      if (changeData == '' || changeData == null || changeData == defaultData) {
-        return defaultData;
-      } else {
-        return changeData;
-      }
-    }
-
-    dynamic checkDataString(
-        {required String changeData, required String defaultData}) {
-      if (changeData == '') {
-        return null;
-      }
-      if (changeData == defaultData) {
-        return defaultData;
-      } else {
-        return changeData;
-      }
-    }
-
+    date ??= DateTime.now().toString();
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,
-        inUsed: checkData(changeData: inUsed, defaultData: todo.inUsed),
-        important:
-            checkData(changeData: important, defaultData: todo.important),
-        isDeleted:
-            checkData(changeData: isDeleted, defaultData: todo.isDeleted),
+        inUsed: checkData(
+          changeData: inUsed,
+          defaultData: todo.inUsed,
+        ),
+        important: checkData(
+          changeData: important,
+          defaultData: todo.important,
+        ),
+        isDeleted: todo.isDeleted,
         createdOn: todo.createdOn,
         createdBy: todo.createdBy,
-        isTicked: checkData(changeData: isTicked, defaultData: todo.isTicked),
-        label: checkData(changeData: titleChange, defaultData: todo.label),
+        isTicked: checkData(
+          changeData: isTicked,
+          defaultData: todo.isTicked,
+        ),
+        label: checkData(
+          changeData: title,
+          defaultData: todo.label,
+          isNeedNull:
+              checkNeedNullOrNot(defaultData: todo.label, changeData: title),
+        ),
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
-        note: checkDataString(
-          changeData: noteChange ?? '',
-          defaultData: todo.note ?? '',
+        note: checkData(
+          changeData: note,
+          defaultData: todo.note,
+          isNeedNull:
+              checkNeedNullOrNot(defaultData: todo.note, changeData: note),
         ),
-        finishDay: dateChange.isEmpty
-            ? DateTime.now().formatApi
-            : DateTime.parse(dateChange).formatApi,
-        performer: dataNguoiThucHienModel.id == ''
-            ? null
-            : nguoiThucHienSubject.value.id,
-        filePath: (isDeleteFile ?? false)
-            ? null
-            : checkData(changeData: filePathTodo, defaultData: todo.filePath),
+        finishDay: checkData(
+          defaultData: todo.finishDay,
+          changeData: DateTime.parse(date).formatApi,
+        ),
+        performer: checkData(
+          changeData: performer,
+          defaultData: todo.performer,
+          isNeedNull: checkNeedNullOrNot(
+            defaultData: todo.performer,
+            changeData: performer,
+          ),
+        ),
+        filePath: checkData(
+          changeData: filePathTodo,
+          defaultData: todo.filePath,
+          isNeedNull: checkNeedNullOrNot(
+            defaultData: todo.filePath,
+            changeData: filePathTodo,
+          ),
+        ),
       ),
     );
     result.when(
@@ -571,7 +611,7 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
-  /// hiển thị icon theo từng màn hình
+  /// hiển thị icon theo từng màn hình (cần viết lại cho gọn và dễ bảo trì hơn, hiện tại không đủ time. today: 29/07/2022)
   List<int> showIcon({required String dataType, bool? isListUp}) {
     if (isListUp ?? true) {
       switch (dataType) {
@@ -687,9 +727,6 @@ class DanhSachCongViecTienIchCubit
   }
 
   void disposs() {
-    dateChange = DateTime.now().toString();
-    noteChange = '';
-    titleChange = '';
     nguoiThucHienSubject.sink.add(
       NguoiThucHienModel(
         id: '',

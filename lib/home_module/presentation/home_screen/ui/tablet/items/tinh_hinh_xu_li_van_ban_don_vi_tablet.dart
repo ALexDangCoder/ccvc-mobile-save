@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,8 @@ class TinhHInhXuLyVanBanDonViTablet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TinhHInhXuLyVanBanDonViTablet> createState() => _VanBanDonViTabletState();
+  State<TinhHInhXuLyVanBanDonViTablet> createState() =>
+      _VanBanDonViTabletState();
 }
 
 class _VanBanDonViTabletState extends State<TinhHInhXuLyVanBanDonViTablet> {
@@ -124,8 +126,9 @@ class _VanBanDonViTabletState extends State<TinhHInhXuLyVanBanDonViTablet> {
                       const SizedBox(
                         height: 24,
                       ),
-                      statusWidget(
-                        [
+                      StatusWidget(
+                        showZeroValue: false,
+                        listData: [
                           ChartData(
                             S.current.qua_han,
                             14,

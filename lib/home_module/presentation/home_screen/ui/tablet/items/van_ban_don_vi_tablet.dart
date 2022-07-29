@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.d
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -119,35 +120,33 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
                               const SizedBox(
                                 height: 24,
                               ),
-                              statusWidget(
-                                [
-                                  ChartData(
-                                    S.current.qua_han,
-                                    dataVBDen.soLuongQuaHan.toDouble(),
-                                    statusCalenderRed,
-                                    SelectKey.CHO_VAO_SO,
-                                  ),
-                                  ChartData(
-                                    S.current.den_han,
-                                    dataVBDen.soLuongDenHan.toDouble(),
-                                    yellowColor,
-                                    SelectKey.DANG_XU_LY,
-                                  ),
-                                  ChartData(
-                                    S.current.trong_han,
-                                    dataVBDen.soLuongTrongHan.toDouble(),
-                                    choTrinhKyColor,
-                                    SelectKey.DA_XU_LY,
-                                  ),
-                                ],
+                              StatusWidget(
+                                showZeroValue: false,
+                              listData:   [
+                                ChartData(
+                                  S.current.qua_han,
+                                  dataVBDen.soLuongQuaHan.toDouble(),
+                                  statusCalenderRed,
+                                  SelectKey.CHO_VAO_SO,
+                                ),
+                                ChartData(
+                                  S.current.den_han,
+                                  dataVBDen.soLuongDenHan.toDouble(),
+                                  yellowColor,
+                                  SelectKey.DANG_XU_LY,
+                                ),
+                                ChartData(
+                                  S.current.trong_han,
+                                  dataVBDen.soLuongTrongHan.toDouble(),
+                                  choTrinhKyColor,
+                                  SelectKey.DA_XU_LY,
+                                ),
+                              ],
                               )
                             ],
                           ),
                         ),
                       ),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
                       Expanded(
                         child: titleChart(
                             S.current.document_out_going,

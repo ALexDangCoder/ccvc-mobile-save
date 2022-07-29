@@ -599,25 +599,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
               Email: a.email,
               GhiChu: a.noidung,
               SoDienThoai: a.sdt,
-              TenCoQuan: a.tenCoQuan,
-              VaiTroThamGia: a.vaiTroThamGia,
-              dauMoi: a.dauMoiLienHe,
-              email: a.email,
-              noiDungLamViec: a.noidung,
-              soDienThoai: a.sdt,
-              tenCanBo: '',
-              tenDonVi: a.tenDonVi,
-            ),
-          ) ??
-          [],
-    );
-    data.addAll(
-      _data[_THONG_TIN_KHAC_MOI]?.map(
-            (a) => MoiHopRequest(
-              DauMoiLienHe: a.dauMoiLienHe,
-              Email: a.email,
-              GhiChu: a.noidung,
-              SoDienThoai: a.sdt,
               id: null,
               TenCoQuan: a.tenCoQuan,
               VaiTroThamGia: a.vaiTroThamGia,

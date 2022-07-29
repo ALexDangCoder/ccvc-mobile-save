@@ -49,7 +49,7 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                                 height: 18.0.textScale(),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(3),
-                                  color: widget.node.isTickChildren
+                                  color: widget.node.isTickChildren.isTick
                                       ? AppTheme.getInstance().colorField()
                                       : Colors.transparent,
                                 ),
@@ -57,26 +57,8 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                               CustomCheckBox(
                                 onChange: (isCheck) {
                                   widget.node.isCheck.isCheck = !isCheck;
-                                  if( widget.node.isCheck.isCheck  == false ){
-                                    widget.node.isTickChildren = false;
-                                  }
-                                  final data = widget.node
-                                      .setSelected(widget.node.isCheck.isCheck);
-                                  if(widget.node.parent?.value.id != ''){
-                                    widget.themDonViCubit.checkUser(
-                                      widget.node.parent!,
-                                    );
-                                  }
-                                  widget.node.isCheckTickChildren();
-                                  widget.themDonViCubit.addSelectDonVi(
-                                    isCheck: widget.node.isCheck.isCheck,
-                                    listDonVi: data,
-                                    node: widget.node.value,
-                                  );
-                                  widget.themDonViCubit.addSelectParent(
-                                    widget.node,
-                                    isCheck: widget.node.isCheck.isCheck,
-                                  );
+
+                                widget.themDonViCubit.selectTag(widget.node);
                                 },
                                 isCheck: widget.node.isCheckALl(),
                               )

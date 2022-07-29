@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_reques
 import 'package:ccvc_mobile/home_module/data/request/home/tong_hop_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/danh_sach_thiep_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/get_weather_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/nguoi_gan_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/weather_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
@@ -355,5 +357,13 @@ class HomeImpl extends HomeRepository {
     return runCatchingAsync<TinhHinhXuLyPAKNCaNhan, DocumentDashboardModel>(
         () => _homeServiceGateWay.getDashboardTinhHinhPAKNCaNhan(),
         (res) => res.toDomain());
+  }
+
+  @override
+  Future<Result<WeatherModel>> getWeather(String code) {
+    return runCatchingAsync<WeatherResponse, WeatherModel>(
+      () => _homeServiceGateWay.getWeather(code),
+      (res) => res.toModel,
+    );
   }
 }

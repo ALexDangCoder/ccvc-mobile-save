@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/home_module/data/request/home/tong_hop_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/get_weather_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/nguoi_gan_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
 import 'package:dio/dio.dart';
@@ -42,9 +43,15 @@ abstract class HomeServiceGateWay {
   @factoryMethod
   factory HomeServiceGateWay(Dio dio, {String baseUrl}) = _HomeServiceGateWay;
 
+  @GET(ApiConstants.GET_WEATHER)
+  Future<WeatherResponse> getWeather(
+    @Query('code') String code,
+  );
+
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
   Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(
       @Query('isDonVi') bool isDonVi);
+
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN_CA_NHAN)
   Future<TinhHinhXuLyPAKNCaNhan> getDashboardTinhHinhPAKNCaNhan();
 
@@ -209,13 +216,12 @@ abstract class HomeServiceCCVC {
 abstract class HomeServiceCommon {
   @factoryMethod
   factory HomeServiceCommon(Dio dio, {String baseUrl}) = _HomeServiceCommon;
+
   @GET(ApiConstants.GET_LIST_CAN_BO)
   Future<NguoiGanResponse> getListNguoiGan(
-      @Query('PageIndex') int pageIndex,
-      @Query('PageSize') int pageSize,
-      @Query('IsGetAll') bool isGetAll,
-      @Query('FilterBy') String keyFilter,
-      );
-
+    @Query('PageIndex') int pageIndex,
+    @Query('PageSize') int pageSize,
+    @Query('IsGetAll') bool isGetAll,
+    @Query('FilterBy') String keyFilter,
+  );
 }
-

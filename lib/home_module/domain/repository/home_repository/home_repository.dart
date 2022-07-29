@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_mo
 import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/weather_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
@@ -26,6 +27,8 @@ import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
 
 abstract class HomeRepository {
+  Future<Result<WeatherModel>> getWeather(String code);
+
   Future<Result<PhamViModel>> getPhamVi();
 
   Future<Result<DateModel>> getLunarDate(String inputDate);

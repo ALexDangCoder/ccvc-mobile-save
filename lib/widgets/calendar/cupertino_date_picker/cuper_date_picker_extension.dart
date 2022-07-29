@@ -37,7 +37,6 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     }
     days = dataDay;
     return BuildPicker(
-      looping: dataDay.length > 4,
       offAxisFraction: offAxisFraction,
       controller: dayController,
       backgroundColor: widget.background,
@@ -58,7 +57,6 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         );
       }),
       onSelectItem: (index) {
-        isSelectDay = true;
         selectedDay = dataDay[index] + 1;
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
@@ -95,9 +93,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       }
       dataMonth.add(month);
     }
-    months = dataMonth;
     return BuildPicker(
-      looping: months.length > 5,
       offAxisFraction: offAxisFraction,
       controller: monthController,
       backgroundColor: widget.background,
@@ -109,8 +105,6 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         );
       }),
       onSelectItem: (index) {
-        isSelectDay = false;
-
         selectedMonth = dataMonth[index];
         if (widget.minimumDate != null &&
             widget.minimumDate!.year == selectedYear &&
@@ -144,8 +138,6 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         canBorderRight: true,
       ),
       onSelectedItemChanged: (int index) {
-        isSelectDay = false;
-
         selectedYear = index;
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
@@ -166,6 +158,14 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
             return null;
           }
         }
+//         if (index < widget.minimumYear) return null;
+//
+//         if (widget.maximumYear != null && index > widget.maximumYear!) {
+//           return null;
+//         }
+// if(index == 2021){
+//   return null;
+// }
         String strYear = localizations.datePickerYear(index);
         if (widget.era == EraMode.BUDDHIST_YEAR) {
           strYear = calculateYearEra(widget.era, index).toString();

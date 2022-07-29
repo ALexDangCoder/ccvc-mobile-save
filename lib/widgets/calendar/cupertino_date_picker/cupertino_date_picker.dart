@@ -191,8 +191,6 @@ class CupertinoDatePickerDateState
   late int textDirectionFactor;
   late CupertinoLocalizations localizations;
   List<int> days = <int>[];
-  List<int> months = <int>[];
-  bool isSelectDay = false;
   Alignment? alignCenterLeft;
   Alignment? alignCenterRight;
 
@@ -287,9 +285,6 @@ class CupertinoDatePickerDateState
   }
 
   bool _keepInValidRange(ScrollEndNotification notification) {
-    if(isSelectDay){
-      return false;
-    }
     final int desiredDay =
         DateTime(selectedYear, selectedMonth, selectedDay).day;
     if (desiredDay != selectedDay) {
@@ -388,7 +383,6 @@ class CupertinoDatePickerDateState
 
   void initDateTimeDayMinDate() {
     if (widget.minimumDate != null) {
-      monthController.jumpToItem(months.indexOf(selectedMonth));
       dayController.jumpToItem(days.indexOf(selectedDay - 1));
     }
   }

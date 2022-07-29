@@ -41,6 +41,7 @@ class Data {
   String? ngayTao;
   String? nguoiTaoId;
   String? traLoiYKien;
+  String? avatar;
 
   Data(
       {this.id,
@@ -49,7 +50,10 @@ class Data {
       this.nguoiTao,
       this.ngayTao,
       this.nguoiTaoId,
-      this.traLoiYKien});
+      this.traLoiYKien,
+      this.avatar,
+
+      });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -59,6 +63,7 @@ class Data {
     ngayTao = json['ngayTao'];
     nguoiTaoId = json['nguoiTaoId'];
     traLoiYKien = json['traLoiYKien'];
+    avatar = json['avatar'];
   }
 
   YkienCuocHopModel toDomain() {
@@ -73,6 +78,7 @@ class Data {
           DateTimeFormat.DATE_TIME_RECEIVE,
           DateTimeFormat.DATE_TIME_PICKER,
       ),
+      avatar : avatar ?? '',
       nguoiTaoId: nguoiTaoId ?? '',
       nguoiTao: nguoiTao ?? '',
       content: content?.parseHtml() ?? '',

@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ItemYKien extends StatelessWidget {
   final YKienModel yKienModel;
@@ -34,9 +36,10 @@ class ItemYKien extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Image.network(
-                  yKienModel.imgAvatar,
+                  Get.find<AppConstants>().baseImageUrl + yKienModel.imgAvatar,
                   errorBuilder: (_, __, ___) =>
                       Image.asset(ImageAssets.anhDaiDienMacDinh),
+                  fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(

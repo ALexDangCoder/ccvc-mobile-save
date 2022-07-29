@@ -47,7 +47,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   @override
   void initState() {
     super.initState();
-    thamGiaCubit.getTree();
+    thamGiaCubit.getTree(getAll: false);
     final DateTime now = DateTime.now();
     final DateTime preOneMonth = DateTime(now.year, now.month, now.day - 30);
     startDate = preOneMonth.toStringWithListFormat;

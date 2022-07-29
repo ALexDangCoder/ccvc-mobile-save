@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -48,19 +49,25 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController noteControler = TextEditingController();
   BehaviorSubject<bool> isShow = BehaviorSubject.seeded(false);
   late String nameFileSelect;
+  late String date;
+  late String title;
+  late String note;
 
   @override
   void initState() {
     // TODO: implement initState
-    widget.cubit.dateChange =
-        DateTime.parse(widget.todo?.finishDay ?? DateTime.now().toString())
-            .formatApi;
-    widget.cubit.titleChange = widget.todo?.label ?? '';
+
+    /// data can update or creat
+    note = widget.todo?.note ?? '';
+    date = DateTime.parse(widget.todo?.finishDay ?? DateTime.now().toString())
+        .formatApi;
+    title = widget.todo?.label ?? '';
+    nameFileSelect = widget.todo?.filePath ?? '';
+
+    ///
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
-    nameFileSelect = widget.todo?.filePath ?? '';
-    widget.cubit.noteChange = widget.todo?.note ?? '';
   }
 
   @override
@@ -80,26 +87,33 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
             ? EdgeInsets.zero
             : const EdgeInsets.symmetric(horizontal: 100),
         child: DoubleButtonBottom(
+          isTablet: !isMobile(),
           title1: S.current.dong,
           title2: S.current.luu,
           onClickLeft: () {
             Navigator.pop(context);
           },
           onClickRight: () {
-            if ((widget.cubit.titleChange ?? '').isEmpty) {
+            if (title.isEmpty) {
               isShow.sink.add(true);
               return;
             }
 
             if (widget.isCreate ?? true) {
               widget.cubit.addTodo(
+                title: title,
                 fileName: nameFileSelect,
+                date: date,
+                note: note,
               );
             } else {
               widget.cubit.editWork(
-                isDeleteFile: nameFileSelect.isEmpty,
                 todo: widget.todo ?? TodoDSCVModel(),
                 filePathTodo: nameFileSelect,
+                title: title,
+                date: date,
+                note: note,
+                performer: widget.cubit.getDataNguoiThucHienModel.id,
               );
             }
 
@@ -115,6 +129,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
           child: Padding(
             padding: const EdgeInsets.only(top: 16),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// textFild tiêu đề
@@ -130,7 +145,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                         controller: tieuDeController,
                         validator: (String? value) {},
                         onChange: (String value) {
-                          widget.cubit.titleChange = value;
+                          title = value;
                           if (value.isNotEmpty) {
                             isShow.sink.add(false);
                           }
@@ -153,9 +168,9 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                       padding: const EdgeInsets.only(right: 16),
                       child: SvgPicture.asset(ImageAssets.icCalendar),
                     ),
-                    value: widget.cubit.dateChange,
+                    value: date,
                     onSelectDate: (value) {
-                      widget.cubit.dateChange = value;
+                      date = value;
                     },
                   ),
                 ),
@@ -290,7 +305,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   title: S.current.ghi_chu,
                   validator: (String? value) {},
                   onChange: (value) {
-                    widget.cubit.noteChange = value;
+                    note = value;
                   },
                   maxLine: 8,
                   controller: noteControler,

@@ -64,6 +64,7 @@ class ListUpDSCV extends StatelessWidget {
               title: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
+              showTablet: !isMobile(),
             );
           },
           onChange: (value) {
@@ -91,6 +92,7 @@ class ListUpDSCV extends StatelessWidget {
               title: S.current.ban_co_chan_chan_muon_hoan_tac,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.hoan_tac,
+              showTablet: !isMobile(),
             );
           },
           onXoaVinhVien: () {
@@ -105,6 +107,7 @@ class ListUpDSCV extends StatelessWidget {
               title: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
+              showTablet: !isMobile(),
             );
           },
           cubit: cubit,
@@ -193,6 +196,7 @@ class ListDownDSCV extends StatelessWidget {
               textContent: S.current.ban_chac_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
+              showTablet: !isMobile(),
             );
           },
           onChange: (value) {
@@ -223,6 +227,7 @@ class ListDownDSCV extends StatelessWidget {
               title: S.current.ban_co_chan_chan_muon_xoa,
               btnLeftTxt: S.current.huy,
               btnRightTxt: S.current.xoa,
+              showTablet: !isMobile(),
             );
           },
           cubit: cubit,

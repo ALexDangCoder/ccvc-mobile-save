@@ -10,9 +10,11 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file_cubit.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SelectFileBtn extends StatefulWidget {
   const SelectFileBtn({
@@ -48,40 +50,54 @@ class SelectFileBtn extends StatefulWidget {
 
 class _SelectFileBtnState extends State<SelectFileBtn> {
   final SelectFileCubit cubit = SelectFileCubit();
+  late final FToast toast;
 
   @override
   void initState() {
     super.initState();
     cubit.fileFromApiSubject.add(widget.initFileFromApi ?? []);
     cubit.selectedFiles.addAll(widget.initFileSystem ?? []);
+    toast = FToast();
+    toast.init(context);
   }
 
-  String get convertData {
-    final double value = (widget.maxSize ?? 0) / BYTE_TO_MB;
-    return value.toInt().toString();
+  void showToast({required String message}) {
+    toast.showToast(
+      child: ShowToast(
+        text: message,
+        withOpacity: 0.4,
+      ),
+      gravity: ToastGravity.TOP_RIGHT,
+    );
   }
 
   Future<void> handleButtonFileClicked() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: widget.hasMultiFile,
-      allowedExtensions: widget.allowedExtensions,
-      type: (widget.allowedExtensions ?? []).isNotEmpty
+      allowedExtensions: widget.allowedExtensions ??
+          const [
+            FileExtensions.DOC,
+            FileExtensions.DOCX,
+            FileExtensions.JPEG,
+            FileExtensions.JPG,
+            FileExtensions.PDF,
+            FileExtensions.PNG,
+            FileExtensions.XLSX,
+          ],
+      type: widget.allowedExtensions?.isNotEmpty ?? true
           ? FileType.custom
           : FileType.any,
     );
-
     if (result == null) {
       return;
     }
-
     if (!widget.hasMultiFile &&
         (cubit.selectedFiles.isNotEmpty || cubit.filesFromApi.isNotEmpty)) {
-      cubit.errMessageSubject.add(
-        widget.errMultipleFileMessage ?? '',
+      showToast(
+        message: widget.errMultipleFileMessage ?? '',
       );
       return;
     }
-
     final newFiles = result.files
         .map(
           (file) => File(file.path ?? ''),
@@ -92,15 +108,11 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
       newFiles: newFiles,
     );
     if (isOverMaxSize) {
-      cubit.errMessageSubject.add(
-        widget.overSizeTextMessage ??
-            '${S.current.tong_file_khong_vuot_qua} '
-                '$convertData MB',
+      showToast(
+        message: widget.overSizeTextMessage ?? S.current.dung_luong_toi_da_20,
       );
       return;
     }
-
-    cubit.errMessageSubject.add('');
     cubit.selectedFiles.addAll(newFiles);
     cubit.needRebuildListFile.sink.add(true);
     widget.onChange(cubit.selectedFiles);
@@ -118,7 +130,9 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.getInstance().colorField().withOpacity(0.1),
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(4),
+              ),
             ),
             padding: EdgeInsets.symmetric(
               vertical: 6.0.textScale(),
@@ -147,25 +161,6 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
             ),
           ),
         ),
-        StreamBuilder<String>(
-          stream: cubit.errMessageSubject,
-          builder: (context, snapshot) {
-            final errMessage = snapshot.data ?? '';
-            return errMessage.isEmpty
-                ? const SizedBox.shrink()
-                : Padding(
-                    padding: const EdgeInsets.only(top: 12.0),
-                    child: Text(
-                      errMessage,
-                      style: textNormalCustom(
-                        color: Colors.red,
-                        fontSize: 12.0.textScale(),
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  );
-          },
-        ),
         StreamBuilder<List<FileModel>>(
           stream: cubit.fileFromApiSubject.stream,
           builder: (context, snapshot) {
@@ -179,15 +174,6 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
                         cubit.fileFromApiSubject.sink
                             .add(cubit.fileFromApiSubject.value);
                         widget.onDeletedFileApi?.call(file);
-                        final bool isOverMaxSize = cubit.checkOverMaxSize(
-                          maxSize: widget.maxSize,
-                        );
-                        if (!isOverMaxSize) {
-                          cubit.errMessageSubject.add(
-                            '',
-                          );
-                          return;
-                        }
                       },
                       fileTxt: file.name ?? '',
                       lengthFile: file.fileLength?.toInt().getFileSize(2),
@@ -208,15 +194,6 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
                         cubit.selectedFiles.remove(file);
                         cubit.needRebuildListFile.add(true);
                         widget.onChange(cubit.selectedFiles);
-                        final bool isOverMaxSize = cubit.checkOverMaxSize(
-                          maxSize: widget.maxSize,
-                        );
-                        if (!isOverMaxSize) {
-                          cubit.errMessageSubject.add(
-                            '',
-                          );
-                          return;
-                        }
                       },
                       fileTxt: file.path.convertNameFile(),
                       lengthFile: file.lengthSync().getFileSize(2),

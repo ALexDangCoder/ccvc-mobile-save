@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/utils/provider_widget.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
@@ -10,6 +12,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class DanhSachCongViecTienIchTablet extends StatefulWidget {
   const DanhSachCongViecTienIchTablet({Key? key}) : super(key: key);
@@ -25,6 +28,8 @@ class _DanhSachCongViecTienIchTabletState
   bool isOpenWhenInitListUp = true;
   bool isOpenWhenInitListDown = true;
   String textSearch = '';
+  bool isInRefresh = false;
+  BehaviorSubject<bool> inLoadmore = BehaviorSubject.seeded(false);
 
   @override
   void initState() {
@@ -35,117 +40,180 @@ class _DanhSachCongViecTienIchTabletState
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        await cubit.callAPITheoFilter(
-          textSearch: textSearch,
-        );
-      },
-      child: Scaffold(
-        backgroundColor: bgQLVBTablet,
-        appBar: appBarDSCV(cubit: cubit, context: context),
-        floatingActionButton:
-            buttonThemCongViec(cubit: cubit, context: context),
-        body: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException(
-            S.current.error,
-            S.current.error,
-          ),
-          stream: cubit.stateStream,
-          child: StreamBuilder<String>(
-            stream: cubit.statusDSCV.stream,
-            builder: (context, snapshotbool) {
-              final dataType = snapshotbool.data ?? '';
-              return SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 28),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 26),
-                      child: searchWidgetDscv(
-                        cubit: cubit,
-                        textSearch: (value) {
-                          textSearch = value;
-                        },
-                      ),
-                    ),
-                    if (dataType == DSCVScreen.CVCB ||
-                        dataType == DSCVScreen.CVQT ||
-                        dataType == DSCVScreen.DG ||
-                        dataType == DSCVScreen.NCVM ||
-                        dataType == DSCVScreen.DBX)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 28),
-                        child: StreamBuilder<List<TodoDSCVModel>>(
-                          stream: cubit.listDSCVStream.stream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data
-                                    ?.where(
-                                      (element) => dataType != DSCVScreen.DBX
-                                          ? element.isTicked == false
-                                          : element.inUsed == false,
-                                    )
-                                    .toList() ??
-                                [];
-                            return expanTablet(
-                              isOtherType: dataType == DSCVScreen.CVCB ||
-                                  dataType == DSCVScreen.NCVM,
-                              isCheck: isOpenWhenInitListUp,
-                              title: S.current.gan_cho_toi,
-                              count: data.length,
-                              child: data.isNotEmpty
-                                  ? ListUpDSCV(
-                                      data: data,
-                                      dataType: dataType,
-                                      cubit: cubit,
-                                    )
-                                  : const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 20),
-                                      child: NodataWidget(),
-                                    ),
-                            );
-                          },
-                        ),
-                      ),
-                    if (dataType == DSCVScreen.CVCB ||
-                        dataType == DSCVScreen.DHT ||
-                        dataType == DSCVScreen.NCVM)
-                      StreamBuilder<List<TodoDSCVModel>>(
-                        stream: cubit.listDSCVStream.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data
-                                  ?.where(
-                                    (element) => element.isTicked == true,
-                                  )
-                                  .toList() ??
-                              [];
-                          return expanTablet(
-                            isOtherType: dataType == DSCVScreen.CVCB ||
-                                dataType == DSCVScreen.NCVM,
-                            isCheck: isOpenWhenInitListDown,
-                            title: S.current.da_hoan_thanh,
-                            count: data.length,
-                            child: data.isNotEmpty
-                                ? ListDownDSCV(
-                                    data: data,
-                                    dataType: dataType,
-                                    cubit: cubit,
-                                  )
-                                : const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 20),
-                                    child: NodataWidget(),
-                                  ),
-                          );
-                        },
-                      ),
-                  ],
-                ),
-              );
+    return Scaffold(
+      backgroundColor: bgQLVBTablet,
+      appBar: appBarDSCV(cubit: cubit, context: context),
+      floatingActionButton: buttonThemCongViec(cubit: cubit, context: context),
+      body: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException(
+          S.current.error,
+          S.current.error,
+        ),
+        stream: cubit.stateStream,
+        child: ProviderWidget<DanhSachCongViecTienIchCubit>(
+          cubit: cubit,
+
+          /// to load more
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (!isInRefresh &&
+                  scrollInfo.metrics.pixels ==
+                      scrollInfo.metrics.maxScrollExtent) {
+                inLoadmore.sink.add(true);
+                cubit
+                    .waitToDelay(
+                      actionNeedDelay: () {
+                        cubit.callAPITheoFilter(
+                          isLoadmore: true,
+                          textSearch: textSearch,
+                          pageIndex: ++cubit.countLoadMore,
+                        );
+                      },
+                      timeSecond: 1,
+                    )
+                    .then(
+                      (value) => inLoadmore.sink.add(false),
+                    );
+              }
+              return true;
             },
+
+            /// to refersh
+            child: RefreshIndicator(
+              onRefresh: () async {
+                isInRefresh = true;
+                inLoadmore.sink.add(false);
+                await cubit.waitToDelay(
+                  actionNeedDelay: () {
+                    cubit.callAPITheoFilter(
+                      textSearch: textSearch,
+                      pageIndex: 1,
+                      pageSize: 10,
+                    );
+                    isInRefresh = false;
+                  },
+                  timeSecond: 1,
+                );
+                cubit.countLoadMore = 1;
+              },
+              child: StreamBuilder<String>(
+                stream: cubit.statusDSCV.stream,
+                builder: (context, snapshotbool) {
+                  final dataType = snapshotbool.data ?? '';
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 28),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 26),
+                              child: searchWidgetDscv(
+                                cubit: cubit,
+                                textSearch: (value) {
+                                  textSearch = value;
+                                },
+                              ),
+                            ),
+                            if (dataType == DSCVScreen.CVCB ||
+                                dataType == DSCVScreen.CVQT ||
+                                dataType == DSCVScreen.DG ||
+                                dataType == DSCVScreen.NCVM ||
+                                dataType == DSCVScreen.DBX)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 28),
+                                child: StreamBuilder<List<TodoDSCVModel>>(
+                                  stream: cubit.listDSCVStream.stream,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data
+                                            ?.where(
+                                              (element) => dataType !=
+                                                      DSCVScreen.DBX
+                                                  ? element.isTicked == false
+                                                  : element.inUsed == false,
+                                            )
+                                            .toList() ??
+                                        [];
+                                    return expanTablet(
+                                      isOtherType:
+                                          dataType == DSCVScreen.CVCB ||
+                                              dataType == DSCVScreen.NCVM,
+                                      isCheck: isOpenWhenInitListUp,
+                                      title: S.current.gan_cho_toi,
+                                      count: data.length,
+                                      child: data.isNotEmpty
+                                          ? ListUpDSCV(
+                                              data: data,
+                                              dataType: dataType,
+                                              cubit: cubit,
+                                            )
+                                          : const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 20),
+                                              child: NodataWidget(),
+                                            ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            if (dataType == DSCVScreen.CVCB ||
+                                dataType == DSCVScreen.DHT ||
+                                dataType == DSCVScreen.NCVM)
+                              StreamBuilder<List<TodoDSCVModel>>(
+                                stream: cubit.listDSCVStream.stream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data
+                                          ?.where(
+                                            (element) =>
+                                                element.isTicked == true,
+                                          )
+                                          .toList() ??
+                                      [];
+                                  return expanTablet(
+                                    isOtherType: dataType == DSCVScreen.CVCB ||
+                                        dataType == DSCVScreen.NCVM,
+                                    isCheck: isOpenWhenInitListDown,
+                                    title: S.current.da_hoan_thanh,
+                                    count: data.length,
+                                    child: data.isNotEmpty
+                                        ? ListDownDSCV(
+                                            data: data,
+                                            dataType: dataType,
+                                            cubit: cubit,
+                                          )
+                                        : const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 20),
+                                            child: NodataWidget(),
+                                          ),
+                                  );
+                                },
+                              ),
+                          ],
+                        ),
+                        Positioned(
+                          bottom: 40,
+                          child: StreamBuilder<bool>(
+                            stream: inLoadmore,
+                            builder: (context, snapshot) {
+                              if (snapshot.data ?? false) {
+                                return LoadingItem();
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ),

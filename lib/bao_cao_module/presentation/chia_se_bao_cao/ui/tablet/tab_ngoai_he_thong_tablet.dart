@@ -43,7 +43,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   Timer? debounce;
 
   String? name;
-  String? birthday;
+  DateTime? birthday;
   String? email;
   String? phoneNumber;
   String? position;
@@ -194,7 +194,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               onSelectDate: (dateTime) {
                 birthday = dateTime;
               },
-              initDateTime: DateTime.tryParse(birthday ?? ''),
+              initDateTime: birthday,
             ),
             spaceH16,
             textField(

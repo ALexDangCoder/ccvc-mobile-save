@@ -322,7 +322,7 @@
   "yeu_cau_de_chuan_bi_phong": "Yêu cầu khác để chuẩn bị phòng",
   "chon_don_vi": "Chọn đơn vị",
   "xoa_bao_cao_ket_qua": "Xóa báo cáo kết quả",
-  "chan_chan_xoa_bao_cao_khong": "Bạn có chắc chắn muốn xóa báo cáo kết quả",
+  "chan_chan_xoa_bao_cao_khong": "Bạn có chắc chắn muốn xóa báo cáo kết quả?",
   "dinh_kem_file": "Tài liệu đính kèm",
   "sua": "Sửa",
   "chinh_sua_bao_cao_ket_qua": "Chỉnh sửa báo cáo kết quả",
@@ -936,7 +936,7 @@
   "ban_co_chac_muon": "Bạn có chắc muốn",
   "khong_edit": "không?",
   "dung_luong_toi_da": "Dung lượng tối đa 15MB",
-  "dung_luong_toi_da_20": "Dung lượng tối đa 20MB",
+  "dung_luong_toi_da_20": "Tổng dung lượng file tối đa 20MB",
   "dung_luong_toi_da_30": "Dung lượng tối đa 30MB",
   "ban_phai_nhap_truong": "Bạn phải nhập trường",
   "tin_buon": "Tin Buồn",
@@ -1393,6 +1393,6 @@
   "them_phien_hop_that_bai": "Thêm phiên họp thất bại",
   "vui_long_nhap_ten_phien_hop": "Vui lòng nhập tên phiên họp!",
   "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!",
-  "gui_loi_chuc_that_bai" : "Gửi lời chúc thất bại"
-
+  "gui_loi_chuc_that_bai" : "Gửi lời chúc thất bại",
+  "danh_sach_chia_se_rong":"Vui lòng chọn đối tượng chia sẻ!"
 }

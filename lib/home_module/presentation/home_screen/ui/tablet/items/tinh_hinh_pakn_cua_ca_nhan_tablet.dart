@@ -139,6 +139,7 @@ class _SituationOfHandlingPeopleWidgetState
                             height: 24,
                           ),
                           StatusWidget(
+                            showZeroValue: false,
                             listData: [
                               ChartData(
                                 S.current.qua_han,

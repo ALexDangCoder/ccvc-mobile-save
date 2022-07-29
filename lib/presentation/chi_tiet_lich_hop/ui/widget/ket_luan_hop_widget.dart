@@ -343,6 +343,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       onTap: () {
                         showDiaLog(
                           context,
+                          showTablet: !isMobile(),
                           textContent:
                               S.current.ban_co_chac_chan_muon_gui_mai_nay,
                           btnLeftTxt: S.current.khong,
@@ -497,7 +498,7 @@ void xemOrTaoOrSuaKetLuanHop({
   } else {
     showDiaLogTablet(
       context,
-      maxHeight: 500,
+      maxHeight: MediaQuery.of(context).size.height * 0.8,
       title: title,
       child: CreateOrUpdateKetLuanHopWidget(
         cubit: cubit,

@@ -20,6 +20,7 @@ import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
@@ -54,6 +55,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit
         .initDataChiTiet(needCheckPermission: true)
         .then((value) => setState(() {}));
+    _refreshThanhPhanThamGia();
+  }
+
+  void _refreshThanhPhanThamGia() {
+    eventBus.on<RefreshThanhPhanThamGia>().listen((event) {
+      cubit.getDanhSachNguoiChuTriPhienHop(cubit.idCuocHop);
+    });
   }
 
   @override

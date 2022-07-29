@@ -132,7 +132,7 @@ class NodeWidget extends StatefulWidget {
 
 class _NodeWidgetState extends State<NodeWidget> {
   late NodeCubit nodeCubit;
-  bool isExpand = true;
+  bool isExpand = true ;
 
   @override
   void initState() {

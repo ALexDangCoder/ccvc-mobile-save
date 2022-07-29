@@ -41,6 +41,47 @@ extension TypeFileShowDonViEx on TypeFileShowDonVi {
   }
 }
 
+class CuCanBoTreeDonVi extends DonViModel {
+  String? confirmDate;
+  bool? isConfirm;
+  String? parentId;
+  String? scheduleId;
+  String? userName;
+  String? hoTen;
+
+  CuCanBoTreeDonVi.empty();
+
+  CuCanBoTreeDonVi({
+    String id = '',
+    String name = '',
+    String canBoId = '',
+    int status = 0,
+    String userId = '',
+    String tenDonVi = '',
+    String taskContent = '',
+    String donViId = '',
+    String tenCanBo = '',
+    bool isXoa = false,
+    this.confirmDate,
+    this.isConfirm,
+    this.parentId,
+    this.scheduleId,
+    this.userName,
+    this.hoTen,
+  }) : super(
+          id: id,
+          name: name,
+          canBoId: canBoId,
+          status: status,
+          userId: userId,
+          tenDonVi: tenDonVi,
+          noidung: taskContent,
+          donViId: donViId,
+          isXoa: isXoa,
+          tenCanBo: tenCanBo,
+        );
+}
+
 class DonViModel {
   String id = '';
   String name = '';
@@ -59,12 +100,25 @@ class DonViModel {
   String userId = '';
   String tenCoQuan = '';
   bool isCheck = false;
+  bool? isXoa;
 
   //param sử dụng tại tạo lịch làm việc
   int soLuong = 0;
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
+
+  CuCanBoTreeDonVi get toCuCanBoTreeDonVi => CuCanBoTreeDonVi(
+        id: id,
+        name: name,
+        canBoId: canBoId,
+        status: status,
+        userId: userId,
+        tenDonVi: tenDonVi,
+        taskContent: noidung,
+        donViId: donViId,
+        tenCanBo: tenCanBo,
+      );
 
   DonViModel({
     this.id = '',
@@ -84,6 +138,7 @@ class DonViModel {
     this.userId = '',
     this.tenCoQuan = '',
     this.soLuong = 0,
+    this.isXoa,
   });
 
   NguoiChutriModel convertToNguoiChuTriModel() {
@@ -131,13 +186,15 @@ class DonViModel {
       tenDonVi: tenDonVi,
     );
   }
+
+  DonViModel.empty();
 }
 
 class Node<T> {
   late T value;
   Node<T>? parent;
   bool expand = false;
-  bool isTickChildren = false;
+  TickChildren isTickChildren = TickChildren();
   bool isCallApi = false;
   CheckBox isCheck = CheckBox();
   int level = 0;
@@ -161,6 +218,7 @@ class Node<T> {
     parent = node.parent;
     expand = node.expand;
     isCheck = node.isCheck;
+    isTickChildren = node.isTickChildren;
   }
 
   Node<DonViModel>? search(Node<DonViModel> node) {
@@ -210,26 +268,26 @@ class Node<T> {
   void isCheckTickChildren() {
     if (parent == null) {
       if (children
-          .where((element) => element.isCheck.isCheck || element.isTickChildren)
+          .where((element) =>
+              element.isCheck.isCheck || element.isTickChildren.isTick)
           .isNotEmpty) {
-        isTickChildren = true;
+        isTickChildren.isTick = true;
       } else {
-        isTickChildren = false;
+        isTickChildren.isTick = false;
       }
       return;
     } else {
       if (parent!.children
-          .where((element) => element.isCheck.isCheck || element.isTickChildren)
+          .where((element) =>
+              element.isCheck.isCheck || element.isTickChildren.isTick)
           .isNotEmpty) {
-        parent!.isTickChildren = true;
+        parent!.isTickChildren.isTick = true;
       } else {
-        parent!.isTickChildren = false;
+        parent!.isTickChildren.isTick = false;
       }
       parent!.isCheckTickChildren();
     }
-    // if(!isCheck.isCheck) {
-    //   isTickChildren = false;
-    // }
+
   }
 
   void removeCkeckBox() {
@@ -283,4 +341,10 @@ class CheckBox {
   bool isCheck = false;
 
   CheckBox({this.isCheck = false});
+}
+
+class TickChildren {
+  bool isTick = false;
+
+  TickChildren({this.isTick = false});
 }

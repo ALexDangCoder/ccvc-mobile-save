@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/repository/htcs_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -37,10 +39,14 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   int sourceType = 0;
 
   ReportRepository get _repo => get_dart.Get.find();
+
+  HTCSRepository get _repoHTCS => get_dart.Get.find();
+
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
   BehaviorSubject<bool> showTree = BehaviorSubject.seeded(false);
   BehaviorSubject<String> callAPI = BehaviorSubject.seeded('');
+  BehaviorSubject<List<String>> searchGroupStream = BehaviorSubject();
   final BehaviorSubject<bool> _isDuocTruyCapSubject =
       BehaviorSubject.seeded(true);
 
@@ -71,6 +77,17 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         },
       );
     });
+  }
+
+  bool checkSelectGroup(String name) {
+    bool isSelectGroup = false;
+    for (final element in listCheck) {
+      if (name == element.tenNhom) {
+        isSelectGroup = true;
+        break;
+      }
+    }
+    return isSelectGroup;
   }
 
   Future<void> searchCanBoPaging(
@@ -129,6 +146,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           callAPI.add(SUCCESS);
           getUsersNgoaiHeThongDuocTruyCap();
           showContent();
+          searchGroupStream.add(listDropDown);
         }
       },
       error: (error) {
@@ -194,7 +212,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   Future<String> themMoiDoiTuong({
     String? email,
     String? fullName,
-    String? birthday,
+    DateTime? birthday,
     String? phone,
     String? position,
     String? unit,
@@ -203,18 +221,13 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     final NewUserRequest mapData = NewUserRequest(
       email: email,
       fullName: fullName,
-      birthday: birthday,
+      birthday: birthday?.toIso8601String(),
       phone: phone,
       position: position,
       unit: unit,
       description: description,
     );
-    final result = await _repo.addNewMember(mapData, appId);
     final rs = await chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
-    result.when(
-      success: (res) {},
-      error: (error) {},
-    );
     return rs;
   }
 
@@ -284,7 +297,11 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     required String idReport,
   }) async {
     String message = '';
-    final rs = await _repo.shareReport(mapData, idReport, appId);
+    if(mapData.isEmpty){
+      showContent();
+      return S.current.danh_sach_chia_se_rong;
+    }
+    final rs = await _repoHTCS.shareReport(mapData, idReport, appId);
     rs.when(
       success: (res) {
         message = res;
@@ -292,6 +309,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       },
       error: (error) {
         message = S.current.error;
+        showContent();
       },
     );
     return message;
@@ -311,6 +329,26 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       listResponse.firstWhere((element) => element.tenNhom == tenNhom),
     );
     themNhomStream.add(listCheck);
+  }
+
+  void searchGroup(String value) {
+    final String keyword =
+        value.trim().toLowerCase().withoutDiacriticalMarks.removeAllWhitespace;
+    List<String> cachedSearch = [];
+    if (keyword != '') {
+      cachedSearch = listDropDown
+          .where(
+            (element) => element
+                .toLowerCase()
+                .withoutDiacriticalMarks
+                .removeAllWhitespace
+                .contains(keyword),
+          )
+          .toList();
+      searchGroupStream.add(cachedSearch);
+    } else {
+      searchGroupStream.add(listDropDown);
+    }
   }
 
   List<NhomCungHeThong> listResponse = [];
@@ -355,6 +393,12 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     }
   }
 
+  void refreshData() {
+    keySearch = '';
+    pageNumber = 0;
+    pageSize = 10;
+  }
+
   Future<void> getUsersNgoaiHeThongDuocTruyCap({
     bool isSearch = false,
   }) async {
@@ -392,10 +436,43 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
+  void selectTag(Node<DonViModel> node) {
+    final nodeSearch = searchNode(node);
+    if (nodeSearch.isCheck.isCheck == false) {
+      nodeSearch.isTickChildren.isTick = false;
+    }
+    final data = nodeSearch.setSelected(nodeSearch.isCheck.isCheck);
+    if (nodeSearch.parent?.value.id != '') {
+      checkUser(
+        nodeSearch.parent!,
+      );
+    }
+    nodeSearch.isCheckTickChildren();
+    addSelectDonVi(
+      isCheck: nodeSearch.isCheck.isCheck,
+      listDonVi: data,
+      node: nodeSearch.value,
+    );
+    addSelectParent(
+      nodeSearch,
+      isCheck: nodeSearch.isCheck.isCheck,
+    );
+  }
+
+  Node<DonViModel> searchNode(Node<DonViModel> node) {
+    for (final tree in listTree) {
+      final nodeSearch = tree.search(node);
+      if(nodeSearch != null) {
+        return nodeSearch;
+      }
+    }
+    return node;
+  }
+
   @override
   void removeTag(Node<DonViModel> node) {
     node.isCheck.isCheck = false;
-    node.isTickChildren = false;
+    node.isTickChildren.isTick = false;
     final data = node.setSelected(false);
     node.isCheckTickChildren();
 

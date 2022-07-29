@@ -6,21 +6,20 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/d
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_bien_so_xe_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_tablet.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/mobile/dang_ky_thong_tin_xe_moi_screen.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/dang_ky_thong_tin_xe_moi_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/item_loai_xe.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/widget_cap_nhat_thong_tin_dang_ky_xe.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_dia_log_tablet.dart';
-
-// import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -40,7 +39,14 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
   @override
   void initState() {
     widget.cubit.getDanhSachBienSoXe();
+    _handleEventBus();
     super.initState();
+  }
+
+  void _handleEventBus() {
+    eventBus.on<ApiSuccessAttendance>().listen((event) {
+      widget.cubit.getDanhSachBienSoXe();
+    });
   }
 
   @override

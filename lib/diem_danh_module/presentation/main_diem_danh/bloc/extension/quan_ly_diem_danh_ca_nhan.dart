@@ -9,12 +9,12 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart'
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/calendar.dart';
 import 'package:queue/queue.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
   Future<void> getDataDayWage({required DateTime dateTime}) async {
-    currentTime = DateTime (dateTime.year, dateTime.month);
+    currentTime = DateTime(dateTime.year, dateTime.month);
     final Queue queue = Queue(parallel: 2);
     showLoading();
     unawaited(queue.add(() => postDiemDanhThongKe(dateTime)));
@@ -39,30 +39,25 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     return false;
   }
 
-  TypeStateDiemDanh getStateDiemDanh(BangDiemDanhCaNhanModel model) {
+  List<TypeStateDiemDanh> getStateDiemDanh(BangDiemDanhCaNhanModel model) {
+    final List<TypeStateDiemDanh> dataState = [];
     if (model.leaveType == LeaveType.NL) {
-      return TypeStateDiemDanh.NGHI_LAM;
+      dataState.add(TypeStateDiemDanh.NGHI_LAM);
     }
 
     if ((model.isLate ?? false) && model.type == Type.WORKING) {
-      return TypeStateDiemDanh.MUON;
-    }
-
-    if ((model.timeIn ?? '').isNotEmpty &&
-        (model.timeOut ?? '').isNotEmpty &&
-        model.type == Type.WORKING) {
-      return TypeStateDiemDanh.DI_LAM;
+      dataState.add(TypeStateDiemDanh.MUON);
     }
 
     if ((model.isComeBackEarly ?? false) && model.type == Type.WORKING) {
-      return TypeStateDiemDanh.VE_SOM;
+      dataState.add(TypeStateDiemDanh.VE_SOM);
     }
 
     if ((model.leaveRequestReasonName ?? '').isNotEmpty) {
-      return TypeStateDiemDanh.NGHI_PHEP;
+      dataState.add(TypeStateDiemDanh.NGHI_PHEP);
     }
 
-    return TypeStateDiemDanh.NGHI_LAM;
+    return dataState;
   }
 
   Future<void> postDiemDanhThongKe(DateTime date) async {
@@ -94,6 +89,28 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     );
   }
 
+  bool isEndWeek(BangDiemDanhCaNhanModel model) {
+    final date = DateTime.parse(
+      timeFormat(
+        model.date ?? '',
+        DateTimeFormat.DAY_MONTH_YEAR,
+        DateTimeFormat.FORMAT_REQUEST,
+      ),
+    );
+
+    ///nếu cuối tuần mà vẫn đi làm thì hiển thị còn nếu như không đi làm thì không hiển thị
+    if ((date.weekday == WeekDay.SATURDAY || date.weekday == WeekDay.SUNDAY) &&
+        ((model.timeIn ?? '').isNotEmpty || (model.timeOut ?? '').isNotEmpty)) {
+      return false;
+    }
+
+    if (date.weekday == WeekDay.SATURDAY || date.weekday == WeekDay.SUNDAY) {
+      return true;
+    }
+
+    return false;
+  }
+
   List<AppointmentWithDuplicate> toDataFCalenderSource() {
     final List<AppointmentWithDuplicate> appointments = [];
     if ((listBangDiemDanh.valueOrNull ?? []).isNotEmpty) {
@@ -105,7 +122,12 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
             DateTimeFormat.FORMAT_REQUEST,
           ),
         );
-        return dataTime.month == currentTime.month;
+
+        ///chỉ được hiển thị ngày trong tháng và không hiển thị ngày cuối tuần
+        ///( trừ khi đi làm ) và chỉ hiển thị đến ngày hiện tại
+        return dataTime.month == currentTime.month &&
+            !isEndWeek(element) &&
+            dataTime.day <= DateTime.now().day;
       });
       for (final BangDiemDanhCaNhanModel e in tmpList) {
         appointments.add(
@@ -144,4 +166,14 @@ class Type {
   static const String WORKING = 'working';
   static const String HOLIDAY = 'holiday';
   static const String OFFWORK = 'off-work';
+}
+
+class WeekDay {
+  static const int MONDAY = 1;
+  static const int TUESDAY = 2;
+  static const int WEDNESDAY = 3;
+  static const int THURSDAY = 4;
+  static const int FRIDAY = 5;
+  static const int SATURDAY = 6;
+  static const int SUNDAY = 7;
 }

@@ -221,7 +221,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<String>> _getTag = BehaviorSubject<List<String>>();
   final BehaviorSubject<bool> showAddTagStream = BehaviorSubject.seeded(false);
   bool isShowTag = false;
-  String tagKey = 'Covid-19';
+  String tagKey = '';
   String nameUser = '';
 
   BaoChiMangXaHoiCubit() {
@@ -266,8 +266,8 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   void getPress() async {
     List<String> listTag = HiveLocalHome.getTag();
     if (listTag.isEmpty) {
-      final listDataDefault = ['Covid-19', 'Vaccine', nameUser];
-      await HiveLocalHome.addTagList(['Covid-19', 'Vaccine', nameUser]);
+      final listDataDefault = [nameUser];
+      await HiveLocalHome.addTagList([nameUser]);
       listTag = listDataDefault;
     }
     _getTag.sink.add(listTag);
@@ -462,6 +462,7 @@ class DanhSachCongViecCubit extends HomeCubit {
           0,
           res,
         );
+        data.listTodoImportant = listSortImportant(data.listTodoImportant);
         danhSachTenNguoiGan.insert(0, nameInsert);
         if (res.id != null) {
           tempName[res.id!] = nameInsert;
@@ -483,9 +484,10 @@ class DanhSachCongViecCubit extends HomeCubit {
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
     data.listTodoImportant.insert(0, result..isTicked = false);
+    final listTodoImportant = listSortImportant(data.listTodoImportant);
     _getTodoList.sink.add(
       TodoListModel(
-        listTodoImportant: data.listTodoImportant,
+        listTodoImportant: listTodoImportant,
         listTodoDone: data.listTodoDone,
       ),
     );
@@ -500,6 +502,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     );
 
     data.listTodoDone.insert(0, result..isTicked = true);
+    data.listTodoDone = listSortImportant(data.listTodoDone);
     _getTodoList.sink.add(
       data,
     );
@@ -628,11 +631,29 @@ class DanhSachCongViecCubit extends HomeCubit {
       success: (res) async {
         danhSachNguoiGan.clear();
         danhSachNguoiGan.addAll(res.listTodoImportant);
+        danhSachNguoiGan.addAll(res.listTodoDone);
+        res.listTodoImportant = listSortImportant(res.listTodoImportant);
+        res.listTodoDone = listSortImportant(res.listTodoDone);
         await getListNameCanBo();
+
         _getTodoList.sink.add(res);
       },
       error: (err) {},
     );
+  }
+
+  List<TodoModel> listSortImportant(List<TodoModel> list) {
+    final List<TodoModel> listHasStar = [];
+    final List<TodoModel> listNoStar = [];
+    for (final element in list) {
+      if (element.important ?? false) {
+        listHasStar.add(element);
+      } else {
+        listNoStar.add(element);
+      }
+    }
+    listHasStar.addAll(listNoStar);
+    return listHasStar;
   }
 
   IconModdel getIconListCanBo(
@@ -1558,7 +1579,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
             break;
           }
         }
-        _getListLichLamViec.sink.add(listResult);
+        _getListLichLamViec.sink.add(listResult.reversed.toList());
       },
       error: (err) {},
     );
@@ -1716,7 +1737,8 @@ class SinhNhatCubit extends HomeCubit with SelectKeyDialog {
 class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<SuKienModel>> _getSuKien =
       BehaviorSubject<List<SuKienModel>>();
-  final BehaviorSubject<SelectKey> _getSelectkey = BehaviorSubject.seeded(SelectKey.HOM_NAY);
+  final BehaviorSubject<SelectKey> _getSelectkey =
+      BehaviorSubject.seeded(SelectKey.HOM_NAY);
 
   Stream<List<SuKienModel>> get getSuKien => _getSuKien.stream;
 
@@ -1735,12 +1757,12 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
     );
   }
 
-  void changeSelectKey( SelectKey key){
+  void changeSelectKey(SelectKey key) {
     _getSelectkey.sink.add(key);
   }
 
-  String changeTitle(SelectKey key){
-    switch(key){
+  String changeTitle(SelectKey key) {
+    switch (key) {
       case SelectKey.NAM_NAY:
         return S.current.su_kien_trong_nam;
       case SelectKey.THANG_NAY:
@@ -1749,7 +1771,7 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
         return S.current.su_kien_trong_tuan;
       case SelectKey.HOM_NAY:
         return S.current.su_kien_trong_ngay;
-      default :
+      default:
         return S.current.su_kien_trong_ngay;
     }
   }
@@ -1819,14 +1841,14 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
 
   Stream<List<CalendarMeetingModel>> get getNhiemVu => _getNhiemVu.stream;
   SelectKey selectTrangThai = SelectKey.CHO_PHAN_XU_LY;
-  List<String> mangTrangThai = ['CHUA_THUC_HIEN', 'CHO_PHAN_XU_LY'];
+  List<String> mangTrangThai = ['CHO_PHAN_XU_LY'];
   bool isCongViec = false;
 
   void selectTrangThaiNhiemVu(SelectKey selectKey) {
     selectTrangThai = selectKey;
     switch (selectKey) {
       case SelectKey.CHO_PHAN_XU_LY:
-        mangTrangThai = ['CHUA_THUC_HIEN', 'CHO_PHAN_XU_LY'];
+        mangTrangThai = ['CHO_PHAN_XU_LY'];
         isCongViec = false;
         callApi();
         break;
@@ -1897,7 +1919,7 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
         DanhSachCongViecRequest(
           isSortByHanXuLy: true,
           isCaNhan: isCaNhan,
-          size: 10,
+          size: 20,
           index: 1,
           mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
           trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
@@ -1906,7 +1928,7 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
     }
     return homeRep.getNhiemVu(
       NhiemVuRequest(
-        size: 10,
+        size: 20,
         index: 1,
         isNhiemVuCaNhan: isCaNhan,
         mangTrangThai: mangTrangThai,

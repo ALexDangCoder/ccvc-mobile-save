@@ -2,20 +2,32 @@ import '/home_module/domain/model/home/calendar_metting_model.dart';
 import '/home_module/utils/extensions/string_extension.dart';
 
 class NhiemVuResponse {
+  DanhSachNhiemVuData? data;
+
+  NhiemVuResponse({this.data});
+
+  NhiemVuResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Data'] != null) {
+      data = DanhSachNhiemVuData.fromJson(json['Data']);
+    }
+  }
+}
+
+class DanhSachNhiemVuData {
   List<PageData>? pageData;
   int? totalRows;
   int? currentPage;
   int? pageSize;
   int? totalPage;
 
-  NhiemVuResponse(
+  DanhSachNhiemVuData(
       {this.pageData,
       this.totalRows,
       this.currentPage,
       this.pageSize,
       this.totalPage});
 
-  NhiemVuResponse.fromJson(Map<String, dynamic> json) {
+  DanhSachNhiemVuData.fromJson(Map<String, dynamic> json) {
     if (json['PageData'] != null) {
       pageData = <PageData>[];
       json['PageData'].forEach((v) {

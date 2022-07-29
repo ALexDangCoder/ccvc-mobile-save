@@ -73,7 +73,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       [true],
     );
   final BehaviorSubject<List<bool>> listValueDropDownBHVSJ = BehaviorSubject();
-  static const int Length_Drop_Down = 25;
+  static const int Length_Drop_Down = 27;
 
   void setColorWhenChooseDropDown(int index) {
     List<bool> tmpList = [];
@@ -1012,6 +1012,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int INDEX_FILTER_TC_CHO_BSTT = 7;
   static const int INDEX_FILTER_TC_BI_TU_CHOI_TIEP_NHAN = 8;
   static const int INDEX_FILTER_TC_BI_HUY_BO = 9;
+  static const int INDEX_FILTER_TC_THU_HOI = 25;
+  static const int INDEX_FILTER_TC_TRA_LAI = 26;
   static const int INDEX_FILTER_TC_CHUYEN_XU_LY = 10;
   static const int INDEX_FILTER_XL_CHO_TIEP_NHAN_XL = 11;
   static const int INDEX_FILTER_XL_CHO_PHAN_CONG_XL = 12;
@@ -1027,5 +1029,5 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   static const int INDEX_FILTER_XL_TRA_LAI =  22;
   static const int INDEX_FILTER_XL_CHUYEN_XU_LY = 23;
   static const int INDEX_FILTER_TC_CHO_DUYET = 24;
-  static const int INDEX_FILTER_OUT_RANGE = 25;
+  static const int INDEX_FILTER_OUT_RANGE = 27;
 }

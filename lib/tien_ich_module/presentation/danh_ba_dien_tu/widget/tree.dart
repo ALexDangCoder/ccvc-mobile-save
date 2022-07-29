@@ -56,13 +56,14 @@ class TreeDanhBaDienTu<T> {
 class NodeHSCV {
   TreeDonViDanhBA value;
   String? iDDonViCha;
-
   bool isHasChild;
+  bool isExpand;
 
   NodeHSCV({
     required this.value,
     required this.iDDonViCha,
     this.isHasChild = false,
+    this.isExpand = true,
   });
 
   factory NodeHSCV.createNode({required TreeDonViDanhBA value}) {
@@ -70,6 +71,16 @@ class NodeHSCV {
       value: value,
       iDDonViCha: value.iDDonViCha.trim() == '' ? value.id : value.iDDonViCha,
     );
+  }
+
+  bool getExpand(bool? isInSearching) {
+    if (isInSearching != null) {
+      return isInSearching;
+    }
+    if ((value.iDDonViCha).isEmpty || !value.hasDonViCon) {
+      return true;
+    }
+    return false;
   }
 }
 

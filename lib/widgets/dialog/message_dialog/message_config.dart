@@ -11,7 +11,7 @@ enum MessState { error, success, customIcon }
 
 class MessageConfig {
   static BuildContext? contextConfig;
-
+  static OverlayEntry? _overlayEntry;
   static void init(BuildContext context) {
     if (contextConfig != null) {
       return;
@@ -29,13 +29,17 @@ class MessageConfig {
     MessState messState = MessState.success,
     Function()? onDismiss,
   }) {
+    if (_overlayEntry != null) {
+      return;
+    }
     final OverlayState? overlayState = Overlay.of(contextConfig!);
-    late OverlayEntry overlayEntry;
-    overlayEntry = OverlayEntry(
+
+    _overlayEntry = OverlayEntry(
       builder: (context) {
         return MessageDialogPopup(
           onDismiss: () {
-            overlayEntry.remove();
+            _overlayEntry?.remove();
+            _overlayEntry = null;
             if (onDismiss != null) {
               onDismiss();
             }
@@ -50,7 +54,7 @@ class MessageConfig {
       },
     );
 
-    overlayState?.insert(overlayEntry);
+    overlayState?.insert(_overlayEntry!);
   }
 
   static String _urlIcon(MessState messState, String urlIcon) {
@@ -102,5 +106,4 @@ class MessageConfig {
       },
     );
   }
-
 }

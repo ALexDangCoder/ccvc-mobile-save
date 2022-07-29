@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class CommentWidget extends StatefulWidget {
   final String id;
@@ -30,7 +32,6 @@ class CommentWidget extends StatefulWidget {
 }
 
 class _CommentWidgetState extends State<CommentWidget> {
-
   @override
   void initState() {
     super.initState();
@@ -57,6 +58,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               nguoiTao: widget.yKienCuocHop.nguoiTao ?? '',
               ngayTao: widget.yKienCuocHop.ngayTao ?? '',
               content: widget.yKienCuocHop.content ?? '',
+              avatar: widget.yKienCuocHop.avatar ?? '',
               onTap: () {
                 if (isMobile()) {
                   showBottomSheetCustom(
@@ -97,6 +99,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     nguoiTao: data[index].nguoiTao ?? '',
                     ngayTao: data[index].ngayTao ?? '',
                     content: data[index].content ?? '',
+                    avatar: data[index].avatar ?? '',
                     showIcReply: false,
                   ),
                 );
@@ -112,6 +115,7 @@ class _CommentWidgetState extends State<CommentWidget> {
     required String nguoiTao,
     required String ngayTao,
     required String content,
+    required String avatar,
     Function()? onTap,
     bool showIcReply = true,
   }) {
@@ -121,13 +125,32 @@ class _CommentWidgetState extends State<CommentWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              nguoiTao,
-              style: textNormalCustom(
-                color: color3D5586,
-                fontSize: 14.0.textScale(),
-                fontWeight: FontWeight.w500,
-              ),
+            Row(
+              children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.network(
+                    Get.find<AppConstants>().baseImageUrl + avatar,
+                    errorBuilder: (_, __, ___) =>
+                        Image.asset(ImageAssets.anhDaiDienMacDinh),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                spaceW8,
+                Text(
+                  nguoiTao,
+                  style: textNormalCustom(
+                    color: color3D5586,
+                    fontSize: 14.0.textScale(),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             // const Spacer(),
             const SizedBox(

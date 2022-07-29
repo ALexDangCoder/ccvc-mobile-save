@@ -14,10 +14,10 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/calendar.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DiemDanhCaNhanMobileScreen extends StatefulWidget {
   final DiemDanhCubit cubit;
@@ -153,7 +153,6 @@ class _DiemDanhCaNhanMobileScreenState
         child: ExpandOnlyWidget(
           paddingSize: 8,
           isPaddingIcon: true,
-          initExpand: false,
           header: Container(
             color: Colors.transparent,
             child: Padding(

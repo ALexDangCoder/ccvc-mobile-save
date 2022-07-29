@@ -2,11 +2,12 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/type_state_diem_danh.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ViewDayCalendarWidget extends StatelessWidget {
-  final TypeStateDiemDanh state;
+class ViewDayCalendarWidget extends StatefulWidget {
+  final List<TypeStateDiemDanh> state;
   final String timeIn;
   final String timeOut;
   final double dayWage;
@@ -19,73 +20,182 @@ class ViewDayCalendarWidget extends StatelessWidget {
     required this.timeOut,
   }) : super(key: key);
 
+  @override
+  State<ViewDayCalendarWidget> createState() => _ViewDayCalendarWidgetState();
+}
+
+class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
+  bool isShowDate = false;
+  final List<TypeStateDiemDanh> rowViewData = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    ///nếu nhiều hơn 1 trạng thái thì truyền các trạng thái (trừ cái đầu tiên) để hiển thị bên trên
+    if (widget.state.length > 1) {
+      for (int state = 1; state < widget.state.length; state++) {
+        rowViewData.add(widget.state[state]);
+      }
+    }
+  }
+
+  @override
+  void didUpdateWidget(ViewDayCalendarWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (rowViewData.isEmpty) {
+      ///nếu nhiều hơn 1 trạng thái thì truyền các trạng thái (trừ cái đầu tiên) để hiển thị bên trên
+      if (widget.state.length > 1) {
+        for (int state = 1; state < widget.state.length; state++) {
+          rowViewData.add(widget.state[state]);
+        }
+      }
+    }
+  }
+
   String get getStringDate {
-    if (timeIn.isEmpty && timeOut.isNotEmpty) {
-      return '??:??-$timeOut';
+    if (widget.timeIn.isEmpty && widget.timeOut.isNotEmpty) {
+      return '??:??-${widget.timeOut.getTime}';
     }
 
-    if (timeOut.isEmpty && timeIn.isNotEmpty) {
-      return '$timeIn-??:??';
+    if (widget.timeOut.isEmpty && widget.timeIn.isNotEmpty) {
+      return '${widget.timeIn.getTime}-??:??';
     }
 
-    if (timeIn.isEmpty && timeOut.isEmpty) {
+    if (widget.timeIn.isEmpty && widget.timeOut.isEmpty) {
       return '??:??-??:??';
     }
 
-    if (timeIn.isNotEmpty && timeOut.isNotEmpty) {
-      return '$timeIn:$timeOut';
+    if (widget.timeIn.isNotEmpty && widget.timeOut.isNotEmpty) {
+      return '${widget.timeIn.getTime}-${widget.timeOut.getTime}';
     }
 
-    return '??-??:??-??';
+    return '??:??-??:??';
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        if (dayWage == 0.0)
-          SvgPicture.asset(state.getIcon)
+        if (widget.dayWage == 0.0)
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: widget.state
+                .map(
+                  (dataState) => SvgPicture.asset(
+                    dataState.getIcon,
+                    height: 12,
+                    width: 12,
+                  ),
+                )
+                .toList(),
+          )
         else
           dayWageWidget(),
-        spaceH10,
-        Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 4,
-            horizontal: 5,
-          ),
-          decoration: BoxDecoration(
-            color:
-                timeIn.isEmpty || timeOut.isEmpty ? colorEA5455 : color20C997,
-            borderRadius: BorderRadius.circular(2),
-          ),
-          child: Text(
-            getStringDate,
-            style: textNormalCustom(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 9,
+        spaceH12,
+        GestureDetector(
+          onTap: () {
+            isShowDate = !isShowDate;
+            setState(() {});
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 5,
             ),
+            decoration: BoxDecoration(
+              color: widget.timeIn.isEmpty || widget.timeOut.isEmpty
+                  ? colorEA5455
+                  : color20C997,
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: isShowDate
+                ? Text(
+                    getStringDate,
+                    style: textNormalCustom(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9,
+                    ),
+                  )
+                : Text(
+                    getStringDate,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textNormalCustom(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9,
+                    ),
+                  ),
           ),
-        )
+        ),
+        spaceH4,
       ],
     );
   }
 
   Widget dayWageWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
-          dayWage.toString(),
-          style: textNormalCustom(
-            color: color667793,
-            fontSize: 10,
-            fontWeight: FontWeight.w500,
-          ),
+        if (widget.state.length > 1)
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: rowViewData
+                .map(
+                  (dataState) => SvgPicture.asset(
+                    dataState.getIcon,
+                    height: 12,
+                    width: 12,
+                  ),
+                )
+                .toList(),
+          )
+        else
+          Container(),
+        spaceH3,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              widget.dayWage.toString(),
+              style: textNormalCustom(
+                color: color667793,
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            spaceW2,
+            SvgPicture.asset(
+              ImageAssets.icDiLam,
+              width: 10,
+              height: 10,
+            ),
+            getViewState(),
+          ],
         ),
-        spaceW5,
-        SvgPicture.asset(ImageAssets.icDiLam),
       ],
     );
+  }
+
+  Widget getViewState() {
+    if (widget.state.isEmpty) {
+      return Container();
+    } else if (widget.state.isNotEmpty) {
+      return Row(
+        children: [
+          spaceW6,
+          SvgPicture.asset(
+            widget.state[0].getIcon,
+            height: 12,
+            width: 12,
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 }

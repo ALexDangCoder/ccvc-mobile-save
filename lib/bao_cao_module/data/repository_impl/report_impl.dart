@@ -45,10 +45,12 @@ class ReportImpl implements ReportRepository {
   }
 
   @override
-  Future<Result<List<NhomCungHeThong>>> getListGroup(String appId) {
+  Future<Result<List<NhomCungHeThong>>> getListGroup(String appId,
+      {String? groupName}) {
     return runCatchingAsync<GroupImplResponse, List<NhomCungHeThong>>(
       () => _reportService.getListGroup(
         appId,
+        groupName,
         ApiConstants.PAGE_BEGIN.toString(),
         ApiConstants.DEFAULT_PAGE_SIZE.toString(),
       ),

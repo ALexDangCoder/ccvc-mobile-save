@@ -15,12 +15,19 @@ class FireTopic {
   FireTopic(this.topic);
 }
 
+class ApiSuccessAttendance {
+  final bool update;
+
+  ApiSuccessAttendance(this.update);
+}
+
 class RefreshCalendar {
   RefreshCalendar();
 }
 
 class ListSearchListNode {
   final List<Node<DonViModel>> listNode;
+
   ListSearchListNode(this.listNode);
 }
 
@@ -39,4 +46,8 @@ class DateSearchEvent {
   final String endDate;
 
   DateSearchEvent(this.startDate, this.endDate);
+}
+
+class RefreshThanhPhanThamGia {
+  RefreshThanhPhanThamGia();
 }

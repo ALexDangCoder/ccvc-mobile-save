@@ -313,6 +313,56 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 isChoosing: data[YKienNguoiDanCubitt
                                     .INDEX_FILTER_TC_BI_HUY_BO],
                               ),
+
+                              ///them
+                              spaceH16,
+                              item(
+                                callBack: (value, index) {
+                                  widget.cubit.textFilter.add(value);
+                                  widget.cubit.isShowFilterList.add(false);
+
+                                  widget.cubit.trangThaiFilter =
+                                      YKienNguoiDanCubitt.ThuHoi;
+                                  widget.cubit.hanXuLy = null;
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
+                                  widget.cubit.isFilterXuLy = false;
+                                  widget.cubit.isFilterTiepNhan = false;
+
+                                  widget.cubit
+                                      .setColorWhenChooseDropDown(index);
+                                  widget.cubit.getDanhSachPAKNFilterChart();
+                                },
+                                title: S.current.thu_hoi,
+                                index:
+                                    YKienNguoiDanCubitt.INDEX_FILTER_TC_THU_HOI,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_THU_HOI],
+                              ),
+                              spaceH16,
+                              item(
+                                callBack: (value, index) {
+                                  widget.cubit.textFilter.add(value);
+                                  widget.cubit.isShowFilterList.add(false);
+
+                                  widget.cubit.trangThaiFilter =
+                                      YKienNguoiDanCubitt.TuChoiTiepNhan;
+                                  widget.cubit.hanXuLy = null;
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
+                                  widget.cubit.isFilterXuLy = false;
+                                  widget.cubit.isFilterTiepNhan = false;
+
+                                  widget.cubit
+                                      .setColorWhenChooseDropDown(index);
+                                  widget.cubit.getDanhSachPAKNFilterChart();
+                                },
+                                title: S.current.tra_lai,
+                                index:
+                                    YKienNguoiDanCubitt.INDEX_FILTER_TC_TRA_LAI,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_TRA_LAI],
+                              ),
                               spaceH16,
                               item(
                                 callBack: (value, index) {
@@ -382,7 +432,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChoPhanCongXuLy;
                                 widget.cubit.isFilterXuLy = false;
@@ -422,7 +473,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChoXuLy;
                                 widget.cubit.isFilterXuLy = false;
@@ -442,7 +494,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChoDuyet;
                                 widget.cubit.isFilterXuLy = false;
@@ -494,7 +547,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.DaHoanThanh;
                                 widget.cubit.isFilterXuLy = false;
@@ -546,7 +600,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ThuHoi;
 
@@ -567,7 +622,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.TuChoiTiepNhan;
 
@@ -588,7 +644,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
                                 widget.cubit.hanXuLy = null;
-                                widget.cubit.loaiMenu = YKienNguoiDanCubitt.XULY;
+                                widget.cubit.loaiMenu =
+                                    YKienNguoiDanCubitt.XULY;
                                 widget.cubit.trangThaiFilter =
                                     YKienNguoiDanCubitt.ChuyenXuLy;
                                 widget.cubit.isFilterXuLy = false;
@@ -623,32 +680,27 @@ Widget item({
 }) {
   return InkWell(
     onTap: () => callBack(TextTrangThai(title, textDefault), index),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(30),
-            ),
-            color: isChoosing ? textDefault : Colors.transparent,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: textNormalCustom(
-                color: textTitle,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+    child: Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(30),
+        ),
+        color: isChoosing ? textDefault : Colors.transparent,
+      ),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: textNormalCustom(
+            color: textTitle,
+            fontWeight: FontWeight.w500,
           ),
         ),
-      ],
+      ),
     ),
   );
 }

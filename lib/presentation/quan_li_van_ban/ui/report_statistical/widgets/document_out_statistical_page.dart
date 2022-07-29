@@ -11,19 +11,27 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/w
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
-class DocumentOutStatisticalPage extends StatelessWidget {
+class DocumentOutStatisticalPage extends StatefulWidget {
   final QLVBCCubit cubit;
 
   const DocumentOutStatisticalPage({Key? key, required this.cubit})
       : super(key: key);
 
   @override
+  State<DocumentOutStatisticalPage> createState() =>
+      _DocumentOutStatisticalPageState();
+}
+
+class _DocumentOutStatisticalPageState extends State<DocumentOutStatisticalPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Column(
         children: [
           StreamBuilder<List<InfoItemModel>>(
-            stream: cubit.infoItemOutStream,
+            stream: widget.cubit.infoItemOutStream,
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
               return data.isEmpty
@@ -63,7 +71,7 @@ class DocumentOutStatisticalPage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   color: Colors.transparent,
                   child: Text(
-                    S.current.word_processing_state,
+                    S.current.van_ban_cac_don_vi_soan_thao,
                     style: textNormalCustom(
                       color: textTitle,
                       fontSize: 16,
@@ -72,10 +80,11 @@ class DocumentOutStatisticalPage extends StatelessWidget {
                   ),
                 ),
                 StreamBuilder<List<RowChartData>>(
-                  stream: cubit.rowChartDataOutStream,
+                  stream: widget.cubit.rowChartDataOutStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? [];
                     return DocumentByDivisionRowChart(
+                      key: UniqueKey(),
                       data: data,
                     );
                   },
@@ -87,15 +96,13 @@ class DocumentOutStatisticalPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: StreamBuilder<List<ChartData>>(
-              stream: cubit.pieChartDataOutStream,
+              stream: widget.cubit.pieChartDataOutStream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
-                return data.length == 2
+                return data.isNotEmpty
                     ? DocumentByDivisionPieChart(
-                        chartData: [
-                          data.first,
-                          data.last,
-                        ],
+                        title: S.current.tinh_hinh_xu_ly_van_ban_di,
+                        chartData: data,
                       )
                     : const SizedBox.shrink();
               },
@@ -105,6 +112,7 @@ class DocumentOutStatisticalPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: DocumentByDivisionLineChart(
+              title: S.current.thong_ke_van_ban_di,
               chartData: [
                 ChartData(
                   'Quá hạn',
@@ -118,4 +126,7 @@ class DocumentOutStatisticalPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

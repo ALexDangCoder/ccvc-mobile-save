@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -53,12 +52,15 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_lu
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'Extension/tab_widget_extension.dart';
 
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
@@ -105,12 +107,21 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   bool needRefreshMainMeeting = false;
   ChiTietBieuQuyetModel chiTietBieuQuyetModel = ChiTietBieuQuyetModel();
   List<DsLuaChonOld> listLuaChonOld = [];
+
+  BehaviorSubject<List<TabWidgetDetailMeet>> listWidgetDetailSubject =
+      BehaviorSubject();
+
+  List<TabWidgetDetailMeet> get getListWidgetDetailSubject =>
+      listWidgetDetailSubject.valueOrNull ?? [];
+
   BehaviorSubject<ChiTietBieuQuyetModel> chiTietBieuQuyetSubject =
       BehaviorSubject();
   BehaviorSubject<DanhSachCanBoBieuQuyetModel> danhSachCanBoBieuQuyetSubject =
       BehaviorSubject();
   BehaviorSubject<List<DanhSachThanhPhanThamGiaModel>> listBieuQuyetSubject =
       BehaviorSubject();
+  List<String> filesDelete = [];
+  List<DonViModel> listTPTG = [];
   List<String> listLuaChon = [];
   List<SuaDanhSachLuaChonModel> listLuaChonNew = [];
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
@@ -247,11 +258,21 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Future<void> initDataChiTiet({final bool needCheckPermission = false}) async {
     final queue = Queue(parallel: 4);
     showLoading();
-    unawaited(queue.add(() => getChiTietLichHop(idCuocHop)));
+    unawaited(
+      queue.add(
+        () => getChiTietLichHop(
+          idCuocHop,
+          needShowLoading: false,
+        ),
+      ),
+    );
     unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
     unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
     await queue.onComplete;
+
+    /// init widget
+    initWidgetDetail();
 
     ///check permission button
     if (needCheckPermission) {
@@ -277,6 +298,29 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       },
       error: (error) {},
     );
+  }
+
+  /// init widget in detail meet
+  void initWidgetDetail() {
+    final isHuyOrThuHoi = trangThaiHuy() || trangThaiThuHoi();
+    List<TabWidgetDetailMeet> listWidgetDetail = [];
+    if (!isHuyOrThuHoi) {
+      listWidgetDetail.add(TabWidgetDetailMeet.CONG_TAC_CHUAN_BI);
+    }
+    if (!isHuyOrThuHoi) {
+      listWidgetDetail.add(TabWidgetDetailMeet.CHUONG_TRINH_HOP);
+    }
+    if (!isHuyOrThuHoi) {
+      listWidgetDetail.add(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA);
+    }
+    if (!isHuyOrThuHoi) listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
+    if (!isTaoHo() && !isHuyOrThuHoi) {
+      listWidgetDetail.add(TabWidgetDetailMeet.PHAT_BIEU);
+      listWidgetDetail.add(TabWidgetDetailMeet.BIEU_QUYET);
+      listWidgetDetail.add(TabWidgetDetailMeet.KET_LUAN_HOP);
+      listWidgetDetail.add(TabWidgetDetailMeet.Y_KIEN_HOP);
+    }
+    listWidgetDetailSubject.sink.add(listWidgetDetail);
   }
 
   bool loaiBieuQ = false;
@@ -389,6 +433,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
+        eventBus.fire(RefreshThanhPhanThamGia());
+        print('------------------- chyavao ben trong cubi');
         await getDanhSachNguoiChuTriPhienHop(idCuocHop);
         moiHopRequest.clear();
       },
@@ -431,35 +477,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
       },
     );
   }
-
-  ///TC: Tiếp cận
-  ///XL: Xử lý
-  static const int INDEX_FILTER_ALL = 0;
-  static const int INDEX_FILTER_TC_CHO_TIEP_NHAN = 1;
-  static const int INDEX_FILTER_TC_PHAN_XU_LY = 2;
-  static const int INDEX_FILTER_TC_DANG_XU_LY = 3;
-  static const int INDEX_FILTER_TC_CHO_TAO_VB_DI = 4;
-  static const int INDEX_FILTER_TC_DA_CHO_VB_DI = 5;
-  static const int INDEX_FILTER_TC_DA_HOAN_THANH = 6;
-  static const int INDEX_FILTER_TC_CHO_BSTT = 7;
-  static const int INDEX_FILTER_TC_BI_TU_CHOI_TIEP_NHAN = 8;
-  static const int INDEX_FILTER_TC_BI_HUY_BO = 9;
-  static const int INDEX_FILTER_TC_CHUYEN_XU_LY = 10;
-  static const int INDEX_FILTER_XL_CHO_TIEP_NHAN_XL = 11;
-  static const int INDEX_FILTER_XL_CHO_PHAN_CONG_XL = 12;
-  static const int INDEX_FILTER_XL_DA_PHAN_CONG = 13;
-  static const int INDEX_FILTER_XL_CHO_XU_LY = 14;
-  static const int INDEX_FILTER_XL_CHO_DUYET = 15;
-  static const int INDEX_FILTER_XL_CHO_TAO_VB_DI = 16;
-  static const int INDEX_FILTER_XL_DA_CHO_VB_DI = 17;
-  static const int INDEX_FILTER_XL_DA_HOAN_THANH = 18;
-  static const int INDEX_FILTER_XL_CHO_CHO_Y_KIEN = 19;
-  static const int INDEX_FILTER_XL_DA_CHO_Y_KIEN = 20;
-  static const int INDEX_FILTER_XL_THU_HOI = 21;
-  static const int INDEX_FILTER_XL_TRA_LAI = 22;
-  static const int INDEX_FILTER_XL_CHUYEN_XU_LY = 23;
-  static const int INDEX_FILTER_TC_CHO_DUYET = 24;
-  static const int INDEX_FILTER_OUT_RANGE = 25;
 
   Future<void> postHuyDiemDanh(String id) async {
     showLoading();

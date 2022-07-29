@@ -22,11 +22,6 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
   String keySearch = '';
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: Scaffold(
@@ -118,6 +113,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         cubit: cubit,
         onChange: (value) {
           cubit.callApiDanhBaToChuc(
+            keyWork: keySearch,
             pageIndexApi: 1,
             id: value.id,
           );

@@ -7,16 +7,9 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
@@ -27,6 +20,7 @@ import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
@@ -61,7 +55,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit
         .initDataChiTiet(needCheckPermission: true)
         .then((value) => setState(() {}));
-    cubit.getDanhSachCanBoHop(widget.id);
+    _refreshThanhPhanThamGia();
+  }
+
+  void _refreshThanhPhanThamGia() {
+    eventBus.on<RefreshThanhPhanThamGia>().listen((event) {
+      cubit.getDanhSachNguoiChuTriPhienHop(cubit.idCuocHop);
+    });
   }
 
   @override
@@ -163,9 +163,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: listWidgetChiTietHop(cubit).length,
+                        itemCount: cubit.getListWidgetDetailSubject.length,
                         itemBuilder: (context, index) {
-                          return listWidgetChiTietHop(cubit)[index];
+                          return cubit.getListWidgetDetailSubject[index]
+                              .getWidget(cubit);
                         },
                       ),
                       Padding(
@@ -179,13 +180,15 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                 ) &&
                                 data.contains(
                                   PERMISSION_DETAIL.TU_CHOI_THAM_GIA,
-                                )) {
+                                ) &&
+                                !cubit.trangThaiHuy() &&
+                                !cubit.trangThaiThuHoi()) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: DoubleButtonBottom(
-                                  title1: S.current.tham_du,
-                                  title2: S.current.tu_choi,
-                                  onClickLeft: () {
+                                  title1: S.current.tu_choi,
+                                  title2: S.current.tham_du,
+                                  onClickRight: () {
                                     showDiaLog(
                                       context,
                                       btnLeftTxt: S.current.khong,
@@ -224,7 +227,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                       textContent: S.current.confirm_tham_gia,
                                     );
                                   },
-                                  onClickRight: () {
+                                  onClickLeft: () {
                                     showDiaLog(
                                       context,
                                       btnLeftTxt: S.current.khong,
@@ -381,55 +384,3 @@ PreferredSizeWidget appbarChiTietHop(
     ],
   );
 }
-
-List<Widget> listWidgetChiTietHop(DetailMeetCalenderCubit cubit) => [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: CongTacChuanBiWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ChuongTrinhHopWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ThanhPhanThamGiaWidget(
-          cubit: cubit,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: TaiLieuWidget(
-          cubit: cubit,
-        ),
-      ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: PhatBieuWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: BieuQuyetWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: KetLuanHopWidget(
-            cubit: cubit,
-          ),
-        ),
-      if (!cubit.isTaoHo())
-        YKienCuocHopWidget(
-          cubit: cubit,
-        ),
-    ];

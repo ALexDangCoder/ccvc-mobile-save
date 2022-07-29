@@ -1,10 +1,10 @@
+
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cu_can_bo_di_thay_widget.dart';
@@ -250,10 +250,11 @@ extension GetDataPermission on PERMISSION_DETAIL {
             showDialog(
               context: context,
               builder: (context) => RadioOptionDialog(
-                title: S.current.huy_lich_hop,
+                title: S.current.xoa_lich_hop,
+                textConfirm: S.current.xoa_chi_tiet_lich_hop,
                 textRadioBelow: S.current.chi_lich_hien_tai,
                 textRadioAbove: S.current.tu_hien_tai_ve_sau,
-                imageUrl: ImageAssets.img_sua_lich,
+                imageUrl: ImageAssets.icXoaHopPoppup,
                 onChange: (value) {
                   cubit.deleteChiTietLichHop(isMulti: value);
                   Navigator.pop(context, true);
@@ -379,21 +380,28 @@ extension GetDataPermission on PERMISSION_DETAIL {
           text: PERMISSION_DETAIL.CU_CAN_BO.getString(),
           onTap: () {
             isMobile()
-                ? showBottomSheetCustom<List<DonViModel>>(
-                    context,
-                    title: S.current.cu_can_bo,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.8,
-                      ),
-                      child: CuCanBoWidget(
-
-                        themCanBoCubit: themCanBoCubit,
-                        cubit: cubit,
-                        cubitThanhPhanTG: cubitThanhPhanTG,
-                        themDonViCubit: themDonViCubit,
+                ? showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32),
                       ),
                     ),
+                    clipBehavior: Clip.hardEdge,
+                    builder: (context) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.88,
+                        child: CuCanBoWidget(
+                          themCanBoCubit: themCanBoCubit,
+                          cubit: cubit,
+                          cubitThanhPhanTG: cubitThanhPhanTG,
+                          themDonViCubit: themDonViCubit,
+                        ),
+                      );
+                    },
                   )
                 : showDiaLogTablet(
                     context,

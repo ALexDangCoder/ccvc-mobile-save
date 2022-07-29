@@ -103,32 +103,34 @@ class _DocumentWidgetState extends State<DocumentWidget> {
                       title: result.title,
                       status: result.documentStatus.getText(),
                       colorStatus: result.documentStatus.getColor(),
-                      listData:
-                          (_vanBanCubit.selectKey != SelectKey.CHO_TRINH_KY)
-                              ? [
-                                  InfoData(
-                                    urlIcon: ImageAssets.icSoKyHieu,
-                                    key: S.current.so_ky_hieu,
-                                    value: result.kyHieu,
-                                  ),
-                                  InfoData(
-                                    urlIcon: ImageAssets.icAddress,
-                                    key: S.current.noi_gui,
-                                    value: result.noiGui,
-                                  )
-                                ]
-                              : [
-                                  InfoData(
-                                    urlIcon: ImageAssets.icLocation,
-                                    key: S.current.don_vi_soan_thao,
-                                    value: result.donViSoanThao,
-                                  ),
-                                  InfoData(
-                                    urlIcon: ImageAssets.icPeople,
-                                    key: S.current.nguoi_soan_thao,
-                                    value: result.nguoiSoanThao,
-                                  )
-                                ],
+                      listData: (_vanBanCubit.selectKey !=
+                                  SelectKey.CHO_TRINH_KY &&
+                              _vanBanCubit.selectKey != SelectKey.CHO_CAP_SO &&
+                              _vanBanCubit.selectKey != SelectKey.CHO_BAN_HANH)
+                          ? [
+                              InfoData(
+                                urlIcon: ImageAssets.icSoKyHieu,
+                                key: S.current.so_ky_hieu,
+                                value: result.kyHieu,
+                              ),
+                              InfoData(
+                                urlIcon: ImageAssets.icAddress,
+                                key: S.current.noi_gui,
+                                value: result.noiGui,
+                              )
+                            ]
+                          : [
+                              InfoData(
+                                urlIcon: ImageAssets.icLocation,
+                                key: S.current.don_vi_soan_thao,
+                                value: result.donViSoanThao,
+                              ),
+                              InfoData(
+                                urlIcon: ImageAssets.icPeople,
+                                key: S.current.nguoi_soan_thao,
+                                value: result.nguoiSoanThao,
+                              )
+                            ],
                     ),
                   ),
                 );

@@ -367,6 +367,7 @@ abstract class HopServices {
     @Part(name: 'hoTen') String hoTen,
     @Part(name: 'IsMultipe') bool isMultipe,
     @Part(name: 'Files') List<File> file,
+    @Part(name: 'FilesDelete') List<String> fileDelete,
   );
 
   @DELETE(ApiConstants.XOA_CHUONG_TRINH_HOP)
@@ -569,7 +570,7 @@ abstract class HopServices {
   @MultiPart()
   Future<FileUploadResponse> uploadMultiFile(
     @Part() List<File> path,
-      );
+  );
 
   @GET(ApiConstants.DANH_SACH_CAN_BO_BIEU_QUYET)
   Future<DanhSachCanBoBieuQuyetResponse> danhSachCanBoBieuQuyet(
@@ -580,7 +581,7 @@ abstract class HopServices {
 
   @GET(ApiConstants.GET_LICH_HOP_THEO_LINH_VUC)
   Future<ThongKeLinhVucResponse> getLichHopTheoLinhVuc(
-      @Query('startDate') String dateFrom,
-      @Query('endDate') String dateTo,
-      );
+    @Query('startDate') String dateFrom,
+    @Query('endDate') String dateTo,
+  );
 }

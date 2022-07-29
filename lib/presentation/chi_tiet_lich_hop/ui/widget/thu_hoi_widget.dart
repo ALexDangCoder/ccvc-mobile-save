@@ -37,7 +37,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.cubit.idCuocHop);
+    widget.cubit.getDanhSachThuHoiLichHop(widget.cubit.idCuocHop);
   }
 
   @override
@@ -67,6 +67,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
               onClickRight: () {
                 showDiaLog(
                   context,
+                  icon:SvgPicture.asset(ImageAssets.icXacNhanThuHoi) ,
                   textContent: S.current.thu_hoi_chi_tiet_lich_hop,
                   btnLeftTxt: S.current.khong,
                   funcBtnRight: () {
@@ -75,7 +76,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                     );
                     Navigator.pop(context);
                   },
-                  title: S.current.thu_hoi_lich_hop,
+                  title: S.current.thu_hoi_ket_luan_hop,
                   btnRightTxt: S.current.dong_y,
                   showTablet: true,
                 );

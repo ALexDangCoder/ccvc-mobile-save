@@ -34,7 +34,7 @@ class SelectImageDangKyXe extends StatefulWidget {
 class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
   ImagePicker picker = ImagePicker();
   File? imageChoosse;
-  final double sizeFile = 0;
+  double sizeFile = 0;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
       source: ImageSource.gallery,
     );
     if (pickImg != null) {
-      sizeFile == (File(pickImg.path).lengthSync() / (1024 * 1024));
+      sizeFile = File(pickImg.path).lengthSync() / BYTE_TO_MB;
       if (sizeFile > 20) {
         final toast = FToast();
         toast.init(context);
@@ -194,6 +194,18 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         color: color000000.withOpacity(0.5)),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: GestureDetector(
+                      onTap: () {
+                        removeImg();
+                      },
+                      child: SvgPicture.asset(
+                        ImageAssets.icRemoveImg,
+                      ),
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,

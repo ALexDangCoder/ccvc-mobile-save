@@ -10,6 +10,7 @@ class Officer {
   String? userId = '';
   String? scheduleId = '';
   bool? isConfirm = false;
+  String? parentId;
   int? status;
   String? confirmDate = '';
   String? taskContent = '';
@@ -25,6 +26,7 @@ class Officer {
     this.userId,
     this.scheduleId,
     this.isConfirm,
+    this.parentId,
     this.status = 0,
     this.confirmDate,
     this.taskContent,

@@ -1,17 +1,23 @@
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/widget/date_input.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart' as image_utils;
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class CapNhatTinhHinhHoTroTabLet extends StatefulWidget {
@@ -31,13 +37,22 @@ class _CapNhatTinhHinhHoTroTabLetState
   String? birthday;
   String? trangThai;
   String? nguoiXuLy;
+  bool isTruongPhong = false;
 
+    ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
+  
   @override
   void initState() {
     super.initState();
-    if(widget.idTask?.isNotEmpty ?? false) {
-      widget.cubit.getSupportDetail(widget.idTask ?? '');
+    if (widget.idTask?.isNotEmpty ?? false) {
+      _cubit.getSupportDetail(widget.idTask ?? '');
+    } else {
+      _cubit = widget.cubit;
     }
+    isTruongPhong = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.HTKT,
+      permissionTxt: QUYEN_TRUONG_PHONG,
+    );
   }
 
   @override
@@ -78,132 +93,262 @@ class _CapNhatTinhHinhHoTroTabLetState
               ),
             ],
           ),
-          SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                spaceH20,
-                title(S.current.ket_qua_xu_ly),
-                spaceH16,
-                dropDownField(
-                  title: S.current.trang_thai_xu_ly,
-                  listDropdown: widget.cubit.listTrangThai,
-                ),
-                spaceH16,
-                textField(
-                  title: S.current.ket_qua_xu_ly,
-                  onChange: (value) {
-                    note = value;
-                  },
-                  maxLine: 4,
-                ),
-                spaceH16,
-                if (widget.idTask?.isNotEmpty ?? false) ...[
-                  StreamBuilder<List<String>>(
-                    stream: widget.cubit.getItSupport,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return dropDownField(
-                          title: S.current.nguoi_xu_ly,
-                          listDropdown: widget.cubit.listItSupport,
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: sideBtnUnselected,
+          BlocBuilder<ChiTietHoTroCubit, ChiTietHoTroState>(
+            bloc: _cubit,
+            builder: (context, state) {
+              if (state is ChiTietHoTroSuccess) {
+                return SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      spaceH20,
+                      title(S.current.ket_qua_xu_ly),
+                      spaceH16,
+                      dropDownField(
+                        title: S.current.trang_thai_xu_ly,
+                        listDropdown: _cubit.listTrangThai,
+                      ),
+                      spaceH16,
+                      textField(
+                        title: S.current.ket_qua_xu_ly,
+                        onChange: (value) {
+                          note = value;
+                        },
+                        maxLine: 4,
+                      ),
+                      spaceH16,
+                      if (isTruongPhong &&
+                          _cubit.supportDetail.nguoiXuLy == null)
+                        if (widget.idTask?.isNotEmpty ?? false) ...[
+                          StreamBuilder<List<String>>(
+                            stream: _cubit.getItSupport,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return dropDownField(
+                                  title: S.current.nguoi_xu_ly,
+                                  listDropdown: _cubit.listItSupport,
+                                );
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: sideBtnUnselected,
+                                  ),
+                                );
+                              }
+                            },
                           ),
-                        );
-                      }
-                    },
+                        ] else ...[
+                          dropDownField(
+                            title: S.current.nguoi_xu_ly,
+                            listDropdown: _cubit.listItSupport,
+                          )
+                        ]
+                      else ...[
+                        Text(
+                          S.current.nguoi_xu_ly,
+                          style: tokenDetailAmount(
+                            fontSize: 14,
+                            color: color3D5586,
+                          ),
+                        ),
+                        spaceH8,
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: 12.w,
+                            top: 12.h,
+                            bottom: 12.h,
+                          ),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: borderColor.withOpacity(0.2),
+                            border: Border.all(
+                              color: borderColor,
+                            ),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                _cubit.supportDetail.nguoiXuLy ?? '',
+                                style: tokenDetailAmount(
+                                  fontSize: 14,
+                                  color: borderColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      spaceH16,
+                      Text(
+                        S.current.ngay_hoan_thanh,
+                        textAlign: TextAlign.start,
+                        style: tokenDetailAmount(
+                          fontSize: 14,
+                          color: color3D5586,
+                        ),
+                      ),
+                      spaceH8,
+                      if (widget.idTask?.isNotEmpty ?? false) ...[
+                        StreamBuilder<SupportDetail>(
+                            stream: _cubit.ngayHoanThanhStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData && snapshot.data?.id != '') {
+                                return DateInput(
+                                  paddings: 10,
+                                  leadingIcon: SvgPicture.asset(
+                                    image_utils.ImageAssets.icCalenders,
+                                  ),
+                                  onSelectDate: (dateTime) {
+                                    birthday = dateTime;
+                                  },
+                                  minimumDate: (_cubit.supportDetail
+                                              .thoiGianYeuCau?.isNotEmpty ??
+                                          false)
+                                      ? DateFormat(
+                                          DateTimeFormat
+                                              .DATE_BE_RESPONSE_FORMAT,
+                                        ).parse(
+                                          _cubit.supportDetail
+                                              .thoiGianYeuCau!,
+                                        )
+                                      : null,
+                                  initDateTime: (_cubit.supportDetail
+                                              .ngayHoanThanh?.isNotEmpty ??
+                                          false)
+                                      ? DateFormat(
+                                          DateTimeFormat
+                                              .DATE_BE_RESPONSE_FORMAT,
+                                        ).parse(
+                                          _cubit.supportDetail
+                                              .ngayHoanThanh!,
+                                        )
+                                      : null,
+                                );
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: sideBtnUnselected,
+                                  ),
+                                );
+                              }
+                            })
+                      ] else
+                        DateInput(
+                          paddings: 10,
+                          leadingIcon: SvgPicture.asset(
+                            image_utils.ImageAssets.icCalenders,
+                          ),
+                          onSelectDate: (dateTime) {
+                            birthday = dateTime;
+                          },
+                          minimumDate: (_cubit.supportDetail
+                                      .thoiGianYeuCau?.isNotEmpty ??
+                                  false)
+                              ? DateFormat(
+                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                ).parse(
+                                  _cubit.supportDetail.thoiGianYeuCau!,
+                                )
+                              : null,
+                          initDateTime: (_cubit.supportDetail
+                                      .ngayHoanThanh?.isNotEmpty ??
+                                  false)
+                              ? DateFormat(
+                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                ).parse(
+                                  _cubit.supportDetail.ngayHoanThanh!,
+                                )
+                              : null,
+                        ),
+                      spaceH10,
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 119.w,
+                          right: 119.w,
+                        ),
+                        child: DoubleButtonBottom(
+                          title1: S.current.dong,
+                          title2: S.current.luu,
+                          onPressed1: () {
+                            Navigator.pop(context);
+                          },
+                          onPressed2: () {
+                            _cubit
+                                .capNhatTHXL(
+                              taskId: (_cubit.supportDetail.id ??
+                                      widget.idTask) ??
+                                  '',
+                              name: (trangThai ??
+                                      widget
+                                          .cubit.supportDetail.trangThaiXuLy) ??
+                                  '',
+                              description: note ?? '',
+                              code: (trangThai ??
+                                      widget
+                                          .cubit.supportDetail.trangThaiXuLy) ??
+                                  '',
+                              finishDay: birthday ?? '',
+                              handlerId: (nguoiXuLy ??
+                                      _cubit.supportDetail.nguoiXuLy) ??
+                                  '',
+                              id: (_cubit.supportDetail.id ??
+                                      widget.idTask) ??
+                                  '',
+                              comment: '',
+                            )
+                                .then(
+                              (value) {
+                                if (value == successCode) {
+                                  Navigator.pop(context, true);
+                                  final FToast toast = FToast();
+                                  toast.init(context);
+                                  toast.showToast(
+                                    child: ShowToast(
+                                      text: S.current.luu_du_lieu_thanh_cong,
+                                      icon: ImageAssets.icSucces,
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                  );
+                                  if (widget.idTask?.isEmpty ?? true) {
+                                    _cubit.getSupportDetail(
+                                      _cubit.supportDetail.id ?? '',
+                                    );
+                                  }
+                                } else {
+                                  final FToast toast = FToast();
+                                  toast.init(context);
+                                  toast.showToast(
+                                    child: ShowToast(
+                                      text: S.current.thay_doi_that_bai,
+                                      icon: ImageAssets.icError,
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                  );
+                                }
+                              },
+                            );
+                          },
+                          noPadding: true,
+                          isTablet: true,
+                        ),
+                      ),
+                      spaceH10,
+                    ],
                   ),
-                ] else
-                  dropDownField(
-                    title: S.current.nguoi_xu_ly,
-                    listDropdown: widget.cubit.listItSupport,
+                );
+              } else {
+                return SizedBox(
+                  height: 450.h,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: sideBtnUnselected,
+                    ),
                   ),
-                spaceH16,
-                Text(
-                  S.current.ngay_hoan_thanh,
-                  textAlign: TextAlign.start,
-                  style: tokenDetailAmount(
-                    fontSize: 14,
-                    color: color3D5586,
-                  ),
-                ),
-                spaceH8,
-                DateInput(
-                  paddings: 10,
-                  leadingIcon: SvgPicture.asset(
-                    image_utils.ImageAssets.icCalenders,
-                  ),
-                  onSelectDate: (dateTime) {
-                    birthday = dateTime;
-                  },
-                    minimumDate: (widget.cubit.supportDetail
-                        .thoiGianYeuCau?.isNotEmpty ??
-                        false)
-                        ? DateFormat(
-                      DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                    ).parse(
-                      widget.cubit.supportDetail.thoiGianYeuCau!,
-                    )
-                        : null,
-                    initDateTime: (widget.cubit.supportDetail
-                        .ngayHoanThanh?.isNotEmpty ??
-                        false)
-                        ? DateFormat(
-                      DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                    ).parse(
-                      widget.cubit.supportDetail.ngayHoanThanh!,
-                    )
-                        : null,
-                ),
-                spaceH10,
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 119.w,
-                    right: 119.w,
-                  ),
-                  child: DoubleButtonBottom(
-                    title1: S.current.dong,
-                    title2: S.current.cap_nhat_thxl,
-                    onPressed1: () {
-                      Navigator.pop(context);
-                    },
-                    onPressed2: () {
-                      widget.cubit.capNhatTHXL(
-                        taskId: (widget.cubit.supportDetail.id ??
-                            widget.idTask) ??
-                            '',
-                        name: (trangThai ??
-                            widget
-                                .cubit.supportDetail.trangThaiXuLy) ??
-                            '',
-                        description: note ?? '',
-                        code: (trangThai ??
-                            widget
-                                .cubit.supportDetail.trangThaiXuLy) ??
-                            '',
-                        finishDay: birthday ??
-                            '',
-                        handlerId: (nguoiXuLy ??
-                            widget.cubit.supportDetail.nguoiXuLy) ??
-                            '',
-                        id: (widget.cubit.supportDetail.id ??
-                            widget.idTask) ??
-                            '',
-                        comment: '',
-                      );
-                      Navigator.pop(context,true);
-                    },
-                    noPadding: true,
-                    isTablet: true,
-                  ),
-                ),
-                spaceH10,
-              ],
-            ),
+                );
+              }
+            },
           ),
         ],
       ),
@@ -283,8 +428,8 @@ class _CapNhatTinhHinhHoTroTabLetState
         spaceH8,
         CoolDropDown(
           initData: title == S.current.trang_thai_xu_ly
-              ? (widget.cubit.supportDetail.trangThaiXuLy ?? '')
-              : (widget.cubit.supportDetail.nguoiXuLy ?? ''),
+              ? (_cubit.supportDetail.trangThaiXuLy ?? '')
+              : (_cubit.supportDetail.nguoiXuLy ?? ''),
           placeHoder: S.current.chon,
           onChange: (value) {
             if (title == S.current.trang_thai_xu_ly) {

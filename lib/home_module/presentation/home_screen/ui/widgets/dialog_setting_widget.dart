@@ -260,6 +260,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                                     child: SelectCell(
                                       data: data,
                                       onSelect: (value) {
+                                        widget.onDismis();
                                         selectCell(context, value, data);
                                       },
                                     ),
@@ -483,7 +484,7 @@ class DialogData {
       SelectKey.HOM_NAY,
       SelectKey.TUAN_NAY,
       SelectKey.THANG_NAY,
-      SelectKey.NAM_NAY
+      SelectKey.NAM_NAY,
     ],
     this.startDate,
     this.endDate,

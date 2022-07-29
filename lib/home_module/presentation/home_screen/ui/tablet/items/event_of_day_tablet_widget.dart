@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ket_noi_module/presentation/detail_chung_ket_noi/ui/phone/detail_chung_ket_noi.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -46,6 +48,10 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
         final SelectKey key= snapshot.data??SelectKey.HOM_NAY;
         final String title=_suKienTrongNgayCubit.changeTitle(key);
         return ContainerBackgroundTabletWidget(
+         leadingIcon: Padding(
+           padding: const EdgeInsets.only(top: 2),
+           child: Image.asset(ImageAssets.icStar),
+         ),
           title: title,
           minHeight: 415,
           maxHeight: 415,
@@ -65,6 +71,7 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
                               selectKey: value,
                               startDate: startDate,
                               endDate: endDate);
+                          _suKienTrongNgayCubit.changeSelectKey(value);
                         },
                         initValue: _suKienTrongNgayCubit.selectKeyTime,
                         title: S.current.time,
@@ -95,7 +102,16 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: EventWidget(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailChungKetNoi(
+                                    id: result.id ?? '',
+                                  ),
+                                ),
+                              );
+                            },
                             title: result.title ?? '',
                           ),
                         );

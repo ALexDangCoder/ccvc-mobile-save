@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/thong_tin_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
@@ -37,11 +38,18 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
 
   @override
   void initState() {
+    super.initState();
     cubit.idCuocHop = widget.id;
     cubit.initDataChiTiet(needCheckPermission: true);
     cubit.getListPhienHop(cubit.idCuocHop);
     cubitThanhPhan.getTree();
-    super.initState();
+    _refreshThanhPhanThamGia();
+  }
+
+  void _refreshThanhPhanThamGia() {
+    eventBus.on<RefreshThanhPhanThamGia>().listen((event) {
+      cubit.getDanhSachNguoiChuTriPhienHop(cubit.idCuocHop);
+    });
   }
 
   @override

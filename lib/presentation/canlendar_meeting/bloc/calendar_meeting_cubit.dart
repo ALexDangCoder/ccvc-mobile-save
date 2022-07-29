@@ -616,6 +616,7 @@ void _initDefault(){
     getToChucBoiDonVi();
     getThongKeTheoLinhVuc();
     getCoCauLichHop();
+    getDaysHaveEvent(endDate: startDate, startDate: endDate);
     getCountDashboard();
   }
 

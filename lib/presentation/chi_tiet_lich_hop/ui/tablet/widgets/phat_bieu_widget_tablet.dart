@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -106,46 +107,29 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                 }
               },
             ),
-            PhatBieuChildWidget(
-              cubit: widget.cubit,
-              itemCenter: StreamBuilder<List<PhatBieuModel>>(
-                stream: widget.cubit.streamPhatBieu,
-                builder: (context, snapshot) {
-                  final list = snapshot.data ?? [];
-                  if (list.isNotEmpty) {
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: list.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            CellPhatBieu(
-                              infoModel: list[index],
-                              cubit: widget.cubit,
-                              index: index,
-                              onChangeCheckBox: (value) {
-                                if (value != true) {
-                                  widget.cubit.selectPhatBieu
-                                      .add(list[index].id ?? '');
-                                } else {
-                                  widget.cubit.selectPhatBieu
-                                      .remove(list[index].id);
-                                }
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    return const SizedBox(
-                      height: 200,
-                      child: NodataWidget(),
-                    );
-                  }
-                },
-              ),
+            StreamBuilder<int>(
+              stream: widget.cubit.typeStatus,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? 0;
+                return StreamBuilder<List<PhatBieuModel>>(
+                  stream: widget.cubit.streamPhatBieu,
+                  builder: (_, snapshot) {
+                    final dataListPhatBieu = snapshot.data ?? [];
+                    if (dataListPhatBieu.isNotEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: buttonDuyet(
+                          data,
+                          widget.cubit,
+                          context,
+                          isTablet: true,
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -164,49 +148,54 @@ Widget buttonStatePhatBieu({
       initialData: 0,
       stream: cubit.typeStatus,
       builder: (context, snapshot) {
-        return ListView.builder(
-          shrinkWrap: true,
-          scrollDirection:
-              (isHorizontal ?? true) ? Axis.horizontal : Axis.vertical,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: cubit.buttonStatePhatBieu.length,
-          itemBuilder: (context, index) {
-            final data = cubit.buttonStatePhatBieu;
-            if (isHorizontal ?? true) {
-              return Row(
-                children: [
-                  buttonPhone(
-                    key: data[index].key ?? '',
-                    value: data[index].value.toString(),
-                    color: data[index].color ?? Colors.white,
-                    backgroup: cubit.bgrColorButton(snapshot.data ?? 0),
-                    ontap: () {
-                      cubit.getValueStatus(index);
-                      cubit.selectPhatBieu.clear();
-                    },
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                ],
-              );
-            }
-            return Column(
-              children: [
-                buttonPhone(
-                  key: data[index].key ?? '',
-                  value: data[index].value.toString(),
-                  color: data[index].color ?? Colors.white,
-                  backgroup: cubit.bgrColorButton(snapshot.data ?? 0),
-                  ontap: () {
-                    cubit.getValueStatus(index);
-                    cubit.selectPhatBieu.clear();
-                  },
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-              ],
+        return StreamBuilder<SoLuongPhatBieuModel>(
+          stream: cubit.dataSoLuongPhatBieuSubject,
+          builder: (__, _) {
+            return ListView.builder(
+              shrinkWrap: true,
+              scrollDirection:
+                  (isHorizontal ?? true) ? Axis.horizontal : Axis.vertical,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: cubit.buttonStatePhatBieu.length,
+              itemBuilder: (context, index) {
+                final data = cubit.buttonStatePhatBieu;
+                if (isHorizontal ?? true) {
+                  return Row(
+                    children: [
+                      buttonPhone(
+                        key: data[index].key ?? '',
+                        value: data[index].value.toString(),
+                        color: data[index].color ?? Colors.white,
+                        backgroup: cubit.bgrColorButton(snapshot.data ?? 0),
+                        ontap: () {
+                          cubit.getValueStatus(index);
+                          cubit.selectPhatBieu.clear();
+                        },
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                    ],
+                  );
+                }
+                return Column(
+                  children: [
+                    buttonPhone(
+                      key: data[index].key ?? '',
+                      value: data[index].value.toString(),
+                      color: data[index].color ?? Colors.white,
+                      backgroup: cubit.bgrColorButton(snapshot.data ?? 0),
+                      ontap: () {
+                        cubit.getValueStatus(index);
+                        cubit.selectPhatBieu.clear();
+                      },
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                  ],
+                );
+              },
             );
           },
         );
@@ -274,105 +263,141 @@ class PhatBieuChildWidget extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget buttonDuyet(
-    int data,
-    DetailMeetCalenderCubit cubit,
-    BuildContext context,
-  ) {
-    switch (data) {
-      case StatePhatBieu.cho_duyet:
-        return Padding(
-          padding: EdgeInsets.only(
-            right: isMobile() ? 150 : 250,
-            left: isMobile() ? 0 : 250,
-          ),
-          child: Row(
-            children: [
-              Expanded(child: buttomDuyetPb(context: context)),
-              const SizedBox(
-                width: 12,
-              ),
-              Expanded(
-                child: buttomHuyPb(text: S.current.huy_duyet, context: context),
-              ),
-            ],
-          ),
-        );
-      case StatePhatBieu.da_duyet:
-        return Padding(
-          padding: EdgeInsets.only(
-            right: isMobile() ? 250 : 350,
-            left: isMobile() ? 0 : 350,
-          ),
-          child: buttomHuyPb(context: context),
-        );
-      case StatePhatBieu.huy_duyet:
-        return Padding(
-          padding: EdgeInsets.only(
-            right: isMobile() ? 250 : 350,
-            left: isMobile() ? 0 : 350,
-          ),
-          child: buttomDuyetPb(context: context),
-        );
-    }
-    return const SizedBox();
-  }
-
-  Widget buttomHuyPb({String? text, required BuildContext context}) =>
-      ButtonBottomCustom(
-        textColor: statusCalenderRed,
-        customColor: statusCalenderRed.withOpacity(0.15),
-        text: text ?? S.current.huy_duyet,
-        onPressed: () {
-          showXacNhan(isDuyet: false, context: context);
-        },
-      );
-
-  Widget buttomDuyetPb({String? text, required BuildContext context}) =>
-      ButtonBottomCustom(
-        textColor: itemWidgetUsing,
-        customColor: itemWidgetUsing.withOpacity(0.15),
-        text: text ?? S.current.duyet,
-        onPressed: () {
-          showXacNhan(isDuyet: true, context: context);
-        },
-      );
-
-  void showXacNhan({
-    required BuildContext context,
-    required bool isDuyet,
-  }) {
-    if (cubit.selectPhatBieu.isEmpty) {
-      final toast = FToast();
-      toast.init(context);
-      toast.removeCustomToast();
-      toast.showToast(
-        child: ShowToast(
-          text: isDuyet
-              ? S.current.ban_phai_tick_chon_bieu_quyet_muon_duyet
-              : S.current.ban_phai_tick_chon_bieu_quyet_muon_huy_duyet,
+Widget buttonDuyet(
+  int data,
+  DetailMeetCalenderCubit cubit,
+  BuildContext context, {
+  bool isTablet = false,
+}) {
+  switch (data) {
+    case StatePhatBieu.cho_duyet:
+      return Padding(
+        padding: EdgeInsets.only(
+          right: isMobile() ? 150 : 250,
+          left: isMobile() ? 0 : 250,
         ),
-        gravity: ToastGravity.BOTTOM,
+        child: Row(
+          children: [
+            Expanded(
+              child: buttomDuyetPb(
+                context: context,
+                cubit: cubit,
+                isTablet: isTablet,
+              ),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Expanded(
+              child: buttomHuyPb(
+                text: S.current.huy_duyet,
+                context: context,
+                cubit: cubit,
+                isTablet: isTablet,
+              ),
+            ),
+          ],
+        ),
       );
-    } else {
-      showDiaLog(
-        context,
-        title: isDuyet ? S.current.duyet : S.current.huy_duyet,
-        icon: isDuyet
-            ? SvgPicture.asset(ImageAssets.icDiemDanh)
-            : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
-        textContent:
-            isDuyet ? S.current.duyet_phat_bieu : S.current.huy_duyet_phat_bieu,
-        btnRightTxt: S.current.dong_y,
-        btnLeftTxt: S.current.khong,
-        funcBtnRight: () {
-          cubit.duyetOrHuyDuyetPhatBieu(
-            lichHopId: cubit.idCuocHop,
-            type: isDuyet ? DUYET_TYPE : HUY_DUYET_TYPE,
-          );
-        },
+    case StatePhatBieu.da_duyet:
+      return Padding(
+        padding: EdgeInsets.only(
+          right: isMobile() ? 250 : 350,
+          left: isMobile() ? 0 : 350,
+        ),
+        child: buttomHuyPb(context: context, cubit: cubit, isTablet: isTablet),
       );
-    }
+    case StatePhatBieu.huy_duyet:
+      return Padding(
+        padding: EdgeInsets.only(
+          right: isMobile() ? 250 : 350,
+          left: isMobile() ? 0 : 350,
+        ),
+        child:
+            buttomDuyetPb(context: context, cubit: cubit, isTablet: isTablet),
+      );
+  }
+  return const SizedBox();
+}
+
+Widget buttomHuyPb({
+  String? text,
+  required BuildContext context,
+  required DetailMeetCalenderCubit cubit,
+  required bool isTablet,
+}) =>
+    ButtonBottomCustom(
+      textColor: statusCalenderRed,
+      customColor: statusCalenderRed.withOpacity(0.15),
+      text: text ?? S.current.huy_duyet,
+      onPressed: () {
+        showXacNhan(
+          isDuyet: false,
+          context: context,
+          cubit: cubit,
+          isTablet: isTablet,
+        );
+      },
+    );
+
+Widget buttomDuyetPb({
+  String? text,
+  required BuildContext context,
+  required DetailMeetCalenderCubit cubit,
+  required bool isTablet,
+}) =>
+    ButtonBottomCustom(
+      textColor: itemWidgetUsing,
+      customColor: itemWidgetUsing.withOpacity(0.15),
+      text: text ?? S.current.duyet,
+      onPressed: () {
+        showXacNhan(
+          isDuyet: true,
+          context: context,
+          cubit: cubit,
+          isTablet: isTablet,
+        );
+      },
+    );
+
+void showXacNhan({
+  required BuildContext context,
+  required bool isDuyet,
+  required DetailMeetCalenderCubit cubit,
+  required bool isTablet,
+}) {
+  if (cubit.selectPhatBieu.isEmpty) {
+    final toast = FToast();
+    toast.init(context);
+    toast.removeCustomToast();
+    toast.showToast(
+      child: ShowToast(
+        text: isDuyet
+            ? S.current.ban_phai_tick_chon_bieu_quyet_muon_duyet
+            : S.current.ban_phai_tick_chon_bieu_quyet_muon_huy_duyet,
+      ),
+      gravity: ToastGravity.BOTTOM,
+    );
+  } else {
+    showDiaLog(
+      context,
+      showTablet: isTablet,
+      title: isDuyet ? S.current.duyet : S.current.huy_duyet,
+      icon: isDuyet
+          ? SvgPicture.asset(ImageAssets.icDiemDanh)
+          : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
+      textContent:
+          isDuyet ? S.current.duyet_phat_bieu : S.current.huy_duyet_phat_bieu,
+      btnRightTxt: S.current.dong_y,
+      btnLeftTxt: S.current.khong,
+      funcBtnRight: () {
+        cubit.duyetOrHuyDuyetPhatBieu(
+          lichHopId: cubit.idCuocHop,
+          type: isDuyet ? DUYET_TYPE : HUY_DUYET_TYPE,
+        );
+      },
+    );
   }
 }

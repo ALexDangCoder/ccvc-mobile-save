@@ -572,19 +572,16 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Text(
-                title,
-                style: textNormalCustom(
-                  color: AppTheme.getInstance().dfBtnTxtColor(),
-                  fontWeight: FontWeight.w500,
-                ),
+            Text(
+              title,
+              style: textNormalCustom(
+                color: AppTheme.getInstance().dfBtnTxtColor(),
+                fontWeight: FontWeight.w500,
               ),
             ),
-            const Expanded(
-              child: Icon(Icons.keyboard_arrow_down_outlined, color: AqiColor),
-            )
+            const Icon(Icons.keyboard_arrow_down_outlined, color: AqiColor),
           ],
         ),
       ),

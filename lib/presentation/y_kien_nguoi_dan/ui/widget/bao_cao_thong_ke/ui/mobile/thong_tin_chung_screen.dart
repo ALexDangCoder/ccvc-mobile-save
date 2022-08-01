@@ -551,7 +551,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn.donViGuiYeuCau ?? 'trống'}',
+                    '${S.current.ten_ca_nhan_tc_full}: ${dsKetQuaPakn.donViGuiYeuCau ?? 'trống'}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,

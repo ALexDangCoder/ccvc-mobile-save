@@ -20,7 +20,7 @@ class ChartLinhVucXuLyWidget extends StatelessWidget {
       stream: cubit.chartLinhVucXuLy,
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
-        return cubit.checkDataList(data)
+        return data.isNotEmpty
             ? SizedBox(
                 height: 70.0 * data.length,
                 child: SfCartesianChart(
@@ -42,7 +42,10 @@ class ChartLinhVucXuLyWidget extends StatelessWidget {
                     maximumLabelWidth: 90,
                     majorGridLines: const MajorGridLines(width: 0),
                   ),
-                  primaryYAxis: CategoryAxis(
+                  primaryYAxis: NumericAxis(
+                    majorGridLines: const MajorGridLines(
+                        width: 0.5, color: AqiColor, dashArray: <double>[5, 5]),
+                    minorTicksPerInterval: 0,
                     labelStyle: textNormalCustom(
                       color: AqiColor,
                       fontSize: 12,
@@ -53,13 +56,8 @@ class ChartLinhVucXuLyWidget extends StatelessWidget {
                       color: AqiColor,
                       width: 0.41,
                     ),
-                    interval: 5,
+                    interval: cubit.checkDataList(data) ? 5 : 0.5,
                     minimum: 0,
-                    majorGridLines: const MajorGridLines(
-                      width: 0.34,
-                      color: AqiColor,
-                      dashArray: [5, 5],
-                    ),
                   ),
                   series: <ChartSeries<LinhVucKhacModel, String>>[
                     BarSeries<LinhVucKhacModel, String>(

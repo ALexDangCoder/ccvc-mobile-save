@@ -265,7 +265,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     }
   }
 
-  Future<List<VanBanModel>> getListOutcomeDocumentTest({
+  Future<List<VanBanModel>> getListOutcomeDocument({
     String? startDate,
     String? endDate,
     int? page,
@@ -311,7 +311,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   }) async {
     try {
       final currentPage = pageKey ~/ ApiConstants.DEFAULT_PAGE_SIZE;
-      final newItems = await getListOutcomeDocumentTest(
+      final newItems = await getListOutcomeDocument(
         page: currentPage + 1,
       );
       final isLastPage = newItems.length < ApiConstants.DEFAULT_PAGE_SIZE;

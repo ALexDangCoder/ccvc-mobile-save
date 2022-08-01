@@ -6,12 +6,14 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/table
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class ChiaSeBaoCaoTablet extends StatefulWidget {
   const ChiaSeBaoCaoTablet({
@@ -42,7 +44,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
     cubit.idReport = widget.idReport;
     cubit.appId = widget.appId;
     cubit.getGroup();
-
+    cubit.loadTreeDonVi();
   }
 
   @override
@@ -64,17 +66,17 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
             textEmpty: '',
             retry: () {
               cubit.getGroup();
-
+              cubit.loadTreeDonVi();
             },
             error: AppException(S.current.something_went_wrong, ''),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                spaceH24,
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 24,
                     top: 24,
+                    right: 24,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,10 +125,10 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                         Expanded(
                           flex: 9,
                           child: Text(
-                            widget.idReport,
+                            Get.find<AppConstants>().urlHTCS + widget.idReport,
                             style: textNormalCustom(
                               color: labelColor,
-                              fontSize: 16,
+                              fontSize: 14,
                             ),
                           ),
                         ),

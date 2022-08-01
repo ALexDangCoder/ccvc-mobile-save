@@ -177,6 +177,8 @@ extension CheckColor on String {
         return S.current.dang_thuc_hien;
       case CHO_PHAN_XU_LY:
         return S.current.cho_phan_xu_ly;
+      case TRA_LAI_VPCP:
+        return S.current.tra_lai_vpcp;
       default:
         return '';
     }

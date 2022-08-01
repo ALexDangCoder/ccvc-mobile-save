@@ -186,7 +186,11 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           textEmpty: S.current.khong_co_du_lieu,
           stream: widget.cubit.stateStream,
           error: AppException('', S.current.something_went_wrong),
-          retry: () {},
+          retry: () {
+            widget.cubit.initTimeRange();
+            widget.cubit.getDashBoardPAKNTiepCanXuLy();
+            widget.cubit.getDanhSachPAKN();
+          },
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (widget.cubit.canLoadMoreList &&

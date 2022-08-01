@@ -277,6 +277,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                         Row(
                                           children: [
                                             Expanded(
+                                              flex: 3,
                                               child: Text(
                                                 S.current.danh_sach_pakn,
                                                 style: textNormalCustom(
@@ -429,7 +430,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn.donViGuiYeuCau ?? 'trống'}',
+                    '${S.current.ten_ca_nhan_tc_full}: ${dsKetQuaPakn.donViGuiYeuCau ?? 'trống'}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,
@@ -539,19 +540,16 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Text(
-                title,
-                style: textNormalCustom(
-                  color: AppTheme.getInstance().dfBtnTxtColor(),
-                  fontWeight: FontWeight.w500,
-                ),
+            Text(
+              title,
+              style: textNormalCustom(
+                color: AppTheme.getInstance().dfBtnTxtColor(),
+                fontWeight: FontWeight.w500,
               ),
             ),
-            const Expanded(
-              child: Icon(Icons.keyboard_arrow_down_outlined, color: AqiColor),
-            )
+            const Icon(Icons.keyboard_arrow_down_outlined, color: AqiColor),
           ],
         ),
       ),

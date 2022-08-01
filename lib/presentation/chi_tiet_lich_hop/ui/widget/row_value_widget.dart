@@ -10,12 +10,14 @@ class RowDataWidget extends StatelessWidget {
   final String urlIcon;
   final String text;
   final TextStyle? styleText;
+  final void Function()? onTab;
 
   const RowDataWidget({
     Key? key,
     required this.text,
     required this.urlIcon,
     this.styleText,
+    this.onTab,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class RowDataWidget extends StatelessWidget {
           width: 14,
         ),
         if (isMobile())
-          Expanded(
+          SizedBox(
             child: textVl(),
           )
         else
@@ -46,9 +48,12 @@ class RowDataWidget extends StatelessWidget {
     );
   }
 
-  Widget textVl() => Text(
-        text,
-        style: styleText ?? textNormal(textTitle, 16),
-        overflow: TextOverflow.ellipsis,
+  Widget textVl() => GestureDetector(
+        onTap: onTab,
+        child: Text(
+          text,
+          style: styleText ?? textNormal(textTitle, 16),
+          overflow: TextOverflow.ellipsis,
+        ),
       );
 }

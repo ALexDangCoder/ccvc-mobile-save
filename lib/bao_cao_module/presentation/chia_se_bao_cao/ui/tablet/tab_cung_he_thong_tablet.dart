@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,14 +28,14 @@ class TabCungHeThongTablet extends StatefulWidget {
 }
 
 class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
-  final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
   final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
+    if (widget.cubit.keySearchChonNguoi != '') {
+      controller.text = widget.cubit.keySearchChonNguoi;
+    }
   }
 
   @override
@@ -98,7 +97,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                             S.current.chon_nhom,
                             style: textNormalCustom(
                               color: color3D5586,
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -153,10 +152,9 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                     return Column(
                       children: [
                         StreamBuilder<Object>(
-                          stream: _themDonViCubit.selectDonVi,
+                          stream: widget.cubit.selectDonVi,
                           builder: (context, snapshot) {
                             return Container(
-                              width: 341.w,
                               padding: EdgeInsets.only(
                                 left: 12.w,
                                 bottom: 12.h,
@@ -169,15 +167,15 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                 spacing: 10.w, // gap between adjacent chips
                                 runSpacing: 10.h, // gap between lines
                                 children: List.generate(
-                                    _themDonViCubit.selectNode.length + 1,
+                                    widget.cubit.selectNode.length + 1,
                                     (index) {
                                   if (index ==
-                                      _themDonViCubit.selectNode.length) {
+                                      widget.cubit.selectNode.length) {
                                     return Container(
                                       color: Colors.transparent,
                                       child: TextField(
                                         onChanged: (value) {
-                                          _themDonViCubit.onSearch(value);
+                                          widget.cubit.onSearch(value);
                                         },
                                         controller: controller,
                                         style: textNormal(
@@ -202,16 +200,16 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                     );
                                   }
                                   final data =
-                                      _themDonViCubit.selectNode[index];
+                                  widget.cubit.selectNode[index];
                                   return ItemNguoiDungTablet(
                                     name: data.value.name,
                                     hasFunction: true,
                                     delete: () {
-                                      _themDonViCubit.addSelectNode(
+                                      widget.cubit.addSelectNode(
                                         data,
                                         isCheck: false,
                                       );
-                                      _themDonViCubit.removeTag(data);
+                                      widget.cubit.removeTag(data);
                                     },
                                   );
                                 }),
@@ -225,7 +223,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                             border: Border.all(color: containerColorTab),
                           ),
                           child: StreamBuilder<List<Node<DonViModel>>>(
-                            stream: _themDonViCubit.getTree,
+                            stream: widget.cubit.getTree,
                             builder: (context, snapshot) {
                               final data =
                                   snapshot.data ?? <Node<DonViModel>>[];
@@ -284,7 +282,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                               S.current.chon_nguoi,
                               style: textNormalCustom(
                                 color: color3D5586,
-                                fontSize: 14,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),

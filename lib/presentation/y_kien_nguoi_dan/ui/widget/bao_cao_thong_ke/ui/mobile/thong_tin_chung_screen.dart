@@ -180,6 +180,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
       ),
       body: GestureDetector(
         onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           widget.cubit.isShowFilterList.add(false);
         },
         child: StateStreamLayout(

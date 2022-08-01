@@ -329,7 +329,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                 onTap: () {
                   showDiaLogTablet(
                     context,
-                    title: S.current.cu_can_bo_di_thay,
+                    title: S.current.cu_can_bo,
                     child: CuCanBoLichLamViecWidget(
                       themCanBoCubit: themCanBoCubit,
                       cubit: chiTietLichLamViecCubit,

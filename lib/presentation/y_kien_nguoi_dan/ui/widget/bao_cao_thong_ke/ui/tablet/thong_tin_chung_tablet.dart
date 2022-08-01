@@ -85,7 +85,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
         },
         child: StateStreamLayout(
           textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
+          retry: () {
+            widget.cubit.initTimeRange();
+            widget.cubit.getDashBoardPAKNTiepCanXuLy();
+            widget.cubit.getDanhSachPAKN();
+          },
           error: AppException('1', S.current.something_went_wrong),
           stream: widget.cubit.stateStream,
           child: SizedBox.expand(

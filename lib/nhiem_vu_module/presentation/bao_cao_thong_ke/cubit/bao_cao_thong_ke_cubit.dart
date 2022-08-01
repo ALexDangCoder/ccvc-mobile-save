@@ -59,10 +59,13 @@ class BaoCaoThongKeCubit extends BaseCubit<BaoCaoThongKeState> {
   }
 
   void getTree() {
-    hopRp.getTreeDonVi().then((value) {
+    hopRp.getTreeDonVi(getAll: false).then((value) {
       value.when(
         success: (res) {
+          final List<String> listDonViId =
+              res.first.children.map((e) => e.value.id).toList();
           _getTreeDonVi.sink.add(res);
+          getDataTheoDonVi(donviId: listDonViId);
         },
         error: (err) {
           showError();
@@ -116,7 +119,7 @@ class BaoCaoThongKeCubit extends BaseCubit<BaoCaoThongKeState> {
   }
 
   Future<void> getDataTheoDonVi({
-    String? donviId,
+    List<String>? donviId,
     String? startDate,
     String? endDate,
     String? userId,

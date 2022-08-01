@@ -52,7 +52,6 @@ class _BaoCaoThongKeNhiemVuMobileState
     cubit.initTimeRange();
     cubit.getAppID();
     cubit.getTree();
-    cubit.getDataTheoDonVi();
     cubit.textDonViXuLyFilter.listen((value) {
       if (cubit.donViId.isNotEmpty) {
         cubit.getCaNhanXuLy();

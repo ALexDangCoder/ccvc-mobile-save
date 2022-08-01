@@ -17,9 +17,9 @@ class ThanhPhanThamGiaImpl extends ThanhPhanThamGiaReponsitory {
   ThanhPhanThamGiaImpl(this._service);
 
   @override
-  Future<Result<List<Node<DonViModel>>>> getTreeDonVi({bool getAll = true}) {
+  Future<Result<List<Node<DonViModel>>>> getTreeDonVi({bool? getAll}) {
     return runCatchingAsync<TreeDonViThamGiaResponse, List<Node<DonViModel>>>(
-          () => _service.getTreeDonVi(getAll),
+          () => _service.getTreeDonVi(getAll ?? true),
           (res) => res.toDomain(),
     );
   }

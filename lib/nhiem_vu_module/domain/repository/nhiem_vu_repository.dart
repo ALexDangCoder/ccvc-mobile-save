@@ -115,7 +115,7 @@ mixin NhiemVuRepository {
   );
 
   Future<Result<List<NhiemVuDonVi>>> getDataNhiemVuTheoDonVi({
-    String? donviId,
+    List<String>? donviId,
     String? startDate,
     String? endDate,
     String? userId,

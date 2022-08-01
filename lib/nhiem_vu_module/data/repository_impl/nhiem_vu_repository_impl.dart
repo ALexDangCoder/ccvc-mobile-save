@@ -284,7 +284,7 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
 
   @override
   Future<Result<List<NhiemVuDonVi>>> getDataNhiemVuTheoDonVi(
-      {String? donviId, String? startDate, String? endDate, String? userId}) {
+      {List<String>? donviId, String? startDate, String? endDate, String? userId}) {
     return runCatchingAsync<List<NhiemVuDonTheoDonViResponse>,
         List<NhiemVuDonVi>>(
       () => nhiemVuService.getNhiemVuTheoDonVi(

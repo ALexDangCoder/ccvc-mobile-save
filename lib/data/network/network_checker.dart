@@ -1,17 +1,23 @@
 import 'dart:async';
 
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 
+
+
 Future<bool> getHttp() async {
 
+  const int _receiveTimeout = 3000;
+  const int _connectTimeout = 5000;
+
   final options = BaseOptions(
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
+    connectTimeout: _connectTimeout,
+    receiveTimeout: _receiveTimeout,
   );
   final Dio dio = Dio(options);
   try {
-    final response = await dio.get('https://www.google.com');
+    final response = await dio.get(ApiConstants.DOMAIN_GOOGLE);
     if(response.redirects.isNotEmpty){
       return false;
     } else {

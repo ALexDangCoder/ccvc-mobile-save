@@ -90,7 +90,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
             widget.cubit.getDashBoardPAKNTiepCanXuLy();
             widget.cubit.getDanhSachPAKN();
           },
-          error: AppException('1', S.current.something_went_wrong),
+          error: AppException(S.current.error, S.current.something_went_wrong),
           stream: widget.cubit.stateStream,
           child: SizedBox.expand(
             child: Container(

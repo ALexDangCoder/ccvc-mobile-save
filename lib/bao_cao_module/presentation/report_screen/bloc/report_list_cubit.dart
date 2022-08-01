@@ -182,7 +182,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        showContent();
         isStatus = res;
       },
       error: (error) {
@@ -190,6 +189,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
       },
     );
     isCheckPostFavorite = isStatus;
+    showContent();
     return isStatus;
   }
 
@@ -204,7 +204,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        showContent();
         isStatus = res;
       },
       error: (error) {
@@ -212,6 +211,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
       },
     );
     isCheckPostFavorite = isStatus;
+    showContent();
     return isStatus;
   }
 

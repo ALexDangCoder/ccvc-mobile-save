@@ -128,7 +128,7 @@ class _DocumentInPageState extends State<DocumentOutPage>
                       padding: EdgeInsets.symmetric(vertical: 24),
                       child: NodataWidget(),
                     ),
-                    itemBuilder: (context, item, index) => Padding(
+                    itemBuilder: (context, VanBanModel item, index) => Padding(
                       padding: EdgeInsets.only(
                         bottom: 16,
                         top: (index == 0) ? 16 : 0,
@@ -155,7 +155,9 @@ class _DocumentInPageState extends State<DocumentOutPage>
                             ),
                             InfoData(
                               key: S.current.nguoi_soan_thao,
-                              value: item.nguoiSoanThao ?? '',
+                              value: (item.chucVuNguoiSoanThao ?? '').isEmpty
+                                  ? item.nguoiSoanThao ?? ''
+                                  : '${item.nguoiSoanThao ?? ''} - ${item.chucVuNguoiSoanThao ?? ''}',
                               urlIcon: ImageAssets.imgAcount,
                             ),
                           ],

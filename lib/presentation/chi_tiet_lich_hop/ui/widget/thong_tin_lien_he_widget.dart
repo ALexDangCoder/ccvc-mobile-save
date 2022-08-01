@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,6 +87,12 @@ class ThongTinLienHeWidget extends StatelessWidget {
         if (thuMoiFiles.isNotEmpty) ...[
           RowDataWidget(
             urlIcon: ImageAssets.icThuMoiHop,
+            onTab: () {
+              saveFile(
+                fileName: thuMoiFiles.first.name ?? '',
+                url: thuMoiFiles.first.path ?? '',
+              );
+            },
             text: thuMoiFiles.first.name ?? '',
             styleText: textNormalCustom(
               fontSize: 16,

@@ -1396,5 +1396,6 @@
   "gui_loi_chuc_that_bai" : "Gửi lời chúc thất bại",
   "danh_sach_chia_se_rong":"Vui lòng chọn đối tượng chia sẻ!",
   "tra_lai_vpcp":"Trả lại VPCP",
-  "coming_soon": "Tính năng đang được phát triền"
+  "coming_soon": "Tính năng đang được phát triền",
+  "vui_long_chon_don_vi":"Vui lòng chọn đơn vị"
 }

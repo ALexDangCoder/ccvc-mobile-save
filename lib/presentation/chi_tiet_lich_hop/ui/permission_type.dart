@@ -318,8 +318,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
               context: context,
               builder: (context) => RadioOptionDialog(
                 title: S.current.sua_lich_hop,
-                textRadioBelow: S.current.chi_lich_hien_tai,
-                textRadioAbove: S.current.tu_hien_tai_ve_sau,
+                textRadioBelow: S.current.tu_hien_tai_ve_sau,
+                textRadioAbove: S.current.chi_lich_hien_tai,
                 imageUrl: ImageAssets.img_sua_lich,
               ),
             ).then((value) {

@@ -163,6 +163,9 @@ class SelectThuKyCell extends StatelessWidget {
                 listData: dataSN,
                 cubit: cubit,
                 isPhanCongThuKy: true,
+                onRemove: () {
+
+                }
               )
             ],
           );
@@ -453,6 +456,7 @@ Widget wrapThis({
   required List<NguoiChutriModel> listData,
   required DetailMeetCalenderCubit cubit,
   required bool isPhanCongThuKy,
+  required Function onRemove,
 }) =>
     Wrap(
       spacing: 10,
@@ -472,6 +476,7 @@ Widget wrapThis({
                   CoperativeStatus.WaitAccept;
               cubit.listThuHoi.sink.add(cubit.dataThuKyOrThuHoiDeFault);
             }
+            onRemove();
           },
         );
       }),

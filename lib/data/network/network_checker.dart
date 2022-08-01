@@ -1,29 +1,23 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:dio/dio.dart';
-
-
+import 'package:http/http.dart' as http;
 
 Future<bool> getHttp() async {
-
-  const int _receiveTimeout = 3000;
-  const int _connectTimeout = 5000;
-
-  final options = BaseOptions(
-    connectTimeout: _connectTimeout,
-    receiveTimeout: _receiveTimeout,
-  );
-  final Dio dio = Dio(options);
   try {
-    final response = await dio.get(ApiConstants.DOMAIN_GOOGLE);
-    if(response.redirects.isNotEmpty){
-      return false;
-    } else {
+    final http.Response response = await http
+        .get(Uri.parse(ApiConstants.DOMAIN_GOOGLE))
+        .timeout(const Duration(seconds: 5));
+    if (response.statusCode == StatusCodeConst.STATUS_OK) {
       return true;
+    } else {
+      return false;
     }
-  } catch (e) {
+  } on TimeoutException {
+    return false;
+  } on SocketException {
     return false;
   }
 }
@@ -33,11 +27,11 @@ class CheckerNetwork {
     final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
-       if(await getHttp()){
+      if (await getHttp()) {
         return true;
-       } else {
-         return false;
-       }
+      } else {
+        return false;
+      }
     }
     return false;
   }

@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
@@ -70,10 +71,10 @@ class AvatarAndSignature extends StatelessWidget {
   ) async {
     final _path = await cubit.pickAvatar();
     if (_path.path.isNotEmpty) {
-      if (_path.size > 15000000) {
+      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
         toast.showToast(
           child: ShowToast(
-            text: S.current.dung_luong_toi_da,
+            text: S.current.dung_luong_toi_da_20,
           ),
           gravity: ToastGravity.TOP_RIGHT,
         );
@@ -91,10 +92,10 @@ class AvatarAndSignature extends StatelessWidget {
   ) async {
     final _path = await cubit.pickAvatar();
     if (_path.path.isNotEmpty) {
-      if (_path.size > 15000000) {
+      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
         toast.showToast(
           child: ShowToast(
-            text: S.current.dung_luong_toi_da,
+            text: S.current.dung_luong_toi_da_20,
           ),
           gravity: ToastGravity.TOP_RIGHT,
         );
@@ -112,10 +113,10 @@ class AvatarAndSignature extends StatelessWidget {
   ) async {
     final _path = await cubit.pickAvatar();
     if (_path.path.isNotEmpty) {
-      if (_path.size > 15000000) {
+      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
         toast.showToast(
           child: ShowToast(
-            text: S.current.dung_luong_toi_da,
+            text: S.current.dung_luong_toi_da_20,
           ),
           gravity: ToastGravity.TOP_RIGHT,
         );

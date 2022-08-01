@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/add_task_model.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'add_task_response.g.dart';

@@ -50,7 +50,6 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
 }
 
 class _SearchBaoCaoThongKeWidgetState extends State<SearchBaoCaoThongKeWidget> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -97,6 +96,8 @@ class TreeDonVi extends StatefulWidget {
 class _TreeDonViState extends State<TreeDonVi> {
   late String selectStartDate;
   late String selectEndDate;
+  late DateTime initStartDate;
+  late DateTime initEnDate;
   List<String> donViID = [];
 
   @override
@@ -104,6 +105,8 @@ class _TreeDonViState extends State<TreeDonVi> {
     super.initState();
     selectStartDate = widget.startDate;
     selectEndDate = widget.endDate;
+    initStartDate = DateFormat(DateFormatApp.date).parse(selectStartDate);
+    initEnDate = DateFormat(DateFormatApp.date).parse(selectEndDate);
     widget.themDonViCubit.selectDonVi.listen((event) {
       donViID = event.map((e) => e.value.id).toList();
     });
@@ -199,9 +202,19 @@ class _TreeDonViState extends State<TreeDonVi> {
             children: [
               Expanded(
                 child: SelectDate(
+                  initDateTime: initStartDate,
+                  callBackSelectDate: (String selectDate) {
+                    setState(() {
+                      final formatDate =
+                          DateFormat(DateFormatApp.dateSelectCalendar)
+                              .parse(selectDate)
+                              .toStringWithListFormat;
+                      initStartDate =
+                          DateFormat(DateFormatApp.date).parse(formatDate);
+                    });
+                  },
                   maximumDate:
                       DateFormat(DateFormatApp.date).parse(selectEndDate),
-                  key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateFormat(DateFormatApp.date)
@@ -212,7 +225,6 @@ class _TreeDonViState extends State<TreeDonVi> {
                         DateFormat(DateFormatApp.pickDateSearchFormat)
                             .parse(dateTime)
                             .toStringWithListFormat;
-                    setState(() {});
                   },
                 ),
               ),
@@ -224,9 +236,19 @@ class _TreeDonViState extends State<TreeDonVi> {
               ),
               Expanded(
                 child: SelectDate(
+                  callBackSelectDate: (String selectDate) {
+                    setState(() {
+                      final formatDate =
+                          DateFormat(DateFormatApp.dateSelectCalendar)
+                              .parse(selectDate)
+                              .toStringWithListFormat;
+                      initEnDate =
+                          DateFormat(DateFormatApp.date).parse(formatDate);
+                    });
+                  },
+                  initDateTime: initEnDate,
                   minimumDate:
-                      DateFormat(DateFormatApp.date).parse(selectStartDate),
-                  key: UniqueKey(),
+                      DateFormat(DateFormatApp.date).parse(selectEndDate),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateFormat(DateFormatApp.date)

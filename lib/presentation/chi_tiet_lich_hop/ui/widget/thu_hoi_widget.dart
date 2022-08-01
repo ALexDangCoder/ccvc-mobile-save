@@ -76,7 +76,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                     );
                     Navigator.pop(context);
                   },
-                  title: S.current.thu_hoi_ket_luan_hop,
+                  title: S.current.thu_hoi_lich_hop,
                   btnRightTxt: S.current.dong_y,
                   showTablet: true,
                 );

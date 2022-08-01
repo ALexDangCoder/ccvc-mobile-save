@@ -367,7 +367,6 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 snapshot.data?.text ??
                     '',
                 callBack: (value) {
-                  print('???????');
                   widget.cubit
                       .isShowFilterList
                       .add(true);
@@ -458,7 +457,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   flex: 8,
                   child: Text(
                     '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn
-                        .donViGuiYeuCau ?? 'trống'}',
+                        .donViGuiYeuCau ?? S.current.trong}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,

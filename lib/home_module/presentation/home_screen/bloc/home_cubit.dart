@@ -485,6 +485,8 @@ class DanhSachCongViecCubit extends HomeCubit {
         );
         data.listTodoImportant = listSortImportant(data.listTodoImportant);
         danhSachTenNguoiGan.insert(0, nameInsert);
+        tempName[res.id??'']=nameInsert;
+        /// doing in here
         if (res.id != null) {
           tempName[res.id!] = nameInsert;
         }
@@ -656,7 +658,6 @@ class DanhSachCongViecCubit extends HomeCubit {
         res.listTodoImportant = listSortImportant(res.listTodoImportant);
         res.listTodoDone = listSortImportant(res.listTodoDone);
         await getListNameCanBo();
-
         _getTodoList.sink.add(res);
       },
       error: (err) {},

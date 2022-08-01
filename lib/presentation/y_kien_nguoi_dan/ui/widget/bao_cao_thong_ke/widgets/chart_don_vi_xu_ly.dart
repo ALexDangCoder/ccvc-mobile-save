@@ -20,7 +20,8 @@ class ChartDonViXuLyWidget extends StatelessWidget {
       stream: cubit.chartDonViXuLy,
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
-        return cubit.checkDataList(data)
+
+        return data.isNotEmpty
             ? SizedBox(
                 height: 30.0 * data.length,
                 child: SfCartesianChart(
@@ -54,6 +55,7 @@ class ChartDonViXuLyWidget extends StatelessWidget {
                   ),
                   series: <ChartSeries<DonViYKNDModel, String>>[
                     BarSeries<DonViYKNDModel, String>(
+
                       color: choXuLyYKND,
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,

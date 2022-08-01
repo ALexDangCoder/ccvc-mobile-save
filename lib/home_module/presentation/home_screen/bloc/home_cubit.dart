@@ -1494,7 +1494,11 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
         loaiMenu = 'TiepNhan';
         callApi();
         break;
-
+      case SelectKey.CHO_TIEP_NHAN_XU_LY:
+        trangThai = '3';
+        loaiMenu = 'XuLy';
+        callApi();
+        break;
       default:
         {}
     }
@@ -1532,6 +1536,10 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
     if (HiveLc.HiveLocal.checkPermissionApp(
         permissionTxt: 'XuLyPAKNChoTiepNhanXuLyCapNhat')) {
       listSelect.add(SelectKey.CHO_DUYET_TIEP_NHAN);
+    }
+    if (HiveLc.HiveLocal.checkPermissionApp(
+        permissionTxt: 'XuLyPAKNChoTiepNhanXuLyXem')) {
+      listSelect.add(SelectKey.CHO_TIEP_NHAN_XU_LY);
     }
     if (HiveLc.HiveLocal.checkPermissionApp(
         permissionTxt: 'XuLyPAKNChoPhanCongXuLyCapNhat')) {

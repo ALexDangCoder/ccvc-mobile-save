@@ -21,6 +21,7 @@ import 'package:ccvc_mobile/presentation/change_password/ui/mobile/change_passwo
 import 'package:ccvc_mobile/presentation/change_password/ui/tablet/change_password_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/mobile/hoi_dap_screen.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/tablet/hoi_dap_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/coming_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/main_menu_qlvb/main_menu_qlvb_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/qlvb_mobile_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/qlvb_tablet_screen.dart';
@@ -224,9 +225,8 @@ extension GetScreen on MenuType {
           tabletScreen: const MainNhiemVuTablet(),
         );
       case MenuType.hanhChinhCong:
-        return const Scaffold(
-          backgroundColor: Colors.red,
-        );
+        return ComingSoonScreen(
+          title: S.current.hanh_chinh_cong);
       case MenuType.yKienNguoiDan:
         return screenDevice(
           mobileScreen: const YKienNguoiDanScreen(),
@@ -278,8 +278,8 @@ extension GetScreen on MenuType {
           tabletScreen: const ChangePassWordScreenTablet(),
         );
       case MenuType.tuongTacNoiBo:
-        return const Scaffold(
-          backgroundColor: Colors.red,
+        return ComingSoonScreen(
+          title: S.current.tuong_tac_noi_bo
         );
       case MenuType.lichLamViec:
         return screenDevice(

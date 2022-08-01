@@ -72,7 +72,7 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                     initValue: _danCubit.selectKeyTime,
                     title: S.current.time,
                     startDate: _danCubit.startDate,
-                    endDate: _danCubit.endDate)
+                    endDate: _danCubit.endDate,)
               ],
             );
           }),

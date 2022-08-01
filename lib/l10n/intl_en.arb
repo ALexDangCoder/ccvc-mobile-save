@@ -690,7 +690,7 @@
   "conten_diem_danh": "Bạn có chắc chắn muốn điểm danh cho những người được chọn?",
   "conten_huy_diem_danh": "Bạn có chắc chắn muốn hủy điểm danh cho những người được chọn?",
   "tin_noi_bat": "Tin nổi bật",
-  "xoa_chi_tiet_lich_hop": "bạn có chắc chắn muốn xóa lịch này?",
+  "xoa_chi_tiet_lich_hop": "Bạn có chắc chắn muốn xóa lịch này?",
   "sua_bien_ban_ket_luan_hop": "Sửa Biên bản kết luận họp",
   "tim_kiem_cau_hoi": "Tìm kiếm câu hỏi",
   "chung_toi_co_the_giup_gi": "Chúng tôi có thể giúp gì cho bạn ?",
@@ -1395,5 +1395,7 @@
   "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!",
   "gui_loi_chuc_that_bai" : "Gửi lời chúc thất bại",
   "danh_sach_chia_se_rong":"Vui lòng chọn đối tượng chia sẻ!",
-  "tra_lai_vpcp":"Trả lại VPCP"
+  "tra_lai_vpcp":"Trả lại VPCP",
+  "coming_soon": "Tính năng đang được phát triển",
+  "vui_long_chon_don_vi":"Vui lòng chọn đơn vị"
 }

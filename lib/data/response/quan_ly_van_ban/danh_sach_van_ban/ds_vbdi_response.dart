@@ -66,6 +66,8 @@ class PageDataResponseVBDi {
   String? codeDoKhan;
   @JsonKey(name: 'TrichYeu')
   String? trichYeu;
+  @JsonKey(name: 'ChucVuNguoiSoanThao')
+  String? chucVuNguoiSoanThao;
 
   PageDataResponseVBDi(this.iD, this.doKhan, this.loaiVanBan, this.ngayDen,
       this.nguoiSoanThao, this.donViSoanThao, this.codeDoKhan, this.trichYeu);
@@ -84,5 +86,6 @@ class PageDataResponseVBDi {
         donViSoanThao: donViSoanThao,
         priorityCode: codeDoKhan,
         trichYeu: trichYeu,
+        chucVuNguoiSoanThao: chucVuNguoiSoanThao,
       );
 }

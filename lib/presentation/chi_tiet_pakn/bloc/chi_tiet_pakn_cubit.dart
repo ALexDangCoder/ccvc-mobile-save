@@ -95,7 +95,9 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.thoi_gian_thao_tac,
-              content: [(DateTime.parse(value.ngayBatDau).formatApiListBieuQuyetMobile)],
+              content: [
+                (DateTime.parse(value.ngayBatDau).formatApiListBieuQuyetMobile)
+              ],
             ),
           );
 
@@ -191,12 +193,6 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
             ),
           );
 
-          rowData.add(
-            ListRowYKND(
-              title: S.current.so_hieu_van_ban,
-              content: [element.soVanBanDi],
-            ),
-          );
           rowData.add(
             ListRowYKND(
               title: S.current.ngay_ban_hanh,

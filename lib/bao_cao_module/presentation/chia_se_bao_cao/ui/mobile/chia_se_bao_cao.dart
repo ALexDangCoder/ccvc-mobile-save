@@ -67,6 +67,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
         textEmpty: '',
         retry: () {
           cubit.getGroup();
+          cubit.loadTreeDonVi();
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Column(

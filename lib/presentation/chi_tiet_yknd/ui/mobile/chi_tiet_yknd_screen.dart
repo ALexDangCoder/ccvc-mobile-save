@@ -44,7 +44,12 @@ class _ChiTietYKNDScreenState extends State<ChiTietYKNDScreen>
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
+        retry: () {
+          cubit.getchiTietYKienNguoiDan(widget.iD, widget.taskID);
+          cubit.getDanhSachYKienXuLyPAKN(widget.iD);
+          cubit.getTienTrinhXyLy(widget.iD);
+          cubit.getKetQuaXuLy(widget.iD, widget.taskID);
+        },
         error: AppException('', S.current.something_went_wrong),
         stream: cubit.stateStream,
         child: SingleChildScrollView(

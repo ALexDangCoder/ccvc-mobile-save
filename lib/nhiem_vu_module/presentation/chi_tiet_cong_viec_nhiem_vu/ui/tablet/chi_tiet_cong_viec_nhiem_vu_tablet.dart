@@ -49,7 +49,9 @@ class _ChitietCongViecNhiemVuTabletState
           cubit: cubit,
           child: StateStreamLayout(
             textEmpty: S.current.khong_co_du_lieu,
-            retry: () {},
+            retry: () {
+              cubit.getChiTietCongViecNhiemVu(widget.id);
+            },
             error: AppException(
               S.current.error,
               S.current.error,

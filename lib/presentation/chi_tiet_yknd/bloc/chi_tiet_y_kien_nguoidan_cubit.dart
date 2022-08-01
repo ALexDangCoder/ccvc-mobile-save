@@ -110,7 +110,7 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
     final List<DataRowChiTietKienNghi> listData = [];
     listData.add(
       DataRowChiTietKienNghi(
-          title: S.current.ten_ca_nhan_tc,
+          title: S.current.ten_ca_nhan_tc_full,
           content: nguoiPhanAnhModel.tenCaNhan ?? ''),
     );
     listData.add(

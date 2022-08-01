@@ -131,6 +131,7 @@ const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
 const String CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
 const String DA_HOAN_THANH = 'DA_HOAN_THANH';
+const String TRA_LAI_VPCP = 'TRA_LAI_VPCP';
 const String DANG_THUC_HIEN = 'DANG_THUC_HIEN';
 
 const String CALENDAR_TYPE_DAY = 'Day';

@@ -47,7 +47,9 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
+        retry: () {
+          cubit.getTienTrinhXyLy(widget.iD);
+        },
         error: AppException(
           S.current.error,
           S.current.error,

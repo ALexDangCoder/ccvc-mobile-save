@@ -64,7 +64,12 @@ class _ChiTietNhiemVuTabletScreenState extends State<ChiTietNhiemVuTabletScreen>
         cubit: cubit,
         child: StateStreamLayout(
           textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
+          retry: () {
+            cubit.loadDataNhiemVuCaNhan(
+              nhiemVuId: widget.id,
+              isCheck: widget.isCheck,
+            );
+          },
           error: AppException(
             S.current.error,
             S.current.error,

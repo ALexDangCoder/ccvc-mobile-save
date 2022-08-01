@@ -183,11 +183,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                               final data = snapshot.data ??
                                   DashBoardPAKNModel(
                                     dashBoardHanXuLyPAKNModel:
-                                        DashBoardHanXuLyPAKNModel(),
+                                    DashBoardHanXuLyPAKNModel(),
                                     dashBoardTiepNhanPAKNModel:
-                                        DashBoardTiepNhanPAKNModel(),
+                                    DashBoardTiepNhanPAKNModel(),
                                     dashBoardXuLyPAKNModelModel:
-                                        DashBoardXuLyPAKNModel(),
+                                    DashBoardXuLyPAKNModel(),
                                   );
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,41 +221,68 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                             if (data.isEmpty) {
                               widget.cubit.isEmptyData = true;
                               return Center(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0,
+                                  ),
+                                  child: Stack(
+                                    alignment: Alignment.centerRight,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          _headerDanhSachPAKN(),
+                                          spaceH30,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                            ),
+                                            child: Text(
+                                              S.current.danh_sach_pakn,
+                                              style: textNormalCustom(
+                                                color: textTitle,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 30.0,
+                                          ),
+                                          SvgPicture.asset(
+                                            ImageAssets.icNoDataNhiemVu,
+                                          ),
+                                          const SizedBox(
+                                            height: 30.0,
+                                          ),
+                                          Text(
+                                            S.current.khong_co_thong_tin_pakn,
+                                            style: textNormalCustom(
+                                              fontSize: 16.0,
+                                              color: grayChart,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10.0,
+                                          ),
+
+                                        ],
                                       ),
-                                      child: Text(
-                                        S.current.danh_sach_pakn,
-                                        style: textNormalCustom(
-                                          color: textTitle,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
+                                      Positioned(
+                                        top: 0,
+                                        child: StreamBuilder<bool>(
+                                          stream: widget.cubit.isShowFilterList,
+                                          builder: (context, snapshot) {
+                                            final isShow = snapshot.data ?? false;
+                                            return isShow
+                                                ? DropDownTrangThaiPAKN(
+                                              cubit: widget.cubit,
+                                            )
+                                                : const SizedBox.shrink();
+                                          },
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 30.0,
-                                    ),
-                                    SvgPicture.asset(
-                                      ImageAssets.icNoDataNhiemVu,
-                                    ),
-                                    const SizedBox(
-                                      height: 30.0,
-                                    ),
-                                    Text(
-                                      S.current.khong_co_thong_tin_pakn,
-                                      style: textNormalCustom(
-                                        fontSize: 16.0,
-                                        color: grayChart,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10.0,
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               );
                             } else {
@@ -268,47 +295,12 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                   children: [
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                S.current.danh_sach_pakn,
-                                                style: textNormalCustom(
-                                                  color: textTitle,
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child:
-                                                  StreamBuilder<TextTrangThai>(
-                                                stream: widget
-                                                    .cubit.textFilter.stream,
-                                                builder: (context, snapshot) {
-                                                  return item(
-                                                    title:
-                                                        snapshot.data?.text ??
-                                                            '',
-                                                    callBack: (value) {
-                                                      widget.cubit
-                                                          .isShowFilterList
-                                                          .add(true);
-                                                    },
-                                                    colorBG:
-                                                        snapshot.data?.color ??
-                                                            Colors.red,
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                        _headerDanhSachPAKN(),
                                         ListView.builder(
                                           physics:
-                                              const NeverScrollableScrollPhysics(),
+                                          const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: data.length,
                                           itemBuilder: (context, index) {
@@ -327,8 +319,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                           final isShow = snapshot.data ?? false;
                                           return isShow
                                               ? DropDownTrangThaiPAKN(
-                                                  cubit: widget.cubit,
-                                                )
+                                            cubit: widget.cubit,
+                                          )
                                               : const SizedBox.shrink();
                                         },
                                       ),
@@ -348,6 +340,46 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           ),
         ),
       ),
+    );
+  }
+
+  Widget _headerDanhSachPAKN() {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            S.current.danh_sach_pakn,
+            style: textNormalCustom(
+              color: textTitle,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Expanded(
+          child:
+          StreamBuilder<TextTrangThai>(
+            stream: widget
+                .cubit.textFilter.stream,
+            builder: (context, snapshot) {
+              return item(
+                title:
+                snapshot.data?.text ??
+                    '',
+                callBack: (value) {
+                  print('???????');
+                  widget.cubit
+                      .isShowFilterList
+                      .add(true);
+                },
+                colorBG:
+                snapshot.data?.color ??
+                    Colors.red,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -425,7 +457,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn.donViGuiYeuCau ?? 'trống'}',
+                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn
+                        .donViGuiYeuCau ?? 'trống'}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,
@@ -495,7 +528,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  ) else const SizedBox.shrink()
+                  ) else
+                    const SizedBox.shrink()
                 ],
               ),
             )

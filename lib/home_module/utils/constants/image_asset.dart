@@ -225,7 +225,7 @@ class ImageAssets {
       '$baseImg/erorr_load_image.png';
   static const String icLocation = '$baseImg/ic_location.svg';
   static const String icXacNhanThuHoi = '$baseImg/ic_xac_nhan_thu_hoi.svg';
-
+  static const String icStar = '$baseImg/ic_start.png';
 
   static SvgPicture svgAssets(
     String name, {

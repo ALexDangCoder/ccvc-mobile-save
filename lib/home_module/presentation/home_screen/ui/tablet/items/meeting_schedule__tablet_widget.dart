@@ -123,7 +123,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
                             ? S.current.truc_tuyen
                             : S.current.truc_tiep,
                         colorStatus: result.isHopTrucTuyen
-                            ? sideBtnSelected.withOpacity(0.5)
+                            ? itemWidgetUsing
                             : textDefault,
                         backGroundStatus: true,
                         status2: result

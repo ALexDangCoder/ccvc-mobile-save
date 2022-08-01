@@ -95,11 +95,11 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       isDuplicateCanBo.add(false);
       if ((themCanBoCubit.titleCanBo.valueOrNull ?? '').isEmpty) {
         final DonViModel donVi = themDonViCubit.listDonVi.last;
-        (listCanBoThamGia.valueOrNull ?? []).add(donVi);
-        listCanBo.add(donVi);
+        (listCanBoThamGia.valueOrNull ?? []).add(donVi.toCuCanBoTreeDonVi);
+        listCanBo.add(donVi.toCuCanBoTreeDonVi);
       } else {
         (listCanBoThamGia.valueOrNull ?? []).add(newCanBo.toCuCanBoTreeDonVi);
-        listCanBo.add(newCanBo);
+        listCanBo.add(newCanBo.toCuCanBoTreeDonVi);
       }
       listCanBoThamGia.sink.add(listCanBoThamGia.valueOrNull ?? []);
     }
@@ -145,8 +145,8 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     _listPeopleThamGia.add(listPeople);
   }
 
-  void getTree() {
-    hopRp.getTreeDonVi().then((value) {
+  void getTree({bool getAll = true}) {
+    hopRp.getTreeDonVi(getAll: getAll).then((value) {
       value.when(
         success: (res) {
           final data = <Node<DonViModel>>[];

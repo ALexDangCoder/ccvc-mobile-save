@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items
 import 'package:ccvc_mobile/home_module/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class StatusColumnChart extends StatelessWidget {
   final List<ChartData> listData;
   const StatusColumnChart({Key? key,required this.listData}) : super(key: key);

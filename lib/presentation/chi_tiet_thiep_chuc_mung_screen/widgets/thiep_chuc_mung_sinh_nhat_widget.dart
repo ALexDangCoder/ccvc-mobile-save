@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_thiep_chuc_mung_screen/widgets/thiep_back_ground_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ThiepChucMungSinhNhatWidget extends StatelessWidget {
   const ThiepChucMungSinhNhatWidget({
@@ -51,7 +53,8 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
                       ),
                       clipBehavior: Clip.hardEdge,
                       child: CachedNetworkImage(
-                        imageUrl: data.avatar,
+                        imageUrl:
+                            Get.find<AppConstants>().baseImageUrl + data.avatar,
                         fit: BoxFit.cover,
                         errorWidget: (context, url, error) => Container(
                           color: Colors.black,

@@ -1013,7 +1013,7 @@
   "bi_huy_bo": "Bị huỷ bỏ",
   "da_cho_y_kien": "Đã cho ý kiến",
   "ten_don_vi_cheo_phong_ban": "Tên đơn vị/phòng ban",
-  "file_dinh_kem_mb": "File đính kèm không được vượt quá 20mb",
+  "file_dinh_kem_mb": "Tổng dung lượng file tối đa 20MB",
   "ban_chua_nhap_y_kien": "Bạn vui lòng nhập ý kiến",
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
@@ -1316,7 +1316,7 @@
   "validate_thu_hop": "Chỉ tải lên 1 file thư mời họp",
   "ca_nha_hom_nay": "Cá nhân - Hôm nay",
   "vui_long_nhap_cong_viec": "Vui lòng nhập công việc",
-  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi kết luận họp này?",
+  "thu_hoi_chi_tiet_lich_hop" : "Bạn có chắc muốn thu hồi lịch họp này?",
   "thu_hoi_lich_hop" : "Thu hồi lịch họp",
   "vui_long_nhap_cham_cham": "Vui lòng nhập .....",
   "khong_lap_lai": "Không lặp lại",
@@ -1357,7 +1357,9 @@
   "them_phien_hop_thanh_cong": "Thêm phiên họp thành công",
   "them_phien_hop_that_bai": "Thêm phiên họp thất bại",
   "vui_long_nhap_ten_phien_hop": "Vui lòng nhập tên phiên họp!",
-  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!"
+  "vui_long_nhap_noi_dung_phien_hop": "Vui lòng nhập nội dung phiên họp!",
+  "gui_loi_chuc_that_bai" : "Gửi lời chúc thất bại",
+  "danh_sach_chia_se_rong":"Vui lòng chọn đối tượng chia sẻ!"
 }
 
 

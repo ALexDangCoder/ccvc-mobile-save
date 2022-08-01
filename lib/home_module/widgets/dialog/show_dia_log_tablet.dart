@@ -15,7 +15,7 @@ Future<T?> showDiaLogTablet<T>(
   String? btnRightTxt,
   String? btnLeftTxt,
   bool isBottomShow = true,
-  required Function funcBtnOk,
+  Function()? funcBtnOk,
   double maxHeight = 878,
   double width = 592,
 }) {
@@ -32,7 +32,7 @@ Future<T?> showDiaLogTablet<T>(
           title: title,
           btnLeftTxt: btnLeftTxt ?? S.current.dong,
           btnRightTxt: btnRightTxt ?? S.current.them,
-          funcBtnOk: funcBtnOk,
+          funcBtnOk: funcBtnOk?.call() ?? () {},
           isBottomShow: isBottomShow,
           maxHeight: maxHeight,
           width: width,

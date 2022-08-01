@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
@@ -178,6 +180,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
         thoiGian_BatDau: widget.cubit.getTime(),
         thoiGian_KetThuc: widget.cubit.getTime(isGetDateStart: false),
       );
+      taoPhienHopRequest.files = [];
     }
     taoPhienHopRequest.date =
         taoPhienHopRequest.thoiGian_BatDau.split(' ').first;
@@ -375,8 +378,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 SelectFileBtn(
                   onChange: (files) {
-                    taoPhienHopRequest.files = files;
-                  },
+                    taoPhienHopRequest.files?.addAll(files);},
                   initFileSystem: taoPhienHopRequest.files,
                 ),
               ],

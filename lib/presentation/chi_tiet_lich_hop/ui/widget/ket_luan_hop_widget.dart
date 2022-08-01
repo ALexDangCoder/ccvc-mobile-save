@@ -343,6 +343,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       onTap: () {
                         showDiaLog(
                           context,
+                          showTablet: !isMobile(),
                           textContent:
                               S.current.ban_co_chac_chan_muon_gui_mai_nay,
                           btnLeftTxt: S.current.khong,

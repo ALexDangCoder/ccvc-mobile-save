@@ -217,6 +217,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
 
   void clearSearch() {
     isStatusSearch.add(true);
+    getListReport();
   }
 
   bool checkHideIcMore({

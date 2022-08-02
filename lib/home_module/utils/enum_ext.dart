@@ -64,7 +64,7 @@ extension SelectKeyExt on SelectKey {
       case SelectKey.CHO_TIEP_NHAN_XU_LY:
         return S.current.cho_tiep_nhan_xu_ly;
       case SelectKey.CHO_PHAN_CONG_XU_LY:
-        return S.current.cho_phan_cong_xu_ly;
+        return S.current.cho_phan_cong_xu_ly_home;
       case SelectKey.DA_XU_LY:
         return S.current.da_xu_ly;
       case SelectKey.LICH_CHO_XAC_NHAN:

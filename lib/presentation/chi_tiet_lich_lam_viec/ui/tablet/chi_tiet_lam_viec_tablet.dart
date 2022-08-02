@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/widget/thu_hoi_lich_lam_viec.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/cu_can_bo_di_thay_lich_lam_viec_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/cu_can_bo_lich_lam_viec_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/document_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/tablet/edit_work_calendar_tablet.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
@@ -29,6 +30,7 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
@@ -327,7 +329,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                 onTap: () {
                   showDiaLogTablet(
                     context,
-                    title: S.current.cu_can_bo_di_thay,
+                    title: S.current.cu_can_bo,
                     child: CuCanBoLichLamViecWidget(
                       themCanBoCubit: themCanBoCubit,
                       cubit: chiTietLichLamViecCubit,
@@ -619,7 +621,21 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                     ],
                                   ),
                                 ),
-                                Expanded(child: listScheduleCooperatives()),
+                                Expanded(child: Column(
+                                  children: [
+                                    listScheduleCooperatives(),
+                                    StreamBuilder<ChiTietLichLamViecModel>(
+                                      stream: chiTietLichLamViecCubit
+                                          .chiTietLichLamViecStream,
+                                      builder: (context, snapshot) {
+                                        final data = snapshot.data?.files ?? [];
+                                        return DocumentFile(
+                                          files: data,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                )),
                               ],
                             ),
                           ),
@@ -716,27 +732,42 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
   }
 
   Widget listScheduleCooperatives() {
-    return StreamBuilder<List<Officer>>(
-      stream: chiTietLichLamViecCubit.listOfficer.stream,
-      builder: (context, snapshot) {
-        final data = snapshot.data ?? [];
-        if(data.isEmpty) {
-          return const  NodataWidget(
-            height: 200,
-          );
-        }
-        return ListView.builder(
-          padding: const EdgeInsets.only(
-            left: 24,
+    return   ExpandOnlyWidget(
+      header: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Text(
+          S.current.thanh_phan_tham_gia,
+          style: textNormalCustom(
+            color: titleColumn,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
-          shrinkWrap: true,
-          itemCount: data.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (_, index) {
-            return itemScheduleCooperatives(data[index]);
-          },
-        );
-      },
+        ),
+      ),
+      child: StreamBuilder<List<Officer>>(
+        stream: chiTietLichLamViecCubit.listOfficer.stream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          if(data.isEmpty) {
+            return const  NodataWidget(
+              height: 150,
+            );
+          }
+          return ListView.builder(
+            padding: const EdgeInsets.only(
+              left: 24,
+            ),
+            shrinkWrap: true,
+            itemCount: data.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, index) {
+              return itemScheduleCooperatives(data[index]);
+            },
+          );
+        },
+      ),
     );
   }
 

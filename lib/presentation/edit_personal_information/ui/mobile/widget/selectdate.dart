@@ -20,6 +20,7 @@ class SelectDate extends StatefulWidget {
   final DateTime? initDateTime;
   final DateTime? minimumDate;
   final DateTime? maximumDate;
+  final Function(String selectDate)? callBackSelectDate;
 
   const SelectDate({
     Key? key,
@@ -33,6 +34,7 @@ class SelectDate extends StatefulWidget {
     this.isObligatory = false,
     this.minimumDate,
     this.maximumDate,
+    this.callBackSelectDate,
   }) : super(key: key);
 
   @override
@@ -84,6 +86,9 @@ class _CustomDropDownState extends State<SelectDate> {
                   title2: S.current.chon,
                   title1: S.current.dong,
                   onClickRight: () {
+                    if (widget.callBackSelectDate != null) {
+                      widget.callBackSelectDate!.call(dateSelect);
+                    }
                     setState(() {
                       widget.onSelectDate(dateSelect);
                     });

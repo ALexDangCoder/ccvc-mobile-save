@@ -656,7 +656,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         danhSachNguoiGan.addAll(res.listTodoDone);
         res.listTodoImportant = listSortImportant(res.listTodoImportant);
         res.listTodoDone = listSortImportant(res.listTodoDone);
-        await getListNameCanBo();
+        getListNameCanBo(danhSachNguoiGan);
         _getTodoList.sink.add(res);
       },
       error: (err) {},
@@ -789,14 +789,14 @@ class DanhSachCongViecCubit extends HomeCubit {
     _danhSachNguoiGan.sink.add(resultSearch);
   }
 
-  Future<void> getListNameCanBo() async {
-    for (final element in danhSachNguoiGan) {
-      String name = '';
-      await getName(element.performer ?? '').then((value) => name = value);
-      danhSachTenNguoiGan.add(name);
-      if (element.id != null) {
-        listTempName[element.id!] = name;
-      }
+  void getListNameCanBo(List<TodoModel> listDanhSachNguoiGan) {
+    for (final element in listDanhSachNguoiGan) {
+      getName(element.performer ?? '').then((name) {
+        danhSachTenNguoiGan.add(name);
+        if (element.id != null) {
+          listTempName[element.id!] = name;
+        }
+      });
     }
   }
 

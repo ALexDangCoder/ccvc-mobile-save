@@ -668,7 +668,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         id: donViModel.id,
         donViId: donViModel.donViId,
         canBoId: donViModel.canBoId,
-        taskContent: '',
+        taskContent: donViModel.noidung,
       ),
     );
     final listCanBo = listDataCanBo

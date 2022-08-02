@@ -202,7 +202,9 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                   final data =
                                   widget.cubit.selectNode[index];
                                   return ItemNguoiDungTablet(
-                                    name: data.value.name,
+                                    name: data.value.name != ''
+                                        ? data.value.name
+                                        : data.value.tenCanBo,
                                     hasFunction: true,
                                     delete: () {
                                       widget.cubit.addSelectNode(

@@ -915,7 +915,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.scheduleCoperatives?.indexWhere(
           (element) =>
               element.status == StatusOfficersConst.STATUS_THAM_GIA &&
-              element.canBoId == currentUserId,
+              (element.canBoId == currentUserId ||
+                  element.donViId == donViTrucThuocId),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -924,7 +925,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.scheduleCoperatives?.indexWhere(
           (element) =>
               element.status == StatusOfficersConst.STATUS_TU_CHOI &&
-              element.canBoId == currentUserId,
+              (element.canBoId == currentUserId ||
+                  element.donViId == donViTrucThuocId),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }

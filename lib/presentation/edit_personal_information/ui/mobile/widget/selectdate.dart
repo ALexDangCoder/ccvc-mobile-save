@@ -44,11 +44,13 @@ class SelectDate extends StatefulWidget {
 class _CustomDropDownState extends State<SelectDate> {
   String dateSelect = '';
   DateTime timeNow = DateTime.now();
+  String initDate = '';
 
   @override
   void initState() {
     if (!widget.isObligatory) {
       dateSelect = widget.value.toString();
+      initDate = dateSelect;
     }
     super.initState();
   }
@@ -74,7 +76,7 @@ class _CustomDropDownState extends State<SelectDate> {
                   },
                   textStyleDate: titleAppbar(),
                   initialDateTime:
-                      widget.initDateTime ?? DateTime.parse(dateSelect),
+                      widget.initDateTime ?? DateTime.parse(initDate),
                 ),
               ),
               Container(
@@ -90,6 +92,7 @@ class _CustomDropDownState extends State<SelectDate> {
                       widget.callBackSelectDate!.call(dateSelect);
                     }
                     setState(() {
+                      initDate = dateSelect;
                       widget.onSelectDate(dateSelect);
                     });
                     Navigator.pop(context);

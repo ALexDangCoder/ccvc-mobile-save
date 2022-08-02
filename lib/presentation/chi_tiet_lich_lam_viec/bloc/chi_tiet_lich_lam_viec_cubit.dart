@@ -935,7 +935,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   bool checkChoThuHoi(ChiTietLichLamViecModel dataModel) {
-    return checkThuHoi(dataModel) != StatusOfficersConst.STATUS_DEFAULT &&
+    return dataModel.status != EnumScheduleStatus.Cancel &&
         (canBoChuTri(dataModel) == currentUserId ||
             nguoiTaoId(dataModel) == currentUserId);
   }

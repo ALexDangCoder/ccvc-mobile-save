@@ -166,7 +166,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           break;
         }
       }
-      if (!checkAllTrue && node.parent?.value.id != '') {
+      if (!checkAllTrue && node.parent?.value.id != null) {
         node.isCheck.isCheck = false;
         addSelectNode(
           node,

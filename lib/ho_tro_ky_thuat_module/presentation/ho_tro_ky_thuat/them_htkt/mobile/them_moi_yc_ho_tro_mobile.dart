@@ -157,11 +157,13 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                             title: S.current.mo_ta_su_co,
                             hintText: S.current.mo_ta_su_co,
                             onChange: (value) {
-                              widget.cubit.addTaskHTKTRequest.description = value;
+                              widget.cubit.addTaskHTKTRequest.description =
+                                  value;
                             },
                             validate: (value) {
                               if ((value ?? '').isEmpty) {
-                                return S.current.ban_phai_nhap_truong_mo_ta_su_co;
+                                return S
+                                    .current.ban_phai_nhap_truong_mo_ta_su_co;
                               }
                             },
                           ),
@@ -201,6 +203,11 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                                 onChange: (selectIndexList) {
                                   widget.cubit
                                       .addIssueListRequest(selectIndexList);
+                                  if (selectIndexList.isNotEmpty) {
+                                    widget.cubit.showErrorLoaiSuCo.add(false);
+                                  } else {
+                                    widget.cubit.showErrorLoaiSuCo.add(true);
+                                  }
                                 },
                               );
                             },
@@ -214,7 +221,8 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8.0),
                                       child: Text(
-                                        S.current.ban_phai_nhap_truong_loai_su_co,
+                                        S.current
+                                            .ban_phai_nhap_truong_loai_su_co,
                                         style: textNormalCustom(
                                           color: redChart,
                                           fontWeight: FontWeight.w400,
@@ -230,7 +238,8 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                             isHaveExpanded: true,
                             idRemove: (String id) {},
                             onChange: (files, value) {
-                              widget.cubit.addTaskHTKTRequest.fileUpload = files;
+                              widget.cubit.addTaskHTKTRequest.fileUpload =
+                                  files;
                             },
                           ),
                           spaceH20,

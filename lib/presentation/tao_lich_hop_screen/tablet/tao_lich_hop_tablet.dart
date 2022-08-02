@@ -30,7 +30,9 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TaoLichHopMobileTabletScreen extends StatefulWidget {
   const TaoLichHopMobileTabletScreen({Key? key}) : super(key: key);
@@ -267,6 +269,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             TextFieldStyle(
                               urlIcon: ImageAssets.icCuocGoi,
                               hintText: S.current.so_dien_thoai,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              textInputType: TextInputType.phone,
                               validate: (value) {
                                 if (value.isEmpty) {
                                   return null;

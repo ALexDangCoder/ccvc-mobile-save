@@ -95,6 +95,7 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
       initialValue: initValue,
       maxLength: widget.maxLength,
       maxLine: widget.maxLines,
+      textInputType: textInputType,
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         hintText: widget.hintText,

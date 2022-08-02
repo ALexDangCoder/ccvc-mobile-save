@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 class DataViewTypeList extends StatefulWidget {
@@ -48,29 +49,27 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           if (data.isNotEmpty) {
-            for (final element in data){
+            for (final element in data) {
               final startBeforeSelected =
                   element.dateTimeFrom?.checkBeforeAfterDate(
-                    compareDate: widget.cubit.startDate,
-                  ) ??
+                        compareDate: widget.cubit.startDate,
+                      ) ??
                       false;
-              final endAfterSelected =
-                  element.dateTimeTo?.checkBeforeAfterDate(
+              final endAfterSelected = element.dateTimeTo?.checkBeforeAfterDate(
                     compareDate: widget.cubit.endDate,
                     checkBefore: false,
                   ) ??
-                      false;
+                  false;
               if (startBeforeSelected) {
                 element.dateTimeFrom =
                     widget.cubit.startDate.tryDateTimeFormatter(
-                      pattern: DateTimeFormat.DATE_TIME_BE_API_START,
-                    );
+                  pattern: DateTimeFormat.DATE_TIME_BE_API_START,
+                );
               }
               if (endAfterSelected) {
-                element.dateTimeTo =
-                    widget.cubit.endDate.tryDateTimeFormatter(
-                      pattern: DateTimeFormat.DATE_TIME_BE_API_END,
-                    );
+                element.dateTimeTo = widget.cubit.endDate.tryDateTimeFormatter(
+                  pattern: DateTimeFormat.DATE_TIME_BE_API_END,
+                );
               }
             }
             return GroupedListView<ListLichLVModel, DateTime>(
@@ -232,7 +231,10 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: itemAvatar(''),
+                          child: rowData(
+                            icon: ImageAssets.icViTri,
+                            value: item.location ?? '',
+                          ),
                         ),
                       ),
                     ],
@@ -246,24 +248,31 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
     );
   }
 
-  Widget itemAvatar(String url) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.only(right: 4.0),
-      height: 24.0,
-      width: 24.0,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        shape: BoxShape.circle,
-      ),
-      child: Image.network(
-        '',
-        errorBuilder: (_, __, ___) =>
-            Image.asset(ImageAssets.anhDaiDienMacDinh),
-        fit: BoxFit.cover,
-      ),
+  Widget rowData({required String icon, dynamic value}) {
+    return Row(
+      children: [
+        SizedBox(
+          height: 15,
+          width: 15.0,
+          child: SvgPicture.asset(icon),
+        ),
+        spaceW12,
+        SizedBox(
+          child: Text(
+            value,
+            style: textNormalCustom(
+              color: textTitle,
+              fontWeight: FontWeight.w400,
+              fontSize: 16.0,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
+
 
   Widget liveOrOnLive({required bool isLive}) {
     return Container(

@@ -248,7 +248,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                   },
                   initDateTime: initEnDate,
                   minimumDate:
-                      DateFormat(DateFormatApp.date).parse(selectEndDate),
+                      DateFormat(DateFormatApp.date).parse(selectStartDate),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateFormat(DateFormatApp.date)

@@ -294,6 +294,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
           builder: (context, snapshot) {
             final _issueList = snapshot.data ?? [];
             return MultiSelectList(
+              isInit: widget.cubit.isLoadDidUpdateWidget,
               initSelectedItems: widget.cubit.issuesEditHTKT
                   .map((e) => e.tenSuCo ?? '')
                   .toList(),

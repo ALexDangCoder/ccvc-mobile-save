@@ -31,6 +31,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
 
   Future<void> loadApiEditYCHT({required String id}) async {
     showLoading();
+    isLoadDidUpdateWidget = true;
     editModelHTKT.add(SupportDetail());
 
     ///get data building, district
@@ -43,7 +44,6 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
     sinkIssue();
-
     ///get data detail htkt
     await getChiTietHTKTEdit(id: id);
     findNameAreaFeatBuilding(

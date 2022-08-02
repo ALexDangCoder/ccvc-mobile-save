@@ -22,6 +22,7 @@ class MultiSelectList extends StatefulWidget {
   final bool isRequire;
   final List<String> items;
   final List<String>? initSelectedItems;
+  final bool isInit;
 
   const MultiSelectList({
     Key? key,
@@ -32,6 +33,7 @@ class MultiSelectList extends StatefulWidget {
     required this.items,
     this.listTitle,
     this.initSelectedItems,
+    required this.isInit,
   }) : super(key: key);
 
   @override
@@ -52,7 +54,9 @@ class _MultiSelectListState extends State<MultiSelectList> {
   @override
   void didUpdateWidget(covariant MultiSelectList oldWidget) {
     logic.allValue = widget.items;
-    logic.checkInit(widget.initSelectedItems);
+    if(widget.isInit) {
+      logic.checkInit(widget.initSelectedItems);
+    }
     super.didUpdateWidget(oldWidget);
   }
 

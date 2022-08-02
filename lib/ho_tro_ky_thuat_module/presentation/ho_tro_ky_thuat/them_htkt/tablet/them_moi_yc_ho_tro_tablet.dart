@@ -227,7 +227,7 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                         widget.cubit.addIssueListRequest(
                                           selectIndexList,
                                         );
-                                      },
+                                      }, isInit: false,
                                     );
                                   },
                                 ),

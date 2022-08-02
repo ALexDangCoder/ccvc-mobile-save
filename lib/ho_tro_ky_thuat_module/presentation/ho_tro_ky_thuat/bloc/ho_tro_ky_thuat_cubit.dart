@@ -46,6 +46,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   static const String rightPath = 'attachments/upload/';
   late bool isManager;
   late bool isSupporter;
+  bool isLoadDidUpdateWidget = false;
 
   //color
   List<Color> colorChart = [

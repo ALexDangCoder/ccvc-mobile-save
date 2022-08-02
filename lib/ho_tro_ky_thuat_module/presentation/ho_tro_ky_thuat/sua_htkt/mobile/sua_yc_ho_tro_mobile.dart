@@ -45,6 +45,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
     widget.cubit.init();
     widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
     super.initState();
+    widget.cubit.isLoadDidUpdateWidget = false;
   }
 
   @override
@@ -269,6 +270,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
           builder: (context, snapshot) {
             final _issueList = snapshot.data ?? [];
             return MultiSelectList(
+              isInit: widget.cubit.isLoadDidUpdateWidget,
               initSelectedItems: widget.cubit.issuesEditHTKT
                   .map((e) => e.tenSuCo ?? '')
                   .toList(),
@@ -456,9 +458,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                 );
               }
             });
-          } else {
-
-          }
+          } else {}
         },
         title1: S.current.dong,
         title2: S.current.gui_yc,

@@ -34,11 +34,12 @@ class SelectDateTablet extends StatefulWidget {
 
 class _CustomDropDownState extends State<SelectDateTablet> {
   String dateSelect = '';
-
+  String initDate = '';
   @override
   void initState() {
     if (!widget.isObligatory) {
       dateSelect = widget.value.toString();
+      initDate = dateSelect;
     }
     super.initState();
   }
@@ -62,7 +63,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
                       widget.onSelectDate(dateSelect);
                     },
                     textStyleDate: titleAppbar(),
-                    initialDateTime: DateTime.parse(dateSelect),
+                    initialDateTime: DateTime.parse(initDate),
                   ),
                 ),
               ],
@@ -73,11 +74,13 @@ class _CustomDropDownState extends State<SelectDateTablet> {
           btnRightTxt: S.current.chon,
           funcBtnOk: () {
             setState(() {
+              initDate = dateSelect;
               widget.onSelectDate(dateSelect);
             });
             // Navigator.pop(context);
           },
-          setHeight: 400, funcBtnPop: () {},
+          setHeight: 400,
+          funcBtnPop: () {},
         );
       },
       child: Row(

@@ -87,6 +87,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
           onClickRight: () {
             validateForm(timeController.text);
             if (errorText.isEmpty && phienHopErrorText.isEmpty) {
+              taoBieuQuyetRequest.content?.trim();
               widget.cubit.taoPhatBieu(taoBieuQuyetRequest);
               Navigator.pop(context);
             }

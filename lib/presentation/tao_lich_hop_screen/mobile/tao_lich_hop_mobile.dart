@@ -273,7 +273,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          textInputType: TextInputType.number,
+                          textInputType: TextInputType.phone,
                           validate: (value) {
                             if (value.isEmpty) {
                               return null;

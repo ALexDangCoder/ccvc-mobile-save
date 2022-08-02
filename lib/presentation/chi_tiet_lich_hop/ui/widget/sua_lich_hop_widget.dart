@@ -27,6 +27,7 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SuaLichHopWidget extends StatefulWidget {
   final ChiTietLichHopModel chiTietHop;
@@ -54,6 +55,8 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
     _cubitTaoLichHop.taoLichHopRequest =
         taoHopFormChiTietHopModel(widget.chiTietHop);
     _cubitTaoLichHop.taoLichHopRequest.isMulti = widget.isMulti;
+    _cubitTaoLichHop.isHopTrucTiep =
+        !(_cubitTaoLichHop.taoLichHopRequest.bitHopTrucTuyen ?? false);
   }
 
   @override
@@ -297,6 +300,10 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         initValue: widget.chiTietHop.chuTriModel.soDienThoai,
                         urlIcon: ImageAssets.icCuocGoi,
                         hintText: S.current.so_dien_thoai,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        textInputType: TextInputType.phone,
                         validate: (value) {
                           if (value.isEmpty) {
                             return null;

@@ -100,111 +100,113 @@ class _DiemDanhCaNhanTabletScreenState
           },
           child: ProviderWidget<DiemDanhCubit>(
             cubit: widget.cubit,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 30.0, right: 30.0, top: 28.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: colorE2E8F0),
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: colorFFFFFF,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.05),
-                                blurRadius: 5,
-                                spreadRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: ExpandOnlyWidget(
-                            paddingSize: 8,
-                            isPaddingIcon: true,
-                            initExpand: false,
-                            header: Container(
-                              color: Colors.transparent,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 20,
-                                  horizontal: 16.0,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30.0, right: 30.0, top: 28.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: colorE2E8F0),
+                              borderRadius: BorderRadius.circular(6.0),
+                              color: colorFFFFFF,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.05),
+                                  blurRadius: 5,
+                                  spreadRadius: 2,
                                 ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      S.current.thong_ke,
-                                      style: textNormalCustom(
-                                        color: color3D5586,
-                                        fontSize: 14,
+                              ],
+                            ),
+                            child: ExpandOnlyWidget(
+                              paddingSize: 8,
+                              isPaddingIcon: true,
+                              initExpand: false,
+                              header: Container(
+                                color: Colors.transparent,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20,
+                                    horizontal: 16.0,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        S.current.thong_ke,
+                                        style: textNormalCustom(
+                                          color: color3D5586,
+                                          fontSize: 14,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+                              ),
+                              child: StreamBuilder<ThongKeDiemDanhCaNhanModel>(
+                                stream: widget.cubit.thongKeSubject,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data;
+                                  return WidgetItemThongKe(
+                                    thongKeDiemDanhCaNhanModel:
+                                        data ?? ThongKeDiemDanhCaNhanModel(),
+                                  );
+                                },
                               ),
                             ),
-                            child: StreamBuilder<ThongKeDiemDanhCaNhanModel>(
-                              stream: widget.cubit.thongKeSubject,
+                          ),
+                        ),
+                        spaceW15,
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: colorE2E8F0),
+                              borderRadius: BorderRadius.circular(6.0),
+                              color: colorFFFFFF,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.05),
+                                  blurRadius: 5,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: StreamBuilder<DateTime>(
+                              stream: widget.cubit.currentMonthStream,
                               builder: (context, snapshot) {
-                                final data = snapshot.data;
-                                return WidgetItemThongKe(
-                                  thongKeDiemDanhCaNhanModel:
-                                      data ?? ThongKeDiemDanhCaNhanModel(),
+                                final currentMonth = snapshot.data;
+                                return ChangeDateTimeWidget(
+                                  onChange: (DateTime value) {
+                                    widget.cubit.getDataDayWage(dateTime: value);
+                                    widget.cubit.currentMonthSink.add(value);
+                                    _controller.displayDate =
+                                        DateTime(value.year, value.month);
+                                    _tmpMonth = value;
+                                  },
+                                  currentMonth: currentMonth,
+                                  cubit: widget.cubit,
+                                  endYear: widget.cubit.endYear,
+                                  startYear: widget.cubit.startYear,
                                 );
                               },
                             ),
                           ),
                         ),
-                      ),
-                      spaceW15,
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: colorE2E8F0),
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: colorFFFFFF,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.05),
-                                blurRadius: 5,
-                                spreadRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: StreamBuilder<DateTime>(
-                            stream: widget.cubit.currentMonthStream,
-                            builder: (context, snapshot) {
-                              final currentMonth = snapshot.data;
-                              return ChangeDateTimeWidget(
-                                onChange: (DateTime value) {
-                                  widget.cubit.getDataDayWage(dateTime: value);
-                                  widget.cubit.currentMonthSink.add(value);
-                                  _controller.displayDate =
-                                      DateTime(value.year, value.month);
-                                  _tmpMonth = value;
-                                },
-                                currentMonth: currentMonth,
-                                cubit: widget.cubit,
-                                endYear: widget.cubit.endYear,
-                                startYear: widget.cubit.startYear,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                spaceH16,
-                CalendarChamCong(
-                  cubit: widget.cubit,
-                  controller: _controller,
-                ),
-              ],
+                  spaceH16,
+                  CalendarChamCong(
+                    cubit: widget.cubit,
+                    controller: _controller,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

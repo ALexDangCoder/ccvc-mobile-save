@@ -10,7 +10,10 @@ Future<bool> getHttp() async {
     final http.Response response = await http
         .get(Uri.parse(ApiConstants.DOMAIN_GOOGLE))
         .timeout(const Duration(seconds: 5));
-    if (response.statusCode == StatusCodeConst.STATUS_OK) {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (response.statusCode == StatusCodeConst.STATUS_OK &&
+        (connectivityResult == ConnectivityResult.mobile ||
+            connectivityResult == ConnectivityResult.wifi)) {
       return true;
     } else {
       return false;
@@ -24,15 +27,10 @@ Future<bool> getHttp() async {
 
 class CheckerNetwork {
   static Future<bool> checkNetwork() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
-      if (await getHttp()) {
-        return true;
-      } else {
-        return false;
-      }
+    if (await getHttp()) {
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
 }

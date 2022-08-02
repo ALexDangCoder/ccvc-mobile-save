@@ -57,6 +57,8 @@ class _CuCanBoLichLamViecWidgetState
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
     widget.themDonViCubit.listDonVi.clear();
     widget.themCanBoCubit.getCanbo.add([]);
+    widget.cubitThanhPhanTG.listCanBoDuocChon=[];
+    widget.cubitThanhPhanTG.listCanBo=[];
   }
 
   @override
@@ -215,6 +217,9 @@ class _CuCanBoLichLamViecWidgetState
                           padding:
                           EdgeInsets.only(top: 20.0.textScale(space: -2)),
                           child: itemListCanBo(
+                            isXoa: data[index].canBoId.isEmpty &&
+                                data[index].donViId ==
+                                    widget.cubit.donViTrucThuocId,
                             noiDungCV: data[index].noidung,
                             cubit: widget.cubitThanhPhanTG,
                             donVi: data[index],
@@ -246,6 +251,7 @@ class _CuCanBoLichLamViecWidgetState
   }
 
   Widget itemListCanBo({
+    bool? isXoa = false,
     required DonViModel donVi,
     required ThanhPhanThamGiaCubit cubit,
     required String noiDungCV,
@@ -283,6 +289,7 @@ class _CuCanBoLichLamViecWidgetState
               ),
             ],
           ),
+          if (isXoa == false)
           Positioned(
             top: 0,
             right: 0,
@@ -297,6 +304,8 @@ class _CuCanBoLichLamViecWidgetState
               ],
             ),
           )
+          else
+            const SizedBox(),
         ],
       ),
     );

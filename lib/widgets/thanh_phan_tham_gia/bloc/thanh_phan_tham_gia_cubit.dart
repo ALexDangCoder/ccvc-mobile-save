@@ -28,7 +28,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   final BehaviorSubject<bool> isDuplicateCanBo = BehaviorSubject.seeded(false);
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
-  final List<DonViModel> listCanBo = [];
+   List<DonViModel> listCanBo = [];
   final BehaviorSubject<bool> _phuongThucNhan = BehaviorSubject.seeded(false);
 
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;

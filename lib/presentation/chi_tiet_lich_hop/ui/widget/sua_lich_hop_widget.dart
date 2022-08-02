@@ -54,6 +54,8 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
     _cubitTaoLichHop.taoLichHopRequest =
         taoHopFormChiTietHopModel(widget.chiTietHop);
     _cubitTaoLichHop.taoLichHopRequest.isMulti = widget.isMulti;
+    _cubitTaoLichHop.isHopTrucTiep =
+        !(_cubitTaoLichHop.taoLichHopRequest.bitHopTrucTuyen ?? false);
   }
 
   @override

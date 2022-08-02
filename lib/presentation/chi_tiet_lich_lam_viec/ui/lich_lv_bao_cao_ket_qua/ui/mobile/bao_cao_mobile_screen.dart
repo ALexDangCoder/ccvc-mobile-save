@@ -83,7 +83,7 @@ class _BaoCaoScreenState extends State<BaoCaoScreen> {
           );
         } else {
           return const NodataWidget(
-            height: 100,
+            height: 150,
           );
         }
       },

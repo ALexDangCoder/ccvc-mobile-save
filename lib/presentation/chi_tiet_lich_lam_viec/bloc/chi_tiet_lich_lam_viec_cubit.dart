@@ -967,7 +967,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             )
             .isNotEmpty ??
         false;
-    return isCreateUser || isCongKhai || isThamGia || isChuTri;
+    final isDonViThamGia = dataModel.scheduleCoperatives
+            ?.where((element) => (element.donViId ?? '') == donViTrucThuocId)
+            .isNotEmpty ??
+        false;
+    return isCreateUser || isCongKhai || isThamGia || isChuTri||isDonViThamGia;
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {

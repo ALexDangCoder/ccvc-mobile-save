@@ -70,7 +70,14 @@ class AvatarAndSignature extends StatelessWidget {
     FToast toast,
   ) async {
     final _path = await cubit.pickAvatar();
-    if (_path.path.isNotEmpty) {
+    if (_path.path.isEmpty) {
+      toast.showToast(
+        child: ShowToast(
+          text: S.current.file_khong_hop_le,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+    } else {
       if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
         toast.showToast(
           child: ShowToast(
@@ -82,7 +89,7 @@ class AvatarAndSignature extends StatelessWidget {
         cubit.avatarPathSubject.sink.add(_path);
         await cubit.uploadFile(_path.path);
       }
-    } else {}
+    }
   }
 
   Future<void> upLoadChuKy(
@@ -91,7 +98,14 @@ class AvatarAndSignature extends StatelessWidget {
     FToast toast,
   ) async {
     final _path = await cubit.pickAvatar();
-    if (_path.path.isNotEmpty) {
+    if (_path.path.isEmpty) {
+      toast.showToast(
+        child: ShowToast(
+          text: S.current.file_khong_hop_le,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+    } else {
       if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
         toast.showToast(
           child: ShowToast(
@@ -103,7 +117,7 @@ class AvatarAndSignature extends StatelessWidget {
         cubit.chuKyPathSubject.sink.add(_path);
         await cubit.uploadFileChuKi(_path.path);
       }
-    } else {}
+    }
   }
 
   Future<void> upLoadKyNhay(
@@ -112,7 +126,14 @@ class AvatarAndSignature extends StatelessWidget {
     FToast toast,
   ) async {
     final _path = await cubit.pickAvatar();
-    if (_path.path.isNotEmpty) {
+    if (_path.path.isEmpty) {
+      toast.showToast(
+        child: ShowToast(
+          text: S.current.file_khong_hop_le,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+    } else {
       if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
         toast.showToast(
           child: ShowToast(
@@ -124,7 +145,7 @@ class AvatarAndSignature extends StatelessWidget {
         cubit.kyNhayPathSubject.sink.add(_path);
         await cubit.uploadFileKiNhay(_path.path);
       }
-    } else {}
+    }
   }
 
   Widget pickAnhDaiDien(

@@ -11,6 +11,7 @@ class ViewDayCalendarWidget extends StatefulWidget {
   final String timeIn;
   final String timeOut;
   final double dayWage;
+  final bool isShowDateAndDayWage;
 
   const ViewDayCalendarWidget({
     Key? key,
@@ -18,6 +19,7 @@ class ViewDayCalendarWidget extends StatefulWidget {
     required this.dayWage,
     required this.timeIn,
     required this.timeOut,
+    required this.isShowDateAndDayWage,
   }) : super(key: key);
 
   @override
@@ -75,65 +77,80 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        if (widget.dayWage == 0.0)
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: widget.state
-                .map(
-                  (dataState) => SvgPicture.asset(
-                    dataState.getIcon,
-                    height: 12,
-                    width: 12,
-                  ),
+    return widget.isShowDateAndDayWage
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (widget.dayWage == 0.0)
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: widget.state
+                      .map(
+                        (dataState) => SvgPicture.asset(
+                          dataState.getIcon,
+                          height: 12,
+                          width: 12,
+                        ),
+                      )
+                      .toList(),
                 )
-                .toList(),
+              else
+                dayWageWidget(),
+              spaceH12,
+              GestureDetector(
+                onTap: () {
+                  isShowDate = !isShowDate;
+                  setState(() {});
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: widget.timeIn.isEmpty || widget.timeOut.isEmpty
+                        ? colorEA5455
+                        : color20C997,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  child: isShowDate
+                      ? Text(
+                          getStringDate,
+                          style: textNormalCustom(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 9,
+                          ),
+                        )
+                      : Text(
+                          getStringDate,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textNormalCustom(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 9,
+                          ),
+                        ),
+                ),
+              ),
+              spaceH4,
+            ],
           )
-        else
-          dayWageWidget(),
-        spaceH12,
-        GestureDetector(
-          onTap: () {
-            isShowDate = !isShowDate;
-            setState(() {});
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 4,
-              horizontal: 5,
-            ),
-            decoration: BoxDecoration(
-              color: widget.timeIn.isEmpty || widget.timeOut.isEmpty
-                  ? colorEA5455
-                  : color20C997,
-              borderRadius: BorderRadius.circular(2),
-            ),
-            child: isShowDate
-                ? Text(
-                    getStringDate,
-                    style: textNormalCustom(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 9,
+        : Center(
+          child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: widget.state
+                  .map(
+                    (dataState) => SvgPicture.asset(
+                      dataState.getIcon,
+                      height: 12,
+                      width: 12,
                     ),
                   )
-                : Text(
-                    getStringDate,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textNormalCustom(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 9,
-                    ),
-                  ),
-          ),
-        ),
-        spaceH4,
-      ],
-    );
+                  .toList(),
+            ),
+        );
   }
 
   Widget dayWageWidget() {

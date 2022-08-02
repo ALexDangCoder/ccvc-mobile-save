@@ -356,6 +356,7 @@ class DateFormatApp {
   static String dateBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SSS";
   static String dateTimeBackEnd = "yyyy-MM-dd'T'HH:mm:ss";
   static String dateSecondBackEnd = "yyyy-MM-dd'T'HH:mm:ss.SS";
+  static String dateSelectCalendar = 'yyyy-MM-dd HH:mm:ss.SS';
   static String timeFormat = 'Hm';
   static String monthDayFormat = 'MM/dd/yyyy HH:mm';
   static String pickDateFormat = 'dd/MM/yyyy HH:mm';

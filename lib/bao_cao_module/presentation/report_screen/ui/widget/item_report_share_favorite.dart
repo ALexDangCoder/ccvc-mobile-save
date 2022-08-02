@@ -62,6 +62,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [

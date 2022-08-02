@@ -81,6 +81,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
       ),
       body: GestureDetector(
         onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           widget.cubit.isShowFilterList.add(false);
         },
         child: StateStreamLayout(

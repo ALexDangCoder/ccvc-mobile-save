@@ -67,7 +67,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
               onClickRight: () {
                 showDiaLog(
                   context,
-                  icon:SvgPicture.asset(ImageAssets.icXacNhanThuHoi) ,
+                  icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
                   textContent: S.current.thu_hoi_chi_tiet_lich_hop,
                   btnLeftTxt: S.current.khong,
                   funcBtnRight: () {
@@ -120,7 +120,7 @@ class _SelectThuHoiWidgetState extends State<SelectThuHoiWidget> {
   }
 }
 
-class SelectTHuHoiCell extends StatelessWidget {
+class SelectTHuHoiCell extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
   final TextEditingController controller;
 
@@ -129,6 +129,13 @@ class SelectTHuHoiCell extends StatelessWidget {
     required this.controller,
     required this.cubit,
   }) : super(key: key);
+
+  @override
+  State<SelectTHuHoiCell> createState() => _SelectTHuHoiCellState();
+}
+
+class _SelectTHuHoiCellState extends State<SelectTHuHoiCell> {
+  GlobalKey<_DropDownSearchThuHoiState> keyDropDown = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +161,7 @@ class SelectTHuHoiCell extends StatelessWidget {
         color: Colors.white,
       ),
       child: StreamBuilder<List<NguoiChutriModel>>(
-        stream: cubit.listThuHoi,
+        stream: widget.cubit.listThuHoi,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           final dataSN = data
@@ -164,25 +171,32 @@ class SelectTHuHoiCell extends StatelessWidget {
             alignment: AlignmentDirectional.centerStart,
             children: [
               DropDownSearchThuHoi(
+                key: keyDropDown,
                 hintText: S.current.chon_can_bo_hoac_don_vi_de_thu_hoi,
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
                 onChange: (vl) {
-                  if (cubit.dataThuKyOrThuHoiDeFault[vl].trangThai ==
+                  if (widget.cubit.dataThuKyOrThuHoiDeFault[vl].trangThai ==
                       CoperativeStatus.Revoked) {
-                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
+                    widget.cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
                         CoperativeStatus.Accepted;
                   } else {
-                    cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
+                    widget.cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
                         CoperativeStatus.Revoked;
                   }
-                  cubit.listThuHoi.sink.add(cubit.dataThuKyOrThuHoiDeFault);
+                  widget.cubit.listThuHoi.sink.add(widget.cubit.dataThuKyOrThuHoiDeFault);
                 },
               ),
               wrapThis(
                 listData: dataSN,
-                cubit: cubit,
+                cubit: widget.cubit,
                 isPhanCongThuKy: false,
+                onRemove: () {
+                  keyDropDown.currentState?.isSelect = false;
+                  setState(() {
+
+                  });
+                }
               )
             ],
           );
@@ -215,6 +229,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
   BehaviorSubject<List<NguoiChutriModel>> searchItemSubject = BehaviorSubject();
   List<NguoiChutriModel> searchList = [];
   NguoiChutriModel select = NguoiChutriModel();
+  bool isSelect = false;
 
   @override
   Widget build(BuildContext context) {
@@ -227,19 +242,19 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             width: double.infinity,
-            child: select.hoTen == ''
+            child: isSelect
                 ? Text(
-                    widget.hintText,
-                    style: textNormal(
-                      titleItemEdit,
-                      14.0.textScale(),
-                    ),
-                  )
-                : Text(
                     '',
                     style: tokenDetailAmount(
                       fontSize: 14.0.textScale(),
                       color: color3D5586,
+                    ),
+                  )
+                : Text(
+                    widget.hintText,
+                    style: textNormal(
+                      titleItemEdit,
+                      14.0.textScale(),
                     ),
                   ),
           ),
@@ -370,6 +385,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
+                              isSelect = true;
                               select = itemTitle;
                             });
                             widget.onChange(selectIndex());

@@ -35,6 +35,10 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
     await widget.cubit.getListReport(
       idFolder: widget.reportModel.id ?? '',
       isTree: true,
+      isShare: (widget.reportModel.shareToMe == null &&
+              widget.reportModel.shareByMe == null)
+          ? true
+          : (widget.reportModel.shareToMe ?? false),
     );
   }
 

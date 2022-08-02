@@ -56,6 +56,8 @@ class _CuCanBoDiThayLichLamViecWidgetState
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
     widget.themDonViCubit.listDonVi.clear();
     widget.themCanBoCubit.getCanbo.add([]);
+    widget.cubitThanhPhanTG.listCanBoDuocChon=[];
+    widget.cubitThanhPhanTG.listCanBo=[];
   }
 
   @override

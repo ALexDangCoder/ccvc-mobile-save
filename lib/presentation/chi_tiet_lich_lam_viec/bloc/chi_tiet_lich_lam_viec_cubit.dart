@@ -915,7 +915,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.scheduleCoperatives?.indexWhere(
           (element) =>
               element.status == StatusOfficersConst.STATUS_THAM_GIA &&
-              element.canBoId == currentUserId,
+              (element.canBoId == currentUserId ||
+                  element.donViId == donViTrucThuocId),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -924,7 +925,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.scheduleCoperatives?.indexWhere(
           (element) =>
               element.status == StatusOfficersConst.STATUS_TU_CHOI &&
-              element.canBoId == currentUserId,
+              (element.canBoId == currentUserId ||
+                  element.donViId == donViTrucThuocId),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -935,7 +937,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   bool checkChoThuHoi(ChiTietLichLamViecModel dataModel) {
-    return checkThuHoi(dataModel) != StatusOfficersConst.STATUS_DEFAULT &&
+    return dataModel.status != EnumScheduleStatus.Cancel &&
         (canBoChuTri(dataModel) == currentUserId ||
             nguoiTaoId(dataModel) == currentUserId);
   }
@@ -971,7 +973,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             ?.where((element) => (element.donViId ?? '') == donViTrucThuocId)
             .isNotEmpty ??
         false;
-    return isCreateUser || isCongKhai || isThamGia || isChuTri||isDonViThamGia;
+    return isCreateUser ||
+        isCongKhai ||
+        isThamGia ||
+        isChuTri ||
+        isDonViThamGia;
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) {

@@ -442,7 +442,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       nodeSearch.isTickChildren.isTick = false;
     }
     final data = nodeSearch.setSelected(nodeSearch.isCheck.isCheck);
-    if (nodeSearch.parent?.value.id != '') {
+    if (nodeSearch.parent?.value.id != null) {
       checkUser(
         nodeSearch.parent!,
       );

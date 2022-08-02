@@ -20,7 +20,6 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class TabYKienXuLy extends StatefulWidget {
   const TabYKienXuLy({
@@ -238,13 +237,10 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                       final dataSnb = file[index];
                       return GestureDetector(
                         onTap: () async {
-                          final status = await Permission.storage.status;
-                          if (status.isGranted) {
-                            await saveFile(
-                              fileName: dataSnb.ten.toString(),
-                              url: dataSnb.duongDan.toString(),
-                            );
-                          }
+                          await saveFile(
+                            fileName: dataSnb.ten.toString(),
+                            url: dataSnb.duongDan.toString(),
+                          );
                         },
                         child: Text(
                           dataSnb.ten ?? '',

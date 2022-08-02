@@ -239,14 +239,12 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                       return GestureDetector(
                         onTap: () async {
                           final status = await Permission.storage.status;
-                          if (!status.isGranted) {
-                            await Permission.storage.request();
-                            await Permission.manageExternalStorage.request();
+                          if (status.isGranted) {
+                            await saveFile(
+                              fileName: dataSnb.ten.toString(),
+                              url: dataSnb.duongDan.toString(),
+                            );
                           }
-                          await saveFile(
-                            fileName: dataSnb.ten.toString(),
-                            url: dataSnb.duongDan.toString(),
-                          );
                         },
                         child: Text(
                           dataSnb.ten ?? '',

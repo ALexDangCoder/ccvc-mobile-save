@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -93,7 +94,7 @@ class _ChonNhomDialogState extends State<ChonNhomDialog> {
           title,
           style: textNormalCustom(
             color: color3D5586,
-            fontSize: 14.sp,
+            fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w400,
           ),
         ),

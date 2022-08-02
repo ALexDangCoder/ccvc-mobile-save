@@ -971,13 +971,15 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             ?.where((element) => (element.donViId ?? '') == donViTrucThuocId)
             .isNotEmpty ??
         false;
-    return isCreateUser || isCongKhai || isThamGia || isChuTri||isDonViThamGia;
+    return isCreateUser ||
+        isCongKhai ||
+        isThamGia ||
+        isChuTri ||
+        isDonViThamGia;
   }
 
-  bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
-    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) &&
-        checkChoSuaLich(dataModel); //=
-  }
+  bool checkChoxoa(ChiTietLichLamViecModel dataModel) =>
+      checkChoSuaLich(dataModel);
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
     return checkHuyXacNhan(dataModel) >=

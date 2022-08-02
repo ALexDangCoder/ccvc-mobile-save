@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class PieChart extends StatelessWidget {
   final List<ChartData> chartData;
   final String title;
+  final Color colorTitle;
   final double paddingTop;
   final Function(int)? onTap;
   final Function(int)? onTapPAKN;
@@ -24,6 +25,7 @@ class PieChart extends StatelessWidget {
     this.title = '',
     this.paddingTop = 20,
     this.onTap,
+    this.colorTitle = infoColor,
     this.onTapPAKN,
     this.isSubjectInfo = true,
     this.paddingLeftSubTitle = 0,
@@ -49,7 +51,7 @@ class PieChart extends StatelessWidget {
                   title,
                   style: tittleStyle ??
                       textNormalCustom(
-                        color: infoColor,
+                        color: colorTitle,
                         fontSize: 16,
                       ),
                 ),

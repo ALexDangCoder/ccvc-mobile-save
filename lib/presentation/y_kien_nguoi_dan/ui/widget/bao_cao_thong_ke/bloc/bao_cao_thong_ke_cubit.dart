@@ -304,6 +304,13 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
         _listChartDashBoard.sink.add(listDataChart);
         _statusChartData.sink.add(listStatusDataChart);
+        _dashBoardBaoCaoYKND.add(
+          DashBroadItemYKNDModel(
+            trongHan: dashBroadItemYKNDModel.trongHan,
+            denHan: dashBroadItemYKNDModel.denHan,
+            quaHan: dashBroadItemYKNDModel.quaHan,
+          ),
+        );
       },
       error: (err) {
         return;

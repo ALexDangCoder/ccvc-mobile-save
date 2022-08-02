@@ -30,6 +30,8 @@ class SelectFileBtn extends StatefulWidget {
     this.textButton,
     this.iconButton,
     this.overSizeTextMessage,
+    this.isShowFile = true,
+    this.needClearAfterPick = false,
   }) : super(key: key);
 
   final bool hasMultiFile;
@@ -43,6 +45,8 @@ class SelectFileBtn extends StatefulWidget {
   final String? errMultipleFileMessage;
   final String? iconButton;
   final String? overSizeTextMessage;
+  final bool isShowFile;
+  final bool needClearAfterPick;
 
   @override
   State<SelectFileBtn> createState() => _SelectFileBtnState();
@@ -116,6 +120,11 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     cubit.selectedFiles.addAll(newFiles);
     cubit.needRebuildListFile.sink.add(true);
     widget.onChange(cubit.selectedFiles);
+    if(widget.needClearAfterPick){
+      await Future.delayed(const Duration(milliseconds: 1000), (){
+        cubit.selectedFiles.clear();
+      });
+    }
   }
 
   @override
@@ -161,48 +170,50 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
             ),
           ),
         ),
-        StreamBuilder<List<FileModel>>(
-          stream: cubit.fileFromApiSubject.stream,
-          builder: (context, snapshot) {
-            final listFile = snapshot.data ?? [];
-            return Column(
-              children: listFile
-                  .map(
-                    (file) => itemListFile(
-                      onDelete: () {
-                        cubit.fileFromApiSubject.value.remove(file);
-                        cubit.fileFromApiSubject.sink
-                            .add(cubit.fileFromApiSubject.value);
-                        widget.onDeletedFileApi?.call(file);
-                      },
-                      fileTxt: file.name ?? '',
-                      lengthFile: file.fileLength?.toInt().getFileSize(2),
-                    ),
-                  )
-                  .toList(),
-            );
-          },
-        ),
-        StreamBuilder(
-          stream: cubit.needRebuildListFile.stream,
-          builder: (context, snapshot) {
-            return Column(
-              children: cubit.selectedFiles
-                  .map(
-                    (file) => itemListFile(
-                      onDelete: () {
-                        cubit.selectedFiles.remove(file);
-                        cubit.needRebuildListFile.add(true);
-                        widget.onChange(cubit.selectedFiles);
-                      },
-                      fileTxt: file.path.convertNameFile(),
-                      lengthFile: file.lengthSync().getFileSize(2),
-                    ),
-                  )
-                  .toList(),
-            );
-          },
-        ),
+        if (widget.isShowFile) ...[
+          StreamBuilder<List<FileModel>>(
+            stream: cubit.fileFromApiSubject.stream,
+            builder: (context, snapshot) {
+              final listFile = snapshot.data ?? [];
+              return Column(
+                children: listFile
+                    .map(
+                      (file) => itemListFile(
+                        onDelete: () {
+                          cubit.fileFromApiSubject.value.remove(file);
+                          cubit.fileFromApiSubject.sink
+                              .add(cubit.fileFromApiSubject.value);
+                          widget.onDeletedFileApi?.call(file);
+                        },
+                        fileTxt: file.name ?? '',
+                        lengthFile: file.fileLength?.toInt().getFileSize(2),
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          ),
+          StreamBuilder(
+            stream: cubit.needRebuildListFile.stream,
+            builder: (context, snapshot) {
+              return Column(
+                children: cubit.selectedFiles
+                    .map(
+                      (file) => itemListFile(
+                        onDelete: () {
+                          cubit.selectedFiles.remove(file);
+                          cubit.needRebuildListFile.add(true);
+                          widget.onChange(cubit.selectedFiles);
+                        },
+                        fileTxt: file.path.convertNameFile(),
+                        lengthFile: file.lengthSync().getFileSize(2),
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          ),
+        ],
       ],
     );
   }

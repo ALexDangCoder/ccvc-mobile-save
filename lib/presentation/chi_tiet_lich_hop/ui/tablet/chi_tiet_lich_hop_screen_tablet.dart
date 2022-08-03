@@ -29,7 +29,7 @@ class DetailMeetCalenderTablet extends StatefulWidget {
 }
 
 class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
   final ThanhPhanThamGiaCubit cubitThanhPhan = ThanhPhanThamGiaCubit();
   final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();

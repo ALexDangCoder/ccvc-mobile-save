@@ -315,7 +315,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
         onTap();
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: backgroundColorApp,
           border: Border.all(color: borderColor.withOpacity(0.5)),
@@ -332,8 +332,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
           children: [
             SvgPicture.asset(
               type.getItem().url,
-              width: 20.sp,
-              height: 20.sp,
+              width: 32.sp,
+              height: 32.sp,
             ),
             Padding(
               padding: EdgeInsets.only(top: 10.h),

@@ -28,6 +28,7 @@ import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SuaLichHopTabletScreen extends StatefulWidget {
@@ -56,6 +57,8 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
     _cubitTaoLichHop.taoLichHopRequest =
         taoHopFormChiTietHopModel(widget.chiTietHop);
     _cubitTaoLichHop.taoLichHopRequest.isMulti = widget.isMulti;
+    _cubitTaoLichHop.isHopTrucTiep =
+    !(_cubitTaoLichHop.taoLichHopRequest.bitHopTrucTuyen ?? false);
   }
 
   @override
@@ -346,6 +349,10 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                                 widget.chiTietHop.chuTriModel.soDienThoai,
                             urlIcon: ImageAssets.icCuocGoi,
                             hintText: S.current.so_dien_thoai,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            textInputType: TextInputType.phone,
                             validate: (value) {
                               if (value.isEmpty) {
                                 return null;

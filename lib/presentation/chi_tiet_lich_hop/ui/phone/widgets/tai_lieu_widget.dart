@@ -1,10 +1,8 @@
-import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -13,7 +11,7 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -66,21 +64,20 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
     );
   }
 
-  Widget selectFile() => ButtonSelectFile(
-        isShowFile: false,
-        title: S.current.them_tai_lieu_cuoc_hop,
-        onChange: (List<File> files) {
-          if (files.first.lengthSync() > widget.cubit.maxSizeFile30) {
-            showToast();
-          } else {
+  Widget selectFile() => Padding(
+    padding: const EdgeInsets.only(bottom: 16.0),
+    child: SelectFileBtn(
+          isShowFile: false,
+          textButton: S.current.them_tai_lieu_cuoc_hop,
+          needClearAfterPick: true,
+          onChange: (files) {
             widget.cubit.postFileTaoLichHop(
               files: files,
               entityId: widget.cubit.idCuocHop,
             );
-          }
-        },
-        removeFileApi: (int index) {},
-      );
+          },
+        ),
+  );
 
   Widget listFileFromApi() => StreamBuilder<ChiTietLichHopModel>(
         stream: widget.cubit.chiTietLichHopSubject,

@@ -166,7 +166,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           break;
         }
       }
-      if (!checkAllTrue && node.parent?.value.id != '') {
+      if (!checkAllTrue && node.parent?.value.id != null) {
         node.isCheck.isCheck = false;
         addSelectNode(
           node,
@@ -442,7 +442,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       nodeSearch.isTickChildren.isTick = false;
     }
     final data = nodeSearch.setSelected(nodeSearch.isCheck.isCheck);
-    if (nodeSearch.parent?.value.id != '') {
+    if (nodeSearch.parent?.value.id != null) {
       checkUser(
         nodeSearch.parent!,
       );

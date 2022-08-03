@@ -30,9 +30,12 @@ class SuaDoiYcHoTroTablet extends StatefulWidget {
     Key? key,
     required this.cubit,
     required this.idHTKT,
+    required this.idKhuVuc,
   }) : super(key: key);
   final HoTroKyThuatCubit cubit;
   final String idHTKT;
+
+  final String idKhuVuc;
 
   @override
   State<SuaDoiYcHoTroTablet> createState() => _SuaDoiYcHoTroTabletState();
@@ -44,7 +47,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
   @override
   void initState() {
     widget.cubit.init();
-    widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
+    widget.cubit.loadApiEditYCHT(id: widget.idHTKT, idKhuVuc: widget.idKhuVuc);
     super.initState();
   }
 
@@ -62,7 +65,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
         stream: widget.cubit.stateStream,
         textEmpty: '',
         retry: () {
-          widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
+          widget.cubit
+              .loadApiEditYCHT(id: widget.idHTKT, idKhuVuc: widget.idKhuVuc);
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Center(
@@ -155,8 +159,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_ten_thiet_bi;
+                                            return S.current
+                                                .ban_phai_nhap_truong_ten_thiet_bi;
                                           }
                                         },
                                       ),
@@ -178,8 +182,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_so_dien_thoai_lien_he;
+                                            return S.current
+                                                .ban_phai_nhap_truong_so_dien_thoai_lien_he;
                                           } else {
                                             return null;
                                           }
@@ -198,8 +202,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_mo_ta_su_co;
+                                            return S.current
+                                                .ban_phai_nhap_truong_mo_ta_su_co;
                                           }
                                         },
                                       ),
@@ -225,8 +229,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_so_phong;
+                                            return S.current
+                                                .ban_phai_nhap_truong_so_phong;
                                           }
                                         },
                                       ),
@@ -482,9 +486,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                 );
               }
             });
-          } else {
-
-          }
+          } else {}
         },
         title1: S.current.dong,
         title2: S.current.gui_yc,

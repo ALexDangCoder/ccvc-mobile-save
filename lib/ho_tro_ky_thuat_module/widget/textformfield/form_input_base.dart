@@ -96,7 +96,7 @@ class _FormInputBaseState extends State<FormInputBase> {
                         ),
                         child: SvgPicture.asset(
                           widget.icon ?? '',
-                          color: textDefault,
+                          color: AppTheme.getInstance().colorField(),
                         ),
                       )
                     : null,

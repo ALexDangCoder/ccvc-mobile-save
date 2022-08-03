@@ -911,6 +911,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.createBy?.id ?? '';
   }
 
+  bool donViId(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives
+            ?.where((element) => element.donViId == donViTrucThuocId)
+            .isNotEmpty ??
+        false;
+  }
+
   int checkHuyXacNhan(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives?.indexWhere(
           (element) =>
@@ -945,7 +952,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   bool checkChoYKien(ChiTietLichLamViecModel dataModel) {
     return nguoiTaoId(dataModel) == currentUserId ||
         nguoiDuocMoi(dataModel) == currentUserId ||
-        canBoChuTri(dataModel) == currentUserId;
+        canBoChuTri(dataModel) == currentUserId ||
+        donViId(dataModel);
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {

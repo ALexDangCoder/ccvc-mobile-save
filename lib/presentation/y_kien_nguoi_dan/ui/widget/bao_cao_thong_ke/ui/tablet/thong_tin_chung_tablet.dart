@@ -547,16 +547,6 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
     }
   }
 
-  // TextTrangThai statusTrangThai(int soNgayToiHan) {
-  //   if (soNgayToiHan < 0) {
-  //     return TextTrangThai(S.current.qua_han, statusCalenderRed);
-  //   } else if (soNgayToiHan > 3) {
-  //     return TextTrangThai(S.current.trong_han, choTrinhKyColor);
-  //   } else {
-  //     return TextTrangThai(S.current.den_han, choVaoSoColor);
-  //   }
-  // }
-
   Widget item({
     required Color colorBG,
     required String title,

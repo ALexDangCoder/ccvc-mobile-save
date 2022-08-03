@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/ui/tablet/chi_tiet_ho_tro_tablet.dart';
@@ -143,7 +144,7 @@ Widget floatingHTKTTablet(
 ) {
   return FloatingActionButton(
     elevation: 0,
-    backgroundColor: labelColor,
+    backgroundColor: AppTheme.getInstance().colorField(),
     onPressed: () {
       showModalBottomSheet(
         context: context,

@@ -451,7 +451,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
       danhSachLuaChon: listLuaChon
           .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: PRIMARY))
           .toList(),
-      noiDung: noidung,
+      noiDung: noidung.trim(),
       lichHopId: id,
       trangThai: 0,
       quyenBieuQuyet: true,

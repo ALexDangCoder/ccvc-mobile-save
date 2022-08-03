@@ -26,6 +26,13 @@ abstract class ReportService {
     @Query('sort') int sort,
     @Query('keyWord') String keyWord,
   );
+  @GET(ApiConstants.LIST_REPORT_SHARE)
+  Future<ReportResponse> getListShareReport(
+      @Header('AppId') String appId,
+      @Query('folderId') String folderId,
+      @Query('sort') int sort,
+      @Query('keyWord') String keyWord,
+      );
 
   @POST(ApiConstants.LIST_GROUP_BAO_CAO)
   Future<GroupImplResponse> getListGroup(

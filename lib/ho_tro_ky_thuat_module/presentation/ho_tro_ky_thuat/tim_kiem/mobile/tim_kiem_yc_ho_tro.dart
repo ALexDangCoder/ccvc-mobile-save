@@ -348,9 +348,14 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: _doubleBtn(context),
+                    Visibility(
+                      visible:
+                          WidgetsBinding.instance!.window.viewInsets.bottom ==
+                              0.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: _doubleBtn(context),
+                      ),
                     ),
                   ],
                 ),

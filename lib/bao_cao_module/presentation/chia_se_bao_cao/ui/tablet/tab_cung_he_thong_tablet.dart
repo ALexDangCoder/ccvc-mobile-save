@@ -62,7 +62,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                           return Scaffold(
                             backgroundColor: Colors.transparent,
                             body: InkWell(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.pop(context);
                               },
                               child: Center(
@@ -169,8 +169,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                 children: List.generate(
                                     widget.cubit.selectNode.length + 1,
                                     (index) {
-                                  if (index ==
-                                      widget.cubit.selectNode.length) {
+                                  if (index == widget.cubit.selectNode.length) {
                                     return Container(
                                       color: Colors.transparent,
                                       child: TextField(
@@ -199,8 +198,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                       ),
                                     );
                                   }
-                                  final data =
-                                  widget.cubit.selectNode[index];
+                                  final data = widget.cubit.selectNode[index];
                                   return ItemNguoiDungTablet(
                                     name: data.value.name != ''
                                         ? data.value.name
@@ -211,6 +209,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                         data,
                                         isCheck: false,
                                       );
+
                                       widget.cubit.removeTag(data);
                                     },
                                   );
@@ -274,7 +273,9 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(4.r),
+                          ),
                           border: Border.all(color: containerColorTab),
                         ),
                         child: Row(
@@ -284,7 +285,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                               S.current.chon_nguoi,
                               style: textNormalCustom(
                                 color: color3D5586,
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),

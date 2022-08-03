@@ -29,7 +29,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     }
   }
 
-  Future<void> loadApiEditYCHT({required String id}) async {
+  Future<void> loadApiEditYCHT(
+      {required String id, required String idKhuVuc}) async {
     showLoading();
     editModelHTKT.add(SupportDetail());
 
@@ -38,8 +39,11 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
-    await getCategory(title: HoTroKyThuatCubit.KHU_VUC, isLoadCreate: false,);
-    await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
+    await getCategory(
+      title: HoTroKyThuatCubit.KHU_VUC,
+      isLoadCreate: false,
+      khuVucId: idKhuVuc,
+    );
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
     sinkIssue();

@@ -55,6 +55,8 @@ class ReportItemsResponse {
   @JsonKey(name: 'numberReport')
   int? numberReport;
   @JsonKey(name: 'allFolderAndPublicReportTotal')
+  int? allFolderAndPublicReportTotal;
+  @JsonKey(name: 'childrenTotal')
   int? childrenTotal;
   @JsonKey(name: 'type')
   int? type;
@@ -93,6 +95,7 @@ class ReportItemsResponse {
     this.parentId,
     this.numberReport,
     this.childrenTotal,
+    this.allFolderAndPublicReportTotal,
     this.type,
     this.typeTitle,
     this.level,
@@ -120,7 +123,7 @@ class ReportItemsResponse {
         order: order,
         parentId: parentId,
         numberReport: numberReport,
-        childrenTotal: childrenTotal,
+        childrenTotal: allFolderAndPublicReportTotal,
         type: type,
         typeTitle: typeTitle,
         level: level,
@@ -130,5 +133,22 @@ class ReportItemsResponse {
         status: status,
         shareByMe: shareByMe,
         shareToMe: shareToMe,
+      );
+
+  ReportItem toModelShare() => ReportItem(
+        id: id,
+        name: name,
+        description: description,
+        order: order,
+        parentId: parentId,
+        numberReport: numberReport,
+        childrenTotal: childrenTotal,
+        type: type,
+        typeTitle: typeTitle,
+        level: level,
+        isOwner: isOwner,
+        dateTime: updatedAt ?? createdAt,
+        isPin: isPin,
+        status: status,
       );
 }

@@ -51,6 +51,11 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     checkClickSearch.sink.add(!checkClickSearch.value);
   }
 
+  static const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+  static const String CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
+  static const String DANG_THUC_HIEN = 'DANG_THUC_HIEN';
+  static const String DA_HOAN_THANH = 'DA_HOAN_THANH';
+
   bool isHideClearData = false;
   String ngayDauTien = '';
   String ngayKetThuc = '';
@@ -63,7 +68,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<bool> isCheckDataNVDV = BehaviorSubject.seeded(false);
   List<ChartData> listStatusData = [];
 
-  void callApi(bool isCheckCaNhan, {bool canCallApi=true}) {
+  void callApi(bool isCheckCaNhan, {bool canCallApi = true}) {
     initTimeRange();
     getDashBroashNhiemVuCaNhan(
       ngayDauTien: ngayDauTien,
@@ -73,12 +78,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    if(canCallApi){
+    if (canCallApi) {
       callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
     }
   }
 
-  void callApiDonVi(bool isCheckCaNhan, {bool canCallApi= true,}) {
+  void callApiDonVi(
+    bool isCheckCaNhan, {
+    bool canCallApi = true,
+  }) {
     initTimeRange();
     postBieuDoTheoDonVi(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
@@ -86,7 +94,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     //   ngayDauTien: ngayDauTien,
     //   ngayCuoiCung: ngayKetThuc,
     // );
-    if(canCallApi){
+    if (canCallApi) {
       callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
     }
   }
@@ -152,8 +160,13 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       index: index,
       isNhiemVuCaNhan: isNhiemVuCaNhan,
       isSortByHanXuLy: isSortByHanXuLy,
-      keySearch: keySearch,
-      mangTrangThai: mangTrangThai,
+      noiDungTheoDoi: keySearch,
+      mangTrangThai: [
+        CHO_PHAN_XU_LY,
+        CHUA_THUC_HIEN,
+        DANG_THUC_HIEN,
+        DA_HOAN_THANH,
+      ],
       ngayTaoNhiemVu: ngayTaoNhiemVu,
       size: size,
       trangThaiHanXuLy: trangThaiHanXuLy,
@@ -198,7 +211,12 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       isCaNhan: isCaNhan,
       isSortByHanXuLy: isSortByHanXuLy,
       keySearch: keySearch,
-      mangTrangThai: mangTrangThai,
+      mangTrangThai: [
+        CHO_PHAN_XU_LY,
+        CHUA_THUC_HIEN,
+        DANG_THUC_HIEN,
+        DA_HOAN_THANH,
+      ],
       size: size,
       trangThaiHanXuLy: trangThaiHanXuLy,
     );
@@ -413,7 +431,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         chartDataNhiemVuCaNhan.removeAt(0);
         chartDataNhiemVuCaNhan.removeAt(0);
         statusNhiemVuCaNhanSuject.sink.add(chartDataNhiemVuCaNhan);
-       // showContent();
+        // showContent();
       },
       error: (error) {
         showError();

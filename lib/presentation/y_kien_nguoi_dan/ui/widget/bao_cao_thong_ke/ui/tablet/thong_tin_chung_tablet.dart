@@ -188,11 +188,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                               final data = snapshot.data ??
                                   DashBoardPAKNModel(
                                     dashBoardHanXuLyPAKNModel:
-                                    DashBoardHanXuLyPAKNModel(),
+                                        DashBoardHanXuLyPAKNModel(),
                                     dashBoardTiepNhanPAKNModel:
-                                    DashBoardTiepNhanPAKNModel(),
+                                        DashBoardTiepNhanPAKNModel(),
                                     dashBoardXuLyPAKNModelModel:
-                                    DashBoardXuLyPAKNModel(),
+                                        DashBoardXuLyPAKNModel(),
                                   );
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,7 +269,6 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                           const SizedBox(
                                             height: 10.0,
                                           ),
-
                                         ],
                                       ),
                                       Positioned(
@@ -277,11 +276,12 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                         child: StreamBuilder<bool>(
                                           stream: widget.cubit.isShowFilterList,
                                           builder: (context, snapshot) {
-                                            final isShow = snapshot.data ?? false;
+                                            final isShow =
+                                                snapshot.data ?? false;
                                             return isShow
                                                 ? DropDownTrangThaiPAKN(
-                                              cubit: widget.cubit,
-                                            )
+                                                    cubit: widget.cubit,
+                                                  )
                                                 : const SizedBox.shrink();
                                           },
                                         ),
@@ -300,12 +300,12 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                   children: [
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         _headerDanhSachPAKN(),
                                         ListView.builder(
                                           physics:
-                                          const NeverScrollableScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: data.length,
                                           itemBuilder: (context, index) {
@@ -324,8 +324,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                           final isShow = snapshot.data ?? false;
                                           return isShow
                                               ? DropDownTrangThaiPAKN(
-                                            cubit: widget.cubit,
-                                          )
+                                                  cubit: widget.cubit,
+                                                )
                                               : const SizedBox.shrink();
                                         },
                                       ),
@@ -362,23 +362,15 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           ),
         ),
         Expanded(
-          child:
-          StreamBuilder<TextTrangThai>(
-            stream: widget
-                .cubit.textFilter.stream,
+          child: StreamBuilder<TextTrangThai>(
+            stream: widget.cubit.textFilter.stream,
             builder: (context, snapshot) {
               return item(
-                title:
-                snapshot.data?.text ??
-                    '',
+                title: snapshot.data?.text ?? '',
                 callBack: (value) {
-                  widget.cubit
-                      .isShowFilterList
-                      .add(true);
+                  widget.cubit.isShowFilterList.add(true);
                 },
-                colorBG:
-                snapshot.data?.color ??
-                    Colors.red,
+                colorBG: snapshot.data?.color ?? Colors.red,
               );
             },
           ),
@@ -461,8 +453,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 Expanded(
                   flex: 8,
                   child: Text(
-                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn
-                        .donViGuiYeuCau ?? S.current.trong}',
+                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn.donViGuiYeuCau ?? S.current.trong}',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,
@@ -503,9 +494,10 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    statusTrangThai(dsKetQuaPakn.trangThai ?? 1).text,
+                    statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1).text,
                     style: textNormalCustom(
-                      color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1).color,
+                      color:
+                          statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1).color,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                     ),
@@ -513,26 +505,28 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   const SizedBox(
                     width: 92,
                   ),
-                  if ((dsKetQuaPakn.trangThaiText ?? '').isNotEmpty) Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 3,
-                      horizontal: 15,
-                    ),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: color5A8DEE,
-                    ),
-                    child: Center(
-                      child: Text(
-                        dsKetQuaPakn.trangThaiText ?? '',
-                        style: textNormalCustom(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
+                  if ((dsKetQuaPakn.trangThaiText ?? '').isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 3,
+                        horizontal: 15,
                       ),
-                    ),
-                  ) else
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        color: color5A8DEE,
+                      ),
+                      child: Center(
+                        child: Text(
+                          dsKetQuaPakn.trangThaiText ?? '',
+                          style: textNormalCustom(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                  else
                     const SizedBox.shrink()
                 ],
               ),

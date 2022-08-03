@@ -82,7 +82,6 @@ extension CreateTechSupport on HoTroKyThuatCubit {
   }
 
   void selectAreaEdit(int index) {
-    print(areaList.length);
     nameBuilding = null;
     editTaskHTKTRequest.buildingId = null;
     editTaskHTKTRequest.buildingName = null;

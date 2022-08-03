@@ -689,7 +689,9 @@ Widget item({
         borderRadius: const BorderRadius.all(
           Radius.circular(30),
         ),
-        color: isChoosing ? textDefault : Colors.transparent,
+        color: isChoosing
+            ? AppTheme.getInstance().colorField()
+            : Colors.transparent,
       ),
       child: Align(
         alignment: Alignment.centerLeft,

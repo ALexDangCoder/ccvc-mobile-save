@@ -463,6 +463,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                   ImageAssets.ic_send,
                   width: 24,
                   height: 24,
+                  color: AppTheme.getInstance().colorField(),
                 ),
               ),
             ],

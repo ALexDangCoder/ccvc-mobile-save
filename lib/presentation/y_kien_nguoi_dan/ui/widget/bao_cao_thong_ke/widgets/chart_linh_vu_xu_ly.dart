@@ -24,14 +24,6 @@ class ChartLinhVucXuLyWidget extends StatelessWidget {
             ? SizedBox(
                 height: 70.0 * data.length,
                 child: SfCartesianChart(
-                  tooltipBehavior: TooltipBehavior(
-                    enable: true,
-                    textStyle: textNormalCustom(
-                      color: infoColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 10,
-                    ),
-                  ),
                   primaryXAxis: CategoryAxis(
                     placeLabelsNearAxisLine: true,
                     labelStyle: textNormalCustom(

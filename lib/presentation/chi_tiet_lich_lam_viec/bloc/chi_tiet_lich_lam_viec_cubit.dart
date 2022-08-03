@@ -209,8 +209,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         listOfficer.sink.add(data);
         getListStatusKhacThuHoi(data);
         listRecall.sink
-            .add(data.where((element) => element.status == 0).toList());
-        dataRecall = data.where((element) => element.status == 0).toList();
+            .add(data);
+        dataRecall = data;
         officersTmp = data;
       },
       error: (error) {},
@@ -880,8 +880,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.scheduleCoperatives
             ?.where(
               (element) =>
-                  element.canBoId?.toLowerCase() ==
-                      currentUserId.toLowerCase() &&
+                  (element.canBoId?.toLowerCase() ==
+                          currentUserId.toLowerCase() ||
+                      element.donViId == donViTrucThuocId) &&
                   element.status == StatusOfficersConst.STATUS_THAM_GIA,
             )
             .isNotEmpty ??
@@ -909,6 +910,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   String nguoiTaoId(ChiTietLichLamViecModel dataModel) {
     return dataModel.createBy?.id ?? '';
+  }
+
+  bool donViId(ChiTietLichLamViecModel dataModel) {
+    return dataModel.scheduleCoperatives
+            ?.where((element) => element.donViId == donViTrucThuocId)
+            .isNotEmpty ??
+        false;
   }
 
   int checkHuyXacNhan(ChiTietLichLamViecModel dataModel) {
@@ -945,7 +953,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   bool checkChoYKien(ChiTietLichLamViecModel dataModel) {
     return nguoiTaoId(dataModel) == currentUserId ||
         nguoiDuocMoi(dataModel) == currentUserId ||
-        canBoChuTri(dataModel) == currentUserId;
+        canBoChuTri(dataModel) == currentUserId ||
+        donViId(dataModel);
   }
 
   bool checkChoBaoCaoKetQua(ChiTietLichLamViecModel dataModel) {

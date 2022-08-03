@@ -209,8 +209,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         listOfficer.sink.add(data);
         getListStatusKhacThuHoi(data);
         listRecall.sink
-            .add(data.where((element) => element.status == 0).toList());
-        dataRecall = data.where((element) => element.status == 0).toList();
+            .add(data);
+        dataRecall = data;
         officersTmp = data;
       },
       error: (error) {},

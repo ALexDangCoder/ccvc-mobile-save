@@ -880,8 +880,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     return dataModel.scheduleCoperatives
             ?.where(
               (element) =>
-                  element.canBoId?.toLowerCase() ==
-                      currentUserId.toLowerCase() &&
+                  (element.canBoId?.toLowerCase() ==
+                          currentUserId.toLowerCase() ||
+                      element.donViId == donViTrucThuocId) &&
                   element.status == StatusOfficersConst.STATUS_THAM_GIA,
             )
             .isNotEmpty ??

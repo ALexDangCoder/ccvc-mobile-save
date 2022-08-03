@@ -365,14 +365,14 @@ void showXacNhan({
   if (cubit.selectPhatBieu.isEmpty) {
     final toast = FToast();
     toast.init(context);
-    toast.removeCustomToast();
+    toast.removeQueuedCustomToasts();
     toast.showToast(
       child: ShowToast(
         text: isDuyet
             ? S.current.ban_phai_tick_chon_bieu_quyet_muon_duyet
             : S.current.ban_phai_tick_chon_bieu_quyet_muon_huy_duyet,
       ),
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.TOP_RIGHT,
     );
   } else {
     showDiaLog(

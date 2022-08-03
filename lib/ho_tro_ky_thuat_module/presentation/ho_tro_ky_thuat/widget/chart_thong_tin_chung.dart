@@ -73,7 +73,7 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
                       margin:
                           const EdgeInsets.only(right: 8, top: 20,),
                       child: Tooltip(
-                        triggerMode: TooltipTriggerMode.manual,
+                        triggerMode: TooltipTriggerMode.tap,
                         showDuration: const Duration(seconds: 1),
                         message: widget.listTitle.elementAt(index),
                         child: Text(

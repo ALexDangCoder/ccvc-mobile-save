@@ -218,6 +218,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
   void clearSearch() {
     isStatusSearch.add(true);
     sort=sortHome;
+    textSearch.add('');
     getListReport();
   }
 

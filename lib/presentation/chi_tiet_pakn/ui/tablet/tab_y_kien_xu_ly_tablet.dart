@@ -461,6 +461,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                   ImageAssets.ic_send,
                   width: 24,
                   height: 24,
+                  color: AppTheme.getInstance().colorField(),
                 ),
               ),
             ],

@@ -10,6 +10,7 @@ Widget statusWidget({
 }) {
   final data = listData.map((e) => e.value).toList();
   final total = data.reduce((a, b) => a + b);
+  final lastStatusChart = listData.last;
 
   return Column(
     mainAxisSize: MainAxisSize.min,
@@ -83,7 +84,7 @@ Widget statusWidget({
         childAspectRatio: 9,
         mainAxisSpacing: 10.0.textScale(space: 4),
         crossAxisSpacing: 10,
-        children: List.generate(listData.length, (index) {
+        children: List.generate(listData.length - 1, (index) {
           final result = listData[index];
           // ignore: avoid_unnecessary_containers
           return InkWell(
@@ -116,6 +117,34 @@ Widget statusWidget({
             ),
           );
         }),
+      ),
+      SizedBox(
+        height: 10.0.textScale(space: 4),
+      ),
+      InkWell(
+        onTap: () => callBack(listData.length - 1),
+        child: Row(
+          children: [
+            Container(
+              height: 14,
+              width: 14,
+              decoration: BoxDecoration(
+                color: lastStatusChart.color,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Text(
+              '${lastStatusChart.title} (${lastStatusChart.value.toInt()})',
+              style: textNormal(
+                infoColor,
+                14.0.textScale(),
+              ),
+            ),
+          ],
+        ),
       ),
     ],
   );

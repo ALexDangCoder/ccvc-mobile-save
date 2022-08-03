@@ -268,6 +268,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                   builder: (_) => SuaDoiYcHoTroTablet(
                                     cubit: widget.cubit,
                                     idHTKT: widget.objDSSC.id ?? '',
+                                    idKhuVuc: widget.objDSSC.districtId ?? '',
                                   ),
                                 );
                               } else {
@@ -278,6 +279,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                   builder: (context) => SuaDoiYcHoTroMobile(
                                     cubit: widget.cubit,
                                     idHTKT: widget.objDSSC.id ?? '',
+                                    idKhuVuc: widget.objDSSC.districtId ?? '',
                                   ),
                                 ).whenComplete(
                                   () => {

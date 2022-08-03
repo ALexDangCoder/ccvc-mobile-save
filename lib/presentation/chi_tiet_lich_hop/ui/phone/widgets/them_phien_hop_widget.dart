@@ -124,6 +124,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
                 taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
                 taoPhienHopRequest.timeEnd = timeEnd;
+                taoPhienHopRequest.tieuDe.trim();
                 widget.cubit.themPhienHop(
                   id: widget.id,
                   taoPhienHopRequest: taoPhienHopRequest,

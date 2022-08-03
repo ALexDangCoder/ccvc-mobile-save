@@ -388,11 +388,18 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                 spaceW4,
                                 GestureDetector(
                                   onTap: () async {
-                                    final Map<String, dynamic> mediaMap =
-                                        await pickFile();
-                                    addDataListPick(
-                                      mediaMap,
-                                    );
+                                    const permission = Permission.storage;
+                                    final status = await permission.status;
+                                    if (!(status.isGranted ||
+                                        status.isLimited)) {
+                                      await MessageConfig.showDialogSetting();
+                                    } else {
+                                      final Map<String, dynamic> mediaMap =
+                                      await pickFile();
+                                      addDataListPick(
+                                        mediaMap,
+                                      );
+                                    }
                                   },
                                   child: SvgPicture.asset(
                                     ImageAssets.ic_file,

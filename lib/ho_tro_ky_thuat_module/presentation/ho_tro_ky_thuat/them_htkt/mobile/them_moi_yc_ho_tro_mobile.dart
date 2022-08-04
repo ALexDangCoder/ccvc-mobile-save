@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
-    as p;
+as p;
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
@@ -195,24 +195,27 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           StreamBuilder<List<String>>(
                             stream: widget.cubit.issueListStream.stream,
                             builder: (context, snapshot) {
-
                               final _issueList = snapshot.data ?? [];
-                              return  MultiSelectList(
-                                key: UniqueKey(),
-                                      isInit: false,
-                                      cubit: widget.cubit,
-                                      title: S.current.loai_su_co,
-                                      isRequire: true,
-                                      items: _issueList,
-                                      onChange: (selectIndexList) {
-                                        widget.cubit.addIssueListRequest(
-                                          selectIndexList,
-                                        );
-                                      },
-                                      onChangeSearch: (String? value) {
-                                        widget.cubit.searchIssue(value);
-                                      },
-                                    );
+                              return MultiSelectList(
+                                isInit: false,
+                                cubit: widget.cubit,
+                                title: S.current.loai_su_co,
+                                isRequire: true,
+                                items: _issueList,
+                                onChange: (selectIndexList) {
+                                  widget.cubit.addIssueListRequest(
+                                    selectIndexList,
+                                  );
+                                  if (selectIndexList.isNotEmpty) {
+                                    widget.cubit.showErrorLoaiSuCo.add(false);
+                                  } else {
+                                    widget.cubit.showErrorLoaiSuCo.add(true);
+                                  }
+                                },
+                                onChangeSearch: (String? value) {
+                                  widget.cubit.searchIssue(value);
+                                },
+                              );
                             },
                           ),
                           StreamBuilder<bool>(
@@ -221,20 +224,20 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                             builder: (context, snapshot) {
                               return snapshot.data ?? false
                                   ? Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        top: 8.0,
-                                      ),
-                                      child: Text(
-                                        S.current
-                                            .ban_phai_nhap_truong_loai_su_co,
-                                        style: textNormalCustom(
-                                          color: redChart,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    )
+                                padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  top: 8.0,
+                                ),
+                                child: Text(
+                                  S.current
+                                      .ban_phai_nhap_truong_loai_su_co,
+                                  style: textNormalCustom(
+                                    color: redChart,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              )
                                   : const SizedBox.shrink();
                             },
                           ),
@@ -380,7 +383,8 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
     );
   }
 
-  Widget doubleBtn() => DoubleButtonBottom(
+  Widget doubleBtn() =>
+      DoubleButtonBottom(
         onClickLeft: () {
           Navigator.pop(context);
         },

@@ -68,6 +68,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
       ),
       tabletScreen: CongTacChuanBiWidgetTablet(
         cubit: widget.cubit,
+        cubitTaoLichHop:_cubitTaoLichHop ,
       ),
     );
   }

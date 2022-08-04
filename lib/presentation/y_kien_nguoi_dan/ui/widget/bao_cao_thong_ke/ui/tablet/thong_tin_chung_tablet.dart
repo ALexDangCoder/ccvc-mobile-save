@@ -56,7 +56,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        title: S.current.thong_tin_chung,
+        title: S.current.thong_tin_pakn,
         leadingIcon: IconButton(
           onPressed: () {
             Navigator.pop(context);

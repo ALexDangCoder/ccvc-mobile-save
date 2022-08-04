@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ItemCustomGroupRadio<T> {
@@ -33,44 +34,45 @@ class CustomGroupRadio<T> extends StatefulWidget {
 class _CustomGroupRadioState<T> extends State<CustomGroupRadio<T>> {
   @override
   Widget build(BuildContext context) {
-    if(widget.isRow == true){
+    if (widget.isRow == true) {
       return Row(
         children: widget.listData
             .map(
               (e) => Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: 18,
-                    width: 18,
-                    child: Radio<T>(
-                      fillColor: MaterialStateProperty.resolveWith(getColor),
-                      activeColor: textDefault,
-                      value: e.value,
-                      onChanged: (T? value) {
-                        setState(() {
-                          widget.groupValue = e.value;
-                        });
-                        widget.onchange(value);
-                      },
-                      groupValue: widget.groupValue,
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: Radio<T>(
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
+                          activeColor: textDefault,
+                          value: e.value,
+                          onChanged: (T? value) {
+                            setState(() {
+                              widget.groupValue = e.value;
+                            });
+                            widget.onchange(value);
+                          },
+                          groupValue: widget.groupValue,
+                        ),
+                      ),
+                      spaceW16,
+                      Text(
+                        e.title,
+                        style: tokenDetailAmount(
+                          fontSize: 14,
+                          color: color3D5586,
+                        ),
+                      )
+                    ],
                   ),
-                  spaceW16,
-                  Text(
-                    e.title,
-                    style: tokenDetailAmount(
-                      fontSize: 14,
-                      color: color3D5586,
-                    ),
-                  )
-                ],
+                ),
               ),
-            ),
-          ),
-        )
+            )
             .toList(),
       );
     } else {
@@ -79,47 +81,47 @@ class _CustomGroupRadioState<T> extends State<CustomGroupRadio<T>> {
         children: widget.listData
             .map(
               (e) => Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Row(
-              children: [
-                SizedBox(
-                  height: 18,
-                  width: 18,
-                  child: Radio<T>(
-                    fillColor: MaterialStateProperty.resolveWith(getColor),
-                    activeColor: textDefault,
-                    value: e.value,
-                    onChanged: (T? value) {
-                      setState(() {
-                        widget.groupValue = e.value;
-                      });
-                      widget.onchange(value);
-                    },
-                    groupValue: widget.groupValue,
-                  ),
-                ),
-                spaceW16,
-                SizedBox(
-                  width: 280,
-                  child: Text(
-                    e.title,
-                    style: tokenDetailAmount(
-                      fontSize: 14,
-                      color: color3D5586,
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      height: 18,
+                      width: 18,
+                      child: Radio<T>(
+                        fillColor: MaterialStateProperty.resolveWith(getColor),
+                        activeColor: textDefault,
+                        value: e.value,
+                        onChanged: (T? value) {
+                          setState(() {
+                            widget.groupValue = e.value;
+                          });
+                          widget.onchange(value);
+                        },
+                        groupValue: widget.groupValue,
+                      ),
                     ),
-                    overflow: TextOverflow.clip,
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
+                    spaceW16,
+                    SizedBox(
+                      width: 280,
+                      child: Text(
+                        e.title,
+                        style: tokenDetailAmount(
+                          fontSize: 14,
+                          color: color3D5586,
+                        ),
+                        overflow: TextOverflow.clip,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
             .toList(),
       );
     }
   }
 
   Color getColor(Set<MaterialState> states) {
-    return textDefault;
+    return AppTheme.getInstance().colorField();
   }
 }

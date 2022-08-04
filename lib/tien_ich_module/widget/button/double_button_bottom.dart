@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -57,14 +58,15 @@ class DoubleButtonBottom extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: buttonColor2,
+                      color:
+                          AppTheme.getInstance().colorField().withOpacity(0.1),
                     ),
                     child: Center(
                       child: Text(
                         title1,
                         style: textNormalCustom(
                           fontSize: 14.0.textScale(space: 4.0),
-                          color: textDefault,
+                          color: AppTheme.getInstance().colorField(),
                         ),
                       ),
                     ),
@@ -82,7 +84,7 @@ class DoubleButtonBottom extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: textDefault,
+                      color: AppTheme.getInstance().colorField(),
                     ),
                     child: Center(
                       child: Text(
@@ -114,14 +116,18 @@ class DoubleButtonBottom extends StatelessWidget {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft
+              ? AppTheme.getInstance().colorField().withOpacity(0.1)
+              : AppTheme.getInstance().colorField(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorField()
+                  : backgroundColorApp,
             ),
           ),
         ),

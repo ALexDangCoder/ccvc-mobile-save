@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
@@ -147,11 +145,12 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                               false)
                           ? widget.onStar
                           : onTapNull,
-                      child: SvgPicture.asset(
-                        widget.todoModel.important ?? false
-                            ? ImageAssets.icStarFocus
-                            : ImageAssets.icStarUnfocus,
-                      ),
+                      child: widget.todoModel.important ?? false
+                          ? SvgPicture.asset(ImageAssets.icStarUnfocus)
+                          : SvgPicture.asset(
+                              ImageAssets.icStarFocus,
+                              color: AppTheme.getInstance().colorField(),
+                            ),
                     ),
                   ),
                 if (widget.showIcon?.contains(IconDSCV.icHoanTac) ?? false)
@@ -200,11 +199,11 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
               padding: const EdgeInsets.only(left: 31),
               child: Row(
                 children: [
-                  if((widget.todoModel.finishDay ?? '').isNotEmpty)
-                  textUnder(
-                    DateTime.parse(widget.todoModel.finishDay ?? '')
-                        .toStringWithListFormat,
-                  ),
+                  if ((widget.todoModel.finishDay ?? '').isNotEmpty)
+                    textUnder(
+                      DateTime.parse(widget.todoModel.finishDay ?? '')
+                          .toStringWithListFormat,
+                    ),
                   if (widget.todoModel.showDotOne()) circleWidget(),
                   StreamBuilder<List<NguoiThucHienModel>>(
                     stream: widget.cubit.listNguoiThucHienSubject,
@@ -254,7 +253,10 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
   Widget textUnder(String text) => Text(
         text,
         overflow: TextOverflow.ellipsis,
-        style: textDetailHDSD(fontSize: 12, color: textTitleColumn),
+        style: textDetailHDSD(
+          fontSize: 12,
+          color: AppTheme.getInstance().colorField(),
+        ),
       );
 
   Widget circleWidget() => Container(

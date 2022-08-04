@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
@@ -65,8 +64,17 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   }
 
   Widget selectFile() => Padding(
-    padding: const EdgeInsets.only(bottom: 16.0),
-    child: SelectFileBtn(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: SelectFileBtn(
+          allowedExtensions: const [
+            'doc',
+            'docx',
+            'xlsx',
+            'png',
+            'jpeg',
+            'jpg',
+            'pdf'
+          ],
           isShowFile: false,
           textButton: S.current.them_tai_lieu_cuoc_hop,
           needClearAfterPick: true,
@@ -77,7 +85,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             );
           },
         ),
-  );
+      );
 
   Widget listFileFromApi() => StreamBuilder<ChiTietLichHopModel>(
         stream: widget.cubit.chiTietLichHopSubject,

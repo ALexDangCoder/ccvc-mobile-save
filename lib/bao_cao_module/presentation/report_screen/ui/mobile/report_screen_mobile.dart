@@ -241,7 +241,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         ),
         decoration: BoxDecoration(
           color:
-              isChose ? AppTheme.getInstance().statusColor() : cellColorborder,
+              isChose ? AppTheme.getInstance().colorField() : cellColorborder,
           borderRadius: const BorderRadius.all(
             Radius.circular(4),
           ),

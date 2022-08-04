@@ -209,11 +209,10 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                           : data.value.tenCanBo,
                                       hasFunction: true,
                                       delete: () {
-                                        widget.cubit.addSelectNode(
+                                        data.isCheck.isCheck = false;
+                                        widget.cubit.selectTag(
                                           data,
-                                          isCheck: false,
                                         );
-
                                         widget.cubit.removeTag(data);
                                       },
                                     );

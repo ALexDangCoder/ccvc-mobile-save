@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/data/request/new_member_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/source_detail_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/htcs_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
@@ -90,6 +91,38 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     return isSelectGroup;
   }
 
+  List<UserCommons> listUserCommon = [];
+
+  Future<void> getSourceShareDetail(String idReport) async {
+    listUserCommon.clear();
+    final data = await _repo.getSourceShareDetail(
+      idReport: idReport,
+      appId: appId,
+    );
+    data.when(
+      success: (res) {
+        if (res.groupAccesses?.isNotEmpty ?? false) {
+          for (final element in res.groupAccesses!) {
+            themNhom(element.name ?? '');
+          }
+        }
+        if (res.userCommons?.isNotEmpty ?? false) {
+          listUserCommon.addAll(res.userCommons ?? []);
+        }
+
+        if (res.userInThisSystems?.isNotEmpty ?? false) {
+          for (final element in res.userInThisSystems!) {
+            idUsersNgoaiHeTHongDuocTruyCap.add(element.userId ?? '');
+          }
+        }
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
+    );
+  }
+
   Future<void> searchCanBoPaging(
     String donViId,
     Node<DonViModel> node,
@@ -101,6 +134,13 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       success: (res) {
         for (final element in res) {
           element.isCheck.isCheck = node.isCheck.isCheck;
+          for(final initCheck in listUserCommon){
+            if(element.value.id == initCheck.userId){
+              element.isCheck.isCheck = true;
+              selectTag(element);
+              break;
+            }
+          }
           node.addChild(element);
         }
       },
@@ -145,7 +185,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         if (listResponse.length == length) {
           callAPI.add(SUCCESS);
           getUsersNgoaiHeThongDuocTruyCap();
-          showContent();
+          getSourceShareDetail(idReport);
           searchGroupStream.add(listDropDown);
         }
       },
@@ -297,7 +337,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     required String idReport,
   }) async {
     String message = '';
-    if(mapData.isEmpty){
+    if (mapData.isEmpty) {
       showContent();
       return S.current.danh_sach_chia_se_rong;
     }
@@ -371,6 +411,18 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   bool refresh = false;
 
   final Set<String> idUsersNgoaiHeTHongDuocTruyCap = {};
+
+  bool checkTick(String idUser) {
+    bool isTick = false;
+     final listCheck = idUsersNgoaiHeTHongDuocTruyCap.toList();
+     for( final element in listCheck){
+       if(element == idUser){
+         isTick = true;
+         break;
+       }
+     }
+    return isTick;
+  }
 
   void clearUsersNgoaiHeThongDuocTruyCap() {
     if (usersNgoaiHeThongDuocTruyCapBHVSJ.hasValue) {
@@ -462,7 +514,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   Node<DonViModel> searchNode(Node<DonViModel> node) {
     for (final tree in listTree) {
       final nodeSearch = tree.search(node);
-      if(nodeSearch != null) {
+      if (nodeSearch != null) {
         return nodeSearch;
       }
     }

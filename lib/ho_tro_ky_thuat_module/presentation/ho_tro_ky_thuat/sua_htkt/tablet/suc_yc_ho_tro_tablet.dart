@@ -298,6 +298,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
           builder: (context, snapshot) {
             final _issueList = snapshot.data ?? [];
             return MultiSelectList(
+              cubit: widget.cubit,
+              isInit: widget.cubit.isLoadDidUpdateWidget,
               initSelectedItems: widget.cubit.issuesEditHTKT
                   .map((e) => e.tenSuCo ?? '')
                   .toList(),
@@ -308,6 +310,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
+              onChangeSearch: (String? value) {},
             );
           },
         ),

@@ -98,10 +98,10 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
               onClickLeft: () {
                 Navigator.pop(context);
               },
-              onClickRight: () async {
+              onClickRight: () {
                 widget.cubit.phuongThucNhan = false;
-                await widget.cubit.themThanhPhanThamGia();
                 Navigator.pop(context);
+                widget.cubit.themThanhPhanThamGia();
               },
             ),
             const SizedBox(

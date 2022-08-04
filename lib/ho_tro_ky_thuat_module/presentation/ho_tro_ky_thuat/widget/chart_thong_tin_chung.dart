@@ -71,15 +71,20 @@ class _ChartThongTinChungState extends State<ChartThongTinChung> {
                   children: List.generate(widget.listTitle.length, (index) {
                     return Container(
                       margin:
-                          const EdgeInsets.only(right: 8, top: 20, left: 16),
-                      child: Text(
-                        widget.listTitle.elementAt(index),
-                        textAlign: TextAlign.right,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: textNormal(
-                          infoColor,
-                          14.0,
+                          const EdgeInsets.only(right: 8, top: 20,),
+                      child: Tooltip(
+                        triggerMode: TooltipTriggerMode.tap,
+                        showDuration: const Duration(seconds: 1),
+                        message: widget.listTitle.elementAt(index),
+                        child: Text(
+                          widget.listTitle.elementAt(index),
+                          textAlign: TextAlign.right,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textNormal(
+                            infoColor,
+                            14.0,
+                          ),
                         ),
                       ),
                     );

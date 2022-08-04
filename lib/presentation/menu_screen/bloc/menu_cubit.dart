@@ -31,7 +31,8 @@ class MenuCubit extends BaseCubit<MenuState> {
   String id = '';
   DataUser? dataUser = HiveLocal.getDataUser();
   List<PhamViModel> listPhamVi = [];
-  PhamViModel? selectPhamVi;
+  PhamViModel? selectedPhamVi;
+  PhamViModel? currentPhamVi;
   bool isRefresh = false;
 
   Future<void> getUser() async {
@@ -89,7 +90,7 @@ class MenuCubit extends BaseCubit<MenuState> {
     result.when(
         success: (res) {
           listPhamVi = res;
-          selectPhamVi = listPhamVi
+          selectedPhamVi = listPhamVi
               .where((element) => element.isCurrentActive == true)
               .first;
         },
@@ -97,15 +98,15 @@ class MenuCubit extends BaseCubit<MenuState> {
   }
 
   void onSelectPhamVi(PhamViModel phamViModel) {
-    selectPhamVi = phamViModel;
+    selectedPhamVi = phamViModel;
   }
 
   Future<void> chuyenPhamVi() async {
     showLoading();
-    if ((selectPhamVi?.userCanBoDepartmentId ?? '').isNotEmpty) {
+    if ((currentPhamVi?.userCanBoDepartmentId ?? '').isNotEmpty) {
       final result = await accountRp.chuyenPhamVi(
         chuyenPhamViRequest: ChuyenPhamViRequest(
-          userCanBoDepartmentId: selectPhamVi?.userCanBoDepartmentId ?? '',
+          userCanBoDepartmentId: currentPhamVi?.userCanBoDepartmentId ?? '',
           appCode: APP_CODE,
         ),
       );

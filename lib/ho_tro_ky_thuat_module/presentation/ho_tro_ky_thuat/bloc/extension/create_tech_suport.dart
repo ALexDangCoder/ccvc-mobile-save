@@ -29,9 +29,11 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     }
   }
 
-  Future<void> loadApiEditYCHT(
+   Future<void> loadApiEditYCHT(
       {required String id, required String idKhuVuc}) async {
     showLoading();
+    isLoadDidUpdateWidget = true;
+
     editModelHTKT.add(SupportDetail());
 
     ///get data building, district
@@ -65,7 +67,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       showError();
     }
   }
-
+  
   void selectArea(int index) {
     nameBuilding = null;
     addTaskHTKTRequest.buildingName = null;
@@ -75,8 +77,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-            ?.map((e) => '${e.name}')
-            .toList() ??
+        ?.map((e) => '${e.name}')
+        .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }
@@ -92,8 +94,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-            ?.map((e) => '${e.name}')
-            .toList() ??
+        ?.map((e) => '${e.name}')
+        .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }
@@ -123,6 +125,20 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       addTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
     checkAllThemMoiYCHoTro();
+  }
+
+  void searchIssue(String? value) {
+    final List<String> valueSearch = [];
+    if (value == null || value.isEmpty) {
+      issueListStream.sink.add(allIssue);
+    } else {
+      for (final String suCo in allIssue) {
+        if (suCo.toLowerCase().contains(value.toLowerCase())) {
+          valueSearch.add(suCo);
+        }
+      }
+      issueListStream.sink.add(valueSearch);
+    }
   }
 
   void addIssuesEdit(List<int> index) {

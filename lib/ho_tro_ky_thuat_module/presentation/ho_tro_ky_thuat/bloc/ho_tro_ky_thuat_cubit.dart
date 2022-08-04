@@ -47,6 +47,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   static const String rightPath = 'attachments/upload/';
   late bool isManager;
   late bool isSupporter;
+  bool isLoadDidUpdateWidget = false;
 
   //color
   List<Color> colorChart = [
@@ -124,6 +125,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   BehaviorSubject<List<String>> issueListStream = BehaviorSubject.seeded([]);
 
+  List<String> allIssue = [];
   List<CategoryModel> areaList = [];
   List<CategoryModel> issueList = [];
   List<ChildCategories> buildingList = [];
@@ -619,6 +621,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         } else if (title == LOAI_SU_CO) {
           listLoaiSuCo.add(res);
           issueList = res;
+          allIssue = issueList.map((e) => e.name ?? '').toList();
           sinkIssue();
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;

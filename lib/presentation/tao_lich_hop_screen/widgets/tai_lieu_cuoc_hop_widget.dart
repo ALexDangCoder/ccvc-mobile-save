@@ -40,6 +40,15 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
             height: 0.0.textScale(space: 10),
           ),
           SelectFileBtn(
+            allowedExtensions: const [
+              'doc',
+              'docx',
+              'xlsx',
+              'png',
+              'jpeg',
+              'jpg',
+              'pdf',
+            ],
             onChange: (files) {
               cubit.listTaiLieu = files;
             },

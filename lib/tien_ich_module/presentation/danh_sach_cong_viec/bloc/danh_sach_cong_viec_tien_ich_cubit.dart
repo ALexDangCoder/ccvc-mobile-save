@@ -91,7 +91,7 @@ class DanhSachCongViecTienIchCubit
           inUsed: true,
           pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
-          searchWord: textSearch,
+          searchWord: textSearch?.trim(),
         );
       case DSCVScreen.CVQT:
         return getAllListDSCVWithFilter(
@@ -100,14 +100,14 @@ class DanhSachCongViecTienIchCubit
           isImportant: true,
           pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
-          searchWord: textSearch,
+          searchWord: textSearch?.trim(),
         );
       case DSCVScreen.DHT:
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
           isTicked: true,
-          searchWord: textSearch,
+          searchWord: textSearch?.trim(),
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
         );
@@ -115,7 +115,7 @@ class DanhSachCongViecTienIchCubit
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
-          searchWord: textSearch,
+          searchWord: textSearch?.trim(),
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
           isGiveOther: true,
@@ -124,7 +124,7 @@ class DanhSachCongViecTienIchCubit
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: false,
-          searchWord: textSearch,
+          searchWord: textSearch?.trim(),
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
         );
@@ -135,7 +135,7 @@ class DanhSachCongViecTienIchCubit
           pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           groupId: groupId ?? this.groupId,
-          searchWord: textSearch,
+          searchWord: textSearch?.trim(),
         );
     }
     return false;
@@ -235,7 +235,7 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.getAllListDSCVWithFilter(
       pageIndex,
       pageSize ?? 10,
-      searchWord,
+      searchWord?.trim(),
       isImportant,
       inUsed,
       isTicked,

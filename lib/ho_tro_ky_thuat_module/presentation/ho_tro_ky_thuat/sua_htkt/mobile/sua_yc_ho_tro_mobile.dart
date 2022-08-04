@@ -13,13 +13,12 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
-
-import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
-import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -272,6 +271,8 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
           builder: (context, snapshot) {
             final _issueList = snapshot.data ?? [];
             return MultiSelectList(
+              cubit: widget.cubit,
+              isInit: widget.cubit.isLoadDidUpdateWidget,
               initSelectedItems: widget.cubit.issuesEditHTKT
                   .map((e) => e.tenSuCo ?? '')
                   .toList(),
@@ -282,6 +283,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
+              onChangeSearch: (String? value) {},
             );
           },
         ),

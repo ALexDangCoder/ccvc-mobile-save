@@ -182,7 +182,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
-                          if (cubit.listReportFavorite?.isNotEmpty ?? false )
+                          if (cubit.listReportFavorite?.isNotEmpty ?? false)
                             Column(
                               children: [
                                 titleBaoCao(S.current.yeu_thich),
@@ -236,7 +236,7 @@ class _ReportScreenTabletState extends State<ReportScreenTablet> {
         ),
         decoration: BoxDecoration(
           color:
-              isChose ? AppTheme.getInstance().statusColor() : cellColorborder,
+              isChose ? AppTheme.getInstance().colorField() : cellColorborder,
           borderRadius: const BorderRadius.all(
             Radius.circular(4),
           ),

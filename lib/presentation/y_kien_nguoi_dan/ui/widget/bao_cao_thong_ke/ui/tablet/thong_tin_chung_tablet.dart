@@ -237,19 +237,6 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                         children: [
                                           _headerDanhSachPAKN(),
                                           spaceH30,
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                            ),
-                                            child: Text(
-                                              S.current.danh_sach_pakn,
-                                              style: textNormalCustom(
-                                                color: textTitle,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
                                           const SizedBox(
                                             height: 30.0,
                                           ),
@@ -559,11 +546,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           horizontal: 16,
           vertical: 8,
         ),
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
-          color:AppTheme.getInstance().colorField(),
+          color: AppTheme.getInstance().colorField(),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

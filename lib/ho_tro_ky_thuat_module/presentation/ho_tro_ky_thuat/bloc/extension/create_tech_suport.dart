@@ -46,6 +46,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       isLoadCreate: false,
       khuVucId: idKhuVuc,
     );
+    await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
     sinkIssue();
@@ -67,7 +68,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       showError();
     }
   }
-  
+
   void selectArea(int index) {
     nameBuilding = null;
     addTaskHTKTRequest.buildingName = null;
@@ -77,8 +78,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-        ?.map((e) => '${e.name}')
-        .toList() ??
+            ?.map((e) => '${e.name}')
+            .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }
@@ -94,8 +95,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-        ?.map((e) => '${e.name}')
-        .toList() ??
+            ?.map((e) => '${e.name}')
+            .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }

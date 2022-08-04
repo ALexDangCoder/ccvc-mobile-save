@@ -52,11 +52,13 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         child: StreamBuilder<ChiTietLichHopModel>(
           stream: widget.cubit.chiTietLichHopSubject,
           builder: (context, snapshot) {
-            return Column(
-              children: [
-                if (!widget.cubit.isNguoiThamGia()) selectFile(),
-                listFileFromApi(),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  if (!widget.cubit.isNguoiThamGia()) selectFile(),
+                  listFileFromApi(),
+                ],
+              ),
             );
           },
         ),

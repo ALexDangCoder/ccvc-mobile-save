@@ -24,6 +24,12 @@ class _ItemChiaSeCoTkState extends State<ItemChiaSeCoTk> {
   bool valueCkc = false;
 
   @override
+  void initState() {
+    super.initState();
+    valueCkc = widget.cubit.checkTick(widget.model.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final model = widget.model;
     return Container(

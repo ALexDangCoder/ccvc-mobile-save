@@ -67,6 +67,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
   }
 
   void showToast({required String message}) {
+    toast.removeQueuedCustomToasts();
     toast.showToast(
       child: ShowToast(
         text: message,
@@ -110,9 +111,14 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
         )
         .toList();
     newFiles.removeWhere(
-      (element) => !allowedExtensions.contains(
-        path.extension(element.path).replaceAll('.', ''),
-      ),
+      (element) {
+        showToast(
+          message: S.current.file_khong_hop_le,
+        );
+        return !allowedExtensions.contains(
+          path.extension(element.path).replaceAll('.', ''),
+        );
+      },
     );
     final bool isOverMaxSize = cubit.checkOverMaxSize(
       maxSize: widget.maxSize,

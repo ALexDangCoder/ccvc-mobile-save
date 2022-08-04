@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -17,9 +16,11 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 class DataViewTypeList extends StatefulWidget {
-  const DataViewTypeList(
-      {Key? key, required this.cubit, required this.isTablet})
-      : super(key: key);
+  const DataViewTypeList({
+    Key? key,
+    required this.cubit,
+    required this.isTablet,
+  }) : super(key: key);
   final bool isTablet;
   final CalendarMeetingCubit cubit;
 
@@ -60,7 +61,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     '${groupValue.getDayofWeekTxt()}, '
-                        '${groupValue.formatMonth}',
+                    '${groupValue.formatMonth}',
                     textAlign: TextAlign.center,
                     style: textNormalCustom(
                       fontSize: 14,
@@ -219,34 +220,39 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                         children: [
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: itemAvatar(''),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: itemAvatar(''),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: itemAvatar(''),
+                            child: SizedBox(
+                              child: Text(
+                                item.tenPhongHop ?? '',
+                                style: textNormalCustom(
+                                  color: textTitle,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16.0,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                        Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                            right: 15,
-                          ),
-                          margin: const EdgeInsets.only(right: 15),
-                          decoration: BoxDecoration(
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                        ),
+                        margin: const EdgeInsets.only(right: 15),
+                        decoration: BoxDecoration(
                           color: ((item.bit_HopTrucTuyen ?? false) ||
                                   (item.linkTrucTuyen?.isNotEmpty ?? false))
                               ? choVaoSoColor
-                              : dangXyLyColor,
+                              : isMobile()
+                                  ? dangXyLyColor
+                                  : color28C76F,
                           borderRadius: BorderRadius.circular(30),
                         ),
-                          height: 24,
-                          child: Text(
+                        height: 24,
+                        child: Text(
                           ((item.bit_HopTrucTuyen ?? false) ||
                                   (item.linkTrucTuyen?.isNotEmpty ?? false))
                               ? S.current.truc_tuyen
@@ -256,7 +262,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                             fontSize: 12.0,
                           ),
                         ),
-                        )
+                      )
                     ],
                   ),
                 ],
@@ -267,23 +273,4 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
       ),
     );
   }
-  Widget itemAvatar(String url) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.only(right: 4.0),
-      height: 24.0,
-      width: 24.0,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        shape: BoxShape.circle,
-      ),
-      child: Image.network(
-        '',
-        errorBuilder: (_, __, ___) =>
-            Image.asset(ImageAssets.anhDaiDienMacDinh),
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
 }

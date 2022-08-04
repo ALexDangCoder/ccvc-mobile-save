@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -127,7 +128,7 @@ Widget floatingHTKTMobile(
 ) {
   return FloatingActionButton(
     elevation: 0,
-    backgroundColor: labelColor,
+    backgroundColor: AppTheme.getInstance().colorField(),
     onPressed: () {
       showModalBottomSheet(
         context: context,

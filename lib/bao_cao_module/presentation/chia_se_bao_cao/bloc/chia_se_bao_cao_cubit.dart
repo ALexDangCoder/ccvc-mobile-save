@@ -166,7 +166,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           break;
         }
       }
-      if (!checkAllTrue && node.parent?.value.id != '') {
+      if (!checkAllTrue && node.parent?.value.id != null) {
         node.isCheck.isCheck = false;
         addSelectNode(
           node,
@@ -220,12 +220,12 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   }) async {
     final NewUserRequest mapData = NewUserRequest(
       email: email,
-      fullName: fullName,
+      fullName: fullName?.trim(),
       birthday: birthday?.toIso8601String(),
       phone: phone,
-      position: position,
-      unit: unit,
-      description: description,
+      position: position?.trim(),
+      unit: unit?.trim(),
+      description: description?.trim(),
     );
     final rs = await chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
     return rs;

@@ -28,9 +28,11 @@ class SuaDoiYcHoTroMobile extends StatefulWidget {
     Key? key,
     required this.cubit,
     required this.idHTKT,
+    required this.idKhuVuc,
   }) : super(key: key);
   final HoTroKyThuatCubit cubit;
   final String idHTKT;
+  final String idKhuVuc;
 
   @override
   State<SuaDoiYcHoTroMobile> createState() => _SuaDoiYcHoTroMobileState();
@@ -42,7 +44,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
   @override
   void initState() {
     widget.cubit.init();
-    widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
+    widget.cubit.loadApiEditYCHT(id: widget.idHTKT, idKhuVuc: widget.idKhuVuc);
     super.initState();
   }
 
@@ -60,7 +62,8 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
         stream: widget.cubit.stateStream,
         textEmpty: '',
         retry: () {
-          widget.cubit.loadApiEditYCHT(id: widget.idHTKT);
+          widget.cubit
+              .loadApiEditYCHT(id: widget.idHTKT, idKhuVuc: widget.idKhuVuc);
         },
         error: AppException(S.current.something_went_wrong, ''),
         child: Align(

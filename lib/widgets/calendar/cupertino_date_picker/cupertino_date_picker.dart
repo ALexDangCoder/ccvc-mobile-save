@@ -250,7 +250,7 @@ class CupertinoDatePickerDateState
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeOut,
     );
-    // initDateTimeDayMinDate();
+    initDateTimeDayMinDate();
   }
 
   @override

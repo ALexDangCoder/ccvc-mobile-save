@@ -20,6 +20,7 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class TabYKienXuLy extends StatefulWidget {
   const TabYKienXuLy({
@@ -382,11 +383,18 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                                 spaceW4,
                                 GestureDetector(
                                   onTap: () async {
-                                    final Map<String, dynamic> mediaMap =
-                                        await pickFile();
-                                    addDataListPick(
-                                      mediaMap,
-                                    );
+                                    const permission = Permission.storage;
+                                    final status = await permission.status;
+                                    if (!(status.isGranted ||
+                                        status.isLimited)) {
+                                      await MessageConfig.showDialogSetting();
+                                    } else {
+                                      final Map<String, dynamic> mediaMap =
+                                          await pickFile();
+                                      addDataListPick(
+                                        mediaMap,
+                                      );
+                                    }
                                   },
                                   child: SvgPicture.asset(
                                     ImageAssets.ic_file,
@@ -455,6 +463,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                   ImageAssets.ic_send,
                   width: 24,
                   height: 24,
+                  color: AppTheme.getInstance().colorField(),
                 ),
               ),
             ],

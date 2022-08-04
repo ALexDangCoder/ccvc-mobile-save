@@ -124,10 +124,12 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
         );
 
         ///chỉ được hiển thị ngày trong tháng và không hiển thị ngày cuối tuần
-        ///( trừ khi đi làm ) và chỉ hiển thị đến ngày hiện tại
+        ///( trừ khi đi làm ) và chỉ hiển thị đến ngày hiện tại hoặc ngày nghỉ được xin phép
         return dataTime.month == currentTime.month &&
-            !isEndWeek(element) &&
-            dataTime.day <= DateTime.now().day;
+                !isEndWeek(element) &&
+                dataTime.isBefore(DateTime.now()) ||
+            ((element.leaveRequestReasonName ?? '').isNotEmpty &&
+                dataTime.month == currentTime.month);
       });
       for (final BangDiemDanhCaNhanModel e in tmpList) {
         appointments.add(

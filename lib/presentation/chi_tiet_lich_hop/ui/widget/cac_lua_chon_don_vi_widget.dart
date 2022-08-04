@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CacLuaChonDonViWidget extends StatefulWidget {
   final Function(List<String>) onchange;
@@ -63,6 +63,8 @@ class SelectDonViCell extends StatefulWidget {
 }
 
 class _SelectDonViCellState extends State<SelectDonViCell> {
+  int? maxLength;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,46 +105,61 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
                 ),
               )
               .toList(),
-          Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                color: Colors.transparent,
-                child: TextField(
-                  maxLength: 30,
-                  controller: widget.controller,
-                  style: textNormal(textTitle, 14.0.textScale()),
-                  decoration: const InputDecoration(
-                    isDense: true,
-                    counter: SizedBox(),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    isCollapsed: true,
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 5,
-                top: 5,
-                child: GestureDetector(
+          Container(
+            width: double.infinity,
+            color: Colors.transparent,
+            child: TextField(
+              maxLength: maxLength,
+              controller: widget.controller,
+              style: textNormal(textTitle, 14.0.textScale()),
+              decoration: InputDecoration(
+                suffixIcon: GestureDetector(
                   onTap: () {
                     if (widget.controller.text.trim().isNotEmpty) {
                       widget.cubit.listThemLuaChon
-                          .add(widget.controller.text.trim());
+                          .add(getNameNoSpace(widget.controller.text));
                       widget.cubit.themLuaChonBieuQuyet.sink
                           .add(widget.cubit.listThemLuaChon);
                       widget.onchange(widget.cubit.listThemLuaChon);
                       widget.controller.text = '';
                     }
                   },
-                  child: SvgPicture.asset(ImageAssets.ic_plus_bieu_quyet),
+                  child: SvgPicture.asset(
+                    ImageAssets.ic_plus_bieu_quyet,
+                  ),
                 ),
-              )
-            ],
+                suffixIconConstraints: const BoxConstraints(),
+                isDense: true,
+                counter: const SizedBox.shrink(),
+                contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                isCollapsed: true,
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                final  name = getNameNoSpace(value);
+                setState(() {
+                  maxLength = name.length >= 30 ? value.length : null;
+                });
+              },
+            ),
           ),
         ],
       ),
     );
+  }
+
+  String getNameNoSpace(String text ){
+    final textTrim = text.trim();
+    String name = '';
+    for (int index = 0; index < textTrim.length; index++) {
+      if (name.isEmpty) {
+        name += textTrim[index];
+      } else if (!(name[name.length - 1] == ' ' &&
+          textTrim[index] == ' ')) {
+        name += textTrim[index];
+      }
+    }
+    return name;
   }
 
   Widget tag({required String title, required Function onDelete}) {

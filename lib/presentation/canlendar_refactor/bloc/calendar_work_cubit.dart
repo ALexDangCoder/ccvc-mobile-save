@@ -160,7 +160,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       apiCalling = true;
       this.startDate = startDate;
       this.endDate = endDate;
-      this.keySearch = keySearch;
+      this.keySearch = keySearch.trim();
       fCalendarControllerDay.selectedDate = this.startDate;
       fCalendarControllerDay.displayDate = this.startDate;
       fCalendarControllerWeek.selectedDate = this.startDate;

@@ -20,19 +20,10 @@ class ChartDonViXuLyWidget extends StatelessWidget {
       stream: cubit.chartDonViXuLy,
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
-
         return data.isNotEmpty
             ? SizedBox(
                 height: 30.0 * data.length,
                 child: SfCartesianChart(
-                  tooltipBehavior: TooltipBehavior(
-                    enable: true,
-                    textStyle: textNormalCustom(
-                      color: infoColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 10,
-                    ),
-                  ),
                   primaryXAxis: CategoryAxis(
                     placeLabelsNearAxisLine: true,
                     labelStyle: textNormalCustom(
@@ -55,7 +46,6 @@ class ChartDonViXuLyWidget extends StatelessWidget {
                   ),
                   series: <ChartSeries<DonViYKNDModel, String>>[
                     BarSeries<DonViYKNDModel, String>(
-
                       color: choXuLyYKND,
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,

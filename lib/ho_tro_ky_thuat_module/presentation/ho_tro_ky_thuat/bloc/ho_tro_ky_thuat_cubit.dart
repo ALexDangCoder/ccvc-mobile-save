@@ -330,9 +330,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        if (res.isEmpty) {
+        if (res.isEmpty && loadMorePage == 1) {
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
-          showEmpty();
+          showContent();
         } else {
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res));
           showContent();
@@ -373,14 +373,14 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     final result = await _hoTroKyThuatRepository.addTask(
       id: addTaskHTKTRequest.id,
       userRequestId: addTaskHTKTRequest.userRequestId,
-      phone: addTaskHTKTRequest.phone,
-      description: addTaskHTKTRequest.description,
+      phone: addTaskHTKTRequest.phone?.trim(),
+      description: addTaskHTKTRequest.description?.trim(),
       districtId: addTaskHTKTRequest.districtId,
       districtName: addTaskHTKTRequest.districtName,
       buildingId: addTaskHTKTRequest.buildingId,
       buildingName: addTaskHTKTRequest.buildingName,
-      room: addTaskHTKTRequest.room,
-      name: addTaskHTKTRequest.name,
+      room: addTaskHTKTRequest.room?.trim(),
+      name: addTaskHTKTRequest.name?.trim(),
       danhSachSuCo: addTaskHTKTRequest.danhSachSuCo,
       userInUnit: addTaskHTKTRequest.userInUnit,
       fileUpload: addTaskHTKTRequest.fileUpload ?? [],
@@ -589,6 +589,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   Future<void> getCategory({
     required String title,
     bool isLoadCreate = true,
+    String? khuVucId,
   }) async {
     final Result<List<CategoryModel>> result =
         await _hoTroKyThuatRepository.getCategory(title);
@@ -597,12 +598,22 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         if (title == KHU_VUC) {
           listKhuVuc.sink.add(res);
           areaList = res;
-          buildingList = res.first.childCategories ?? [];
-          // buildingListStream.sink.add(buildingList);
           if (isLoadCreate) {
             buildingListStream.sink.add([S.current.khong_co_du_lieu]);
           } else {
-            buildingListStream.sink.add([]);
+            //buildingListStream.sink.add([]);
+            if (khuVucId != null) {
+              buildingList = res
+                      .firstWhere((element) => element.id == khuVucId)
+                      .childCategories ??
+                  [];
+              buildingListStream.sink
+                  .add(buildingList.map((e) => e.name ?? '').toList());
+            } else {
+              buildingList = res.first.childCategories ?? [];
+              buildingListStream.sink
+                  .add(buildingList.map((e) => e.name ?? '').toList());
+            }
           }
           addTaskHTKTRequest.buildingName = null;
           flagLoadThemMoiYCHT = true;

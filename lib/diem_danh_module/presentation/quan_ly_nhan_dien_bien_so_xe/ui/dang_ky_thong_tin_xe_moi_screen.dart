@@ -43,6 +43,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   void initState() {
     super.initState();
     widget.cubit.toast.init(context);
+    widget.cubit.fileItemBienSoXe.clear();
     widget.cubit.loaiSoHuu = DanhSachBienSoXeConst.XE_CAN_BO;
     widget.cubit.xeMay = '';
     widget.cubit.isShowErrLoaiXe.add(false);
@@ -417,6 +418,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
     final bool isFormValidated = keyGroup.currentState?.validator() ?? false;
     widget.cubit.isShowErrLoaiXe.add(widget.cubit.xeMay?.isEmpty ?? true);
     if(widget.cubit.fileItemBienSoXe.isEmpty){
+      widget.cubit.toast.removeQueuedCustomToasts();
       widget.cubit.toast.showToast(
         child: ShowToast(
           text: S.current.vui_long_tai_anh_len,

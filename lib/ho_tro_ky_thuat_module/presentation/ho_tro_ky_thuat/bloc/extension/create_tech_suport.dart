@@ -75,8 +75,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-            ?.map((e) => '${e.name}')
-            .toList() ??
+        ?.map((e) => '${e.name}')
+        .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }
@@ -92,8 +92,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-            ?.map((e) => '${e.name}')
-            .toList() ??
+        ?.map((e) => '${e.name}')
+        .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }

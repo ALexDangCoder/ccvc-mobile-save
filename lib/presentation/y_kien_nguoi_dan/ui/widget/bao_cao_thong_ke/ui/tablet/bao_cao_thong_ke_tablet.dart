@@ -217,7 +217,12 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                         Expanded(
                           child: Container(
                             height: 550,
-                            padding: const EdgeInsets.all(24),
+                            padding: const EdgeInsets.only(
+                              left: 24,
+                              top: 4,
+                              right: 24,
+                              bottom: 24,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: cellColorborder),
@@ -237,16 +242,14 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                   stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
                                   builder: (context, snapshot) {
                                     final listDataChart = snapshot.data ?? [];
-                                    return Expanded(
-                                      child: PieChart(
-                                        title: S.current.y_kien_nguoi_dan,
-                                        chartData: listDataChart,
-                                        onTap: (int value) {},
-                                      ),
+                                    return PieChart(
+                                      colorTitle: textTitle,
+                                      title: S.current.y_kien_nguoi_dan,
+                                      chartData: listDataChart,
+                                      onTap: (int value) {},
                                     );
                                   },
                                 ),
-                                Container(height: 20),
                                 StreamBuilder<DashBroadItemYKNDModel>(
                                   stream: baoCaoCubit.listChartDashBoard,
                                   builder: (context, snapshot) {
@@ -272,6 +275,9 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                             color: numberOfCalenders,
                                             statusName: S.current.den_han,
                                           ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
                                         ),
                                         Expanded(
                                           child: BoxStatusVanBan(
@@ -311,8 +317,12 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 textviewTitle(S.current.linh_vuc_xu_ly),
-                                ChartLinhVucXuLyWidget(
-                                  cubit: baoCaoCubit,
+                                spaceH24,
+                                SizedBox(
+                                  height: 326,
+                                  child: ChartLinhVucXuLyWidget(
+                                    cubit: baoCaoCubit,
+                                  ),
                                 ),
                               ],
                             ),
@@ -404,15 +414,12 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   }
 
   Widget textviewTitle(String title) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-      child: Text(
-        title,
-        style: textNormalCustom(
-          color: textTitle,
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-        ),
+    return Text(
+      title,
+      style: textNormalCustom(
+        color: textTitle,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:io';
+
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/api_constants.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repositor
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -290,12 +291,12 @@ class DanhSachCongViecTienIchCubit
     String? note,
   }) async {
     date ??= DateTime.now().toString();
-    if (title.isNotEmpty) {
+    if (title.trim().isNotEmpty) {
       showLoading();
       final result = await tienIchRep.createTodo(
         CreateToDoRequest(
           groupId: statusDSCV.value == DSCVScreen.NCVM ? groupId : null,
-          label: title,
+          label: title.trim(),
           isTicked: false,
           important: false,
           inUsed: true,
@@ -305,7 +306,7 @@ class DanhSachCongViecTienIchCubit
           ),
           note: checkData(
             defaultData: null,
-            changeData: note,
+            changeData: note?.trim(),
           ),
           performer: checkData(
             defaultData: null,
@@ -446,18 +447,22 @@ class DanhSachCongViecTienIchCubit
           defaultData: todo.isTicked,
         ),
         label: checkData(
-          changeData: title,
+          changeData: title?.trim(),
           defaultData: todo.label,
-          isNeedNull:
-              checkNeedNullOrNot(defaultData: todo.label, changeData: title),
+          isNeedNull: checkNeedNullOrNot(
+            defaultData: todo.label,
+            changeData: title?.trim(),
+          ),
         ),
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
         note: checkData(
-          changeData: note,
+          changeData: note?.trim(),
           defaultData: todo.note,
-          isNeedNull:
-              checkNeedNullOrNot(defaultData: todo.note, changeData: note),
+          isNeedNull: checkNeedNullOrNot(
+            defaultData: todo.note,
+            changeData: note?.trim(),
+          ),
         ),
         finishDay: checkData(
           defaultData: todo.finishDay,

@@ -157,6 +157,13 @@ class LoginCubit extends BaseCubit<LoginState> {
   }
 
   var localAuth = LocalAuthentication();
+  BehaviorSubject<bool>canCheckIsDeviceSupportedSubject=BehaviorSubject<bool>.seeded(false);
+  bool canCheckIsDeviceSupported=false;
+
+  Future<void> canCheckIsDevice() async {
+    canCheckIsDeviceSupported = await localAuth.isDeviceSupported();
+    canCheckIsDeviceSupportedSubject.sink.add(canCheckIsDeviceSupported);
+  }
 
   Future<void> checkBiometrics() async {
     final bool canCheckBiometrics = await localAuth.canCheckBiometrics;
@@ -165,17 +172,25 @@ class LoginCubit extends BaseCubit<LoginState> {
           await localAuth.getAvailableBiometrics();
       if (availableBiometrics.contains(BiometricType.face) ||
           availableBiometrics.contains(BiometricType.fingerprint)) {
-        final authenticated = await localAuth.authenticate(
-            localizedReason: 'Please authenticate to show account balance',
-            useErrorDialogs: false,
-            biometricOnly: true);
-        if (authenticated) {
-          await loginAndSaveinfo(
-            userName: PrefsService.getLoginUserName(),
-            passWord: PrefsService.getLoginPassWord(),
-            appCode: APP_CODE,
+        try {
+          final authenticated = await localAuth.authenticate(
+              localizedReason: 'Please authenticate to show account balance',
+              useErrorDialogs: false,
+              biometricOnly: true);
+          if (authenticated) {
+            await loginAndSaveinfo(
+              userName: PrefsService.getLoginUserName(),
+              passWord: PrefsService.getLoginPassWord(),
+              appCode: APP_CODE,
+            );
+          }
+        }catch(e) {
+          MessageConfig.show(
+            messState: MessState.customIcon,
+            title: S.current.vui_long_cai_dat_va_dang_nhap,
+            urlIcon: ImageAssets.icWarningPopUp,
           );
-        } else {}
+        }
       }
     }
   }

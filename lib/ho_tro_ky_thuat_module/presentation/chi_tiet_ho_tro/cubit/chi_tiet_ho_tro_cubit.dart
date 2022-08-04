@@ -43,7 +43,13 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   void checkCodeTrangThai() {
     listTrangThai.clear();
-    if (isTruongPhong) {
+    if (isTruongPhong && !isNguoiXuLy) {
+      listTrangThai = [
+        CHUA_XU_LY_VALUE,
+        DANG_XU_LY_VALUE,
+      ];
+    }
+    if(isNguoiXuLy && isNguoiXuLy){
       listTrangThai = [
         CHUA_XU_LY_VALUE,
         DANG_XU_LY_VALUE,
@@ -107,6 +113,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   }
 
   bool isItSupport = false;
+  bool isNguoiXuLy = false;
   bool isTruongPhong = false;
   bool isNguoiYeuCau = false;
 
@@ -114,14 +121,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   bool disableRightButton() {
     bool disableButton = false;
-
-    if (isTruongPhong && supportDetail.codeTrangThai == DANG_XU_LY) {
-      if (supportDetail.idNguoiXuLy == dataUser?.userInformation?.id) {
-        disableButton = false;
-      } else {
-        disableButton = true;
-      }
-    }
     if (isNguoiYeuCau &&
         supportDetail.codeTrangThai != DA_HOAN_THANH &&
         !isTruongPhong) {
@@ -158,6 +157,9 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
     if (supportDetail?.idNguoiYeuCau == dataUser?.userInformation?.id) {
       isNguoiYeuCau = true;
+    }
+    if (supportDetail?.idNguoiXuLy == dataUser?.userInformation?.id) {
+      isNguoiXuLy = true;
     }
     checkCodeTrangThai();
     emit(

@@ -122,9 +122,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           if (formProvider != null) {
             formProvider?.validator[key] = key.currentState!.validate();
           }
-          if (widget.onChange != null) {
-            widget.onChange!(value);
-          }
+          widget.onChange?.call(value.trim());
         },
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,

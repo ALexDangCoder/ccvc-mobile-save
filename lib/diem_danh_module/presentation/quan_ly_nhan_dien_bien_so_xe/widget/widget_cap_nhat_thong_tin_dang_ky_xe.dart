@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/item_text_note.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -17,6 +18,7 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class WidgetCapNhatThongTinDangKyXe extends StatefulWidget {
   final BuildContext context;
@@ -39,6 +41,7 @@ class _WidgetCapNhatThongTinDangKyXeState
     extends State<WidgetCapNhatThongTinDangKyXe> {
   TextEditingController bienKiemSoatController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
+  bool hasImage = true;
 
   @override
   void initState() {
@@ -64,8 +67,19 @@ class _WidgetCapNhatThongTinDangKyXeState
               title2: S.current.cap_nhat,
               onClickLeft: () {
                 Navigator.pop(widget.context);
+                widget.cubit.fileItemBienSoXe.clear();
               },
               onClickRight: () {
+                if (hasImage == false) {
+                  widget.cubit.toast.removeQueuedCustomToasts();
+                  widget.cubit.toast.showToast(
+                    child: ShowToast(
+                      text: S.current.vui_long_tai_anh_len,
+                    ),
+                    gravity: ToastGravity.TOP_RIGHT,
+                  );
+                  return;
+                }
                 if (keyGroup.currentState!.validator()) {
                   Navigator.pop(context);
                   widget.cubit.postImageResgiter(
@@ -87,73 +101,75 @@ class _WidgetCapNhatThongTinDangKyXeState
             Flexible(
               child: SingleChildScrollView(
                 reverse: true,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    spaceH20,
-                    Column(
-                      children: [
-                        Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            SelectImageDangKyXe(
-                              isPhone: true,
-                              image: widget.cubit.getUrlImageBienSoXe(
-                                  widget.chiTietBienSoXeModel.fileId),
-                              onTapImage: (image) {
-                                if (image != null) {
+                child: FormGroup(
+                  key: keyGroup,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      spaceH20,
+                      Column(
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              SelectImageDangKyXe(
+                                isPhone: true,
+                                image: widget.cubit.getUrlImageBienSoXe(
+                                    widget.chiTietBienSoXeModel.fileId),
+                                onTapImage: (image) {
+                                  if (image != null) {
+                                    widget.cubit.fileItemBienSoXe.clear();
+                                    widget.cubit.fileItemBienSoXe.add(image);
+                                    hasImage = true;
+                                  }
+                                },
+                                removeImage: () {
+                                  hasImage = false;
                                   widget.cubit.fileItemBienSoXe.clear();
-                                  widget.cubit.fileItemBienSoXe.add(image);
-                                }
-                              },
-                              removeImage: () {
-                                widget.cubit.fileItemBienSoXe.clear();
-                              },
-                              isTao: false,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    spaceH12,
-                    Text(
-                      S.current.giay_dang_ky_xe,
-                      style: textNormalCustom(
-                        color: color3D5586,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
+                                },
+                                isTao: false,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                    spaceH20,
-                    ItemTextNote(title: S.current.loai_xe),
-                    StreamBuilder<List<LoaiXeModel>>(
-                      initialData: [
-                        LoaiXeModel(ten: S.current.xe_may),
-                        LoaiXeModel(ten: S.current.xe_o_to),
-                      ],
-                      stream: widget.cubit.loaiXeSubject,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return CoolDropDown(
-                          initData:
-                              widget.chiTietBienSoXeModel.loaiXeMay?.loaiXe() ??
-                                  S.current.xe_may,
-                          listData: data.map((e) => e.ten ?? '').toList(),
-                          onChange: (value) {
-                            value == 0
-                                ? widget.cubit.xeMay =
-                                    DanhSachBienSoXeConst.XE_MAY
-                                : widget.cubit.xeMay =
-                                    DanhSachBienSoXeConst.O_TO;
-                          },
-                        );
-                      },
-                    ),
-                    spaceH20,
-                    ItemTextNote(title: S.current.bien_kiem_soat),
-                    FormGroup(
-                      key: keyGroup,
-                      child: TextFieldValidator(
+                      spaceH12,
+                      Text(
+                        S.current.giay_dang_ky_xe,
+                        style: textNormalCustom(
+                          color: color3D5586,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      spaceH20,
+                      ItemTextNote(title: S.current.loai_xe),
+                      StreamBuilder<List<LoaiXeModel>>(
+                        initialData: [
+                          LoaiXeModel(ten: S.current.xe_may),
+                          LoaiXeModel(ten: S.current.xe_o_to),
+                        ],
+                        stream: widget.cubit.loaiXeSubject,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return CoolDropDown(
+                            initData: widget.chiTietBienSoXeModel.loaiXeMay
+                                    ?.loaiXe() ??
+                                S.current.xe_may,
+                            listData: data.map((e) => e.ten ?? '').toList(),
+                            onChange: (value) {
+                              value == 0
+                                  ? widget.cubit.xeMay =
+                                      DanhSachBienSoXeConst.XE_MAY
+                                  : widget.cubit.xeMay =
+                                      DanhSachBienSoXeConst.O_TO;
+                            },
+                          );
+                        },
+                      ),
+                      spaceH20,
+                      ItemTextNote(title: S.current.bien_kiem_soat),
+                      TextFieldValidator(
                         controller: bienKiemSoatController,
                         hintText: S.current.bien_kiem_soat,
                         onChange: (value) {},
@@ -162,31 +178,31 @@ class _WidgetCapNhatThongTinDangKyXeState
                               .checkTruongNull('${S.current.bien_kiem_soat}!');
                         },
                       ),
-                    ),
-                    spaceH20,
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        S.current.loai_so_huu,
-                        style: textNormalCustom(
-                          color: color3D5586,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0,
+                      spaceH20,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          S.current.loai_so_huu,
+                          style: textNormalCustom(
+                            color: color3D5586,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.0,
+                          ),
                         ),
                       ),
-                    ),
-                    CustomRadioLoaiSoHuu(
-                      onchange: (onchange) {
-                        onchange
-                            ? widget.cubit.loaiSoHuu =
-                                DanhSachBienSoXeConst.XE_LANH_DAO
-                            : widget.cubit.loaiSoHuu =
-                                DanhSachBienSoXeConst.XE_CAN_BO;
-                      },
-                      groupValueInit:
-                          widget.chiTietBienSoXeModel.loaiSoHuu?.loaiSoHuu(),
-                    ),
-                  ],
+                      CustomRadioLoaiSoHuu(
+                        onchange: (onchange) {
+                          onchange
+                              ? widget.cubit.loaiSoHuu =
+                                  DanhSachBienSoXeConst.XE_LANH_DAO
+                              : widget.cubit.loaiSoHuu =
+                                  DanhSachBienSoXeConst.XE_CAN_BO;
+                        },
+                        groupValueInit:
+                            widget.chiTietBienSoXeModel.loaiSoHuu?.loaiSoHuu(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

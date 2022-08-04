@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/them
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/sua_phien_hop.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
@@ -481,13 +482,22 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
               itemCount: listPhienHopModel.files.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                final data =
-                    listPhienHopModel.files.map((e) => e.name).toList();
-                return Text(
-                  data[index] ?? S.current.khong_co_tep_nao,
-                  style: textDetailHDSD(
-                    fontSize: 14.0.textScale(),
-                    color: color5A8DEE,
+                final data = listPhienHopModel.files;
+                return GestureDetector(
+                  onTap: () {
+                    saveFile(
+                      fileName: data[index].name ?? '',
+                      url: data[index].path ?? '',
+                    );
+                  },
+                  child: SizedBox(
+                    child: Text(
+                      data[index].name ?? S.current.khong_co_tep_nao,
+                      style: textDetailHDSD(
+                        fontSize: 14.0.textScale(),
+                        color: color5A8DEE,
+                      ),
+                    ),
                   ),
                 );
               },

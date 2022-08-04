@@ -41,6 +41,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
   @override
   void initState() {
     super.initState();
+    loginCubit.canCheckIsDevice();
     loginCubit.closeDialog();
     loginCubit.toast.init(context);
   }
@@ -286,66 +287,75 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                             if (PrefsService.getLoginUserName() != '')
                               Column(
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Visibility(
-                                        visible: isAndroid ?? true,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              loginCubit.checkBiometrics();
-                                            });
-                                          },
-                                          child: Container(
-                                            height: 64,
-                                            width: 64,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              color: AppTheme.getInstance()
-                                                  .colorField()
-                                                  .withOpacity(0.1),
-                                            ),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                ImageAssets.icFingerprint,
-                                                color: AppTheme.getInstance()
-                                                    .colorField(),
+                                  StreamBuilder<bool>(
+                                      stream: loginCubit.canCheckIsDeviceSupportedSubject,
+                                    builder: (context, snapshot) {
+                                      final data=snapshot.data;
+                                      return Visibility(
+                                        visible:data??false,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Visibility(
+                                              visible: isAndroid ?? true,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    loginCubit.checkBiometrics();
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: 64,
+                                                  width: 64,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(12.0),
+                                                    color: AppTheme.getInstance()
+                                                        .colorField()
+                                                        .withOpacity(0.1),
+                                                  ),
+                                                  child: Center(
+                                                    child: SvgPicture.asset(
+                                                      ImageAssets.icFingerprint,
+                                                      color: AppTheme.getInstance()
+                                                          .colorField(),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                      Visibility(
-                                        visible: isIOS ?? true,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              loginCubit.checkBiometrics();
-                                            });
-                                          },
-                                          child: Container(
-                                            height: 64,
-                                            width: 64,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              color: AppTheme.getInstance()
-                                                  .colorField()
-                                                  .withOpacity(0.1),
-                                            ),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                ImageAssets.icFaceId,
-                                                color: AppTheme.getInstance()
-                                                    .colorField(),
+                                            Visibility(
+                                              visible: isIOS ?? true,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    loginCubit.checkBiometrics();
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: 64,
+                                                  width: 64,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(12.0),
+                                                    color: AppTheme.getInstance()
+                                                        .colorField()
+                                                        .withOpacity(0.1),
+                                                  ),
+                                                  child: Center(
+                                                    child: SvgPicture.asset(
+                                                      ImageAssets.icFaceId,
+                                                      color: AppTheme.getInstance()
+                                                          .colorField(),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
+                                      );
+                                    }
                                   ),
                                   const SizedBox(
                                     height: 32.0,

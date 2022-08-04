@@ -33,6 +33,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
+        needRefreshMainMeeting = true;
         return true;
       },
       error: (err) {
@@ -59,6 +60,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         showContent();
+        needRefreshMainMeeting = true;
         return true;
       },
       error: (err) {
@@ -157,6 +159,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         showContent();
         MessageConfig.show(title: S.current.thanh_cong);
         getDanhSachNguoiChuTriPhienHop(idCuocHop);
+        needRefreshMainMeeting = true;
       },
       error: (error) {
         MessageConfig.show(title: S.current.that_bai);
@@ -246,6 +249,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     rs.when(
       success: (res) {
         isSuccess = true;
+        needRefreshMainMeeting = true;
       },
       error: (error) {
         isSuccess = false;
@@ -291,6 +295,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.cu_can_bo_thanh_cong,
         );
+        needRefreshMainMeeting = true;
         isCheck = true;
       },
       error: (error) {
@@ -352,6 +357,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         isCheck = true;
+        needRefreshMainMeeting = true;
       },
       error: (error) {
         isCheck = false;
@@ -441,6 +447,9 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     ),
       id: idChuTri,
     );
+    if(isCheckCallApiCuCanBo){
+      needRefreshMainMeeting = true;
+    }
     return isCheckCallApiCuCanBo;
   }
 

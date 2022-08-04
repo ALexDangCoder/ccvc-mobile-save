@@ -246,7 +246,9 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                           color: ((item.bit_HopTrucTuyen ?? false) ||
                                   (item.linkTrucTuyen?.isNotEmpty ?? false))
                               ? choVaoSoColor
-                              : dangXyLyColor,
+                              : isMobile()
+                                  ? dangXyLyColor
+                                  : color28C76F,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         height: 24,

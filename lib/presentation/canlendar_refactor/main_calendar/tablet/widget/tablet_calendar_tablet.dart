@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/choose_time_calendar_controller.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/choose_time_header_widget/controller/chosse_time_calendar_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/calendar_style_phone.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/src/customization/days_of_week_style_phone.dart';
@@ -20,7 +19,8 @@ class TableCalendarTabletWidget extends StatefulWidget {
   final Function(DateTime) onPageCalendar;
   final Function(DateTime) onSelect;
   final List<DateTime> calendarDays;
- final bool isSelectYear;
+  final bool isSelectYear;
+
   const TableCalendarTabletWidget({
     Key? key,
     required this.calendarDays,
@@ -53,7 +53,6 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +131,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
           startingDayOfWeek: StartingDayOfWeek.monday,
           onDaySelected: (selectDay, focusDay) {
             this.selectDay = selectDay;
+            pageDateTime.value = selectDay;
             widget.onSelect(selectDay);
             setState(() {});
           },
@@ -203,7 +203,9 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
 
   String dateFormat(DateTime dateTime) {
     final now = DateTime.now();
-    if (dateTime.year == now.year && dateTime.month == now.month) {
+    if (dateTime.year == now.year &&
+        dateTime.month == now.month &&
+        widget.controller.calendarType.value == CalendarType.MONTH) {
       return S.current.thang_nay;
     }
     return widget.controller.dateFormat(dateTime);

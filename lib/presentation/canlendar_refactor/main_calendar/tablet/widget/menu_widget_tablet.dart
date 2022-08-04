@@ -162,7 +162,9 @@ class MenuWidgetTablet extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                isLichHop ? S.current.menu_lich_hop : S.current.menu_lich_hop,
+                isLichHop
+                    ? S.current.menu_lich_hop
+                    : S.current.menu_lich_lam_viec,
                 style: textNormalCustom(
                   color: color3D5586,
                   fontSize: 24,

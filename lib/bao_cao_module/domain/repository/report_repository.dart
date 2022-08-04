@@ -13,6 +13,7 @@ mixin ReportRepository {
     int sort,
     String keyWord,
     String appID,
+      bool isShare,
   );
 
   Future<Result<List<NhomCungHeThong>>> getListGroup(

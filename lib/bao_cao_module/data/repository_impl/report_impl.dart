@@ -30,18 +30,33 @@ class ReportImpl implements ReportRepository {
     int sort,
     String keyWord,
     String appId,
+      bool isShare,
   ) {
-    return runCatchingAsync<ReportResponse, List<ReportItem>>(
-      () => _reportService.getListReport(
-        appId,
-        folderId,
-        sort,
-        keyWord,
-      ),
-      (res) =>
-          res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
-          [],
-    );
+    if(!isShare){
+      return runCatchingAsync<ReportResponse, List<ReportItem>>(
+            () => _reportService.getListReport(
+          appId,
+          folderId,
+          sort,
+          keyWord,
+        ),
+            (res) =>
+        res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
+            [],
+      );
+    } else {
+      return runCatchingAsync<ReportResponse, List<ReportItem>>(
+            () => _reportService.getListShareReport(
+          appId,
+          folderId,
+          sort,
+          keyWord,
+        ),
+            (res) =>
+        res.dataResponse?.listReportItem?.map((e) => e.toModelShare()).toList() ??
+            [],
+      );
+    }
   }
 
   @override

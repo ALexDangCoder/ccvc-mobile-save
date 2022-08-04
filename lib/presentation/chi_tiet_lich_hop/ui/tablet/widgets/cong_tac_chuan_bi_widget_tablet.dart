@@ -214,7 +214,6 @@ class _CongTacChuanBiWidgetTabletState
                                     text: S.current.duyet,
                                     color: itemWidgetUsing,
                                     ontap: () {
-                                      print("dadada");
                                       duyetOrhuyDuyetThietBi(true);
                                     },
                                   ),

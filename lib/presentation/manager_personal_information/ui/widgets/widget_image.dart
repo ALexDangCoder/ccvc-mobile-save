@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -50,7 +51,10 @@ class _WigetImageState extends State<WigetImage> {
                   errorWidget: (_, __, ___) {
                     return Container(
                       padding: const EdgeInsets.all(54.0),
-                      child: SvgPicture.asset(ImageAssets.icImage),
+                      child: SvgPicture.asset(
+                        ImageAssets.icImage,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     );
                   },
                 ),
@@ -94,7 +98,9 @@ class _WigetImageState extends State<WigetImage> {
                   errorWidget: (_, __, ___) {
                     return Container(
                       padding: const EdgeInsets.all(54.0),
-                      child: SvgPicture.asset(ImageAssets.icImage),
+                      child: SvgPicture.asset(ImageAssets.icImage,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     );
                   },
                 ),
@@ -138,7 +144,9 @@ class _WigetImageState extends State<WigetImage> {
                   errorWidget: (_, __, ___) {
                     return Container(
                       padding: const EdgeInsets.all(54.0),
-                      child: SvgPicture.asset(ImageAssets.icImage),
+                      child: SvgPicture.asset(ImageAssets.icImage,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     );
                   },
                 ),

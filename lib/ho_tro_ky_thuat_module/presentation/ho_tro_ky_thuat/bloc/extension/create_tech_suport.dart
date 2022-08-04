@@ -29,7 +29,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     }
   }
 
-  Future<void> loadApiEditYCHT(
+   Future<void> loadApiEditYCHT(
       {required String id, required String idKhuVuc}) async {
     showLoading();
     isLoadDidUpdateWidget = true;
@@ -46,6 +46,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       isLoadCreate: false,
       khuVucId: idKhuVuc,
     );
+    await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
     sinkIssue();

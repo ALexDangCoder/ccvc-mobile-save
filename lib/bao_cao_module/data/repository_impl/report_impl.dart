@@ -7,11 +7,13 @@ import 'package:ccvc_mobile/bao_cao_module/data/response/folder_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/group_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_detail_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/source_share_detail_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/services/report_common_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/services/report_service.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_detail_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/source_detail_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/repository/report_repository.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
@@ -30,30 +32,34 @@ class ReportImpl implements ReportRepository {
     int sort,
     String keyWord,
     String appId,
-      bool isShare,
+    bool isShare,
   ) {
-    if(!isShare){
+    if (!isShare) {
       return runCatchingAsync<ReportResponse, List<ReportItem>>(
-            () => _reportService.getListReport(
+        () => _reportService.getListReport(
           appId,
           folderId,
           sort,
           keyWord,
         ),
-            (res) =>
-        res.dataResponse?.listReportItem?.map((e) => e.toModel()).toList() ??
+        (res) =>
+            res.dataResponse?.listReportItem
+                ?.map((e) => e.toModel())
+                .toList() ??
             [],
       );
     } else {
       return runCatchingAsync<ReportResponse, List<ReportItem>>(
-            () => _reportService.getListShareReport(
+        () => _reportService.getListShareReport(
           appId,
           folderId,
           sort,
           keyWord,
         ),
-            (res) =>
-        res.dataResponse?.listReportItem?.map((e) => e.toModelShare()).toList() ??
+        (res) =>
+            res.dataResponse?.listReportItem
+                ?.map((e) => e.toModelShare())
+                .toList() ??
             [],
       );
     }
@@ -251,6 +257,17 @@ class ReportImpl implements ReportRepository {
         pageSize,
       ),
       (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<SourceDetail>> getSourceShareDetail({
+    required String idReport,
+    required String appId,
+  }) {
+    return runCatchingAsync<DataSourceShareResponse, SourceDetail>(
+      () => _reportService.getSoureDetail(appId, idReport),
+      (res) => res.dataResponse?.toDomain() ?? SourceDetail(),
     );
   }
 }

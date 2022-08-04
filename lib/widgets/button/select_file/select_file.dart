@@ -15,6 +15,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path/path.dart' as path;
 
 class SelectFileBtn extends StatefulWidget {
   const SelectFileBtn({
@@ -66,6 +67,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
   }
 
   void showToast({required String message}) {
+    toast.removeQueuedCustomToasts();
     toast.showToast(
       child: ShowToast(
         text: message,
@@ -76,18 +78,19 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
   }
 
   Future<void> handleButtonFileClicked() async {
+    final allowedExtensions = widget.allowedExtensions ??
+        const [
+          FileExtensions.DOC,
+          FileExtensions.DOCX,
+          FileExtensions.JPEG,
+          FileExtensions.JPG,
+          FileExtensions.PDF,
+          FileExtensions.PNG,
+          FileExtensions.XLSX,
+        ];
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: widget.hasMultiFile,
-      allowedExtensions: widget.allowedExtensions ??
-          const [
-            FileExtensions.DOC,
-            FileExtensions.DOCX,
-            FileExtensions.JPEG,
-            FileExtensions.JPG,
-            FileExtensions.PDF,
-            FileExtensions.PNG,
-            FileExtensions.XLSX,
-          ],
+      allowedExtensions: allowedExtensions,
       type: widget.allowedExtensions?.isNotEmpty ?? true
           ? FileType.custom
           : FileType.any,
@@ -107,6 +110,16 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
           (file) => File(file.path ?? ''),
         )
         .toList();
+    newFiles.removeWhere(
+      (element) {
+        showToast(
+          message: S.current.file_khong_hop_le,
+        );
+        return !allowedExtensions.contains(
+          path.extension(element.path).replaceAll('.', ''),
+        );
+      },
+    );
     final bool isOverMaxSize = cubit.checkOverMaxSize(
       maxSize: widget.maxSize,
       newFiles: newFiles,
@@ -120,8 +133,8 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     cubit.selectedFiles.addAll(newFiles);
     cubit.needRebuildListFile.sink.add(true);
     widget.onChange(cubit.selectedFiles);
-    if(widget.needClearAfterPick){
-      await Future.delayed(const Duration(milliseconds: 1000), (){
+    if (widget.needClearAfterPick) {
+      await Future.delayed(const Duration(milliseconds: 1000), () {
         cubit.selectedFiles.clear();
       });
     }

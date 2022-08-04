@@ -205,11 +205,10 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                         : data.value.tenCanBo,
                                     hasFunction: true,
                                     delete: () {
-                                      widget.cubit.addSelectNode(
+                                      data.isCheck.isCheck = false;
+                                      widget.cubit.selectTag(
                                         data,
-                                        isCheck: false,
                                       );
-
                                       widget.cubit.removeTag(data);
                                     },
                                   );

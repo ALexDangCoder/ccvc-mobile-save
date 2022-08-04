@@ -434,7 +434,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
         eventBus.fire(RefreshThanhPhanThamGia());
-        print('------------------- chyavao ben trong cubi');
         await getDanhSachNguoiChuTriPhienHop(idCuocHop);
         moiHopRequest.clear();
       },

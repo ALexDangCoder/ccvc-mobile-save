@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobil
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/mobile/tab_ngoai_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -53,7 +54,10 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
     return Container(
       clipBehavior: Clip.hardEdge,
       height: 750.h,
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       //padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -125,7 +129,9 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                     Expanded(
                       flex: 9,
                       child: Text(
-                        Get.find<AppConstants>().urlHTCS + widget.idReport,
+                        Get
+                            .find<AppConstants>()
+                            .urlHTCS + widget.idReport,
                         style: textNormalCustom(
                           color: labelColor,
                           fontSize: 14,
@@ -137,7 +143,9 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                         onTap: () {
                           Clipboard.setData(
                             ClipboardData(
-                              text: Get.find<AppConstants>().urlHTCS +
+                              text: Get
+                                  .find<AppConstants>()
+                                  .urlHTCS +
                                   widget.idReport,
                             ),
                           ).then((value) {
@@ -176,9 +184,9 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,
                 //isScrollable: true,
-                labelColor: textDefault,
+                labelColor: AppTheme.getInstance().colorField(),
                 unselectedLabelColor: infoColor,
-                indicatorColor: textDefault,
+                indicatorColor: AppTheme.getInstance().colorField(),
                 labelStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,

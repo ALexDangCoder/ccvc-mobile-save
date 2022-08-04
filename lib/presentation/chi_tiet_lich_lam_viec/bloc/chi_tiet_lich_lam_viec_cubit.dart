@@ -1058,7 +1058,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   String reportStatusId = '';
   Set<File> files = {};
   List<FileModel> fileInit = [];
-  List<FileModel> fileDelete = [];
+  List<String> fileDeleteId = [];
   String content = '';
   TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
@@ -1131,7 +1131,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       scheduleId: scheduleId,
       content: content,
       files: files.toList(),
-      idFileDelele: fileDelete.map((e) => e.id ?? '').toList(),
+      idFileDelele: fileDeleteId,
       reportStatusId: reportStatusId,
     );
     ShowLoadingScreen.dismiss();
@@ -1156,17 +1156,4 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
     );
   }
 
-  bool checkLenghtFile() {
-    int sum = 0;
-    for (final element in files) {
-      sum = sum + element.lengthSync();
-    }
-    for (final element in fileInit) {
-      sum += element.fileLength?.toInt() ?? 0;
-    }
-    if (sum > MaxSizeFile.MAX_SIZE_30MB) {
-      return false;
-    }
-    return true;
-  }
 }

@@ -302,47 +302,47 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
               /// Cu can bo di thay
               if (chiTietLichLamViecCubit.checkChoCuCanBoDiThay(dataModel))
                 CellPopPupMenu(
-                urlImage: ImageAssets.icCuCanBoDiThay,
-                text: S.current.cu_can_bo_di_thay,
-                onTap: () {
-                  showDiaLogTablet(
-                    context,
-                    title: S.current.cu_can_bo_di_thay,
-                    child: CuCanBoDiThayLichLamViecWidget(
-                      themCanBoCubit: themCanBoCubit,
-                      cubit: chiTietLichLamViecCubit,
-                      cubitThanhPhanTG: cubitThanhPhan,
-                      themDonViCubit: themDonViCubit,
-                    ),
-                    isBottomShow: false,
-                    funcBtnOk: () {
-                      Navigator.pop(context);
-                    },
-                  );
-                },
-              ),
+                  urlImage: ImageAssets.icCuCanBoDiThay,
+                  text: S.current.cu_can_bo_di_thay,
+                  onTap: () {
+                    showDiaLogTablet(
+                      context,
+                      title: S.current.cu_can_bo_di_thay,
+                      child: CuCanBoDiThayLichLamViecWidget(
+                        themCanBoCubit: themCanBoCubit,
+                        cubit: chiTietLichLamViecCubit,
+                        cubitThanhPhanTG: cubitThanhPhan,
+                        themDonViCubit: themDonViCubit,
+                      ),
+                      isBottomShow: false,
+                      funcBtnOk: () {
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
               if (chiTietLichLamViecCubit.checkChoCuCanBo(dataModel))
-              //cu can bo
-              CellPopPupMenu(
-                urlImage: ImageAssets.icCuCanBo,
-                text: S.current.cu_can_bo,
-                onTap: () {
-                  showDiaLogTablet(
-                    context,
-                    title: S.current.cu_can_bo,
-                    child: CuCanBoLichLamViecWidget(
-                      themCanBoCubit: themCanBoCubit,
-                      cubit: chiTietLichLamViecCubit,
-                      cubitThanhPhanTG: cubitThanhPhan,
-                      themDonViCubit: themDonViCubit,
-                    ),
-                    isBottomShow: false,
-                    funcBtnOk: () {
-                      Navigator.pop(context);
-                    },
-                  );
-                },
-              )
+                //cu can bo
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icCuCanBo,
+                  text: S.current.cu_can_bo,
+                  onTap: () {
+                    showDiaLogTablet(
+                      context,
+                      title: S.current.cu_can_bo,
+                      child: CuCanBoLichLamViecWidget(
+                        themCanBoCubit: themCanBoCubit,
+                        cubit: chiTietLichLamViecCubit,
+                        cubitThanhPhanTG: cubitThanhPhan,
+                        themDonViCubit: themDonViCubit,
+                      ),
+                      isBottomShow: false,
+                      funcBtnOk: () {
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                )
             ];
           }
           return snapshot.data != null
@@ -479,7 +479,13 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                                             isThamGia: false,
                                                             lyDo: '',
                                                           ),
-                                                        );
+                                                        )
+                                                            .then((value) {
+                                                          chiTietLichLamViecCubit
+                                                              .loadApi(
+                                                            widget.id,
+                                                          );
+                                                        });
                                                       },
                                                       textColor: buttonColor,
                                                     ),
@@ -500,7 +506,12 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                                             isThamGia: true,
                                                             lyDo: '',
                                                           ),
-                                                        );
+                                                        )
+                                                            .then((value) {
+                                                          chiTietLichLamViecCubit
+                                                              .loadApi(
+                                                                  widget.id);
+                                                        });
                                                       },
                                                       textColor: Colors.white,
                                                     ),
@@ -621,7 +632,8 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                     ],
                                   ),
                                 ),
-                                Expanded(child: Column(
+                                Expanded(
+                                    child: Column(
                                   children: [
                                     listScheduleCooperatives(),
                                     StreamBuilder<ChiTietLichLamViecModel>(
@@ -732,7 +744,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
   }
 
   Widget listScheduleCooperatives() {
-    return   ExpandOnlyWidget(
+    return ExpandOnlyWidget(
       header: Container(
         width: double.infinity,
         color: Colors.transparent,
@@ -750,8 +762,8 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         stream: chiTietLichLamViecCubit.listOfficer.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
-          if(data.isEmpty) {
-            return const  NodataWidget(
+          if (data.isEmpty) {
+            return const NodataWidget(
               height: 150,
             );
           }

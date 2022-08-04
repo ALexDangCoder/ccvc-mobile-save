@@ -171,7 +171,6 @@ class _MultiSelectListState extends State<MultiSelectList> {
         context,
         title: widget.title ?? '',
         child: Issue(
-          key: UniqueKey(),
           onChange: (String? value) {
             widget.onChangeSearch(value);
           },
@@ -223,6 +222,12 @@ class _IssueState extends State<Issue> {
   final TextEditingController controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    widget.logic.initIssua();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -237,7 +242,9 @@ class _IssueState extends State<Issue> {
             builder: (context, snapshot) {
               return SelectedItemCell(
                 controller: controller,
-                listSelect: widget.logic.selectedValue,
+                listSelect: widget.logic.selectValueCache.isEmpty
+                    ? widget.logic.selectedValue
+                    : widget.logic.selectValueCache,
                 onChange: (value) {
                   widget.onChange(value);
                 },
@@ -299,6 +306,7 @@ class _IssueState extends State<Issue> {
                   Navigator.pop(context);
                 },
                 onClickRight: () {
+                  widget.logic.luuDuLieu();
                   Navigator.pop(context, widget.logic.selectedIndex);
                 },
               ),
@@ -317,28 +325,48 @@ class Logic {
   List<int> selectedIndex = [];
   List<String> selectedValue = [];
   List<String> listSearch = [];
+  List<int> selectIndexCache = [];
+  List<String> selectValueCache = [];
+
+  void initIssua() {
+    selectIndexCache.clear();
+    selectValueCache.clear();
+    for (final e in selectedValue) {
+      selectIndexCache.add(allValue.indexOf(e));
+
+    }
+    selectValueCache.addAll(selectedValue);
+    selectedItemStream.sink.add(selectIndexCache);
+  }
+
+  void luuDuLieu() {
+    selectedIndex.clear();
+    selectedIndex.addAll(selectIndexCache);
+    selectedValue.clear();
+    selectedValue.addAll(selectValueCache);
+  }
 
   void checkIndex(int _index) {
-    if (selectedIndex.contains(_index)) {
-      selectedIndex.remove(_index);
-      selectedValue.remove(allValue[_index]);
+    if (selectIndexCache.contains(_index)) {
+      selectIndexCache.remove(_index);
+      selectValueCache.remove(allValue[_index]);
     } else {
-      selectedIndex.add(_index);
-      selectedValue.add(allValue[_index]);
+      selectIndexCache.add(_index);
+      selectValueCache.add(allValue[_index]);
     }
-    selectedIndex.toSet().toList();
-    selectedItemStream.sink.add(selectedIndex);
+    selectIndexCache.toSet().toList();
+    selectedItemStream.sink.add(selectIndexCache);
   }
 
   void checkValue(String value) {
-    if (selectedValue.contains(value)) {
-      selectedIndex.remove(allValue.indexOf(value));
-      selectedValue.remove(value);
+    if (selectValueCache.contains(value)) {
+      selectIndexCache.remove(allValue.indexOf(value));
+      selectValueCache.remove(value);
     } else {
-      selectedIndex.add(allValue.indexOf(value));
-      selectedValue.add(value);
+      selectIndexCache.add(allValue.indexOf(value));
+      selectValueCache.add(value);
     }
-    selectedItemStream.sink.add(selectedIndex);
+    selectedItemStream.sink.add(selectIndexCache);
   }
 
   void checkInit(List<String>? initValue) {

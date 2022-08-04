@@ -29,9 +29,11 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     }
   }
 
-  Future<void> loadApiEditYCHT({required String id}) async {
+  Future<void> loadApiEditYCHT(
+      {required String id, required String idKhuVuc}) async {
     showLoading();
     isLoadDidUpdateWidget = true;
+
     editModelHTKT.add(SupportDetail());
 
     ///get data building, district
@@ -42,8 +44,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     await getCategory(
       title: HoTroKyThuatCubit.KHU_VUC,
       isLoadCreate: false,
+      khuVucId: idKhuVuc,
     );
-    await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
     sinkIssue();
@@ -75,8 +77,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-        ?.map((e) => '${e.name}')
-        .toList() ??
+            ?.map((e) => '${e.name}')
+            .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }
@@ -92,8 +94,8 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     showErrorKhuVuc.add(false);
     buildingList = areaList[index].childCategories ?? [];
     final _buildingList = listKhuVuc.value[index].childCategories
-        ?.map((e) => '${e.name}')
-        .toList() ??
+            ?.map((e) => '${e.name}')
+            .toList() ??
         [];
     buildingListStream.sink.add(_buildingList);
   }

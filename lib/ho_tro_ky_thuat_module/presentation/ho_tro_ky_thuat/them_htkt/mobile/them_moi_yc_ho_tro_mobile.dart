@@ -195,24 +195,22 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           StreamBuilder<List<String>>(
                             stream: widget.cubit.issueListStream.stream,
                             builder: (context, snapshot) {
-
                               final _issueList = snapshot.data ?? [];
-                              return  MultiSelectList(
-                                key: UniqueKey(),
-                                      isInit: false,
-                                      cubit: widget.cubit,
-                                      title: S.current.loai_su_co,
-                                      isRequire: true,
-                                      items: _issueList,
-                                      onChange: (selectIndexList) {
-                                        widget.cubit.addIssueListRequest(
-                                          selectIndexList,
-                                        );
-                                      },
-                                      onChangeSearch: (String? value) {
-                                        widget.cubit.searchIssue(value);
-                                      },
-                                    );
+                              return MultiSelectList(
+                                isInit: false,
+                                cubit: widget.cubit,
+                                title: S.current.loai_su_co,
+                                isRequire: true,
+                                items: _issueList,
+                                onChange: (selectIndexList) {
+                                  widget.cubit.addIssueListRequest(
+                                    selectIndexList,
+                                  );
+                                },
+                                onChangeSearch: (String? value) {
+                                  widget.cubit.searchIssue(value);
+                                },
+                              );
                             },
                           ),
                           StreamBuilder<bool>(

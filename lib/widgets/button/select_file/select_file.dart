@@ -60,7 +60,8 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
   @override
   void initState() {
     super.initState();
-    cubit.fileFromApiSubject.add(widget.initFileFromApi ?? []);
+    cubit.filesFromApi.addAll(widget.initFileFromApi ?? []);
+    cubit.fileFromApiSubject.add(cubit.filesFromApi);
     cubit.selectedFiles.addAll(widget.initFileSystem ?? []);
     toast = FToast();
     toast.init(context);
@@ -196,12 +197,12 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
                     .map(
                       (file) => itemListFile(
                         onDelete: () {
-                          cubit.fileFromApiSubject.value.remove(file);
+                          cubit.filesFromApi.remove(file);
                           cubit.fileFromApiSubject.sink
-                              .add(cubit.fileFromApiSubject.value);
+                              .add(cubit.filesFromApi);
                           widget.onDeletedFileApi?.call(file);
                         },
-                        fileTxt: file.name ?? '',
+                        fileTxt: file.name?.convertNameFile() ?? '',
                         lengthFile: file.fileLength?.toInt().getFileSize(2),
                       ),
                     )

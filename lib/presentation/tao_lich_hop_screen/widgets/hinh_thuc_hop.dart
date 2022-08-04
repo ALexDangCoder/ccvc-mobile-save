@@ -202,27 +202,28 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 urlIcon: ImageAssets.icAddButtonCalenderTablet,
               ),
             ),
-            spaceH20,
             StreamBuilder<List<DsDiemCau>>(
               stream: widget.cubit.dsDiemCauSubject,
               builder: (context, snapshot) {
                 final listDiemCau = snapshot.data ?? [];
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: listDiemCau.length,
-                  itemBuilder: (context, index) => ItemDiemCau(
-                    diemCau: listDiemCau[index],
-                    onDeleteClick: () {
-                      listDiemCau.removeAt(index);
-                      widget.cubit.dsDiemCauSubject.add(listDiemCau);
-                    },
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listDiemCau.length,
+                    itemBuilder: (context, index) => ItemDiemCau(
+                      diemCau: listDiemCau[index],
+                      onDeleteClick: () {
+                        listDiemCau.removeAt(index);
+                        widget.cubit.dsDiemCauSubject.add(listDiemCau);
+                      },
+                    ),
                   ),
                 );
               },
             ),
           ],
-          spaceH24,
           TitleChildWidget(
             title: S.current.ky_thuat,
             child: ContainerToggleWidget(
@@ -234,7 +235,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
               },
             ),
           ),
-          spaceH24,
         ],
       ),
     );

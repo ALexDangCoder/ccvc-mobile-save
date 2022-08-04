@@ -193,19 +193,26 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           ),
                           spaceH16,
                           StreamBuilder<List<String>>(
-                            stream: widget.cubit.issueListStream,
+                            stream: widget.cubit.issueListStream.stream,
                             builder: (context, snapshot) {
+
                               final _issueList = snapshot.data ?? [];
-                              return MultiSelectList(
-                                isInit: false,
-                                title: S.current.loai_su_co,
-                                isRequire: true,
-                                items: _issueList,
-                                onChange: (selectIndexList) {
-                                  widget.cubit
-                                      .addIssueListRequest(selectIndexList);
-                                },
-                              );
+                              return  MultiSelectList(
+                                key: UniqueKey(),
+                                      isInit: false,
+                                      cubit: widget.cubit,
+                                      title: S.current.loai_su_co,
+                                      isRequire: true,
+                                      items: _issueList,
+                                      onChange: (selectIndexList) {
+                                        widget.cubit.addIssueListRequest(
+                                          selectIndexList,
+                                        );
+                                      },
+                                      onChangeSearch: (String? value) {
+                                        widget.cubit.searchIssue(value);
+                                      },
+                                    );
                             },
                           ),
                           StreamBuilder<bool>(
@@ -215,7 +222,9 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                               return snapshot.data ?? false
                                   ? Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 8.0, top: 8.0,),
+                                        left: 8.0,
+                                        top: 8.0,
+                                      ),
                                       child: Text(
                                         S.current
                                             .ban_phai_nhap_truong_loai_su_co,

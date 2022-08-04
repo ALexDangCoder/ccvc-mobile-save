@@ -155,8 +155,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_ten_thiet_bi;
+                                            return S.current
+                                                .ban_phai_nhap_truong_ten_thiet_bi;
                                           }
                                         },
                                       ),
@@ -178,8 +178,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_so_dien_thoai_lien_he;
+                                            return S.current
+                                                .ban_phai_nhap_truong_so_dien_thoai_lien_he;
                                           } else {
                                             return null;
                                           }
@@ -198,8 +198,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_mo_ta_su_co;
+                                            return S.current
+                                                .ban_phai_nhap_truong_mo_ta_su_co;
                                           }
                                         },
                                       ),
@@ -225,8 +225,8 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                         },
                                         validate: (value) {
                                           if ((value ?? '').isEmpty) {
-                                            return S
-                                                .current.ban_phai_nhap_truong_so_phong;
+                                            return S.current
+                                                .ban_phai_nhap_truong_so_phong;
                                           }
                                         },
                                       ),
@@ -294,6 +294,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
           builder: (context, snapshot) {
             final _issueList = snapshot.data ?? [];
             return MultiSelectList(
+              cubit: widget.cubit,
               isInit: widget.cubit.isLoadDidUpdateWidget,
               initSelectedItems: widget.cubit.issuesEditHTKT
                   .map((e) => e.tenSuCo ?? '')
@@ -305,6 +306,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
+              onChangeSearch: (String? value) {},
             );
           },
         ),
@@ -483,9 +485,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                 );
               }
             });
-          } else {
-
-          }
+          } else {}
         },
         title1: S.current.dong,
         title2: S.current.gui_yc,

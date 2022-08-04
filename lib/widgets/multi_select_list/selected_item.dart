@@ -46,38 +46,55 @@ class SelectedItemCell extends StatelessWidget {
         color: Colors.white,
       ),
       child: Wrap(
-        children: [
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: List.generate(listSelect.length + 1, (index) {
-              if (index == listSelect.length) {
-                return Container();
-              }
-              return tag(
-                title: listSelect[index],
-                onDelete: () {
-                  onDelete(listSelect[index]);
-                },
-              );
-            }),
-          ),
-          Container(
-            width: 100,
-            color: Colors.transparent,
-            child: TextField(
-              onChanged: onChange,
-              controller: controller,
-              style: textNormal(textTitle, 14.0.textScale()),
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 5),
-                isCollapsed: true,
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-        ],
+        spacing: 10,
+        runSpacing: 10,
+        children: listSelect.isEmpty
+            ? [_searchContainer()]
+            : List.generate(listSelect.length + 1, (index) {
+                if (index == listSelect.length) {
+                  return Container();
+                }
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    tag(
+                      title: listSelect[index],
+                      onDelete: () {
+                        onDelete(listSelect[index]);
+                      },
+                    ),
+                    if (index == (listSelect.length - 1) &&
+                        index != listSelect.length)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          spaceW10,
+                          _searchContainer(),
+                        ],
+                      )
+                    else
+                      Container(),
+                  ],
+                );
+              }),
+      ),
+    );
+  }
+
+  Widget _searchContainer() {
+    return Container(
+      width: 100,
+      color: Colors.transparent,
+      child: TextField(
+        onChanged: onChange,
+        controller: controller,
+        style: textNormal(textTitle, 14.0.textScale()),
+        decoration: const InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(vertical: 5),
+          isCollapsed: true,
+          border: InputBorder.none,
+        ),
       ),
     );
   }

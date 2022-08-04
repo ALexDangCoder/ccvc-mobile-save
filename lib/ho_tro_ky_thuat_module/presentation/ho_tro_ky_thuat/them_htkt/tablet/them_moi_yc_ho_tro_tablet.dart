@@ -220,6 +220,7 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                   builder: (context, snapshot) {
                                     final _issueList = snapshot.data ?? [];
                                     return MultiSelectList(
+                                      cubit: widget.cubit,
                                       title: S.current.loai_su_co,
                                       isRequire: true,
                                       items: _issueList,
@@ -227,7 +228,9 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                         widget.cubit.addIssueListRequest(
                                           selectIndexList,
                                         );
-                                      }, isInit: false,
+                                      },
+                                      isInit: false,
+                                      onChangeSearch: (String? value) {},
                                     );
                                   },
                                 ),

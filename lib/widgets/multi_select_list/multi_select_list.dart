@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -23,6 +24,8 @@ class MultiSelectList extends StatefulWidget {
   final List<String> items;
   final List<String>? initSelectedItems;
   final bool isInit;
+  final HoTroKyThuatCubit cubit;
+  final Function(String? value) onChangeSearch;
 
   const MultiSelectList({
     Key? key,
@@ -34,6 +37,8 @@ class MultiSelectList extends StatefulWidget {
     this.listTitle,
     this.initSelectedItems,
     required this.isInit,
+    required this.cubit,
+    required this.onChangeSearch,
   }) : super(key: key);
 
   @override
@@ -54,8 +59,9 @@ class _MultiSelectListState extends State<MultiSelectList> {
   @override
   void didUpdateWidget(covariant MultiSelectList oldWidget) {
     logic.allValue = widget.items;
-    if(widget.isInit) {
+    if (widget.isInit) {
       logic.checkInit(widget.initSelectedItems);
+      widget.cubit.isLoadDidUpdateWidget = false;
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -101,7 +107,7 @@ class _MultiSelectListState extends State<MultiSelectList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (logic.selectedValue.isNotEmpty)
-                  Row(
+                  Wrap(
                     children: logic.selectedValue
                         .map(
                           (element) => Text(
@@ -147,6 +153,9 @@ class _MultiSelectListState extends State<MultiSelectList> {
         context,
         title: widget.title ?? '',
         child: Issue(
+          onChange: (String? value) {
+            widget.onChangeSearch(value);
+          },
           logic: logic,
           items: widget.items,
           title: widget.listTitle ?? '',
@@ -162,6 +171,10 @@ class _MultiSelectListState extends State<MultiSelectList> {
         context,
         title: widget.title ?? '',
         child: Issue(
+          key: UniqueKey(),
+          onChange: (String? value) {
+            widget.onChangeSearch(value);
+          },
           logic: logic,
           title: widget.listTitle ?? '',
           items: widget.items,
@@ -192,12 +205,14 @@ class Issue extends StatefulWidget {
   final List<String> items;
   final String title;
   final Logic logic;
+  final Function(String? value) onChange;
 
   const Issue({
     Key? key,
     required this.items,
     required this.title,
     required this.logic,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -223,7 +238,9 @@ class _IssueState extends State<Issue> {
               return SelectedItemCell(
                 controller: controller,
                 listSelect: widget.logic.selectedValue,
-                onChange: (value) {},
+                onChange: (value) {
+                  widget.onChange(value);
+                },
                 onDelete: (value) {
                   widget.logic.checkValue(value);
                 },
@@ -299,6 +316,7 @@ class Logic {
   List<String> allValue = [];
   List<int> selectedIndex = [];
   List<String> selectedValue = [];
+  List<String> listSearch = [];
 
   void checkIndex(int _index) {
     if (selectedIndex.contains(_index)) {

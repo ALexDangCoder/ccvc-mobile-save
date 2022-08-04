@@ -39,11 +39,15 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       listKhuVuc.value.clear();
       listToaNha.value.clear();
     }
-    await getCategory(title: HoTroKyThuatCubit.KHU_VUC, isLoadCreate: false,);
+    await getCategory(
+      title: HoTroKyThuatCubit.KHU_VUC,
+      isLoadCreate: false,
+    );
     await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
     sinkIssue();
+
     ///get data detail htkt
     await getChiTietHTKTEdit(id: id);
     findNameAreaFeatBuilding(
@@ -119,6 +123,20 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       addTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
     checkAllThemMoiYCHoTro();
+  }
+
+  void searchIssue(String? value) {
+    final List<String> valueSearch = [];
+    if (value == null || value.isEmpty) {
+      issueListStream.sink.add(allIssue);
+    } else {
+      for (final String suCo in allIssue) {
+        if (suCo.toLowerCase().contains(value.toLowerCase())) {
+          valueSearch.add(suCo);
+        }
+      }
+      issueListStream.sink.add(valueSearch);
+    }
   }
 
   void addIssuesEdit(List<int> index) {

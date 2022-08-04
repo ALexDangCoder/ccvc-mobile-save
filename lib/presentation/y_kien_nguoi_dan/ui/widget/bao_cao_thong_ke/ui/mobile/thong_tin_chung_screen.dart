@@ -663,11 +663,11 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           horizontal: 16,
           vertical: 8,
         ),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
-          color: textDefault,
+          color: AppTheme.getInstance().colorField(),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

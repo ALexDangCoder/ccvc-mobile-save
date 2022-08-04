@@ -328,9 +328,9 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        if (res.isEmpty) {
+        if (res.isEmpty && loadMorePage == 1) {
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
-          showEmpty();
+          showContent();
         } else {
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res));
           showContent();
@@ -371,14 +371,14 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     final result = await _hoTroKyThuatRepository.addTask(
       id: addTaskHTKTRequest.id,
       userRequestId: addTaskHTKTRequest.userRequestId,
-      phone: addTaskHTKTRequest.phone,
-      description: addTaskHTKTRequest.description,
+      phone: addTaskHTKTRequest.phone?.trim(),
+      description: addTaskHTKTRequest.description?.trim(),
       districtId: addTaskHTKTRequest.districtId,
       districtName: addTaskHTKTRequest.districtName,
       buildingId: addTaskHTKTRequest.buildingId,
       buildingName: addTaskHTKTRequest.buildingName,
-      room: addTaskHTKTRequest.room,
-      name: addTaskHTKTRequest.name,
+      room: addTaskHTKTRequest.room?.trim(),
+      name: addTaskHTKTRequest.name?.trim(),
       danhSachSuCo: addTaskHTKTRequest.danhSachSuCo,
       userInUnit: addTaskHTKTRequest.userInUnit,
       fileUpload: addTaskHTKTRequest.fileUpload ?? [],

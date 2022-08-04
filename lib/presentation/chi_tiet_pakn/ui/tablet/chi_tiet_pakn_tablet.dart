@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
@@ -61,8 +62,8 @@ class _ChiTietPKANTabletState extends State<ChiTietPKANTablet>
             isScrollable: true,
             controller: _tabController,
             indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: numberColorTablet,
-            labelColor: numberColorTablet,
+            indicatorColor: AppTheme.getInstance().colorField(),
+            labelColor: AppTheme.getInstance().colorField(),
             labelStyle:
                 textNormalCustom(fontWeight: FontWeight.w700, fontSize: 14),
             unselectedLabelColor: dateColor,

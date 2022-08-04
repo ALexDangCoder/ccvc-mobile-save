@@ -154,6 +154,7 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
                 ],
               ),
               child: TextField(
+                controller: textEditingController,
                 onSubmitted: (value) {
                   final times =
                       controller.dateTimeRange(controller.selectDate.value);

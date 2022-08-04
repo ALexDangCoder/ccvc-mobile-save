@@ -46,7 +46,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.cubit.managerPersonalInformationModel
-                          .departments?.length ??
+                      .departments?.length ??
                       0,
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
@@ -122,7 +122,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               ),
                               Text(
                                 widget.cubit.managerPersonalInformationModel
-                                        .departments?[index].tenDonVi ??
+                                    .departments?[index].tenDonVi ??
                                     '',
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
@@ -134,7 +134,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               ),
                               Text(
                                 widget.cubit.managerPersonalInformationModel
-                                        .departments?[index].tenChucVu ??
+                                    .departments?[index].tenChucVu ??
                                     '',
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
@@ -146,9 +146,13 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               ),
                               spaceH12,
                               Container(
-                                decoration: const BoxDecoration(
-                                  color: daXuLyColor,
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  color: widget.cubit
+                                      .managerPersonalInformationModel
+                                      .departments?[index].trangThai != 0
+                                      ? daXuLyColor
+                                      :subTitle,
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(30),
                                   ),
                                 ),
@@ -162,10 +166,10 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                   child: Text(
                                     paserString(
                                       widget
-                                              .cubit
-                                              .managerPersonalInformationModel
-                                              .departments?[index]
-                                              .trangThai ??
+                                          .cubit
+                                          .managerPersonalInformationModel
+                                          .departments?[index]
+                                          .trangThai ??
                                           0,
                                     ),
                                     style: tokenDetailAmount(
@@ -179,9 +183,9 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                 children: [
                                   customSwitch(
                                     widget.cubit.managerPersonalInformationModel
-                                            .departments?[index].isDefault ??
+                                        .departments?[index].isDefault ??
                                         false,
-                                    (value) {},
+                                        (value) {},
                                   ),
                                 ],
                               )

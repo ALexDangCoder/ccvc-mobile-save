@@ -117,7 +117,7 @@ class _ItemChiaSeCoTkState extends State<ItemChiaSeCoTk> {
               height: 20,
               child: Checkbox(
                 checkColor: AppTheme.getInstance().backGroundColor(),
-                activeColor: textDefault,
+                activeColor: AppTheme.getInstance().colorField(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(3),
                 ),

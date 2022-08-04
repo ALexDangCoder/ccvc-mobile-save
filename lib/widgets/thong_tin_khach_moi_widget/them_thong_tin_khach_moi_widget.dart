@@ -271,7 +271,11 @@ final scroll = ScrollController();
                             if (value?.isEmpty ?? true) {
                               return null;
                             }
-                            return (value ?? '').checkEmail();
+                            return (value ?? '')
+                              .checkEmailBoolean(
+                                errMessage: '${S.current.sai_dinh_dang_truong} '
+                                    '${S.current.email}',
+                              );
                           },
                         ),
                       ),

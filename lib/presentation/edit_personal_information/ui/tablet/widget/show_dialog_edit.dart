@@ -112,7 +112,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                           title1,
                           style: textNormalCustom(
                             fontSize: isPhone ? 14 : 18,
-                            color: bgButtonDropDown,
+                            color: AppTheme.getInstance().colorField(),
                           ),
                         ),
                         Container(

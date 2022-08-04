@@ -224,6 +224,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               },
             ),
           ],
+          if (!isHopTrucTuyen)
+          spaceH20,
           TitleChildWidget(
             title: S.current.ky_thuat,
             child: ContainerToggleWidget(
@@ -274,6 +276,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               textField(
                 onChange: (value) {
                   diemCau.tenDiemCau = value;
+                  _key.currentState?.validate();
                 },
                 validator: (value) {
                   return value.pleaseEnter(S.current.ten_don_vi);

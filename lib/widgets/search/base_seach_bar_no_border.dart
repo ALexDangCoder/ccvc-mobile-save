@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -31,9 +32,9 @@ class BaseSearchBarNoBorder extends StatelessWidget {
       ),
       decoration: InputDecoration(
         isCollapsed: true,
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.search,
-          color: Color(0xff5F63E8),
+          color:AppTheme.getInstance().colorField(),
         ),
         border: InputBorder.none,
         hintText: hintText ?? S.current.enterkeysearch,

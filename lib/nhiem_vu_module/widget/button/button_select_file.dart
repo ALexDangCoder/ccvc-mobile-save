@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -69,7 +70,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: widget.background ?? labelColor.withOpacity(0.1),
+              color:AppTheme.getInstance().colorField().withOpacity(0.1),
               borderRadius: const BorderRadius.all(Radius.circular(4)),
             ),
             padding: EdgeInsets.symmetric(
@@ -83,7 +84,10 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 if (widget.isIcon)
                   Row(
                     children: [
-                      SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile),
+                      SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile,
+                        color: AppTheme.getInstance().colorField(),
+
+                      ),
                       SizedBox(
                         width: 11.25.textScale(),
                       ),
@@ -94,7 +98,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 Text(
                   widget.title,
                   style: textNormalCustom(
-                    color: widget.titleColor ?? labelColor,
+                    color: AppTheme.getInstance().colorField(),
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w500,
                   ),

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/dropdow_widget.dart';
@@ -295,6 +296,7 @@ class _NodeWidgetState extends State<NodeWidget> {
 
   Widget iconTick() => SvgPicture.asset(
         ImageAssets.ic_tick,
+        color: AppTheme.getInstance().colorField(),
       );
 }
 

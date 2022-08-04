@@ -112,12 +112,15 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
         .toList();
     newFiles.removeWhere(
       (element) {
-        showToast(
-          message: S.current.file_khong_hop_le,
-        );
-        return !allowedExtensions.contains(
+        final result = !allowedExtensions.contains(
           path.extension(element.path).replaceAll('.', ''),
         );
+        if (result) {
+          showToast(
+            message: S.current.file_khong_hop_le,
+          );
+        }
+        return result;
       },
     );
     final bool isOverMaxSize = cubit.checkOverMaxSize(

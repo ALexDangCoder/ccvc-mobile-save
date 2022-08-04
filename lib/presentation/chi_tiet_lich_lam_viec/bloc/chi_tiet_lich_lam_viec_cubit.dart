@@ -986,10 +986,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         isDonViThamGia;
   }
 
-  bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
-    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) &&
-        checkChoSuaLich(dataModel); //=
-  }
+  bool checkChoxoa(ChiTietLichLamViecModel dataModel) => checkChoSuaLich(dataModel); //=
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
     return checkHuyXacNhan(dataModel) >=

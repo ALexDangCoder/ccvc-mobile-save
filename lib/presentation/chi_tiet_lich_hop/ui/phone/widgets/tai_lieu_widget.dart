@@ -69,7 +69,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
           allowedExtensions: const [
             'doc',
             'docx',
-            'xlxs',
+            'xlsx',
             'png',
             'jpeg',
             'jpg',

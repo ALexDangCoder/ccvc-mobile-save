@@ -63,7 +63,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   CalendarWorkRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
-  final showButtonAddOpinion = BehaviorSubject.seeded(false);
   final showButtonApprove = BehaviorSubject.seeded(false);
   final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
   final donViTrucThuocId =
@@ -208,8 +207,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         listOfficer.sink.add(data);
         getListStatusKhacThuHoi(data);
-        listRecall.sink
-            .add(data);
+        listRecall.sink.add(data);
         dataRecall = data;
         officersTmp = data;
       },
@@ -238,24 +236,23 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     unawaited(queue.add(() => getOfficer(id)));
     unawaited(dataTrangThai());
     await queue.onComplete;
+    checkShowButtonApprove();
+    showContent();
+  }
 
+  void checkShowButtonApprove() {
     bool? isThamGia;
     for (final element in officersTmp) {
-      if (element.userId == currentUserId &&
-          (element.userId?.isNotEmpty ?? false) &&
-          currentUserId.isNotEmpty) {
-        showButtonAddOpinion.sink.add(true);
-      } else {
-        showButtonAddOpinion.sink.add(false);
-      }
       if (element.canBoId == currentUserId ||
-          element.donViId == donViTrucThuocId) {
+          (element.donViId == donViTrucThuocId &&
+              (element.canBoId ?? '').isEmpty)) {
         isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
-            element.isThamGia == true;
+            element.isThamGia == true &&
+            chiTietLichLamViecModel.status != EnumScheduleStatus.Cancel;
+        break;
       }
     }
     showButtonApprove.sink.add(isThamGia ?? false);
-    showContent();
   }
 
   Future<void> getDanhSachBaoCaoKetQua(

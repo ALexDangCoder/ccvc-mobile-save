@@ -250,9 +250,9 @@ class _MenuScreenState extends State<MenuScreen> {
               child: CoolDropDown(
                 placeHoder: S.current.vuiLongChon,
                 listData: menuCubit.listPhamVi.map((e) => e.phamVi).toList(),
-                initData: menuCubit.selectPhamVi?.phamVi ?? '',
+                initData: menuCubit.selectedPhamVi?.phamVi ?? '',
                 onChange: (value) {
-                  menuCubit.selectPhamVi = menuCubit.listPhamVi[value];
+                  menuCubit.currentPhamVi = menuCubit.listPhamVi[value];
                 },
               ),
             ),

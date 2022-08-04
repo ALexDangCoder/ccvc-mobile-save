@@ -124,16 +124,15 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                                 width: 14,
                               ),
                               Expanded(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Text(
-                                    S.current.keep_drop,
-                                    style: textNormalCustom(
-                                      color: textTitle,
-                                    ),
+                                  child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                  S.current.keep_drop,
+                                  style: textNormalCustom(
+                                    color: textTitle,
                                   ),
-                                )
-                              ),
+                                ),
+                              )),
                             ],
                           ),
                         ),
@@ -179,11 +178,13 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                                 shrinkWrap: true,
                                 itemCount: data.length,
                                 itemBuilder: (context, index) {
+                                  final String widgetName = widgetManageCubit
+                                      .getNameWidget(listWidgetNotUse[index]);
                                   return ItemWidgetNotUse(
                                     widgetItem: listWidgetNotUse[index],
                                     cubit: widgetManageCubit,
                                     index: index,
-                                    contentWidget: listWidgetNotUse[index].name,
+                                    contentWidget: widgetName,
                                   );
                                 },
                               );
@@ -248,7 +249,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                                   scrollDirection: Axis.horizontal,
                                   child: Text(
                                     S.current.keep_drop,
-                                    style:textNormalCustom(color: textTitle),
+                                    style: textNormalCustom(color: textTitle),
                                   ),
                                 ),
                               ),
@@ -300,11 +301,13 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                                 shrinkWrap: true,
                                 itemCount: data.length,
                                 itemBuilder: (context, index) {
+                                  final String widgetName = widgetManageCubit
+                                      .getNameWidget(listWidgetNotUse[index]);
                                   return ItemWidgetNotUse(
                                     widgetItem: listWidgetNotUse[index],
                                     cubit: widgetManageCubit,
                                     index: index,
-                                    contentWidget: listWidgetNotUse[index].name,
+                                    contentWidget: widgetName,
                                   );
                                 },
                               );

@@ -46,7 +46,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 28,),
+          const SizedBox(
+            height: 28,
+          ),
           SizedBox(
             width: 160,
             height: 44,
@@ -65,7 +67,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
               size: 16.0,
             ),
           ),
-          const SizedBox(height: 28,),
+          const SizedBox(
+            height: 28,
+          ),
         ],
       ),
       backgroundColor: bgWidgets,
@@ -191,11 +195,13 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                                   shrinkWrap: true,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
+                                    final String widgetName = widgetManageCubit
+                                        .getNameWidget(listWidgetNotUse[index]);
                                     return ItemWidgetNotUse(
                                       widgetItem: listWidgetNotUse[index],
                                       cubit: widgetManageCubit,
                                       index: index,
-                                      contentWidget: listWidgetNotUse[index].name,
+                                      contentWidget: widgetName,
                                     );
                                   },
                                 );
@@ -216,7 +222,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                       isUsing: true,
                     );
                   } else {
-                    return  DragItemList(
+                    return DragItemList(
                       headerList: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -283,11 +289,13 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                                   shrinkWrap: true,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
+                                    final String widgetName = widgetManageCubit
+                                        .getNameWidget(listWidgetNotUse[index]);
                                     return ItemWidgetNotUse(
                                       widgetItem: listWidgetNotUse[index],
                                       cubit: widgetManageCubit,
                                       index: index,
-                                      contentWidget: listWidgetNotUse[index].name,
+                                      contentWidget: widgetName,
                                     );
                                   },
                                 );

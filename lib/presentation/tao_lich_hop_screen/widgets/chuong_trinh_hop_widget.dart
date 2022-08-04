@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
+import 'package:ccvc_mobile/widgets/button/select_file_2/select_file.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
@@ -29,6 +31,7 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -164,11 +167,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   final _key = GlobalKey<FormGroupState>();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   late final TaoPhienHopRequest taoPhienHopRequest;
+  List<PlatformFile> listFile = [];
 
   late String timeStart;
   late String timeEnd;
   String thoiGianHop = DateTime.now().formatApi;
-  bool isOverFileLength = false;
 
   @override
   void initState() {
@@ -189,9 +192,6 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   }
 
   void handleButtonSaveClick() {
-    if (isOverFileLength) {
-      return;
-    }
     // Thời gian bắt đầu phiên họp:
     final dateTimeStart = '$thoiGianHop $timeStart'.convertStringToDate(
       formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
@@ -376,10 +376,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   ),
                 ),
                 spaceH20,
-                SelectFileBtn(
+                SelectFileBtn2(
                   onChange: (files) {
-                    taoPhienHopRequest.files?.addAll(files);},
-                  initFileSystem: taoPhienHopRequest.files,
+                    taoPhienHopRequest.listFileFlatform = files;
+                  },
+                  initFileSystem: taoPhienHopRequest.listFileFlatform,
                 ),
               ],
             ),
@@ -431,7 +432,7 @@ class ItemPhienHop extends StatelessWidget {
               rowInfo(
                 value: '${phienHop.thoiGian_BatDau}'
                     '${phienHop.timeEnd?.isNotEmpty ?? false ? ''
-                    ' - ${phienHop.timeEnd}' : ''}',
+                        ' - ${phienHop.timeEnd}' : ''}',
                 key: S.current.thoi_gian,
               ),
               SizedBox(
@@ -467,11 +468,13 @@ class ItemPhienHop extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: List.generate(
-                        phienHop.files?.length ?? 0,
+                        phienHop.listFileFlatform?.length ?? 0,
                         (index) => Padding(
                           padding: const EdgeInsets.only(bottom: 4.0),
                           child: Text(
-                            phienHop.files?[index].path.convertNameFile() ?? '',
+                            phienHop.listFileFlatform?[index].filename
+                                    ?.convertNameFile() ??
+                                '',
                             style: textNormalCustom(
                               color: color5A8DEE,
                               fontWeight: FontWeight.w400,

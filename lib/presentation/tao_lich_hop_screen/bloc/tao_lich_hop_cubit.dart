@@ -77,7 +77,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   HopRepository get hopRp => Get.find();
   final BehaviorSubject<List<LoaiSelectModel>> _loaiLich = BehaviorSubject();
   final BehaviorSubject<ChuongTrinhHopModel> chuongTrinhHopSubject =
-      BehaviorSubject();
+  BehaviorSubject();
 
   Stream<ChuongTrinhHopModel> get chuongTrinhHopStream =>
       chuongTrinhHopSubject.stream;
@@ -87,19 +87,19 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   Stream<List<LoaiSelectModel>> get linhVuc => _linhVuc.stream;
   final BehaviorSubject<List<NguoiChutriModel>> _nguoiChuTri =
-      BehaviorSubject();
+  BehaviorSubject();
 
   final BehaviorSubject<String> loaiLichLap = BehaviorSubject();
 
   Stream<List<NguoiChutriModel>> get nguoiChuTri => _nguoiChuTri.stream;
 
   BehaviorSubject<List<DsDiemCau>> dsDiemCauSubject =
-      BehaviorSubject.seeded([]);
+  BehaviorSubject.seeded([]);
 
   final BehaviorSubject<bool> isLichTrung = BehaviorSubject();
 
   BehaviorSubject<List<TaoPhienHopRequest>> listPhienHop =
-      BehaviorSubject.seeded([]);
+  BehaviorSubject.seeded([]);
 
   bool isOverFileLength = false;
 
@@ -200,11 +200,11 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     final listHop = listPhienHop.value;
     for (int i = 0; i < listHop.length; i++) {
       final timeStart = listHop[i].thoiGian_BatDau.convertStringToDate(
-            formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-          );
+        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+      );
       final timeEnd = listHop[i].thoiGian_KetThuc.convertStringToDate(
-            formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
-          );
+        formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+      );
       if (timeStart.isBefore(dateTimeStart) || timeEnd.isAfter(dateTimeEnd)) {
         isInvalid = false;
         break;
@@ -226,26 +226,29 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           final Queue queue = Queue(parallel: 3);
           unawaited(
             queue.add(
-              () => postFileTaoLichHop(
-                files: listTaiLieu,
-                entityId: res.id,
-                entityName: ENTITY_TAI_LIEU_HOP,
-              ),
+                  () =>
+                  postFileTaoLichHop(
+                    files: listTaiLieu,
+                    entityId: res.id,
+                    entityName: ENTITY_TAI_LIEU_HOP,
+                  ),
             ),
           );
           unawaited(
             queue.add(
-              () => themThanhPhanThamGia(
-                isSendEmail: isSendEmail.value,
-                idHop: res.id,
-              ),
+                  () =>
+                  themThanhPhanThamGia(
+                    isSendEmail: isSendEmail.value,
+                    idHop: res.id,
+                  ),
             ),
           );
           unawaited(
             queue.add(
-              () => themPhienHop(
-                res.id,
-              ),
+                  () =>
+                  themPhienHop(
+                    res.id,
+                  ),
             ),
           );
           await queue.onComplete.then((value) {
@@ -288,7 +291,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   }) async {
     if (listThanhPhanThamGia.isNotEmpty) {
       final List<MoiThamGiaHopRequest> listMoiHop =
-          listThanhPhanThamGia.map((e) {
+      listThanhPhanThamGia.map((e) {
         return e.id.isNotEmpty || e.donViId.isNotEmpty
             ? e.convertTrongHeThong(idHop)
             : e.convertNgoaiHeThong(idHop);
@@ -399,7 +402,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
 
   final BehaviorSubject<List<DonViModel>> danhSachCB =
-      BehaviorSubject.seeded([]);
+  BehaviorSubject.seeded([]);
 
   void addThanhPhanThamGia(List<DonViModel> listDonVi) {
     listThanhPhanThamGia.addAll(listDonVi);
@@ -415,7 +418,11 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     final result = await thanhPhanThamGiaRp.getSeachCanBo(
       SearchCanBoRequest(
         iDDonVi:
-            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '',
+        HiveLocal
+            .getDataUser()
+            ?.userInformation
+            ?.donViTrucThuoc
+            ?.id ?? '',
         pageIndex: 1,
         pageSize: 100,
       ),
@@ -454,7 +461,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   }
 
   String genLinkHop() {
-    final tenDonVi = HiveLocal.getDataUser()
+    final tenDonVi = HiveLocal
+        .getDataUser()
         ?.userInformation
         ?.donVi
         ?.vietNameseParse()
@@ -464,8 +472,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     final random = Random();
     const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
     final String randomRes =
-        List.generate(6, (index) => _chars[random.nextInt(_chars.length)])
-            .join();
+    List.generate(6, (index) => _chars[random.nextInt(_chars.length)])
+        .join();
     return '$BASE_URL_MEETING$tenDonVi-$randomRes';
   }
 
@@ -476,28 +484,27 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     }
     return listThanhPhanThamGia
         .map(
-          (e) => e.tenCanBo.isNotEmpty
-              ? e.tenCanBo
-              : e.name.isNotEmpty
-                  ? e.name
-                  : e.tenDonVi,
-        )
+          (e) =>
+      e.tenCanBo.isNotEmpty
+          ? e.tenCanBo
+          : e.name.isNotEmpty
+          ? e.name
+          : e.tenDonVi,
+    )
         .toList();
   }
 
   String getTime({bool isGetDateStart = true}) {
     return isGetDateStart
         ? '${taoLichHopRequest.ngayBatDau} '
-            '${taoLichHopRequest.timeStart}'
+        '${taoLichHopRequest.timeStart}'
         : '${taoLichHopRequest.ngayKetThuc} '
-            '${taoLichHopRequest.timeTo}';
+        '${taoLichHopRequest.timeTo}';
   }
 
   /// chon phong hop api of tung
-  Future<bool> chonPhongHopMetting(
-    TaoLichHopRequest taoLichHopRequest,
-    ChonPhongHopModel value,
-  ) async {
+  Future<bool> chonPhongHopMetting(TaoLichHopRequest taoLichHopRequest,
+      ChonPhongHopModel value,) async {
     bool isUpdateSuccess = false;
 
     showLoading();
@@ -507,11 +514,12 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     taoLichHopRequest.phongHop?.noiDungYeuCau = value.yeuCauKhac;
     taoLichHopRequest.phongHopThietBi = value.listThietBi
         .map(
-          (e) => PhongHopThietBi(
+          (e) =>
+          PhongHopThietBi(
             tenThietBi: e.tenThietBi,
             soLuong: e.soLuong.toString(),
           ),
-        )
+    )
         .toList();
 
     final result = await hopRp.chonPhongHopMetting(taoLichHopRequest);
@@ -537,11 +545,12 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     taoLichHopRequest.phongHop?.noiDungYeuCau = value.yeuCauKhac;
     taoLichHopRequest.phongHopThietBi = value.listThietBi
         .map(
-          (e) => PhongHopThietBi(
+          (e) =>
+          PhongHopThietBi(
             tenThietBi: e.tenThietBi,
             soLuong: e.soLuong.toString(),
           ),
-        )
+    )
         .toList();
   }
 

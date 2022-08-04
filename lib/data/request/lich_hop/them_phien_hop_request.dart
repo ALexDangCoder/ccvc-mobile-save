@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:dio/src/multipart_file.dart';
+
 class TaoPhienHopRequest {
   String? canBoId;
   String? donViId;
@@ -16,6 +18,7 @@ class TaoPhienHopRequest {
   String? date;
   String? timeStart;
   String? uuid;
+  List<MultipartFile>? listFileFlatform;
 
   TaoPhienHopRequest({
     this.canBoId,

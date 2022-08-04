@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/lich_hop/cap_nhat_trang_thai_request.dart';
@@ -952,15 +953,12 @@ class HopRepositoryImpl implements HopRepository {
       _data.fields.add(
         MapEntry('[$i].IsMultipe', phienHops[i].isMultipe.toString()),
       );
-      if (phienHops[i].files?.isNotEmpty ?? false) {
-        for (int j = 0; j < phienHops[i].files!.length; j++) {
-          final MultipartFile file = await MultipartFile.fromFile(
-            phienHops[i].files![j].path,
-          );
+      if (phienHops[i].listFileFlatform?.isNotEmpty ?? false) {
+        for (int j = 0; j < phienHops[i].listFileFlatform!.length; j++) {
           _data.files.add(
             MapEntry(
               '[$i].Files',
-              file,
+              phienHops[i].listFileFlatform![j],
             ),
           );
         }

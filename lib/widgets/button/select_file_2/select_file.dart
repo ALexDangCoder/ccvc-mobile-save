@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/select_file_2/select_file_cubit.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
+import 'package:dio/src/multipart_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,9 +37,9 @@ class SelectFileBtn2 extends StatefulWidget {
   final double? maxSize;
   final List<String>? allowedExtensions;
   final String? textButton;
-  final Function(List<PlatformFile> fileSelected) onChange;
+  final Function(List<MultipartFile> fileSelected) onChange;
   final List<FileModel>? initFileFromApi;
-  final List<PlatformFile>? initFileSystem;
+  final List<MultipartFile>? initFileSystem;
   final Function(FileModel fileDeleted)? onDeletedFileApi;
   final String? errMultipleFileMessage;
   final String? iconButton;
@@ -59,6 +60,7 @@ class _SelectFileBtnState extends State<SelectFileBtn2> {
     super.initState();
     cubit.fileFromApiSubject.add(widget.initFileFromApi ?? []);
     cubit.selectedFiles.addAll(widget.initFileSystem ?? []);
+    cubit.needRebuildListFile.add(true);
     toast = FToast();
     toast.init(context);
   }
@@ -71,6 +73,17 @@ class _SelectFileBtnState extends State<SelectFileBtn2> {
       ),
       gravity: ToastGravity.TOP_RIGHT,
     );
+  }
+
+  Future<List<MultipartFile>> partListFile(List<PlatformFile> files) async {
+    List<MultipartFile> listFile = [];
+    for (final element in files) {
+      final MultipartFile file = await MultipartFile.fromFile(
+        element.path ?? '',
+      );
+      listFile.add(file);
+    }
+    return listFile;
   }
 
   Future<void> handleButtonFileClicked() async {
@@ -100,17 +113,20 @@ class _SelectFileBtnState extends State<SelectFileBtn2> {
       );
       return;
     }
+    List<MultipartFile> newFile = [];
+    newFile = await partListFile(result.files);
     final bool isOverMaxSize = cubit.checkOverMaxSize(
       maxSize: widget.maxSize,
-      newFiles: result.files,
+      newFiles: newFile,
     );
+
     if (isOverMaxSize) {
       showToast(
         message: widget.overSizeTextMessage ?? S.current.dung_luong_toi_da_20,
       );
       return;
     }
-    cubit.selectedFiles.addAll(result.files);
+    cubit.selectedFiles.addAll(newFile);
     cubit.needRebuildListFile.sink.add(true);
     widget.onChange(cubit.selectedFiles);
     if (widget.needClearAfterPick) {
@@ -198,8 +214,8 @@ class _SelectFileBtnState extends State<SelectFileBtn2> {
                           cubit.needRebuildListFile.add(true);
                           widget.onChange(cubit.selectedFiles);
                         },
-                        fileTxt: file.path?.convertNameFile() ?? '',
-                        lengthFile: file.size.getFileSize(2),
+                        fileTxt: file.filename?.convertNameFile() ?? '',
+                        lengthFile: file.length.getFileSize(2),
                       ),
                     )
                     .toList(),

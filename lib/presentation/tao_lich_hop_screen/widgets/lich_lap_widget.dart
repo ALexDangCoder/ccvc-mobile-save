@@ -238,6 +238,9 @@ class _ExpandedSectionState extends State<LichLapWidget>
                     maximumDate: DateTime(2099, 12, 30),
                     maximumYear: 2099,
                     minimumYear: DateTime.now().year,
+                    minimumDate: date.convertStringToDate(
+                      formatPattern: DateFormatApp.date,
+                    ),
                     backgroundColor: backgroundColorApp,
                     mode: CupertinoDatePickerMode.date,
                     use24hFormat: true,

@@ -137,6 +137,17 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     _selectDonVi.sink.add(selectNode);
     node.isCheck.isCheck =
         false; //dùng tham chiếu không phải loop lại tree để xét lại checkbox
+    _getTree.sink.add(listTree);
+  }
+
+  void removeTagLast(Node<DonViModel> node) {
+    selectNode.remove(node);
+    _selectDonVi.sink.add(selectNode);
+    node.isCheck.isCheck =
+        false; //dùng tham chiếu không phải loop lại tree để xét lại checkbox
+    if (selectNode.isNotEmpty) {
+      _getTree.sink.add(listTree);
+    }
   }
 
   void initSelectNode(List<DonViModel> value) {

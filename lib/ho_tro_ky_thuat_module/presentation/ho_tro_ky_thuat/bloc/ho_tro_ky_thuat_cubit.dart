@@ -304,10 +304,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     return isNguoiYeuCau;
   }
 
-  Future<void> getListDanhBaCaNhan({
+  Future<void> getListHoTroKyThuat({
     required int page,
   }) async {
     showLoading();
+    if (page == 1) {
+      loadMoreList.clear();
+    }
     final result = await _hoTroKyThuatRepository.postDanhSachSuCo(
       pageIndex: page,
       pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
@@ -389,7 +392,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       success: (success) {
         resultPost = true;
         showContent();
-        getListDanhBaCaNhan(
+        getListHoTroKyThuat(
           page: 1,
         );
       },

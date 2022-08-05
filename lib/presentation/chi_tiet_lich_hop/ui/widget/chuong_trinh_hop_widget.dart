@@ -179,7 +179,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 ),
                 const SizedBox(height: 8),
                 RowDataWidget(
-                  keyTxt: S.current.just_noi_dung,
+                  keyTxt: S.current.noidung,
                   value: listPhienHopModel.noiDung ?? '',
                 ),
                 const SizedBox(height: 8),
@@ -309,7 +309,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Text(
-                              S.current.noi_dung,
+                              S.current.noidung,
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
                                 color: infoColor,
@@ -328,7 +328,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            listPhienHopModel.thoiGianBatDau ?? '',
+                            listPhienHopModel.dateTimeView() ,
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
                               color: textTitle,
@@ -363,7 +363,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${S.current.file}                      ',
+                      '${S.current.file_dinh_kem}                      ',
                       style: textDetailHDSD(
                         fontSize: 14.0.textScale(),
                         color: infoColor,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -25,7 +27,6 @@ class MultiSelectList extends StatefulWidget {
   final List<String>? initSelectedItems;
   final bool isInit;
   final HoTroKyThuatCubit cubit;
-  final Function(String? value) onChangeSearch;
 
   const MultiSelectList({
     Key? key,
@@ -38,7 +39,6 @@ class MultiSelectList extends StatefulWidget {
     this.initSelectedItems,
     required this.isInit,
     required this.cubit,
-    required this.onChangeSearch,
   }) : super(key: key);
 
   @override
@@ -111,13 +111,13 @@ class _MultiSelectListState extends State<MultiSelectList> {
                     children: logic.selectedValue
                         .map(
                           (element) => Text(
-                            getTextList(
-                              title: element,
-                              listTitle: logic.selectedValue,
-                            ),
-                            style: textNormal(textTitle, 14.0.textScale()),
-                          ),
-                        )
+                        getTextList(
+                          title: element,
+                          listTitle: logic.selectedValue,
+                        ),
+                        style: textNormal(textTitle, 14.0.textScale()),
+                      ),
+                    )
                         .toList(),
                   )
                 else
@@ -142,10 +142,10 @@ class _MultiSelectListState extends State<MultiSelectList> {
     required List<String> listTitle,
   }) =>
       title +
-      ((listTitle.length !=
+          ((listTitle.length !=
               listTitle.indexWhere((element) => element == title) + 1)
-          ? ', '
-          : '');
+              ? ', '
+              : '');
 
   void showSelect() {
     if (isMobile()) {
@@ -153,11 +153,9 @@ class _MultiSelectListState extends State<MultiSelectList> {
         context,
         title: widget.title ?? '',
         child: Issue(
-          onChange: (String? value) {
-            widget.onChangeSearch(value);
-          },
+          onChange: (String? value) {},
           logic: logic,
-          items: widget.items,
+          items: logic.allValue,
           title: widget.listTitle ?? '',
         ),
       ).then((value) {
@@ -171,12 +169,10 @@ class _MultiSelectListState extends State<MultiSelectList> {
         context,
         title: widget.title ?? '',
         child: Issue(
-          onChange: (String? value) {
-            widget.onChangeSearch(value);
-          },
+          onChange: (String? value) {},
           logic: logic,
           title: widget.listTitle ?? '',
-          items: widget.items,
+          items: logic.allValue,
         ),
         isBottomShow: true,
         funcBtnOk: () {
@@ -240,12 +236,20 @@ class _IssueState extends State<Issue> {
           StreamBuilder<List<int>>(
             stream: widget.logic.selectedItemStream,
             builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+
+              final List<String> dataString = [];
+              dataString.addAll(
+                data.map((suCo) => widget.logic.allValue[suCo]).toList(),
+              );
+
               return SelectedItemCell(
                 controller: controller,
-                listSelect: widget.logic.selectValueCache.isEmpty
-                    ? widget.logic.selectedValue
-                    : widget.logic.selectValueCache,
+                listSelect: dataString,
                 onChange: (value) {
+                  Timer(const Duration(microseconds: 500), () {
+                    widget.logic.searchView(value);
+                  });
                   widget.onChange(value);
                 },
                 onDelete: (value) {
@@ -257,45 +261,51 @@ class _IssueState extends State<Issue> {
           SizedBox(
             height: 18.0.textScale(),
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (widget.title.isNotEmpty)
-                  Text(
-                    widget.title,
-                    style: textNormal(textTitle, 16),
-                  ),
-                if (widget.title.isNotEmpty)
-                  SizedBox(
-                    height: 22.0.textScale(space: -9),
-                  ),
-                Expanded(
-                  child: widget.items.isNotEmpty
-                      ? SingleChildScrollView(
+          StreamBuilder<List<String>>(
+              stream: widget.logic.selectedItemString.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? widget.logic.allValue;
+                return Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (widget.title.isNotEmpty)
+                        Text(
+                          widget.title,
+                          style: textNormal(textTitle, 16),
+                        ),
+                      if (widget.title.isNotEmpty)
+                        SizedBox(
+                          height: 22.0.textScale(space: -9),
+                        ),
+                      Expanded(
+                        child: widget.items.isNotEmpty
+                            ? SingleChildScrollView(
                           keyboardDismissBehavior: isMobile()
                               ? ScrollViewKeyboardDismissBehavior.onDrag
                               : ScrollViewKeyboardDismissBehavior.manual,
                           child: Column(
                             children: List.generate(
-                              widget.items.length,
-                              (index) => ItemList(
+                              data.length,
+                                  (index) => ItemList(
                                 logic: widget.logic,
-                                name: widget.items[index],
-                                index: index,
+                                name: data[index],
+                                index: widget.logic.allValue
+                                    .indexOf(data[index]),
                               ),
                             ),
                           ),
                         )
-                      : Column(
+                            : Column(
                           children: const [
                             NodataWidget(),
                           ],
                         ),
-                )
-              ],
-            ),
-          ),
+                      )
+                    ],
+                  ),
+                );
+              }),
           screenDevice(
             mobileScreen: Padding(
               padding: const EdgeInsets.symmetric(vertical: 24),
@@ -320,6 +330,7 @@ class _IssueState extends State<Issue> {
 }
 
 class Logic {
+  BehaviorSubject<List<String>> selectedItemString = BehaviorSubject();
   BehaviorSubject<List<int>> selectedItemStream = BehaviorSubject();
   List<String> allValue = [];
   List<int> selectedIndex = [];
@@ -333,10 +344,10 @@ class Logic {
     selectValueCache.clear();
     for (final e in selectedValue) {
       selectIndexCache.add(allValue.indexOf(e));
-
     }
     selectValueCache.addAll(selectedValue);
     selectedItemStream.sink.add(selectIndexCache);
+    selectedItemString.add(allValue);
   }
 
   void luuDuLieu() {
@@ -378,5 +389,27 @@ class Logic {
     }
     selectedValue.toSet().toList();
     selectedItemStream.sink.add(selectedIndex);
+  }
+
+  void searchView(String? value) {
+    listSearch.clear();
+    final List<String> valueSearch = [];
+    if (value == null || value.trim().isEmpty) {
+      selectedItemString.add(allValue);
+    } else {
+      final List<int> valueStream = [];
+
+      for (final String suCo in allValue) {
+        if (suCo.toLowerCase().trim().contains(value.toLowerCase().trim())) {
+          valueSearch.add(suCo);
+        }
+      }
+
+      for (final String suCo in valueSearch) {
+        valueStream.add(valueSearch.indexOf(suCo));
+      }
+      listSearch.addAll(valueSearch);
+      selectedItemString.add(listSearch);
+    }
   }
 }

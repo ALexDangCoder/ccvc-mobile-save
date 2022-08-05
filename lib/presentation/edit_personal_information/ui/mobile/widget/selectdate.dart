@@ -70,7 +70,7 @@ class _CustomDropDownState extends State<SelectDate> {
                   minimumDate:
                       widget.minimumDate ?? DateTime(timeNow.year - 50),
                   maximumDate:
-                      widget.maximumDate ?? DateTime(timeNow.year + 50),
+                      DateTime.now(),
                   onDateTimeChanged: (value) {
                     dateSelect = value.toString();
                   },

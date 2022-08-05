@@ -339,6 +339,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
     return Row(
       children: [
         Expanded(
+          flex: 3,
           child: Text(
             S.current.danh_sach_pakn,
             style: textNormalCustom(

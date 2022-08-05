@@ -594,7 +594,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   flex: 8,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         statusTrangThai(dsKetQuaPakn.soNgayToiHan ?? 1).text,

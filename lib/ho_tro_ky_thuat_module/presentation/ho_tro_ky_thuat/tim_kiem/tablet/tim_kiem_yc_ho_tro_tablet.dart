@@ -68,8 +68,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                 closeKey();
               },
               child: Container(
-                height: 1056,
-                width: 592,
+                width: MediaQuery.of(context).size.width * 0.8,
                 padding:
                     EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 clipBehavior: Clip.hardEdge,
@@ -119,7 +118,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                       ),
                     ),
                     spaceH10,
-                    Expanded(
+                    Flexible(
                       child: SingleChildScrollView(
                         controller: _controller,
                         child: Column(
@@ -345,6 +344,11 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                               items: cubit.getItemsTrangThai(),
                                             ),
                                             spaceH4,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: _doubleBtn(context),
+                                            ),
                                           ],
                                         ),
                                       )
@@ -359,10 +363,6 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                           ],
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: _doubleBtn(context),
                     ),
                   ],
                 ),

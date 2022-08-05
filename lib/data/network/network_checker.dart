@@ -7,13 +7,8 @@ import 'package:http/http.dart' as http;
 
 Future<bool> getHttp() async {
   try {
-    final http.Response response = await http
-        .get(Uri.parse(ApiConstants.DOMAIN_GOOGLE))
-        .timeout(const Duration(seconds: 5));
     final connectivityResult = await Connectivity().checkConnectivity();
-    if (response.statusCode == StatusCodeConst.STATUS_OK &&
-        (connectivityResult == ConnectivityResult.mobile ||
-            connectivityResult == ConnectivityResult.wifi)) {
+    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
       return true;
     } else {
       return false;

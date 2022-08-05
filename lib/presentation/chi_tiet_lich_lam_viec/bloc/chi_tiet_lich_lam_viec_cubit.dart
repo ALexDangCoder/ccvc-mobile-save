@@ -63,7 +63,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   CalendarWorkRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
-  final showButtonAddOpinion = BehaviorSubject.seeded(false);
   final showButtonApprove = BehaviorSubject.seeded(false);
   final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
   final donViTrucThuocId =
@@ -208,8 +207,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         listOfficer.sink.add(data);
         getListStatusKhacThuHoi(data);
-        listRecall.sink
-            .add(data);
+        listRecall.sink.add(data);
         dataRecall = data;
         officersTmp = data;
       },
@@ -238,24 +236,23 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     unawaited(queue.add(() => getOfficer(id)));
     unawaited(dataTrangThai());
     await queue.onComplete;
+    checkShowButtonApprove();
+    showContent();
+  }
 
+  void checkShowButtonApprove() {
     bool? isThamGia;
     for (final element in officersTmp) {
-      if (element.userId == currentUserId &&
-          (element.userId?.isNotEmpty ?? false) &&
-          currentUserId.isNotEmpty) {
-        showButtonAddOpinion.sink.add(true);
-      } else {
-        showButtonAddOpinion.sink.add(false);
-      }
       if (element.canBoId == currentUserId ||
-          element.donViId == donViTrucThuocId) {
+          (element.donViId == donViTrucThuocId &&
+              (element.canBoId ?? '').isEmpty)) {
         isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
-            element.isThamGia == true;
+            element.isThamGia == true &&
+            chiTietLichLamViecModel.status != EnumScheduleStatus.Cancel;
+        break;
       }
     }
     showButtonApprove.sink.add(isThamGia ?? false);
-    showContent();
   }
 
   Future<void> getDanhSachBaoCaoKetQua(
@@ -989,10 +986,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         isDonViThamGia;
   }
 
-  bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
-    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) &&
-        checkChoSuaLich(dataModel); //=
-  }
+  bool checkChoxoa(ChiTietLichLamViecModel dataModel) => checkChoSuaLich(dataModel); //=
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
     return checkHuyXacNhan(dataModel) >=
@@ -1058,7 +1052,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   String reportStatusId = '';
   Set<File> files = {};
   List<FileModel> fileInit = [];
-  List<FileModel> fileDelete = [];
+  List<String> fileDeleteId = [];
   String content = '';
   TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
@@ -1131,7 +1125,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       scheduleId: scheduleId,
       content: content,
       files: files.toList(),
-      idFileDelele: fileDelete.map((e) => e.id ?? '').toList(),
+      idFileDelele: fileDeleteId,
       reportStatusId: reportStatusId,
     );
     ShowLoadingScreen.dismiss();
@@ -1156,17 +1150,4 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
     );
   }
 
-  bool checkLenghtFile() {
-    int sum = 0;
-    for (final element in files) {
-      sum = sum + element.lengthSync();
-    }
-    for (final element in fileInit) {
-      sum += element.fileLength?.toInt() ?? 0;
-    }
-    if (sum > MaxSizeFile.MAX_SIZE_30MB) {
-      return false;
-    }
-    return true;
-  }
 }

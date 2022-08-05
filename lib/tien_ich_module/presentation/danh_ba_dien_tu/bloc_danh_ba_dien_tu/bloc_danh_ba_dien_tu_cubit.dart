@@ -104,7 +104,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       getListDanhBaToChuc(
         pageIndex: pageIndexApi ?? pageIndex,
         pageSize: pageSizeApi ?? pageSize,
-        filterBy: keyWork ?? '',
+        filterBy: keyWork?.trim() ?? '',
         idDonVi: id ?? this.id,
       );
     }
@@ -152,7 +152,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     final result = await tienIchRep.searchListDanhBaCaNhan(
       pageIndex,
       pageSize,
-      keyword,
+      keyword.trim(),
     );
     result.when(
       success: (res) {

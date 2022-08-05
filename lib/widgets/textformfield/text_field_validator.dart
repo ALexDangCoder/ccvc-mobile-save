@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           if (formProvider != null) {
             formProvider?.validator[key] = key.currentState!.validate();
           }
-          widget.onChange?.call(value.trim());
+          widget.onChange?.call(value.removeSpace);
         },
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,

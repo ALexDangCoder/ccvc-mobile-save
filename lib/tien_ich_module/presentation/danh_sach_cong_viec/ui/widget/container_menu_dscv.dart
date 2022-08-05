@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/widget/container_menu_bao_chi.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -66,7 +67,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                                   width: 15.0.textScale(space: 8),
                                   child: SvgPicture.asset(
                                     widget.icon ?? '',
-                                    color: numberColorTablet,
+                                    color: AppTheme.getInstance().colorField(),
                                   ),
                                 )
                               : SizedBox(
@@ -151,7 +152,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                                     width: 15.0.textScale(space: 8),
                                     child: SvgPicture.asset(
                                       widget.icon ?? '',
-                                      // color: Colors.grey,
+                                      color: AppTheme.getInstance().colorField(),
                                     ),
                                   )
                                 : SizedBox(

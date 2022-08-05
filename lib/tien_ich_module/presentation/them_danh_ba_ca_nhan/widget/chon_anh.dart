@@ -125,7 +125,10 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                             padding: const EdgeInsets.only(top: 16),
                             child: Column(
                               children: [
-                                SvgPicture.asset(ImageAssets.icImage),
+                                SvgPicture.asset(
+                                  ImageAssets.icImage,
+                                  color: AppTheme.getInstance().colorField(),
+                                ),
                                 spaceH6,
                                 Text(
                                   S.current.them,
@@ -190,7 +193,9 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(ImageAssets.icImage),
+                            SvgPicture.asset(ImageAssets.icImage,
+                            color:AppTheme.getInstance().colorField(),
+                            ),
                             spaceH12,
                             Text(
                               S.current.them_anh,

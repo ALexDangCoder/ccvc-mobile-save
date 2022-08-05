@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_ban_lien_quan.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/bloc/chi_tiet_nhiem_vu_cubit.dart';
@@ -44,7 +45,7 @@ class _VanBanLienQuanWidgetState extends State<VanBanLienQuanWidget> {
                   Text(
                     S.current.van_ban_giao_nhiem_vu,
                     style: textNormalCustom(
-                      color: radioFocusColor,
+                      color: AppTheme.getInstance().colorField(),
                       fontWeight: FontWeight.w500,
                       fontSize: 14.0.textScale(),
                     ),
@@ -78,7 +79,7 @@ class _VanBanLienQuanWidgetState extends State<VanBanLienQuanWidget> {
                   Text(
                     S.current.van_ban_khac,
                     style: textNormalCustom(
-                      color: radioFocusColor,
+                      color: AppTheme.getInstance().colorField(),
                       fontWeight: FontWeight.w500,
                       fontSize: 14.0.textScale(),
                     ),

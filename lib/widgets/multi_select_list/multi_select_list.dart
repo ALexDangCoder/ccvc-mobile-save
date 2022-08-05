@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -22,6 +23,9 @@ class MultiSelectList extends StatefulWidget {
   final bool isRequire;
   final List<String> items;
   final List<String>? initSelectedItems;
+  final bool isInit;
+  final HoTroKyThuatCubit cubit;
+  final Function(String? value) onChangeSearch;
 
   const MultiSelectList({
     Key? key,
@@ -32,6 +36,9 @@ class MultiSelectList extends StatefulWidget {
     required this.items,
     this.listTitle,
     this.initSelectedItems,
+    required this.isInit,
+    required this.cubit,
+    required this.onChangeSearch,
   }) : super(key: key);
 
   @override
@@ -52,7 +59,10 @@ class _MultiSelectListState extends State<MultiSelectList> {
   @override
   void didUpdateWidget(covariant MultiSelectList oldWidget) {
     logic.allValue = widget.items;
-    logic.checkInit(widget.initSelectedItems);
+    if (widget.isInit) {
+      logic.checkInit(widget.initSelectedItems);
+      widget.cubit.isLoadDidUpdateWidget = false;
+    }
     super.didUpdateWidget(oldWidget);
   }
 
@@ -97,7 +107,7 @@ class _MultiSelectListState extends State<MultiSelectList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (logic.selectedValue.isNotEmpty)
-                  Row(
+                  Wrap(
                     children: logic.selectedValue
                         .map(
                           (element) => Text(
@@ -143,6 +153,9 @@ class _MultiSelectListState extends State<MultiSelectList> {
         context,
         title: widget.title ?? '',
         child: Issue(
+          onChange: (String? value) {
+            widget.onChangeSearch(value);
+          },
           logic: logic,
           items: widget.items,
           title: widget.listTitle ?? '',
@@ -158,6 +171,9 @@ class _MultiSelectListState extends State<MultiSelectList> {
         context,
         title: widget.title ?? '',
         child: Issue(
+          onChange: (String? value) {
+            widget.onChangeSearch(value);
+          },
           logic: logic,
           title: widget.listTitle ?? '',
           items: widget.items,
@@ -188,12 +204,14 @@ class Issue extends StatefulWidget {
   final List<String> items;
   final String title;
   final Logic logic;
+  final Function(String? value) onChange;
 
   const Issue({
     Key? key,
     required this.items,
     required this.title,
     required this.logic,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -202,6 +220,12 @@ class Issue extends StatefulWidget {
 
 class _IssueState extends State<Issue> {
   final TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.logic.initIssua();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -218,8 +242,12 @@ class _IssueState extends State<Issue> {
             builder: (context, snapshot) {
               return SelectedItemCell(
                 controller: controller,
-                listSelect: widget.logic.selectedValue,
-                onChange: (value) {},
+                listSelect: widget.logic.selectValueCache.isEmpty
+                    ? widget.logic.selectedValue
+                    : widget.logic.selectValueCache,
+                onChange: (value) {
+                  widget.onChange(value);
+                },
                 onDelete: (value) {
                   widget.logic.checkValue(value);
                 },
@@ -278,6 +306,7 @@ class _IssueState extends State<Issue> {
                   Navigator.pop(context);
                 },
                 onClickRight: () {
+                  widget.logic.luuDuLieu();
                   Navigator.pop(context, widget.logic.selectedIndex);
                 },
               ),
@@ -295,28 +324,49 @@ class Logic {
   List<String> allValue = [];
   List<int> selectedIndex = [];
   List<String> selectedValue = [];
+  List<String> listSearch = [];
+  List<int> selectIndexCache = [];
+  List<String> selectValueCache = [];
+
+  void initIssua() {
+    selectIndexCache.clear();
+    selectValueCache.clear();
+    for (final e in selectedValue) {
+      selectIndexCache.add(allValue.indexOf(e));
+
+    }
+    selectValueCache.addAll(selectedValue);
+    selectedItemStream.sink.add(selectIndexCache);
+  }
+
+  void luuDuLieu() {
+    selectedIndex.clear();
+    selectedIndex.addAll(selectIndexCache);
+    selectedValue.clear();
+    selectedValue.addAll(selectValueCache);
+  }
 
   void checkIndex(int _index) {
-    if (selectedIndex.contains(_index)) {
-      selectedIndex.remove(_index);
-      selectedValue.remove(allValue[_index]);
+    if (selectIndexCache.contains(_index)) {
+      selectIndexCache.remove(_index);
+      selectValueCache.remove(allValue[_index]);
     } else {
-      selectedIndex.add(_index);
-      selectedValue.add(allValue[_index]);
+      selectIndexCache.add(_index);
+      selectValueCache.add(allValue[_index]);
     }
-    selectedIndex.toSet().toList();
-    selectedItemStream.sink.add(selectedIndex);
+    selectIndexCache.toSet().toList();
+    selectedItemStream.sink.add(selectIndexCache);
   }
 
   void checkValue(String value) {
-    if (selectedValue.contains(value)) {
-      selectedIndex.remove(allValue.indexOf(value));
-      selectedValue.remove(value);
+    if (selectValueCache.contains(value)) {
+      selectIndexCache.remove(allValue.indexOf(value));
+      selectValueCache.remove(value);
     } else {
-      selectedIndex.add(allValue.indexOf(value));
-      selectedValue.add(value);
+      selectIndexCache.add(allValue.indexOf(value));
+      selectValueCache.add(value);
     }
-    selectedItemStream.sink.add(selectedIndex);
+    selectedItemStream.sink.add(selectIndexCache);
   }
 
   void checkInit(List<String>? initValue) {

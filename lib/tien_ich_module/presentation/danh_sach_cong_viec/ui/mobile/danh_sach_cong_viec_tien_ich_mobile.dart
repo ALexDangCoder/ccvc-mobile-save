@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
@@ -264,7 +265,7 @@ class _DanhSachCongViecTienIchMobileState
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: textDefault,
+                color: AppTheme.getInstance().colorField(),
               ),
               alignment: Alignment.center,
               child: Text(

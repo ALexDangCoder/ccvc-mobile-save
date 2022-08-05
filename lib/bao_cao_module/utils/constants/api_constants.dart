@@ -18,6 +18,7 @@ class ApiConstants {
   static const GET_DS_NGOAI_HE_THONG_DUOC_TRUY_CAP = '/htcs/api/user/m-search';
   static const REPORT_DETAIL = '/htcs/api/Report';
   static const GET_USER_PAGING = '/api/users/get-paging';
+  static const GET_SOURCE_SHARE = '/htcs/api/Source/source-share-detail/';
 }
 
 class ImageConstants {

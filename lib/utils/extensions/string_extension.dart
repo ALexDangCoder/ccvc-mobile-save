@@ -253,24 +253,24 @@ extension CheckValidate on String {
     }
   }
 
-  String? checkEmailBoolean() {
+  String? checkEmailBoolean({String? errMessage}) {
     final isCheck = RegExp(
-      r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$',
+      REGEX_EMAIL,
     ).hasMatch(this);
     if (isCheck) {
       if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {
-        return S.current.nhap_sai_dinh_dang;
+        return errMessage ?? S.current.nhap_sai_dinh_dang;
       } else {
         return null;
       }
     } else {
-      return S.current.nhap_sai_dinh_dang;
+      return errMessage ?? S.current.nhap_sai_dinh_dang;
     }
   }
 
   String? checkEmailBoolean2(String text) {
     final isCheck = RegExp(
-      r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$',
+      REGEX_EMAIL,
     ).hasMatch(this);
     if (isCheck) {
       if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {

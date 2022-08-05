@@ -1,11 +1,12 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 
 class BaoCaoItem extends StatelessWidget {
   final String status;
@@ -160,7 +161,7 @@ class BaoCaoItem extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              e.name ?? '',
+                              e.name?.convertNameFile() ?? '',
                               style: textNormalCustom(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,

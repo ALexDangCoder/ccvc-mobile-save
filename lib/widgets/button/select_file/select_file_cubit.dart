@@ -8,16 +8,13 @@ class SelectFileCubit{
   BehaviorSubject<bool> needRebuildListFile = BehaviorSubject();
   BehaviorSubject<List<FileModel>> fileFromApiSubject = BehaviorSubject();
 
-  List<FileModel> get filesFromApi => fileFromApiSubject.valueOrNull ?? [];
+  List<FileModel> filesFromApi = [];
   List<File> selectedFiles = [];
 
   bool checkOverMaxSize({double? maxSize, List<File>? newFiles}) {
     double totalSize = 0;
     for (final file in selectedFiles) {
       totalSize += file.lengthSync();
-    }
-    for (final file in filesFromApi) {
-      totalSize += file.fileLength ?? 0;
     }
     for (final file in newFiles ?? []) {
       totalSize += file.lengthSync();

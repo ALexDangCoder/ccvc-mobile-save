@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -83,6 +84,6 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
   }
 
   Color getColor(Set<MaterialState> states) {
-    return textDefault;
+    return  AppTheme.getInstance().colorField();
   }
 }

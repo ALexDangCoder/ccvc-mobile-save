@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/bao_cao_module/data/request/share_report_request.dar
 import 'package:ccvc_mobile/bao_cao_module/domain/model/danh_sach_nhom_cung_he_thong.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_detail_model.dart';
 import 'package:ccvc_mobile/bao_cao_module/domain/model/report_item.dart';
+import 'package:ccvc_mobile/bao_cao_module/domain/model/source_detail_model.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/user_ngoai_he_thong_duoc_truy_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -78,5 +79,9 @@ mixin ReportRepository {
     bool isGetAll = false,
     int pageIndex = 1,
     int pageSize = 9999,
+  });
+  Future<Result<SourceDetail>> getSourceShareDetail({
+    required String idReport,
+    required String appId,
   });
 }

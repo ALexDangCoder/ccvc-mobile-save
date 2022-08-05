@@ -495,7 +495,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   /// check quyen chọn phong hop
   bool isChonPhongHop() {
-    if (!isHasPhong() && (isChuTri() || isThuKy() || isNguoiTao())) {
+    if (!isHasPhong() && (isChuTri() || isThuKy() || isNguoiTao())&&checkPermissionQuyenDuyetPhong()) {
       return true;
     }
     return false;

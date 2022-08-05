@@ -141,9 +141,16 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                           ),
                           spaceH16,
                           Container(
-                            decoration: const BoxDecoration(
-                              color: daXuLyColor,
-                              borderRadius: BorderRadius.all(
+                            decoration: BoxDecoration(
+                              color: widget
+                                          .cubit
+                                          .managerPersonalInformationModel
+                                          .departments?[index]
+                                          .trangThai !=
+                                      0
+                                  ? daXuLyColor
+                                  : subTitle,
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(30),
                               ),
                             ),

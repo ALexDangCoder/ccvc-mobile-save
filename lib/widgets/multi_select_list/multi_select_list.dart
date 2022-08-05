@@ -290,7 +290,8 @@ class _IssueState extends State<Issue> {
                                     (index) => ItemList(
                                       logic: widget.logic,
                                       name: data[index],
-                                      index: index,
+                                      index: widget.logic.allValue
+                                          .indexOf(data[index]),
                                     ),
                                   ),
                                 ),
@@ -346,6 +347,7 @@ class Logic {
     }
     selectValueCache.addAll(selectedValue);
     selectedItemStream.sink.add(selectIndexCache);
+    selectedItemString.add(allValue);
   }
 
   void luuDuLieu() {

@@ -190,6 +190,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                   stream: widget.themDonViCubit.validateDonVi,
                   builder: (context, snapshot) {
                     return ShowRequied(
+                      textShow: S.current.vui_long_chon_don_vi,
                       isShow: snapshot.data ?? true,
                       child: StreamBuilder<bool>(
                         stream: widget.themDonViCubit.themDonViSubject,

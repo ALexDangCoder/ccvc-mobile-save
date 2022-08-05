@@ -328,7 +328,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            listPhienHopModel.thoiGianBatDau ?? '',
+                            listPhienHopModel.dateTimeView() ,
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
                               color: textTitle,

@@ -184,7 +184,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 ),
                 const SizedBox(height: 8),
                 listFileDinhKem(
-                  keyTxt: S.current.file,
+                  keyTxt: S.current.file_dinh_kem,
                   listPhienHopModel: listPhienHopModel,
                 ),
               ],

@@ -48,7 +48,8 @@ class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
               widget.themDonViCubit.onSearch(value);
             },
             onDelete: (value) {
-              widget.themDonViCubit.removeTag(value);
+              value.isCheck.isCheck = false;
+              widget.themDonViCubit.removeCheckBox(value);
               widget.data.remove(value);
             },
           );

@@ -353,7 +353,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                         ),
                                       )
                                     : const Padding(
-                                        padding: EdgeInsets.only(top: 180.0),
+                                        padding: EdgeInsets.symmetric(vertical: 50.0),
                                         child: Center(
                                           child: CupertinoLoading(),
                                         ),

@@ -231,14 +231,13 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                         ),
                                       )
                                       .toList(),
-                                  getIndex: (index) {
-                                    widget.cubit.checkFileRemove(index);
-                                  },
                                   onChange: (files, value) {
                                     widget.cubit.editTaskHTKTRequest
                                         .fileUpload = files;
                                   },
-                                  idRemove: (String id) {},
+                                  idRemove: (String id) {
+                                    widget.cubit.removeFileId(id);
+                                  },
                                 ),
                                 spaceH20,
                                 doubleBtn(),

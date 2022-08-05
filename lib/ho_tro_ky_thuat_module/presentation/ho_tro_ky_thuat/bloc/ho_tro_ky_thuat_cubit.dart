@@ -176,12 +176,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => get_dart.Get.find();
 
-  void checkFileRemove(int index) {
-    if ((editTaskHTKTRequest.lstFileId ?? []).isNotEmpty) {
-      (editTaskHTKTRequest.lstFileId ?? []).removeAt(index);
-    } else {
-      //nothing
+  void removeFileId(String id) {
+    if ((editTaskHTKTRequest.lstFileId ?? []).contains(id)) {
+      editTaskHTKTRequest.lstFileId?.remove(id);
     }
+  }
+  void addFileList(){
+
   }
 
   final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();

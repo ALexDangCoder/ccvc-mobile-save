@@ -4,8 +4,6 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_la
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
-import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
-import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
@@ -20,6 +18,8 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_lay
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -255,14 +255,13 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                               ),
                                             )
                                             .toList(),
-                                        getIndex: (index) {
-                                          widget.cubit.checkFileRemove(index);
-                                        },
                                         onChange: (files, value) {
                                           widget.cubit.editTaskHTKTRequest
                                               .fileUpload = files;
                                         },
-                                        idRemove: (String id) {},
+                                        idRemove: (String id) {
+                                          widget.cubit.removeFileId(id);
+                                        },
                                       ),
                                       spaceH20,
                                       _doubleBtn(),

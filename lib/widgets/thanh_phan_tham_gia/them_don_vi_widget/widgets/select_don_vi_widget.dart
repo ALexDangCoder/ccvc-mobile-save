@@ -27,7 +27,6 @@ class SelectSearchDonViWidget extends StatefulWidget {
 
 class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
   final TextEditingController controller = TextEditingController();
-  String keySearch = '';
 
   @override
   void initState() {
@@ -49,12 +48,9 @@ class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
               widget.themDonViCubit.onSearch(value);
             },
             onDelete: (value) {
-              widget.themDonViCubit.removeTagLast(value);
+              value.isCheck.isCheck = false;
+              widget.themDonViCubit.removeCheckBox(value);
               widget.data.remove(value);
-              if (widget.themDonViCubit.selectNode.isEmpty) {
-                widget.themDonViCubit
-                    .onSearch(widget.themDonViCubit.keySearchChonNguoi);
-              }
             },
           );
         } else {

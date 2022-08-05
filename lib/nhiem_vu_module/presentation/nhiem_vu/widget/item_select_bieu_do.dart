@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,7 +79,7 @@ class ContainerState extends StatelessWidget {
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: isCheck ? linkColor : backgroundColorApp),
+          color: isCheck ? AppTheme.getInstance().colorField() : backgroundColorApp),
       child: Row(
         children: [
           Text(

@@ -52,11 +52,10 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     result.when(
       success: (res) {
         for (final element in res) {
-          // ignore: iterable_contains_unrelated_type
-          if (!listTitleWidgetUse.contains(element.name) &&
+          if (!listTitleWidgetUse.contains(element.component) &&
               !removeWidget.contains(element.component)) {
             for (final fullPara in listTempFullPara) {
-              if (fullPara.name == element.name) {
+              if (fullPara.component == element.component) {
                 listNotUse.add(fullPara);
               }
             }
@@ -187,7 +186,9 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
       success: (res) {
         res.removeWhere((element) => removeWidget.contains(element.component));
         listUsing = res;
-        listTitleWidgetUse = listUsing.map((e) => e.name).toList();
+        listTitleWidgetUse = listUsing.map((e) {
+          return e.component;
+        }).toList();
         _listWidgetUsing.sink.add(listUsing);
       },
       error: (err) {},
@@ -207,38 +208,25 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   Future<void> onRefreshData() async {
     await loadApi();
-    // final result = await homeRep.getDashBoardConfig();
-    // result.when(
-    //   success: (res) {
-    //     listUsing = res;
-    //     final data =
-    //         res.where((element) => element.widgetType != null).toList();
-    //     listTitleWidgetUse = data.map((e) => e.name).toList();
-    //     _listWidgetUsing.sink.add(data);
-    //     _getListWidgetNotUse();
-    //     orderWidgetHome(listUsing);
-    //   },
-    //   error: (err) {},
-    // );
   }
 
   String getNameWidget(WidgetModel widgetModel) {
-    String widgetName='';
+    String widgetName = '';
     switch (widgetModel.component) {
       case WidgetTypeConstant.DANH_SACH_PAKN:
-        widgetName= S.current.danh_sach_pakn;
+        widgetName = S.current.danh_sach_pakn;
         break;
       case WidgetTypeConstant.TiNH_HINH_PAKN_CA_NHAN:
-        widgetName= S.current.tinh_hinh_pakn_ca_nhan;
+        widgetName = S.current.tinh_hinh_pakn_ca_nhan;
         break;
       case WidgetTypeConstant.TiNH_HINH_PAKN_DON_VI:
-        widgetName= S.current.tinh_hinh_pakn_don_vi;
+        widgetName = S.current.tinh_hinh_pakn_don_vi;
         break;
       case WidgetTypeConstant.BAO_CHI:
-        widgetName= S.current.bao_chi_mxh;
+        widgetName = S.current.bao_chi_mxh;
         break;
       default:
-        widgetName=widgetModel.name;
+        widgetName = widgetModel.name;
     }
     return widgetName;
   }

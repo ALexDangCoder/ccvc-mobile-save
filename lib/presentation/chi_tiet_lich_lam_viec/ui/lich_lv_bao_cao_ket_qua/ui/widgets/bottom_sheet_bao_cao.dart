@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -5,15 +6,12 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +51,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
     super.initState();
     if (widget.isEdit) {
       controller.text = widget.cubit.content;
+      widget.cubit.fileDeleteId.clear();
     }
   }
 
@@ -135,71 +134,13 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               const SizedBox(
                 height: 24,
               ),
-              ButtonSelectFile(
-                removeFileApi: (int index) {},
-                isShowFile: false,
-                 allowedExtensions: const [
-                   FileExtensions.DOC,
-                   FileExtensions.DOCX,
-                   FileExtensions.JPEG,
-                   FileExtensions.JPG,
-                   FileExtensions.PDF,
-                   FileExtensions.PNG,
-                   FileExtensions.XLSX,
-                 ],
-                title: S.current.tai_lieu_dinh_kem,
-                onChange: (
-                  files,
-                ) {
-                  if (widget.cubit.checkFile(files)) {
-                    MessageConfig.show(
-                      title: S.current.file_da_ton_tai,
-                      messState: MessState.error,
-                    );
-                    return;
-                  }
+              SelectFileBtn(
+                onChange: (files) {
                   widget.cubit.files.addAll(files);
-                  widget.cubit.updateFilePicker.sink.add(true);
                 },
-                files: widget.cubit.files.toList(),
-              ),
-              StreamBuilder(
-                  stream: widget.cubit.deleteFileInit.stream,
-                  builder: (context, snapshot) {
-                    return Column(
-                      children: widget.cubit.fileInit
-                          .map(
-                          (e) => itemListFile(
-                            onTap: () {
-                              widget.cubit.fileInit.remove(e);
-                              widget.cubit.fileDelete.add(e);
-                              widget.cubit.deleteFileInit.sink.add(true);
-                            },
-                            fileTxt: e.name ?? '',
-                            lengthFile: e.fileLength?.toInt().getFileSize(2),
-                          ),
-                        )
-                        .toList(),
-                  );
-                },
-              ),
-              StreamBuilder(
-                stream: widget.cubit.updateFilePicker.stream,
-                builder: (context, snapshot) {
-                  return Column(
-                    children: widget.cubit.files
-                        .map(
-                          (e) => itemListFile(
-                            onTap: () {
-                              widget.cubit.files.remove(e);
-                              widget.cubit.updateFilePicker.sink.add(true);
-                            },
-                            fileTxt: e.path.convertNameFile(),
-                            lengthFile: e.lengthSync().getFileSize(2),
-                          ),
-                        )
-                        .toList(),
-                  );
+                initFileFromApi: widget.cubit.fileInit,
+                onDeletedFileApi: (file) {
+                  widget.cubit.fileDeleteId.add(file.id ?? '');
                 },
               ),
               Align(alignment: Alignment.bottomCenter, child: navigatorBar())
@@ -272,6 +213,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                 title2: widget.isEdit ? S.current.luu : S.current.them,
                 title1: S.current.dong,
                 onClickLeft: () {
+                  widget.cubit.fileDeleteId.clear();
                   Navigator.pop(context);
                 },
               ),
@@ -308,13 +250,6 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
   }
 
   void btnThem() {
-    if (!widget.cubit.checkLenghtFile()) {
-      MessageConfig.show(
-        title: S.current.dung_luong_toi_da_30,
-        messState: MessState.error,
-      );
-      return;
-    }
     if (widget.cubit.reportStatusId.isNotEmpty) {
       if (widget.isEdit) {
         widget.cubit.editScheduleReport(

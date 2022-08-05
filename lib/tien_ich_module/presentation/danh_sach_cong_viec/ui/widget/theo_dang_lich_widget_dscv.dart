@@ -67,13 +67,13 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: numberColorTabletbg,
+                color: AppTheme.getInstance().colorField(),
               ),
               alignment: Alignment.center,
               child: Text(
                 number.toString(),
                 style: textNormalCustom(
-                  color: AppTheme.getInstance().colorField(),
+                  color: bgDropDown,
                   fontWeight: FontWeight.w500,
                   fontSize: 12.0.textScale(),
                 ),

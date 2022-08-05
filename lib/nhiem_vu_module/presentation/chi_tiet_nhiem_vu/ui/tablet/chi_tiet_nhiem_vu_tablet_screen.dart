@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_model.dart';
@@ -110,9 +111,9 @@ class _ChiTietNhiemVuTabletScreenState extends State<ChiTietNhiemVuTabletScreen>
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,
                 isScrollable: true,
-                labelColor: textDefault,
+                labelColor: AppTheme.getInstance().colorField(),
                 unselectedLabelColor: infoColor,
-                indicatorColor: textDefault,
+                indicatorColor: AppTheme.getInstance().colorField(),
                 labelStyle: TextStyle(
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w700,

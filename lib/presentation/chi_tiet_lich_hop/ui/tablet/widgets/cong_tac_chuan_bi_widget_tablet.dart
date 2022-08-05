@@ -89,10 +89,17 @@ class _CongTacChuanBiWidgetTabletState
                             ?.id ??
                         '',
                     onChange: (value) {
-                      widget.cubitTaoLichHop.chonPhongHopMetting(
-                        widget.cubit.taoLichHopRequest,
-                        value,
-                      );
+                      widget.cubitTaoLichHop
+                          .chonPhongHopMetting(
+                              taoLichHopRequest: widget.cubit.taoLichHopRequest,
+                              value: value,
+                              cubit: widget.cubit)
+                          .then((value) {
+                        if (value) {
+                          widget.cubit.getListStatusRoom();
+                          widget.cubit.callApiCongTacChuanBi();
+                        }
+                      });
                     },
                     initPhongHop:
                         widget.cubitTaoLichHop.taoLichHopRequest.phongHop,

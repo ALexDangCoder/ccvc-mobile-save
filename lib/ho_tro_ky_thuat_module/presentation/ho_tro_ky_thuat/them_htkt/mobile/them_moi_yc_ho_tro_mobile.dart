@@ -241,6 +241,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           spaceH16,
                           TaiLieuWidget(
                             isHaveExpanded: true,
+                            isTitle: false,
                             idRemove: (String id) {},
                             onChange: (files, value) {
                               widget.cubit.addTaskHTKTRequest.fileUpload =

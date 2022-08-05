@@ -237,7 +237,6 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                         }
                                       },
                                       isInit: false,
-                                      onChangeSearch: (String? value) {},
                                     );
                                   },
                                 ),

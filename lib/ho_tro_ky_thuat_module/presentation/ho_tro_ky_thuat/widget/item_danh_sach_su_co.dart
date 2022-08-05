@@ -304,7 +304,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                   MessageConfig.show(
                                     title: S.current.xoa_thanh_cong,
                                   );
-                                  widget.cubit.getListDanhBaCaNhan(page: 1);
+                                  widget.cubit.getListHoTroKyThuat(page: 1);
                                 } else {
                                   MessageConfig.show(
                                     title: S.current.xoa_that_bai,
@@ -345,7 +345,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                   },
                                 ).whenComplete(
                                   () =>
-                                      widget.cubit.getListDanhBaCaNhan(page: 1),
+                                      widget.cubit.getListHoTroKyThuat(page: 1),
                                 );
                               } else {
                                 showModalBottomSheet(
@@ -360,7 +360,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                   },
                                 ).whenComplete(
                                   () =>
-                                      widget.cubit.getListDanhBaCaNhan(page: 1),
+                                      widget.cubit.getListHoTroKyThuat(page: 1),
                                 );
                               }
                             },
@@ -392,7 +392,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                   },
                                 ).whenComplete(
                                   () =>
-                                      widget.cubit.getListDanhBaCaNhan(page: 1),
+                                      widget.cubit.getListHoTroKyThuat(page: 1),
                                 );
                               } else {
                                 showModalBottomSheet(
@@ -407,7 +407,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                   },
                                 ).whenComplete(
                                   () =>
-                                      widget.cubit.getListDanhBaCaNhan(page: 1),
+                                      widget.cubit.getListHoTroKyThuat(page: 1),
                                 );
                               }
                             },

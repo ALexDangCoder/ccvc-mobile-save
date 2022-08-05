@@ -284,18 +284,12 @@ extension CheckValidate on String {
   }
 
   String? checkPassWordChangePass(String name) {
-    final length = this.length;
     final isCheck = RegExp(
             r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$')
         .hasMatch(this);
     if (isCheck) {
       return null;
     } else {
-      if (length < 6) {
-        return S.current.min_text;
-      } else if (length > 32) {
-        return S.current.max_text;
-      }
       return '${S.current.sai_dinh_dang_truong} $name';
     }
   }

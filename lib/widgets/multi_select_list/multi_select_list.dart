@@ -111,13 +111,13 @@ class _MultiSelectListState extends State<MultiSelectList> {
                     children: logic.selectedValue
                         .map(
                           (element) => Text(
-                            getTextList(
-                              title: element,
-                              listTitle: logic.selectedValue,
-                            ),
-                            style: textNormal(textTitle, 14.0.textScale()),
-                          ),
-                        )
+                        getTextList(
+                          title: element,
+                          listTitle: logic.selectedValue,
+                        ),
+                        style: textNormal(textTitle, 14.0.textScale()),
+                      ),
+                    )
                         .toList(),
                   )
                 else
@@ -142,10 +142,10 @@ class _MultiSelectListState extends State<MultiSelectList> {
     required List<String> listTitle,
   }) =>
       title +
-      ((listTitle.length !=
+          ((listTitle.length !=
               listTitle.indexWhere((element) => element == title) + 1)
-          ? ', '
-          : '');
+              ? ', '
+              : '');
 
   void showSelect() {
     if (isMobile()) {
@@ -281,26 +281,26 @@ class _IssueState extends State<Issue> {
                       Expanded(
                         child: widget.items.isNotEmpty
                             ? SingleChildScrollView(
-                                keyboardDismissBehavior: isMobile()
-                                    ? ScrollViewKeyboardDismissBehavior.onDrag
-                                    : ScrollViewKeyboardDismissBehavior.manual,
-                                child: Column(
-                                  children: List.generate(
-                                    data.length,
-                                    (index) => ItemList(
-                                      logic: widget.logic,
-                                      name: data[index],
-                                      index: widget.logic.allValue
-                                          .indexOf(data[index]),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Column(
-                                children: const [
-                                  NodataWidget(),
-                                ],
+                          keyboardDismissBehavior: isMobile()
+                              ? ScrollViewKeyboardDismissBehavior.onDrag
+                              : ScrollViewKeyboardDismissBehavior.manual,
+                          child: Column(
+                            children: List.generate(
+                              data.length,
+                                  (index) => ItemList(
+                                logic: widget.logic,
+                                name: data[index],
+                                index: widget.logic.allValue
+                                    .indexOf(data[index]),
                               ),
+                            ),
+                          ),
+                        )
+                            : Column(
+                          children: const [
+                            NodataWidget(),
+                          ],
+                        ),
                       )
                     ],
                   ),

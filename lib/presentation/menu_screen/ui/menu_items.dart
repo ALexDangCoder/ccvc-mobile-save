@@ -153,7 +153,7 @@ extension MenuTypeItem on MenuType {
       case MenuType.diemDanh:
         return MenuCellType(
           url: urlIconScreen(
-            iconTablet: ImageAssets.icDiemDanhTopMenu,
+            iconTablet: ImageAssets.icDiemDanhTabletMenu,
             iconMobile: ImageAssets.icDiemDanhTopMenu,
           ),
           title: S.current.diem_danh,

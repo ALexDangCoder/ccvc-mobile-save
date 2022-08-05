@@ -332,15 +332,15 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
           children: [
             SvgPicture.asset(
               type.getItem().url,
-              width: 32.sp,
-              height: 32.sp,
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.h),
-              child: Text(
-                type.getItem().title,
-                style: textNormalCustom(fontSize: 18, color: color3D5586),
-                textAlign: TextAlign.center,
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: 10.h),
+                child: Text(
+                  type.getItem().title,
+                  style: textNormalCustom(fontSize: 18, color: color3D5586),
+                  textAlign: TextAlign.center,
+                ),
               ),
             )
           ],

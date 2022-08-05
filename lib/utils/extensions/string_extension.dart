@@ -15,6 +15,8 @@ extension StringHandle on String {
   }
 
   String get removeSpace => trim().replaceAll(' +', ' ');
+
+  String get removeSpaceHtml => trim().replaceAll('&nbsp;', '');
 }
 
 extension StringMoneyFormat on String {

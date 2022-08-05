@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -18,13 +19,14 @@ class CustomSelectMultiItems extends StatefulWidget {
   final String? title;
   final Function(ListItemType) onChange;
   final String hintText;
+  final bool isShowIconRight;
   const CustomSelectMultiItems({
     Key? key,
     this.title,
     required this.context,
     required this.items,
     required this.onChange,
-    this.hintText = '',
+    this.hintText = '', this.isShowIconRight=false,
   }) : super(key: key);
 
   @override
@@ -254,18 +256,25 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
           border: Border.all(color: borderColor),
           borderRadius: const BorderRadius.all(Radius.circular(6)),
         ),
-        child: selectedItems != null
-            ? Text(
-                selectedItems?.title ?? '',
-                style: tokenDetailAmount(
-                  fontSize: 14.0.textScale(),
-                  color: titleCalenderWork,
-                ),
-              )
-            : Text(
-                widget.hintText,
-                style: textNormal(titleItemEdit.withOpacity(0.5), 14),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (selectedItems != null) Text(
+              selectedItems?.title ?? '',
+              style: tokenDetailAmount(
+                fontSize: 14.0.textScale(),
+                color: titleCalenderWork,
               ),
+            ) else Text(
+              widget.hintText,
+              style: textNormal(titleItemEdit.withOpacity(0.5), 14),
+            ),
+            if(widget.isShowIconRight)const Icon(
+              Icons.keyboard_arrow_down_outlined,
+              color: AqiColor,
+            )
+          ],
+        )
       ),
     );
   }

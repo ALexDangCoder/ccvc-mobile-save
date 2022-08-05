@@ -85,10 +85,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
             minimumYear: DateTime.now().year,
             minimumDate: widget.createWorkCalendar
                 ? widget.initDate
-                : DateTime.parse(
-              widget.createCubit.dateTimeFrom ??
-                  DateTime.now().toString(),
-            ),
+                : widget.createCubit.dateTimeLapDenNgay,
             backgroundColor: backgroundColorApp,
             mode: CupertinoDatePickerMode.date,
             use24hFormat: true,

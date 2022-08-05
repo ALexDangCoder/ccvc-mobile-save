@@ -76,30 +76,27 @@ Future<Map<String, dynamic>> pickImageFunc({
     VALID_FORMAT_OF_FILE: '',
     NAME_OF_FILE: '',
   };
-  final permission =
-      Platform.isIOS ? Permission.photosAddOnly : Permission.storage;
-  final status = await permission.status;
-  if (status.isGranted || status.isLimited) {
-    try {
-      final newImage = await ImagePicker().pickImage(source: source);
-      if (newImage == null) {
-        return _resultMap;
-      }
-      final extension = (p.extension(newImage.path)).replaceAll('.', '');
-      _resultMap[EXTENSION_OF_FILE] = extension;
-      _resultMap[VALID_FORMAT_OF_FILE] =
-          PickerType.IMAGE_FILE.fileType.contains(extension.toUpperCase());
-      _resultMap[SIZE_OF_FILE] =
-          File(newImage.path).readAsBytesSync().lengthInBytes;
-      _resultMap[PATH_OF_FILE] = newImage.path;
-      _resultMap[NAME_OF_FILE] = newImage.name;
+  try {
+    final newImage = await ImagePicker().pickImage(source: source);
+    if (newImage == null) {
       return _resultMap;
-    } on PlatformException catch (e) {
-      throw 'Cant upload image $e';
     }
-  } else {
-    await MessageConfig.showDialogSetting();
-    return {};
+    final extension = (p.extension(newImage.path)).replaceAll('.', '');
+    _resultMap[EXTENSION_OF_FILE] = extension;
+    _resultMap[VALID_FORMAT_OF_FILE] =
+        PickerType.IMAGE_FILE.fileType.contains(extension.toUpperCase());
+    _resultMap[SIZE_OF_FILE] =
+        File(newImage.path).readAsBytesSync().lengthInBytes;
+    _resultMap[PATH_OF_FILE] = newImage.path;
+    _resultMap[NAME_OF_FILE] = newImage.name;
+    return _resultMap;
+  } on PlatformException catch (e) {
+    final permission =
+        Platform.isIOS ? Permission.photosAddOnly : Permission.storage;
+    final status = await permission.status;
+    if (status.isDenied) {
+      await MessageConfig.showDialogSetting();
+    }
+    throw 'Cant upload image $e';
   }
 }
-

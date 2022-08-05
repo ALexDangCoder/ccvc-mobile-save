@@ -56,7 +56,7 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
               ),
               cubit: widget.cubit,
               isListView: true,
-              callApi: (page) => widget.cubit.getListDanhBaCaNhan(
+              callApi: (page) => widget.cubit.getListHoTroKyThuat(
                 page: page,
               ),
               viewItem: (value, index) => Container(

@@ -238,6 +238,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                       _multiSelect(),
                                       spaceH16,
                                       TaiLieuWidget(
+                                        isTitle: false,
                                         isHaveExpanded: true,
                                         files: widget.cubit.editModelHTKT.value
                                             .filesDinhKem

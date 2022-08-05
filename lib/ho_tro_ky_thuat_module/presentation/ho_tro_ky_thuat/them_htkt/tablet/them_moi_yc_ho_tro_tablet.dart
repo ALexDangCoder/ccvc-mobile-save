@@ -264,6 +264,7 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                 ),
                                 spaceH16,
                                 TaiLieuWidget(
+                                  isTitle: false,
                                   isHaveExpanded: true,
                                   idRemove: (String id) {},
                                   onChange: (files, value) {

@@ -392,8 +392,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
           ),
         spaceH8,
         TextFieldValidator(
-          controller: controller,
-          initialValue: initValue,
+          initialValue: initValue ?? '',
           hintText: hintText,
           onChange: onChange,
           maxLine: maxLine,

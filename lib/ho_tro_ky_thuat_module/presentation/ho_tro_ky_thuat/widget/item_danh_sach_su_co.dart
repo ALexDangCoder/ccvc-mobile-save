@@ -281,13 +281,9 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                                     idHTKT: widget.objDSSC.id ?? '',
                                     idKhuVuc: widget.objDSSC.districtId ?? '',
                                   ),
-                                ).whenComplete(
-                                  () => {
-                                    widget.cubit.onClosePopupMenu(),
-                                    setState(() {}),
-                                  },
                                 );
                               }
+                              widget.onClose();
                             },
                           ),
                           line(

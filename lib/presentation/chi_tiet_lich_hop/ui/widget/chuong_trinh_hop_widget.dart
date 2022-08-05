@@ -179,12 +179,12 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 ),
                 const SizedBox(height: 8),
                 RowDataWidget(
-                  keyTxt: S.current.just_noi_dung,
+                  keyTxt: S.current.noidung,
                   value: listPhienHopModel.noiDung ?? '',
                 ),
                 const SizedBox(height: 8),
                 listFileDinhKem(
-                  keyTxt: S.current.file_dinh_kem,
+                  keyTxt: S.current.file,
                   listPhienHopModel: listPhienHopModel,
                 ),
               ],

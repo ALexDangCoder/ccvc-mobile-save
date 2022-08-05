@@ -374,17 +374,24 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        physics:const NeverScrollableScrollPhysics(),
                         itemCount: listPhienHopModel.files.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final data = listPhienHopModel.files
-                              .map((e) => e.name)
                               .toList();
-                          return Text(
-                            data[index] ?? S.current.khong_co_tep_nao,
-                            style: textDetailHDSD(
-                              fontSize: 14.0.textScale(),
-                              color: color5A8DEE,
+                          return GestureDetector(
+                            onTap: () {
+                              saveFile(
+                                  fileName: data[index].name ?? '',
+                                  url: data[index].path ?? '');
+                            },
+                            child: Text(
+                              data[index].name ?? S.current.khong_co_tep_nao,
+                              style: textDetailHDSD(
+                                fontSize: 14.0.textScale(),
+                                color: color5A8DEE,
+                              ),
                             ),
                           );
                         },

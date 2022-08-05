@@ -212,9 +212,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                                     widget.cubit.showErrorLoaiSuCo.add(true);
                                   }
                                 },
-                                onChangeSearch: (String? value) {
-                                  widget.cubit.searchIssue(value);
-                                },
                               );
                             },
                           ),

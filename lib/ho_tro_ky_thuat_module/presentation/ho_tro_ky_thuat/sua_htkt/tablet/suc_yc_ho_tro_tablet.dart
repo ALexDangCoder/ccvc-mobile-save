@@ -310,7 +310,6 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
-              onChangeSearch: (String? value) {},
             );
           },
         ),

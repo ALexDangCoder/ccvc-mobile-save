@@ -283,7 +283,6 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
-              onChangeSearch: (String? value) {},
             );
           },
         ),

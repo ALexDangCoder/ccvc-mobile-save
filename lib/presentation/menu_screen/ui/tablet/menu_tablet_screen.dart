@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/app_config.dart';
@@ -49,6 +48,7 @@ class MenuTabletScreen extends StatefulWidget {
 class _MenuTabletScreenState extends State<MenuTabletScreen> {
   late MenuCubit menuCubit;
   String version = '';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -163,18 +163,18 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                         List.generate(data.length, (index) {
                                       final type = data[index];
                                       return containerType(type, () {
-                                        if(Platform.isIOS){
+                                        if (Platform.isIOS) {
                                           Navigator.of(context,
-                                              rootNavigator: true)
+                                                  rootNavigator: true)
                                               .push(
                                             CupertinoPageRoute(
                                               builder: (context) =>
                                                   type.getScreen(),
                                             ),
                                           );
-                                        }else {
+                                        } else {
                                           Navigator.of(context,
-                                              rootNavigator: true)
+                                                  rootNavigator: true)
                                               .push(
                                             PageRouteBuilder(
                                               pageBuilder: (_, __, ___) =>
@@ -182,7 +182,6 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                             ),
                                           );
                                         }
-
                                       });
                                     }),
                                   );
@@ -235,7 +234,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                           if (type == MenuType.chuyenPhamVi) {
                                             showChuyenPhamVi();
                                           } else {
-                                            if(Platform.isIOS){
+                                            if (Platform.isIOS) {
                                               Navigator.push(
                                                 context,
                                                 CupertinoPageRoute(
@@ -243,7 +242,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                                       type.getScreen(),
                                                 ),
                                               );
-                                            }else {
+                                            } else {
                                               Navigator.push(
                                                 context,
                                                 PageRouteBuilder(
@@ -315,7 +314,13 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
         onTap();
       },
       child: Container(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 25,
+          bottom: 20,
+        ),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: backgroundColorApp,
           border: Border.all(color: borderColor.withOpacity(0.5)),
@@ -332,15 +337,19 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
           children: [
             SvgPicture.asset(
               type.getItem().url,
-              width: 32.sp,
-              height: 32.sp,
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.h),
-              child: Text(
-                type.getItem().title,
-                style: textNormalCustom(fontSize: 18, color: color3D5586),
-                textAlign: TextAlign.center,
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.h),
+                    child: Text(
+                      type.getItem().title,
+                      style: textNormalCustom(fontSize: 18, color: color3D5586),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               ),
             )
           ],

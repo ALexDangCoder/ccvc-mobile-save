@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
-
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +13,8 @@ final keyEditKetLuanHop = GlobalKey<_EditKetLuanHopScreenState>();
 class EditKetLuanHopScreen extends StatefulWidget {
   final String htmlText;
 
-  const EditKetLuanHopScreen({Key? key,required this.htmlText}) : super(key: key);
+  const EditKetLuanHopScreen({Key? key, required this.htmlText})
+      : super(key: key);
 
   @override
   _EditKetLuanHopScreenState createState() => _EditKetLuanHopScreenState();
@@ -48,8 +49,9 @@ class _EditKetLuanHopScreenState extends State<EditKetLuanHopScreen> {
           actions: [
             IconButton(
               onPressed: () async {
-                final getHtml = await controller.getText();
-                Navigator.pop(context,getHtml);
+                final getHtml =
+                    await controller.getText();
+                Navigator.pop(context, getHtml.removeSpaceHtml);
               },
               icon: SvgPicture.asset(
                 ImageAssets.icTickCircle,
@@ -64,14 +66,12 @@ class _EditKetLuanHopScreenState extends State<EditKetLuanHopScreen> {
               maxHeight: MediaQuery.of(context).size.height * 0.9,
             ),
             child: SingleChildScrollView(
-              child:  HtmlEditor(
+              child: HtmlEditor(
                 controller: controller,
                 htmlEditorOptions: HtmlEditorOptions(
                   initialText: widget.htmlText,
-
                 ),
                 otherOptions: OtherOptions(
-
                   height: MediaQuery.of(context).size.height,
                 ),
               ),

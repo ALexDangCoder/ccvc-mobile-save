@@ -210,6 +210,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         onChange: (value) {
                           ngGiaoNvId = value.id;
                         },
+                        isShowIconRight: true,
                         items: widget.cubit.dataThuKyOrThuHoiDeFault
                             .map(
                               (e) => ListItemType(

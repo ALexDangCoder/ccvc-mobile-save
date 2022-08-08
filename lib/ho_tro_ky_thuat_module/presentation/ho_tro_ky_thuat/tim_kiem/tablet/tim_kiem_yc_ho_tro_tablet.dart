@@ -68,8 +68,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                 closeKey();
               },
               child: Container(
-                height: 1056,
-                width: 592,
+                width: MediaQuery.of(context).size.width * 0.8,
                 padding:
                     EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 clipBehavior: Clip.hardEdge,
@@ -119,7 +118,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                       ),
                     ),
                     spaceH10,
-                    Expanded(
+                    Flexible(
                       child: SingleChildScrollView(
                         controller: _controller,
                         child: Column(
@@ -264,23 +263,18 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                                   .getItemsNguoiTiepNhanYeuCau(),
                                             ),
                                             spaceH16,
-                                            if (cubit.isManager) ...[
-                                              _textTitle(S.current.nguoi_xu_ly),
-                                              spaceH8,
-                                              CustomDropDown(
-                                                hint: _textTitle(
-                                                  S.current.chon,
-                                                ),
-                                                onSelectItem: (value) {
-                                                  cubit
-                                                      .onChangeNguoiXuLy(value);
-                                                },
-                                                value: cubit.handlerIdName,
-                                                items:
-                                                    cubit.getItemsThanhVien(),
+                                            _textTitle(S.current.nguoi_xu_ly),
+                                            spaceH8,
+                                            CustomDropDown(
+                                              hint: _textTitle(
+                                                S.current.chon,
                                               ),
-                                              spaceH16,
-                                            ],
+                                              onSelectItem: (value) {
+                                                cubit.onChangeNguoiXuLy(value);
+                                              },
+                                              value: cubit.handlerIdName,
+                                              items: cubit.getItemsThanhVien(),
+                                            ),
                                             _textTitle(S.current.khu_vuc),
                                             spaceH8,
                                             CustomDropDown(
@@ -345,11 +339,16 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                               items: cubit.getItemsTrangThai(),
                                             ),
                                             spaceH4,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: _doubleBtn(context),
+                                            ),
                                           ],
                                         ),
                                       )
                                     : const Padding(
-                                        padding: EdgeInsets.only(top: 180.0),
+                                        padding: EdgeInsets.symmetric(vertical: 50.0),
                                         child: Center(
                                           child: CupertinoLoading(),
                                         ),
@@ -359,10 +358,6 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                           ],
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: _doubleBtn(context),
                     ),
                   ],
                 ),

@@ -212,9 +212,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                                     widget.cubit.showErrorLoaiSuCo.add(true);
                                   }
                                 },
-                                onChangeSearch: (String? value) {
-                                  widget.cubit.searchIssue(value);
-                                },
                               );
                             },
                           ),
@@ -244,6 +241,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                           spaceH16,
                           TaiLieuWidget(
                             isHaveExpanded: true,
+                            isTitle: false,
                             idRemove: (String id) {},
                             onChange: (files, value) {
                               widget.cubit.addTaskHTKTRequest.fileUpload =

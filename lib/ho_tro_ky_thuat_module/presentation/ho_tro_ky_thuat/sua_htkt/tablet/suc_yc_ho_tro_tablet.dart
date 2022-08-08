@@ -238,6 +238,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                       _multiSelect(),
                                       spaceH16,
                                       TaiLieuWidget(
+                                        isTitle: false,
                                         isHaveExpanded: true,
                                         files: widget.cubit.editModelHTKT.value
                                             .filesDinhKem
@@ -309,7 +310,6 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
-              onChangeSearch: (String? value) {},
             );
           },
         ),
@@ -391,8 +391,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
           ),
         spaceH8,
         TextFieldValidator(
-          controller: controller,
-          initialValue: initValue,
+          initialValue: initValue ?? '',
           hintText: hintText,
           onChange: onChange,
           maxLine: maxLine,

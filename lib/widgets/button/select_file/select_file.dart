@@ -89,6 +89,9 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
           FileExtensions.PNG,
           FileExtensions.XLSX,
         ];
+    for(final element in allowedExtensions){
+      element.toLowerCase();
+    }
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: widget.hasMultiFile,
       allowedExtensions: allowedExtensions,
@@ -114,7 +117,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     newFiles.removeWhere(
       (element) {
         final result = !allowedExtensions.contains(
-          path.extension(element.path).replaceAll('.', ''),
+          path.extension(element.path).replaceAll('.', '').toLowerCase(),
         );
         if (result) {
           showToast(

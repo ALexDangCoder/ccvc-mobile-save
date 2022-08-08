@@ -126,7 +126,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                   onTap: () {
                     showDiaLogTablet(
                       context,
-                      title: S.current.cho_y_kien,
+                      title: S.current.y_kien,
                       child: YKienBottomSheet(
                         isTablet: true,
                         id: widget.id,

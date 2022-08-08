@@ -229,6 +229,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool trangThaiHuy() => getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY;
 
   bool trangThaiThuHoi() {
+    final bool chuTri = isChuTri();
     bool isCaNhan = false;
     bool thuHoiCaNhan = false;
     bool isDonVi = false;
@@ -249,9 +250,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         if (isDonVi) thuHoiDonVi = isThuHoi;
       }
     }
-    final biThuHoiCaNhan =  isCaNhan && thuHoiCaNhan;
-    final biThuHoiDonVi =  isDonVi && thuHoiDonVi;
-    return  biThuHoiCaNhan && biThuHoiDonVi;
+    final biThuHoiCaNhan =  (isCaNhan &&  thuHoiCaNhan) || !isCaNhan;
+    final biThuHoiDonVi =  (isDonVi && thuHoiDonVi) || !isDonVi;
+    return !chuTri && biThuHoiDonVi && biThuHoiCaNhan;
   }
 
   bool thanhPhanThamGiaDaXacNhan() {
@@ -765,7 +766,22 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   bool isTaoHo() {
     final isChutri = isChuTri();
-    final isThamGia = caNhanTrongDsThamDu() != null;
+    bool isCaNhan = false;
+    bool isDonVi = false;
+    final listThamgia = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
+    for (final element in listThamgia) {
+      final idUser = (HiveLocal.getDataUser()?.userId ?? '').toLowerCase();
+      if (!isCaNhan) {
+        isCaNhan = (element.CanBoId ?? '').toLowerCase() == idUser;
+      }
+      if (!isDonVi){
+        final donVi = (element.CanBoId ?? '').isEmpty;
+        final chungDonVi = (element.donViId ?? '').toLowerCase() ==
+            (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
+        isDonVi = donVi && chungDonVi;
+      }
+    }
+    final isThamGia = isCaNhan || isDonVi;
     if (isChutri || isThamGia) {
       return false;
     }

@@ -57,13 +57,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                     funcBtnOk: () {
                       Navigator.pop(context);
                     },
-                  ).then((value) {
-                    if (value == true) {
-                      widget.cubit.callAPiBieuQuyet();
-                    } else if (value == null) {
-                      return;
-                    }
-                  });
+                  );
                 },
               ),
             StreamBuilder<List<DanhSachBietQuyetModel>>(

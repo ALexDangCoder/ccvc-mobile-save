@@ -133,185 +133,186 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     return Column(
       children: [
         Container(
-            decoration: widget.isCalendar
-                ? BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: shadowContainerColor.withOpacity(0.1),
-                        blurRadius: 20.0.textScale(),
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+          decoration: widget.isCalendar
+              ? BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowContainerColor.withOpacity(0.1),
+                      blurRadius: 20.0.textScale(),
+                      offset: const Offset(0, 4),
                     ),
-                  )
-                : BoxDecoration(
-                    color: Colors.white,
+                  ],
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
                   ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (widget.tablet == false)
-                  TableCalendarPhone(
-                    eventLoader: (day) =>
-                        widget.eventsLoader
-                            ?.where((element) => isSameDay(element, day))
-                            .toList() ??
-                        [],
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    onDaySelected: _onDaySelect,
-                    // rangeSelectionMode: _rangeSelectionMode,
-                    rangeStartDay: cubit.rangeStart,
-                    rangeEndDay: cubit.rangeEnd,
-                    onRangeSelected: _onRangeSelected,
-                    daysOfWeekVisible: true,
-                    onFormatChanged: (CalendarFormat _format) {
-                      setState(() {
-                        widget.isFomatMonth == true
-                            ? _calendarFormatWeek = _format
-                            : _calendarFormatMonth = _format;
-                      });
-                    },
-                    selectedDayPredicate: (day) {
-                      return widget.selectDay(day) ||
-                          isSameDay(widget.cubit.selectTime, day);
-                    },
-                    calendarStyle: CalendarStyle(
-                      weekendTextStyle: textNormalCustom(
-                        color: titleCalenderWork,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      defaultTextStyle: textNormalCustom(
-                        color: color3D5586,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      outsideTextStyle: textNormalCustom(
-                        color: color3D5586,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      selectedTextStyle: textNormalCustom(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                      todayDecoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: toDayColor,
-                      ),
-                      todayTextStyle: textNormalCustom(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                        color: buttonColor,
-                      ),
+                )
+              : BoxDecoration(
+                  color: Colors.white,
+                ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (widget.tablet == false)
+                TableCalendarPhone(
+                  eventLoader: (day) =>
+                      widget.eventsLoader
+                          ?.where((element) => isSameDay(element, day))
+                          .toList() ??
+                      [],
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  onDaySelected: _onDaySelect,
+                  // rangeSelectionMode: _rangeSelectionMode,
+                  rangeStartDay: cubit.rangeStart,
+                  rangeEndDay: cubit.rangeEnd,
+                  onRangeSelected: _onRangeSelected,
+                  daysOfWeekVisible: true,
+                  onFormatChanged: (CalendarFormat _format) {
+                    setState(() {
+                      widget.isFomatMonth == true
+                          ? _calendarFormatWeek = _format
+                          : _calendarFormatMonth = _format;
+                    });
+                  },
+                  selectedDayPredicate: (day) {
+                    return widget.selectDay(day) ||
+                        isSameDay(widget.cubit.selectTime, day);
+                  },
+                  calendarStyle: CalendarStyle(
+                    weekendTextStyle: textNormalCustom(
+                      color: titleCalenderWork,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
                     ),
-                    headerVisible: false,
+                    defaultTextStyle: textNormalCustom(
+                      color: color3D5586,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    outsideTextStyle: textNormalCustom(
+                      color: color3D5586,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    selectedTextStyle: textNormalCustom(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0,
+                      color: Colors.white,
+                    ),
+                    todayDecoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: toDayColor,
+                    ),
+                    todayTextStyle: textNormalCustom(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                      color: buttonColor,
+                    ),
+                  ),
+                  headerVisible: false,
 
-                    calendarFormat: widget.isFomatMonth == true
-                        ? _calendarFormatWeek
-                        : _calendarFormatMonth,
-                    firstDay: DateTime.utc(2021, 8, 20),
-                    lastDay: DateTime.utc(2030, 8, 20),
-                    focusedDay: _selectedDay,
-                  )
-                else
-                  TableCalendarTablet(
-                    dateTimeHeader: widget.dateTimeHeader,
-                    eventLoader: (day) =>
-                        widget.eventsLoader
-                            ?.where((element) => isSameDay(element, day))
-                            .toList() ??
-                        [],
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    onDaySelected: _onDaySelect,
-                    // rangeSelectionMode: _rangeSelectionMode,
-                    rangeStartDay: cubit.rangeStart,
-                    rangeEndDay: cubit.rangeEnd,
-                    onRangeSelected: _onRangeSelected,
-                    daysOfWeekVisible: true,
-                    onFormatChanged: (CalendarFormat _format) {
-                      setState(() {
-                        widget.isFomatMonth == true
-                            ? _calendarFormatWeek = _format
-                            : _calendarFormatMonth = _format;
-                      });
-                    },
-                    selectedDayPredicate: (day) {
-                      return widget.selectDay(day) ||
-                          isSameDay(widget.cubit.selectTime, day);
-                    },
-                    calendarStyle: CalendarStyle(
-                      cellMargin: EdgeInsets.zero,
-                      cellPadding: EdgeInsets.zero,
-                      weekendTextStyle: textNormalCustom(
-                        color: titleCalenderWork,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      defaultTextStyle: textNormalCustom(
-                        color: color3D5586,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      outsideTextStyle: textNormalCustom(
-                        color: color3D5586,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      selectedTextStyle: textNormalCustom(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                      todayDecoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: toDayColor,
-                      ),
-                      todayTextStyle: textNormalCustom(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                        color: buttonColor,
-                      ),
+                  calendarFormat: widget.isFomatMonth == true
+                      ? _calendarFormatWeek
+                      : _calendarFormatMonth,
+                  firstDay: DateTime.utc(2021, 8, 20),
+                  lastDay: DateTime.utc(2030, 8, 20),
+                  focusedDay: _selectedDay,
+                )
+              else
+                TableCalendarTablet(
+                  dateTimeHeader: widget.dateTimeHeader,
+                  eventLoader: (day) =>
+                      widget.eventsLoader
+                          ?.where((element) => isSameDay(element, day))
+                          .toList() ??
+                      [],
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  onDaySelected: _onDaySelect,
+                  // rangeSelectionMode: _rangeSelectionMode,
+                  rangeStartDay: cubit.rangeStart,
+                  rangeEndDay: cubit.rangeEnd,
+                  onRangeSelected: _onRangeSelected,
+                  daysOfWeekVisible: true,
+                  onFormatChanged: (CalendarFormat _format) {
+                    setState(() {
+                      widget.isFomatMonth == true
+                          ? _calendarFormatWeek = _format
+                          : _calendarFormatMonth = _format;
+                    });
+                  },
+                  selectedDayPredicate: (day) {
+                    return widget.selectDay(day) ||
+                        isSameDay(widget.cubit.selectTime, day);
+                  },
+                  calendarStyle: CalendarStyle(
+                    cellMargin: EdgeInsets.zero,
+                    cellPadding: EdgeInsets.zero,
+                    weekendTextStyle: textNormalCustom(
+                      color: titleCalenderWork,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
                     ),
-                    headerVisible: widget.tablet == true ? true : false,
-                    headerStyle: HeaderStyle(
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                      leftChevronMargin: EdgeInsets.zero,
-                      rightChevronMargin: EdgeInsets.zero,
-                      leftChevronPadding:
-                          const EdgeInsets.symmetric(vertical: 12.0),
-                      rightChevronPadding:
-                          const EdgeInsets.symmetric(vertical: 12.0),
-                      leftChevronIcon: SvgPicture.asset(
-                        ImageAssets.icLeftCalendar,
-                      ),
-                      rightChevronIcon: SvgPicture.asset(
-                        ImageAssets.icRightCalendar,
-                      ),
-                      titleTextStyle: textNormalCustom(
-                        fontSize: 16.0,
-                        color: color3D5586,
-                      ),
-                      titleTextFormatter: (date, locale) =>
-                          date.toStringMonth_Year,
-                      formatButtonShowsNext: true,
+                    defaultTextStyle: textNormalCustom(
+                      color: color3D5586,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
                     ),
-                    calendarFormat: widget.isFomatMonth == true
-                        ? _calendarFormatWeek
-                        : _calendarFormatMonth,
-                    firstDay: DateTime.utc(2021, 8, 20),
-                    lastDay: DateTime.utc(2030, 8, 20),
-                    focusedDay: _selectedDay,
-                    cubit: widget.cubit,
+                    outsideTextStyle: textNormalCustom(
+                      color: color3D5586,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    selectedTextStyle: textNormalCustom(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                    todayDecoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: toDayColor,
+                    ),
+                    todayTextStyle: textNormalCustom(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
+                      color: buttonColor,
+                    ),
                   ),
-              ],
-            )),
+                  headerVisible: widget.tablet ?? false,
+                  headerStyle: HeaderStyle(
+                    formatButtonVisible: false,
+                    titleCentered: true,
+                    leftChevronMargin: EdgeInsets.zero,
+                    rightChevronMargin: EdgeInsets.zero,
+                    leftChevronPadding:
+                        const EdgeInsets.symmetric(vertical: 12.0),
+                    rightChevronPadding:
+                        const EdgeInsets.symmetric(vertical: 12.0),
+                    leftChevronIcon: SvgPicture.asset(
+                      ImageAssets.icLeftCalendar,
+                    ),
+                    rightChevronIcon: SvgPicture.asset(
+                      ImageAssets.icRightCalendar,
+                    ),
+                    titleTextStyle: textNormalCustom(
+                      fontSize: 16.0,
+                      color: color3D5586,
+                    ),
+                    titleTextFormatter: (date, locale) =>
+                        date.toStringMonth_Year,
+                    formatButtonShowsNext: true,
+                  ),
+                  calendarFormat: widget.isFomatMonth == true
+                      ? _calendarFormatWeek
+                      : _calendarFormatMonth,
+                  firstDay: DateTime.utc(2021, 8, 20),
+                  lastDay: DateTime.utc(2030, 8, 20),
+                  focusedDay: _selectedDay,
+                  cubit: widget.cubit,
+                ),
+            ],
+          ),
+        ),
       ],
     );
   }

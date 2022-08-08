@@ -207,6 +207,8 @@ class TableCalendarTablet<T> extends StatefulWidget {
   final DateTime? dateTimeHeader;
   final LichAmDuongCubit cubit;
 
+  final DateTime? initTime;
+
   /// Creates a `TableCalendar` widget.
   TableCalendarTablet({
     Key? key,
@@ -216,6 +218,7 @@ class TableCalendarTablet<T> extends StatefulWidget {
     required DateTime lastDay,
     DateTime? currentDay,
     this.onTap,
+    this.initTime,
     this.locale,
     this.rangeStartDay,
     this.rangeEndDay,
@@ -297,7 +300,6 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
   @override
   void didUpdateWidget(TableCalendarTablet<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     if (_focusedDay.value != widget.focusedDay) {
       _focusedDay.value = widget.focusedDay;
     }
@@ -499,6 +501,7 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
               _pageController = pageController;
               widget.onCalendarCreated?.call(pageController);
             },
+            onVerticalSwipe: _swipeCalendarFormat,
             focusedDay: _focusedDay.value,
             calendarFormat: widget.calendarFormat,
             availableGestures: widget.availableGestures,

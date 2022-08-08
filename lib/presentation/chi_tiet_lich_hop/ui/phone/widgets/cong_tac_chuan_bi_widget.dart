@@ -97,9 +97,15 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       '',
                   onChange: (value) {
                     _cubitTaoLichHop.chonPhongHopMetting(
-                      widget.cubit.taoLichHopRequest,
-                      value,
-                    );
+                      taoLichHopRequest: widget.cubit.taoLichHopRequest,
+                      value: value,
+                      cubit: widget.cubit,
+                    ).then((value) {
+                      if(value){
+                        widget.cubit.getListStatusRoom();
+                        widget.cubit.callApiCongTacChuanBi();
+                      }
+                    });
                   },
                   initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
                   initThietBi:

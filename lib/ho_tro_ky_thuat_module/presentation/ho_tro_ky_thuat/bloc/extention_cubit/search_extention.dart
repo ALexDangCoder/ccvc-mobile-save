@@ -58,7 +58,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
         statusToaNha = buildingIdName;
         statusSoPhong = room;
         statusTrangThaiXuLy = processingCodeName;
-        getListDanhBaCaNhan(
+        getListHoTroKyThuat(
           page: 1,
         );
         break;

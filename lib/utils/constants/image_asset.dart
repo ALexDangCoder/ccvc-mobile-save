@@ -334,6 +334,7 @@ class ImageAssets {
       '$baseImg/ic_lich_theo_trang_thai.svg';
 
   static const String icKetNoiTablet = '$baseImg/ic_ket-noi_tablet.svg';
+  static const String icHTKTTablet = '$baseImg/ic_htkt_menu.svg';
   static const String anhDaiDienMacDinh = '$baseImg/anh_dai_dien.png';
   static const String icDeleteRed = '$baseImg/ic_delete_red.svg';
   static const String icEditBlue = '$baseImg/ic_edit_blue.svg';
@@ -528,6 +529,7 @@ class ImageAssets {
       '$baseImg/item_baocao_menu_tablet.svg';
   static const String icLink = '$baseImg/icLink.svg';
   static const String icDiemDanhTopMenu = '$baseImg/ic_diem_danh_top_menu.svg';
+  static const String icDiemDanhTabletMenu = '$baseImg/ic_diem_danh_menu.svg';
   static const String icFileSvg = '$baseImg/file_svg.svg';
   static const String icBaoCaoSvg = '$baseImg/bao_cao_svg.svg';
   static const String icChiaSeSvg = '$baseImg/chia_se_svg.svg';

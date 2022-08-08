@@ -6,10 +6,13 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/bloc/calendar_work_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -110,24 +113,33 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
   Widget itemList(ListLichLVModel item) {
     return GestureDetector(
       onTap: () {
+        final mobile = isMobile();
         final TypeCalendar typeAppointment =
             getType(item.typeSchedule ?? 'Schedule');
         if (typeAppointment == TypeCalendar.Schedule) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChiTietLichLamViecScreen(
-                id: item.id ?? '',
-              ),
+              builder: (context) => mobile
+                  ? ChiTietLichLamViecScreen(
+                      id: item.id ?? '',
+                    )
+                  : ChiTietLamViecTablet(
+                      id: item.id ?? '',
+                    ),
             ),
           );
         } else {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailMeetCalenderScreen(
-                id: item.id ?? '',
-              ),
+              builder: (context) => mobile
+                  ? DetailMeetCalenderScreen(
+                      id: item.id ?? '',
+                    )
+                  : DetailMeetCalenderTablet(
+                      id: item.id ?? '',
+                    ),
             ),
           );
         }
@@ -272,7 +284,6 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
       ],
     );
   }
-
 
   Widget liveOrOnLive({required bool isLive}) {
     return Container(

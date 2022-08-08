@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/build_picker.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
@@ -7,10 +6,7 @@ import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_rounded_date_picker/src/era_mode.dart';
 
 extension CupertinoDataPicker on CupertinoDatePickerDateState {
-  Widget buildDayPicker(
-    double offAxisFraction,
-    TransitionBuilder itemPositioningBuilder,
-  ) {
+  List<int> countDay() {
     final dataDay = <int>[];
     final int daysInCurrentMonth =
         DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
@@ -31,19 +27,29 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
           continue;
         }
       }
-
       dataDay.add(i);
     }
-    days = dataDay;
+
+    return dataDay;
+  }
+
+  Widget buildDayPicker(
+    double offAxisFraction,
+    TransitionBuilder itemPositioningBuilder,
+  ) {
+    final int daysInCurrentMonth =
+        DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
+
+    days = countDay();
     return BuildPicker(
-      looping: dataDay.length > 4,
+      looping: days.length > 4,
       offAxisFraction: offAxisFraction,
       controller: dayController,
       backgroundColor: widget.background,
       canBorderLeft: true,
-      children: List<Widget>.generate(dataDay.length, (int index) {
+      children: List<Widget>.generate(days.length, (int index) {
         TextStyle textStyle = themeTextStyle(context);
-        if (dataDay[index] >= daysInCurrentMonth) {
+        if (days[index] >= daysInCurrentMonth) {
           textStyle = textStyle.copyWith(
             color: CupertinoColors.inactiveGray,
           );
@@ -51,14 +57,14 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         return itemPositioningBuilder(
           context,
           Text(
-            _getDayOfWeek(dataDay[index]),
+            _getDayOfWeek(days[index]),
             style: widget.textStyleDate,
           ),
         );
       }),
       onSelectItem: (index) {
         isSelectDay = true;
-        selectedDay = dataDay[index] + 1;
+        selectedDay = days[index] + 1;
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
           widget.onDateTimeChanged(
@@ -73,11 +79,8 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     return localizations.datePickerDayOfMonth(index + 1);
   }
 
-  Widget buildMonthPicker(
-    double offAxisFraction,
-    TransitionBuilder itemPositioningBuilder,
-  ) {
-    final dataMonth = <int>[];
+  List<int> countMonth() {
+    final  dataMonth = <int>[];
     for (int i = 0; i < 12; i++) {
       final month = i + 1;
       if (widget.maximumDate != null) {
@@ -94,22 +97,30 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       }
       dataMonth.add(month);
     }
-    months = dataMonth;
+    return dataMonth;
+  }
+
+  Widget buildMonthPicker(
+    double offAxisFraction,
+    TransitionBuilder itemPositioningBuilder,
+  ) {
+    months = countMonth();
     return BuildPicker(
       offAxisFraction: offAxisFraction,
       controller: monthController,
       backgroundColor: widget.background,
-      children: List<Widget>.generate(dataMonth.length, (int index) {
+      children: List<Widget>.generate(months.length, (int index) {
         return itemPositioningBuilder(
           context,
-          Text('${S.current.thang} ${dataMonth[index]}',
-              style: widget.textStyleDate),
+          Text(
+            '${S.current.thang} ${months[index]}',
+            style: widget.textStyleDate,
+          ),
         );
       }),
       onSelectItem: (index) {
         isSelectDay = false;
-
-        selectedMonth = dataMonth[index];
+        selectedMonth = months[index];
         if (widget.minimumDate != null &&
             widget.minimumDate!.year == selectedYear &&
             widget.minimumDate!.month == selectedMonth &&

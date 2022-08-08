@@ -324,52 +324,59 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                 GestureDetector(
                                   onTap: () async {
                                     if (Platform.isIOS) {
-                                      unawaited(
-                                        showCupertinoModalPopup(
-                                          context: context,
-                                          builder: (_) => CupertinoActionSheet(
-                                            actions: [
-                                              CupertinoActionSheetAction(
-                                                onPressed: () async {
-                                                  Navigator.pop(context);
-                                                  final Map<String, dynamic>
-                                                      mediaMapImage =
-                                                      await pickImageIos(
-                                                    fromCamera: true,
-                                                  );
-                                                  addDataListPick(
-                                                    mediaMapImage,
-                                                  );
-                                                },
-                                                child: Text(
-                                                  S.current.may_anh,
-                                                ),
-                                              ),
-                                              CupertinoActionSheetAction(
-                                                onPressed: () async {
-                                                  Navigator.pop(context);
-                                                  final Map<String, dynamic>
-                                                      mediaMapImage =
-                                                      await pickImageIos();
-                                                  addDataListPick(
-                                                    mediaMapImage,
-                                                  );
-                                                },
-                                                child: Text(
-                                                  S.current.thu_vien,
-                                                ),
-                                              ),
-                                            ],
-                                            cancelButton:
+                                      const permission = Permission.camera;
+                                      final status = await permission.status;
+                                      if (!(status.isGranted ||
+                                          status.isLimited)) {
+                                        await MessageConfig.showDialogSetting();
+                                      } else {
+                                        unawaited(
+                                          showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (_) => CupertinoActionSheet(
+                                              actions: [
                                                 CupertinoActionSheetAction(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(S.current.cancel),
+                                                  onPressed: () async {
+                                                    Navigator.pop(context);
+                                                    final Map<String, dynamic>
+                                                    mediaMapImage =
+                                                    await pickImageIos(
+                                                      fromCamera: true,
+                                                    );
+                                                    addDataListPick(
+                                                      mediaMapImage,
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    S.current.may_anh,
+                                                  ),
+                                                ),
+                                                CupertinoActionSheetAction(
+                                                  onPressed: () async {
+                                                    Navigator.pop(context);
+                                                    final Map<String, dynamic>
+                                                    mediaMapImage =
+                                                    await pickImageIos();
+                                                    addDataListPick(
+                                                      mediaMapImage,
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    S.current.thu_vien,
+                                                  ),
+                                                ),
+                                              ],
+                                              cancelButton:
+                                              CupertinoActionSheetAction(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(S.current.cancel),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      }
                                     } else {
                                       final Map<String, dynamic> mediaMapImage =
                                           await pickImageAndroid();

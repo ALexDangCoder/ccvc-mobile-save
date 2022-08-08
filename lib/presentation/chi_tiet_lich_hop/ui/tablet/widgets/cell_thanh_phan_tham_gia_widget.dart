@@ -50,7 +50,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
               child: Row(
                 children: [
                   Expanded(
-                    child: textCell(widget.infoModel.tenCoQuan.toString()),
+                    child: textCell(widget.infoModel.tenCoQuan ?? ''),
                   ),
                   if (widget.diemDanh)
                     Container(
@@ -78,7 +78,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
             ),
             widgetRow(
               name: S.current.ten_can_bo,
-              child: textCell(widget.infoModel.titleCanBo().toString()),
+              child: textCell(widget.infoModel.titleCanBo()),
             ),
             widgetRow(
               name: S.current.vai_tro,
@@ -86,7 +86,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
             ),
             widgetRow(
               name: S.current.noi_dung_cong_viec,
-              child: textCell(widget.infoModel.ghiChu.toString()),
+              child: textCell(widget.infoModel.ghiChu ?? ''),
             ),
             widgetRow(
               name: S.current.trang_thai,

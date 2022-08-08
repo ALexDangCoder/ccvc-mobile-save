@@ -72,6 +72,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   title: S.current.don_vi_phoi_hop_khac,
                   sizeTitle: 14,
                   child: ThemDonViPhoiHopKhacWidget(
+                    isTaoHop: true,
                     onChange: (List<DonViModel> value) {
                       widget.cubit.addDonViPhoiHopKhac(value);
                     },

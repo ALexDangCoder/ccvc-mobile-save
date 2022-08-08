@@ -67,6 +67,35 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
             .first;
   }
 
+  void validateTime() {
+    final date = widget.cubit.date.changeToNewPatternDate(
+      DateTimeFormat.DEFAULT_FORMAT,
+      DateTimeFormat.DOB_FORMAT,
+    );
+    final dateTimeStart = '$date $timeStart'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+    final dateTimeEnd = '$date $timeEnd'.convertStringToDate(
+      formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
+    );
+    if (dateTimeStart.isBefore(
+          widget.cubit.getTime().convertStringToDate(
+                formatPattern: DateFormatApp.monthDayFormat,
+              ),
+        ) ||
+        dateTimeEnd.isAfter(
+          widget.cubit.getTime(isGetDateStart: false).convertStringToDate(
+                formatPattern: DateFormatApp.monthDayFormat,
+              ),
+        )) {
+      widget.cubit.isValidateTimer.sink.add(true);
+      isShowValidate = true;
+    } else {
+      widget.cubit.isValidateTimer.sink.add(false);
+      isShowValidate = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FormGroup(
@@ -106,13 +135,17 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   isCheckCallApi = false;
                 }
                 if (isCheckCallApi) {
+                  final date = widget.cubit.date.changeToNewPatternDate(
+                    DateTimeFormat.DEFAULT_FORMAT,
+                    DateTimeFormat.DOB_FORMAT,
+                  );
                   await widget.cubit.postThemBieuQuyetHop(
                     widget.id,
                     noiDungController.text,
                     widget.cubit.date,
                     widget.cubit.loaiBieuQ,
-                    widget.cubit.dateTimeFormat(thoiGianHop, timeStart),
-                    widget.cubit.dateTimeFormat(thoiGianHop, timeEnd),
+                    widget.cubit.dateTimeFormat(date, timeStart),
+                    widget.cubit.dateTimeFormat(date, timeEnd),
                   );
                   nav.pop(true);
                 }
@@ -134,15 +167,26 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 InputInfoUserWidget(
                   title: S.current.ngay_bieu_quyet,
                   isObligatory: true,
-                  child: SelectDateWidget(
-                    paddings: 10,
-                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                    value: widget.cubit.paserDateTime(
-                      widget.cubit.getChiTietLichHopModel.ngayBatDau,
-                    ),
-                    onSelectDate: (dateTime) {
-                      if (mounted) setState(() {});
-                      widget.cubit.date = dateTime;
+                  child: StreamBuilder<bool>(
+                    stream: widget.cubit.isValidateTimer,
+                    builder: (context, snapshot) {
+                      return ShowRequied(
+                        isShow: snapshot.data ?? true,
+                        textShow: S.current.validate_bieu_quyet,
+                        child: SelectDateWidget(
+                          paddings: 10,
+                          leadingIcon:
+                              SvgPicture.asset(ImageAssets.icCalenders),
+                          value: widget.cubit.paserDateTime(
+                            widget.cubit.getChiTietLichHopModel.ngayBatDau,
+                          ),
+                          onSelectDate: (dateTime) {
+                            if (mounted) setState(() {});
+                            widget.cubit.date = dateTime;
+                            validateTime();
+                          },
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -173,36 +217,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                             onChange: (start, end) {
                               timeStart = start.timerToString;
                               timeEnd = end.timerToString;
-                              final dateTimeStart =
-                                  '$thoiGianHop $timeStart'.convertStringToDate(
-                                formatPattern:
-                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
-                              );
-                              final dateTimeEnd =
-                                  '$thoiGianHop $timeEnd'.convertStringToDate(
-                                formatPattern:
-                                    DateTimeFormat.DATE_TIME_PUT_EDIT,
-                              );
-                              if (dateTimeStart.isBefore(
-                                    widget.cubit.getTime().convertStringToDate(
-                                          formatPattern:
-                                              DateFormatApp.monthDayFormat,
-                                        ),
-                                  ) ||
-                                  dateTimeEnd.isAfter(
-                                    widget.cubit
-                                        .getTime(isGetDateStart: false)
-                                        .convertStringToDate(
-                                          formatPattern:
-                                              DateFormatApp.monthDayFormat,
-                                        ),
-                                  )) {
-                                widget.cubit.isValidateTimer.sink.add(true);
-                                isShowValidate = true;
-                              } else {
-                                widget.cubit.isValidateTimer.sink.add(false);
-                                isShowValidate = false;
-                              }
+                              validateTime();
                             },
                             validator: (timeBegin, timerEn) {
                               return timeBegin.equalTime(timerEn);

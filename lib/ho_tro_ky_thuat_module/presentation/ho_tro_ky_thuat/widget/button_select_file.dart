@@ -76,6 +76,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
   }
 
   void sumListFileSize(List<HTKTFileModel> files, String? message) {
+    total = 0;
     for (final element in files) {
       total += element.size;
     }
@@ -85,7 +86,6 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         errMessage = widget.errOverSizeMessage ??
             '${S.current.tong_file_khong_vuot_qua} $convertData MB';
       }
-      total = 0;
     });
   }
 

@@ -219,7 +219,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                       .cubit.editModelHTKT.value.filesDinhKem
                                       ?.map(
                                         (responseFile) => HTKTFileModel(
-                                          id: responseFile.id ?? '',
+                                          id: responseFile.fileId ?? '',
                                           name: responseFile.fileName ?? '',
                                         ),
                                       )
@@ -271,7 +271,6 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
-              onChangeSearch: (String? value) {},
             );
           },
         ),

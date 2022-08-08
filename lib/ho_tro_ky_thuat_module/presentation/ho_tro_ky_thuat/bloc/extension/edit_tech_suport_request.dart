@@ -56,7 +56,7 @@ extension EditTechSupportRequest on HoTroKyThuatCubit {
         editTaskHTKTRequest.description = success.moTaSuCo;
         editTaskHTKTRequest.name = success.tenThietBi;
         editTaskHTKTRequest.lstFileId =
-            success.filesDinhKem?.map((e) => e.id ?? '').toList();
+            success.filesDinhKem?.map((e) => e.fileId ?? '').toList();
 
         ///end
         editModelHTKT.add(success);

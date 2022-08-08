@@ -119,8 +119,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
           /// hai button
           child: DoubleButtonBottom(
             onClickRight: () {
+              final validateTime = widget.cubit.isValidateTimer.valueOrNull ?? true;
               if ((_key.currentState?.validator() ?? false) &&
-                  !isOverFileLength) {
+                  !isOverFileLength && !validateTime) {
                 taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
                 taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
                 taoPhienHopRequest.timeEnd = timeEnd;

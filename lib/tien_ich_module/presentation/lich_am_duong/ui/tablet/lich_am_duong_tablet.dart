@@ -96,55 +96,70 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                         left: 20.0,
                                         right: 20.0,
                                       ),
-                                      child: TableCalendarWidget(
-                                        onTap: (_) {
-                                          CupertinoRoundedDatePickerWidgetDialogAmDuong
-                                              .show(
-                                            context,
-                                            minimumYear: 1990,
-                                            maximumYear: 2060,
-                                            initialDate: DateTime.now(),
-                                            onTap: (dateTime) async {
-                                              final nav = Navigator.of(context);
-                                              await cubit.getLichAmDuong(
-                                                dateTime.formatApiDDMMYYYY,
+                                      child: StreamBuilder<DateTime>(
+                                        stream:
+                                            cubit.changeDateTimeSubject.stream,
+                                        builder: (context, snapshot) {
+                                          return TableCalendarWidget(
+                                            onTap: (_) {
+                                              CupertinoRoundedDatePickerWidgetDialogAmDuong
+                                                  .show(
+                                                context,
+                                                minimumYear: 1990,
+                                                maximumYear: 2060,
+                                                initialDate: snapshot.data ??
+                                                    DateTime.now(),
+                                                onTap: (dateTime) async {
+                                                  final nav =
+                                                      Navigator.of(context);
+                                                  await cubit.getLichAmDuong(
+                                                    dateTime.formatApiDDMMYYYY,
+                                                  );
+                                                  cubit.selectTime = dateTime;
+                                                  cubit.changeDateTimeSubject
+                                                      .sink
+                                                      .add(dateTime);
+                                                  cubit.dateTimeSubject.sink
+                                                      .add(dateTime);
+                                                  nav.pop();
+                                                },
+                                                textStyle: tokenDetailAmount(
+                                                  color: titleCalenderWork,
+                                                  fontSize: 12,
+                                                ),
+                                                cubit: cubit,
                                               );
-                                              cubit.selectTime = dateTime;
-                                              cubit.changeDateTimeSubject
-                                                  .add(dateTime);
-                                              cubit.dateTimeSubject.sink
-                                                  .add(dateTime);
-                                              nav.pop();
                                             },
-                                            textStyle: tokenDetailAmount(
-                                              color: titleCalenderWork,
-                                              fontSize: 12,
-                                            ),
+                                            onChange: (
+                                              DateTime start,
+                                              DateTime end,
+                                              selectDay,
+                                            ) {
+                                              cubit.startDate =
+                                                  start.formatApiDDMMYYYY;
+                                              cubit.getLichAmDuong(
+                                                cubit.startDate,
+                                              );
+                                              cubit.dateTimeSubject.sink
+                                                  .add(start);
+                                              cubit.selectTime = selectDay;
+                                            },
+                                            tablet: true,
+                                            isCalendar: false,
+                                            isFomatMonth: false,
+                                            onChangeRange: (
+                                              DateTime? start,
+                                              DateTime? end,
+                                              DateTime? focusedDay,
+                                            ) {},
+                                            initDateTime:
+                                                snapshot.data ?? DateTime.now(),
+                                            selectDay: (DateTime day) =>
+                                                cubit.selectDay(day),
+                                            cubit: cubit,
+                                            isCheckLunar: true,
                                           );
                                         },
-                                        onChange: (
-                                          DateTime start,
-                                          DateTime end,
-                                          selectDay,
-                                        ) {
-                                          cubit.startDate =
-                                              start.formatApiDDMMYYYY;
-                                          cubit.getLichAmDuong(cubit.startDate);
-                                          cubit.dateTimeSubject.sink.add(start);
-                                          cubit.selectTime = selectDay;
-                                        },
-                                        tablet: true,
-                                        isCalendar: false,
-                                        isFomatMonth: false,
-                                        onChangeRange: (
-                                          DateTime? start,
-                                          DateTime? end,
-                                          DateTime? focusedDay,
-                                        ) {},
-                                        selectDay: (DateTime day) =>
-                                            cubit.selectDay(day),
-                                        cubit: cubit,
-                                        isCheckLunar: true,
                                       ),
                                     ),
                                   ],

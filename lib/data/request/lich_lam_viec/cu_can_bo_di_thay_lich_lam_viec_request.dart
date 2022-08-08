@@ -41,7 +41,9 @@ class CuCanBoDiThayLichLamViec {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['donViId'] = donViId;
-    data['canBoId'] = canBoId;
+    if (canBoId != null) {
+      data['canBoId'] = canBoId;
+    }
     if (taskContent != null) {
       data['taskContent'] = taskContent;
     }

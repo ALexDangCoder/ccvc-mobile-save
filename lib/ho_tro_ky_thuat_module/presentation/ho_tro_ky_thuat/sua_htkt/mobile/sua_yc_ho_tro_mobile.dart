@@ -1,20 +1,20 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/file_widget.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -213,30 +213,19 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 spaceH16,
                                 _multiSelect(),
                                 spaceH16,
-                                TaiLieuWidget(
+                                FileWidget(
                                   isHaveExpanded: true,
                                   files: widget
                                       .cubit.editModelHTKT.value.filesDinhKem
                                       ?.map(
-                                        (e) => Files(
-                                          id: e.id,
-                                          name: e.fileName,
-                                          extension: null,
-                                          size: null,
-                                          path: e.filePath,
-                                          entityId: null,
-                                          entityName: null,
-                                          fileId: e.fileId,
-                                          taskId: e.taskId,
+                                        (responseFile) => HTKTFileModel(
+                                          id: responseFile.id ?? '',
+                                          name: responseFile.fileName ?? '',
                                         ),
                                       )
                                       .toList(),
                                   onChange: (files, value) {
-                                    widget.cubit.editTaskHTKTRequest
-                                        .fileUpload = files;
-                                  },
-                                  idRemove: (String id) {
-                                    widget.cubit.removeFileId(id);
+                                    widget.cubit.editListFile(files);
                                   },
                                 ),
                                 spaceH20,

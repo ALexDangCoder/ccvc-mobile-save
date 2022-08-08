@@ -1,21 +1,20 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/material.dart';
 
-class TaiLieuWidget extends StatefulWidget {
-  final List<FileModel>? files;
-  final Function(List<FileModel>, bool) onChange;
+import 'button_select_file.dart';
+
+class FileWidget extends StatefulWidget {
+  final List<HTKTFileModel>? files;
+  final Function(List<HTKTFileModel>, bool) onChange;
   final bool isHaveExpanded;
   final String size;
 
-  const TaiLieuWidget({
+  const FileWidget({
     Key? key,
     this.files,
     required this.onChange,
@@ -24,10 +23,10 @@ class TaiLieuWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TaiLieuWidgetState createState() => _TaiLieuWidgetState();
+  _FileWidgetState createState() => _FileWidgetState();
 }
 
-class _TaiLieuWidgetState extends State<TaiLieuWidget> {
+class _FileWidgetState extends State<FileWidget> {
   bool isExpand = false;
   double maxSize20MB = 20971520;
 
@@ -80,14 +79,12 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         ),
         ExpandedSection(
           expand: (widget.isHaveExpanded) ? true : isExpand,
-          child: ButtonSelectFileLichLamViec(
-            hasMultipleFile: true,
+          child: ButtonSelectFile(
             maxSize: maxSize20MB,
             files: widget.files,
             title: S.current.dinh_kem_tep_english,
-            onChange: (List<File> files, bool validate) {
-            },
-            getIndexFunc: (index) {
+            onChange: (files, bool validate) {
+              widget.onChange(files,validate);
             },
             allowedExtensions: const [
               FileExtensions.DOC,
@@ -106,7 +103,11 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   }
 }
 
-class FileModel {
-  String id = '';
-  String path = '';
+class HTKTFileModel {
+  String name;
+  String id;
+  String path;
+  int size;
+
+  HTKTFileModel({this.name = '', this.id = '', this.path = '', this.size = 0});
 }

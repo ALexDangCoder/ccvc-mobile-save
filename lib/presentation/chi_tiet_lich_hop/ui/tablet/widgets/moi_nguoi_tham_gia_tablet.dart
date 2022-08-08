@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,7 +44,13 @@ class _ThanhPhanThamGiaWidgetTabletState
       thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
       thanhPhanThamGiaCubit.detailMeetCalenderCubit = widget.cubit;
       thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
+      _refreshPhanCongThuKy();
     }
+  }
+  void _refreshPhanCongThuKy() {
+    eventBus.on<RefreshPhanCongThuKi>().listen((event) {
+      thanhPhanThamGiaCubit.callApiThanhPhanThamGia(isShowMessage: true);
+    });
   }
 
   @override

@@ -51,3 +51,8 @@ class DateSearchEvent {
 class RefreshThanhPhanThamGia {
   RefreshThanhPhanThamGia();
 }
+
+class RefreshPhanCongThuKi {
+  RefreshPhanCongThuKi();
+}
+

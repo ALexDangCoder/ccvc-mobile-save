@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
@@ -108,7 +109,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     String id, {
     bool needShowLoading = true,
   }) async {
-    if(needShowLoading){
+    if (needShowLoading) {
       showLoading();
     }
     final loaiHop = await hopRp
@@ -129,7 +130,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         showError();
       },
     );
-    if(needShowLoading) {
+    if (needShowLoading) {
       showContent();
     }
   }
@@ -168,7 +169,10 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     showContent();
   }
 
-  Future<void> postPhanCongThuKy(String id) async {
+  Future<void> postPhanCongThuKy(
+    String id, {
+    bool isShowLoading = true,
+  }) async {
     showLoading();
     final List<String> dataIdPost = dataThuKyOrThuHoiDeFault
         .where((canBo) => canBo.isThuKy ?? false)
@@ -181,12 +185,13 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         lichHopId: id,
       ),
     );
-
-    result.when(
-      success: (value) {
-        showContent();
-        MessageConfig.show(title: S.current.thanh_cong);
-        getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    await result.when(
+      success: (value) async {
+        if (isShowLoading) {
+          showContent();
+        }
+        await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+        eventBus.fire(RefreshPhanCongThuKi());
       },
       error: (error) {
         MessageConfig.show(
@@ -200,7 +205,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 
   LoaiSelectModel? _findLoaiHop(String id) {
     final loaiHopType =
-    listLoaiHop.where((element) => element.id == id).toList();
+        listLoaiHop.where((element) => element.id == id).toList();
     if (loaiHopType.isNotEmpty) {
       return loaiHopType.first;
     }
@@ -272,14 +277,13 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     );
     final listCanBo = listDataCanBo
         .map(
-          (canBo) =>
-          CanBoDiThay(
+          (canBo) => CanBoDiThay(
             id: canBo.id,
             donViId: canBo.donViId,
             canBoId: canBo.canBoId,
             taskContent: '',
           ),
-    )
+        )
         .toSet();
     canBoDiThay.addAll(listCanBo);
     final CuCanBoDiThayRequest cuCanBoDiThayRequest = CuCanBoDiThayRequest(
@@ -366,34 +370,34 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isCheck;
   }
 
-  List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBo(List<DonViModel> canBoDuocChon,
-      List<DonViModel> cuCanBo,) {
+  List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBo(
+    List<DonViModel> canBoDuocChon,
+    List<DonViModel> cuCanBo,
+  ) {
     final List<CanBoDiThay> data = [];
     data.addAll(
       canBoDuocChon
           .map(
-            (canBo) =>
-            CanBoDiThay(
+            (canBo) => CanBoDiThay(
               id: canBo.id.isEmpty ? null : canBo.id,
               donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
               canBoId: canBo.canBoId.isEmpty ? null : canBo.canBoId,
               taskContent: canBo.noidung,
               isXoa: canBo.isXoa,
             ),
-      )
+          )
           .toList(),
     );
     data.addAll(
       cuCanBo
           .map(
-            (canBo) =>
-            CanBoDiThay(
+            (canBo) => CanBoDiThay(
               id: null,
               donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
               canBoId: canBo.canBoId.isEmpty ? null : canBo.canBoId,
               taskContent: canBo.noidung,
             ),
-      )
+          )
           .toList(),
     );
     return data;
@@ -409,11 +413,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 
   DonViModel? get donViThamGia {
     final donViId =
-        HiveLocal
-            .getDataUser()
-            ?.userInformation
-            ?.donViTrucThuoc
-            ?.id ?? '';
+        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
 
     for (final DonViModel canBo in listTPTG) {
       if (canBo.donViId.toUpperCase() == donViId.toUpperCase() &&
@@ -427,27 +427,23 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     required ThanhPhanThamGiaCubit cubitThanhPhanTG,
   }) async {
     final donViId =
-        HiveLocal
-            .getDataUser()
-            ?.userInformation
-            ?.donViTrucThuoc
-            ?.id ?? '';
+        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
 
     final String idChuTri = listTPTG
         .firstWhere(
           (element) => element.donViId == donViId && element.canBoId.isEmpty,
-      orElse: () => DonViModel.empty(),
-    )
+          orElse: () => DonViModel.empty(),
+        )
         .id;
-        
+
     final bool isCheckCallApiCuCanBo = await cuCanBo(
       canBoDiThay: mergeCanBoDuocChonVaCuCanBo(
-      cubitThanhPhanTG.listCanBoDuocChon,
-      cubitThanhPhanTG.listCanBo,
-    ),
+        cubitThanhPhanTG.listCanBoDuocChon,
+        cubitThanhPhanTG.listCanBo,
+      ),
       id: idChuTri,
     );
-    if(isCheckCallApiCuCanBo){
+    if (isCheckCallApiCuCanBo) {
       needRefreshMainMeeting = true;
     }
     return isCheckCallApiCuCanBo;
@@ -491,7 +487,9 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     return isCheck;
   }
 
-  void xoaKhachMoiThamGia(DonViModel donViModel,) {
+  void xoaKhachMoiThamGia(
+    DonViModel donViModel,
+  ) {
     listDataCanBo.remove(donViModel);
     listDonViModel.sink.add(listDataCanBo);
   }

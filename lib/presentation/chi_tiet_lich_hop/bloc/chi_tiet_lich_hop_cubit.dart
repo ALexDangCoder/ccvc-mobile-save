@@ -549,12 +549,17 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     thanhPhanThamGia.sink.add(_tempList);
   }
 
-  Future<void> callApiThanhPhanThamGia() async {
+  Future<void> callApiThanhPhanThamGia({
+    bool isShowMessage = false,
+  }) async {
     showLoading();
     diemDanhIds = [];
     await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
     showLoading(isShow: false);
+    if (isShowMessage) {
+      MessageConfig.show(title: S.current.thanh_cong);
+    }
   }
 
   void addThanhPhanThamGia(List<DonViModel> value) {

@@ -114,9 +114,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
               onClickLeft: () {
                 Navigator.pop(context);
               },
-              onClickRight: () async {
+              onClickRight: () {
                 bool isCheckCallApi = true;
-                final nav = Navigator.of(context);
                 if (isShowValidate == true) {
                   isCheckCallApi = false;
                   widget.cubit.isValidateTimer.sink.add(true);
@@ -139,7 +138,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     DateTimeFormat.DEFAULT_FORMAT,
                     DateTimeFormat.DOB_FORMAT,
                   );
-                  await widget.cubit.postThemBieuQuyetHop(
+                  widget.cubit.postThemBieuQuyetHop(
                     widget.id,
                     noiDungController.text,
                     widget.cubit.date,
@@ -147,7 +146,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     widget.cubit.dateTimeFormat(date, timeStart),
                     widget.cubit.dateTimeFormat(date, timeEnd),
                   );
-                  nav.pop(true);
+                  Navigator.pop(context);
                 }
               },
             ),

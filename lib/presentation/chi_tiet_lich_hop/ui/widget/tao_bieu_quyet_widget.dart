@@ -280,7 +280,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                   onClickLeft: () {
                     Navigator.pop(context);
                   },
-                  onClickRight: () async {
+                  onClickRight: () {
                     bool isCheckCallApi = true;
                     final nav = Navigator.of(context);
                     if (isShowValidate == true) {
@@ -305,7 +305,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                         DateTimeFormat.DEFAULT_FORMAT,
                         DateTimeFormat.DOB_FORMAT,
                       );
-                      await widget.cubit.postThemBieuQuyetHop(
+                      widget.cubit.postThemBieuQuyetHop(
                         widget.id,
                         noiDungController.text,
                         widget.cubit.date,

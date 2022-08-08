@@ -79,8 +79,12 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                 final data = snapshot.data ?? [];
                 if (data.isNotEmpty) {
                   _controller = TabController(
-                      vsync: this,
-                      length: cubit.getListWidgetDetailSubject.length);
+                    vsync: this,
+                    length: cubit.getListWidgetDetailSubject.length,
+                  );
+                  _controller.addListener(() {
+                    cubit.currentIndexTablet = _controller.index;
+                  });
                   return DefaultTabController(
                     length: cubit.getListWidgetDetailSubject.length,
                     child: NestedScrollView(
@@ -99,7 +103,8 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                                       topRight: Radius.circular(12),
                                     ),
                                     border: Border.all(
-                                        color: borderColor.withOpacity(0.5)),
+                                      color: borderColor.withOpacity(0.5),
+                                    ),
                                     boxShadow: [
                                       BoxShadow(
                                         offset: const Offset(0, 4),
@@ -144,27 +149,29 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                             ],
                           ),
                           child: StickyHeader(
-                            overlapHeaders: true,
-                            header: TabBar(
-                              controller: _controller,
-                              unselectedLabelStyle: textNormalCustom(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              indicatorColor: indicatorColor,
-                              unselectedLabelColor: colorA2AEBD,
-                              labelColor: indicatorColor,
-                              labelStyle: textNormalCustom(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              isScrollable: true,
-                              tabs: List.generate(
-                                cubit.getListWidgetDetailSubject.length,
-                                (index) => Tab(
-                                  child: Text(
-                                    cubit.getListWidgetDetailSubject[index]
-                                        .getName(),
+                            header: Container(
+                              color: backgroundColorApp,
+                              child: TabBar(
+                                controller: _controller,
+                                unselectedLabelStyle: textNormalCustom(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                indicatorColor: indicatorColor,
+                                unselectedLabelColor: colorA2AEBD,
+                                labelColor: indicatorColor,
+                                labelStyle: textNormalCustom(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                isScrollable: true,
+                                tabs: List.generate(
+                                  cubit.getListWidgetDetailSubject.length,
+                                  (index) => Tab(
+                                    child: Text(
+                                      cubit.getListWidgetDetailSubject[index]
+                                          .getName(),
+                                    ),
                                   ),
                                 ),
                               ),

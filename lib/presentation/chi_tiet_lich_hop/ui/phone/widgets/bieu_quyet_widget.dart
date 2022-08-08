@@ -58,14 +58,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                           cubit: widget.cubit,
                         ),
                       ),
-                    ).then((value) {
-                      if (value == null) {
-                        return;
-                      }
-                      if (value) {
-                        widget.cubit.callSuaAPiBieuQuyet();
-                      }
-                    });
+                    );
                   },
                 ),
               ),

@@ -70,7 +70,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   String createUserId = '';
   String scheduleOperativeId = '';
   String scheduleId = '';
-  String idDanhSachCanBo = '';
   List<DonViModel> listTPTG = [];
 
   void xoaKhachMoiThamGiaCuCanBoDiThay(
@@ -466,16 +465,33 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(idLichLamViec);
     rs.when(
       success: (data) {
-        final donViId =
-            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
-        final idCuCanBo = data
-            .firstWhere(
-              (element) => element.donViId == donViId,
-              orElse: () => Officer(),
-            )
-            .id;
-        idDanhSachCanBo = idCuCanBo ?? '';
-        final listCanBoMoi = data
+        //cu can bo
+        final idDonVi = data.firstWhere(
+          (element) => element.donViId == donViTrucThuocId,
+          orElse: () => Officer(),
+        );
+        final parentDonVi = CuCanBoTreeDonVi(
+          scheduleId: idDonVi.scheduleId,
+          confirmDate: idDonVi.confirmDate,
+          parentId: idDonVi.parentId,
+          status: idDonVi.status ?? 0,
+          isConfirm: idDonVi.isConfirm,
+          userId: idDonVi.userId ?? '',
+          id: idDonVi.id ?? '',
+          name: idDonVi.tenDonVi ?? '',
+          tenCanBo: idDonVi.hoTen ?? '',
+          hoTen: idDonVi.hoTen ?? '',
+          canBoId: idDonVi.canBoId ?? '',
+          donViId: idDonVi.donViId ?? '',
+          tenDonVi: idDonVi.tenDonVi ?? '',
+          taskContent: idDonVi.taskContent ?? '',
+        );
+
+        /// lay con cua don vi
+        final canBoDiThay = data.where(
+          (element) => element.parentId == idDonVi.id,
+        );
+        final listCanBoMoi = canBoDiThay
             .map(
               (element) => CuCanBoTreeDonVi(
                 scheduleId: element.scheduleId,
@@ -495,8 +511,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
               ),
             )
             .toList();
+        listCanBoMoi.insert(0, parentDonVi);
         listDataCanBo = listCanBoMoi;
-        cubitThanhPhanTG.listCanBoDuocChon = data
+        cubitThanhPhanTG.listCanBoDuocChon = canBoDiThay
             .map(
               (element) => CuCanBoTreeDonVi(
                 scheduleId: element.scheduleId,
@@ -537,20 +554,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(idLichLamViec);
     rs.when(
       success: (data) {
-        final donViId =
-            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
-        final idCuCanBo = data
-            .firstWhere(
-              (element) => element.donViId == donViId,
-              orElse: () => Officer(),
-            )
-            .id;
-        idDanhSachCanBo = idCuCanBo ?? '';
-
         ///cu can bo di thay
-        final canBoId = HiveLocal.getDataUser()?.userId;
         final idCanBo = data.firstWhere(
-          (element) => element.canBoId == canBoId,
+          (element) => element.canBoId == currentUserId,
           orElse: () => Officer(),
         );
         final parentCanBo = DonViModel(
@@ -561,6 +567,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           donViId: idCanBo.donViId ?? '',
           tenDonVi: idCanBo.tenDonVi ?? '',
           noidung: idCanBo.taskContent ?? '',
+          userId: idCanBo.userId ?? '',
         );
         donViModel = parentCanBo;
 
@@ -578,9 +585,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
                 donViId: element.donViId ?? '',
                 tenDonVi: element.tenDonVi ?? '',
                 noidung: element.taskContent ?? '',
+                userId: element.userId ?? '',
               ),
             )
             .toList();
+        listCanBoMoi.insert(0, parentCanBo);
         listDataCanBo = listCanBoMoi;
         cubitThanhPhanTG.listCanBoDuocChon = canBoDiThay
             .map(
@@ -592,6 +601,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
                 donViId: element.donViId ?? '',
                 tenDonVi: element.tenDonVi ?? '',
                 noidung: element.taskContent ?? '',
+                userId: element.canBoId ?? '',
               ),
             )
             .toList();

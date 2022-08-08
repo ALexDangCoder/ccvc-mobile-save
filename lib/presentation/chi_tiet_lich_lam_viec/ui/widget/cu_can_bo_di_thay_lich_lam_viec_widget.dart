@@ -188,13 +188,6 @@ class _CuCanBoDiThayLichLamViecWidgetState
                           final datas = snap.data ?? <DonViModel>[];
                           return Column(
                             children: [
-                              itemListCanBoFirst(
-                                isXoa: true,
-                                noiDungCV: widget.cubit.donViModel.noidung,
-                                onDelete: () {},
-                                tenCanBo: widget.cubit.donViModel.name,
-                                tenDonvi: widget.cubit.donViModel.tenDonVi,
-                              ),
                               ...List.generate(
                                 datas.length,
                                 (index) => Padding(
@@ -223,6 +216,8 @@ class _CuCanBoDiThayLichLamViecWidgetState
                           padding:
                               EdgeInsets.only(top: 20.0.textScale(space: -2)),
                           child: itemListCanBo(
+                            isXoa: data[index].userId ==
+                                widget.cubit.currentUserId,
                             noiDungCV: data[index].noidung,
                             cubit: widget.cubitThanhPhanTG,
                             donVi: data[index],
@@ -254,6 +249,7 @@ class _CuCanBoDiThayLichLamViecWidgetState
   }
 
   Widget itemListCanBo({
+    bool? isXoa = false,
     required DonViModel donVi,
     required ThanhPhanThamGiaCubit cubit,
     required String noiDungCV,
@@ -291,20 +287,23 @@ class _CuCanBoDiThayLichLamViecWidgetState
               ),
             ],
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    onDelete();
-                  },
-                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
-                ),
-              ],
-            ),
-          )
+          if (isXoa == false)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      onDelete();
+                    },
+                    child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                  ),
+                ],
+              ),
+            )
+          else
+            const SizedBox(),
         ],
       ),
     );

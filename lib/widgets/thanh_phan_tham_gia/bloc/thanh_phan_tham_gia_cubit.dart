@@ -109,6 +109,12 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     for (final DonViModel canBo in listRoot) {
       if (canBo.id == newCanBo.id) {
         return true;
+      } else if (canBo.userId.isNotEmpty && canBo.userId == newCanBo.userId) {
+        return true;
+      } else if (canBo.canBoId.isEmpty &&
+          newCanBo.canBoId.isEmpty &&
+          canBo.donViId == newCanBo.donViId) {
+        return true;
       }
     }
     return false;

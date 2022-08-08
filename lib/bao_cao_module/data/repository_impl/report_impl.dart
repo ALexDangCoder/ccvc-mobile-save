@@ -223,7 +223,13 @@ class ReportImpl implements ReportRepository {
         pageIndex,
         pageSize,
       ),
-      (res) => res.data?.items?.map((e) => e.toModel()).toList() ?? [],
+      (res) {
+        if(res.data == null){
+          return [];
+        } else {
+          return res.data?.items?.map((e) => e.toModel()).toList() ?? [];
+        }
+      },
     );
   }
 

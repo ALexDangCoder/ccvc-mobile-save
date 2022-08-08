@@ -326,7 +326,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                     funcBtnRight: () {
                       widget.cubit
                           .chiaSeBaoCao(
-                        Share.HAS_USER,
+                        Share.COMMON,
                       )
                           .then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {

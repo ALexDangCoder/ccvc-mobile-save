@@ -145,6 +145,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                     context: context,
                     builder: (_) {
                       return Scaffold(
+                        //resizeToAvoidBottomInset: false,
                         backgroundColor: Colors.transparent,
                         body: Center(
                           child: ChiaSeBaoCaoTablet(

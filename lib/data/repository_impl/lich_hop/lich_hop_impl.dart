@@ -953,10 +953,8 @@ class HopRepositoryImpl implements HopRepository {
         MapEntry('[$i].IsMultipe', phienHops[i].isMultipe.toString()),
       );
       if (phienHops[i].files?.isNotEmpty ?? false) {
-        for (int j = 0; j < phienHops[i].files!.length; j++) {
-          final MultipartFile file = await MultipartFile.fromFile(
-            phienHops[i].files![j].path,
-          );
+        for (int j = 0; j < phienHops[i].listFileBytes!.length; j++) {
+          final file = phienHops[i].listFileBytes![j].convertToMultipart();
           _data.files.add(
             MapEntry(
               '[$i].Files',

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ccvc_mobile/widgets/button/select_file2/select_file_cubit.dart';
 
 class TaoPhienHopRequest {
   String? canBoId;
@@ -10,6 +11,7 @@ class TaoPhienHopRequest {
   String hoTen;
   bool isMultipe;
   List<File>? files;
+  List<BytesFileModel>? listFileBytes;
 
   //sử dụng để xử lý UI
   String? timeEnd;
@@ -27,5 +29,6 @@ class TaoPhienHopRequest {
     this.hoTen = '',
     this.isMultipe = false,
     this.files,
+    this.listFileBytes,
   });
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -14,7 +13,7 @@ import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
+import 'package:ccvc_mobile/widgets/button/select_file2/select_file.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
@@ -376,10 +375,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   ),
                 ),
                 spaceH20,
-                SelectFileBtn(
+                SelectFileBtn2(
                   onChange: (files) {
-                    taoPhienHopRequest.files?.addAll(files);},
-                  initFileSystem: taoPhienHopRequest.files,
+                    taoPhienHopRequest.listFileBytes = files;
+                  },
+                  initFileSystem: taoPhienHopRequest.listFileBytes,
                 ),
               ],
             ),
@@ -467,11 +467,13 @@ class ItemPhienHop extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: List.generate(
-                        phienHop.files?.length ?? 0,
+                        phienHop.listFileBytes?.length ?? 0,
                         (index) => Padding(
                           padding: const EdgeInsets.only(bottom: 4.0),
                           child: Text(
-                            phienHop.files?[index].path.convertNameFile() ?? '',
+                            phienHop.listFileBytes?[index].path
+                                    .convertNameFile() ??
+                                '',
                             style: textNormalCustom(
                               color: color5A8DEE,
                               fontWeight: FontWeight.w400,

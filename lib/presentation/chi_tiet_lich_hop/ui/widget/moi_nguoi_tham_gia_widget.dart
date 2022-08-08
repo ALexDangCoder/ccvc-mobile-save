@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/moi_nguoi_tham_gia_tablet.dart';
@@ -37,6 +38,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _handleEventBus();
     thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
     _refreshPhanCongThuKy();
   }
@@ -46,6 +48,15 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
       thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia(
         isShowMessage: true,
       );
+    });
+  }
+  void _handleEventBus (){
+    eventBus.on<ReloadMeetingDetail>().listen((event) {
+      if (event.tabReload.contains(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA)){
+        thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
+        thanhPhanThamGiaHopCubit.detailMeetCalenderCubit = widget.cubit;
+        thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
+      }
     });
   }
 

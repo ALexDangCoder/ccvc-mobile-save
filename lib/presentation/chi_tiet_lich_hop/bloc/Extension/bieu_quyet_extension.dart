@@ -465,6 +465,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
           )
           .toList(),
     );
+    await callAPiBieuQuyet();
   }
 
   Future<void> themBieuQuyetHopByLuc({

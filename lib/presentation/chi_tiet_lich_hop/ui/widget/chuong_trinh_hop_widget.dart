@@ -374,16 +374,17 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        physics:const NeverScrollableScrollPhysics(),
                         itemCount: listPhienHopModel.files.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          final data = listPhienHopModel.files ;
+                          final data = listPhienHopModel.files
+                              .toList();
                           return GestureDetector(
                             onTap: () {
                               saveFile(
-                                fileName: data[index].name ?? '',
-                                url: data[index].path ?? '',
-                              );
+                                  fileName: data[index].name ?? '',
+                                  url: data[index].path ?? '');
                             },
                             child: Text(
                               data[index].name ?? S.current.khong_co_tep_nao,

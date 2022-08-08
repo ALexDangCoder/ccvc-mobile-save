@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
@@ -156,6 +157,15 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         if (value.succeeded == true) {
           getDanhSachThuHoiLichHop(scheduleId);
           thuHoiHopRequest.clear();
+          if (getListWidgetDetailSubject.length > currentIndexTablet &&
+              getListWidgetDetailSubject[currentIndexTablet] ==
+                  TabWidgetDetailMeet.THANH_PHAN_THAM_GIA) {
+            eventBus.fire(
+              const ReloadMeetingDetail([
+                TabWidgetDetailMeet.THANH_PHAN_THAM_GIA,
+              ]),
+            );
+          }
         }
         showContent();
         MessageConfig.show(title: S.current.thanh_cong);

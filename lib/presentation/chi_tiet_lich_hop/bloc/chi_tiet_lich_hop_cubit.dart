@@ -72,6 +72,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String ngayBatDaus = '';
   String ngayKetThucs = '';
   bool check = false;
+  int currentIndexTablet = -1;
   String startTime = '00:00';
   String endTime = '00:00';
   String? tenBieuQuyet;

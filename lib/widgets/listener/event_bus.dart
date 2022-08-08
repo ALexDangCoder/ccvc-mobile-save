@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:event_bus/event_bus.dart';
 
 final EventBus eventBus = EventBus();
@@ -56,3 +57,7 @@ class RefreshPhanCongThuKi {
   RefreshPhanCongThuKi();
 }
 
+class ReloadMeetingDetail {
+  final List<TabWidgetDetailMeet> tabReload;
+  const ReloadMeetingDetail(this.tabReload);
+}

@@ -657,6 +657,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
               donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
               canBoId: canBo.userId.isEmpty ? null : canBo.userId,
               taskContent: canBo.noidung,
+              isXoa: false,
             ),
           )
           .toList(),
@@ -675,16 +676,17 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         id: donViModel.id,
         donViId: donViModel.donViId,
         canBoId: donViModel.canBoId,
-        taskContent: donViModel.noidung,
+        taskContent: donViModel.noidung.isEmpty ? null : donViModel.noidung,
       ),
     );
     final listCanBo = listDataCanBo
         .map(
-          (e) => CuCanBoDiThayLichLamViec(
-            id: e.id,
-            donViId: e.donViId,
-            canBoId: e.canBoId,
-            taskContent: e.noidung,
+          (cuCanBoDiThay) => CuCanBoDiThayLichLamViec(
+            id: cuCanBoDiThay.id.isEmpty ? null : cuCanBoDiThay.id,
+            donViId: cuCanBoDiThay.donViId,
+            canBoId:
+                cuCanBoDiThay.canBoId.isEmpty ? null : cuCanBoDiThay.canBoId,
+            taskContent: cuCanBoDiThay.noidung,
           ),
         )
         .toSet();

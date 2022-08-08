@@ -219,7 +219,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                             context,
                             MaterialPageRoute(
                               builder: (context) => EditKetLuanHopScreen(
-                                htmlText: widget.cubit.noiDung.value,
+                                htmlText: noiDung,
                               ),
                             ),
                           ).then((value) {

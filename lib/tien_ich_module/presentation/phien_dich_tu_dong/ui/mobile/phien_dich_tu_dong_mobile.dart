@@ -372,7 +372,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
               height: 8,
             ),
             Text(
-              S.current.chi_ho_tro_txt,
+              S.current.just_txt,
               style: textNormalCustom(
                 color: textBodyTime,
                 fontSize: 14,

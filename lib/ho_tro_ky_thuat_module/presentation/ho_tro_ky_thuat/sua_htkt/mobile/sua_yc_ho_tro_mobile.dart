@@ -171,7 +171,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                   isHightLight: true,
                                   maxLine: 3,
                                   title: S.current.mo_ta_su_co,
-                                  hintText: S.current.nhap_mo_ta_su_co,
+                                  hintText: S.current.mo_ta_su_co,
                                   onChange: (value) {
                                     widget.cubit.editTaskHTKTRequest
                                         .description = value;
@@ -214,6 +214,7 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 _multiSelect(),
                                 spaceH16,
                                 TaiLieuWidget(
+                                  isTitle: false,
                                   isHaveExpanded: true,
                                   files: widget
                                       .cubit.editModelHTKT.value.filesDinhKem
@@ -283,7 +284,6 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                 widget.cubit.addIssuesEdit(selectIndexList);
                 widget.cubit.checkAllEditYCHT();
               },
-              onChangeSearch: (String? value) {},
             );
           },
         ),

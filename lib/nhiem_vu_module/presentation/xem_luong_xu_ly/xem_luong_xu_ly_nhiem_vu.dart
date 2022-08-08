@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
@@ -9,7 +8,6 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/luong_xu_ly_nhiem_vu_mo
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/bloc/xem_luong_xu_ly_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/widgets/container_status_luong_xu_ly_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/widgets/tree_view_widget.dart';
-
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -61,7 +59,6 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                           final data = donViLuongModel
                               as NodePhanXuLy<DonViLuongNhiemVuModel>;
                           final value = data.value;
-
                           return value.tenNguoiTao == null
                               ? Container(
                                   constraints: const BoxConstraints(

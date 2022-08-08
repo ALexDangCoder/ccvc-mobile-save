@@ -2,15 +2,12 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ItemLapDenNgayWidget extends StatefulWidget {
   final CreateWorkCalCubit createCubit;
@@ -82,14 +79,16 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
         ),
         child: SizedBox(
           height: 300,
-          child: FlutterRoundedCupertinoDatePickerWidget(
+          child : CupertinoDatePicker(
+            maximumDate: DateTime(2099, 12, 30),
+            maximumYear: 2099,
+            minimumYear: DateTime.now().year,
             minimumDate: widget.createWorkCalendar
                 ? widget.initDate
-                : DateTime.parse(
-                    widget.createCubit.dateTimeFrom ??
-                        DateTime.now().toString(),
-                  ),
-            textStyleDate: textNormal(color3D5586, 16),
+                : widget.createCubit.dateTimeLapDenNgay,
+            backgroundColor: backgroundColorApp,
+            mode: CupertinoDatePickerMode.date,
+            use24hFormat: true,
             initialDateTime: widget.createWorkCalendar
                 ? widget.initDate
                 : widget.createCubit.dateTimeLapDenNgay,
@@ -99,7 +98,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                 widget.createCubit.changeDateTimeSubject.add(value);
               });
             },
-          ),
+          )
         ),
       ),
     );

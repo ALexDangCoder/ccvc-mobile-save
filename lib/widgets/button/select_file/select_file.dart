@@ -57,6 +57,7 @@ class SelectFileBtn extends StatefulWidget {
 class _SelectFileBtnState extends State<SelectFileBtn> {
   final SelectFileCubit cubit = SelectFileCubit();
   late final FToast toast;
+  Directory? pathTmp;
 
   @override
   void initState() {
@@ -66,6 +67,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     cubit.selectedFiles.addAll(widget.initFileSystem ?? []);
     toast = FToast();
     toast.init(context);
+    getTemporaryDirectory().then((value) => pathTmp = value);
   }
 
   void showToast({required String message}) {
@@ -123,11 +125,10 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     List<File> newFiles = [];
 
     if(Platform.isIOS){
-      final pathTmp = await getTemporaryDirectory();
       for (final file in result.files) {
         final newFile  = await moveFile(
           File(file.path ?? ''),
-          '${pathTmp.path}/${path.basename(file.path ?? '')}',
+          '${pathTmp?.path}/${path.basename(file.path ?? '')}',
         );
         newFiles.add(newFile);
       }

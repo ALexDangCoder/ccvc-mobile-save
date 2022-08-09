@@ -420,12 +420,15 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       clearDSPAKN();
     }
     showLoading();
-    final result = await _YKNDRepo.getDanhSachPAKN(
-      tuNgay: startDate,
+    final result = await _YKNDRepo.getDanhSachPaknFilter(
       donViId: donViId,
-      denNgay: endDate,
-      pageSize: pageSizeDSPAKN.toString(),
-      pageNumber: pageNumberDSPAKN.toString(),
+      pageIndex: pageNumberDSPAKN,
+      pageSize: pageSizeDSPAKN,
+      trangThai: trangThaiFilter,
+      loaiMenu: loaiMenu,
+      dateTo: startDate,
+      dateFrom: endDate,
+      hanXuLy: hanXuLy,
       userId: userId,
       tuKhoa: tuKhoa,
     );

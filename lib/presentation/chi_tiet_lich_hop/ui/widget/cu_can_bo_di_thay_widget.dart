@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
@@ -50,6 +51,10 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
     widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
     widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
     widget.themDonViCubit.listDonVi.clear();
+    widget.cubitThanhPhanTG.isDuplicateCanBo.add(false);
+    widget.themCanBoCubit.getCanbo.add([]);
+    widget.cubitThanhPhanTG.listCanBoDuocChon=[];
+    widget.cubitThanhPhanTG.listCanBo=[];
   }
 
   @override
@@ -119,13 +124,25 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               padding: const EdgeInsets.only(top: 22, bottom: 14),
               child: GestureDetector(
                 onTap: () {
-                  try {
-                    widget.cubitThanhPhanTG.listCanBo.last.noidung =
-                        noiDungController.text;
-                  } catch (_) {}
+                  if (widget.themDonViCubit.listDonVi.isEmpty) {
+                    widget.themDonViCubit.validateDonVi.sink.add(true);
+                  } else {
+                    widget.themDonViCubit.validateDonVi.sink.add(false);
 
-                  widget.cubitThanhPhanTG
-                      .addCanBoThamGia(widget.cubitThanhPhanTG.listCanBo);
+                    if ((widget.themCanBoCubit.titleCanBo.valueOrNull ?? '')
+                        .isEmpty) {
+                      widget.themDonViCubit.listDonVi.last.noidung =
+                          noiDungController.text;
+                    } else {
+                      widget.cubitThanhPhanTG.newCanBo.noidung =
+                          noiDungController.text;
+                    }
+
+                    widget.cubitThanhPhanTG.addCanBoThamGiaCuCanBo(
+                      widget.themCanBoCubit,
+                      widget.themDonViCubit,
+                    );
+                  }
                 },
                 child: Container(
                   color: Colors.transparent,
@@ -146,6 +163,21 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                 ),
               ),
             ),
+            StreamBuilder<bool>(
+              stream: widget.cubitThanhPhanTG.isDuplicateCanBo.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? false;
+                return data
+                    ? Text(
+                  S.current.can_bo_nay_da_ton_tai,
+                  style: textNormalCustom(
+                    color: Colors.red,
+                    fontSize: 12.0.textScale(),
+                  ),
+                )
+                    : Container();
+              },
+            ),
             StreamBuilder<List<DonViModel>>(
               stream: widget.cubitThanhPhanTG.listCanBoThamGia.stream,
               builder: (context, snapshot) {
@@ -160,7 +192,8 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                         return Column(
                           children: [
                             itemListCanBoFirst(
-                              noiDungCV: '',
+                              isXoa: true,
+                              noiDungCV: widget.cubit.donViModel.noidung,
                               onDelete: () {},
                               tenCanBo: widget.cubit.donViModel.name,
                               tenDonvi: widget.cubit.donViModel.tenCoQuan,
@@ -197,8 +230,9 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                           cubit: widget.cubitThanhPhanTG,
                           donVi: data[index],
                           onDelete: () {
-                            widget.cubitThanhPhanTG
-                                .xoaCanBoThamGia(data[index]);
+                            widget.cubitThanhPhanTG.xoaCanBoThamGiaCuCanBo(
+                                data[index],
+                                widget.cubitThanhPhanTG.listCanBoDuocChon);
                             widget.themCanBoCubit.titleCanBo.sink.add('');
                             widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
                             widget.themDonViCubit.themDonViSubject.sink
@@ -278,6 +312,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
   }
 
   Widget itemListCanBoFirst({
+    bool? isXoa = false,
     required String tenCanBo,
     required String tenDonvi,
     required String noiDungCV,
@@ -315,6 +350,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               ),
             ],
           ),
+          if (isXoa == false)
           Positioned(
             top: 0,
             right: 0,
@@ -329,6 +365,8 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               ],
             ),
           )
+          else
+            const SizedBox(),
         ],
       ),
     );

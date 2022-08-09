@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
@@ -10,12 +11,12 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/file_widget.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -213,20 +214,25 @@ class _SuaDoiYcHoTroMobileState extends State<SuaDoiYcHoTroMobile> {
                                 spaceH16,
                                 _multiSelect(),
                                 spaceH16,
-                                FileWidget(
-                                  isHaveExpanded: true,
-                                  files: widget
-                                      .cubit.editModelHTKT.value.filesDinhKem
-                                      ?.map(
-                                        (responseFile) => HTKTFileModel(
-                                          id: responseFile.fileId ?? '',
-                                          name: responseFile.fileName ?? '',
-                                        ),
-                                      )
-                                      .toList(),
-                                  onChange: (files, value) {
-                                    widget.cubit.editListFile(files);
+                                SelectFileBtn(
+                                  onChange: (listFile) {
+                                    widget.cubit.editTaskHTKTRequest
+                                        .fileUpload = listFile;
                                   },
+                                  onDeletedFileApi: (fileModel) {
+                                    widget.cubit
+                                        .removeFileId(fileModel.id ?? '');
+                                  },
+                                  initFileFromApi: widget.cubit.editModelHTKT
+                                          .value.filesDinhKem
+                                          ?.map(
+                                            (e) => FileModel(
+                                              id: e.fileId,
+                                              name: e.fileName,
+                                            ),
+                                          )
+                                          .toList() ??
+                                      [],
                                 ),
                                 spaceH20,
                                 doubleBtn(),

@@ -39,8 +39,10 @@ class RowDataWidget extends StatelessWidget {
           width: 14,
         ),
         if (isMobile())
-          SizedBox(
-            child: textVl(),
+          Expanded(
+            child: SizedBox(
+              child: textVl(),
+            ),
           )
         else
           textVl(),
@@ -53,7 +55,6 @@ class RowDataWidget extends StatelessWidget {
         child: Text(
           text,
           style: styleText ?? textNormal(textTitle, 16),
-          overflow: TextOverflow.ellipsis,
         ),
       );
 }

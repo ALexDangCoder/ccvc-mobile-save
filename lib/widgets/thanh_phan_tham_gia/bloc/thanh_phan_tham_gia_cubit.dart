@@ -105,6 +105,26 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     }
   }
 
+  void addCuCanBo(
+      ThemCanBoCubit themCanBoCubit,
+      ThemDonViCubit themDonViCubit,
+      ) {
+    if (isDuplicateItem(listCanBoThamGia.valueOrNull ?? [], newCanBo)) {
+      isDuplicateCanBo.add(true);
+    } else {
+      isDuplicateCanBo.add(false);
+      if ((themCanBoCubit.titleCanBo.valueOrNull ?? '').isEmpty) {
+        final DonViModel donVi = themDonViCubit.listDonVi.last;
+        (listCanBoThamGia.valueOrNull ?? []).add(donVi);
+        listCanBo.add(donVi);
+      } else {
+        (listCanBoThamGia.valueOrNull ?? []).add(newCanBo);
+        listCanBo.add(newCanBo);
+      }
+      listCanBoThamGia.sink.add(listCanBoThamGia.valueOrNull ?? []);
+    }
+  }
+
   bool isDuplicateItem(List<DonViModel> listRoot, DonViModel newCanBo) {
     for (final DonViModel canBo in listRoot) {
       if (canBo.id == newCanBo.id) {

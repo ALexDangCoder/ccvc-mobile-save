@@ -433,18 +433,35 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     }
   }
 
-  Future<bool> luuCanBoDiThay({
-    required ThanhPhanThamGiaCubit cubitThanhPhanTG,
-  }) async {
+  String idCanBoThamGia() {
+    final canboId =
+        HiveLocal.getDataUser()?.userId ?? '';
+
+    return listTPTG
+        .firstWhere(
+          (element) => element.canBoId == canboId,
+          orElse: () => DonViModel.empty(),
+        )
+        .id;
+  }
+
+  String idDonViThamGia() {
     final donViId =
         HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
 
-    final String idChuTri = listTPTG
+    return listTPTG
         .firstWhere(
           (element) => element.donViId == donViId && element.canBoId.isEmpty,
           orElse: () => DonViModel.empty(),
         )
         .id;
+  }
+
+  Future<bool> luuCanBoDiThay({
+    required ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  }) async {
+    final String idChuTri =
+        idCanBoThamGia().isNotEmpty ? idCanBoThamGia() : idDonViThamGia();
 
     final bool isCheckCallApiCuCanBo = await cuCanBo(
       canBoDiThay: mergeCanBoDuocChonVaCuCanBo(

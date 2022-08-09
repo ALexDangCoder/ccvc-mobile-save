@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'bao_cao_thong_ke/status_widget.dart';
 import 'status_pakn.dart';
+
 class TiepCanWidget extends StatefulWidget {
   const TiepCanWidget({Key? key, required this.model, required this.cubit})
       : super(key: key);
@@ -43,7 +44,8 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
                   8,
-                  (index) => const MySeparator(
+                      (index) =>
+                  const MySeparator(
                     color: colorECEEF7,
                     height: 2,
                   ),
@@ -74,7 +76,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                   choCapSoColor,
                 ),
                 ChartData(
-                  S.current.cho_bo_sung_thong_tin,
+                  S.current.cho_bo_sung_thong_tin_pakn,
                   widget.model.dashBoardTiepNhanPAKNModel.choBoSungThongTin
                       .toDouble(),
                   choBanHanhColor,

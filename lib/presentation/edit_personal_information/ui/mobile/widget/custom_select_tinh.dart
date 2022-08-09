@@ -203,6 +203,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                       height: Platform.isIOS
                           ? MediaQuery.of(context).size.height * 0.3
                           : MediaQuery.of(context).size.height * 0.4,
+                      padding: MediaQuery.of(context).viewInsets,
                       decoration: const BoxDecoration(
                         color: backgroundColorApp,
                         borderRadius: BorderRadius.all(Radius.circular(8)),

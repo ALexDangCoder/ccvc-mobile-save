@@ -18,9 +18,26 @@ class DanhSachPAKNRequest {
   final String dateTo;
   @JsonKey(name: 'HanXuLy')
   int? hanXuLy;
+  @JsonKey(name: 'donViId')
+  String? donViId;
 
-  DanhSachPAKNRequest(this.pageIndex, this.pageSize, this.dateFrom, this.dateTo,
-      {this.trangThai, this.loaiMenu, this.hanXuLy});
+  @JsonKey(name: 'userId')
+  String? userId;
+  @JsonKey(name: 'TuKhoa')
+  String? tuKhoa;
+
+  DanhSachPAKNRequest(
+    this.pageIndex,
+    this.pageSize,
+    this.dateFrom,
+    this.dateTo, {
+    this.trangThai,
+    this.loaiMenu,
+    this.hanXuLy,
+    this.userId,
+    this.donViId,
+    this.tuKhoa,
+  });
 
   factory DanhSachPAKNRequest.fromJson(Map<String, dynamic> json) =>
       _$DanhSachPAKNRequestFromJson(json);
@@ -76,5 +93,6 @@ class DanhSachPAKNXuLyCacYKienRequest {
   factory DanhSachPAKNXuLyCacYKienRequest.fromJson(Map<String, dynamic> json) =>
       _$DanhSachPAKNXuLyCacYKienRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DanhSachPAKNXuLyCacYKienRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$DanhSachPAKNXuLyCacYKienRequestToJson(this);
 }

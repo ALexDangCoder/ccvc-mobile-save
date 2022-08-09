@@ -116,15 +116,6 @@ mixin YKienNguoiDanRepository {
 
   Future<Result<List<LocationModel>>> getLocationAddress({String? id});
 
-  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({
-    String? tuNgay,
-    String? denNgay,
-    String? pageSize,
-    String? pageNumber,
-    String? userId,
-    String? donViId,
-    String? tuKhoa,
-  });
 
   Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPaknFilter({
     int? pageIndex,
@@ -134,6 +125,9 @@ mixin YKienNguoiDanRepository {
     String? dateFrom,
     String? dateTo,
     int? hanXuLy,
+    String? userId,
+    String? donViId,
+    String? tuKhoa,
   });
 
   Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachChoTaoVBDi({

@@ -18,6 +18,8 @@ class PieChart extends StatelessWidget {
   final TextStyle? tittleStyle;
   final bool isVectical;
   final bool useVerticalLegend;
+  final int crossAxisCount;
+  final int flex;
 
   const PieChart({
     Key? key,
@@ -33,6 +35,8 @@ class PieChart extends StatelessWidget {
     this.tittleStyle,
     this.isVectical = true,
     this.useVerticalLegend = false,
+    this.crossAxisCount = 2,
+    this.flex = 1,
   }) : super(key: key);
 
   @override
@@ -110,8 +114,9 @@ class PieChart extends StatelessWidget {
           Row(
             children: [
               Expanded(
+                flex: flex,
                 child: SizedBox(
-                  width: 270,
+                  width: 300,
                   height: 270,
                   child: chartData
                               .indexWhere((element) => element.value != 0) ==
@@ -159,7 +164,7 @@ class PieChart extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 60,
+                width: 32,
               ),
               Expanded(
                 child: Padding(
@@ -167,7 +172,7 @@ class PieChart extends StatelessWidget {
                   child: GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
+                    crossAxisCount: crossAxisCount,
                     childAspectRatio: 9,
                     mainAxisSpacing: 10.0.textScale(space: 4),
                     crossAxisSpacing: 10,
@@ -218,7 +223,7 @@ class PieChart extends StatelessWidget {
             child: GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
+              crossAxisCount: crossAxisCount,
               childAspectRatio: 9,
               mainAxisSpacing: 10.0.textScale(space: 4),
               crossAxisSpacing: 10,

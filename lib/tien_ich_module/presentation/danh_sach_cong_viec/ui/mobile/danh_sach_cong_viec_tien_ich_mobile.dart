@@ -137,6 +137,7 @@ class _DanhSachCongViecTienIchMobileState
                                     return Column(
                                       children: [
                                         if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.gan_cho_toi,
@@ -152,10 +153,12 @@ class _DanhSachCongViecTienIchMobileState
                                   }
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
+                                      vertical: 30,
+                                    ),
                                     child: Column(
                                       children: [
                                         if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.gan_cho_toi,
@@ -171,6 +174,7 @@ class _DanhSachCongViecTienIchMobileState
                             /// list down
                             if (dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.DHT ||
+                                dataType == DSCVScreen.DBX ||
                                 dataType == DSCVScreen.NCVM)
                               StreamBuilder<List<TodoDSCVModel>>(
                                 stream: cubit.listDSCVStream.stream,
@@ -188,6 +192,7 @@ class _DanhSachCongViecTienIchMobileState
                                           CrossAxisAlignment.start,
                                       children: [
                                         if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.da_hoan_thanh,
@@ -207,6 +212,7 @@ class _DanhSachCongViecTienIchMobileState
                                     child: Column(
                                       children: [
                                         if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.da_hoan_thanh,

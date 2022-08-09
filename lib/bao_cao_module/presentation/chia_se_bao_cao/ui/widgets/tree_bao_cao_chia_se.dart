@@ -57,10 +57,9 @@ class _TreeWidgetState extends State<TreeViewChiaSeBaoCaoWidget> {
                               CustomCheckBox(
                                 onChange: (isCheck) {
                                   widget.node.isCheck.isCheck = !isCheck;
-
                                 widget.themDonViCubit.selectTag(widget.node);
                                 },
-                                isCheck: widget.node.isCheckALl(),
+                                isCheck: widget.node.isCheck.isCheck,
                               )
                             ],
                           );

@@ -80,6 +80,7 @@ class _CongTacChuanBiWidgetTabletState
                   ///nếu chua có phòng nào và là người
                   ///chủ trì thì hiện button chọn phòng họp
                   return ChonPhongHopScreen(
+                    needTextChonPhong: true,
                     dateFrom: widget.cubitTaoLichHop.getTime(),
                     dateTo:
                         widget.cubitTaoLichHop.getTime(isGetDateStart: false),

@@ -21,48 +21,54 @@ class ChartDonViXuLyWidget extends StatelessWidget {
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
         return data.isNotEmpty
-            ? SizedBox(
-                height: 30.0 * data.length,
-                child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(
-                    placeLabelsNearAxisLine: true,
-                    labelStyle: textNormalCustom(
-                      color: AqiColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    minorGridLines: const MinorGridLines(width: 0),
-                    minorTickLines: const MinorTickLines(
-                      size: 0,
-                      width: 0,
-                    ),
-                    maximumLabelWidth: 90,
-                    majorGridLines: const MajorGridLines(width: 0),
-                  ),
-                  primaryYAxis: NumericAxis(
-                    majorGridLines: const MajorGridLines(
-                        width: 0.5, color: AqiColor, dashArray: <double>[5, 5]),
-                    minorTicksPerInterval: 0,
-                  ),
-                  series: <ChartSeries<DonViYKNDModel, String>>[
-                    BarSeries<DonViYKNDModel, String>(
-                      color: choXuLyYKND,
-                      dataLabelSettings: DataLabelSettings(
-                        isVisible: true,
-                        textStyle: textNormalCustom(
-                          color: infoColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 11,
-                        ),
-                        labelAlignment: ChartDataLabelAlignment.outer,
-                        labelPosition: ChartDataLabelPosition.outside,
+            ? SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SizedBox(
+                  height: 30.0 * data.length,
+                  child: SfCartesianChart(
+                    primaryXAxis: CategoryAxis(
+                      placeLabelsNearAxisLine: true,
+                      labelStyle: textNormalCustom(
+                        color: AqiColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
                       ),
-                      dataSource: data,
-                      xValueMapper: (DonViYKNDModel data, _) => data.tenLinhVuc,
-                      yValueMapper: (DonViYKNDModel data, _) =>
-                          data.soPhanAnhKienNghi,
+                      minorGridLines: const MinorGridLines(width: 0),
+                      minorTickLines: const MinorTickLines(
+                        size: 0,
+                        width: 0,
+                      ),
+                      maximumLabelWidth: 90,
+                      majorGridLines: const MajorGridLines(width: 0),
                     ),
-                  ],
+                    primaryYAxis: NumericAxis(
+                      majorGridLines: const MajorGridLines(
+                          width: 0.5,
+                          color: AqiColor,
+                          dashArray: <double>[5, 5]),
+                      minorTicksPerInterval: 0,
+                    ),
+                    series: <ChartSeries<DonViYKNDModel, String>>[
+                      BarSeries<DonViYKNDModel, String>(
+                        color: choXuLyYKND,
+                        dataLabelSettings: DataLabelSettings(
+                          isVisible: true,
+                          textStyle: textNormalCustom(
+                            color: infoColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11,
+                          ),
+                          labelAlignment: ChartDataLabelAlignment.outer,
+                          labelPosition: ChartDataLabelPosition.outside,
+                        ),
+                        dataSource: data,
+                        xValueMapper: (DonViYKNDModel data, _) =>
+                            data.tenLinhVuc,
+                        yValueMapper: (DonViYKNDModel data, _) =>
+                            data.soPhanAnhKienNghi,
+                      ),
+                    ],
+                  ),
                 ),
               )
             : Container(

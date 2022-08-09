@@ -73,7 +73,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
           cubit.getGroup();
           cubit.loadTreeDonVi();
         },
-        error: AppException(S.current.something_went_wrong, ''),
+        error: AppException(S.current.error, S.current.something_went_wrong),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

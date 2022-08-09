@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/char
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/dash_board_bao_cao_yknd.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/chi_tiet_kien_nghi_respnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_kien_xu_ly_response.dart';
-import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_thong_tin_pakn_response.dart';
@@ -322,32 +321,6 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   }
 
   @override
-  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({
-    String? tuNgay,
-    String? denNgay,
-    String? pageSize,
-    String? pageNumber,
-    String? userId,
-    String? donViId,
-    String? tuKhoa,
-  }) {
-    return runCatchingAsync<DanhSachPAKNTotalResponse,
-        List<DanhSachKetQuaPAKNModel>>(
-      () => _yKienNguoiDanService.getDanhSachPAKN(
-        tuNgay: tuNgay,
-        denNgay: denNgay,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-        donViId: donViId,
-        userId: userId,
-        tuKhoa: tuKhoa,
-      ),
-      (res) =>
-          res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
-    );
-  }
-
-  @override
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(
     String nguoiChoYKien,
     String kienNghiId,
@@ -409,14 +382,18 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   }
 
   @override
-  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPaknFilter(
-      {int? pageIndex,
-      int? pageSize,
-      String? trangThai,
-      String? loaiMenu,
-      String? dateFrom,
-      String? dateTo,
-      int? hanXuLy}) {
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPaknFilter({
+    int? pageIndex,
+    int? pageSize,
+    String? trangThai,
+    String? loaiMenu,
+    String? dateFrom,
+    String? dateTo,
+    int? hanXuLy,
+    String? userId,
+    String? donViId,
+    String? tuKhoa,
+  }) {
     return runCatchingAsync<DanhSachPAKNFilterResponse,
         List<DanhSachKetQuaPAKNModel>>(
       () => _yKienNguoiDanService.getDanhSachPAKNFilter(
@@ -428,6 +405,9 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
           trangThai: trangThai,
           loaiMenu: loaiMenu,
           hanXuLy: hanXuLy,
+          donViId: donViId,
+          userId: userId,
+          tuKhoa: tuKhoa,
         ),
       ),
       (res) =>

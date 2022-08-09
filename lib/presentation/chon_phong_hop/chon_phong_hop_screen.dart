@@ -36,6 +36,7 @@ class ChonPhongHopScreen extends StatefulWidget {
   final List<PhongHopThietBi>? initThietBi;
   final bool needShowSelectedRoom;
   final String? idHop;
+  final bool needTextChonPhong;
 
   const ChonPhongHopScreen({
     Key? key,
@@ -47,7 +48,7 @@ class ChonPhongHopScreen extends StatefulWidget {
     this.initThietBi,
     this.needShowSelectedRoom = false,
     this.idHop,
-    this.onDelete,
+    this.onDelete, this.needTextChonPhong = false,
   }) : super(key: key);
 
   @override
@@ -91,9 +92,9 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                   onTap: () {
                     showBottomSheet();
                   },
-                  text: snapshot.hasData
-                      ? S.current.doi_phong
-                      : S.current.chon_phong_hop,
+                  text: !snapshot.hasData || widget.needTextChonPhong
+                      ? S.current.chon_phong_hop
+                      : S.current.doi_phong,
                   urlIcon: ImageAssets.icChonPhongHop,
                 ),
                 if (widget.needShowSelectedRoom &&

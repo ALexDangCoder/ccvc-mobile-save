@@ -196,7 +196,10 @@ class ChiTietPaknCubit extends BaseCubit<BaseState> {
           rowData.add(
             ListRowYKND(
               title: S.current.ngay_ban_hanh,
-              content: [element.ngayKyVanBanDi],
+              content: [element.ngayKyVanBanDi.changeToNewPatternDate(
+                DateTimeFormat.DATE_TIME_RECEIVE,
+                DateTimeFormat.DATE_DD_MM_YYYY,
+              )],
             ),
           );
           rowData.add(

@@ -141,10 +141,10 @@ Future<Map<String, dynamic>> pickImageIos({bool fromCamera = false}) async {
     );
     final extension = (p.extension(file.path)).replaceAll('.', '');
     _resultMap[EXTENSION_OF_FILE] = extension.toUpperCase();
-    _resultMap[SIZE_OF_FILE] = File(file.path).readAsBytesSync().lengthInBytes;
+    _resultMap[SIZE_OF_FILE] = file.lengthSync();
     _resultMap[PATH_OF_FILE] = file.path;
     _resultMap[NAME_OF_FILE] = p.basename(p.basename(file.path));
-    _resultMap[FILE_RESULT] = [File(file.path)];
+    _resultMap[FILE_RESULT] = [file];
     return _resultMap;
   } on PlatformException catch (e) {
     final permission =

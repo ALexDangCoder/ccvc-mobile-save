@@ -109,7 +109,7 @@ class FlutterRoundedCupertinoDatePickerWidgetAmDuong extends StatefulWidget {
     this.fontFamily,
     this.background = Colors.white,
     this.textColor = Colors.black54,
-    this.textStyleDate = const TextStyle(),
+    this.textStyleDate = const TextStyle(), this.onChangeSolar,
   })  : initialDateTime = initialDateTime ?? DateTime.now(),
         super(key: key);
 
@@ -130,7 +130,7 @@ class FlutterRoundedCupertinoDatePickerWidgetAmDuong extends StatefulWidget {
   final bool use24hFormat;
 
   final ValueChanged<DateTime> onDateTimeChanged;
-
+  final Function(DateTime, bool)? onChangeSolar;
   final EraMode? era;
   final Color background;
   final Color textColor;
@@ -153,8 +153,9 @@ class FlutterRoundedCupertinoDatePickerWidgetAmDuong extends StatefulWidget {
       case PickerColumnType.dayOfMonth:
         for (int i = 1; i <= 31; i++) {
           final String dayOfMonth = localizations.datePickerDayOfMonth(i);
-          if (longestText.length < dayOfMonth.length)
-            longestText = '  Thứ 5' + dayOfMonth;
+          if (longestText.length < dayOfMonth.length) {
+            longestText = '  Thứ 5$dayOfMonth';
+          }
         }
         break;
       case PickerColumnType.month:
@@ -213,6 +214,7 @@ class CupertinoDatePickerDateAmDuongState
   late FixedExtentScrollController yearController;
 
   late FixedExtentScrollController lunarController;
+  var flagLunar = false;
 
   Map<int, double> estimatedColumnWidths = <int, double>{};
 

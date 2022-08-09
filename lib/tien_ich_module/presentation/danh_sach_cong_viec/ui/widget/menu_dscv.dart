@@ -42,11 +42,12 @@ class _MenuDSCVState extends State<MenuDSCV> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: !isMobile() ? bgTabletColor : colorFFFFFF,
+      backgroundColor: !isMobile() ? bgTabletColor : backgroundDrawerMenu,
       appBar: BaseAppBar(
         maxLine: 2,
-        backGroundColor: bgTabletColor,
+        backGroundColor: backgroundDrawerMenu,
         title: S.current.danh_sach_cong_viec,
+        titleColor: backgroundColorApp,
         leadingIcon: isMobile()
             ? Padding(
                 padding: const EdgeInsets.all(16),
@@ -174,7 +175,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                             valueChildren?[indexChildren];
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
+                                              horizontal: 10,),
                                           child: CellMenuCustom(
                                             margin: false,
                                             icon: '',

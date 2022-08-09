@@ -58,32 +58,43 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     );
   }
 
-  Future<void> upLoadImg(
-    BuildContext context,
-    int loai,
-    FToast toast,
-  ) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.path.isEmpty) {
+  bool validateFile(ModelAnh image) {
+    if (image.notAcceptFile) {
       toast.showToast(
         child: ShowToast(
           text: S.current.file_khong_hop_le,
         ),
         gravity: ToastGravity.TOP_RIGHT,
       );
-    } else {
-      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.dung_luong_toi_da_20,
-          ),
-          gravity: ToastGravity.TOP_RIGHT,
-        );
-      } else {
-        cubit.avatarPathSubject.sink.add(_path);
-        await cubit.uploadFile(_path.path);
-      }
+      return false;
     }
+    if (image.path.isEmpty) {
+      return false;
+    }
+    if (image.size > MaxSizeFile.MAX_SIZE_20MB) {
+      toast.showToast(
+        child: ShowToast(
+          text: S.current.dung_luong_toi_da_20,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> upLoadImg(
+    BuildContext context,
+    int loai,
+    FToast toast,
+  ) async {
+    final image = await cubit.pickAvatar();
+    final bool checkFile = validateFile(image);
+    if (!checkFile) {
+      return;
+    }
+    cubit.avatarPathSubject.sink.add(image);
+    await cubit.uploadFile(image.path);
   }
 
   Future<void> upLoadChuKy(
@@ -91,27 +102,13 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     int loai,
     FToast toast,
   ) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.path.isEmpty) {
-      toast.showToast(
-        child: ShowToast(
-          text: S.current.file_khong_hop_le,
-        ),
-        gravity: ToastGravity.TOP_RIGHT,
-      );
-    } else {
-      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.dung_luong_toi_da_20,
-          ),
-          gravity: ToastGravity.TOP_RIGHT,
-        );
-      } else {
-        cubit.chuKyPathSubject.sink.add(_path);
-        await cubit.uploadFileChuKi(_path.path);
-      }
+    final image = await cubit.pickAvatar();
+    final bool checkFile = validateFile(image);
+    if (!checkFile) {
+      return;
     }
+    cubit.chuKyPathSubject.sink.add(image);
+    await cubit.uploadFileChuKi(image.path);
   }
 
   Future<void> upLoadKyNhay(
@@ -119,27 +116,13 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     int loai,
     FToast toast,
   ) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.path.isEmpty) {
-      toast.showToast(
-        child: ShowToast(
-          text: S.current.file_khong_hop_le,
-        ),
-        gravity: ToastGravity.TOP_RIGHT,
-      );
-    } else {
-      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.dung_luong_toi_da_20,
-          ),
-          gravity: ToastGravity.TOP_RIGHT,
-        );
-      } else {
-        cubit.kyNhayPathSubject.sink.add(_path);
-        await cubit.uploadFileKiNhay(_path.path);
-      }
+    final image = await cubit.pickAvatar();
+    final bool checkFile = validateFile(image);
+    if (!checkFile) {
+      return;
     }
+    cubit.kyNhayPathSubject.sink.add(image);
+    await cubit.uploadFileKiNhay(image.path);
   }
 
   Widget errImage() {

@@ -67,7 +67,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                                   width: 15.0.textScale(space: 8),
                                   child: SvgPicture.asset(
                                     widget.icon ?? '',
-                                    color: AppTheme.getInstance().colorField(),
+                                    color: AqiColor,
                                   ),
                                 )
                               : SizedBox(
@@ -86,7 +86,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                           child: Text(
                             widget.name,
                             style: textNormalCustom(
-                              color: color3D5586,
+                              color: backgroundColorApp,
                               fontWeight: FontWeight.w400,
                               fontSize: 16.0.textScale(space: 4),
                             ),
@@ -103,7 +103,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                         isExpand
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up_rounded,
-                        // color: AqiColor,
+                        color: AqiColor,
                       )
                 ],
               ),
@@ -152,7 +152,8 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                                     width: 15.0.textScale(space: 8),
                                     child: SvgPicture.asset(
                                       widget.icon ?? '',
-                                      color: AppTheme.getInstance().colorField(),
+                                      color:
+                                          AppTheme.getInstance().colorField(),
                                     ),
                                   )
                                 : SizedBox(

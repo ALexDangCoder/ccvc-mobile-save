@@ -32,7 +32,11 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
           horizontal: 17.0.textScale(space: 13),
           vertical: 10.0.textScale(space: 4),
         ),
-        color: isSelect ? AppTheme.getInstance().colorField() : Colors.white,
+        decoration: BoxDecoration(
+          color: isSelect
+              ? backgroundColorApp.withOpacity(0.1)
+              : backgroundDrawerMenu,
+        ),
         child: Row(
           children: [
             SizedBox(
@@ -40,9 +44,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               width: 15.0.textScale(space: 8),
               child: SvgPicture.asset(
                 icon,
-                color: isSelect
-                    ? Colors.white
-                    : AppTheme.getInstance().colorField(),
+                color: AqiColor,
               ),
             ),
             SizedBox(
@@ -52,7 +54,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               child: Text(
                 name,
                 style: textNormalCustom(
-                  color: isSelect ? Colors.white : color3D5586,
+                  color: backgroundColorApp,
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0.textScale(space: 4),
                 ),

@@ -92,18 +92,15 @@ class _XuLyWidgetState extends State<XuLyWidget> {
                 ),
                 spaceW6,
                 Expanded(
-                  child: Container(
-                    color: Colors.red,
-                    child: GestureDetector(
-                      onTap: () {
-                        widget.cubit.getPAKNXuLy(1);
-                      },
-                      child: SubjectInfoWidget(
-                        color: numberOfCalenders,
-                        title: S.current.cho_xu_ly,
-                        value: widget.model.dashBoardXuLyPAKNModelModel.choXuLy
-                            .toDouble(),
-                      ),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.cubit.getPAKNXuLy(1);
+                    },
+                    child: SubjectInfoWidget(
+                      color: numberOfCalenders,
+                      title: S.current.cho_xu_ly,
+                      value: widget.model.dashBoardXuLyPAKNModelModel.choXuLy
+                          .toDouble(),
                     ),
                   ),
                 ),

@@ -13,6 +13,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   final Size preferredSize;
   final Widget? leadingIcon;
   final String title;
+  final Color? titleColor;
   final Color? backGroundColor;
   final List<Widget>? actions;
   final PreferredSizeWidget? tabbar;
@@ -25,6 +26,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
     this.actions,
     this.tabbar,
     this.backGroundColor,
+    this.titleColor,
     this.maxLine = 1,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
@@ -35,8 +37,9 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
       ),
-      backgroundColor:
-          APP_DEVICE == DeviceType.MOBILE ? backgroundColorApp : bgQLVBTablet,
+      backgroundColor: APP_DEVICE == DeviceType.MOBILE
+          ? backGroundColor ?? backgroundColorApp
+          : bgQLVBTablet,
       bottomOpacity: 0.0,
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
       shadowColor: bgDropDown,
@@ -44,7 +47,12 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Text(
         title,
-        style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+        style: titleAppbar(
+          fontSize: 18.0.textScale(space: 6.0),
+          color: APP_DEVICE == DeviceType.MOBILE
+              ? titleColor ?? color3D5586
+              : color3D5586,
+        ),
         maxLines: maxLine,
       ),
       centerTitle: true,

@@ -15,8 +15,10 @@ class AppBarDefaultBack extends StatelessWidget with PreferredSizeWidget {
   final Size preferredSize;
   final String title;
   final Color? backGroundColors;
+  final Function? callback;
 
-  AppBarDefaultBack(this.title, {Key? key, this.backGroundColors})
+  AppBarDefaultBack(this.title,
+      {Key? key, this.backGroundColors, this.callback})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -38,7 +40,11 @@ class AppBarDefaultBack extends StatelessWidget with PreferredSizeWidget {
       ),
       centerTitle: true,
       leading: IconButton(
-        onPressed: () => {Navigator.pop(context)},
+        onPressed: () => {
+          if(callback != null){
+            callback,
+          },
+          Navigator.pop(context)},
         icon: SvgPicture.asset(
           ImageAssets.icBack,
         ),

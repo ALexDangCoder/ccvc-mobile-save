@@ -21,6 +21,8 @@ class ReportItem {
   String? tree;
   bool? shareByMe;
   bool? shareToMe;
+  List<Access>? accesses;
+  bool? isSourceShare;
 
   ReportItem.forderModel({
     this.id,
@@ -33,6 +35,7 @@ class ReportItem {
     this.isDeleted,
     this.isRoot,
     this.tree,
+    this.accesses,
   });
 
   ReportItem({
@@ -52,5 +55,14 @@ class ReportItem {
     this.status,
     this.shareToMe,
     this.shareByMe,
+    this.accesses,
+    this.isSourceShare,
   });
+}
+
+class Access {
+  String? code;
+  String? title;
+
+  Access({this.code, this.title});
 }

@@ -26,50 +26,55 @@ class _ChonNhomDialogState extends State<ChonNhomDialog> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      height: widget.ibTablet ? 450.h : 350.h,
-      width: widget.ibTablet ? 450.w : null,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(12.r)),
-        border: Border.all(color: cellColorborder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFieldValidator(
-            hintText: S.current.tim_kiem,
-            onChange: (value) {
-              widget.cubit.searchGroup(value);
-            },
-          ),
-          spaceH8,
-          StreamBuilder<List<String>>(
-              stream: widget.cubit.searchGroupStream,
-              builder: (context, snapshot) {
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data?.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          itemSelect(
-                            snapshot.data?[index] ?? '',
-                            widget.cubit.checkSelectGroup(
+    return GestureDetector(
+      onTap: (){
+
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        height: widget.ibTablet ? 450.h : 350.h,
+        width: widget.ibTablet ? 450.w : null,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(12.r)),
+          border: Border.all(color: cellColorborder),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFieldValidator(
+              hintText: S.current.tim_kiem,
+              onChange: (value) {
+                widget.cubit.searchGroup(value);
+              },
+            ),
+            spaceH8,
+            StreamBuilder<List<String>>(
+                stream: widget.cubit.searchGroupStream,
+                builder: (context, snapshot) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: snapshot.data?.length ?? 0,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            itemSelect(
                               snapshot.data?[index] ?? '',
+                              widget.cubit.checkSelectGroup(
+                                snapshot.data?[index] ?? '',
+                              ),
                             ),
-                          ),
-                          spaceH5,
-                        ],
-                      );
-                    },
-                  ),
-                );
-              }),
-        ],
+                            spaceH5,
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }

@@ -56,7 +56,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
       builder: () {
         return Container(
           clipBehavior: Clip.hardEdge,
-          height: 750.h,
+          height: 750,
           width: 592.w,
           //padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           decoration: const BoxDecoration(
@@ -95,9 +95,9 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
-                          size: 24.sp,
+                          size: 24,
                           color: colorA2AEBD,
                         ),
                       ),
@@ -130,7 +130,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                             Get.find<AppConstants>().urlHTCS + widget.idReport,
                             style: textNormalCustom(
                               color: labelColor,
-                              fontSize: 14,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -183,7 +183,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                     unselectedLabelColor: infoColor,
                     indicatorColor: AppTheme.getInstance().colorField(),
                     labelStyle: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
                     physics: const AlwaysScrollableScrollPhysics(),

@@ -23,6 +23,7 @@ class TableCalendarWidget extends StatefulWidget {
   late bool? tablet;
   late bool? isFomatMonth;
   final bool isCheckLunar;
+  final DateTime? initDateTime;
   final LichAmDuongCubit cubit;
   final Function(DateTime day) selectDay;
   final Function(DateTime? start, DateTime? end, DateTime? focusedDay)
@@ -40,6 +41,7 @@ class TableCalendarWidget extends StatefulWidget {
     this.isCheckLunar = false,
     this.isCalendar = true,
     this.tablet = false,
+    this.initDateTime,
     this.isFomatMonth = true,
     this.onSearch,
     required this.onChangeRange,
@@ -61,11 +63,21 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   @override
   void initState() {
     selectedEvents = {};
+    _selectedDay = widget.initDateTime ?? DateTime.now();
+    cubit.selectedDay = widget.initDateTime ?? DateTime.now();
     super.initState();
   }
 
+  @override
+  @override
+  void didUpdateWidget(TableCalendarWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _selectedDay = widget.initDateTime ?? DateTime.now();
+    cubit.selectedDay = widget.initDateTime ?? DateTime.now();
+  }
+
   bool isSearch = false;
-  DateTime _selectedDay = DateTime.now();
+  late DateTime _selectedDay;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   late Map<DateTime, List<Event>> selectedEvents;
   CalendarFormat _calendarFormatWeek = CalendarFormat.week;

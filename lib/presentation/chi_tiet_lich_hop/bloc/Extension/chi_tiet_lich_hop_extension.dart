@@ -179,7 +179,10 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     showContent();
   }
 
-  Future<void> postPhanCongThuKy(String id) async {
+  Future<void> postPhanCongThuKy(
+    String id, {
+    bool isShowLoading = true,
+  }) async {
     showLoading();
     final List<String> dataIdPost = dataThuKyOrThuHoiDeFault
         .where((canBo) => canBo.isThuKy ?? false)
@@ -192,12 +195,13 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         lichHopId: id,
       ),
     );
-
-    result.when(
-      success: (value) {
-        showContent();
-        MessageConfig.show(title: S.current.thanh_cong);
-        getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    await result.when(
+      success: (value) async {
+        if (isShowLoading) {
+          showContent();
+        }
+        await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+        eventBus.fire(RefreshPhanCongThuKi());
       },
       error: (error) {
         MessageConfig.show(

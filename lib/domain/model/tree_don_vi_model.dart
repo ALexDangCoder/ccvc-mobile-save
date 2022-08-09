@@ -304,6 +304,11 @@ class Node<T> {
     children.add(child);
     child.parent = this;
   }
+  void addChildMember(Node<T> child) {
+    child.level = level + 1;
+    children.insert(0,child);
+    child.parent = this;
+  }
 
   Node.copyWith(Node<T> node) {
     value = node.value;

@@ -110,6 +110,7 @@ class ItemList extends StatelessWidget {
           if (cubit.checkHideIcMore(
             isReportShareToMe: item.shareToMe ?? false,
             typeReport: item.type ?? REPORT,
+            listAccess: item.accesses ?? []
           ))
             InkWell(
               onTap: () {
@@ -130,6 +131,7 @@ class ItemList extends StatelessWidget {
                       isTree: isTree,
                       idFolder: idFolder,
                       isSearch: isSearch,
+                      isSourceShare: item.isSourceShare ?? false,
                     ),
                   );
                 } else {
@@ -147,6 +149,7 @@ class ItemList extends StatelessWidget {
                       isTree: isTree,
                       idFolder: idFolder,
                       isSearch: isSearch,
+                      isSourceShare: item.isSourceShare ?? false,
                     ),
                   );
                 }

@@ -67,7 +67,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (widget.cubit.canLoadMoreList &&
@@ -145,7 +145,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                       left: 144.w,
                       right: 144.w,
                     ),
-                    height: 70.h,
+                    height: 70,
                     color: Colors.white,
                     child: buttonBottom,
                   ),
@@ -297,7 +297,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
         stream: widget.cubit.isDuocTruyCapStream,
         builder: (context, snapshot) {
           return DoubleButtonBottom(
-            height: 44.h,
+            height: 44,
             noPadding: true,
             onPressed1: () {
               Navigator.pop(context);
@@ -316,7 +316,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                     btnLeftTxt: S.current.huy,
                     btnRightTxt: S.current.dong_y,
                     funcBtnRight: () {
-                      widget.cubit.chiaSeBaoCao(Share.HAS_USER).then((value) {
+                      widget.cubit.chiaSeBaoCao(Share.COMMON).then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {
                           MessageConfig.show(title: value);
                           Navigator.pop(context);

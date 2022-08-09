@@ -10,13 +10,13 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import 'icon_with_title_widget.dart';
 
@@ -40,6 +40,15 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     super.initState();
     _handleEventBus();
     thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
+    _refreshPhanCongThuKy();
+  }
+
+  void _refreshPhanCongThuKy() {
+    eventBus.on<RefreshPhanCongThuKi>().listen((event) {
+      thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia(
+        isShowMessage: true,
+      );
+    });
   }
   void _handleEventBus (){
     eventBus.on<ReloadMeetingDetail>().listen((event) {

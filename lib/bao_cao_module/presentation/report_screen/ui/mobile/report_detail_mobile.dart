@@ -35,10 +35,10 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
     await widget.cubit.getListReport(
       idFolder: widget.reportModel.id ?? '',
       isTree: true,
-      isShare: (widget.reportModel.shareToMe == null &&
-          widget.reportModel.shareByMe == null)
-          ? true
-          : (widget.reportModel.shareToMe ?? false),
+      isShare: (!widget.cubit.isCheckOwner(
+                  listAccess: widget.reportModel.accesses ?? []) ||
+              widget.reportModel.isSourceShare == true) ||
+          (widget.reportModel.shareToMe ?? false),
     );
   }
 
@@ -63,6 +63,9 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
     return Scaffold(
       appBar: AppBarDefaultBack(
         widget.title,
+        callback: () {
+          listReportDetail = widget.cubit.listReportTree.value ?? [];
+        },
       ),
       body: Column(
         children: [

@@ -88,6 +88,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 ///nếu chua có phòng nào và là người
                 ///chủ trì thì hiện button chọn phòng họp
                 return ChonPhongHopScreen(
+                  needTextChonPhong: true,
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
                   id: HiveLocal.getDataUser()

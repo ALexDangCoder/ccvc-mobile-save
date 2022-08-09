@@ -160,6 +160,7 @@ abstract class YKienNguoiDanService {
     @Query('TuNgay') String? tuNgay,
     @Query('DenNgay') String? denNgay,
     @Query('PageSize') String? pageSize,
+    @Query('TrangThai') String? trangThai,
     @Query('PageNumber') String? pageNumber,
     @Query('userId') String? userId,
     @Query('donViId') String? donViId,

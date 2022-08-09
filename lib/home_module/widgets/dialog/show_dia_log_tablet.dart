@@ -32,7 +32,11 @@ Future<T?> showDiaLogTablet<T>(
           title: title,
           btnLeftTxt: btnLeftTxt ?? S.current.dong,
           btnRightTxt: btnRightTxt ?? S.current.them,
-          funcBtnOk: funcBtnOk?.call() ?? () {},
+          funcBtnOk: () {
+            if (funcBtnOk != null) {
+              funcBtnOk();
+            }
+          },
           isBottomShow: isBottomShow,
           maxHeight: maxHeight,
           width: width,

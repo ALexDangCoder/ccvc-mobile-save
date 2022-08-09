@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:core';
 import 'dart:io';
 
-import 'package:ccvc_mobile/bao_cao_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
@@ -12,6 +11,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.d
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -26,7 +26,8 @@ import 'danh_sach_cong_viec_tien_ich_state.dart';
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
-  int countLoadMore = 1;
+  int countLoadMore = ApiConstants.PAGE_BEGIN;
+  bool canLoadMore = true;
   TextEditingController searchControler = TextEditingController();
   Timer? _debounce;
   final int maxSizeFile = 31457280;
@@ -45,6 +46,8 @@ class DanhSachCongViecTienIchCubit
 
   BehaviorSubject<List<CountTodoModel>> countTodoModelSubject =
       BehaviorSubject();
+
+  BehaviorSubject<bool> inLoadmore = BehaviorSubject.seeded(false);
 
   final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
@@ -80,65 +83,82 @@ class DanhSachCongViecTienIchCubit
   Future<bool> callAPITheoFilter({
     String? textSearch,
     String? groupId,
-    int? pageIndex,
-    int? pageSize,
-    bool? isLoadmore,
+    bool isLoadmore = false,
   }) async {
+    if (isLoadmore ){
+      inLoadmore.sink.add(true);
+    }else{
+      showLoading();
+    }
+    bool result = false;
     switch (statusDSCV.value) {
       case DSCVScreen.CVCB:
-        return getAllListDSCVWithFilter(
+        result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
-          pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
-          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
+          pageIndex: countLoadMore,
           searchWord: textSearch?.trim(),
         );
+        break;
       case DSCVScreen.CVQT:
-        return getAllListDSCVWithFilter(
+        result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           isImportant: true,
-          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
-          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
+          pageIndex: countLoadMore,
           searchWord: textSearch?.trim(),
         );
+        break;
       case DSCVScreen.DHT:
-        return getAllListDSCVWithFilter(
+        result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
           isTicked: true,
           searchWord: textSearch?.trim(),
-          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
-          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
+          pageIndex: countLoadMore ,
+          pageSize:  ApiConstants.LONG_PAGE_SIZE,
         );
+        break;
       case DSCVScreen.DG:
-        return getAllListDSCVWithFilter(
+        result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           searchWord: textSearch?.trim(),
-          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
-          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
+          pageIndex: countLoadMore,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
           isGiveOther: true,
         );
+        break;
       case DSCVScreen.DBX:
-        return getAllListDSCVWithFilter(
+        result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: false,
           searchWord: textSearch?.trim(),
-          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
-          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
+          pageIndex: countLoadMore,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
         );
+        break;
       case DSCVScreen.NCVM:
-        return getAllListDSCVWithFilter(
+        result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
-          pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
-          pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
+          pageIndex: countLoadMore,
           groupId: groupId ?? this.groupId,
           searchWord: textSearch?.trim(),
         );
+        break;
     }
-    return false;
+    if (isLoadmore ){
+      inLoadmore.sink.add(false);
+    }else{
+      showContent();
+    }
+    return result;
   }
 
   /// khoi tao data
@@ -229,9 +249,8 @@ class DanhSachCongViecTienIchCubit
     bool? isTicked,
     String? groupId,
     bool? isGiveOther,
-    bool? isLoadmore,
+    required bool isLoadmore,
   }) async {
-    showLoading();
     final result = await tienIchRep.getAllListDSCVWithFilter(
       pageIndex,
       pageSize ?? 10,
@@ -244,14 +263,12 @@ class DanhSachCongViecTienIchCubit
     );
     result.when(
       success: (res) {
-        showContent();
         final List<TodoDSCVModel> data = listDSCVStream.valueOrNull ?? [];
-        if (isLoadmore == true) {
-          data.addAll(res);
-        } else {
-          listDSCVStream.sink.add(res);
-          return true;
+        if (!isLoadmore ) {
+          data.clear();
         }
+        data.addAll(res);
+        canLoadMore = res.length >= ApiConstants.LONG_PAGE_SIZE;
         listDSCVStream.sink.add(data);
         return true;
       },
@@ -260,7 +277,6 @@ class DanhSachCongViecTienIchCubit
         return false;
       },
     );
-    showContent();
     return true;
   }
 
@@ -603,17 +619,23 @@ class DanhSachCongViecTienIchCubit
     String idCv,
     TodoDSCVModel todo,
   ) async {
+    showLoading();
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
+        MessageConfig.show(title: S.current.thanh_cong,);
         final data = listDSCVStream.value;
         data.remove(todo);
         listDSCVStream.sink.add(data);
       },
       error: (error) {
-        showError();
+        MessageConfig.show(
+          title: S.current.that_bai,
+          messState: MessState.error,
+        );
       },
     );
+    showContent();
   }
 
   /// hiển thị icon theo từng màn hình (cần viết lại cho gọn và dễ bảo trì hơn, hiện tại không đủ time. today: 29/07/2022)

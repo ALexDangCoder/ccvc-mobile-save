@@ -1367,7 +1367,8 @@
   "min_text": "Độ dài tối thiểu gồm 6 ký tự",
   "max_text": "Độ dài tối đa gồm 32 ký tự",
   "tong_dung_luong_file_toi_da": "Tổng dung lượng file tối đa",
-  "just_txt": "Chỉ hỗ trợ tệp .txt"
+  "just_txt": "Chỉ hỗ trợ tệp .txt",
+  "ban_phai_chon_truong": "Bạn phải chọn trường"
 }
 
 

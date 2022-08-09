@@ -77,7 +77,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
             .firstWhere(
               (element) =>
                   (element.CanBoId ?? '').toLowerCase() ==
-                  (HiveLocal.getDataUser()?.userId ?? ''),
+                  (HiveLocal.getDataUser()?.userId ?? '').toLowerCase(),
               orElse: () => CanBoThamGiaStr.empty(),
             )
             .isThuKy ??
@@ -242,7 +242,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         isCaNhan = (element.CanBoId ?? '').toLowerCase() == idUser;
         if (isCaNhan) thuHoiCaNhan = isThuHoi;
       }
-      if (!isDonVi){
+      if (!isDonVi) {
         final donVi = (element.CanBoId ?? '').isEmpty;
         final chungDonVi = (element.donViId ?? '').toLowerCase() ==
             (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
@@ -250,8 +250,8 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         if (isDonVi) thuHoiDonVi = isThuHoi;
       }
     }
-    final biThuHoiCaNhan =  (isCaNhan &&  thuHoiCaNhan) || !isCaNhan;
-    final biThuHoiDonVi =  (isDonVi && thuHoiDonVi) || !isDonVi;
+    final biThuHoiCaNhan = (isCaNhan && thuHoiCaNhan) || !isCaNhan;
+    final biThuHoiDonVi = (isDonVi && thuHoiDonVi) || !isDonVi;
     return !chuTri && biThuHoiDonVi && biThuHoiCaNhan;
   }
 
@@ -496,7 +496,9 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   /// check quyen chọn phong hop
   bool isChonPhongHop() {
-    if (!isHasPhong() && (isChuTri() || isThuKy() || isNguoiTao())&&checkPermissionQuyenDuyetPhong()) {
+    if (!isHasPhong() &&
+        (isChuTri() || isThuKy() || isNguoiTao()) &&
+        checkPermissionQuyenDuyetPhong()) {
       return true;
     }
     return false;
@@ -774,7 +776,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       if (!isCaNhan) {
         isCaNhan = (element.CanBoId ?? '').toLowerCase() == idUser;
       }
-      if (!isDonVi){
+      if (!isDonVi) {
         final donVi = (element.CanBoId ?? '').isEmpty;
         final chungDonVi = (element.donViId ?? '').toLowerCase() ==
             (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();

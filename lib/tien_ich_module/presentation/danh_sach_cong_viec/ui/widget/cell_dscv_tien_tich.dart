@@ -146,10 +146,12 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                           ? widget.onStar
                           : onTapNull,
                       child: widget.todoModel.important ?? false
-                          ? SvgPicture.asset(ImageAssets.icStarUnfocus)
-                          : SvgPicture.asset(
+                          ? SvgPicture.asset(
                               ImageAssets.icStarFocus,
                               color: AppTheme.getInstance().colorField(),
+                            )
+                          : SvgPicture.asset(
+                              ImageAssets.icStarUnfocus,
                             ),
                     ),
                   ),

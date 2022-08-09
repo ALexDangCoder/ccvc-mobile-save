@@ -216,7 +216,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 550,
+                            height: 420,
                             padding: const EdgeInsets.only(
                               left: 24,
                               top: 4,
@@ -243,10 +243,13 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                   builder: (context, snapshot) {
                                     final listDataChart = snapshot.data ?? [];
                                     return PieChart(
+                                      crossAxisCount: 1,
+                                      flex: 2,
                                       colorTitle: textTitle,
                                       title: S.current.y_kien_nguoi_dan,
                                       chartData: listDataChart,
                                       onTap: (int value) {},
+                                      isVectical: false,
                                     );
                                   },
                                 ),
@@ -258,33 +261,24 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                     return Row(
                                       children: [
                                         Expanded(
-                                          child: BoxStatusVanBan(
+                                          child: boxStatus(
                                             value: data.trongHan ?? 0,
-                                            onTap: () {},
-                                            color: color3D5586,
-                                            statusName: S.current.trong_han,
+                                            color: colorEA5455,
+                                            status: S.current.trong_han,
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
                                         Expanded(
-                                          child: BoxStatusVanBan(
+                                          child: boxStatus(
                                             value: data.denHan ?? 0,
-                                            onTap: () {},
-                                            color: numberOfCalenders,
-                                            statusName: S.current.den_han,
+                                            color: yellowColor,
+                                            status: S.current.den_han,
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
                                         Expanded(
-                                          child: BoxStatusVanBan(
+                                          child: boxStatus(
                                             value: data.quaHan ?? 0,
-                                            onTap: () {},
-                                            color: statusCalenderRed,
-                                            statusName: S.current.qua_han,
+                                            color: color02C5DD,
+                                            status: S.current.qua_han,
                                           ),
                                         ),
                                       ],
@@ -340,34 +334,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 450,
-                            padding: const EdgeInsets.all(24),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: cellColorborder),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: shadowContainerColor.withOpacity(0.05),
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 10,
-                                ),
-                              ],
-                              color: Colors.white,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                textviewTitle(S.current.so_luong_yknd),
-                                ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 24,
-                        ),
-                        Expanded(
-                          child: Container(
+                            height: 385,
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -385,15 +352,44 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 textviewTitle(S.current.don_vi_xu_ly),
+                                spaceH10,
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
+                                  height: 294,
                                   child: SingleChildScrollView(
                                     child: ChartDonViXuLyWidget(
                                       cubit: baoCaoCubit,
                                     ),
                                   ),
                                 ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 385,
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: cellColorborder),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: shadowContainerColor.withOpacity(0.05),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textviewTitle(S.current.so_luong_yknd),
+                                spaceH10,
+                                ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
                               ],
                             ),
                           ),
@@ -421,6 +417,50 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
         fontWeight: FontWeight.w500,
         fontSize: 16,
       ),
+    );
+  }
+
+  Widget boxStatus(
+      {required int value, required String status, required Color color}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 38,
+          color: color,
+          child: Center(
+            child: Text(
+              value.toString(),
+              style: textNormalCustom(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+        spaceH20,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 14,
+              width: 14,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+              ),
+            ),
+            spaceW12,
+            Text(
+              '$status($value)',
+              style: textNormalCustom(
+                color: color667793,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

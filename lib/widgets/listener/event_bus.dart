@@ -53,6 +53,10 @@ class RefreshThanhPhanThamGia {
   RefreshThanhPhanThamGia();
 }
 
+class RefreshPhanCongThuKi {
+  RefreshPhanCongThuKi();
+}
+
 class ReloadMeetingDetail {
   final List<TabWidgetDetailMeet> tabReload;
   const ReloadMeetingDetail(this.tabReload);

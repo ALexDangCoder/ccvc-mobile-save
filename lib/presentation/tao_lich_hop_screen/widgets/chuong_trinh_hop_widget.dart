@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -378,7 +377,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 SelectFileBtn(
                   onChange: (files) {
-                    taoPhienHopRequest.files?.addAll(files);},
+                    taoPhienHopRequest.files = files;
+                  },
                   initFileSystem: taoPhienHopRequest.files,
                 ),
               ],

@@ -41,6 +41,10 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
           widget.onDateTimeChanged(
             DateTime(selectedYear, selectedMonth, selectedDay),
           );
+          widget.onChangeSolar?.call(
+            DateTime(selectedYear, selectedMonth, selectedDay),
+            flagLunar,
+          );
         }
       },
     );
@@ -73,6 +77,10 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
           widget.onDateTimeChanged(
             DateTime(selectedYear, selectedMonth, selectedDay),
           );
+          widget.onChangeSolar?.call(
+            DateTime(selectedYear, selectedMonth, selectedDay),
+            flagLunar,
+          );
         }
       },
     );
@@ -96,6 +104,11 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
             solarMonth: selectedMonth,
             solarYear: selectedYear,
           );
+          flagLunar = true;
+          widget.onChangeSolar?.call(
+            DateTime(selectedYear, selectedMonth, selectedDay),
+            flagLunar,
+          );
           final lunar = LunarSolarConverter.solarToLunar(solar);
           dayController.animateToItem(
             (lunar.lunarDay ?? 1) - 1,
@@ -113,6 +126,11 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
             curve: Curves.bounceIn,
           );
         } else {
+          flagLunar = false;
+          widget.onChangeSolar?.call(
+            DateTime(selectedYear, selectedMonth, selectedDay),
+            flagLunar,
+          );
           final solar = Lunar(
             lunarDay: selectedDay,
             lunarMonth: selectedMonth,
@@ -168,6 +186,10 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
             selectedDay) {
           widget.onDateTimeChanged(
             DateTime(selectedYear, selectedMonth, selectedDay),
+          );
+          widget.onChangeSolar?.call(
+            DateTime(selectedYear, selectedMonth, selectedDay),
+            flagLunar,
           );
         }
       },

@@ -41,6 +41,10 @@ class _ThanhPhanThamGiaWidgetTabletState
     // TODO: implement initState
     super.initState();
     if (!isMobile()) {
+      thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
+      thanhPhanThamGiaCubit.detailMeetCalenderCubit = widget.cubit;
+      thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
+      _refreshPhanCongThuKy();
       fetchData();
     }
     _handleEventBus();
@@ -50,6 +54,11 @@ class _ThanhPhanThamGiaWidgetTabletState
       if (event.tabReload.contains(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA)){
         fetchData();
       }
+    });
+  }
+  void _refreshPhanCongThuKy() {
+    eventBus.on<RefreshPhanCongThuKi>().listen((event) {
+      thanhPhanThamGiaCubit.callApiThanhPhanThamGia(isShowMessage: true);
     });
   }
 

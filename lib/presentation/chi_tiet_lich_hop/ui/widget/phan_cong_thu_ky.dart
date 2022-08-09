@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -62,7 +60,10 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
                   Navigator.pop(context);
                 },
                 onClickRight: () {
-                  widget.cubit.postPhanCongThuKy(widget.id);
+                  widget.cubit.postPhanCongThuKy(
+                    widget.id,
+                    isShowLoading: false,
+                  );
                   Navigator.pop(context);
                 },
               ),
@@ -160,13 +161,10 @@ class SelectThuKyCell extends StatelessWidget {
                 },
               ),
               wrapThis(
-                listData: dataSN,
-                cubit: cubit,
-                isPhanCongThuKy: true,
-                onRemove: () {
-
-                }
-              )
+                  listData: dataSN,
+                  cubit: cubit,
+                  isPhanCongThuKy: true,
+                  onRemove: () {})
             ],
           );
         },

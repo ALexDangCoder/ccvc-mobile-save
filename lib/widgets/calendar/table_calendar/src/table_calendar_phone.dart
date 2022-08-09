@@ -105,7 +105,7 @@ class TableCalendarPhone<T> extends StatefulWidget {
   /// Used for setting the height of `TableCalendar`'s days of week row.
   final double daysOfWeekHeight;
 
-  /// Specifies the duration of size animation that takes place whenever `calendarFormat` is changed.
+  /// Specifies the duration of size animation that takes place whenever `calendarFormathanged.
   final Duration formatAnimationDuration;
 
   /// Specifies the curve of size animation that takes place whenever `calendarFormat` is changed.

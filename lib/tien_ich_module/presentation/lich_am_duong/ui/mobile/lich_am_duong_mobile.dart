@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dar
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lunar_calendar_converter_new/lunar_solar_converter.dart';
 
 class LichAmDuongMobile extends StatefulWidget {
   const LichAmDuongMobile({Key? key}) : super(key: key);
@@ -72,16 +73,37 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                 children: [
                   SizedBox(
                     height: 250,
-                    child: FlutterRoundedCupertinoDatePickerWidgetAmDuong(
-                      onDateTimeChanged: (value) {
-                        cubit.time = value;
+                    child: StreamBuilder<DateTime>(
+                      stream: cubit.changeDateTimeSubject.stream,
+                      builder: (context, snapshot) {
+                        return FlutterRoundedCupertinoDatePickerWidgetAmDuong(
+                          onDateTimeChanged: (value) {
+                            //cubit.time = value;
+                          },
+                          onChangeSolar: (date, flag) {
+                            final solar = LunarSolarConverter.lunarToSolar(
+                              Lunar(
+                                lunarDay: date.day,
+                                lunarMonth: date.month,
+                                lunarYear: date.year,
+                              ),
+                            );
+                            cubit.time = flag
+                                ? DateTime(
+                                    solar.solarYear ?? 1900,
+                                    solar.solarMonth ?? 1,
+                                    solar.solarDay ?? 1,
+                                  )
+                                : date;
+                          },
+                          textStyleDate: textNormalCustom(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                            color: color3D5586,
+                          ),
+                          initialDateTime: snapshot.data ?? DateTime.now(),
+                        );
                       },
-                      textStyleDate: textNormalCustom(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                        color: color3D5586,
-                      ),
-                      initialDateTime: DateTime.now(),
                     ),
                   ),
                   Container(
@@ -96,7 +118,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                           cubit.time.formatApiDDMMYYYY,
                         );
                         cubit.selectTime = cubit.time;
-                        cubit.changeDateTimeSubject.add(cubit.time);
+                        cubit.changeDateTimeSubject.sink.add(cubit.time);
                         nav.pop();
                       },
                       text: S.current.chon_ngay,
@@ -200,17 +222,20 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                 stream: cubit.changeDateTimeSubject.stream,
                 builder: (context, snapshot) {
                   return TableCalendarWidget(
+                    key: UniqueKey(),
                     isFomatMonth: isCheckOnTap,
                     onChange: (DateTime start, DateTime end, selectDay) {
                       cubit.startDate = start.formatApiDDMMYYYY;
                       cubit.getLichAmDuong(cubit.startDate);
                       cubit.selectTime = selectDay;
                     },
+                    // dateTimeHeader: snapshot.data ?? DateTime.now(),
                     onChangeRange: (
                       DateTime? start,
                       DateTime? end,
                       DateTime? focusedDay,
                     ) {},
+                    initDateTime: snapshot.data ?? DateTime.now(),
                     selectDay: (day) => cubit.selectDay(day),
                     cubit: cubit,
                     isCheckLunar: true,

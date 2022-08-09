@@ -97,6 +97,7 @@ class DanhSachCongViecTienIchCubit
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           isImportant: true,
           pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
@@ -115,6 +116,7 @@ class DanhSachCongViecTienIchCubit
         return getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           searchWord: textSearch?.trim(),
           pageIndex: pageIndex ?? ApiConstants.PAGE_BEGIN,
           pageSize: pageSize ?? ApiConstants.DEFAULT_PAGE_SIZE,

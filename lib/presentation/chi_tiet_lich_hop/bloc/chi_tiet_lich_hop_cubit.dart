@@ -555,7 +555,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   }) async {
     showLoading();
     diemDanhIds = [];
-    await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
     showLoading(isShow: false);
     if (isShowMessage) {

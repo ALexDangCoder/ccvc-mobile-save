@@ -21,8 +21,8 @@ class ItemNguoiDungTablet extends StatelessWidget {
       padding: EdgeInsets.only(
         left: 4.w,
         right: 12.w,
-        bottom: 4.h,
-        top: 4.h,
+        bottom: 4,
+        top: 4,
       ),
       decoration: BoxDecoration(
         color: backgroundRowColor,
@@ -35,7 +35,7 @@ class ItemNguoiDungTablet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 32.h,
+            height: 32,
             width: 32.w,
             decoration: const BoxDecoration(
               color: yellowColor,
@@ -78,9 +78,9 @@ class ItemNguoiDungTablet extends StatelessWidget {
               onTap: () {
                 delete!();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.close,
-                size: 18.sp,
+                size: 18,
                 color: colorA2AEBD,
               ),
             ),

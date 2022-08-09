@@ -65,6 +65,7 @@ class ItemGridView extends StatelessWidget {
             child: cubit.checkHideIcMore(
               isReportShareToMe: item.shareToMe ?? false,
               typeReport: item.type ?? REPORT,
+              listAccess: item.accesses ?? []
             )
                 ? InkWell(
                     onTap: () {
@@ -85,6 +86,7 @@ class ItemGridView extends StatelessWidget {
                             isTree: isTree,
                             idFolder: idFolder,
                             isSearch: isSearch,
+                            isSourceShare: item.isSourceShare ?? false,
                           ),
                         );
                       } else {
@@ -102,6 +104,7 @@ class ItemGridView extends StatelessWidget {
                             isTree: isTree,
                             idFolder: idFolder,
                             isSearch: isSearch,
+                            isSourceShare: item.isSourceShare ?? false,
                           ),
                         );
                       }

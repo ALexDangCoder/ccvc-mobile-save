@@ -1402,5 +1402,6 @@
   "vui_long_cai_dat_va_dang_nhap": "Vui lòng cài đặt và đăng nhập để sử dụng chức năng này",
   "min_text": "Độ dài tối thiểu gồm 6 ký tự",
   "max_text": "Độ dài tối đa gồm 32 ký tự",
-  "just_txt": "Chỉ hỗ trợ tệp .txt"
+  "just_txt": "Chỉ hỗ trợ tệp .txt",
+  "ban_phai_chon_truong": "Bạn phải chọn trường"
 }

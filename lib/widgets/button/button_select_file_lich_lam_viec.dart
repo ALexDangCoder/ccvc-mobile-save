@@ -121,7 +121,7 @@ class _ButtonSelectFileLichLamViecState
         toast.init(context);
         toast.showToast(
           child: ShowToast(
-            text: '${S.current.tong_file_khong_vuot_qua} $convertData MB',
+            text: '${S.current.tong_dung_luong_file_toi_da} $convertData MB',
             withOpacity: 0.8,
           ),
           gravity: ToastGravity.BOTTOM,

@@ -190,9 +190,6 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                   ),
                 ),
                 isBottomShow: false,
-                funcBtnOk: () {
-                  Navigator.pop(context);
-                },
               )
             : showBottomSheetCustom(
                 context,

@@ -25,6 +25,8 @@ class ReportListCubit extends BaseCubit<BaseState> {
   int sort = A_Z_SORT;
   int sortHome = A_Z_SORT;
   static const String CODE = 'HTCS';
+  static const String OWNER = 'OWNER';
+  static const String SHARE = 'SHARE';
   static const int ALL = 0;
   static const int A_Z_SORT = 4;
   static const int Z_A_SORT = 5;
@@ -217,19 +219,66 @@ class ReportListCubit extends BaseCubit<BaseState> {
 
   void clearSearch() {
     isStatusSearch.add(true);
-    sort=sortHome;
+    sort = sortHome;
     textSearch.add('');
     getListReport();
+  }
+
+  bool checkShare({
+    required List<Access> listAccess,
+  }) {
+    if (listAccess.isNotEmpty) {
+      bool accessCheck = false;
+      for (final element in listAccess) {
+        if (element.code == OWNER || element.code == SHARE) {
+          accessCheck = true;
+          break;
+        }
+      }
+
+      return accessCheck;
+    } else {
+      return false;
+    }
+  }
+  bool isCheckOwner({required List<Access> listAccess,}){
+    if (listAccess.isNotEmpty) {
+      bool accessCheck = false;
+      for (final element in listAccess) {
+        if (element.code == OWNER) {
+          accessCheck = true;
+          break;
+        }
+      }
+
+      return accessCheck;
+    } else {
+      return false;
+    }
   }
 
   bool checkHideIcMore({
     required int typeReport,
     required bool isReportShareToMe,
+    required List<Access> listAccess,
   }) {
-    if (typeReport == REPORT || !isReportShareToMe) {
+    if (typeReport == REPORT) {
       return true;
     } else {
-      return false;
+      if (listAccess.isNotEmpty) {
+        bool accessCheck = false;
+
+        for (final element in listAccess) {
+          if (element.code == OWNER || element.code == SHARE) {
+            accessCheck = true;
+            break;
+          }
+        }
+
+        return accessCheck;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -237,12 +286,14 @@ class ReportListCubit extends BaseCubit<BaseState> {
     String idFolder = '',
     bool isTree = false,
     bool isSearch = false,
+    bool isSourceShare = false,
   }) async {
     if (isCheckPostFavorite) {
       if (isTree) {
         await getListReport(
           isTree: isTree,
           idFolder: idFolder,
+          isShare: isSourceShare,
         );
         listReportTreeUpdate.add(listReportTree.value);
       } else if (isSearch) {

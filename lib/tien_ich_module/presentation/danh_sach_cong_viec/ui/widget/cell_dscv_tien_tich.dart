@@ -255,7 +255,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
         overflow: TextOverflow.ellipsis,
         style: textDetailHDSD(
           fontSize: 12,
-          color: AppTheme.getInstance().colorField(),
+          color: textTitleColumn,
         ),
       );
 

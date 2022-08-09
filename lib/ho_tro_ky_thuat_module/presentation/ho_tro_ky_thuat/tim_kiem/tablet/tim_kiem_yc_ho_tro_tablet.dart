@@ -275,6 +275,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                               value: cubit.handlerIdName,
                                               items: cubit.getItemsThanhVien(),
                                             ),
+                                            spaceH16,
                                             _textTitle(S.current.khu_vuc),
                                             spaceH8,
                                             CustomDropDown(

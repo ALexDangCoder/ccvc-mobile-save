@@ -81,7 +81,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                         left: 16.w,
                         right: 16.w,
                       ),
-                      height: 45.h,
+                      height: 45,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -97,7 +97,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                             S.current.chon_nhom,
                             style: textNormalCustom(
                               color: color3D5586,
-                              fontSize: 16.sp,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -157,15 +157,15 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                             return Container(
                               padding: EdgeInsets.only(
                                 left: 12.w,
-                                bottom: 12.h,
-                                top: 12.h,
+                                bottom: 12,
+                                top: 12,
                               ),
                               decoration: BoxDecoration(
                                 border: Border.all(color: containerColorTab),
                               ),
                               child: Wrap(
                                 spacing: 10.w, // gap between adjacent chips
-                                runSpacing: 10.h, // gap between lines
+                                runSpacing: 10, // gap between lines
                                 children: List.generate(
                                     widget.cubit.selectNode.length + 1,
                                     (index) {
@@ -218,7 +218,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                           },
                         ),
                         Container(
-                          height: 300.h,
+                          height: 300,
                           decoration: BoxDecoration(
                             border: Border.all(color: containerColorTab),
                           ),
@@ -232,8 +232,8 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                   padding: EdgeInsets.only(
                                     left: 16.w,
                                     right: 6.w,
-                                    bottom: 19.h,
-                                    top: 16.h,
+                                    bottom: 19,
+                                    top: 16,
                                   ),
                                   keyboardDismissBehavior: isMobile()
                                       ? ScrollViewKeyboardDismissBehavior.onDrag
@@ -268,7 +268,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                           left: 16.w,
                           right: 16.w,
                         ),
-                        height: 45.h,
+                        height: 45,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -284,7 +284,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                               S.current.chon_nguoi,
                               style: textNormalCustom(
                                 color: color3D5586,
-                                fontSize: 14.sp,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -300,8 +300,8 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                   }
                 },
               ),
-              SizedBox(
-                height: 80.h,
+              const SizedBox(
+                height: 80,
               )
             ],
           ),
@@ -313,10 +313,10 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
               left: 144.w,
               right: 144.w,
             ),
-            height: 70.h,
+            height: 70,
             color: Colors.white,
             child: DoubleButtonBottom(
-              height: 44.h,
+              height: 44,
               title1: S.current.dong,
               title2: S.current.chia_se,
               onPressed1: () {

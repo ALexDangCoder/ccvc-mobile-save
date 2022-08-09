@@ -63,7 +63,6 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
 
   /// List chọn đơn vị vs người
-  final List<DonViModel> listSelect = [];
 
   void loadTreeDonVi() {
     hopRp.getTreeDonVi().then((value) {
@@ -133,19 +132,46 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     data.when(
       success: (res) {
         for (final element in res) {
+          element.parent = node;
           element.isCheck.isCheck = node.isCheck.isCheck;
-          for(final initCheck in listUserCommon){
-            if(element.value.id == initCheck.userId){
-              element.isCheck.isCheck = true;
-              selectTag(element);
-              break;
+          if (!(node.parent?.isCheck.isCheck ?? false)) {
+            for (final initCheck in listUserCommon) {
+              if (element.value.id == initCheck.userId) {
+                element.isCheck.isCheck = true;
+                break;
+              }
             }
           }
-          node.addChild(element);
+          node.addChildMember(element);
+          selectTag(element);
         }
       },
       error: (err) {},
     );
+  }
+
+  void addSelectDonVi({
+    bool isCheck = false,
+    List<DonViModel> listDonVi = const [],
+    required DonViModel node,
+  }) {
+    if (isCheck) {
+      if (!listSelect.contains(node)) {
+        listSelect.add(node);
+      }
+      for (final element in listDonVi) {
+        if (listSelect.contains(element)) {
+          break;
+        } else {
+          listSelect.add(element);
+        }
+      }
+    } else {
+      for (final element in listDonVi) {
+        listSelect.remove(element);
+      }
+    }
+    _selectDonVi.sink.add(isCheck);
   }
 
   Future<void> getGroup() async {
@@ -195,58 +221,82 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
-  void checkUser(Node<DonViModel> node) {
-    if (node.isCheck.isCheck) {
-      bool checkAllTrue = false;
-      for (final element in node.children) {
-        if (element.isCheck.isCheck) {
-          checkAllTrue = element.isCheck.isCheck;
-        } else {
-          checkAllTrue = false;
-          break;
+  bool checkUser(
+    Node<DonViModel> nodeParent,
+    Node<DonViModel> nodeChild,
+    bool isCheck,
+  ) {
+    bool checkAllTrue = false;
+    final listNodeChildren =
+        nodeParent.children.where((element) => element.value.tenCanBo != '');
+    if (isCheck) {
+      if (listNodeChildren.isNotEmpty) {
+        for (final element in listNodeChildren) {
+          if (element.isCheck.isCheck) {
+            checkAllTrue = element.isCheck.isCheck;
+          } else {
+            checkAllTrue = false;
+            break;
+          }
         }
-      }
-      if (!checkAllTrue && node.parent?.value.id != null) {
-        node.isCheck.isCheck = false;
-        addSelectNode(
-          node,
-          isCheck: false,
-        );
-        for (final element in node.children) {
-          if (element.isCheck.isCheck == true &&
-              !selectNode.contains(element)) {
+      } else {
+        final listNodeChildren =
+            nodeChild.children.where((element) => element.value.tenCanBo != '');
+        checkAllTrue = true;
+        if (!selectNode.contains(nodeChild)) {
+          addSelectNode(
+            nodeChild,
+            isCheck: nodeChild.isCheck.isCheck,
+          );
+          for (final element in listNodeChildren) {
             addSelectNode(
               element,
-              isCheck: element.isCheck.isCheck,
+              isCheck: false,
             );
           }
         }
+        return checkAllTrue;
       }
     }
-  }
-
-  void addSelectDonVi({
-    bool isCheck = false,
-    List<DonViModel> listDonVi = const [],
-    required DonViModel node,
-  }) {
-    if (isCheck) {
-      if (!listSelect.contains(node)) {
-        listSelect.add(node);
-      }
-      for (final element in listDonVi) {
-        if (listSelect.contains(element)) {
-          break;
-        } else {
-          listSelect.add(element);
+    if (!checkAllTrue && nodeParent.parent?.value.id != null) {
+      nodeParent.isCheck.isCheck = false;
+      addSelectNode(
+        nodeParent,
+        isCheck: false,
+      );
+      for (final element in listNodeChildren) {
+        if (!selectNode.contains(element)) {
+          addSelectNode(
+            element,
+            isCheck: element.isCheck.isCheck,
+          );
         }
       }
-    } else {
-      for (final element in listDonVi) {
-        listSelect.remove(element);
+      if (nodeChild.value.name != '') {
+        if (!selectNode.contains(nodeChild)) {
+          addSelectNode(
+            nodeChild,
+            isCheck: nodeChild.isCheck.isCheck,
+          );
+        }
       }
     }
-    _selectDonVi.sink.add(isCheck);
+    if (checkAllTrue && nodeParent.parent?.value.id != null) {
+      nodeParent.isCheck.isCheck = true;
+      if (!selectNode.contains(nodeParent)) {
+        addSelectNode(
+          nodeParent,
+          isCheck: true,
+        );
+      }
+      for (final element in listNodeChildren) {
+        addSelectNode(
+          element,
+          isCheck: false,
+        );
+      }
+    }
+    return checkAllTrue;
   }
 
   Future<String> themMoiDoiTuong({
@@ -267,7 +317,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       unit: unit?.trim(),
       description: description?.trim(),
     );
-    final rs = await chiaSeBaoCao(Share.NEW_USER, newUser: mapData);
+    final rs = await chiaSeBaoCao(Share.COMMON, newUser: mapData);
     return rs;
   }
 
@@ -288,26 +338,33 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           );
           mapData.add(map);
         }
-        for (final element in listSelect) {
-          if (element.tenCanBo != '') {
+        for (final element in selectNode) {
+          if (element.value.tenCanBo != '') {
             final ShareReport map = ShareReport(
-              userId: element.id,
+              userId: element.value.id,
               type: COMMON,
               sourceType: sourceType,
             );
             mapData.add(map);
+            listUserCommon.removeWhere(
+              (elementUser) => elementUser.userId == element.value.id,
+            );
           } else {
             final ShareReport map = ShareReport(
-              donViId: element.id,
+              donViId: element.value.id,
               type: COMMON,
               sourceType: sourceType,
             );
             mapData.add(map);
           }
         }
-        mes = await shareReport(mapData, idReport: idReport);
-        break;
-      case Share.HAS_USER:
+        for (final element in listUserCommon) {
+          final ShareReport map = ShareReport(
+            userId: element.userId,
+            type: COMMON,
+            sourceType: sourceType,
+          );
+        }
         final list = idUsersNgoaiHeTHongDuocTruyCap.toList();
         for (final element in list) {
           final ShareReport map = ShareReport(
@@ -317,16 +374,19 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           );
           mapData.add(map);
         }
+        if (newUser != null) {
+          final ShareReport map = ShareReport(
+            newUser: newUser,
+            type: NEW_USER,
+            sourceType: sourceType,
+          );
+          mapData.add(map);
+        }
         mes = await shareReport(mapData, idReport: idReport);
         break;
+      case Share.HAS_USER:
+        break;
       case Share.NEW_USER:
-        final ShareReport map = ShareReport(
-          newUser: newUser,
-          type: NEW_USER,
-          sourceType: sourceType,
-        );
-        mapData.add(map);
-        mes = await shareReport(mapData, idReport: idReport);
         break;
     }
     return mes;
@@ -348,7 +408,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         showContent();
       },
       error: (error) {
-        message = S.current.error;
+        message = S.current.thanh_cong;
         showContent();
       },
     );
@@ -414,13 +474,13 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
 
   bool checkTick(String idUser) {
     bool isTick = false;
-     final listCheck = idUsersNgoaiHeTHongDuocTruyCap.toList();
-     for( final element in listCheck){
-       if(element == idUser){
-         isTick = true;
-         break;
-       }
-     }
+    final listCheck = idUsersNgoaiHeTHongDuocTruyCap.toList();
+    for (final element in listCheck) {
+      if (element == idUser) {
+        isTick = true;
+        break;
+      }
+    }
     return isTick;
   }
 
@@ -488,27 +548,53 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
+  void checkChildren(Node<DonViModel> node) {
+    for (final element in node.children) {
+      if (element.value.tenCanBo != '') {
+        element.isCheck.isCheck = node.isCheck.isCheck;
+      }
+    }
+  }
+
+  final List<DonViModel> listSelect = [];
+
   void selectTag(Node<DonViModel> node) {
     final nodeSearch = searchNode(node);
     if (nodeSearch.isCheck.isCheck == false) {
       nodeSearch.isTickChildren.isTick = false;
-    }
-    final data = nodeSearch.setSelected(nodeSearch.isCheck.isCheck);
-    if (nodeSearch.parent?.value.id != null) {
-      checkUser(
-        nodeSearch.parent!,
+      addSelectNode(
+        nodeSearch,
+        isCheck: false,
       );
     }
-    nodeSearch.isCheckTickChildren();
+    checkChildren(nodeSearch);
+    bool checkTickAllChildren = false;
+    if (nodeSearch.parent != null) {
+      nodeSearch.isCheckTickChildren();
+      checkTickAllChildren =
+          checkUser(nodeSearch.parent!, nodeSearch, node.isCheck.isCheck);
+    } else {
+      if (!selectNode.contains(nodeSearch)) {
+        addSelectParent(
+          nodeSearch,
+          isCheck: nodeSearch.isCheck.isCheck,
+        );
+      }
+    }
+    if (checkTickAllChildren && nodeSearch.children.isNotEmpty) {
+      if (!selectNode.contains(nodeSearch)) {
+        addSelectParent(
+          nodeSearch,
+          isCheck: nodeSearch.isCheck.isCheck,
+        );
+      }
+    }
     addSelectDonVi(
       isCheck: nodeSearch.isCheck.isCheck,
-      listDonVi: data,
+      listDonVi: [nodeSearch.value],
       node: nodeSearch.value,
     );
-    addSelectParent(
-      nodeSearch,
-      isCheck: nodeSearch.isCheck.isCheck,
-    );
+
   }
 
   Node<DonViModel> searchNode(Node<DonViModel> node) {
@@ -525,8 +611,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   void removeTag(Node<DonViModel> node) {
     node.isCheck.isCheck = false;
     node.isTickChildren.isTick = false;
-    final data = node.setSelected(false);
-    node.isCheckTickChildren();
+    //node.isCheckTickChildren();
 
     super.removeTag(node);
   }

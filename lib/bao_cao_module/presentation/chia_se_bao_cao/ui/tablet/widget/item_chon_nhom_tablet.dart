@@ -33,14 +33,14 @@ class _ChonNhomTabletWidgetState extends State<ChonNhomTabletWidget> {
           children: [
             Container(
               width: 32.w,
-              height: 32.h,
+              height: 32,
               decoration: BoxDecoration(
                 color: color4C6FFF.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: SvgPicture.asset(
                 ImageAssets.img_companies_svg,
-                height: 5.h,
+                height: 5,
                 width: 5.w,
                 color: Colors.blue,
                 fit: BoxFit.none,
@@ -60,9 +60,9 @@ class _ChonNhomTabletWidgetState extends State<ChonNhomTabletWidget> {
               onTap: () {
                 widget.delete();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.close,
-                size: 18.sp,
+                size: 18,
                 color: colorA2AEBD,
               ),
             ),

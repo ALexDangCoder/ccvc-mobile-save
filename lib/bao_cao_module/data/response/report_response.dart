@@ -54,7 +54,7 @@ class ReportItemsResponse {
   String? parentId;
   @JsonKey(name: 'numberReport')
   int? numberReport;
-  @JsonKey(name: 'allFolderAndPublicReportTotal')
+  @JsonKey(name: 'allPublicReportNumber')
   int? allFolderAndPublicReportTotal;
   @JsonKey(name: 'childrenTotal')
   int? childrenTotal;
@@ -82,8 +82,12 @@ class ReportItemsResponse {
   String? updatedByName;
   @JsonKey(name: 'shareByMe')
   bool? shareByMe;
+  @JsonKey(name: 'isShared')
+  bool? isShared;
   @JsonKey(name: 'shareToMe')
   bool? shareToMe;
+  @JsonKey(name: 'accesses')
+  List<AccessResponse>? accesses;
 
   ReportItemsResponse(
     this.id,
@@ -92,6 +96,7 @@ class ReportItemsResponse {
     this.urls,
     this.order,
     this.status,
+    this.isShared,
     this.parentId,
     this.numberReport,
     this.childrenTotal,
@@ -133,6 +138,7 @@ class ReportItemsResponse {
         status: status,
         shareByMe: shareByMe,
         shareToMe: shareToMe,
+        accesses: accesses?.map((e) => e.toDomain()).toList(),
       );
 
   ReportItem toModelShare() => ReportItem(
@@ -142,7 +148,7 @@ class ReportItemsResponse {
         order: order,
         parentId: parentId,
         numberReport: numberReport,
-        childrenTotal: childrenTotal,
+        childrenTotal: allFolderAndPublicReportTotal,
         type: type,
         typeTitle: typeTitle,
         level: level,
@@ -150,5 +156,28 @@ class ReportItemsResponse {
         dateTime: updatedAt ?? createdAt,
         isPin: isPin,
         status: status,
+        shareToMe: isShared,
+        isSourceShare: true,
+        accesses: accesses?.map((e) => e.toDomain()).toList(),
+      );
+}
+
+@JsonSerializable()
+class AccessResponse {
+  @JsonKey(name: 'code')
+  String? code;
+  @JsonKey(name: 'title')
+  String? title;
+
+  AccessResponse({this.code, this.title});
+
+  factory AccessResponse.fromJson(Map<String, dynamic> json) =>
+      _$AccessResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AccessResponseToJson(this);
+
+  Access toDomain() => Access(
+        code: code,
+        title: title,
       );
 }

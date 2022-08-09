@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/diem_danh_module/widget/stream/stream_listener.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -312,8 +313,10 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                 return Container(
                                   color: colorFFFFFF,
                                   child: CoolDropDown(
-                                    initData:
-                                        data.map((e) => e.ten ?? '').first,
+                                    initData: '',
+                                    placeHoder: S.current.chon_loai_xe,
+                                    fontSize: 14.0,
+                                    useCustomHintColors: true,
                                     listData:
                                         data.map((e) => e.ten ?? '').toList(),
                                     onChange: (vl) {
@@ -374,7 +377,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                 style: textNormalCustom(
                                   color: color3D5586,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14.0,
+                                  fontSize: 14.0.textScale(),
                                 ),
                               ),
                             ),

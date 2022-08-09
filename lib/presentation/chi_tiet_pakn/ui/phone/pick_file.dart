@@ -34,7 +34,7 @@ Future<Map<String, dynamic>> pickFile() async {
     final tempDirectory = await getTemporaryDirectory();
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: PickerType.DOCUMENT_IMG.fileType,
+      allowedExtensions: PickerType.IMAGE_WITHOUT_HEIC.fileType,
     );
     if (result != null && result.files.isNotEmpty) {
       final File? filePicked;

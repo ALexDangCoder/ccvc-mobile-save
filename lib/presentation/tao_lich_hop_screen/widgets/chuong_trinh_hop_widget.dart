@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -15,7 +14,6 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
-import 'package:ccvc_mobile/widgets/button/select_file2/select_file.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
@@ -377,9 +375,10 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   ),
                 ),
                 spaceH20,
-                SelectFileBtn2(
+                SelectFileBtn(
                   onChange: (files) {
-                    taoPhienHopRequest.files?.addAll(files);},
+                    taoPhienHopRequest.files = files;
+                  },
                   initFileSystem: taoPhienHopRequest.files,
                 ),
               ],

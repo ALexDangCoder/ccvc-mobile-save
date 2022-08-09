@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class SelectFileBtn extends StatefulWidget {
   const SelectFileBtn({
@@ -78,6 +79,15 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     );
   }
 
+  Future<File> moveFile(File sourceFile, String newPath) async {
+    try {
+      return await sourceFile.rename(newPath);
+    } catch (e) {
+      final newFile = await sourceFile.copy(newPath);
+      return newFile;
+    }
+  }
+
   Future<void> handleButtonFileClicked() async {
     final allowedExtensions = widget.allowedExtensions ??
         const [
@@ -109,11 +119,25 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
       );
       return;
     }
-    final newFiles = result.files
-        .map(
-          (file) => File(file.path ?? ''),
-        )
-        .toList();
+
+    List<File> newFiles = [];
+
+    if(Platform.isIOS){
+      final pathTmp = await getTemporaryDirectory();
+      for (final file in result.files) {
+        final newFile  = await moveFile(
+          File(file.path ?? ''),
+          '${pathTmp.path}/${path.basename(file.path ?? '')}',
+        );
+        newFiles.add(newFile);
+      }
+    }else{
+      newFiles = result.files
+          .map(
+            (file) => File(file.path ?? ''),
+      ).toList();
+    }
+
     newFiles.removeWhere(
       (element) {
         final result = !allowedExtensions.contains(

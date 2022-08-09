@@ -51,7 +51,8 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       if (isDonVi) {
         for (final donViRemove in listIdDonViRemove) {
           nodeAdd = vl.removeFirstWhere(
-            (element) => donViRemove.donViId == element.id,
+            (element) =>
+                donViRemove.donViId?.toLowerCase() == element.id.toLowerCase(),
           );
         }
       }
@@ -86,19 +87,6 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     }
     _selectDonVi.sink.add(selectNode);
   }
-
-  bool _isCheckChildrenIsSelectNode(Node<DonViModel> node) {
-    if (node.children.isNotEmpty) {
-      for (final element in node.children) {
-        final check = selectNode.contains(element);
-        if (check) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
 
 
   void selectNodeOnly(Node<DonViModel> node) {

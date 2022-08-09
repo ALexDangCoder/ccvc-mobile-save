@@ -77,21 +77,34 @@ class _XuLyWidgetState extends State<XuLyWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: SubjectInfoWidget(
-                    color: choTrinhKyColor,
-                    title: S.current.cho_tiep_nhan_xu_ly,
-                    value: widget
-                        .model.dashBoardXuLyPAKNModelModel.choTiepNhanXuLy
-                        .toDouble(),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.cubit.getPAKNXuLy(0);
+                    },
+                    child: SubjectInfoWidget(
+                      color: choTrinhKyColor,
+                      title: S.current.cho_tiep_nhan_xu_ly,
+                      value: widget
+                          .model.dashBoardXuLyPAKNModelModel.choTiepNhanXuLy
+                          .toDouble(),
+                    ),
                   ),
                 ),
                 spaceW6,
                 Expanded(
-                  child: SubjectInfoWidget(
-                    color: numberOfCalenders,
-                    title: S.current.cho_xu_ly,
-                    value: widget.model.dashBoardXuLyPAKNModelModel.choXuLy
-                        .toDouble(),
+                  child: Container(
+                    color: Colors.red,
+                    child: GestureDetector(
+                      onTap: () {
+                        widget.cubit.getPAKNXuLy(1);
+                      },
+                      child: SubjectInfoWidget(
+                        color: numberOfCalenders,
+                        title: S.current.cho_xu_ly,
+                        value: widget.model.dashBoardXuLyPAKNModelModel.choXuLy
+                            .toDouble(),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -101,21 +114,31 @@ class _XuLyWidgetState extends State<XuLyWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: SubjectInfoWidget(
-                    color: radioFocusColor,
-                    title: S.current.cho_phan_xu_ly,
-                    value: widget
-                        .model.dashBoardXuLyPAKNModelModel.choPhanXuLy
-                        .toDouble(),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.cubit.getPAKNXuLy(2);
+                    },
+                    child: SubjectInfoWidget(
+                      color: radioFocusColor,
+                      title: S.current.cho_phan_xu_ly,
+                      value: widget
+                          .model.dashBoardXuLyPAKNModelModel.choPhanXuLy
+                          .toDouble(),
+                    ),
                   ),
                 ),
                 spaceW6,
                 Expanded(
-                  child: SubjectInfoWidget(
-                    color: choCapSoColor,
-                    title: S.current.cho_duyet,
-                    value: widget.model.dashBoardXuLyPAKNModelModel.choDuyet
-                        .toDouble(),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.cubit.getPAKNXuLy(3);
+                    },
+                    child: SubjectInfoWidget(
+                      color: choCapSoColor,
+                      title: S.current.cho_duyet,
+                      value: widget.model.dashBoardXuLyPAKNModelModel.choDuyet
+                          .toDouble(),
+                    ),
                   ),
                 ),
               ],
@@ -125,21 +148,31 @@ class _XuLyWidgetState extends State<XuLyWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: SubjectInfoWidget(
-                    color: choBanHanhColor,
-                    title: S.current.da_phan_cong,
-                    value: widget.model.dashBoardXuLyPAKNModelModel.daPhanCong
-                        .toDouble(),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.cubit.getPAKNXuLy(4);
+                    },
+                    child: SubjectInfoWidget(
+                      color: choBanHanhColor,
+                      title: S.current.da_phan_cong,
+                      value: widget.model.dashBoardXuLyPAKNModelModel.daPhanCong
+                          .toDouble(),
+                    ),
                   ),
                 ),
                 spaceW6,
                 Expanded(
-                  child: SubjectInfoWidget(
-                    color: itemWidgetUsing,
-                    title: S.current.da_hoan_thanh,
-                    value: widget
-                        .model.dashBoardXuLyPAKNModelModel.daHoanThanh
-                        .toDouble(),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.cubit.getPAKNXuLy(5);
+                    },
+                    child: SubjectInfoWidget(
+                      color: itemWidgetUsing,
+                      title: S.current.da_hoan_thanh,
+                      value: widget
+                          .model.dashBoardXuLyPAKNModelModel.daHoanThanh
+                          .toDouble(),
+                    ),
                   ),
                 ),
               ],

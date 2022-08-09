@@ -21,34 +21,31 @@ class SubjectInfoWidget extends StatefulWidget {
 class _SubjectInfoWidgetState extends State<SubjectInfoWidget> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            height: 14,
-            width: 14,
-            decoration: BoxDecoration(
-              color: widget.color,
-              shape: BoxShape.circle,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: 14,
+          width: 14,
+          decoration: BoxDecoration(
+            color: widget.color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(
+          width: 12,
+        ),
+        Expanded(
+          child: Text(
+            '${widget.title} (${widget.value.toInt().toString()})',
+            style: textNormal(
+              infoColor,
+              14.0,
             ),
           ),
-          const SizedBox(
-            width: 12,
-          ),
-          Expanded(
-            child: Text(
-              '${widget.title} (${widget.value.toInt().toString()})',
-              style: textNormal(
-                infoColor,
-                14.0,
-              ),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }

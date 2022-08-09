@@ -34,7 +34,7 @@ Future<T?> showDiaLogTablet<T>(
           btnRightTxt: btnRightTxt ?? S.current.them,
           funcBtnOk: () {
             if (funcBtnOk != null) {
-              funcBtnOk.call();
+              funcBtnOk();
             }
           },
           isBottomShow: isBottomShow,

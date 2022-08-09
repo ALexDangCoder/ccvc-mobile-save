@@ -96,7 +96,7 @@ class DanhSachCongViecTienIchCubit
         result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
-          pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
           pageIndex: countLoadMore,
           searchWord: textSearch?.trim(),
         );
@@ -107,7 +107,7 @@ class DanhSachCongViecTienIchCubit
           inUsed: true,
           isTicked: false,
           isImportant: true,
-          pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
           pageIndex: countLoadMore,
           searchWord: textSearch?.trim(),
         );
@@ -119,7 +119,7 @@ class DanhSachCongViecTienIchCubit
           isTicked: true,
           searchWord: textSearch?.trim(),
           pageIndex: countLoadMore ,
-          pageSize:  ApiConstants.DEFAULT_PAGE_SIZE,
+          pageSize:  ApiConstants.LONG_PAGE_SIZE,
         );
         break;
       case DSCVScreen.DG:
@@ -129,7 +129,7 @@ class DanhSachCongViecTienIchCubit
           isTicked: false,
           searchWord: textSearch?.trim(),
           pageIndex: countLoadMore,
-          pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
           isGiveOther: true,
         );
         break;
@@ -139,14 +139,14 @@ class DanhSachCongViecTienIchCubit
           inUsed: false,
           searchWord: textSearch?.trim(),
           pageIndex: countLoadMore,
-          pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
         );
         break;
       case DSCVScreen.NCVM:
         result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
-          pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
           pageIndex: countLoadMore,
           groupId: groupId ?? this.groupId,
           searchWord: textSearch?.trim(),
@@ -268,7 +268,7 @@ class DanhSachCongViecTienIchCubit
           data.clear();
         }
         data.addAll(res);
-        canLoadMore = res.length >= ApiConstants.DEFAULT_PAGE_SIZE;
+        canLoadMore = res.length >= ApiConstants.LONG_PAGE_SIZE;
         listDSCVStream.sink.add(data);
         return true;
       },

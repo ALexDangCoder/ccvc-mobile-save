@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/bao_cao_module/widget/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -9,13 +8,14 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/app_bar_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/list_widget_dscv.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 class DanhSachCongViecTienIchMobile extends StatefulWidget {
   const DanhSachCongViecTienIchMobile({Key? key}) : super(key: key);
@@ -28,10 +28,6 @@ class DanhSachCongViecTienIchMobile extends StatefulWidget {
 class _DanhSachCongViecTienIchMobileState
     extends State<DanhSachCongViecTienIchMobile> {
   DanhSachCongViecTienIchCubit cubit = DanhSachCongViecTienIchCubit();
-  String textSearch = '';
-  int pageSize = 10;
-  bool isInRefresh = false;
-  BehaviorSubject<bool> inLoadmore = BehaviorSubject.seeded(false);
 
   @override
   void initState() {
@@ -59,42 +55,27 @@ class _DanhSachCongViecTienIchMobileState
           /// to load more
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              inLoadmore.sink.add(true);
-              if (!isInRefresh &&
-                  scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
-                cubit.waitToDelay(
-                  actionNeedDelay: () {
-                    cubit.callAPITheoFilter(
-                      isLoadmore: true,
-                      textSearch: textSearch,
-                      pageIndex: ++cubit.countLoadMore,
-                    );
-                  },
-                  timeSecond: 1,
+              final loadingMore = cubit.inLoadmore.valueOrNull ?? false;
+              if (scrollInfo.metrics.pixels >=
+                      scrollInfo.metrics.maxScrollExtent - 200 &&
+                  cubit.canLoadMore &&
+                  !loadingMore) {
+                ++cubit.countLoadMore;
+                cubit.callAPITheoFilter(
+                  isLoadmore: true,
+                  textSearch: cubit.searchControler.text,
                 );
               }
-              inLoadmore.sink.add(false);
               return true;
             },
 
             /// to refersh
             child: RefreshIndicator(
               onRefresh: () async {
-                isInRefresh = true;
-                inLoadmore.sink.add(false);
-                await cubit.waitToDelay(
-                  actionNeedDelay: () {
-                    cubit.callAPITheoFilter(
-                      textSearch: textSearch,
-                      pageIndex: 1,
-                      pageSize: 10,
-                    );
-                    isInRefresh = false;
-                  },
-                  timeSecond: 1,
+                cubit.countLoadMore = ApiConstants.PAGE_BEGIN;
+                await cubit.callAPITheoFilter(
+                  textSearch: cubit.searchControler.text,
                 );
-                cubit.countLoadMore = 1;
               },
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -103,16 +84,13 @@ class _DanhSachCongViecTienIchMobileState
                   stream: cubit.statusDSCV.stream,
                   builder: (context, snapshotType) {
                     final dataType = snapshotType.data ?? '';
-                    return Stack(
+                    return Column(
                       children: [
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             searchWidgetDscv(
                               cubit: cubit,
-                              textSearch: (value) {
-                                textSearch = value;
-                              },
                             ),
 
                             /// list up
@@ -152,7 +130,8 @@ class _DanhSachCongViecTienIchMobileState
                                   }
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
+                                      vertical: 30,
+                                    ),
                                     child: Column(
                                       children: [
                                         if (dataType == DSCVScreen.CVCB ||
@@ -203,10 +182,12 @@ class _DanhSachCongViecTienIchMobileState
                                   }
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
+                                      vertical: 30,
+                                    ),
                                     child: Column(
                                       children: [
                                         if (dataType == DSCVScreen.CVCB ||
+                                            dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.da_hoan_thanh,
@@ -220,17 +201,15 @@ class _DanhSachCongViecTienIchMobileState
                               ),
                           ],
                         ),
-                        Positioned(
-                          bottom: 20,
-                          child: StreamBuilder<bool>(
-                            stream: inLoadmore,
-                            builder: (context, snapshot) {
-                              if (snapshot.data ?? false) {
-                                return LoadingItem();
-                              }
-                              return const SizedBox();
-                            },
-                          ),
+                        spaceH12,
+                        StreamBuilder<bool>(
+                          stream: cubit.inLoadmore,
+                          builder: (context, snapshot) {
+                            if (snapshot.data ?? false) {
+                              return LoadingItem();
+                            }
+                            return const SizedBox();
+                          },
                         )
                       ],
                     );

@@ -1,33 +1,12 @@
-import 'dart:io';
-
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/file_widget.dart';
 import 'package:get/get.dart';
 
 extension EditTechSupportRequest on HoTroKyThuatCubit {
-  List<String> getTechSupportValue(List<String> idList) {
-    final List<String> issueNameList = [];
-    for (final e in idList) {
-      final item =
-          listLoaiSuCo.value.where((element) => element.id == e).toList().first;
-      issueNameList.add(item.name ?? '');
+  void removeFileId(String id) {
+    if ((editTaskHTKTRequest.lstFileId ?? []).contains(id)) {
+      editTaskHTKTRequest.lstFileId?.remove(id);
     }
-    return issueNameList;
-  }
-
-  void editListFile(List<HTKTFileModel> files) {
-    final List<String> listId = [];
-    final List<File> listFile = [];
-    for (final file in files) {
-      if (file.path.isNotEmpty) {
-        listFile.add(File(file.path));
-      } else if (file.id.isNotEmpty) {
-        listId.add(file.id);
-      }
-    }
-    editTaskHTKTRequest.fileUpload = listFile;
-    editTaskHTKTRequest.lstFileId = listId;
   }
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();

@@ -1,4 +1,6 @@
 class ApiConstants {
+  static const int LONG_PAGE_SIZE = 25;
+  static const int PAGE_BEGIN = 1;
   static const TOPIC_HDSD = '/api/FAQs/get-all-topic?';
   static const TODO_LIST_CURRENT_USER = '/api/TodoList/get-current-user';
   static const TODO_LIST_UPDATE = '/api/TodoList/update';

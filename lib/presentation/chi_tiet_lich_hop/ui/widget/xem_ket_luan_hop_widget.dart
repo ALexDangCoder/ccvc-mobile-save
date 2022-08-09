@@ -19,8 +19,8 @@ import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/button/button_select_file_lich_lam_viec.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
@@ -261,11 +261,9 @@ class _CreateOrUpdateKetLuanHopWidgetState
                         /// them tai lieu cuoc hop
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 5),
-                          child:  ButtonSelectFileLichLamViec(
+                          child:  SelectFileBtn(
                             isShowFile: false,
-                            hasMultipleFile: true,
-                            maxSize: MaxSizeFile.MAX_SIZE_30MB.toDouble(),
-                            title: S.current.tai_lieu_dinh_kem,
+                            textButton: S.current.tai_lieu_dinh_kem,
                             allowedExtensions: const [
                               FileExtensions.DOC,
                               FileExtensions.DOCX,
@@ -276,10 +274,7 @@ class _CreateOrUpdateKetLuanHopWidgetState
                               FileExtensions.PPTX,
                               FileExtensions.XLSX,
                             ],
-                            onChange: (List<File> files, bool validate) {
-                              if(validate){
-                                return;
-                              }
+                            onChange: (List<File> files) {
                               for (final element in files) {
                                 if (state.listFiles
                                     .where((e) => e.path == element.path)

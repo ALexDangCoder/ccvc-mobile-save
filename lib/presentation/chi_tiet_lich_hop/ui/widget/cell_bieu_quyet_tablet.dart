@@ -460,9 +460,6 @@ class _CellBieuQuyetTabletState extends State<CellBieuQuyetTablet> {
                             cubit: widget.cubit,
                           ),
                           isBottomShow: false,
-                          funcBtnOk: () {
-                            Navigator.pop(context);
-                          },
                         ).then((value) {
                           if (value == true) {
                             widget.cubit.callAPiBieuQuyet();

@@ -89,7 +89,14 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
-enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL, DOCUMENT_IMG }
+enum PickerType {
+  MEDIA_FILE,
+  IMAGE_FILE,
+  DOCUMENT,
+  ALL,
+  DOCUMENT_IMG,
+  IMAGE_WITHOUT_HEIC,
+}
 
 extension GetTypeByName on PickerType {
   List<String> get fileType {
@@ -141,6 +148,16 @@ extension GetTypeByName on PickerType {
           'xlsx',
           'png',
           'heic',
+        ];
+        case PickerType.IMAGE_WITHOUT_HEIC:
+        return [
+          'jpg',
+          'pdf',
+          'doc',
+          'docx',
+          'xls',
+          'xlsx',
+          'png',
         ];
     }
   }

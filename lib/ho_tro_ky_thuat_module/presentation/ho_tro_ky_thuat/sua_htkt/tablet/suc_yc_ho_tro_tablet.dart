@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
     as p;
@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/edit_tech_suport_request.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/building_drop_down.dart';
@@ -15,8 +16,8 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.d
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -237,32 +238,28 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                                       spaceH16,
                                       _multiSelect(),
                                       spaceH16,
-                                      TaiLieuWidget(
-                                        isTitle: false,
-                                        isHaveExpanded: true,
-                                        files: widget.cubit.editModelHTKT.value
-                                            .filesDinhKem
-                                            ?.map(
-                                              (e) => Files(
-                                                id: e.id,
-                                                name: e.fileName,
-                                                extension: null,
-                                                size: null,
-                                                path: e.filePath,
-                                                entityId: null,
-                                                entityName: null,
-                                                fileId: e.fileId,
-                                                taskId: e.taskId,
-                                              ),
-                                            )
-                                            .toList(),
-                                        onChange: (files, value) {
+                                      SelectFileBtn(
+                                        onChange: (listFile) {
                                           widget.cubit.editTaskHTKTRequest
-                                              .fileUpload = files;
+                                              .fileUpload = listFile;
                                         },
-                                        idRemove: (String id) {
-                                          widget.cubit.removeFileId(id);
+                                        onDeletedFileApi: (fileModel) {
+                                          widget.cubit
+                                              .removeFileId(fileModel.id ?? '');
                                         },
+                                        initFileFromApi: widget
+                                                .cubit
+                                                .editModelHTKT
+                                                .value
+                                                .filesDinhKem
+                                                ?.map(
+                                                  (e) => FileModel(
+                                                    id: e.fileId,
+                                                    name: e.fileName,
+                                                  ),
+                                                )
+                                                .toList() ??
+                                            [],
                                       ),
                                       spaceH20,
                                       _doubleBtn(),

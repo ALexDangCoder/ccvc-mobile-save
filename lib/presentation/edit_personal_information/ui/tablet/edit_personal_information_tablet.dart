@@ -213,6 +213,7 @@ class _EditPersonalInformationTabletScreen
                                       textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
                                       controller: thuTuController,
+                                      maxLength: 2,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
@@ -258,6 +259,7 @@ class _EditPersonalInformationTabletScreen
                                     title: user.keys.elementAt(5),
                                     child: TextFieldValidator(
                                       hintText: S.current.cmnd,
+                                      maxLength: 255,
                                       controller: cmndController,
                                       textInputType: TextInputType.number,
                                       inputFormatters: [
@@ -343,6 +345,7 @@ class _EditPersonalInformationTabletScreen
                                     title: user.keys.elementAt(8),
                                     child: TextFieldValidator(
                                       hintText: S.current.sdt_co_quan,
+                                      maxLength: 255,
                                       controller: sdtCoquanController,
                                       textInputType: TextInputType.number,
                                       inputFormatters: [
@@ -372,6 +375,7 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.so_dien_thoai,
                                       controller: sdtController,
+                                      maxLength: 255,
                                       textInputType: TextInputType.number,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly

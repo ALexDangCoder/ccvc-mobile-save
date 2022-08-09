@@ -179,8 +179,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               ),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                '${S.current.vuiLongChon} '
-                                '${S.current.loai_xe.toLowerCase()}',
+                                '${S.current.ban_phai_chon_truong} '
+                                '${S.current.loai_xe}',
                                 style: textNormalCustom(
                                   color: colord32f2f,
                                   fontWeight: FontWeight.w400,
@@ -198,7 +198,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
-                          return (value ?? '').pleaseEnter(
+                          return (value ?? '').checkTruongNull(
                             S.current.bien_kiem_soat,
                           );
                         },
@@ -344,8 +344,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                     ),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      '${S.current.vuiLongChon} '
-                                          '${S.current.loai_xe.toLowerCase()}',
+                                      '${S.current.ban_phai_chon_truong} '
+                                      '${S.current.loai_xe}',
                                       style: textNormalCustom(
                                         color: colord32f2f,
                                         fontWeight: FontWeight.w400,
@@ -420,7 +420,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   Future<void> postDangKyXe() async {
     final bool isFormValidated = keyGroup.currentState?.validator() ?? false;
     widget.cubit.isShowErrLoaiXe.add(widget.cubit.xeMay?.isEmpty ?? true);
-    if(widget.cubit.fileItemBienSoXe.isEmpty){
+    if (widget.cubit.fileItemBienSoXe.isEmpty) {
       widget.cubit.toast.removeQueuedCustomToasts();
       widget.cubit.toast.showToast(
         child: ShowToast(
@@ -439,6 +439,5 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
       );
       return;
     }
-
   }
 }

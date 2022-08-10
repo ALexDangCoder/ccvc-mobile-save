@@ -125,7 +125,6 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     for (final e in indexList) {
       addTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
-    checkAllThemMoiYCHoTro();
   }
 
   void searchIssue(String? value) {

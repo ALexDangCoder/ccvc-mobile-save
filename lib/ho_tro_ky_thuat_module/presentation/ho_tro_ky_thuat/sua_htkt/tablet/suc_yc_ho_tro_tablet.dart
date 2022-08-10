@@ -472,6 +472,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                   gravity: ToastGravity.BOTTOM,
                 );
                 Navigator.pop(context);
+                widget.cubit.getListHoTroKyThuat(page: 1);
               } else {
                 final FToast toast = FToast();
                 toast.init(context);

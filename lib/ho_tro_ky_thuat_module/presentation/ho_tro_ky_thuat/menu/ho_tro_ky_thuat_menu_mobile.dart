@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -26,6 +27,7 @@ class _HoTroKyThuatMenuMobileState extends State<HoTroKyThuatMenuMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundDrawerMenu,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -79,7 +81,7 @@ class _HoTroKyThuatMenuMobileState extends State<HoTroKyThuatMenuMobile> {
         Text(
           menu,
           style: textNormalCustom(
-            color: AppTheme.getInstance().titleColor(),
+            color: backgroundColorApp,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

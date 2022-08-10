@@ -115,7 +115,7 @@ class _MainCalendarMeetingState extends State<MainCalendarMeeting> {
                           isSelectYear: state is ChartViewState,
                           onChange: (startDate, endDate, type, keySearch) {
                             cubit.handleDatePicked(
-                              keySearch: keySearch,
+                              keySearch: keySearch.trim(),
                               endDate: endDate,
                               startDate: startDate,
                             );

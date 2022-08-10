@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_c
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/yknd_dash_board_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_vb.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/menu_y_kien_nguoi_dan_tablet.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/bloc/bao_cao_thong_ke_cubit.dart';
@@ -14,9 +13,11 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thon
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_linh_vu_xu_ly.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_so_luong_by_month.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/search_bao_cao_thong_ke.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/subject_info_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
@@ -26,6 +27,8 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../status_widget.dart';
 
 class BaoCaoThongKeTablet extends StatefulWidget {
   final YKienNguoiDanCubitt cubit;
@@ -52,7 +55,9 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
     final DateTime now = DateTime.now();
     final DateTime preOneMonth = DateTime(now.year, now.month, now.day - 30);
     startDate = preOneMonth.toStringWithListFormat;
-    endDate = DateTime.now().toStringWithListFormat;
+    endDate = DateTime
+        .now()
+        .toStringWithListFormat;
     baoCaoCubit.callApi(
       startDate,
       endDate,
@@ -98,7 +103,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       builder: (context, snapshot) {
                         return ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * 0.8,
+                            maxHeight: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.8,
                           ),
                           child: SearchBaoCaoThongKeWidget(
                             themDonViCubit: themDonViCubit,
@@ -109,9 +117,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                 value.map((e) => e.value).toList(),
                               );
                             },
-                            onSearch: (
-                              List<String> donViID,
-                            ) {
+                            onSearch: (List<String> donViID,) {
                               listDonViID = donViID;
                             },
                             startDate: startDate,
@@ -198,7 +204,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                   image: data[index].img ?? '',
                                   typeName: data[index].typeName ?? '',
                                   numberOfCalendars:
-                                      data[index].numberOfCalendars ?? 0,
+                                  data[index].numberOfCalendars ?? 0,
                                 );
                               },
                             );
@@ -216,7 +222,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 420,
+                            height: 600,
                             padding: const EdgeInsets.only(
                               left: 24,
                               top: 4,
@@ -242,14 +248,35 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                   stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
                                   builder: (context, snapshot) {
                                     final listDataChart = snapshot.data ?? [];
-                                    return PieChart(
-                                      crossAxisCount: 1,
-                                      flex: 2,
-                                      colorTitle: textTitle,
-                                      title: S.current.y_kien_nguoi_dan,
-                                      chartData: listDataChart,
-                                      onTap: (int value) {},
-                                      isVectical: false,
+                                    return Column(
+                                      children: [
+                                        PieChart(
+                                          isSubjectInfo: false,
+                                          colorTitle: textTitle,
+                                          title: S.current.y_kien_nguoi_dan,
+                                          chartData: listDataChart,
+                                          onTap: (int value) {},
+                                        ),
+                                        GridView.count(
+                                          shrinkWrap: true,
+                                          physics:
+                                          const NeverScrollableScrollPhysics(),
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 4.2,
+                                          mainAxisSpacing:
+                                          10.0.textScale(space: 4),
+                                          crossAxisSpacing: 10,
+                                          children: List.generate(
+                                              listDataChart.length, (index) {
+                                            final result = listDataChart[index];
+                                            return SubjectInfoWidget(
+                                              color: result.color,
+                                              title: result.title,
+                                              value: result.value,
+                                            );
+                                          }),
+                                        ),
+                                      ],
                                     );
                                   },
                                 ),
@@ -258,28 +285,22 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                   builder: (context, snapshot) {
                                     final data = snapshot.data ??
                                         DashBroadItemYKNDModel();
-                                    return Row(
-                                      children: [
-                                        Expanded(
-                                          child: boxStatus(
-                                            value: data.trongHan ?? 0,
-                                            color: colorEA5455,
-                                            status: S.current.trong_han,
-                                          ),
+                                    return StatusWidget(
+                                      listData: [
+                                        ChartData(
+                                          S.current.qua_han,
+                                          data.quaHan?.toDouble() ?? 0,
+                                          statusCalenderRed,
                                         ),
-                                        Expanded(
-                                          child: boxStatus(
-                                            value: data.denHan ?? 0,
-                                            color: yellowColor,
-                                            status: S.current.den_han,
-                                          ),
+                                        ChartData(
+                                          S.current.den_han,
+                                          data.denHan?.toDouble() ?? 0,
+                                          yellowColor,
                                         ),
-                                        Expanded(
-                                          child: boxStatus(
-                                            value: data.quaHan ?? 0,
-                                            color: color02C5DD,
-                                            status: S.current.qua_han,
-                                          ),
+                                        ChartData(
+                                          S.current.trong_han,
+                                          data.trongHan?.toDouble() ?? 0,
+                                          choTrinhKyColor,
                                         ),
                                       ],
                                     );
@@ -334,7 +355,6 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 385,
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -352,9 +372,12 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 textviewTitle(S.current.don_vi_xu_ly),
-                                spaceH10,
                                 SizedBox(
-                                  height: 294,
+                                  height:
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height * 0.3,
                                   child: SingleChildScrollView(
                                     child: ChartDonViXuLyWidget(
                                       cubit: baoCaoCubit,
@@ -370,7 +393,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                         ),
                         Expanded(
                           child: Container(
-                            height: 385,
+                            height: 450,
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -388,7 +411,6 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 textviewTitle(S.current.so_luong_yknd),
-                                spaceH10,
                                 ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
                               ],
                             ),
@@ -417,50 +439,6 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
         fontWeight: FontWeight.w500,
         fontSize: 16,
       ),
-    );
-  }
-
-  Widget boxStatus(
-      {required int value, required String status, required Color color}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 38,
-          color: color,
-          child: Center(
-            child: Text(
-              value.toString(),
-              style: textNormalCustom(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ),
-        spaceH20,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 14,
-              width: 14,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-              ),
-            ),
-            spaceW12,
-            Text(
-              '$status($value)',
-              style: textNormalCustom(
-                color: color667793,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        )
-      ],
     );
   }
 }

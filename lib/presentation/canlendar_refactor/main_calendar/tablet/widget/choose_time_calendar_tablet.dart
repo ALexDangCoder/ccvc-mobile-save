@@ -174,7 +174,23 @@ class _ChooseTimeCalendarTabletState extends State<ChooseTimeCalendarTablet> {
                 },
                 decoration: InputDecoration(
                   prefixIcon: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      final times =
+                          controller.dateTimeRange(controller.selectDate.value);
+                      widget.onChange(
+                        times.first,
+                        times.last,
+                        controller.calendarType.value,
+                        textEditingController.value.text.trim(),
+                      );
+                      final timePage = controller.pageTableCalendar
+                          .dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+                      widget.onChangeYear?.call(
+                        timePage.first,
+                        timePage.last,
+                        textEditingController.value.text.trim(),
+                      );
+                    },
                     icon: SvgPicture.asset(
                       ImageAssets.icSeachTablet,
                       color: AppTheme.getInstance().colorField(),

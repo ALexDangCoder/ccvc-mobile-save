@@ -190,20 +190,6 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
             typeName: S.current.dang_xu_ly,
           ),
         );
-        // listBaoCao.add(
-        //   YKienNguoiDanDashBroadItem(
-        //     img: ImageAssets.ic_dang_tai_cong_khai_yknd,
-        //     numberOfCalendars: res.thongKeYKNDData.dangTaiCongKhai,
-        //     typeName: S.current.dang_tai_cong_khai,
-        //   ),
-        // );
-        // listBaoCao.add(
-        //   YKienNguoiDanDashBroadItem(
-        //     img: ImageAssets.ic_tong_so_yknd,
-        //     numberOfCalendars: res.thongKeYKNDData.soLuongYKien,
-        //     typeName: S.current.so_luong_y_kien,
-        //   ),
-        // );
         _listBaoCaoYKND.sink.add(listBaoCao);
       },
       error: (err) {
@@ -261,7 +247,7 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
         );
         listDataChart.add(
           ChartData(
-            S.current.cho_bo_xung_thong_tin,
+            S.current.cho_bo_sung_thong_tin_pakn,
             dashBroadItemYKNDModel.choBoSungThongTin?.toDouble() ?? 0,
             choTrinhKyColor,
           ),

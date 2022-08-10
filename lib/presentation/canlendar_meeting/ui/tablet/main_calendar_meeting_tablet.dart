@@ -107,7 +107,7 @@ class _MainCalendarMeetingTabletState extends State<MainCalendarMeetingTablet> {
                         calendarDays: data,
                         onChange: (startDate, endDate, type, keySearch) {
                           cubit.handleDatePicked(
-                            keySearch: keySearch,
+                            keySearch: keySearch.trim(),
                             endDate: endDate,
                             startDate: startDate,
                           );

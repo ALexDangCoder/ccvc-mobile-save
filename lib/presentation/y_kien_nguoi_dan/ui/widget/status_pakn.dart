@@ -102,14 +102,12 @@ Widget statusWidget({
                 const SizedBox(
                   width: 12,
                 ),
-                Flexible(
-                  child: FittedBox(
-                    child: Text(
-                      '${result.title} (${result.value.toInt()})',
-                      style: textNormal(
-                        infoColor,
-                        14.0.textScale(),
-                      ),
+                Expanded(
+                  child: Text(
+                    '${result.title} (${result.value.toInt()})',
+                    style: textNormal(
+                      infoColor,
+                      14.0,
                     ),
                   ),
                 )
@@ -121,31 +119,40 @@ Widget statusWidget({
       SizedBox(
         height: 10.0.textScale(space: 4),
       ),
-      InkWell(
-        onTap: () => callBack(listData.length - 1),
-        child: Row(
-          children: [
-            Container(
-              height: 14,
-              width: 14,
-              decoration: BoxDecoration(
-                color: lastStatusChart.color,
-                shape: BoxShape.circle,
+      Row(
+        children: [
+          Expanded(
+            child: InkWell(
+              onTap: () => callBack(listData.length - 1),
+              child: Row(
+                children: [
+                  Container(
+                    height: 14,
+                    width: 14,
+                    decoration: BoxDecoration(
+                      color: lastStatusChart.color,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: Text(
+                      '${lastStatusChart.title} (${lastStatusChart.value.toInt()})',
+                      style: textNormal(
+                        infoColor,
+                        14.0,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              width: 12,
-            ),
-            Text(
-              '${lastStatusChart.title} (${lastStatusChart.value.toInt()})',
-              style: textNormal(
-                infoColor,
-                14.0.textScale(),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+          const Expanded(child: SizedBox.shrink()),
+        ],
+      )
     ],
   );
 }

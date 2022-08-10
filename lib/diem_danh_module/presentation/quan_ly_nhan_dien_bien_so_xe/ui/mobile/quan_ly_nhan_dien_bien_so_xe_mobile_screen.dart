@@ -42,10 +42,8 @@ class QuanLyNhanDienBienSoXeMobileScreen extends StatefulWidget {
 
 class _QuanLyNhanDienBienSoXeMobileScreenState
     extends State<QuanLyNhanDienBienSoXeMobileScreen> {
-  late final toast;
   @override
   void initState() {
-    toast = FToast();
     widget.cubit.getDanhSachBienSoXe();
     _handleEventBus();
     super.initState();
@@ -54,16 +52,6 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
   void _handleEventBus() {
     eventBus.on<ApiSuccessAttendance>().listen((event) {
       widget.cubit.getDanhSachBienSoXe();
-      if (!event.update) {
-        toast.showToast(
-          child: ShowToast(
-            color: colorE9F9F1,
-            icon: ImageAssets.ic_tick_showToast,
-            text: S.current.luu_du_lieu_thanh_cong,
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
-      }
     });
   }
 

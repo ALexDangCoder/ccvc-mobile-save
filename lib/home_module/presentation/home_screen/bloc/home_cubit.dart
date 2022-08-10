@@ -383,9 +383,6 @@ class DanhSachCongViecCubit extends HomeCubit {
   int totalItem = 1;
   int indexAddWork = 0;
   bool isSearching = false;
-  final List<String> danhSachTenNguoiGan = [];
-  Map<String, String> listTempName = {};
-  final List<TodoModel> danhSachNguoiGan = [];
 
   DanhSachCongViecCubit() {
     id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
@@ -478,14 +475,12 @@ class DanhSachCongViecCubit extends HomeCubit {
       success: (res) async {
         final String nameInsert = await getName(res.performer ?? '');
         final data = _getTodoList.value;
+        res.name = nameInsert;
         data.listTodoImportant.insert(
           0,
           res,
         );
         data.listTodoImportant = listSortImportant(data.listTodoImportant);
-        if (res.id != null) {
-          listTempName[res.id!] = nameInsert;
-        }
         _getTodoList.sink.add(data);
       },
       error: (err) {},
@@ -493,12 +488,6 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   void _removeInsertImportant(TodoListModel data, TodoModel todo) async {
-    if (todo.id != null) {
-      danhSachTenNguoiGan.insert(0, listTempName[todo.id]!);
-    } else {
-      danhSachTenNguoiGan.insert(0, '');
-    }
-
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
@@ -513,9 +502,6 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   void _removeInsertDone(TodoListModel data, TodoModel todo) {
-    danhSachTenNguoiGan.removeAt(
-      data.listTodoImportant.indexWhere((element) => element.id == todo.id),
-    );
     final result = data.listTodoImportant.removeAt(
       data.listTodoImportant.indexWhere((element) => element.id == todo.id),
     );
@@ -650,13 +636,9 @@ class DanhSachCongViecCubit extends HomeCubit {
     showContent();
     await result.when(
       success: (res) async {
-        danhSachNguoiGan.clear();
-        listTempName.clear();
-        danhSachNguoiGan.addAll(res.listTodoImportant);
-        danhSachNguoiGan.addAll(res.listTodoDone);
+        getListNameCanBo(res);
         res.listTodoImportant = listSortImportant(res.listTodoImportant);
         res.listTodoDone = listSortImportant(res.listTodoDone);
-        getListNameCanBo(danhSachNguoiGan);
         _getTodoList.sink.add(res);
       },
       error: (err) {},
@@ -789,12 +771,24 @@ class DanhSachCongViecCubit extends HomeCubit {
     _danhSachNguoiGan.sink.add(resultSearch);
   }
 
-  void getListNameCanBo(List<TodoModel> listDanhSachNguoiGan) {
-    for (final element in listDanhSachNguoiGan) {
+  void getListNameCanBo(TodoListModel listWork) {
+    int countImportant = 0;
+    int countDone = 0;
+    for (final element in listWork.listTodoImportant) {
       getName(element.performer ?? '').then((name) {
-        danhSachTenNguoiGan.add(name);
-        if (element.id != null) {
-          listTempName[element.id!] = name;
+        countImportant++;
+        element.name = name;
+        if (countImportant == listWork.listTodoImportant.length) {
+          _getTodoList.sink.add(listWork);
+        }
+      });
+    }
+    for (final element in listWork.listTodoDone) {
+      getName(element.performer ?? '').then((name) {
+        countDone++;
+        element.name = name;
+        if (countDone == listWork.listTodoDone.length) {
+          _getTodoList.sink.add(listWork);
         }
       });
     }

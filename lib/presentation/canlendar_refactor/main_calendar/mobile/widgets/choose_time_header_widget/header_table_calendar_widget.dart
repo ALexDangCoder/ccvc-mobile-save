@@ -157,10 +157,14 @@ class _HeaderTabletCalendarWidgetState extends State<HeaderTabletCalendarWidget>
           filled: true,
           fillColor: Colors.white,
           hintText: S.current.nhap_tu_khoa_tim_kiem,
-          prefixIcon: Icon(
-            Icons.search,
-            color: AppTheme.getInstance()
-                .colorField(),
+          prefixIcon: IconButton(
+            onPressed: () {
+              widget.onSearch(widget.controller.value.text.trim());
+            },
+            icon: Icon(
+              Icons.search,
+              color: AppTheme.getInstance().colorField(),
+            ),
           ),
           border: const OutlineInputBorder(
             borderSide: BorderSide(color: borderItemCalender),

@@ -122,7 +122,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
         ),
         TableCalendarPhone(
           locale: 'vi',
-          isDowTop: false,
+          isDowTop: widget.controller.calendarFormat.value != CalendarFormat.week,
           onPageChanged: (value) {
             pageDateTime.value = value;
             if (value.month != widget.controller.pageTableCalendar.month) {

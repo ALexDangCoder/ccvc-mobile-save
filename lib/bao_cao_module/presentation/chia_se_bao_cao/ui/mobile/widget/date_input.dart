@@ -37,6 +37,7 @@ class _DateInputState extends State<DateInput> {
     DateTime.now().day - 1,
   ).toString();
   final initDateTime = DateTime.now();
+  bool onchangeSelect = false;
 
   @override
   @override
@@ -57,6 +58,7 @@ class _DateInputState extends State<DateInput> {
                     initDateTime.day - 1,
                   ),
                   onDateTimeChanged: (value) {
+                    checkEnableDate(value);
                     cachedSelect = value.toString();
                   },
                   textStyleDate: titleAppbar(),
@@ -77,11 +79,13 @@ class _DateInputState extends State<DateInput> {
                   title2: S.current.chon,
                   title1: S.current.dong,
                   onClickRight: () {
-                    setState(() {
-                      dateSelect = cachedSelect;
-                    });
-                    widget.onSelectDate(DateTime.tryParse(dateSelect ?? ''));
-                    Navigator.pop(context);
+                    if(!onchangeSelect){
+                      setState(() {
+                        dateSelect = cachedSelect;
+                      });
+                      widget.onSelectDate(DateTime.tryParse(dateSelect ?? ''));
+                      Navigator.pop(context);
+                    }
                   },
                   onClickLeft: () {
                     Navigator.pop(context);
@@ -147,5 +151,17 @@ class _DateInputState extends State<DateInput> {
         ],
       ),
     );
+  }
+  void checkEnableDate(DateTime date){
+    final maximumDate = DateTime(
+      initDateTime.year - 18,
+      initDateTime.month,
+      initDateTime.day - 1,
+    );
+    if(date.millisecondsSinceEpoch - maximumDate.millisecondsSinceEpoch > 0){
+      onchangeSelect = true;
+    } else {
+      onchangeSelect = false;
+    }
   }
 }

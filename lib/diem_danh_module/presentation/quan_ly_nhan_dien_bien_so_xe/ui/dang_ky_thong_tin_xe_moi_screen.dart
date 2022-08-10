@@ -431,7 +431,6 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
       return;
     }
     if (isFormValidated && !widget.cubit.isShowErrLoaiXe.value) {
-      Navigator.pop(context);
       await widget.cubit.postImageResgiter(
         bienKiemSoat: bienKiemSoatController.value.text.removeSpace,
         context: context,

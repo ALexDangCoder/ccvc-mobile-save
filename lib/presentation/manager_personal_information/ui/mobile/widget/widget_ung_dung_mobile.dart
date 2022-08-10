@@ -233,7 +233,7 @@ Widget customSwitch(bool value, Function(bool) onToggle) {
     toggleSize: 14,
     inactiveIcon: SvgPicture.asset(ImageAssets.icX),
     activeIcon: SvgPicture.asset(ImageAssets.icV),
-    inactiveColor: AppTheme.getInstance().colorField(),
+    inactiveColor: AppTheme.getInstance().inactiveColor(),
     activeColor: AppTheme.getInstance().colorField(),
     value: value,
     onToggle: onToggle,

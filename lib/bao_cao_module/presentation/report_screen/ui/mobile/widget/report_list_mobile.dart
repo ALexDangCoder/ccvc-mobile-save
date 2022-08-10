@@ -104,6 +104,8 @@ class ReportListMobile extends StatelessWidget {
     required ReportItem value,
   }) {
     if (value.type == FOLDER) {
+      cubit.levelFolder++;
+      cubit.mapFolderID.add(value.id ?? '');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -116,6 +118,24 @@ class ReportListMobile extends StatelessWidget {
             );
           },
         ),
+      ).then(
+        (values) => {
+          if (cubit.levelFolder == 0)
+            {
+              cubit.getAppID(),
+            }
+          else
+            {
+              cubit.getListReport(
+                idFolder: cubit.mapFolderID[cubit.levelFolder - 1],
+                isTree: true,
+                isShare:
+                    (!cubit.isCheckOwner(listAccess: value.accesses ?? []) ||
+                            value.isSourceShare == true) ||
+                        (value.shareToMe ?? false),
+              ),
+            }
+        },
       );
     } else {
       Navigator.push(

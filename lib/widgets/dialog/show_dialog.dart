@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:flutter/material.dart';
@@ -31,21 +32,21 @@ Future<T?> showDiaLog<T>(
         ),
         clipBehavior: Clip.antiAlias,
         child: Container(
-          width: showTablet
+          width: !isMobile()
               ? MediaQuery.of(dialogContext).size.width / 2
               : double.maxFinite,
           // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           padding: EdgeInsets.fromLTRB(
             24,
-            showTablet ? 24 : 40,
+            !isMobile() ? 24 : 40,
             24,
-            showTablet ? 32 : 40,
+            !isMobile() ? 32 : 40,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Visibility(
-                visible: showTablet,
+                visible: !isMobile(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -63,7 +64,7 @@ Future<T?> showDiaLog<T>(
               ),
               icon,
               SizedBox(
-                height: showTablet ? 20.0.textScale(space: -8) : 20,
+                height: !isMobile() ? 20.0.textScale(space: -8) : 20,
               ),
               Text(
                 title,
@@ -74,13 +75,13 @@ Future<T?> showDiaLog<T>(
                 Column(
                   children: [
                     SizedBox(
-                      height: showTablet ? 14.0.textScale() : 14,
+                      height: !isMobile() ? 14.0.textScale() : 14,
                     ),
                     Text(
                       textContent,
                       style: textNormal(
                         dateColor,
-                        showTablet ? 14.0.textScale() : 14,
+                        !isMobile() ? 14.0.textScale() : 14,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -89,7 +90,7 @@ Future<T?> showDiaLog<T>(
               else
                 const SizedBox(),
               SizedBox(
-                height: showTablet ? 24.0.textScale(space: 8) : 24,
+                height: !isMobile() ? 24.0.textScale(space: 8) : 24,
               ),
               if (isOneButton)
                 Row(
@@ -107,7 +108,7 @@ Future<T?> showDiaLog<T>(
                       ),
                     ),
                     SizedBox(
-                      width: showTablet ? 16.0.textScale(space: 20) : 16,
+                      width: !isMobile() ? 16.0.textScale(space: 20) : 16,
                     ),
                     Expanded(
                       child: ButtonCustomBottom(

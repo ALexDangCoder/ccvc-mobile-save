@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/blo
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/addToDoWidget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/creat_todo_ver2_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/menu_dscv.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -181,16 +182,16 @@ Widget buttonThemCongViec({
 
 Widget searchWidgetDscv({
   required DanhSachCongViecTienIchCubit cubit,
-  required Function(String) textSearch,
 }) =>
     BaseSearchBar(
       controller: cubit.searchControler,
       hintText: S.current.tim_kiem_nhanh,
       onChange: (value) {
-        textSearch(value);
+        cubit.countLoadMore = ApiConstants.PAGE_BEGIN;
         cubit.waitToDelay(
           actionNeedDelay: () {
-            cubit.callAPITheoFilter(textSearch: value);
+            cubit.listDSCVStream.sink.add([]);
+            cubit.callAPITheoFilter(textSearch: value ,isLoadmore: true,);
           },
           timeSecond: 1,
         );

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
@@ -32,7 +33,7 @@ class _HoTroKyThuatMenuTabletState extends State<HoTroKyThuatMenuTablet> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(ImageAssets.icExit),
+          icon: SvgPicture.asset(ImageAssets.icClose ),
         ),
       ),
       body: StreamBuilder<TypeHoTroKyThuat>(

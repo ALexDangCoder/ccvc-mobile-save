@@ -49,12 +49,12 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
     );
     if (pickImg != null) {
       sizeFile = File(pickImg.path).lengthSync() / BYTE_TO_MB;
-      if (sizeFile > 20) {
+      if (sizeFile >= 5) {
         final toast = FToast();
         toast.init(context);
         toast.showToast(
           child: ShowToast(
-            text: S.current.dung_luong_toi_da_20,
+            text: S.current.dung_luong_toi_da_5mb,
           ),
           gravity: ToastGravity.TOP_RIGHT,
         );

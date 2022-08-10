@@ -72,7 +72,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
           child: Scaffold(
             bottomNavigationBar: Padding(
               padding:
-                  const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
+                  const EdgeInsets.only(bottom: 24.0, right: 16.0, left: 16.0),
               child: DoubleButtonBottom(
                 title1: S.current.huy_bo,
                 title2: S.current.them_moi,

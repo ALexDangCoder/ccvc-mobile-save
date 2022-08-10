@@ -22,6 +22,8 @@ class ReportListCubit extends BaseCubit<BaseState> {
 
   String appId = '';
   String folderId = '';
+  int levelFolder = 0;
+  List<String> mapFolderID = [];
   int sort = A_Z_SORT;
   int sortHome = A_Z_SORT;
   static const String CODE = 'HTCS';
@@ -47,9 +49,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
 
   BehaviorSubject<List<ReportItem>?> listReportTree =
       BehaviorSubject.seeded(null);
-  BehaviorSubject<List<ReportItem>?> listReportTreeUpdate =
-      BehaviorSubject.seeded(null);
-  BehaviorSubject<bool> isCheckDataDetailScreen = BehaviorSubject.seeded(false);
   List<ReportItem>? listReport;
   List<ReportItem>? listReportSearch;
   bool isCheckPostFavorite = false;
@@ -163,7 +162,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
           getListReport();
         } else {
           emit(const CompletedLoadMore(CompleteType.ERROR));
-          showError();
         }
       },
       error: (error) {
@@ -295,7 +293,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
           idFolder: idFolder,
           isShare: isSourceShare,
         );
-        listReportTreeUpdate.add(listReportTree.value);
       } else if (isSearch) {
         await getListReport(
           isSearch: isSearch,
@@ -351,7 +348,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
     emit(const CompletedLoadMore(CompleteType.ERROR));
     if (isTree) {
       textSearch.add('');
-      isCheckDataDetailScreen.add(false);
       listReportTree.add(null);
     } else if (isSearch) {
       listReportSearch = null;
@@ -369,7 +365,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        isCheckDataDetailScreen.add(true);
         if (res.isEmpty) {
           if (isSearch) {
             listReportSearch = [];

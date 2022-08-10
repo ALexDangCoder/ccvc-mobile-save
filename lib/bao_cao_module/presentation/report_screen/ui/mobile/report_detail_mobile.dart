@@ -27,9 +27,6 @@ class ReportDetailMobile extends StatefulWidget {
 }
 
 class _ReportDetailMobileState extends State<ReportDetailMobile> {
-  List<ReportItem> listReportDetail = [];
-  bool isCheckData = false;
-  bool isInit = false;
 
   Future<void> getApi() async {
     await widget.cubit.getListReport(
@@ -46,16 +43,6 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
   void initState() {
     getApi();
     super.initState();
-    isInit = true;
-    widget.cubit.isCheckDataDetailScreen.listen((value) {
-      if (value) {
-        isCheckData = true;
-      }
-    });
-    widget.cubit.listReportTreeUpdate.listen((value) {
-      listReportDetail = value ?? [];
-      widget.cubit.listReportTree.add(value);
-    });
   }
 
   @override
@@ -64,7 +51,8 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
       appBar: AppBarDefaultBack(
         widget.title,
         callback: () {
-          listReportDetail = widget.cubit.listReportTree.value ?? [];
+          widget.cubit.mapFolderID.removeAt(widget.cubit.levelFolder-1);
+          widget.cubit.levelFolder--;
         },
       ),
       body: Column(
@@ -83,26 +71,18 @@ class _ReportDetailMobileState extends State<ReportDetailMobile> {
               stream: widget.cubit.stateStream,
               child: RefreshIndicator(
                 onRefresh: () async {
-                  isCheckData = true;
-                  isInit = true;
                   await getApi();
-                  listReportDetail = widget.cubit.listReportTree.value ?? [];
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: StreamBuilder<List<ReportItem>?>(
                     stream: widget.cubit.listReportTree,
                     builder: (context, snapshot) {
-                      if (isCheckData && isInit) {
-                        listReportDetail = snapshot.data ?? [];
-                        isCheckData = false;
-                        isInit = false;
-                      }
                       return snapshot.data == null
                           ? const SizedBox.shrink()
                           : ReportListMobile(
                               isListView: widget.cubit.isListView.value,
-                              listReport: listReportDetail,
+                              listReport: snapshot.data,
                               cubit: widget.cubit,
                               isTree: true,
                               idFolder: widget.reportModel.id ?? '',

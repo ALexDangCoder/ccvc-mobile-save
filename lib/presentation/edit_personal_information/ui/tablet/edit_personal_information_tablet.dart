@@ -288,6 +288,7 @@ class _EditPersonalInformationTabletScreen
                                     isObligatory: true,
                                     title: user.keys.elementAt(6),
                                     child: CoolDropDown(
+                                      key: UniqueKey(),
                                       setWidth: 300,
                                       initData:
                                           cubit.managerPersonalInformationModel

@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_cubit.dart';
-import 'package:ccvc_mobile/presentation/canlendar_meeting/bloc/calendar_meeting_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -109,11 +108,9 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
             ),
           ).then((value) {
             if (value != null && value) {
-              if (widget.cubit.state is CalendarViewState ||
-                  widget.cubit.state is ListViewState) {
+              if (value != null && value) {
+                widget.cubit.emitCalendarViewState();
                 widget.cubit.refreshDataDangLich();
-              } else {
-                widget.cubit.getDataDangChart();
               }
             }
           });

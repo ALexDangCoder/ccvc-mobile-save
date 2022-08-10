@@ -208,8 +208,6 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                                   );
                                   if (selectIndexList.isNotEmpty) {
                                     widget.cubit.showErrorLoaiSuCo.add(false);
-                                  } else {
-                                    widget.cubit.showErrorLoaiSuCo.add(true);
                                   }
                                 },
                               );

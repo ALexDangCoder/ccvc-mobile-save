@@ -115,17 +115,14 @@ class _DanhSachCongViecTienIchTabletState
                                   builder: (context, snapshot) {
                                     final data = snapshot.data
                                             ?.where(
-                                              (element) => dataType !=
-                                                      DSCVScreen.DBX
-                                                  ? element.isTicked == false
-                                                  : element.inUsed == false,
+                                              (element) =>
+                                                  element.isTicked == false,
                                             )
                                             .toList() ??
                                         [];
                                     return expanTablet(
-                                      isOtherType:
-                                          dataType == DSCVScreen.DBX ||
-                                              dataType == DSCVScreen.NCVM,
+                                      isOtherType: dataType == DSCVScreen.DBX ||
+                                          dataType == DSCVScreen.NCVM,
                                       isCheck: isOpenWhenInitListUp,
                                       title: S.current.gan_cho_toi,
                                       count: data.length,

@@ -98,10 +98,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                 ),
                               ),
                             ).then((value) {
-                              if(value is bool && value){
+                              if (value is bool && value) {
                                 menuCubit.getUserRefresh();
                               }
-
                             });
                           },
                           child: HeaderMenuMobileWidget(
@@ -127,15 +126,15 @@ class _MenuScreenState extends State<MenuScreen> {
                                   final type = data[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      if(Platform.isIOS){
+                                      if (Platform.isIOS) {
                                         Navigator.push(
                                           context,
                                           CupertinoPageRoute(
-                                       builder: (context) =>
+                                            builder: (context) =>
                                                 type.getScreen(),
                                           ),
                                         );
-                                      }else {
+                                      } else {
                                         Navigator.push(
                                           context,
                                           PageRouteBuilder(
@@ -176,15 +175,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 if (type == MenuType.chuyenPhamVi) {
                                   showChuyenPhamVi();
                                 } else {
-                                  if(Platform.isIOS){
+                                  if (Platform.isIOS) {
                                     Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                        builder: (context) =>
-                                            type.getScreen(),
+                                        builder: (context) => type.getScreen(),
                                       ),
                                     );
-                                  }else {
+                                  } else {
                                     Navigator.push(
                                       context,
                                       PageRouteBuilder(
@@ -214,8 +212,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               context,
                               funcBtnRight: () {
                                 AppStateCt.of(context).appState.setToken('');
-                                HiveLocal.clearData();
-                                PrefsService.saveLoginUserName('');
+                                menuCubit.logout();
                               },
                               showTablet: false,
                               icon: Image.asset(ImageAssets.icDangXuat),

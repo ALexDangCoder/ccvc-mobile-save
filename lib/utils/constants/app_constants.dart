@@ -526,3 +526,15 @@ class ListDayOffWeek{
   static const T6 = 'T6';
   static const T7 = 'T7';
 }
+class ScreenTypeFcm{
+ static const LICH_LAM_VIEC = 'LICH_LAM_VIEC';
+ static const LICH_HOP = 'VPDT';
+ static const VAN_BAN_DEN = 'VAN_BAN_DEN';
+ static const VAN_BAN_DI = 'VAN_BAN_DI';
+ static const QUAN_LY_NHIEM_VU = 'QLNV';
+ static const QUAN_LY_CONG_VIEC = 'QUAN_LY_CONG_VIEC';
+ static const HANH_CHINH_CONG = 'HANH_CHINH_CONG';
+ static const PAKN = 'PAKN';
+ static const BAO_CAO = 'Reports';
+ static const DIEM_DANH = 'DDTH';
+}

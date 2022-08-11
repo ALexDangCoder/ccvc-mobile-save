@@ -707,37 +707,40 @@ class _ChonPhongHopScreenOnlyState extends State<_ChonPhongHopScreenOnly> {
           ),
         ),
         child: SingleChildScrollView(
-          child: StreamBuilder<List<PhongHopModel>>(
-            stream: widget.cubit.phongHopSubject,
-            builder: (context, snapshot) {
-              final listData = snapshot.data ?? [];
-              if (listData.isNotEmpty) {
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: listData.length,
-                  itemBuilder: (_, index) => itemPhongHop(
-                    phongHop: listData[index],
-                    index: index,
-                    groupValue: groupValue,
-                    onChange: (index) {
-                      widget.cubit.chosePhongHop
-                        ..donViId = listData[index].donViDuyetId
-                        ..ten = listData[index].ten
-                        ..bitTTDH = listData[index].bit_TTDH
-                        ..phongHopId = listData[index].id;
-                      groupValue = index;
-                      setState(() {});
-                    },
-                  ),
-                );
-              } else {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: NodataWidget(),
-                );
-              }
-            },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: StreamBuilder<List<PhongHopModel>>(
+              stream: widget.cubit.phongHopSubject,
+              builder: (context, snapshot) {
+                final listData = snapshot.data ?? [];
+                if (listData.isNotEmpty) {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listData.length,
+                    itemBuilder: (_, index) => itemPhongHop(
+                      phongHop: listData[index],
+                      index: index,
+                      groupValue: groupValue,
+                      onChange: (index) {
+                        widget.cubit.chosePhongHop
+                          ..donViId = listData[index].donViDuyetId
+                          ..ten = listData[index].ten
+                          ..bitTTDH = listData[index].bit_TTDH
+                          ..phongHopId = listData[index].id;
+                        groupValue = index;
+                        setState(() {});
+                      },
+                    ),
+                  );
+                } else {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 30),
+                    child: NodataWidget(),
+                  );
+                }
+              },
+            ),
           ),
         ),
       ),

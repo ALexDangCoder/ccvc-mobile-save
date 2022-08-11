@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
@@ -5,35 +6,33 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cap_nhat_trang_thai_widget.dart';
-import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
-import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/item_thong_tin_yccb_widget.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CongTacChuanBiWidgetTablet extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
   final TaoLichHopCubit cubitTaoLichHop;
 
-  const CongTacChuanBiWidgetTablet(
-      {Key? key, required this.cubit, required this.cubitTaoLichHop})
-      : super(key: key);
+  const CongTacChuanBiWidgetTablet({
+    Key? key,
+    required this.cubit,
+    required this.cubitTaoLichHop,
+  }) : super(key: key);
 
   @override
   _CongTacChuanBiWidgetTabletState createState() =>
@@ -92,9 +91,10 @@ class _CongTacChuanBiWidgetTabletState
                     onChange: (value) {
                       widget.cubitTaoLichHop
                           .chonPhongHopMetting(
-                              taoLichHopRequest: widget.cubit.taoLichHopRequest,
-                              value: value,
-                              cubit: widget.cubit)
+                        taoLichHopRequest: widget.cubit.taoLichHopRequest,
+                        value: value,
+                        cubit: widget.cubit,
+                      )
                           .then((value) {
                         if (value) {
                           widget.cubit.needRefreshMainMeeting = true;
@@ -178,14 +178,21 @@ class _CongTacChuanBiWidgetTabletState
                   padding: const EdgeInsets.only(top: 20),
                   child: titleType(
                     title: S.current.thong_tin_yeu_cau_chuan_bi,
-                    child: itemThongTinYeuCauChuanBi(
-                      model: data,
-                      cubit: widget.cubit,
-                    ),
+                    child: ((data.noiDungYeuCau ?? '').isNotEmpty)
+                        ? ItemThongTinYCCB(
+                            cubit: widget.cubit,
+                          )
+                        : const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 50),
+                            child: NodataWidget(),
+                          ),
                   ),
                 );
               }
-              return const SizedBox();
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 50),
+                child: NodataWidget(),
+              );
             },
           ),
 
@@ -316,140 +323,6 @@ class _CongTacChuanBiWidgetTabletState
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget itemThongTinYeuCauChuanBi({
-    required ThongTinPhongHopModel model,
-    required DetailMeetCalenderCubit cubit,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: containerColorTab.withOpacity(0.1),
-        border: Border.all(
-          color: containerColorTab,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  S.current.noi_dung_yeu_cau,
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: color667793,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              spaceW10,
-              Expanded(
-                flex: 8,
-                child: Text(
-                  ' ${model.noiDungYeuCau ?? ''}',
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: titleCalenderWork,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (widget.cubit.isButtonYeuCauChuanBiPhong())
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      showDiaLogTablet(
-                        context,
-                        title: S.current.cap_nhat_trang_thai,
-                        child: CapNhapTrangThaiWidget(
-                          cubit: widget.cubit,
-                          model: model,
-                        ),
-                        isBottomShow: false,
-                        funcBtnOk: () {},
-                      );
-                    },
-                    child: SvgPicture.asset(ImageAssets.ic_edit),
-                  ),
-                ),
-            ],
-          ),
-          spaceH10,
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  S.current.trang_thai,
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: color667793,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              spaceW10,
-              Expanded(
-                flex: 8,
-                child: Text(
-                  ' ${model.trangThaiChuanBi ?? ''}',
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: model.getColor(model.trangThaiChuanBi ?? ''),
-                    fontWeight: FontWeight.w400,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-            ],
-          ),
-          spaceH10,
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  S.current.ghi_chu,
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: color667793,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              spaceW10,
-              Expanded(
-                flex: 8,
-                child: Text(
-                  ' ${model.ghiChu ?? ''}',
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: titleCalenderWork,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-            ],
           ),
         ],
       ),

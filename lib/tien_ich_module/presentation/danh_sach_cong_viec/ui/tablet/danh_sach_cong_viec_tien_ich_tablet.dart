@@ -124,7 +124,7 @@ class _DanhSachCongViecTienIchTabletState
                                         [];
                                     return expanTablet(
                                       isOtherType:
-                                          dataType == DSCVScreen.CVCB ||
+                                          dataType == DSCVScreen.DBX ||
                                               dataType == DSCVScreen.NCVM,
                                       isCheck: isOpenWhenInitListUp,
                                       title: S.current.gan_cho_toi,
@@ -145,7 +145,7 @@ class _DanhSachCongViecTienIchTabletState
                                   },
                                 ),
                               ),
-                            if (dataType == DSCVScreen.CVCB ||
+                            if (dataType == DSCVScreen.DBX ||
                                 dataType == DSCVScreen.DHT ||
                                 dataType == DSCVScreen.NCVM)
                               StreamBuilder<List<TodoDSCVModel>>(
@@ -159,7 +159,7 @@ class _DanhSachCongViecTienIchTabletState
                                           .toList() ??
                                       [];
                                   return expanTablet(
-                                    isOtherType: dataType == DSCVScreen.CVCB ||
+                                    isOtherType: dataType == DSCVScreen.DBX ||
                                         dataType == DSCVScreen.NCVM,
                                     isCheck: isOpenWhenInitListDown,
                                     title: S.current.da_hoan_thanh,

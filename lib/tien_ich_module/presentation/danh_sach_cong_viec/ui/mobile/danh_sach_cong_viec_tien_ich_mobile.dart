@@ -35,6 +35,7 @@ class _DanhSachCongViecTienIchMobileState
     super.initState();
     cubit.initialData();
   }
+
   @override
   void dispose() {
     cubit.dispose();
@@ -56,6 +57,7 @@ class _DanhSachCongViecTienIchMobileState
         stream: cubit.stateStream,
         child: ProviderWidget<DanhSachCongViecTienIchCubit>(
           cubit: cubit,
+
           /// to load more
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
@@ -96,6 +98,7 @@ class _DanhSachCongViecTienIchMobileState
                             searchWidgetDscv(
                               cubit: cubit,
                             ),
+
                             /// list up
                             if (dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.CVQT ||
@@ -118,7 +121,7 @@ class _DanhSachCongViecTienIchMobileState
                                   if (data.isNotEmpty) {
                                     return Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.gan_cho_toi,
@@ -138,7 +141,7 @@ class _DanhSachCongViecTienIchMobileState
                                     ),
                                     child: Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.gan_cho_toi,
@@ -152,7 +155,7 @@ class _DanhSachCongViecTienIchMobileState
                               ),
 
                             /// list down
-                            if (dataType == DSCVScreen.CVCB ||
+                            if (dataType == DSCVScreen.DBX ||
                                 dataType == DSCVScreen.DHT ||
                                 dataType == DSCVScreen.NCVM)
                               StreamBuilder<List<TodoDSCVModel>>(
@@ -170,7 +173,7 @@ class _DanhSachCongViecTienIchMobileState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.da_hoan_thanh,
@@ -190,8 +193,7 @@ class _DanhSachCongViecTienIchMobileState
                                     ),
                                     child: Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
-                                            dataType == DSCVScreen.DBX ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.da_hoan_thanh,

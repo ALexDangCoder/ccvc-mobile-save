@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.d
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -58,6 +59,7 @@ class _DanhSachCongViecTienIchMobileState
           },
           child: Column(
             children: [
+              if (!isMobile())spaceH20,
               BaseSearchBar(
                 hintText: S.current.ho_va_ten_can_bo,
                 controller: widget.searchController,

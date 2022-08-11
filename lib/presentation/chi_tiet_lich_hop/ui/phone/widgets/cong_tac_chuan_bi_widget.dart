@@ -90,9 +90,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
                   id: HiveLocal.getDataUser()
-                      ?.userInformation
-                      ?.donViTrucThuoc
-                      ?.id ??
+                          ?.userInformation
+                          ?.donViTrucThuoc
+                          ?.id ??
                       '',
                   onChange: (value) {
                     _cubitTaoLichHop.chonPhongHopMetting(
@@ -209,7 +209,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                           stream: widget.cubit.chiTietLichHopSubject.stream,
                           builder: (context, snapshot) {
                             if (!snapshot.hasData &&
-                                widget.cubit.checkPermissionQuyenDuyetPhong()) {
+                                widget.cubit.checkPermissionQuyenDuyetPhong(
+                                  isCheckHideButton: true,
+                                )) {
                               return const SizedBox();
                             }
                             return Row(
@@ -357,7 +359,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (widget.cubit.isButtonYeuCauChuanBiPhong())
+              if (widget.cubit
+                  .isButtonYeuCauChuanBiPhong(isCheckHideButton: true))
                 Expanded(
                   child: GestureDetector(
                     onTap: () {

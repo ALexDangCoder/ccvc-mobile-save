@@ -66,7 +66,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         if (res) {
-          getThongTinPhongHopApi();
+          callApiCongTacChuanBi();
           MessageConfig.show(
             title: S.current.tao_thanh_cong,
           );

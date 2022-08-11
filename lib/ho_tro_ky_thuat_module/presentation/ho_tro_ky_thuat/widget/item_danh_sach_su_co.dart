@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
@@ -209,12 +208,10 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
           Positioned(
             top: 30,
             right: 38,
-            child: ((widget.cubit.isManager || widget.cubit.isSupporter) &&
-                    !(widget.objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.DA_HOAN_THANH ||
-                        widget.objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.TU_CHOI_XU_LY) ||
-                    widget.cubit.checkUser(widget.objDSSC.idNguoiYeuCau ?? ''))
+            child: (widget.cubit.checkIconMore(
+              idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
+              codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+            ))
                 ? InkWell(
                     onTap: () =>
                         widget.onClickMore(widget.objDSSC, widget.index),
@@ -256,8 +253,10 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                     ),
                     child: Column(
                       children: [
-                        if (widget.objDSSC.codeTrangThai ==
-                            HoTroKyThuatCubit.CHUA_XU_LY) ...[
+                        if (widget.cubit.checkDeleteAndSua(
+                          idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
+                          codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                        )) ...[
                           itemMenu(
                             title: S.current.sua,
                             icon: ImageAssets.ic_edit,
@@ -309,18 +308,22 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                               });
                             },
                           ),
+                        ],
+                        if (widget.cubit.checkDeleteAndSua(
+                              idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
+                              codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                            ) &&
+                            widget.cubit.checkDanhGia(
+                              idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
+                              codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                            ))
                           line(
                             paddingLeft: 35,
                           ),
-                        ],
-                        if ((widget.objDSSC.codeTrangThai ==
-                                    HoTroKyThuatCubit.DA_HOAN_THANH ||
-                                widget.objDSSC.codeTrangThai ==
-                                    HoTroKyThuatCubit.TU_CHOI_XU_LY) &&
-                            (widget.objDSSC.idNguoiYeuCau ==
-                                HiveLocal.getDataUser()
-                                    ?.userInformation
-                                    ?.id)) ...[
+                        if (widget.cubit.checkDanhGia(
+                          idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
+                          codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                        )) ...[
                           itemMenu(
                             title: S.current.danh_gia,
                             icon: ImageAssets.ic_document_blue,
@@ -362,12 +365,19 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                             },
                           ),
                         ],
-                        if ((widget.cubit.isSupporter ||
-                                widget.cubit.isManager) &&
-                            (!(widget.objDSSC.codeTrangThai ==
-                                    HoTroKyThuatCubit.DA_HOAN_THANH) &&
-                                !(widget.objDSSC.codeTrangThai ==
-                                    HoTroKyThuatCubit.TU_CHOI_XU_LY)))
+                        if (widget.cubit.checkUpdateXuLy(
+                              codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                            ) &&
+                            widget.cubit.checkDeleteAndSua(
+                              idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
+                              codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                            ))
+                          line(
+                            paddingLeft: 35,
+                          ),
+                        if (widget.cubit.checkUpdateXuLy(
+                          codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                        ))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,
                             icon: ImageAssets.ic_update,

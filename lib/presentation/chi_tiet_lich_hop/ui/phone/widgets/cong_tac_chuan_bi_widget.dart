@@ -68,7 +68,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
       ),
       tabletScreen: CongTacChuanBiWidgetTablet(
         cubit: widget.cubit,
-        cubitTaoLichHop:_cubitTaoLichHop ,
+        cubitTaoLichHop: _cubitTaoLichHop,
       ),
     );
   }
@@ -92,17 +92,19 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
                   id: HiveLocal.getDataUser()
-                      ?.userInformation
-                      ?.donViTrucThuoc
-                      ?.id ??
+                          ?.userInformation
+                          ?.donViTrucThuoc
+                          ?.id ??
                       '',
                   onChange: (value) {
-                    _cubitTaoLichHop.chonPhongHopMetting(
+                    _cubitTaoLichHop
+                        .chonPhongHopMetting(
                       taoLichHopRequest: widget.cubit.taoLichHopRequest,
                       value: value,
                       cubit: widget.cubit,
-                    ).then((value) {
-                      if(value){
+                    )
+                        .then((value) {
+                      if (value) {
                         widget.cubit.getListStatusRoom();
                         widget.cubit.callApiCongTacChuanBi();
                       }
@@ -182,10 +184,15 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 padding: const EdgeInsets.only(top: 20),
                 child: titleType(
                   title: S.current.thong_tin_yeu_cau_chuan_bi,
-                  child: itemThongTinYeuCauChuanBi(
-                    model: data,
-                    cubit: widget.cubit,
-                  ),
+                  child: ((data.noiDungYeuCau ?? '').isNotEmpty)
+                      ? itemThongTinYeuCauChuanBi(
+                          model: data,
+                          cubit: widget.cubit,
+                        )
+                      : const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 50),
+                          child: NodataWidget(),
+                        ),
                 ),
               );
             }

@@ -127,11 +127,7 @@ extension ScreenTypeScreen on ScreenType {
               id: id,
             ));
       case ScreenType.HANH_CHINH_CONG:
-        return Scaffold(
-          body: Center(
-            child: Text(S.current.tinh_nang_dang_phat_trien),
-          ),
-        );
+        return const Scaffold();
       case ScreenType.PAKN:
         return screenDevice(
             mobileScreen: ChiTietPKAN(

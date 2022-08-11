@@ -97,6 +97,7 @@ class _CongTacChuanBiWidgetTabletState
                       )
                           .then((value) {
                         if (value) {
+                          widget.cubit.needRefreshMainMeeting = true;
                           widget.cubit.getListStatusRoom();
                           widget.cubit.callApiCongTacChuanBi();
                         }

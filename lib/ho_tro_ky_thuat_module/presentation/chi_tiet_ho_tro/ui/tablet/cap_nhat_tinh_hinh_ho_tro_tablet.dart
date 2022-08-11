@@ -118,8 +118,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                         maxLine: 4,
                       ),
                       spaceH16,
-                      if (isTruongPhong &&
-                          _cubit.supportDetail.nguoiXuLy == null)
+                      if (isTruongPhong)
                         if (widget.idTask?.isNotEmpty ?? false) ...[
                           StreamBuilder<List<String>>(
                             stream: _cubit.getItSupport,
@@ -127,7 +126,9 @@ class _CapNhatTinhHinhHoTroTabLetState
                               if (snapshot.hasData) {
                                 return dropDownField(
                                   title: S.current.nguoi_xu_ly,
-                                  listDropdown: _cubit.listItSupport,
+                                  listDropdown:
+                                  _cubit.listItSupport,
+                                  maxLine: 2,
                                 );
                               } else {
                                 return const Center(
@@ -142,44 +143,9 @@ class _CapNhatTinhHinhHoTroTabLetState
                           dropDownField(
                             title: S.current.nguoi_xu_ly,
                             listDropdown: _cubit.listItSupport,
-                          )
-                        ]
-                      else ...[
-                        Text(
-                          S.current.nguoi_xu_ly,
-                          style: tokenDetailAmount(
-                            fontSize: 14,
-                            color: color3D5586,
+                            maxLine: 2,
                           ),
-                        ),
-                        spaceH8,
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: 12.w,
-                            top: 12.h,
-                            bottom: 12.h,
-                          ),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: borderColor.withOpacity(0.2),
-                            border: Border.all(
-                              color: borderColor,
-                            ),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                _cubit.supportDetail.nguoiXuLy ?? '',
-                                style: tokenDetailAmount(
-                                  fontSize: 14,
-                                  color: borderColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
                       spaceH16,
                       Text(
                         S.current.ngay_hoan_thanh,

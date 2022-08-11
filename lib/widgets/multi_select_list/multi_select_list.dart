@@ -176,7 +176,8 @@ class _MultiSelectListState extends State<MultiSelectList> {
         ),
         isBottomShow: true,
         funcBtnOk: () {
-          Navigator.pop(context);
+          logic.luuDuLieu();
+          Navigator.pop(context, logic.selectedIndex);
         },
       ).then((value) {
         if (value != null) {

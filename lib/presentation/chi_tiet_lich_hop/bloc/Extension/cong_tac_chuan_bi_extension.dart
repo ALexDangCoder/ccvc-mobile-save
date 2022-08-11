@@ -15,7 +15,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         getThongTinPhongHopSb.sink.add(res);
-        getThongTinYeuCauChuanBi.sink.add(res);
+        thongTinPhongHopModel = res;
+        getThongTinYeuCauChuanBi.sink.add(thongTinPhongHopModel);
         showContent();
       },
       error: (err) {},

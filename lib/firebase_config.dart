@@ -34,7 +34,7 @@ class FirebaseConfig {
   static void onMessageOpenApp() {
     FirebaseMessaging.onMessageOpenedApp.listen((value) {
       final data = FcmNotificationModel.fromJson(value.data);
-      if (data.screenTypeEnum != null) {
+      if (data.screenTypeEnum != null && PrefsService.getToken().isNotEmpty) {
         _pushDetails(data.screenTypeEnum!, data.detailId);
       }
     });

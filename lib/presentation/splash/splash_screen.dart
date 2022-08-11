@@ -34,6 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
         setState(() {});
       });
     });
+
+    FirebaseConfig.getInitialMessage();
+    FirebaseConfig.onMessageOpenApp();
+
   }
 
   @override
@@ -42,7 +46,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.didChangeDependencies();
     SizeConfig.init(context);
     MessageConfig.init(context);
-    FirebaseConfig.getInitialMessage();
   }
 
   @override

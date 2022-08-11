@@ -23,7 +23,6 @@ class _MainTabBarViewState extends State<MainTabBarView> {
 
     super.initState();
     _addScreen(TabBarType.home);
-    FirebaseConfig.onMessageOpenApp();
   }
 
   @override

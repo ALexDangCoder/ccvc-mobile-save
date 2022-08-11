@@ -88,7 +88,6 @@ class ItemGridView extends StatelessWidget {
                             isTree: isTree,
                             idFolder: idFolder,
                             isSearch: isSearch,
-                            isSourceShare: item.isSourceShare ?? false,
                           ),
                         );
                       } else {

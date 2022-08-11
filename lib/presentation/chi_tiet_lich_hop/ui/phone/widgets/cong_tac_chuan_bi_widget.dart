@@ -68,7 +68,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
       ),
       tabletScreen: CongTacChuanBiWidgetTablet(
         cubit: widget.cubit,
-        cubitTaoLichHop:_cubitTaoLichHop ,
+        cubitTaoLichHop: _cubitTaoLichHop,
       ),
     );
   }
@@ -183,14 +183,22 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 padding: const EdgeInsets.only(top: 20),
                 child: titleType(
                   title: S.current.thong_tin_yeu_cau_chuan_bi,
-                  child: itemThongTinYeuCauChuanBi(
-                    model: data,
-                    cubit: widget.cubit,
-                  ),
+                  child: ((data.noiDungYeuCau ?? '').isNotEmpty)
+                      ? itemThongTinYeuCauChuanBi(
+                          model: data,
+                          cubit: widget.cubit,
+                        )
+                      : const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 50),
+                          child: NodataWidget(),
+                        ),
                 ),
               );
             }
-            return const SizedBox();
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: NodataWidget(),
+            );
           },
         ),
 

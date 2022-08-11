@@ -15,7 +15,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         getThongTinPhongHopSb.sink.add(res);
-        getThongTinYeuCauChuanBi.sink.add(res);
+        thongTinPhongHopModel = res;
+        getThongTinYeuCauChuanBi.sink.add(thongTinPhongHopModel);
         showContent();
       },
       error: (err) {},
@@ -171,6 +172,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         if (res) {
+          needRefreshMainMeeting = true;
           getChiTietLichHop(idCuocHop);
           MessageConfig.show(
             title: S.current.tao_thanh_cong,

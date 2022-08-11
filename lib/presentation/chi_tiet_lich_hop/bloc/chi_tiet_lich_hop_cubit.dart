@@ -121,6 +121,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       BehaviorSubject();
   BehaviorSubject<List<DanhSachThanhPhanThamGiaModel>> listBieuQuyetSubject =
       BehaviorSubject();
+  ThongTinPhongHopModel thongTinPhongHopModel = ThongTinPhongHopModel();
   List<String> filesDelete = [];
   List<DonViModel> listTPTG = [];
   List<String> listLuaChon = [];

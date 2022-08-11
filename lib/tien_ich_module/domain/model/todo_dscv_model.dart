@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 
 class TodoListModelTwo {
@@ -98,17 +99,19 @@ class CountTodoModel {
 
   String icon() {
     switch (code) {
-      case 'TodoMe':
+      case DSCVScreen.CVCB :
         return ImageAssets.icCVCuaBan;
-      case 'Ticked':
+      case DSCVScreen.DHT:
         return ImageAssets.icHT;
-      case 'Important':
+      case DSCVScreen.CVQT :
         return ImageAssets.icCVQT;
-      case 'Deleted':
+      case DSCVScreen.DBX:
         return ImageAssets.icXoa;
-      case 'TaskOfGiveOther':
+      case DSCVScreen.DG:
         return ImageAssets.icGanChoToi;
-      case 'GroupTodo':
+      case DSCVScreen.GCT:
+        return ImageAssets.icGanChoToi;
+      case DSCVScreen.NCVM:
         return ImageAssets.ic_nhomCVMoi;
     }
     return '';

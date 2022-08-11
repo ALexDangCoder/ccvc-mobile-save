@@ -37,6 +37,12 @@ class _DanhSachCongViecTienIchMobileState
   }
 
   @override
+  void dispose() {
+    cubit.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarDSCV(cubit: cubit, context: context),
@@ -97,6 +103,7 @@ class _DanhSachCongViecTienIchMobileState
                             if (dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.CVQT ||
                                 dataType == DSCVScreen.DG ||
+                                dataType == DSCVScreen.GCT ||
                                 dataType == DSCVScreen.NCVM ||
                                 dataType == DSCVScreen.DBX)
                               StreamBuilder<List<TodoDSCVModel>>(
@@ -114,7 +121,7 @@ class _DanhSachCongViecTienIchMobileState
                                   if (data.isNotEmpty) {
                                     return Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.gan_cho_toi,
@@ -134,7 +141,7 @@ class _DanhSachCongViecTienIchMobileState
                                     ),
                                     child: Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.gan_cho_toi,
@@ -148,7 +155,7 @@ class _DanhSachCongViecTienIchMobileState
                               ),
 
                             /// list down
-                            if (dataType == DSCVScreen.CVCB ||
+                            if (dataType == DSCVScreen.DBX ||
                                 dataType == DSCVScreen.DHT ||
                                 dataType == DSCVScreen.NCVM)
                               StreamBuilder<List<TodoDSCVModel>>(
@@ -166,7 +173,7 @@ class _DanhSachCongViecTienIchMobileState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.da_hoan_thanh,
@@ -186,8 +193,7 @@ class _DanhSachCongViecTienIchMobileState
                                     ),
                                     child: Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
-                                            dataType == DSCVScreen.DBX ||
+                                        if (dataType == DSCVScreen.DBX ||
                                             dataType == DSCVScreen.NCVM)
                                           textTitle(
                                             S.current.da_hoan_thanh,

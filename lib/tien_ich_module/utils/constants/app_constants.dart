@@ -257,6 +257,7 @@ class DSCVScreen {
   static const String CVQT = 'Important';
   static const String DHT = 'Ticked';
   static const String DG = 'TaskOfGiveOther';
+  static const String GCT = 'TaskForMe';
   static const String DBX = 'Deleted';
   static const String NCVM = 'GroupTodo';
 

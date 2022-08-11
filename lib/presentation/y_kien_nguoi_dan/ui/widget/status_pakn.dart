@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 Widget statusWidget({
   required List<ChartData> listData,
   required Function(int index) callBack,
+  bool? isTablet = false,
 }) {
   final data = listData.map((e) => e.value).toList();
   final total = data.reduce((a, b) => a + b);
@@ -77,60 +78,28 @@ Widget statusWidget({
       const SizedBox(
         height: 24,
       ),
-      GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 2,
-        childAspectRatio: 9,
-        mainAxisSpacing: 10.0.textScale(space: 4),
-        crossAxisSpacing: 10,
-        children: List.generate(listData.length - 1, (index) {
-          final result = listData[index];
-          // ignore: avoid_unnecessary_containers
-          return InkWell(
-            onTap: () => callBack(index),
-            child: Row(
-              children: [
-                Container(
-                  height: 14,
-                  width: 14,
-                  decoration: BoxDecoration(
-                    color: result.color,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                Expanded(
-                  child: Text(
-                    '${result.title} (${result.value.toInt()})',
-                    style: textNormal(
-                      infoColor,
-                      14.0,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        }),
-      ),
-      SizedBox(
-        height: 10.0.textScale(space: 4),
-      ),
-      Row(
-        children: [
-          Expanded(
-            child: InkWell(
-              onTap: () => callBack(listData.length - 1),
+      Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: isTablet ?? false ? 14.0 : 0.0),
+        child: GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          childAspectRatio: 8,
+          mainAxisSpacing: 10.0.textScale(space: 4),
+          crossAxisSpacing: 10,
+          children: List.generate(listData.length - 1, (index) {
+            final result = listData[index];
+            // ignore: avoid_unnecessary_containers
+            return InkWell(
+              onTap: () => callBack(index),
               child: Row(
                 children: [
                   Container(
                     height: 14,
                     width: 14,
                     decoration: BoxDecoration(
-                      color: lastStatusChart.color,
+                      color: result.color,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -139,19 +108,60 @@ Widget statusWidget({
                   ),
                   Expanded(
                     child: Text(
-                      '${lastStatusChart.title} (${lastStatusChart.value.toInt()})',
+                      '${result.title} (${result.value.toInt()})',
                       style: textNormal(
                         infoColor,
                         14.0,
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
+            );
+          }),
+        ),
+      ),
+      SizedBox(
+        height: 10.0.textScale(space: 4),
+      ),
+      Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: isTablet ?? false ? 14.0 : 0.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () => callBack(listData.length - 1),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 14,
+                      width: 14,
+                      decoration: BoxDecoration(
+                        color: lastStatusChart.color,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${lastStatusChart.title} (${lastStatusChart.value.toInt()})',
+                        style: textNormal(
+                          infoColor,
+                          14.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-          const Expanded(child: SizedBox.shrink()),
-        ],
+            const Expanded(child: SizedBox.shrink()),
+          ],
+        ),
       )
     ],
   );

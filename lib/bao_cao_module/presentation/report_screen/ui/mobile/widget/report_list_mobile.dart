@@ -114,7 +114,7 @@ class ReportListMobile extends StatelessWidget {
               title: value.name ?? '',
               cubit: cubit,
               isListView: isListView,
-              reportModel: value,
+              reportId: value.id ?? '',
             );
           },
         ),
@@ -129,10 +129,6 @@ class ReportListMobile extends StatelessWidget {
               cubit.getListReport(
                 idFolder: cubit.mapFolderID[cubit.levelFolder - 1],
                 isTree: true,
-                isShare:
-                    (!cubit.isCheckOwner(listAccess: value.accesses ?? []) ||
-                            value.isSourceShare == true) ||
-                        (value.shareToMe ?? false),
               ),
             }
         },

@@ -467,7 +467,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                                 children: [
                                                   Expanded(
                                                     child: bottomButtonWidget(
-                                                      background: buttonColor
+                                                      background: AppTheme.getInstance().colorField()
                                                           .withOpacity(0.1),
                                                       title: S.current.tu_choi,
                                                       onTap: () {
@@ -487,7 +487,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                                           );
                                                         });
                                                       },
-                                                      textColor: buttonColor,
+                                                      textColor: AppTheme.getInstance().colorField(),
                                                     ),
                                                   ),
                                                   const SizedBox(
@@ -495,7 +495,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                                   ),
                                                   Expanded(
                                                     child: bottomButtonWidget(
-                                                      background: buttonColor,
+                                                      background: AppTheme.getInstance().colorField(),
                                                       title: S.current.tham_du,
                                                       onTap: () {
                                                         chiTietLichLamViecCubit

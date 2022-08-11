@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 
 const _CHO_DUYET = 0;
 const _DA_DUYET = 1;
-enum TrangThaiPhongHop { CHO_DUYET, DA_DUYET }
+const _HUY_DUYET = 2;
+
+enum TrangThaiPhongHop { CHO_DUYET, DA_DUYET, HUY_DUYET }
 
 extension TrangThaiPhongHopEX on TrangThaiPhongHop {
   String getText() {
@@ -14,6 +16,8 @@ extension TrangThaiPhongHopEX on TrangThaiPhongHop {
         return S.current.cho_duyet;
       case TrangThaiPhongHop.DA_DUYET:
         return S.current.da_duyet;
+      case TrangThaiPhongHop.HUY_DUYET:
+        return S.current.huy_duyet;
     }
   }
 
@@ -23,6 +27,8 @@ extension TrangThaiPhongHopEX on TrangThaiPhongHop {
         return itemWidgetNotUse;
       case TrangThaiPhongHop.DA_DUYET:
         return itemWidgetUsing;
+      case TrangThaiPhongHop.HUY_DUYET:
+        return colord32f2f;
     }
   }
 }
@@ -73,6 +79,8 @@ class ThongTinPhongHopModel {
         return TrangThaiPhongHop.CHO_DUYET;
       case _DA_DUYET:
         return TrangThaiPhongHop.DA_DUYET;
+      case _HUY_DUYET:
+        return TrangThaiPhongHop.HUY_DUYET;
     }
     return TrangThaiPhongHop.CHO_DUYET;
   }
@@ -117,6 +125,8 @@ class ThietBiPhongHopModel {
         return TrangThaiPhongHop.CHO_DUYET;
       case _DA_DUYET:
         return TrangThaiPhongHop.DA_DUYET;
+      case _HUY_DUYET:
+        return TrangThaiPhongHop.HUY_DUYET;
     }
     return TrangThaiPhongHop.CHO_DUYET;
   }

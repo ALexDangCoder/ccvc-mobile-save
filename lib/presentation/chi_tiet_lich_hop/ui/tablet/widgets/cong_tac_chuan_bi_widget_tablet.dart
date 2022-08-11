@@ -212,8 +212,9 @@ class _CongTacChuanBiWidgetTabletState
                             stream: widget.cubit.chiTietLichHopSubject.stream,
                             builder: (context, snapshot) {
                               if (!snapshot.hasData &&
-                                  widget.cubit
-                                      .checkPermissionQuyenDuyetPhong()) {
+                                  widget.cubit.checkPermissionQuyenDuyetPhong(
+                                      isCheckHideButton: true,
+                                  )) {
                                 return const SizedBox();
                               }
                               return Row(
@@ -364,7 +365,7 @@ class _CongTacChuanBiWidgetTabletState
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (widget.cubit.isButtonYeuCauChuanBiPhong())
+              if (widget.cubit.isButtonYeuCauChuanBiPhong(isCheckHideButton: true))
                 Expanded(
                   child: GestureDetector(
                     onTap: () {

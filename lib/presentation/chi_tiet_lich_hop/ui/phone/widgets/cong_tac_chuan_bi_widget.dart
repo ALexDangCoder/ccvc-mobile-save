@@ -217,12 +217,11 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                           stream: widget.cubit.chiTietLichHopSubject.stream,
                           builder: (context, snapshot) {
                             if (!snapshot.hasData &&
-                                widget.cubit.checkPermissionQuyenDuyetPhong(
-                                  isCheckHideButton: true,
-                                )) {
+                                widget.cubit.checkPermissionQuyenDuyetPhong()) {
                               return const SizedBox();
                             }
-                            return Row(
+                            if(widget.cubit.checkPermissionQuyenDuyetPhong(isCheckHideButton: true)) {
+                              return Row(
                               children: [
                                 ButtonOtherWidget(
                                   text: S.current.duyet,
@@ -243,6 +242,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                 ),
                               ],
                             );
+                            }
+                            return const SizedBox();
                           },
                         ),
                       ),

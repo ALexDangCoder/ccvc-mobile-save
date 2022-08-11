@@ -35,10 +35,9 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobi
 class TienIchRepositoryImpl implements TienIchRepository {
   final TienIchService _tienIchService;
   final TienIchServiceCommon _tienIchServiceCommon;
-  final TienIchServiceUAT _tienIchServiceUAT;
   final TienIchServiceGateWay _tienIchServiceGateWay;
 
-  TienIchRepositoryImpl(this._tienIchService, this._tienIchServiceUAT,
+  TienIchRepositoryImpl(this._tienIchService,
       this._tienIchServiceCommon, this._tienIchServiceGateWay);
 
   @override
@@ -76,14 +75,17 @@ class TienIchRepositoryImpl implements TienIchRepository {
 
   @override
   Future<Result<ItemChonBienBanCuocHopModel>> getListNguoiThucHien(
-    bool isGetAll,
+    String hoTen,
     int pageSize,
     int pageIndex,
   ) {
     return runCatchingAsync<ListNguoiThucHienResponse,
         ItemChonBienBanCuocHopModel>(
       () => _tienIchServiceCommon.getListNguoiThucHien(
-          isGetAll, pageSize, pageIndex),
+        hoTen,
+        pageSize,
+        pageIndex,
+      ),
       (res) => res.data.toDomain(),
     );
   }

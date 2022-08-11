@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/widgets/data_view_widget/type_calender/data_view_calendar_day.dart';
 import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/calendar_controller.dart';
@@ -84,7 +85,7 @@ class _DataViewCalendarMonthState extends State<DataViewCalendarMonth> {
           controller: widget.fCalendarController,
           headerHeight: 0.0,
           view: CalendarView.month,
-          todayHighlightColor: labelColor,
+          todayHighlightColor: AppTheme.getInstance().colorField(),
           appointmentTimeTextFormat: 'hh:mm:ss a',
           dataSource: widget.data,
           viewHeaderStyle: ViewHeaderStyle(

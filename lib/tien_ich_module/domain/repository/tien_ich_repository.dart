@@ -24,7 +24,7 @@ mixin TienIchRepository {
   Future<Result<TodoDSCVModel>> createTodo(CreateToDoRequest createToDoRequest);
 
   Future<Result<ItemChonBienBanCuocHopModel>> getListNguoiThucHien(
-    bool isGetAll,
+    String hoTen,
     int pageSize,
     int pageIndex,
   );

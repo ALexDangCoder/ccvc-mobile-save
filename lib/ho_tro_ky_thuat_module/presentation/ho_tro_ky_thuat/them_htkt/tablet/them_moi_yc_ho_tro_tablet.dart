@@ -230,10 +230,10 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                         );
                                         if (selectIndexList.isNotEmpty) {
                                           widget.cubit.showErrorLoaiSuCo.add(
-                                              false);
+                                              false,);
                                         } else {
                                           widget.cubit.showErrorLoaiSuCo.add(
-                                              true);
+                                              true,);
                                         }
                                       },
                                       isInit: false,

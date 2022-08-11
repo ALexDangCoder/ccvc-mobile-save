@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/table
 import 'package:ccvc_mobile/bao_cao_module/presentation/chia_se_bao_cao/ui/tablet/tab_ngoai_he_thong_tablet.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -19,7 +20,8 @@ class ChiaSeBaoCaoTablet extends StatefulWidget {
   const ChiaSeBaoCaoTablet({
     Key? key,
     required this.idReport,
-    required this.appId, required this.type,
+    required this.appId,
+    required this.type,
   }) : super(key: key);
 
   final String idReport;
@@ -54,7 +56,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
       builder: () {
         return Container(
           clipBehavior: Clip.hardEdge,
-          height: 750.h,
+          height: 750,
           width: 592.w,
           //padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           decoration: const BoxDecoration(
@@ -93,9 +95,9 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
-                          size: 24.sp,
+                          size: 24,
                           color: colorA2AEBD,
                         ),
                       ),
@@ -128,7 +130,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                             Get.find<AppConstants>().urlHTCS + widget.idReport,
                             style: textNormalCustom(
                               color: labelColor,
-                              fontSize: 14,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -177,11 +179,11 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.tab,
                     //isScrollable: true,
-                    labelColor: textDefault,
+                    labelColor: AppTheme.getInstance().colorField(),
                     unselectedLabelColor: infoColor,
-                    indicatorColor: textDefault,
+                    indicatorColor: AppTheme.getInstance().colorField(),
                     labelStyle: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
                     physics: const AlwaysScrollableScrollPhysics(),

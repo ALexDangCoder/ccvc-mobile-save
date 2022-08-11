@@ -47,6 +47,7 @@ class _ReportWebViewMobileState extends State<ReportWebViewMobile> {
       child: Scaffold(
         appBar: AppBarDefaultBack(
           widget.title,
+          callback: (){},
         ),
         body: StreamBuilder<String?>(
           stream: widget.cubit.urlReportWebView,

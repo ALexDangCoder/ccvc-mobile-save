@@ -29,9 +29,11 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     }
   }
 
-  Future<void> loadApiEditYCHT(
+   Future<void> loadApiEditYCHT(
       {required String id, required String idKhuVuc}) async {
     showLoading();
+    isLoadDidUpdateWidget = true;
+
     editModelHTKT.add(SupportDetail());
 
     ///get data building, district
@@ -44,6 +46,7 @@ extension CreateTechSupport on HoTroKyThuatCubit {
       isLoadCreate: false,
       khuVucId: idKhuVuc,
     );
+    await getCategory(title: HoTroKyThuatCubit.LOAI_SU_CO);
     listKhuVuc.sink.add(areaList);
     listLoaiSuCo.sink.add(issueList);
     sinkIssue();
@@ -122,7 +125,20 @@ extension CreateTechSupport on HoTroKyThuatCubit {
     for (final e in indexList) {
       addTaskHTKTRequest.danhSachSuCo!.add(listLoaiSuCo.value[e].id ?? '');
     }
-    checkAllThemMoiYCHoTro();
+  }
+
+  void searchIssue(String? value) {
+    final List<String> valueSearch = [];
+    if (value == null || value.isEmpty) {
+      issueListStream.sink.add(allIssue);
+    } else {
+      for (final String suCo in allIssue) {
+        if (suCo.toLowerCase().contains(value.toLowerCase())) {
+          valueSearch.add(suCo);
+        }
+      }
+      issueListStream.sink.add(valueSearch);
+    }
   }
 
   void addIssuesEdit(List<int> index) {

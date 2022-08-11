@@ -19,6 +19,7 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class YeuCauThemThietBiWidget extends StatefulWidget {
@@ -183,7 +184,9 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                     hintText: S.current.nhap_ten_thiet_bi,
                     controller: tenThietBi,
                     validator: (value) {
-                      return (value ?? '').checkNull();
+                      return (value ?? '').pleaseEnter(
+                        S.current.ten_thiet_bi.toLowerCase(),
+                      );
                     },
                   ),
                 ),
@@ -195,8 +198,12 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                     controller: soLuong,
                     hintText: S.current.nhap_so_luong,
                     maxLength: 9,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                     validator: (value) {
-                      final result = (value ?? '').checkNull();
+                      final result =
+                          (value ?? '').pleaseEnter(S.current.so_luong.toLowerCase());
                       if (result != null) {
                         return result;
                       }

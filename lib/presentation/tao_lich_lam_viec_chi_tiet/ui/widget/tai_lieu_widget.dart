@@ -17,6 +17,7 @@ class TaiLieuWidget extends StatefulWidget {
   final Function(int index)? getIndex;
   final bool isHaveExpanded;
   String size;
+  final bool isTitle;
 
   TaiLieuWidget({
     Key? key,
@@ -26,6 +27,7 @@ class TaiLieuWidget extends StatefulWidget {
     this.size = '',
     this.isHaveExpanded = false,
     this.getIndex,
+    this.isTitle = true,
   }) : super(key: key);
 
   @override
@@ -42,14 +44,16 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.isHaveExpanded)
-          Text(
-            S.current.tai_lieu,
-            style: textNormalCustom(
-              fontWeight: FontWeight.w500,
-              fontSize: 16.0.textScale(),
-              color: color667793,
-            ),
-          )
+          widget.isTitle
+              ? Text(
+                  S.current.tai_lieu,
+                  style: textNormalCustom(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.0.textScale(),
+                    color: color667793,
+                  ),
+                )
+              : Container()
         else
           GestureDetector(
             onTap: () {
@@ -59,14 +63,17 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  S.current.tai_lieu,
-                  style: textNormalCustom(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.0.textScale(),
-                    color: color667793,
-                  ),
-                ),
+                if (widget.isTitle)
+                  Text(
+                    S.current.tai_lieu,
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.0.textScale(),
+                      color: color667793,
+                    ),
+                  )
+                else
+                  Container(),
                 if (isExpand)
                   const Icon(
                     Icons.keyboard_arrow_up_rounded,
@@ -89,7 +96,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             hasMultipleFile: true,
             maxSize: maxSize20MB,
             files: widget.files,
-            title: S.current.dinh_kem_tep_english,
+            title: S.current.tai_lieu_dinh_kem,
             onChange: (List<File> files, bool validate) {
               widget.onChange(files, validate);
             },

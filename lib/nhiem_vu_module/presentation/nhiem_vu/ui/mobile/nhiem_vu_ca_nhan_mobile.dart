@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/phone/chi_tiet_nhiem_vu_phone_screen.dart';
@@ -31,7 +32,7 @@ class NhiemVuCaNhanMobile extends StatefulWidget {
     required this.isCheck,
     required this.danhSachCubit,
     required this.nhiemVuCubit,
-    this.maTrangThai='',
+    this.maTrangThai = '',
   }) : super(key: key);
 
   @override
@@ -45,12 +46,11 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.danhSachCubit.mangTrangThai=widget.maTrangThai;
+    widget.danhSachCubit.mangTrangThai = widget.maTrangThai;
     widget.danhSachCubit.keySearch = '';
-    if(widget.maTrangThai.isNotEmpty){
+    if (widget.maTrangThai.isNotEmpty) {
       widget.danhSachCubit.callApi(true, canCallApi: false);
-    }
-    else{
+    } else {
       widget.danhSachCubit.callApi(true);
     }
   }
@@ -101,7 +101,8 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                             false;
                                         widget.danhSachCubit.keySearch = '';
                                         widget.danhSachCubit.mangTrangThai = '';
-                                        widget.danhSachCubit.loadMoreList.clear();
+                                        widget.danhSachCubit.loadMoreList
+                                            .clear();
                                         widget.danhSachCubit
                                             .postDanhSachNhiemVu(
                                           isNhiemVuCaNhan: widget.isCheck,
@@ -212,9 +213,9 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                         onTap: () {
                           widget.danhSachCubit.setSelectSearch();
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.search,
-                          color: textBodyTime,
+                          color: AppTheme.getInstance().colorField(),
                         ),
                       ),
                       const SizedBox(
@@ -250,7 +251,6 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           }
         },
         child: ComplexLoadMore(
-
           childrenView: [
             FilterDateTimeWidget(
               context: context,

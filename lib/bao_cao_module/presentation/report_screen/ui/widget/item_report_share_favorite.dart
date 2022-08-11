@@ -130,7 +130,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
           width: MediaQuery.of(context).size.width,
           color: borderColor.withOpacity(0.5),
         ),
-        if (!(widget.item.shareToMe ?? true))
+        if (widget.cubit.checkShare(listAccess: widget.item.accesses ?? []))
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -145,6 +145,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                     context: context,
                     builder: (_) {
                       return Scaffold(
+                        //resizeToAvoidBottomInset: false,
                         backgroundColor: Colors.transparent,
                         body: Center(
                           child: ChiaSeBaoCaoTablet(

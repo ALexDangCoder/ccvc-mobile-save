@@ -14,7 +14,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
 
   List<Node<DonViModel>> listTree = [];
   Timer? _debounce;
-  final List<Node<DonViModel>> selectNode = [];
+  List<Node<DonViModel>> selectNode = [];
   final List<CanBoModel> listIdDonViRemove = [];
   Node<DonViModel>? selectNodeOnlyValue;
   BehaviorSubject<bool> themDonViSubject = BehaviorSubject();
@@ -80,17 +80,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
 
   void addSelectParent(Node<DonViModel> node, {required bool isCheck}) {
     if (isCheck) {
-      if ((node.parent?.children.isNotEmpty ?? false) &&
-          node.parent?.children
-                  .where((element) => element.isCheck.isCheck)
-                  .length ==
-              node.parent?.children.length) {
-        _addParentSelectNode(node);
-      } else if (_isCheckChildrenIsSelectNode(node)) {
-        _addNodeParentChildren(node);
-      } else {
-        selectNode.add(node);
-      }
+      selectNode.add(node);
     } else {
       selectNode.remove(node);
     }
@@ -109,24 +99,6 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     return false;
   }
 
-  void _addNodeParentChildren(Node<DonViModel> node) {
-    for (final element in node.children) {
-      if (selectNode.contains(element)) {
-        selectNode.remove(element);
-      }
-    }
-    selectNode.add(node);
-  }
-
-  void _addParentSelectNode(Node<DonViModel> node) {
-    for (final element in node.parent?.children ?? []) {
-      if (selectNode.contains(element)) {
-        selectNode.remove(element);
-      }
-    }
-    selectNode.add(node.parent!);
-  }
-
   void selectNodeOnly(Node<DonViModel> node) {
     selectNodeOnlyValue = node;
     _selectOnlyDonVi.sink.add(node);
@@ -137,6 +109,34 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     _selectDonVi.sink.add(selectNode);
     node.isCheck.isCheck =
         false; //dùng tham chiếu không phải loop lại tree để xét lại checkbox
+    _getTree.sink.add(listTree);
+  }
+
+  void removeCheckBox(Node<DonViModel> node) {
+    selectNode.removeWhere((element) => element.value.id == node.value.id);
+    _selectDonVi.sink.add(selectNode);
+    _getTree.sink.add(_getTree.value);
+  }
+
+  List<CacheDonVi> listCacheDonVi = [];
+
+  void saveCached() {
+    listCacheDonVi.clear();
+    for (int i = 0; i < selectNode.length; i++) {
+      listCacheDonVi.add(CacheDonVi(selectNode[i]));
+    }
+  }
+
+  void clearData() {
+    for (final element in selectNode) {
+      element.isCheck.isCheck = false;
+    }
+    selectNode.clear();
+    for (final element in listCacheDonVi) {
+      element.node.isCheck.isCheck = true;
+      selectNode.add(element.node);
+    }
+    _selectDonVi.add(selectNode);
   }
 
   void initSelectNode(List<DonViModel> value) {
@@ -243,4 +243,10 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   void dispose() {
     _getTree.close();
   }
+}
+
+class CacheDonVi {
+  Node<DonViModel> node;
+
+  CacheDonVi(this.node);
 }

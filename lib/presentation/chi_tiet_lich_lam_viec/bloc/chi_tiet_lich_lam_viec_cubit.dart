@@ -63,7 +63,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   CalendarWorkRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
-  final showButtonAddOpinion = BehaviorSubject.seeded(false);
   final showButtonApprove = BehaviorSubject.seeded(false);
   final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
   final donViTrucThuocId =
@@ -71,7 +70,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   String createUserId = '';
   String scheduleOperativeId = '';
   String scheduleId = '';
-  String idDanhSachCanBo = '';
   List<DonViModel> listTPTG = [];
 
   void xoaKhachMoiThamGiaCuCanBoDiThay(
@@ -208,8 +206,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       success: (data) {
         listOfficer.sink.add(data);
         getListStatusKhacThuHoi(data);
-        listRecall.sink
-            .add(data);
+        listRecall.sink.add(data);
         dataRecall = data;
         officersTmp = data;
       },
@@ -238,24 +235,23 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     unawaited(queue.add(() => getOfficer(id)));
     unawaited(dataTrangThai());
     await queue.onComplete;
+    checkShowButtonApprove();
+    showContent();
+  }
 
+  void checkShowButtonApprove() {
     bool? isThamGia;
     for (final element in officersTmp) {
-      if (element.userId == currentUserId &&
-          (element.userId?.isNotEmpty ?? false) &&
-          currentUserId.isNotEmpty) {
-        showButtonAddOpinion.sink.add(true);
-      } else {
-        showButtonAddOpinion.sink.add(false);
-      }
       if (element.canBoId == currentUserId ||
-          element.donViId == donViTrucThuocId) {
+          (element.donViId == donViTrucThuocId &&
+              (element.canBoId ?? '').isEmpty)) {
         isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
-            element.isThamGia == true;
+            element.isThamGia == true &&
+            chiTietLichLamViecModel.status != EnumScheduleStatus.Cancel;
+        break;
       }
     }
     showButtonApprove.sink.add(isThamGia ?? false);
-    showContent();
   }
 
   Future<void> getDanhSachBaoCaoKetQua(
@@ -469,16 +465,33 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(idLichLamViec);
     rs.when(
       success: (data) {
-        final donViId =
-            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
-        final idCuCanBo = data
-            .firstWhere(
-              (element) => element.donViId == donViId,
-              orElse: () => Officer(),
-            )
-            .id;
-        idDanhSachCanBo = idCuCanBo ?? '';
-        final listCanBoMoi = data
+        //cu can bo
+        final idDonVi = data.firstWhere(
+          (element) => element.donViId == donViTrucThuocId,
+          orElse: () => Officer(),
+        );
+        final parentDonVi = CuCanBoTreeDonVi(
+          scheduleId: idDonVi.scheduleId,
+          confirmDate: idDonVi.confirmDate,
+          parentId: idDonVi.parentId,
+          status: idDonVi.status ?? 0,
+          isConfirm: idDonVi.isConfirm,
+          userId: idDonVi.userId ?? '',
+          id: idDonVi.id ?? '',
+          name: idDonVi.tenDonVi ?? '',
+          tenCanBo: idDonVi.hoTen ?? '',
+          hoTen: idDonVi.hoTen ?? '',
+          canBoId: idDonVi.canBoId ?? '',
+          donViId: idDonVi.donViId ?? '',
+          tenDonVi: idDonVi.tenDonVi ?? '',
+          taskContent: idDonVi.taskContent ?? '',
+        );
+
+        /// lay con cua don vi
+        final canBoDiThay = data.where(
+          (element) => element.parentId == idDonVi.id,
+        );
+        final listCanBoMoi = canBoDiThay
             .map(
               (element) => CuCanBoTreeDonVi(
                 scheduleId: element.scheduleId,
@@ -498,8 +511,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
               ),
             )
             .toList();
+        listCanBoMoi.insert(0, parentDonVi);
         listDataCanBo = listCanBoMoi;
-        cubitThanhPhanTG.listCanBoDuocChon = data
+        cubitThanhPhanTG.listCanBoDuocChon = canBoDiThay
             .map(
               (element) => CuCanBoTreeDonVi(
                 scheduleId: element.scheduleId,
@@ -540,20 +554,9 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final rs = await dataRepo.getOfficerJoin(idLichLamViec);
     rs.when(
       success: (data) {
-        final donViId =
-            HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ?? '';
-        final idCuCanBo = data
-            .firstWhere(
-              (element) => element.donViId == donViId,
-              orElse: () => Officer(),
-            )
-            .id;
-        idDanhSachCanBo = idCuCanBo ?? '';
-
         ///cu can bo di thay
-        final canBoId = HiveLocal.getDataUser()?.userId;
         final idCanBo = data.firstWhere(
-          (element) => element.canBoId == canBoId,
+          (element) => element.canBoId == currentUserId,
           orElse: () => Officer(),
         );
         final parentCanBo = DonViModel(
@@ -564,6 +567,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           donViId: idCanBo.donViId ?? '',
           tenDonVi: idCanBo.tenDonVi ?? '',
           noidung: idCanBo.taskContent ?? '',
+          userId: idCanBo.userId ?? '',
         );
         donViModel = parentCanBo;
 
@@ -581,9 +585,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
                 donViId: element.donViId ?? '',
                 tenDonVi: element.tenDonVi ?? '',
                 noidung: element.taskContent ?? '',
+                userId: element.userId ?? '',
               ),
             )
             .toList();
+        listCanBoMoi.insert(0, parentCanBo);
         listDataCanBo = listCanBoMoi;
         cubitThanhPhanTG.listCanBoDuocChon = canBoDiThay
             .map(
@@ -595,6 +601,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
                 donViId: element.donViId ?? '',
                 tenDonVi: element.tenDonVi ?? '',
                 noidung: element.taskContent ?? '',
+                userId: element.canBoId ?? '',
               ),
             )
             .toList();
@@ -650,6 +657,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
               donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
               canBoId: canBo.userId.isEmpty ? null : canBo.userId,
               taskContent: canBo.noidung,
+              isXoa: false,
             ),
           )
           .toList(),
@@ -668,16 +676,17 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         id: donViModel.id,
         donViId: donViModel.donViId,
         canBoId: donViModel.canBoId,
-        taskContent: donViModel.noidung,
+        taskContent: donViModel.noidung.isEmpty ? null : donViModel.noidung,
       ),
     );
     final listCanBo = listDataCanBo
         .map(
-          (e) => CuCanBoDiThayLichLamViec(
-            id: e.id,
-            donViId: e.donViId,
-            canBoId: e.canBoId,
-            taskContent: e.noidung,
+          (cuCanBoDiThay) => CuCanBoDiThayLichLamViec(
+            id: cuCanBoDiThay.id.isEmpty ? null : cuCanBoDiThay.id,
+            donViId: cuCanBoDiThay.donViId,
+            canBoId:
+                cuCanBoDiThay.canBoId.isEmpty ? null : cuCanBoDiThay.canBoId,
+            taskContent: cuCanBoDiThay.noidung,
           ),
         )
         .toSet();
@@ -914,7 +923,15 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   bool donViId(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives
-            ?.where((element) => element.donViId == donViTrucThuocId)
+            ?.where(
+              (element) =>
+                  (element.donViId == donViTrucThuocId) &&
+                  (element.canBoId == null) &&
+                  HiveLocal.checkPermissionApp(
+                    permissionType: PermissionType.VPDT,
+                    permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
+                  ),
+            )
             .isNotEmpty ??
         false;
   }
@@ -924,7 +941,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           (element) =>
               element.status == StatusOfficersConst.STATUS_THAM_GIA &&
               (element.canBoId == currentUserId ||
-                  element.donViId == donViTrucThuocId),
+                  (element.donViId == donViTrucThuocId &&
+                      element.canBoId == null)),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -934,7 +952,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           (element) =>
               element.status == StatusOfficersConst.STATUS_TU_CHOI &&
               (element.canBoId == currentUserId ||
-                  element.donViId == donViTrucThuocId),
+                  (element.donViId == donViTrucThuocId &&
+                      element.canBoId == null)),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -989,10 +1008,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         isDonViThamGia;
   }
 
-  bool checkChoxoa(ChiTietLichLamViecModel dataModel) {
-    return (checkXoa(dataModel) == StatusOfficersConst.STATUS_DEFAULT) &&
-        checkChoSuaLich(dataModel); //=
-  }
+  bool checkChoxoa(ChiTietLichLamViecModel dataModel) =>
+      checkChoSuaLich(dataModel);
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
     return checkHuyXacNhan(dataModel) >=
@@ -1058,7 +1075,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   String reportStatusId = '';
   Set<File> files = {};
   List<FileModel> fileInit = [];
-  List<FileModel> fileDelete = [];
+  List<String> fileDeleteId = [];
   String content = '';
   TinhTrangBaoCaoModel? tinhTrangBaoCaoModel;
   final BehaviorSubject<bool> updateFilePicker = BehaviorSubject<bool>();
@@ -1131,7 +1148,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       scheduleId: scheduleId,
       content: content,
       files: files.toList(),
-      idFileDelele: fileDelete.map((e) => e.id ?? '').toList(),
+      idFileDelele: fileDeleteId,
       reportStatusId: reportStatusId,
     );
     ShowLoadingScreen.dismiss();
@@ -1154,19 +1171,5 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
         }
       },
     );
-  }
-
-  bool checkLenghtFile() {
-    int sum = 0;
-    for (final element in files) {
-      sum = sum + element.lengthSync();
-    }
-    for (final element in fileInit) {
-      sum += element.fileLength?.toInt() ?? 0;
-    }
-    if (sum > MaxSizeFile.MAX_SIZE_30MB) {
-      return false;
-    }
-    return true;
   }
 }

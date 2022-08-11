@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kien_su_ly_nhiem_vu_model.dart';
@@ -369,6 +370,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                 ImageAssets.ic_send,
                 width: 24,
                 height: 24,
+                color: AppTheme.getInstance().colorField(),
               ),
             ),
           ],

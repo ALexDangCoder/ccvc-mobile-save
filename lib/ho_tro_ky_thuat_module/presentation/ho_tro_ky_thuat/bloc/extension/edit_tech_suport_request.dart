@@ -3,14 +3,10 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:get/get.dart';
 
 extension EditTechSupportRequest on HoTroKyThuatCubit {
-  List<String> getTechSupportValue(List<String> idList) {
-    final List<String> issueNameList = [];
-    for (final e in idList) {
-      final item =
-          listLoaiSuCo.value.where((element) => element.id == e).toList().first;
-      issueNameList.add(item.name ?? '');
+  void removeFileId(String id) {
+    if ((editTaskHTKTRequest.lstFileId ?? []).contains(id)) {
+      editTaskHTKTRequest.lstFileId?.remove(id);
     }
-    return issueNameList;
   }
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => Get.find();
@@ -19,8 +15,8 @@ extension EditTechSupportRequest on HoTroKyThuatCubit {
     final result = await _hoTroKyThuatRepository.getSupportDetail(id);
     result.when(
       success: (success) {
+        editTaskHTKTRequest.fileUpload = [];
         modelEditHTKT = success;
-
         ///start
         editTaskHTKTRequest.buildingId = success.buildingId ?? '';
         editTaskHTKTRequest.districtId = success.districId ?? '';
@@ -39,7 +35,7 @@ extension EditTechSupportRequest on HoTroKyThuatCubit {
         editTaskHTKTRequest.description = success.moTaSuCo;
         editTaskHTKTRequest.name = success.tenThietBi;
         editTaskHTKTRequest.lstFileId =
-            success.filesDinhKem?.map((e) => e.id ?? '').toList();
+            success.filesDinhKem?.map((e) => e.fileId ?? '').toList();
 
         ///end
         editModelHTKT.add(success);

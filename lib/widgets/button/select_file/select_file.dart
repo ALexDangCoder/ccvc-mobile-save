@@ -15,6 +15,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class SelectFileBtn extends StatefulWidget {
   const SelectFileBtn({
@@ -55,17 +57,21 @@ class SelectFileBtn extends StatefulWidget {
 class _SelectFileBtnState extends State<SelectFileBtn> {
   final SelectFileCubit cubit = SelectFileCubit();
   late final FToast toast;
+  Directory? pathTmp;
 
   @override
   void initState() {
     super.initState();
-    cubit.fileFromApiSubject.add(widget.initFileFromApi ?? []);
+    cubit.filesFromApi.addAll(widget.initFileFromApi ?? []);
+    cubit.fileFromApiSubject.add(cubit.filesFromApi);
     cubit.selectedFiles.addAll(widget.initFileSystem ?? []);
     toast = FToast();
     toast.init(context);
+    getTemporaryDirectory().then((value) => pathTmp = value);
   }
 
   void showToast({required String message}) {
+    toast.removeQueuedCustomToasts();
     toast.showToast(
       child: ShowToast(
         text: message,
@@ -75,19 +81,32 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     );
   }
 
+  Future<File> moveFile(File sourceFile, String newPath) async {
+    try {
+      return await sourceFile.rename(newPath);
+    } catch (e) {
+      final newFile = await sourceFile.copy(newPath);
+      return newFile;
+    }
+  }
+
   Future<void> handleButtonFileClicked() async {
+    final allowedExtensions = widget.allowedExtensions ??
+        const [
+          FileExtensions.DOC,
+          FileExtensions.DOCX,
+          FileExtensions.JPEG,
+          FileExtensions.JPG,
+          FileExtensions.PDF,
+          FileExtensions.PNG,
+          FileExtensions.XLSX,
+        ];
+    for(final element in allowedExtensions){
+      element.toLowerCase();
+    }
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: widget.hasMultiFile,
-      allowedExtensions: widget.allowedExtensions ??
-          const [
-            FileExtensions.DOC,
-            FileExtensions.DOCX,
-            FileExtensions.JPEG,
-            FileExtensions.JPG,
-            FileExtensions.PDF,
-            FileExtensions.PNG,
-            FileExtensions.XLSX,
-          ],
+      allowedExtensions: allowedExtensions,
       type: widget.allowedExtensions?.isNotEmpty ?? true
           ? FileType.custom
           : FileType.any,
@@ -102,11 +121,37 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
       );
       return;
     }
-    final newFiles = result.files
-        .map(
-          (file) => File(file.path ?? ''),
-        )
-        .toList();
+
+    List<File> newFiles = [];
+
+    if(Platform.isIOS){
+      for (final file in result.files) {
+        final newFile  = await moveFile(
+          File(file.path ?? ''),
+          '${pathTmp?.path}/${path.basename(file.path ?? '')}',
+        );
+        newFiles.add(newFile);
+      }
+    }else{
+      newFiles = result.files
+          .map(
+            (file) => File(file.path ?? ''),
+      ).toList();
+    }
+
+    newFiles.removeWhere(
+      (element) {
+        final result = !allowedExtensions.contains(
+          path.extension(element.path).replaceAll('.', '').toLowerCase(),
+        );
+        if (result) {
+          showToast(
+            message: S.current.file_khong_hop_le,
+          );
+        }
+        return result;
+      },
+    );
     final bool isOverMaxSize = cubit.checkOverMaxSize(
       maxSize: widget.maxSize,
       newFiles: newFiles,
@@ -120,8 +165,8 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     cubit.selectedFiles.addAll(newFiles);
     cubit.needRebuildListFile.sink.add(true);
     widget.onChange(cubit.selectedFiles);
-    if(widget.needClearAfterPick){
-      await Future.delayed(const Duration(milliseconds: 1000), (){
+    if (widget.needClearAfterPick) {
+      await Future.delayed(const Duration(milliseconds: 1000), () {
         cubit.selectedFiles.clear();
       });
     }
@@ -180,12 +225,12 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
                     .map(
                       (file) => itemListFile(
                         onDelete: () {
-                          cubit.fileFromApiSubject.value.remove(file);
+                          cubit.filesFromApi.remove(file);
                           cubit.fileFromApiSubject.sink
-                              .add(cubit.fileFromApiSubject.value);
+                              .add(cubit.filesFromApi);
                           widget.onDeletedFileApi?.call(file);
                         },
-                        fileTxt: file.name ?? '',
+                        fileTxt: file.name?.convertNameFile() ?? '',
                         lengthFile: file.fileLength?.toInt().getFileSize(2),
                       ),
                     )

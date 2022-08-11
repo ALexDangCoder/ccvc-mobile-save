@@ -153,7 +153,7 @@ extension MenuTypeItem on MenuType {
       case MenuType.diemDanh:
         return MenuCellType(
           url: urlIconScreen(
-            iconTablet: ImageAssets.icDiemDanhTopMenu,
+            iconTablet: ImageAssets.icDiemDanhTabletMenu,
             iconMobile: ImageAssets.icDiemDanhTopMenu,
           ),
           title: S.current.diem_danh,
@@ -196,7 +196,11 @@ extension MenuTypeItem on MenuType {
         );
       case MenuType.hoTroKyThuat:
         return MenuCellType(
-          url: ImageAssets.ic_ho_tro_ky_thuat,
+          url: urlIconScreen(
+            iconTablet: ImageAssets.icHTKTTablet,
+            iconMobile: ImageAssets.ic_ho_tro_ky_thuat,
+          ),
+
           title: S.current.ho_tro_ky_thuat,
         );
     }

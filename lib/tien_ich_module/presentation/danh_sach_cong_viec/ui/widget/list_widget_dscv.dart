@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_dscv_tien_tich.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/creat_todo_ver2_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class ListUpDSCV extends StatelessWidget {
         final todo = data[index];
         return CongViecCellTienIch(
           showIcon: cubit.showIcon(dataType: dataType),
-          isEnableIcon: cubit.enableIcon(dataType),
+          isEnableIcon: dataType != DSCVScreen.DBX,
           text: todo.label ?? '',
           todoModel: todo,
           onCheckBox: (value) {
@@ -165,7 +166,7 @@ class ListDownDSCV extends StatelessWidget {
         final todo = data[index];
         return CongViecCellTienIch(
           showIcon: cubit.showIcon(dataType: dataType, isListUp: false),
-          isEnableIcon: cubit.enableIcon(dataType),
+          isEnableIcon: dataType != DSCVScreen.DBX,
           text: todo.label ?? '',
           todoModel: todo,
           onCheckBox: (value) {

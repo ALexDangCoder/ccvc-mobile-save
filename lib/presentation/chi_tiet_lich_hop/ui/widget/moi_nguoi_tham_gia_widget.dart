@@ -2,7 +2,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/moi_nguoi_tham_gia_tablet.dart';
@@ -10,12 +10,13 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import 'icon_with_title_widget.dart';
 
@@ -37,7 +38,26 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _handleEventBus();
     thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
+    _refreshPhanCongThuKy();
+  }
+
+  void _refreshPhanCongThuKy() {
+    eventBus.on<RefreshPhanCongThuKi>().listen((event) {
+      thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia(
+        isShowMessage: true,
+      );
+    });
+  }
+  void _handleEventBus (){
+    eventBus.on<ReloadMeetingDetail>().listen((event) {
+      if (event.tabReload.contains(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA)){
+        thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
+        thanhPhanThamGiaHopCubit.detailMeetCalenderCubit = widget.cubit;
+        thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
+      }
+    });
   }
 
   @override

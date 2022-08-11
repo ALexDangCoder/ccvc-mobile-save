@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 
 class TodoListModelTwo {
@@ -100,15 +99,15 @@ class CountTodoModel {
   String icon() {
     switch (code) {
       case 'TodoMe':
-        return isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01;
+        return ImageAssets.icCVCuaBan;
       case 'Ticked':
-        return isMobile() ? ImageAssets.icHT : ImageAssets.ic03;
+        return ImageAssets.icHT;
       case 'Important':
-        return isMobile() ? ImageAssets.icCVQT : ImageAssets.ic02;
+        return ImageAssets.icCVQT;
       case 'Deleted':
-        return isMobile() ? ImageAssets.icXoa : ImageAssets.ic05;
+        return ImageAssets.icXoa;
       case 'TaskOfGiveOther':
-        return isMobile() ? ImageAssets.icGanChoToi : ImageAssets.ic04;
+        return ImageAssets.icGanChoToi;
       case 'GroupTodo':
         return ImageAssets.ic_nhomCVMoi;
     }

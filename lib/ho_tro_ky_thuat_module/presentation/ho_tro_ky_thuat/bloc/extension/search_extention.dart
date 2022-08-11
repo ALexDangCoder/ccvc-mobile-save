@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/category.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 
-extension onChangeSearch on HoTroKyThuatCubit {
+extension OnChangeSearch on HoTroKyThuatCubit {
   void initSearch() {
     if (listTrangThai.value.isEmpty) {
       geiApiSearch();
@@ -58,7 +58,7 @@ extension onChangeSearch on HoTroKyThuatCubit {
         statusToaNha = buildingIdName;
         statusSoPhong = room;
         statusTrangThaiXuLy = processingCodeName;
-        getListDanhBaCaNhan(
+        getListHoTroKyThuat(
           page: 1,
         );
         break;

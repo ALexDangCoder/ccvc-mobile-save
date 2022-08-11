@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/diem_danh_module/widget/stream/stream_listener.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -71,7 +72,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
           child: Scaffold(
             bottomNavigationBar: Padding(
               padding:
-                  const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
+                  const EdgeInsets.only(bottom: 24.0, right: 16.0, left: 16.0),
               child: DoubleButtonBottom(
                 title1: S.current.huy_bo,
                 title2: S.current.them_moi,
@@ -178,8 +179,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               ),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                '${S.current.vuiLongChon} '
-                                '${S.current.loai_xe.toLowerCase()}',
+                                '${S.current.ban_phai_chon_truong} '
+                                '${S.current.loai_xe}',
                                 style: textNormalCustom(
                                   color: colord32f2f,
                                   fontWeight: FontWeight.w400,
@@ -197,7 +198,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
-                          return (value ?? '').pleaseEnter(
+                          return (value ?? '').checkTruongNull(
                             S.current.bien_kiem_soat,
                           );
                         },
@@ -312,8 +313,10 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                 return Container(
                                   color: colorFFFFFF,
                                   child: CoolDropDown(
-                                    initData:
-                                        data.map((e) => e.ten ?? '').first,
+                                    initData: '',
+                                    placeHoder: S.current.chon_loai_xe,
+                                    fontSize: 14.0,
+                                    useCustomHintColors: true,
                                     listData:
                                         data.map((e) => e.ten ?? '').toList(),
                                     onChange: (vl) {
@@ -341,8 +344,8 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                     ),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      '${S.current.vuiLongChon} '
-                                          '${S.current.loai_xe.toLowerCase()}',
+                                      '${S.current.ban_phai_chon_truong} '
+                                      '${S.current.loai_xe}',
                                       style: textNormalCustom(
                                         color: colord32f2f,
                                         fontWeight: FontWeight.w400,
@@ -362,7 +365,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               onChange: (value) {},
                               validator: (value) {
                                 return (value ?? '').checkTruongNull(
-                                  '${S.current.bien_kiem_soat}!',
+                                  S.current.bien_kiem_soat,
                                 );
                               },
                             ),
@@ -374,7 +377,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                 style: textNormalCustom(
                                   color: color3D5586,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14.0,
+                                  fontSize: 14.0.textScale(),
                                 ),
                               ),
                             ),
@@ -417,7 +420,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
   Future<void> postDangKyXe() async {
     final bool isFormValidated = keyGroup.currentState?.validator() ?? false;
     widget.cubit.isShowErrLoaiXe.add(widget.cubit.xeMay?.isEmpty ?? true);
-    if(widget.cubit.fileItemBienSoXe.isEmpty){
+    if (widget.cubit.fileItemBienSoXe.isEmpty) {
       widget.cubit.toast.removeQueuedCustomToasts();
       widget.cubit.toast.showToast(
         child: ShowToast(
@@ -428,7 +431,6 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
       return;
     }
     if (isFormValidated && !widget.cubit.isShowErrLoaiXe.value) {
-      Navigator.pop(context);
       await widget.cubit.postImageResgiter(
         bienKiemSoat: bienKiemSoatController.value.text.removeSpace,
         context: context,
@@ -436,6 +438,5 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
       );
       return;
     }
-
   }
 }

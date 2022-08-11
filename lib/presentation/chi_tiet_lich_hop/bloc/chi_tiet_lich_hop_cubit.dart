@@ -72,6 +72,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String ngayBatDaus = '';
   String ngayKetThucs = '';
   bool check = false;
+  int currentIndexTablet = -1;
   String startTime = '00:00';
   String endTime = '00:00';
   String? tenBieuQuyet;
@@ -434,7 +435,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
         eventBus.fire(RefreshThanhPhanThamGia());
-        print('------------------- chyavao ben trong cubi');
         await getDanhSachNguoiChuTriPhienHop(idCuocHop);
         moiHopRequest.clear();
       },
@@ -550,12 +550,16 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     thanhPhanThamGia.sink.add(_tempList);
   }
 
-  Future<void> callApiThanhPhanThamGia() async {
+  Future<void> callApiThanhPhanThamGia({
+    bool isShowMessage = false,
+  }) async {
     showLoading();
     diemDanhIds = [];
-    await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
     showLoading(isShow: false);
+    if (isShowMessage) {
+      MessageConfig.show(title: S.current.thanh_cong);
+    }
   }
 
   void addThanhPhanThamGia(List<DonViModel> value) {

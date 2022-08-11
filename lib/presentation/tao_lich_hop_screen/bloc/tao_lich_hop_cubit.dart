@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_work_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -495,16 +496,62 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   /// chon phong hop api of tung
   Future<bool> chonPhongHopMetting(
-    TaoLichHopRequest taoLichHopRequest,
-    ChonPhongHopModel value,
-  ) async {
+      {required TaoLichHopRequest taoLichHopRequest,
+      required ChonPhongHopModel value,
+      required DetailMeetCalenderCubit cubit}) async {
     bool isUpdateSuccess = false;
-
     showLoading();
+    final TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest(
+      bitHopTrucTuyen: cubit.getChiTietLichHopModel.bit_HopTrucTuyen,
+      bitLinkTrongHeThong: cubit.getChiTietLichHopModel.bit_LinkTrongHeThong,
+      bitTrongDonVi: cubit.getChiTietLichHopModel.bit_TrongDonVi,
+      bitYeuCauDuyet: cubit.getChiTietLichHopModel.bit_YeuCauDuyet,
+      congKhai: cubit.getChiTietLichHopModel.isCongKhai,
+      dateRepeat: cubit.getChiTietLichHopModel.dateRepeat,
+      days: cubit.getChiTietLichHopModel.days,
+      diaDiemHop: cubit.getChiTietLichHopModel.diaDiemHop,
+      dsDiemCau: cubit.getChiTietLichHopModel.dsDiemCau,
+      id: cubit.getChiTietLichHopModel.id,
+      isAllDay: cubit.getChiTietLichHopModel.isAllDay,
+      isDuyetKyThuat: cubit.getChiTietLichHopModel.isDuyetKyThuat,
+      isLichLap: cubit.getChiTietLichHopModel.isLichLap,
+      lichDonVi: cubit.getChiTietLichHopModel.lichDonVi,
+      linhVucId: cubit.getChiTietLichHopModel.linhVucId,
+      linkTrucTuyen: cubit.getChiTietLichHopModel.linkTrucTuyen,
+      mucDo: cubit.getChiTietLichHopModel.mucDoHop,
+      ngayBatDau: cubit.getChiTietLichHopModel.ngayBatDau,
+      ngayKetThuc: cubit.getChiTietLichHopModel.ngayKetThuc,
+      noiDung: cubit.getChiTietLichHopModel.noiDung,
+      phongHopThietBi: value.listThietBi
+          .map(
+            (e) => PhongHopThietBi(
+              tenThietBi: e.tenThietBi,
+              soLuong: e.soLuong.toString(),
+            ),
+          )
+          .toList(),
+      status: cubit.getChiTietLichHopModel.status,
+      thuMoiFiles: cubit.getChiTietLichHopModel.thuMoiFiles,
+      timeStart: cubit.getChiTietLichHopModel.timeStart,
+      timeTo: cubit.getChiTietLichHopModel.timeTo,
+      title: cubit.getChiTietLichHopModel.title,
+      typeReminder: cubit.getChiTietLichHopModel.typeReminder,
+      typeRepeat: cubit.getChiTietLichHopModel.typeRepeat,
+      typeScheduleId: cubit.getChiTietLichHopModel.typeScheduleId,
+    );
+
     if (value.phongHop?.phongHopId?.isNotEmpty ?? false) {
       taoLichHopRequest.phongHop = value.phongHop;
     }
     taoLichHopRequest.phongHop?.noiDungYeuCau = value.yeuCauKhac;
+    taoLichHopRequest.chuTri = ChuTri(
+      canBoId: cubit.getChiTietLichHopModel.chuTriModel.canBoId,
+      donViId: cubit.getChiTietLichHopModel.chuTriModel.donViId,
+      tenCoQuan: cubit.getChiTietLichHopModel.chuTriModel.tenCoQuan,
+      tenCanBo: cubit.getChiTietLichHopModel.chuTriModel.tenCanBo,
+      soDienThoai: cubit.getChiTietLichHopModel.chuTriModel.soDienThoai,
+      dauMoiLienHe: cubit.getChiTietLichHopModel.chuTriModel.dauMoiLienHe,
+    );
     taoLichHopRequest.phongHopThietBi = value.listThietBi
         .map(
           (e) => PhongHopThietBi(

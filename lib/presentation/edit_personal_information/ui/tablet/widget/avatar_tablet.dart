@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
@@ -57,25 +58,43 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     );
   }
 
+  bool validateFile(ModelAnh image) {
+    if (image.notAcceptFile) {
+      toast.showToast(
+        child: ShowToast(
+          text: S.current.file_khong_hop_le,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+      return false;
+    }
+    if (image.path.isEmpty) {
+      return false;
+    }
+    if (image.size > MaxSizeFile.MAX_SIZE_20MB) {
+      toast.showToast(
+        child: ShowToast(
+          text: S.current.dung_luong_toi_da_20,
+        ),
+        gravity: ToastGravity.TOP_RIGHT,
+      );
+      return false;
+    }
+    return true;
+  }
+
   Future<void> upLoadImg(
     BuildContext context,
     int loai,
     FToast toast,
   ) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.path.isNotEmpty) {
-      if (_path.size > 15000000) {
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.dung_luong_toi_da,
-          ),
-          gravity: ToastGravity.TOP_RIGHT,
-        );
-      } else {
-        cubit.avatarPathSubject.sink.add(_path);
-        await cubit.uploadFile(_path.path);
-      }
-    } else {}
+    final image = await cubit.pickAvatar();
+    final bool checkFile = validateFile(image);
+    if (!checkFile) {
+      return;
+    }
+    cubit.avatarPathSubject.sink.add(image);
+    await cubit.uploadFile(image.path);
   }
 
   Future<void> upLoadChuKy(
@@ -83,20 +102,13 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     int loai,
     FToast toast,
   ) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.path.isNotEmpty) {
-      if (_path.size > 15000000) {
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.dung_luong_toi_da,
-          ),
-          gravity: ToastGravity.TOP_RIGHT,
-        );
-      } else {
-        cubit.chuKyPathSubject.sink.add(_path);
-        await cubit.uploadFileChuKi(_path.path);
-      }
-    } else {}
+    final image = await cubit.pickAvatar();
+    final bool checkFile = validateFile(image);
+    if (!checkFile) {
+      return;
+    }
+    cubit.chuKyPathSubject.sink.add(image);
+    await cubit.uploadFileChuKi(image.path);
   }
 
   Future<void> upLoadKyNhay(
@@ -104,20 +116,23 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     int loai,
     FToast toast,
   ) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.path.isNotEmpty) {
-      if (_path.size > 15000000) {
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.dung_luong_toi_da,
-          ),
-          gravity: ToastGravity.TOP_RIGHT,
-        );
-      } else {
-        cubit.kyNhayPathSubject.sink.add(_path);
-        await cubit.uploadFileKiNhay(_path.path);
-      }
-    } else {}
+    final image = await cubit.pickAvatar();
+    final bool checkFile = validateFile(image);
+    if (!checkFile) {
+      return;
+    }
+    cubit.kyNhayPathSubject.sink.add(image);
+    await cubit.uploadFileKiNhay(image.path);
+  }
+
+  Widget errImage() {
+    return Container(
+      padding: const EdgeInsets.all(54.0),
+      child: SvgPicture.asset(
+        ImageAssets.icImage,
+        color: AppTheme.getInstance().colorField(),
+      ),
+    );
   }
 
   Widget pickAnhDaiDien(
@@ -157,13 +172,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                           '',
                       fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
-                        return Container(
-                          padding: const EdgeInsets.all(54.0),
-                          child: SvgPicture.asset(
-                            ImageAssets.icImage,
-                            color: AppTheme.getInstance().colorField(),
-                          ),
-                        );
+                        return errImage();
                       },
                     ),
                   );
@@ -232,13 +241,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                           '',
                       fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
-                        return Container(
-                          padding: const EdgeInsets.all(34.0),
-                          child: SvgPicture.asset(
-                            ImageAssets.icImage,
-                            color: AppTheme.getInstance().colorField(),
-                          ),
-                        );
+                        return errImage();
                       },
                     ),
                   );
@@ -307,13 +310,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                           '',
                       fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
-                        return Container(
-                          padding: const EdgeInsets.all(34.0),
-                          child: SvgPicture.asset(
-                            ImageAssets.icImage,
-                            color: AppTheme.getInstance().colorField(),
-                          ),
-                        );
+                        return errImage();
                       },
                     ),
                   );

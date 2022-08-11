@@ -91,13 +91,6 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.email = value;
                     },
-                    validator: (value) {
-                      if ((value ?? '').isEmpty) {
-                        return '${S.current.ban_phai_nhap_truong} '
-                            '${S.current.email}!';
-                      }
-                      return (value ?? '').checkEmailBoolean2(S.current.email);
-                    },
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCmt,

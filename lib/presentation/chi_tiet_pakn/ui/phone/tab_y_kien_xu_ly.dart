@@ -366,11 +366,19 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
                                         ),
                                       );
                                     } else {
-                                      final Map<String, dynamic> mediaMapImage =
-                                          await pickImageAndroid();
-                                      addDataListPick(
-                                        mediaMapImage,
-                                      );
+                                      const permission = Permission.storage;
+                                      final status = await permission.status;
+                                      if (!(status.isGranted ||
+                                          status.isLimited)) {
+                                        await MessageConfig.showDialogSetting();
+                                      } else {
+                                        final Map<String, dynamic>
+                                            mediaMapImage =
+                                            await pickImageAndroid();
+                                        addDataListPick(
+                                          mediaMapImage,
+                                        );
+                                      }
                                     }
                                   },
                                   child: SvgPicture.asset(

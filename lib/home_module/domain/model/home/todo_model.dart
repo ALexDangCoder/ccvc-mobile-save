@@ -20,6 +20,7 @@ class TodoModel {
   String? updatedBy;
   String? note;
   String? performer;
+  String? name;
 
   TodoModel({
     this.id,
@@ -34,6 +35,7 @@ class TodoModel {
     this.updatedBy,
     this.note,
     this.performer,
+    this.name = '',
   });
 }
 

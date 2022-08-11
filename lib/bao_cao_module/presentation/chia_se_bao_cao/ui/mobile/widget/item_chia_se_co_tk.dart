@@ -24,6 +24,12 @@ class _ItemChiaSeCoTkState extends State<ItemChiaSeCoTk> {
   bool valueCkc = false;
 
   @override
+  void initState() {
+    super.initState();
+    valueCkc = widget.cubit.checkTick(widget.model.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final model = widget.model;
     return Container(
@@ -117,7 +123,7 @@ class _ItemChiaSeCoTkState extends State<ItemChiaSeCoTk> {
               height: 20,
               child: Checkbox(
                 checkColor: AppTheme.getInstance().backGroundColor(),
-                activeColor: textDefault,
+                activeColor: AppTheme.getInstance().colorField(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(3),
                 ),

@@ -60,7 +60,8 @@ class _DragItemListState extends State<DragItemList> {
         footer: widget.footerList,
         buildDefaultDragHandles: widget.isUsing,
         proxyDecorator: (_, index, ___) {
-          final String productName = widget.listWidget[index].name;
+          final String widgetName =
+              widget.widgetManageCubit.getNameWidget(widget.listWidget[index]);
           return Material(
             color: Colors.transparent,
             child: Center(
@@ -82,7 +83,7 @@ class _DragItemListState extends State<DragItemList> {
                   borderColor: widget.isUsing
                       ? itemWidgetUsing.withOpacity(0.3)
                       : itemWidgetNotUse.withOpacity(0.3),
-                  content: productName,
+                  content: widgetName,
                 ),
               ),
             ),
@@ -90,11 +91,10 @@ class _DragItemListState extends State<DragItemList> {
         },
         itemCount: widget.listWidget.length,
         itemBuilder: (context, index) {
-          // final String productName = widget.listWidget[index].name;
-          final String productName =
+          final String widgetName =
               widget.widgetManageCubit.getNameWidget(widget.listWidget[index]);
           return Padding(
-            key: ValueKey(productName),
+            key: ValueKey(widgetName),
             padding: const EdgeInsets.only(bottom: 20),
             child: WidgetItem(
               widgetIcon: widget.isUsing
@@ -106,7 +106,7 @@ class _DragItemListState extends State<DragItemList> {
               borderColor: widget.isUsing
                   ? itemWidgetUsing.withOpacity(0.3)
                   : itemWidgetNotUse.withOpacity(0.3),
-              content: productName,
+              content: widgetName,
               clickICon: () {
                 widget.isUsing
                     ? widget.widgetManageCubit.insertItemNotUse(

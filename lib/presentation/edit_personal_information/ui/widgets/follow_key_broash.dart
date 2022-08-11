@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FollowKeyBoardWidget extends StatefulWidget {
   final Widget child;
@@ -49,24 +46,20 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
               ],
             ),
           ),
-          SizedBox(
-            height:
-                Platform.isIOS ? viewInsertPaddingIos() : viewInsertPadding(),
-          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: widget.bottomWidget ?? const SizedBox(),
-          )
+          ),
+          SizedBox(
+            height: viewInsertPadding(),
+          ),
         ],
       ),
     );
   }
 
   double viewInsertPadding() {
-    if (_viewInsert.bottom > mouseRegion) {
-      return (_viewInsert.bottom - mouseRegion) + 175.h;
-    }
-    return 0;
+    return MediaQuery.of(context).viewInsets.bottom;
   }
 
   double viewInsertPaddingIos() {

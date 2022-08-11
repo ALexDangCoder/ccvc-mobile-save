@@ -168,11 +168,12 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       fCalendarControllerMonth.selectedDate = this.startDate;
       fCalendarControllerMonth.displayDate = this.startDate;
       showLoading();
-      final Queue queue = Queue(parallel: 4);
+      final Queue queue = Queue(parallel: 5);
       unawaited(queue.add(() => getMenuData()));
       unawaited(queue.add(() => getTotalWork()));
       unawaited(queue.add(() => getDashboardSchedule()));
       unawaited(queue.add(() => getFullListWork()));
+      unawaited(queue.add(() => dayHaveEvent()));
       await queue.onComplete;
       showContent();
       apiCalling = false;
@@ -201,7 +202,7 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
 
   void checkDuplicate(List<ListLichLVModel> list) {
     for (final item in list) {
-      if (item.isTrung) {
+      if (!item.isTrung) {
         final currentTimeFrom =
             getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
         final currentTimeTo =

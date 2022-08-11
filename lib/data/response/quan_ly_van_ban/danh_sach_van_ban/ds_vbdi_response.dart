@@ -33,16 +33,7 @@ class DataResponseVBDi {
   DanhSachVanBanModel toDomain() => DanhSachVanBanModel(
         pageData: pageData
             .map(
-              (e) => VanBanModel(
-                iD: e.iD,
-                doKhan: e.doKhan,
-                loaiVanBan: e.loaiVanBan,
-                ngayDen: e.ngayDen,
-                nguoiSoanThao: e.nguoiSoanThao,
-                donViSoanThao: e.donViSoanThao,
-                priorityCode: e.codeDoKhan,
-                trichYeu: e.trichYeu,
-              ),
+              (e) => e.toDomain(),
             )
             .toList(),
       );
@@ -69,8 +60,17 @@ class PageDataResponseVBDi {
   @JsonKey(name: 'ChucVuNguoiSoanThao')
   String? chucVuNguoiSoanThao;
 
-  PageDataResponseVBDi(this.iD, this.doKhan, this.loaiVanBan, this.ngayDen,
-      this.nguoiSoanThao, this.donViSoanThao, this.codeDoKhan, this.trichYeu);
+  PageDataResponseVBDi(
+    this.iD,
+    this.doKhan,
+    this.loaiVanBan,
+    this.ngayDen,
+    this.nguoiSoanThao,
+    this.donViSoanThao,
+    this.codeDoKhan,
+    this.trichYeu,
+    this.chucVuNguoiSoanThao,
+  );
 
   factory PageDataResponseVBDi.fromJson(Map<String, dynamic> json) =>
       _$PageDataResponseVBDiFromJson(json);

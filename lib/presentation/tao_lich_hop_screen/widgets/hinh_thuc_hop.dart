@@ -202,27 +202,30 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 urlIcon: ImageAssets.icAddButtonCalenderTablet,
               ),
             ),
-            spaceH20,
             StreamBuilder<List<DsDiemCau>>(
               stream: widget.cubit.dsDiemCauSubject,
               builder: (context, snapshot) {
                 final listDiemCau = snapshot.data ?? [];
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: listDiemCau.length,
-                  itemBuilder: (context, index) => ItemDiemCau(
-                    diemCau: listDiemCau[index],
-                    onDeleteClick: () {
-                      listDiemCau.removeAt(index);
-                      widget.cubit.dsDiemCauSubject.add(listDiemCau);
-                    },
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listDiemCau.length,
+                    itemBuilder: (context, index) => ItemDiemCau(
+                      diemCau: listDiemCau[index],
+                      onDeleteClick: () {
+                        listDiemCau.removeAt(index);
+                        widget.cubit.dsDiemCauSubject.add(listDiemCau);
+                      },
+                    ),
                   ),
                 );
               },
             ),
           ],
-          spaceH24,
+          if (!isHopTrucTuyen)
+          spaceH20,
           TitleChildWidget(
             title: S.current.ky_thuat,
             child: ContainerToggleWidget(
@@ -234,7 +237,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
               },
             ),
           ),
-          spaceH24,
         ],
       ),
     );
@@ -274,6 +276,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               textField(
                 onChange: (value) {
                   diemCau.tenDiemCau = value;
+                  _key.currentState?.validate();
                 },
                 validator: (value) {
                   return value.pleaseEnter(S.current.ten_don_vi);

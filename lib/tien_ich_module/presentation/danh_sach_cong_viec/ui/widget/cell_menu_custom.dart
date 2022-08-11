@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,6 +55,7 @@ class CellMenuCustom extends StatelessWidget {
                 width: 15.0.textScale(space: 8),
                 child: SvgPicture.asset(
                   icon,
+                  color: AppTheme.getInstance().colorField(),
                 ),
               ),
               SizedBox(
@@ -75,13 +77,13 @@ class CellMenuCustom extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: numberColorTabletbg,
+                  color: AppTheme.getInstance().colorField(),
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   number.toString(),
                   style: textNormalCustom(
-                    color: textDefault,
+                    color: backgroundColorApp,
                     fontWeight: FontWeight.w500,
                     fontSize: 12.0.textScale(),
                   ),

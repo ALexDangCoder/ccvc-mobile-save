@@ -72,6 +72,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   title: S.current.don_vi_phoi_hop_khac,
                   sizeTitle: 14,
                   child: ThemDonViPhoiHopKhacWidget(
+                    isTaoHop: true,
                     onChange: (List<DonViModel> value) {
                       widget.cubit.addDonViPhoiHopKhac(value);
                     },
@@ -98,10 +99,10 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
               onClickLeft: () {
                 Navigator.pop(context);
               },
-              onClickRight: () async {
+              onClickRight: () {
                 widget.cubit.phuongThucNhan = false;
-                await widget.cubit.themThanhPhanThamGia();
                 Navigator.pop(context);
+                widget.cubit.themThanhPhanThamGia();
               },
             ),
             const SizedBox(

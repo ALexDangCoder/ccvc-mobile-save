@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/app_config.dart';
@@ -7,6 +6,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
@@ -49,6 +49,7 @@ class MenuTabletScreen extends StatefulWidget {
 class _MenuTabletScreenState extends State<MenuTabletScreen> {
   late MenuCubit menuCubit;
   String version = '';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -163,18 +164,18 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                         List.generate(data.length, (index) {
                                       final type = data[index];
                                       return containerType(type, () {
-                                        if(Platform.isIOS){
+                                        if (Platform.isIOS) {
                                           Navigator.of(context,
-                                              rootNavigator: true)
+                                                  rootNavigator: true)
                                               .push(
                                             CupertinoPageRoute(
                                               builder: (context) =>
                                                   type.getScreen(),
                                             ),
                                           );
-                                        }else {
+                                        } else {
                                           Navigator.of(context,
-                                              rootNavigator: true)
+                                                  rootNavigator: true)
                                               .push(
                                             PageRouteBuilder(
                                               pageBuilder: (_, __, ___) =>
@@ -182,7 +183,6 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                             ),
                                           );
                                         }
-
                                       });
                                     }),
                                   );
@@ -235,7 +235,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                           if (type == MenuType.chuyenPhamVi) {
                                             showChuyenPhamVi();
                                           } else {
-                                            if(Platform.isIOS){
+                                            if (Platform.isIOS) {
                                               Navigator.push(
                                                 context,
                                                 CupertinoPageRoute(
@@ -243,7 +243,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                                       type.getScreen(),
                                                 ),
                                               );
-                                            }else {
+                                            } else {
                                               Navigator.push(
                                                 context,
                                                 PageRouteBuilder(
@@ -284,6 +284,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                           .appState
                                           .setToken('');
                                       HiveLocal.clearData();
+                                      PrefsService.saveLoginUserName('');
                                     },
                                     showTablet: true,
                                     icon: Image.asset(ImageAssets.icDangXuat),
@@ -315,7 +316,13 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
         onTap();
       },
       child: Container(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 25,
+          bottom: 20,
+        ),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: backgroundColorApp,
           border: Border.all(color: borderColor.withOpacity(0.5)),
@@ -332,15 +339,19 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
           children: [
             SvgPicture.asset(
               type.getItem().url,
-              width: 32.sp,
-              height: 32.sp,
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.h),
-              child: Text(
-                type.getItem().title,
-                style: textNormalCustom(fontSize: 18, color: color3D5586),
-                textAlign: TextAlign.center,
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.h),
+                    child: Text(
+                      type.getItem().title,
+                      style: textNormalCustom(fontSize: 18, color: color3D5586),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               ),
             )
           ],
@@ -363,9 +374,9 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
             child: CoolDropDown(
               placeHoder: S.current.vuiLongChon,
               listData: menuCubit.listPhamVi.map((e) => e.phamVi).toList(),
-              initData: menuCubit.selectPhamVi?.phamVi ?? '',
+              initData: menuCubit.selectedPhamVi?.phamVi ?? '',
               onChange: (value) {
-                menuCubit.selectPhamVi = menuCubit.listPhamVi[value];
+                menuCubit.currentPhamVi = menuCubit.listPhamVi[value];
               },
             ),
           ),

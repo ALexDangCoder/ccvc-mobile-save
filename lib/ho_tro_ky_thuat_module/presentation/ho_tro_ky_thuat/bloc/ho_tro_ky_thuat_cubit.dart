@@ -47,6 +47,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   static const String rightPath = 'attachments/upload/';
   late bool isManager;
   late bool isSupporter;
+  bool isLoadDidUpdateWidget = false;
 
   //color
   List<Color> colorChart = [
@@ -124,6 +125,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
 
   BehaviorSubject<List<String>> issueListStream = BehaviorSubject.seeded([]);
 
+  List<String> allIssue = [];
   List<CategoryModel> areaList = [];
   List<CategoryModel> issueList = [];
   List<ChildCategories> buildingList = [];
@@ -173,14 +175,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   ThanhPhanThamGiaReponsitory get hopRp => get_dart.Get.find();
 
   HoTroKyThuatRepository get _hoTroKyThuatRepository => get_dart.Get.find();
-
-  void checkFileRemove(int index) {
-    if ((editTaskHTKTRequest.lstFileId ?? []).isNotEmpty) {
-      (editTaskHTKTRequest.lstFileId ?? []).removeAt(index);
-    } else {
-      //nothing
-    }
-  }
 
   final AddTaskHTKTRequest addTaskHTKTRequest = AddTaskHTKTRequest();
   final AddTaskHTKTRequest editTaskHTKTRequest = AddTaskHTKTRequest();
@@ -302,10 +296,13 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     return isNguoiYeuCau;
   }
 
-  Future<void> getListDanhBaCaNhan({
+  Future<void> getListHoTroKyThuat({
     required int page,
   }) async {
     showLoading();
+    if (page == 1) {
+      loadMoreList.clear();
+    }
     final result = await _hoTroKyThuatRepository.postDanhSachSuCo(
       pageIndex: page,
       pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
@@ -387,7 +384,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       success: (success) {
         resultPost = true;
         showContent();
-        getListDanhBaCaNhan(
+        getListHoTroKyThuat(
           page: 1,
         );
       },
@@ -619,6 +616,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         } else if (title == LOAI_SU_CO) {
           listLoaiSuCo.add(res);
           issueList = res;
+          allIssue = issueList.map((e) => e.name ?? '').toList();
           sinkIssue();
           flagLoadThemMoiYCHT = true;
           flagLoadEditHTKT = true;

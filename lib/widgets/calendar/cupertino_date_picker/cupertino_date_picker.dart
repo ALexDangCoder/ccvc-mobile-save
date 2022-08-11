@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cuper_date_picker_extension.dart';
@@ -287,11 +286,17 @@ class CupertinoDatePickerDateState
   }
 
   bool _keepInValidRange(ScrollEndNotification notification) {
-    if(isSelectDay){
+    final newMonthCount = countMonth();
+    final newDayCount = countDay();
+    final dayIndex = days.indexOf(selectedDay);
+    final monthIndex = months.indexOf(selectedMonth);
+    int newDayIndex = newDayCount.indexOf(selectedDay);
+    int newMonthIndex = newMonthCount.indexOf(selectedMonth);
+    if (isSelectDay) {
       return true;
     }
-    final int desiredDay =
-        DateTime(selectedYear, selectedMonth, selectedDay).day;
+    final selectDate = DateTime(selectedYear, selectedMonth, selectedDay);
+    final int desiredDay = selectDate.day;
     if (desiredDay != selectedDay) {
       SchedulerBinding.instance!.addPostFrameCallback((Duration timestamp) {
         dayController.animateToItem(
@@ -317,6 +322,31 @@ class CupertinoDatePickerDateState
         WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
           dayController.animateToItem(
             days.indexOf(widget.minimumDate!.day - 1),
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+          );
+        });
+      } else if (dayIndex != newDayIndex || monthIndex != newMonthIndex) {
+        if (newMonthIndex == -1 && selectedMonth > newMonthCount.last) {
+          newMonthIndex = newMonthCount.length - 1;
+        }
+        if (newMonthIndex == -1 && selectedMonth < newMonthCount.last){
+          newMonthIndex = 0;
+        }
+        if (newDayIndex == -1 && selectedDay > newDayCount.last) {
+          newDayIndex = newDayCount.length ;
+        }
+        if (newDayIndex == -1 && selectedDay < newDayCount.last) {
+          newDayIndex = 1;
+        }
+        WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+          dayController.animateToItem(
+            newDayIndex - 1,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+          );
+          monthController.animateToItem(
+            newMonthIndex,
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOut,
           );

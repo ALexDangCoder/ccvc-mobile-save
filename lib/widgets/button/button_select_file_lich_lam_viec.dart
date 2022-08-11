@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 
 class ButtonSelectFileLichLamViec extends StatefulWidget {
   final Color? background;
@@ -115,8 +117,15 @@ class _ButtonSelectFileLichLamViecState
     setState(() {
       isShowErr = total > widget.maxSize!;
       if (isShowErr) {
-        errMessage = widget.errOverSizeMessage ??
-            '${S.current.tong_file_khong_vuot_qua} $convertData MB';
+        final toast = FToast();
+        toast.init(context);
+        toast.showToast(
+          child: ShowToast(
+            text: '${S.current.tong_dung_luong_file_toi_da} $convertData MB',
+            withOpacity: 0.8,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
       }
       total = 0;
     });

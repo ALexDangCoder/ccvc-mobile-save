@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
-    as p;
+as p;
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
@@ -220,6 +220,7 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                   builder: (context, snapshot) {
                                     final _issueList = snapshot.data ?? [];
                                     return MultiSelectList(
+                                      cubit: widget.cubit,
                                       title: S.current.loai_su_co,
                                       isRequire: true,
                                       items: _issueList,
@@ -227,7 +228,15 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                         widget.cubit.addIssueListRequest(
                                           selectIndexList,
                                         );
+                                        if (selectIndexList.isNotEmpty) {
+                                          widget.cubit.showErrorLoaiSuCo.add(
+                                              false);
+                                        } else {
+                                          widget.cubit.showErrorLoaiSuCo.add(
+                                              true);
+                                        }
                                       },
+                                      isInit: false,
                                     );
                                   },
                                 ),
@@ -237,23 +246,24 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
                                   builder: (context, snapshot) {
                                     return snapshot.data ?? false
                                         ? Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0, top: 8.0),
-                                            child: Text(
-                                              S.current
-                                                  .ban_phai_nhap_truong_loai_su_co,
-                                              style: textNormalCustom(
-                                                color: redChart,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          )
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0,),
+                                      child: Text(
+                                        S.current
+                                            .ban_phai_nhap_truong_loai_su_co,
+                                        style: textNormalCustom(
+                                          color: redChart,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    )
                                         : const SizedBox.shrink();
                                   },
                                 ),
                                 spaceH16,
                                 TaiLieuWidget(
+                                  isTitle: false,
                                   isHaveExpanded: true,
                                   idRemove: (String id) {},
                                   onChange: (files, value) {
@@ -395,7 +405,8 @@ class _ThemMoiYCHoTroTabletState extends State<ThemMoiYCHoTroTablet> {
     );
   }
 
-  Widget doubleBtn() => DoubleButtonBottom(
+  Widget doubleBtn() =>
+      DoubleButtonBottom(
         isTablet: true,
         onClickLeft: () {
           Navigator.pop(context);

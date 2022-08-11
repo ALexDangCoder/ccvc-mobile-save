@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -158,7 +159,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 Padding(
                   padding: const EdgeInsets.only(right: 50),
                   child: Text(
-                    listPhienHopModel.tieuDe ?? '',
+                    (listPhienHopModel.tieuDe ?? '').removeSpace,
                     style: titleAppbar(
                       fontSize: 16.0.textScale(),
                     ),
@@ -178,7 +179,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 ),
                 const SizedBox(height: 8),
                 RowDataWidget(
-                  keyTxt: S.current.noi_dung,
+                  keyTxt: S.current.noidung,
                   value: listPhienHopModel.noiDung ?? '',
                 ),
                 const SizedBox(height: 8),
@@ -308,7 +309,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Text(
-                              S.current.noi_dung,
+                              S.current.noidung,
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
                                 color: infoColor,
@@ -327,7 +328,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            listPhienHopModel.thoiGianBatDau ?? '',
+                            listPhienHopModel.dateTimeView() ,
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
                               color: textTitle,
@@ -362,7 +363,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${S.current.file}                      ',
+                      '${S.current.file_dinh_kem}                      ',
                       style: textDetailHDSD(
                         fontSize: 14.0.textScale(),
                         color: infoColor,
@@ -373,17 +374,24 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        physics:const NeverScrollableScrollPhysics(),
                         itemCount: listPhienHopModel.files.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final data = listPhienHopModel.files
-                              .map((e) => e.name)
                               .toList();
-                          return Text(
-                            data[index] ?? S.current.khong_co_tep_nao,
-                            style: textDetailHDSD(
-                              fontSize: 14.0.textScale(),
-                              color: color5A8DEE,
+                          return GestureDetector(
+                            onTap: () {
+                              saveFile(
+                                  fileName: data[index].name ?? '',
+                                  url: data[index].path ?? '');
+                            },
+                            child: Text(
+                              data[index].name ?? S.current.khong_co_tep_nao,
+                              style: textDetailHDSD(
+                                fontSize: 14.0.textScale(),
+                                color: color5A8DEE,
+                              ),
                             ),
                           );
                         },

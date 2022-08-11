@@ -68,6 +68,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
       ),
       tabletScreen: CongTacChuanBiWidgetTablet(
         cubit: widget.cubit,
+        cubitTaoLichHop:_cubitTaoLichHop ,
       ),
     );
   }
@@ -87,6 +88,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 ///nếu chua có phòng nào và là người
                 ///chủ trì thì hiện button chọn phòng họp
                 return ChonPhongHopScreen(
+                  needTextChonPhong: true,
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
                   id: HiveLocal.getDataUser()
@@ -96,9 +98,15 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       '',
                   onChange: (value) {
                     _cubitTaoLichHop.chonPhongHopMetting(
-                      widget.cubit.taoLichHopRequest,
-                      value,
-                    );
+                      taoLichHopRequest: widget.cubit.taoLichHopRequest,
+                      value: value,
+                      cubit: widget.cubit,
+                    ).then((value) {
+                      if(value){
+                        widget.cubit.getListStatusRoom();
+                        widget.cubit.callApiCongTacChuanBi();
+                      }
+                    });
                   },
                   initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
                   initThietBi:

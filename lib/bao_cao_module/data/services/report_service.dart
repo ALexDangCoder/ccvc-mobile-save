@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/bao_cao_module/data/response/folder_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/group_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_detail_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/data/response/report_response.dart';
+import 'package:ccvc_mobile/bao_cao_module/data/response/source_share_detail_response.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -104,4 +105,9 @@ abstract class ReportService {
     @Header('AppId') String appId,
     @Query('id') String idReport,
   );
+  @GET('${ApiConstants.GET_SOURCE_SHARE}/{id}')
+  Future<DataSourceShareResponse> getSoureDetail(
+      @Header('AppId') String appId,
+      @Path('id') String idReport,
+      );
 }

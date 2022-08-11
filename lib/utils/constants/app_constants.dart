@@ -89,7 +89,14 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
-enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL, DOCUMENT_IMG }
+enum PickerType {
+  MEDIA_FILE,
+  IMAGE_FILE,
+  DOCUMENT,
+  ALL,
+  DOCUMENT_IMG,
+  IMAGE_WITHOUT_HEIC,
+}
 
 extension GetTypeByName on PickerType {
   List<String> get fileType {
@@ -142,6 +149,16 @@ extension GetTypeByName on PickerType {
           'png',
           'heic',
         ];
+        case PickerType.IMAGE_WITHOUT_HEIC:
+        return [
+          'jpg',
+          'pdf',
+          'doc',
+          'docx',
+          'xls',
+          'xlsx',
+          'png',
+        ];
     }
   }
 }
@@ -190,6 +207,7 @@ const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
 const PHONE_REGEX = r'^0+([0-9]{9})$';
+const REGEX_EMAIL = r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$';
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';
@@ -486,6 +504,7 @@ class FileExtensions {
   static const String JPG = 'jpg';
   static const String XLSX = 'xlsx';
   static const String PPTX = 'pptx';
+  static const String HEIC = 'heic';
 }
 class PermissionAppTxt{
   static const QUYEN_CU_CAN_BO = 'quyen-cu-can-bo';

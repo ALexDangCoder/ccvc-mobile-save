@@ -333,8 +333,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                                 onPressed: () async {
                                                   Navigator.pop(context);
                                                   final Map<String, dynamic>
-                                                      mediaMapImage =
-                                                      await pickImageIos(
+                                                  mediaMapImage =
+                                                  await pickImageIos(
                                                     fromCamera: true,
                                                   );
                                                   addDataListPick(
@@ -349,8 +349,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                                 onPressed: () async {
                                                   Navigator.pop(context);
                                                   final Map<String, dynamic>
-                                                      mediaMapImage =
-                                                      await pickImageIos();
+                                                  mediaMapImage =
+                                                  await pickImageIos();
                                                   addDataListPick(
                                                     mediaMapImage,
                                                   );
@@ -361,7 +361,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet>
                                               ),
                                             ],
                                             cancelButton:
-                                                CupertinoActionSheetAction(
+                                            CupertinoActionSheetAction(
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },

@@ -39,7 +39,7 @@ class NhiemVuDonViMobile extends StatefulWidget {
     required this.isCheck,
     required this.danhSachCubit,
     required this.nhiemVuCubit,
-    this. maTrangThai='',
+    this.maTrangThai = '',
   }) : super(key: key);
 
   @override
@@ -53,11 +53,10 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.danhSachCubit.mangTrangThai=widget.maTrangThai;
-    if(widget.maTrangThai.isNotEmpty){
-      widget.danhSachCubit.callApiDonVi(false,canCallApi: false);
-    }
-    else{
+    widget.danhSachCubit.mangTrangThai = widget.maTrangThai;
+    if (widget.maTrangThai.isNotEmpty) {
+      widget.danhSachCubit.callApiDonVi(false, canCallApi: false);
+    } else {
       widget.danhSachCubit.callApiDonVi(false);
     }
   }
@@ -447,6 +446,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         builder: (context) => ChiTietNhiemVuPhoneScreen(
                           id: value.id ?? '',
                           isCheck: widget.isCheck,
+                          donViId: value.phamViId,
                         ),
                       ),
                     );

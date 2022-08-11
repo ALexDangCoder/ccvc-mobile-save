@@ -365,7 +365,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               onChange: (value) {},
                               validator: (value) {
                                 return (value ?? '').checkTruongNull(
-                                  '${S.current.bien_kiem_soat}!',
+                                  S.current.bien_kiem_soat,
                                 );
                               },
                             ),

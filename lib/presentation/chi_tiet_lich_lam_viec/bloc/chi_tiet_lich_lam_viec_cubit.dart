@@ -941,7 +941,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           (element) =>
               element.status == StatusOfficersConst.STATUS_THAM_GIA &&
               (element.canBoId == currentUserId ||
-                  element.donViId == donViTrucThuocId),
+                  (element.donViId == donViTrucThuocId &&
+                      element.canBoId == null)),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -951,7 +952,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           (element) =>
               element.status == StatusOfficersConst.STATUS_TU_CHOI &&
               (element.canBoId == currentUserId ||
-                  element.donViId == donViTrucThuocId),
+                  (element.donViId == donViTrucThuocId &&
+                      element.canBoId == null)),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }

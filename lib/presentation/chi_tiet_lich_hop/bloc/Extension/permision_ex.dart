@@ -310,9 +310,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
             (dataUser?.userId ?? '') &&
         (getChiTietLichHopModel.status == 1 ||
             getChiTietLichHopModel.status == 2)) {
-      if (getChiTietLichHopModel.status == 1) {
-        listButton.add(PERMISSION_DETAIL.TU_CHOI);
-      } else {
+      if (getChiTietLichHopModel.status != 1) {
         listButton.add(PERMISSION_DETAIL.HUY_DUYET);
       }
     }

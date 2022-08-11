@@ -361,7 +361,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
       isTree ? A_Z_SORT : sort,
       textSearch.value,
       appId,
-      isShare,
+      false,
     );
     result.when(
       success: (res) {

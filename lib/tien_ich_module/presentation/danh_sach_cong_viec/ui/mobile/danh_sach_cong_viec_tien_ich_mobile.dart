@@ -35,6 +35,11 @@ class _DanhSachCongViecTienIchMobileState
     super.initState();
     cubit.initialData();
   }
+  @override
+  void dispose() {
+    cubit.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +56,6 @@ class _DanhSachCongViecTienIchMobileState
         stream: cubit.stateStream,
         child: ProviderWidget<DanhSachCongViecTienIchCubit>(
           cubit: cubit,
-
           /// to load more
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
@@ -92,11 +96,11 @@ class _DanhSachCongViecTienIchMobileState
                             searchWidgetDscv(
                               cubit: cubit,
                             ),
-
                             /// list up
                             if (dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.CVQT ||
                                 dataType == DSCVScreen.DG ||
+                                dataType == DSCVScreen.GCT ||
                                 dataType == DSCVScreen.NCVM ||
                                 dataType == DSCVScreen.DBX)
                               StreamBuilder<List<TodoDSCVModel>>(

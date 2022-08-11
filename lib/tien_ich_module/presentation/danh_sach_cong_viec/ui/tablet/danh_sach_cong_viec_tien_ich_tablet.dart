@@ -36,6 +36,12 @@ class _DanhSachCongViecTienIchTabletState
   }
 
   @override
+  void dispose() {
+    cubit.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgQLVBTablet,

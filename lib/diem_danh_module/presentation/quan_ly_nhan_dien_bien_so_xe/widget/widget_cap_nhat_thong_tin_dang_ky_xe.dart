@@ -175,7 +175,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                         onChange: (value) {},
                         validator: (value) {
                           return (value ?? '')
-                              .checkTruongNull('${S.current.bien_kiem_soat}!');
+                              .checkTruongNull(S.current.bien_kiem_soat);
                         },
                       ),
                       spaceH20,

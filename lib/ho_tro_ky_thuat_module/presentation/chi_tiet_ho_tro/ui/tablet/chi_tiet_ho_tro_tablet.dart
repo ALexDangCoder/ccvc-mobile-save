@@ -209,7 +209,7 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                               onlyOneButton: cubit.checkOnlyButton(),
                               title1: S.current.dong,
                               title2:
-                                  ((cubit.isItSupport || cubit.isTruongPhong) &&
+                                  ((cubit.isNguoiXuLy || cubit.isTruongPhong) &&
                                           cubit.supportDetail.codeTrangThai !=
                                               ChiTietHoTroCubit.DA_HOAN_THANH)
                                       ? S.current.cap_nhat_thxl
@@ -236,7 +236,7 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
   }
 
   void confirmUpdateTask() {
-    if ((cubit.isItSupport || cubit.isTruongPhong) &&
+    if ((cubit.isNguoiXuLy || cubit.isTruongPhong) &&
         cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH) {
       showDialog(
         context: context,

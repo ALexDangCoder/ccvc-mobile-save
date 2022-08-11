@@ -49,7 +49,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         DANG_XU_LY_VALUE,
       ];
     }
-    if(isNguoiXuLy && isNguoiXuLy){
+    if (isNguoiXuLy && isNguoiXuLy) {
       listTrangThai = [
         CHUA_XU_LY_VALUE,
         DANG_XU_LY_VALUE,
@@ -131,12 +131,16 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   bool checkOnlyButton() {
     bool onlyButton = false;
-    if ((isTruongPhong || isItSupport) &&
-        supportDetail.codeTrangThai == DA_HOAN_THANH &&
+    if ((isTruongPhong || isNguoiXuLy) &&
+        (supportDetail.codeTrangThai == DA_HOAN_THANH ||
+            supportDetail.codeTrangThai == TU_CHOI_XU_LY) &&
         !isNguoiYeuCau) {
       onlyButton = true;
     }
-    if (supportDetail.codeTrangThai == TU_CHOI_XU_LY && !isNguoiYeuCau) {
+    if (isNguoiYeuCau &&
+        !isNguoiXuLy &&
+        supportDetail.codeTrangThai != DA_HOAN_THANH &&
+        supportDetail.codeTrangThai != TU_CHOI_XU_LY) {
       onlyButton = true;
     }
     return onlyButton;
@@ -239,12 +243,13 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   List<ThanhVien> listThanhVien = [];
 
   String getHandlerId(String name) {
-    if(name == ''){
+    if (name == '') {
       return dataUser?.userInformation?.id ?? '';
     } else {
       return listThanhVien[
-      listItSupport.indexWhere((element) => element.contains(name))]
-          .idThanhVien ?? '';
+                  listItSupport.indexWhere((element) => element.contains(name))]
+              .idThanhVien ??
+          '';
     }
   }
 

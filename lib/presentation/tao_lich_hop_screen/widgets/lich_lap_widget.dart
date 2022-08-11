@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -30,6 +31,7 @@ class LichLapWidget extends StatefulWidget {
   final DateTime? initDate;
   final List<int>? initDayPicked;
   final bool isUpdate;
+  final String? miniumDate;
 
   const LichLapWidget({
     Key? key,
@@ -46,6 +48,7 @@ class LichLapWidget extends StatefulWidget {
     this.initDate,
     this.isUpdate = false,
     this.initDayPicked,
+    this.miniumDate,
   }) : super(key: key);
 
   @override
@@ -58,8 +61,9 @@ class _ExpandedSectionState extends State<LichLapWidget>
   String valueSelect = '';
   late AnimationController? expandController;
   bool isShowDatePicker = false;
-  late String date;
+  String date = '';
   final Debouncer deboucer = Debouncer();
+  String? minimunDate;
 
   @override
   void initState() {
@@ -77,13 +81,13 @@ class _ExpandedSectionState extends State<LichLapWidget>
         selectBloc.sink.add(index);
       }
     }
-    date = widget.initDate == null
-        ? (DateTime.now().add(const Duration(minutes: 1))).dateTimeFormatter(
-            pattern: DateFormatApp.date,
-          )
-        : widget.initDate!.dateTimeFormatter(
-            pattern: DateFormatApp.date,
-          );
+
+    if(date.isEmpty){
+      date = DateTime.now().dateTimeFormatter(
+        pattern: DateFormatApp.date,
+      );
+    }
+
   }
 
   @override
@@ -100,6 +104,23 @@ class _ExpandedSectionState extends State<LichLapWidget>
       selectBloc.sink.add(index);
     } else {
       valueSelect = '';
+    }
+
+    if (widget.miniumDate != null) {
+      minimunDate = widget.miniumDate?.changeToNewPatternDate(
+        DateFormatApp.pickDateSearchFormat,
+        DateFormatApp.date,
+      );
+      final dateMinium = minimunDate!.convertStringToDate(
+        formatPattern: DateFormatApp.date,
+      );
+      if (dateMinium.isAfter(
+        date.convertStringToDate(
+          formatPattern: DateFormatApp.date,
+        ),
+      )) {
+        date = minimunDate!;
+      }
     }
     setState(() {});
   }
@@ -229,34 +250,36 @@ class _ExpandedSectionState extends State<LichLapWidget>
                   ),
                 ),
                 AnimatedContainer(
+                  key: UniqueKey(),
                   duration: const Duration(
                     milliseconds: 300,
                   ),
                   height: isShowDatePicker ? 200 : 1,
                   child: isShowDatePicker
                       ? CupertinoDatePicker(
-                    maximumDate: DateTime(2099, 12, 30),
-                    maximumYear: 2099,
-                    minimumYear: DateTime.now().year,
-                    minimumDate: date.convertStringToDate(
-                      formatPattern: DateFormatApp.date,
-                    ),
-                    backgroundColor: backgroundColorApp,
-                    mode: CupertinoDatePickerMode.date,
-                    use24hFormat: true,
-                    initialDateTime: date.convertStringToDate(
-                      formatPattern: DateFormatApp.date,
-                    ),
-                    onDateTimeChanged: (value) {
-                      deboucer.run(() {
-                        date = value.dateTimeFormatter(
-                          pattern: DateFormatApp.date,
-                        );
-                        widget.onDateChange?.call(date);
-                        setState(() {});
-                      });
-                    },
-                  )
+                          key: UniqueKey(),
+                          maximumDate: DateTime(2099, 12, 30),
+                          maximumYear: 2099,
+                          minimumDate: minimunDate
+                              ?.convertStringToDate(
+                                formatPattern: DateFormatApp.date,
+                              ),
+                          backgroundColor: backgroundColorApp,
+                          mode: CupertinoDatePickerMode.date,
+                          use24hFormat: true,
+                          initialDateTime: date.convertStringToDate(
+                            formatPattern: DateFormatApp.date,
+                          ).add(const Duration(minutes: 5)),
+                          onDateTimeChanged: (value) {
+                            deboucer.run(() {
+                              date = value.dateTimeFormatter(
+                                pattern: DateFormatApp.date,
+                              );
+                              widget.onDateChange?.call(date);
+                              setState(() {});
+                            });
+                          },
+                        )
                       : const SizedBox.shrink(),
                 ),
                 Visibility(

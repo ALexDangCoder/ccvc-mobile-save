@@ -283,8 +283,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                       AppStateCt.of(context)
                                           .appState
                                           .setToken('');
-                                      HiveLocal.clearData();
-                                      PrefsService.saveLoginUserName('');
+                                      menuCubit.logout();
                                     },
                                     showTablet: true,
                                     icon: Image.asset(ImageAssets.icDangXuat),

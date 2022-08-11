@@ -143,13 +143,15 @@ extension ScreenTypeScreen on ScreenType {
           mobileScreen: ReportDetailMobile(
             isListView: true,
             cubit: ReportListCubit(),
-            reportModel: ReportItem(id: id),
+          reportId: id,
+            rootNotification: true,
             title: S.current.bao_cao,
           ),
           tabletScreen: ReportDetailTablet(
             isListView: true,
             cubit: ReportListCubit(),
-            reportModel: ReportItem(id: id),
+            rootNotification: true,
+            reportId: id,
             title: S.current.bao_cao,
           ),
         );

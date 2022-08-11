@@ -184,6 +184,57 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   final BehaviorSubject<bool> showErrorToaNha = BehaviorSubject();
   List<String> loaiSuCoValue = [];
 
+  bool checkIconMore({
+    required String codeTrangThai,
+    required String idNguoiYeuCau,
+  }) {
+    if (checkDanhGia(
+          codeTrangThai: codeTrangThai,
+          idNguoiYeuCau: idNguoiYeuCau,
+        ) ||
+        checkDeleteAndSua(
+          codeTrangThai: codeTrangThai,
+          idNguoiYeuCau: idNguoiYeuCau,
+        ) ||
+        checkUpdateXuLy(
+          codeTrangThai: codeTrangThai,
+        )) {
+      return true;
+    }
+    return false;
+  }
+
+  bool checkUpdateXuLy({required String codeTrangThai}) {
+    if ((isSupporter || isManager) &&
+        (!(codeTrangThai == DA_HOAN_THANH) &&
+            !(codeTrangThai == TU_CHOI_XU_LY))) {
+      return true;
+    }
+    return false;
+  }
+
+  bool checkDeleteAndSua({
+    required String codeTrangThai,
+    required String idNguoiYeuCau,
+  }) {
+    if (codeTrangThai == CHUA_XU_LY &&
+        dataUser?.userInformation?.id == idNguoiYeuCau) {
+      return true;
+    }
+    return false;
+  }
+
+  bool checkDanhGia({
+    required String codeTrangThai,
+    required String idNguoiYeuCau,
+  }) {
+    if ((codeTrangThai == DA_HOAN_THANH || codeTrangThai == TU_CHOI_XU_LY) &&
+        (idNguoiYeuCau == dataUser?.userInformation?.id)) {
+      return true;
+    }
+    return false;
+  }
+
   void getTree() {
     hopRp.getTreeDonVi().then((value) {
       value.when(
@@ -286,14 +337,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     return listData
         .map((e) => '${e.tenThanhVien.toString()} - ${e.userName.toString()}')
         .toList();
-  }
-
-  bool checkUser(String id) {
-    bool isNguoiYeuCau = false;
-    if (id == dataUser?.userInformation?.id) {
-      isNguoiYeuCau = true;
-    }
-    return isNguoiYeuCau;
   }
 
   Future<void> getListHoTroKyThuat({

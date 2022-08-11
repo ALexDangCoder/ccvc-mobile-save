@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
@@ -214,6 +215,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               funcBtnRight: () {
                                 AppStateCt.of(context).appState.setToken('');
                                 HiveLocal.clearData();
+                                PrefsService.saveLoginUserName('');
                               },
                               showTablet: false,
                               icon: Image.asset(ImageAssets.icDangXuat),

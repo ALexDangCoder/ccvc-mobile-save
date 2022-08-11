@@ -154,7 +154,9 @@ class _DocumentOutPageTabletState extends State<DocumentOutPageTablet>
                             ),
                             InfoData(
                               key: S.current.nguoi_soan_thao,
-                              value: item.nguoiSoanThao ?? '',
+                              value: (item.chucVuNguoiSoanThao ?? '').isEmpty
+                                  ? item.nguoiSoanThao ?? ''
+                                  : '${item.nguoiSoanThao ?? ''} - ${item.chucVuNguoiSoanThao ?? ''}',
                               urlIcon: ImageAssets.imgAcount,
                             ),
                           ],

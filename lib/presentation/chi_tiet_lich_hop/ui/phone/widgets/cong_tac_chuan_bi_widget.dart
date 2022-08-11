@@ -189,7 +189,10 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 ),
               );
             }
-            return const SizedBox();
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: NodataWidget(),
+            );
           },
         ),
 

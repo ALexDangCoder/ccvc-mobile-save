@@ -103,6 +103,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       cubit: widget.cubit,
                     ).then((value) {
                       if(value){
+                        widget.cubit.needRefreshMainMeeting = true;
                         widget.cubit.getListStatusRoom();
                         widget.cubit.callApiCongTacChuanBi();
                       }

@@ -5,6 +5,7 @@ const baseImg = 'lib/tien_ich_module/assets/images';
 
 class ImageAssets {
   ///Svg path
+  static const String icCheck = '$baseImg/ic_check.svg';
   static const String icChuyenGiongNoiThanhVanBan =
       '$baseImg/ic_chuyen_giong_noi_thanh_van_ban.svg';
   static const String icChuyenVanBanThanhGiongNoi =

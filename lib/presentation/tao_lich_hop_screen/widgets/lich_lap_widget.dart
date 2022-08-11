@@ -260,7 +260,6 @@ class _ExpandedSectionState extends State<LichLapWidget>
                           key: UniqueKey(),
                           maximumDate: DateTime(2099, 12, 30),
                           maximumYear: 2099,
-                          // minimumYear: DateTime.now().year,
                           minimumDate: minimunDate
                               ?.convertStringToDate(
                                 formatPattern: DateFormatApp.date,

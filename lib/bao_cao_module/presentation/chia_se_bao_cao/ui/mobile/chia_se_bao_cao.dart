@@ -133,7 +133,7 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                             .find<AppConstants>()
                             .urlHTCS + widget.idReport,
                         style: textNormalCustom(
-                          color: labelColor,
+                          color: AppTheme.getInstance().colorField(),
                           fontSize: 14,
                         ),
                       ),

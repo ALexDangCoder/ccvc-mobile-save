@@ -71,7 +71,6 @@ class _MyAppState extends State<MyApp> {
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
-    FirebaseConfig.onMessenge();
   }
 
   @override

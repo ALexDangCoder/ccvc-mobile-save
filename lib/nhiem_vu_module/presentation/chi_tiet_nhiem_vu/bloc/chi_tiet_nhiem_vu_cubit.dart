@@ -87,6 +87,8 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
   Stream<List<VanBanLienQuanNhiemVuModel>> get vanBanKhacNhiemvuStream =>
       vanBanKhacNhiemVuSubject.stream;
 
+  String? donViId;
+
   Future<void> loadDataNhiemVuCaNhan(
       {required String nhiemVuId, required bool isCheck}) async {
     final queue = Queue(parallel: 9);
@@ -106,7 +108,8 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
   }
 
   Future<void> getChiTietNhiemVuCaNhan(String nhiemVuId, bool isCheck) async {
-    final result = await nhiemVuRepo.getChiTietNhiemVu(nhiemVuId, isCheck);
+    final result =
+        await nhiemVuRepo.getChiTietNhiemVu(nhiemVuId, isCheck, donViId);
     result.when(
         success: (res) {
           chiTietHeaderSubject.add(res);

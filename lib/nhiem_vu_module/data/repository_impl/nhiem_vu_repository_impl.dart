@@ -58,9 +58,10 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
   Future<Result<ChiTietNhiemVuModel>> getChiTietNhiemVu(
     String nhiemVuId,
     bool isCaNhan,
+    String? donViId,
   ) {
     return runCatchingAsync<DataChiTietNhiemVuResponse, ChiTietNhiemVuModel>(
-      () => nhiemVuService.getChiTietNhiemVu(nhiemVuId, isCaNhan),
+      () => nhiemVuService.getChiTietNhiemVu(nhiemVuId, isCaNhan, donViId),
       (response) => response.data?.toModel() ?? ChiTietNhiemVuModel(),
     );
   }

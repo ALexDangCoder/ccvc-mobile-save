@@ -1,4 +1,4 @@
- import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -27,11 +27,13 @@ import 'package:flutter/material.dart';
 class ChiTietNhiemVuPhoneScreen extends StatefulWidget {
   final String id;
   final bool isCheck;
+  final String? donViId;
 
   const ChiTietNhiemVuPhoneScreen({
     Key? key,
     required this.id,
     required this.isCheck,
+    this.donViId,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen>
   @override
   void initState() {
     super.initState();
+    cubit.donViId = widget.donViId;
     _tabController = TabController(length: 9, vsync: this);
     cubit.loadDataNhiemVuCaNhan(nhiemVuId: widget.id, isCheck: widget.isCheck);
     cubit.idNhiemVu = widget.id;

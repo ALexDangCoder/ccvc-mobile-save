@@ -174,6 +174,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         if (res) {
+          needRefreshMainMeeting = true;
           getChiTietLichHop(idCuocHop);
           MessageConfig.show(
             title: S.current.tao_thanh_cong,

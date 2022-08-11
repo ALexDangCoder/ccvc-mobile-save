@@ -41,7 +41,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   List<String> listTrangThai = [];
 
-  void checkCodeTrangThai() {
+  void checkCodeTrangThai(String statusCode) {
     listTrangThai.clear();
     if (isTruongPhong && !isNguoiXuLy) {
       listTrangThai = [
@@ -49,7 +49,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         DANG_XU_LY_VALUE,
       ];
     }
-    if (isNguoiXuLy && isNguoiXuLy) {
+    if (isTruongPhong && isNguoiXuLy) {
       listTrangThai = [
         CHUA_XU_LY_VALUE,
         DANG_XU_LY_VALUE,
@@ -57,12 +57,19 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         TU_CHOI_XU_LY_VALUE,
       ];
     }
-    if (isItSupport && !isTruongPhong) {
-      listTrangThai = [
-        DANG_XU_LY_VALUE,
-        DA_HOAN_THANH_VALUE,
-        TU_CHOI_XU_LY_VALUE,
-      ];
+    if (isNguoiXuLy && !isTruongPhong) {
+      if(statusCode == CHUA_XU_LY){
+        listTrangThai = [
+          DANG_XU_LY_VALUE,
+          DA_HOAN_THANH_VALUE,
+          TU_CHOI_XU_LY_VALUE,
+        ];
+      } else {
+        listTrangThai = [
+          DA_HOAN_THANH_VALUE,
+          TU_CHOI_XU_LY_VALUE,
+        ];
+      }
     }
   }
 
@@ -165,7 +172,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     if (supportDetail?.idNguoiXuLy == dataUser?.userInformation?.id) {
       isNguoiXuLy = true;
     }
-    checkCodeTrangThai();
+    checkCodeTrangThai(supportDetail?.codeTrangThai ?? '');
     emit(
       ChiTietHoTroSuccess(
         completeType: CompleteType.SUCCESS,

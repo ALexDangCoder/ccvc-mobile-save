@@ -1405,5 +1405,6 @@
   "cho_bo_sung_thong_tin_pakn": "Chờ bổ sung TT",
   "ban_phai_chon_truong": "Bạn phải chọn trường",
   "tong_dung_luong_file_toi_da": "Tổng dung lượng file tối đa",
-  "just_txt": "Chỉ hỗ trợ tệp .txt"
+  "just_txt": "Chỉ hỗ trợ tệp .txt",
+  "tinh_nang_dang_phat_trien" : "Tính năng đang được phát triển"
 }

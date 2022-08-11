@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/firebase_config.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/main.dart';
@@ -41,6 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.didChangeDependencies();
     SizeConfig.init(context);
     MessageConfig.init(context);
+    FirebaseConfig.getInitialMessage();
   }
 
   @override

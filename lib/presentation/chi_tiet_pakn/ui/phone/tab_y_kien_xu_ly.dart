@@ -76,6 +76,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
           );
           return;
         }
+
         widget.cubit.listFileMain.addAll(fileMy);
         widget.cubit.listPickFileMain.add(
           PickImageFileModel(

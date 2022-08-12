@@ -58,43 +58,50 @@ class _DocumentOutPageTabletState extends State<DocumentOutPageTablet>
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ExpandOnlyWidget(
-              initExpand: true,
-              header: Container(
-                alignment: Alignment.centerLeft,
-                color: Colors.transparent,
-                child: Text(
-                  S.current.word_processing_state,
-                  style: textNormalCustom(
-                    color: textTitle,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+            child: Container(
+              padding: const EdgeInsets.all(25),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  color: backgroundColorApp,
+                  border: Border.all(color: cellColorborder)),
+              child: ExpandOnlyWidget(
+                initExpand: true,
+                header: Container(
+                  alignment: Alignment.centerLeft,
+                  color: Colors.transparent,
+                  child: Text(
+                    S.current.word_processing_state,
+                    style: textNormalCustom(
+                      color: textTitle,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-              child: StreamBuilder<DocumentDashboardModel>(
-                stream: widget.qlvbCubit.getVbDi,
-                builder: (context, snapshot) {
-                  return Container(
-                    padding: const EdgeInsets.all(16.0),
-                    child: CommonInformationDocumentManagement(
-                      chartData: widget.qlvbCubit.chartDataVbDi,
-                      onPieTap: (value) {
-                        widget.qlvbCubit.documentInSubStatusCode = '';
-                        widget.qlvbCubit.documentOutStatusCode =
-                            widget.qlvbCubit.documentOutStatusCode == value
-                                ? ''
-                                : value;
-                        _documentPagingController.refresh();
-                      },
-                      onStatusTap: (key) {
-                        widget.qlvbCubit.documentInStatusCode = '';
-                        widget.qlvbCubit.documentInSubStatusCode = key;
-                        _documentPagingController.refresh();
-                      },
-                    ),
-                  );
-                },
+                child: StreamBuilder<DocumentDashboardModel>(
+                  stream: widget.qlvbCubit.getVbDi,
+                  builder: (context, snapshot) {
+                    return Container(
+                      padding: const EdgeInsets.all(16.0),
+                      child: CommonInformationDocumentManagement(
+                        chartData: widget.qlvbCubit.chartDataVbDi,
+                        onPieTap: (value) {
+                          widget.qlvbCubit.documentInSubStatusCode = '';
+                          widget.qlvbCubit.documentOutStatusCode =
+                              widget.qlvbCubit.documentOutStatusCode == value
+                                  ? ''
+                                  : value;
+                          _documentPagingController.refresh();
+                        },
+                        onStatusTap: (key) {
+                          widget.qlvbCubit.documentInStatusCode = '';
+                          widget.qlvbCubit.documentInSubStatusCode = key;
+                          _documentPagingController.refresh();
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

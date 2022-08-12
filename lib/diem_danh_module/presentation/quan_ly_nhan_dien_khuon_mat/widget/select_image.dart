@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -168,6 +169,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
           children: [
             SvgPicture.asset(
               ImageAssets.icUpAnh,
+              color: AppTheme.getInstance().colorField(),
             ),
             spaceH14,
             Text(

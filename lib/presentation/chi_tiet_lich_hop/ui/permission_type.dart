@@ -419,6 +419,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                       cubit: cubit,
                       cubitThanhPhanTG: cubitThanhPhanTG,
                       themDonViCubit: themDonViCubit,
+                      isMobile: false,
                     ),
                     isBottomShow: false,
                     funcBtnOk: () {

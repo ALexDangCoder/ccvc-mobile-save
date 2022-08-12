@@ -308,6 +308,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                       builder: (context) => ChiTietNhiemVuTabletScreen(
                         id: value.id ?? '',
                         isCheck: widget.isCheck,
+                        donViId: value.phamViId,
                       ),
                     ),
                   );

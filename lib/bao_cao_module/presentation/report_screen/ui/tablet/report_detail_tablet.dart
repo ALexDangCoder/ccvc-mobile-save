@@ -11,15 +11,17 @@ import 'package:flutter/material.dart';
 class ReportDetailTablet extends StatefulWidget {
   final String title;
   final ReportListCubit cubit;
-  final ReportItem reportModel;
+  final String reportId;
   final bool isListView;
+  final bool rootNotification;
 
   const ReportDetailTablet({
     Key? key,
     required this.title,
     required this.cubit,
-    required this.reportModel,
+    required this.reportId,
     required this.isListView,
+    this.rootNotification = false,
   }) : super(key: key);
 
   @override
@@ -27,15 +29,10 @@ class ReportDetailTablet extends StatefulWidget {
 }
 
 class _ReportDetailTabletState extends State<ReportDetailTablet> {
-
   Future<void> getApi() async {
     await widget.cubit.getListReport(
-      idFolder: widget.reportModel.id ?? '',
+      idFolder: widget.reportId,
       isTree: true,
-      isShare: (!widget.cubit.isCheckOwner(
-                  listAccess: widget.reportModel.accesses ?? []) ||
-              widget.reportModel.isSourceShare == true) ||
-          (widget.reportModel.shareToMe ?? false),
     );
   }
 
@@ -43,16 +40,18 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
   void initState() {
     getApi();
     super.initState();
-   }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarDefaultBack(
         widget.title,
-        callback: (){
-          widget.cubit.mapFolderID.removeAt(widget.cubit.levelFolder-1);
-          widget.cubit.levelFolder--;
+        callback: () {
+          if (!widget.rootNotification) {
+            widget.cubit.mapFolderID.removeAt(widget.cubit.levelFolder - 1);
+            widget.cubit.levelFolder--;
+          }
         },
       ),
       body: Column(
@@ -92,10 +91,10 @@ class _ReportDetailTabletState extends State<ReportDetailTablet> {
                           ? const SizedBox.shrink()
                           : ReportListTablet(
                               isListView: widget.cubit.isListView.value,
-                              listReport: snapshot.data ,
+                              listReport: snapshot.data,
                               cubit: widget.cubit,
                               isTree: true,
-                              idFolder: widget.reportModel.id ?? '',
+                              idFolder: widget.reportId,
                             );
                     },
                   ),

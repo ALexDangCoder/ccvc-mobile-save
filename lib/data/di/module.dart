@@ -176,7 +176,6 @@ void configureDependencies() {
       Get.find(),
       Get.find(),
       Get.find(),
-      Get.find(),
     ),
   );
   Get.put(

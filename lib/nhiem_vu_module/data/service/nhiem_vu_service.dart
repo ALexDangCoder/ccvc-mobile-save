@@ -75,6 +75,7 @@ abstract class NhiemVuService {
   Future<DataChiTietNhiemVuResponse> getChiTietNhiemVu(
     @Query('nhiemVuId') String nhiemVuId,
     @Query('isCaNhan') bool isCaNhan,
+    @Query('DonViId') String? donViId,
   );
 
   @GET(ApiConstants.GET_LICH_SU_PHAN_XU_LY_NHIEM_VU)

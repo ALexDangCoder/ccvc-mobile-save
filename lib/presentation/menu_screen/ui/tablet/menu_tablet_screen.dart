@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
@@ -282,7 +283,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                       AppStateCt.of(context)
                                           .appState
                                           .setToken('');
-                                      HiveLocal.clearData();
+                                      menuCubit.logout();
                                     },
                                     showTablet: true,
                                     icon: Image.asset(ImageAssets.icDangXuat),
@@ -337,19 +338,15 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
           children: [
             SvgPicture.asset(
               type.getItem().url,
+              width: 35,
+              height: 35,
             ),
-            Expanded(
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10.h),
-                    child: Text(
-                      type.getItem().title,
-                      style: textNormalCustom(fontSize: 18, color: color3D5586),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Text(
+                type.getItem().title,
+                style: textNormalCustom(fontSize: 18, color: color3D5586),
+                textAlign: TextAlign.center,
               ),
             )
           ],

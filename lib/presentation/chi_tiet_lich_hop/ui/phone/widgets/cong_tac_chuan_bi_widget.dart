@@ -68,7 +68,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
       ),
       tabletScreen: CongTacChuanBiWidgetTablet(
         cubit: widget.cubit,
-        cubitTaoLichHop:_cubitTaoLichHop ,
+        cubitTaoLichHop: _cubitTaoLichHop,
       ),
     );
   }
@@ -92,9 +92,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
                   id: HiveLocal.getDataUser()
-                      ?.userInformation
-                      ?.donViTrucThuoc
-                      ?.id ??
+                          ?.userInformation
+                          ?.donViTrucThuoc
+                          ?.id ??
                       '',
                   onChange: (value) {
                     _cubitTaoLichHop.chonPhongHopMetting(
@@ -103,6 +103,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       cubit: widget.cubit,
                     ).then((value) {
                       if(value){
+                        widget.cubit.needRefreshMainMeeting = true;
                         widget.cubit.getListStatusRoom();
                         widget.cubit.callApiCongTacChuanBi();
                       }
@@ -182,14 +183,22 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 padding: const EdgeInsets.only(top: 20),
                 child: titleType(
                   title: S.current.thong_tin_yeu_cau_chuan_bi,
-                  child: itemThongTinYeuCauChuanBi(
-                    model: data,
-                    cubit: widget.cubit,
-                  ),
+                  child: ((data.noiDungYeuCau ?? '').isNotEmpty)
+                      ? itemThongTinYeuCauChuanBi(
+                          model: data,
+                          cubit: widget.cubit,
+                        )
+                      : const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 50),
+                          child: NodataWidget(),
+                        ),
                 ),
               );
             }
-            return const SizedBox();
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: NodataWidget(),
+            );
           },
         ),
 
@@ -220,7 +229,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                 widget.cubit.checkPermissionQuyenDuyetPhong()) {
                               return const SizedBox();
                             }
-                            return Row(
+                            if(widget.cubit.checkPermissionQuyenDuyetPhong(isCheckHideButton: true)) {
+                              return Row(
                               children: [
                                 ButtonOtherWidget(
                                   text: S.current.duyet,
@@ -241,6 +251,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                 ),
                               ],
                             );
+                            }
+                            return const SizedBox();
                           },
                         ),
                       ),
@@ -365,7 +377,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (widget.cubit.isButtonYeuCauChuanBiPhong())
+              if (widget.cubit
+                  .isButtonYeuCauChuanBiPhong(isCheckHideButton: true))
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
@@ -698,37 +711,40 @@ class _ChonPhongHopScreenOnlyState extends State<_ChonPhongHopScreenOnly> {
           ),
         ),
         child: SingleChildScrollView(
-          child: StreamBuilder<List<PhongHopModel>>(
-            stream: widget.cubit.phongHopSubject,
-            builder: (context, snapshot) {
-              final listData = snapshot.data ?? [];
-              if (listData.isNotEmpty) {
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: listData.length,
-                  itemBuilder: (_, index) => itemPhongHop(
-                    phongHop: listData[index],
-                    index: index,
-                    groupValue: groupValue,
-                    onChange: (index) {
-                      widget.cubit.chosePhongHop
-                        ..donViId = listData[index].donViDuyetId
-                        ..ten = listData[index].ten
-                        ..bitTTDH = listData[index].bit_TTDH
-                        ..phongHopId = listData[index].id;
-                      groupValue = index;
-                      setState(() {});
-                    },
-                  ),
-                );
-              } else {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: NodataWidget(),
-                );
-              }
-            },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: StreamBuilder<List<PhongHopModel>>(
+              stream: widget.cubit.phongHopSubject,
+              builder: (context, snapshot) {
+                final listData = snapshot.data ?? [];
+                if (listData.isNotEmpty) {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listData.length,
+                    itemBuilder: (_, index) => itemPhongHop(
+                      phongHop: listData[index],
+                      index: index,
+                      groupValue: groupValue,
+                      onChange: (index) {
+                        widget.cubit.chosePhongHop
+                          ..donViId = listData[index].donViDuyetId
+                          ..ten = listData[index].ten
+                          ..bitTTDH = listData[index].bit_TTDH
+                          ..phongHopId = listData[index].id;
+                        groupValue = index;
+                        setState(() {});
+                      },
+                    ),
+                  );
+                } else {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 30),
+                    child: NodataWidget(),
+                  );
+                }
+              },
+            ),
           ),
         ),
       ),

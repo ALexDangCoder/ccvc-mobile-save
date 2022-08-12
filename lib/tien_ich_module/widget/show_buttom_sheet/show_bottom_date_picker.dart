@@ -45,12 +45,14 @@ class CupertinoRoundedDatePickerWidget {
       if (dayMin != null) {
         if (value.millisecondsSinceEpoch < dayMin.millisecondsSinceEpoch) {
           isCheckOver = true;
+          return;
         }
       }
       final dayMax = maximumDate;
       if (dayMax != null) {
         if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
           isCheckOver = true;
+          return;
         }
       }
       isCheckOver = false;

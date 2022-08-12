@@ -51,6 +51,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
 
     if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
       isDateOver = true;
+      return;
     }
 
     isDateOver = false;

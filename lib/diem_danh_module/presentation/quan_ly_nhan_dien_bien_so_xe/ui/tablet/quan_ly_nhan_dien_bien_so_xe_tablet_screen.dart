@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_bien_so_xe_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_tablet.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/dang_ky_thong_tin_xe_moi_screen.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/item_loai_xe.dart';
@@ -36,8 +37,11 @@ class QuanLyNhanDienBienSoXeTabletScreen extends StatefulWidget {
 
 class _QuanLyNhanDienBienSoXeTabletScreenState
     extends State<QuanLyNhanDienBienSoXeTabletScreen> {
+  late ImagePermission imagePermission;
+
   @override
   void initState() {
+    imagePermission = ImagePermission();
     widget.cubit.getDanhSachBienSoXe();
     _handleEventBus();
     super.initState();
@@ -180,6 +184,8 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                                     isBottomShow: false,
                                                     child:
                                                         WidgetCapNhatThongTinDangKyXe(
+                                                      imagePermission:
+                                                          imagePermission,
                                                       context: context,
                                                       cubit: widget.cubit,
                                                       chiTietBienSoXeModel:
@@ -237,6 +243,7 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DangKyThongTinXeMoi(
+                                        imagePermission: imagePermission,
                                         cubit: widget.cubit,
                                       ),
                                     ),
@@ -299,6 +306,8 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         DangKyThongTinXeMoi(
+                                                            imagePermission:
+                                                                imagePermission,
                                                             cubit:
                                                                 widget.cubit),
                                                   ),

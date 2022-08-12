@@ -426,10 +426,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       pageNumber: pageNumberDSPAKN.toString(),
       pageSize: pageSizeDSPAKN.toString(),
       trangThai: trangThaiFilter,
-      // loaiMenu: loaiMenu,
       tuNgay: startDate,
       denNgay: endDate,
-      // hanXuLy: hanXuLy,
       userId: userId,
       tuKhoa: tuKhoa,
     );

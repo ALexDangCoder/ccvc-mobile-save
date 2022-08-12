@@ -1371,8 +1371,10 @@
   "tong_dung_luong_file_toi_da": "Tổng dung lượng file tối đa",
   "just_txt": "Chỉ hỗ trợ tệp .txt",
   "ban_phai_chon_truong": "Bạn phải chọn trường",
+  "nhap_noi_dung":"Nhập nội dung",
   "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
-  "nhap_noi_dung":"Nhập nội dung"
+  "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
+  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !"
 }
 
 

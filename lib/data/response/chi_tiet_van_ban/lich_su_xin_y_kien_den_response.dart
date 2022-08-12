@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/danh_sach_y_kien_xu_ly_response.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lich_su_xin_y_kien_den_response.g.dart';
@@ -122,9 +124,10 @@ class DanhSachXinYkienResponse {
         noiDung: noiDungXinYKien?.parseHtml(),
         nguoiTaoId: nguoiTaoXuLyId,
         ngayTao: thoiGianTaoStr?.changeToNewPatternDate(
-          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-          DateTimeFormat.DATE_DD_MM_YYYY,
-        ) ?? '',
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
+            '',
         isSign: isSign,
         issuer: issuer,
         canRelay: listTraLoiYKien
@@ -138,7 +141,9 @@ class DanhSachXinYkienResponse {
             false,
         tenNhanVien: hoTenNguoiXin,
         avatarCommon: avatarCommon,
-        avatar: avatar,
+        avatar: avatar != null
+            ? '${Get.find<AppConstants>().baseUrlQLNV}$avatar'
+            : avatarCommon,
         listTraloiYKien: listTraLoiYKien?.map((e) => e.toModel()).toList(),
       );
 }
@@ -208,11 +213,12 @@ class ListTraLoiYKien {
         hoTenNguoiTraLoi: hoTenNguoiTraLoi ?? '',
         donViNguoiTraLoi: donViNguoiTraLoi ?? '',
         noiDungTraLoi: noiDungTraLoi?.parseHtml() ?? '',
-        thoiGianTraLoi: thoiGianTraLoi?? ''    ,
+        thoiGianTraLoi: thoiGianTraLoi ?? '',
         thoiGianTraLoiStr: thoiGianTraLoiStr?.changeToNewPatternDate(
-          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-          DateTimeFormat.DATE_DD_MM_HM,
-        ) ?? ''  ,
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_HM,
+            ) ??
+            '',
         isDaTraLoi: isDaTraLoi ?? false,
         lstFileDinhKemTraLoi:
             lstFileDinhKemTraLoi?.map((e) => e.toModel()).toList(),

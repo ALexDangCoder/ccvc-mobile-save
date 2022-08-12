@@ -331,6 +331,7 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
         if (res.data == true) {
           showDiaLog(
             context,
+            isCenterTitle: true,
             textContent: S.current.ban_co_muon_tiep_tuc_khong,
             btnLeftTxt: S.current.khong,
             funcBtnRight: () async {

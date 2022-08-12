@@ -14,6 +14,7 @@
   "nguoi_thao_tac": "Người thao tác",
   "gui_yc": "Gửi yêu cầu",
   "cho_bo_duyet": "Chờ bộ duyệt",
+  "chon_file_that_bai": "Chọn file thất bại",
   "nhap_mo_ta_su_co": "Nhập mô tả sự cố",
   "ten_ca_nhan_tc_full": "Tên cá nhân/Tổ chức",
   "ngay_yeu_cau": "Ngày yêu cầu",
@@ -1371,8 +1372,8 @@
   "just_txt": "Chỉ hỗ trợ tệp .txt",
   "ban_phai_chon_truong": "Bạn phải chọn trường",
   "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
-  "thoi_gian_chon_khong_hop_le" : "Thời gian chọn không hợp lệ"
-
+  "thoi_gian_chon_khong_hop_le" : "Thời gian chọn không hợp lệ",
+  "nhap_noi_dung":"Nhập nội dung"
 }
 
 

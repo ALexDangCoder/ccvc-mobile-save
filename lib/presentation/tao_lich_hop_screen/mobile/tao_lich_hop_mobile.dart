@@ -164,6 +164,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                                         formatPattern: DateFormatApp.date,
                                       )
                                       .formatApi;
+                                  _cubit.needRebuildLichLap.add(true);
                                 },
                                 onSwitchPressed: (value) {
                                   _cubit.taoLichHopRequest.isAllDay = value;
@@ -197,33 +198,39 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           },
                         ),
                         spaceH5,
-                        LichLapWidget(
-                          urlIcon: ImageAssets.icNhacLai,
-                          title: S.current.lich_lap,
-                          value: danhSachLichLap.first.label,
-                          listSelect:
-                              danhSachLichLap.map((e) => e.label).toList(),
-                          onChange: (index) {
-                            _cubit.taoLichHopRequest.typeRepeat =
-                                danhSachLichLap[index].id;
-                            if (index == 0) {
-                              _cubit.taoLichHopRequest.isLichLap = false;
-                            } else {
-                              _cubit.taoLichHopRequest.isLichLap = true;
-                            }
-                          },
-                          onDayPicked: (listId) {
-                            _cubit.taoLichHopRequest.days = listId.join(',');
-                            if (listId.isEmpty) {
-                              _cubit.taoLichHopRequest.typeRepeat =
-                                  danhSachLichLap.first.id;
-                            }
-                          },
-                          onDateChange: (value) {
-                            _cubit.taoLichHopRequest.dateRepeat =
-                                value.changeToNewPatternDate(
-                              DateFormatApp.date,
-                              DateFormatApp.dateTimeBackEnd,
+                        StreamBuilder<bool>(
+                          stream: _cubit.needRebuildLichLap,
+                          builder: (context, snapshot) {
+                            return LichLapWidget(
+                              urlIcon: ImageAssets.icNhacLai,
+                              title: S.current.lich_lap,
+                              value: danhSachLichLap.first.label,
+                              listSelect:
+                                  danhSachLichLap.map((e) => e.label).toList(),
+                              onChange: (index) {
+                                _cubit.taoLichHopRequest.typeRepeat =
+                                    danhSachLichLap[index].id;
+                                if (index == 0) {
+                                  _cubit.taoLichHopRequest.isLichLap = false;
+                                } else {
+                                  _cubit.taoLichHopRequest.isLichLap = true;
+                                }
+                              },
+                              onDayPicked: (listId) {
+                                _cubit.taoLichHopRequest.days = listId.join(',');
+                                if (listId.isEmpty) {
+                                  _cubit.taoLichHopRequest.typeRepeat =
+                                      danhSachLichLap.first.id;
+                                }
+                              },
+                              onDateChange: (value) {
+                                _cubit.taoLichHopRequest.dateRepeat =
+                                    value.changeToNewPatternDate(
+                                  DateFormatApp.date,
+                                  DateFormatApp.dateTimeBackEnd,
+                                );
+                              },
+                              miniumDate: _cubit.taoLichHopRequest.ngayBatDau,
                             );
                           },
                         ),

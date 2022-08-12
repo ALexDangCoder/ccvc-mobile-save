@@ -1410,5 +1410,7 @@
   "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
   "nhap_noi_dung":"Nhập nội dung",
   "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
-  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !"
+  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !",
+  "chua_duoc_cap_quyen" : "Chưa được cấp quyền",
+  "quyen_truy_cap_han_che" : "Quyền truy cập file của bạn hiện tại đang bị từ chối. Vui lòng chọn vào cài đặt để mở quyền truy cập file"
 }

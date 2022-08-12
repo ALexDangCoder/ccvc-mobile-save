@@ -47,8 +47,8 @@ class WidgetItemThongKe extends StatelessWidget {
             ),
           ),
           itemthongKe(
-            title: S.current.so_ngay_nghi,
-            number: thongKeDiemDanhCaNhanModel.soNgayNghi,
+            title: S.current.so_ngay_nghi_co_ly_do,
+            number: thongKeDiemDanhCaNhanModel.soNgayNghiCoLyDo ?? 0,
           ),
         ],
       ),

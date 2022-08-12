@@ -145,6 +145,7 @@ abstract class TienIchService {
     @Field('pageSize') int? pageSize,
     @Field('searchWord') String? searchWord,
     @Field('isImportant') bool? isImportant,
+    @Field('isForMe') bool? isForMe,
     @Field('inUsed') bool? inUsed,
     @Field('isTicked') bool? isTicked,
     @Field('groupId') String? groupId,
@@ -168,9 +169,8 @@ abstract class TienIchServiceCommon {
       _TienIchServiceCommon;
 
   @GET(ApiConstants.LIST_NGUOI_THUC_HIEN)
-  @FormUrlEncoded()
   Future<ListNguoiThucHienResponse> getListNguoiThucHien(
-    @Query('IsGetAll') bool isGetAll,
+    @Query('HoTenFilter') String hoTen,
     @Query('PageSize') int pageSize,
     @Query('PageIndex') int pageIndex,
   );

@@ -207,9 +207,11 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                                     selectIndexList,
                                   );
                                   if (selectIndexList.isNotEmpty) {
-                                    widget.cubit.showErrorLoaiSuCo.add(false);
+                                    widget.cubit.showErrorLoaiSuCo.add(
+                                        false,);
                                   } else {
-                                    widget.cubit.showErrorLoaiSuCo.add(true);
+                                    widget.cubit.showErrorLoaiSuCo.add(
+                                        true,);
                                   }
                                 },
                               );

@@ -36,7 +36,9 @@ class _WorkListWidgetState extends State<WorkListWidget> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    cubit = HomeProvider.of(context).homeCubit;
+    cubit = HomeProvider
+        .of(context)
+        .homeCubit;
   }
 
   @override
@@ -45,7 +47,11 @@ class _WorkListWidgetState extends State<WorkListWidget> {
     super.initState();
     danhSachCVCubit.callApi();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+      HomeProvider
+          .of(context)
+          .homeCubit
+          .refreshListen
+          .listen((value) {
         danhSachCVCubit.getToDoList();
       });
     });
@@ -96,7 +102,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                     children: List.generate(data.length, (index) {
                       final todo = data[index];
                       return CongViecCell(
-                        nguoiGan: danhSachCVCubit.listTempName[todo.id] ?? '',
+                        nguoiGan: todo.name ?? '',
                         text: todo.label ?? '',
                         todoModel: todo,
                         onCheckBox: (value) {
@@ -286,7 +292,7 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIconConstraints:
-                    const BoxConstraints(maxWidth: 25, maxHeight: 14),
+                const BoxConstraints(maxWidth: 25, maxHeight: 14),
                 prefixIcon: Container(
                   color: Colors.transparent,
                   child: Align(

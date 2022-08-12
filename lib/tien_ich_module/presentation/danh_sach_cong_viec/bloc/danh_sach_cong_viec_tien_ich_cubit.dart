@@ -14,11 +14,11 @@ import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repositor
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'danh_sach_cong_viec_tien_ich_state.dart';
@@ -27,7 +27,9 @@ class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
   int countLoadMore = ApiConstants.PAGE_BEGIN;
+  int indexNguoiThucHien = ApiConstants.PAGE_BEGIN;
   bool canLoadMore = true;
+  bool canLoadMoreNguoiThucHien = true;
   TextEditingController searchControler = TextEditingController();
   Timer? _debounce;
   final int maxSizeFile = 31457280;
@@ -48,6 +50,7 @@ class DanhSachCongViecTienIchCubit
       BehaviorSubject();
 
   BehaviorSubject<bool> inLoadmore = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> showLoadNguoiThucHien = BehaviorSubject.seeded(false);
 
   final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
@@ -85,9 +88,9 @@ class DanhSachCongViecTienIchCubit
     String? groupId,
     bool isLoadmore = false,
   }) async {
-    if (isLoadmore ){
+    if (isLoadmore) {
       inLoadmore.sink.add(true);
-    }else{
+    } else {
       showLoading();
     }
     bool result = false;
@@ -96,6 +99,7 @@ class DanhSachCongViecTienIchCubit
         result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           pageSize: ApiConstants.LONG_PAGE_SIZE,
           pageIndex: countLoadMore,
           searchWord: textSearch?.trim(),
@@ -118,8 +122,8 @@ class DanhSachCongViecTienIchCubit
           inUsed: true,
           isTicked: true,
           searchWord: textSearch?.trim(),
-          pageIndex: countLoadMore ,
-          pageSize:  ApiConstants.LONG_PAGE_SIZE,
+          pageIndex: countLoadMore,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
         );
         break;
       case DSCVScreen.DG:
@@ -131,6 +135,17 @@ class DanhSachCongViecTienIchCubit
           pageIndex: countLoadMore,
           pageSize: ApiConstants.LONG_PAGE_SIZE,
           isGiveOther: true,
+        );
+        break;
+      case DSCVScreen.GCT:
+        result = await getAllListDSCVWithFilter(
+          isLoadmore: isLoadmore,
+          inUsed: true,
+          isTicked: false,
+          searchWord: textSearch?.trim(),
+          pageIndex: countLoadMore,
+          pageSize: ApiConstants.LONG_PAGE_SIZE,
+          isForMe: true,
         );
         break;
       case DSCVScreen.DBX:
@@ -146,6 +161,7 @@ class DanhSachCongViecTienIchCubit
         result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           pageSize: ApiConstants.LONG_PAGE_SIZE,
           pageIndex: countLoadMore,
           groupId: groupId ?? this.groupId,
@@ -153,9 +169,9 @@ class DanhSachCongViecTienIchCubit
         );
         break;
     }
-    if (isLoadmore ){
+    if (isLoadmore) {
       inLoadmore.sink.add(false);
-    }else{
+    } else {
       showContent();
     }
     return result;
@@ -163,9 +179,10 @@ class DanhSachCongViecTienIchCubit
 
   /// khoi tao data
   Future<void> initialData() async {
-    await callAPITheoFilter();
-    await getCountTodoAndMenu();
-    unawaited(listNguoiThucHien());
+    final queue = Queue(parallel: 3);
+    unawaited(queue.add(() => callAPITheoFilter()));
+    unawaited(queue.add(() => getCountTodoAndMenu()));
+    await queue.onComplete;
     showContent();
   }
 
@@ -204,19 +221,26 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///các danh sach api
-  Future<void> listNguoiThucHien() async {
-    showLoading();
-    final result = await tienIchRep.getListNguoiThucHien(true, 99, 1);
+  Future<void> listNguoiThucHien(String keySearch) async {
+    showLoadNguoiThucHien.sink.add(true);
+    final result = await tienIchRep.getListNguoiThucHien(
+      keySearch,
+      ApiConstants.MAX_PAGE_SIZE,
+      indexNguoiThucHien,
+    );
     result.when(
       success: (res) {
-        showContent();
-        listNguoiThucHienSubject.sink.add(res.items);
-        dataListNguoiThucHienModelDefault = res;
+        canLoadMoreNguoiThucHien = res.items.length >= ApiConstants.MAX_PAGE_SIZE;
+        if (indexNguoiThucHien == ApiConstants.PAGE_BEGIN){
+          listNguoiThucHienSubject.sink.add(res.items);
+        }else{
+          final currentData = listNguoiThucHienSubject.valueOrNull ?? [];
+          listNguoiThucHienSubject.sink.add([...currentData,...res.items]);
+        }
       },
-      error: (err) {
-        showError();
-      },
+      error: (_) {},
     );
+    showLoadNguoiThucHien.sink.add(false);
   }
 
   ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
@@ -247,6 +271,7 @@ class DanhSachCongViecTienIchCubit
     bool? isImportant,
     bool? inUsed,
     bool? isTicked,
+    bool? isForMe,
     String? groupId,
     bool? isGiveOther,
     required bool isLoadmore,
@@ -256,6 +281,7 @@ class DanhSachCongViecTienIchCubit
       pageSize ?? 10,
       searchWord?.trim(),
       isImportant,
+      isForMe,
       inUsed,
       isTicked,
       groupId,
@@ -264,7 +290,7 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         final List<TodoDSCVModel> data = listDSCVStream.valueOrNull ?? [];
-        if (!isLoadmore ) {
+        if (!isLoadmore) {
           data.clear();
         }
         data.addAll(res);
@@ -536,36 +562,19 @@ class DanhSachCongViecTienIchCubit
     showContent();
   }
 
-  ItemChonBienBanCuocHopModel dataListNguoiThucHienModelDefault =
-      ItemChonBienBanCuocHopModel(items: []);
 
-  ///tim nguoi thuc hien
-  void timNguoiTHucHien(String text) {
-    final searchTxt = text.trim().toLowerCase().vietNameseParse();
-    bool isListCanBo(NguoiThucHienModel person) {
-      return person
-          .dataAll()
-          .toLowerCase()
-          .vietNameseParse()
-          .contains(searchTxt);
-    }
-
-    final vl = dataListNguoiThucHienModelDefault.items
-        .where((element) => isListCanBo(element))
-        .toList();
-    listNguoiThucHienSubject.sink.add(vl);
-  }
 
   /// tim nguoi thuc hien theo id
   String convertIdToPerson({required String vl, bool? hasChucVu}) {
+    final currentList = listNguoiThucHienSubject.valueOrNull ?? [];
     if (hasChucVu ?? true) {
-      for (final e in listNguoiThucHienSubject.value) {
+      for (final e in currentList) {
         if (vl == e.id) {
           return e.dataAll();
         }
       }
     } else {
-      for (final e in listNguoiThucHienSubject.value) {
+      for (final e in currentList) {
         if (vl == e.id) {
           return e.dataWithChucVu();
         }
@@ -576,8 +585,8 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///init data nguoi thuc hien
-  void initDataNguoiTHucHienTextFild(TodoDSCVModel todo) {
-    if (todo.performer == '' || todo.performer == null) {
+  void initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) {
+    if ((todo?.performer ??  '').isEmpty) {
       nguoiThucHienSubject.sink.add(
         NguoiThucHienModel(
           id: '',
@@ -589,8 +598,8 @@ class DanhSachCongViecTienIchCubit
     } else {
       nguoiThucHienSubject.sink.add(
         NguoiThucHienModel(
-          id: todo.performer ?? '',
-          hoten: convertIdToPerson(vl: todo.performer ?? ''),
+          id: todo?.performer ?? '',
+          hoten: convertIdToPerson(vl: todo?.performer ?? ''),
           donVi: [],
           chucVu: [],
         ),
@@ -623,7 +632,9 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.xoaCongViec(idCv);
     result.when(
       success: (res) {
-        MessageConfig.show(title: S.current.thanh_cong,);
+        MessageConfig.show(
+          title: S.current.thanh_cong,
+        );
         final data = listDSCVStream.value;
         data.remove(todo);
         listDSCVStream.sink.add(data);
@@ -666,6 +677,11 @@ class DanhSachCongViecTienIchCubit
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
           ];
+        case DSCVScreen.GCT:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+          ];
         case DSCVScreen.DBX:
           return [
             IconDSCV.icCheckBox,
@@ -702,6 +718,11 @@ class DanhSachCongViecTienIchCubit
             IconDSCV.icClose,
           ];
         case DSCVScreen.DG:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+          ];
+        case DSCVScreen.GCT:
           return [
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
@@ -753,14 +774,14 @@ class DanhSachCongViecTienIchCubit
     });
   }
 
-  void disposs() {
-    nguoiThucHienSubject.sink.add(
-      NguoiThucHienModel(
-        id: '',
-        hoten: '',
-        donVi: [],
-        chucVu: [],
-      ),
-    );
+  void dispose() {
+    showLoadNguoiThucHien.close();
+    inLoadmore.close();
+    titleAppBar.close();
+    listDSCVStream.close();
+    statusDSCV.close();
+    countTodoModelSubject.close();
+    listNguoiThucHienSubject.close();
+    nguoiThucHienSubject.close();
   }
 }

@@ -261,6 +261,7 @@ class _EditPersonalInformationScreen
                         isObligatory: true,
                         title: user.keys.elementAt(6),
                         child: CoolDropDown(
+                          key: UniqueKey(),
                           initData:
                               cubit.managerPersonalInformationModel.gioiTinh ??
                                       false

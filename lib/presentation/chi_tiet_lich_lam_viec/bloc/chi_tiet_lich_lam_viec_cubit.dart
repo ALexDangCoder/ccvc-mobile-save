@@ -923,7 +923,15 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   bool donViId(ChiTietLichLamViecModel dataModel) {
     return dataModel.scheduleCoperatives
-            ?.where((element) => element.donViId == donViTrucThuocId)
+            ?.where(
+              (element) =>
+                  (element.donViId == donViTrucThuocId) &&
+                  (element.canBoId == null) &&
+                  HiveLocal.checkPermissionApp(
+                    permissionType: PermissionType.VPDT,
+                    permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
+                  ),
+            )
             .isNotEmpty ??
         false;
   }
@@ -933,7 +941,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           (element) =>
               element.status == StatusOfficersConst.STATUS_THAM_GIA &&
               (element.canBoId == currentUserId ||
-                  element.donViId == donViTrucThuocId),
+                  (element.donViId == donViTrucThuocId &&
+                      element.canBoId == null)),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -943,7 +952,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           (element) =>
               element.status == StatusOfficersConst.STATUS_TU_CHOI &&
               (element.canBoId == currentUserId ||
-                  element.donViId == donViTrucThuocId),
+                  (element.donViId == donViTrucThuocId &&
+                      element.canBoId == null)),
         ) ??
         StatusOfficersConst.STATUS_DEFAULT;
   }
@@ -998,7 +1008,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         isDonViThamGia;
   }
 
-  bool checkChoxoa(ChiTietLichLamViecModel dataModel) => checkChoSuaLich(dataModel); //=
+  bool checkChoxoa(ChiTietLichLamViecModel dataModel) =>
+      checkChoSuaLich(dataModel);
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
     return checkHuyXacNhan(dataModel) >=
@@ -1161,5 +1172,4 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
       },
     );
   }
-
 }

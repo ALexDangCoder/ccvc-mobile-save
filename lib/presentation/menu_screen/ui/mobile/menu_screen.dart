@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
@@ -97,10 +98,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                 ),
                               ),
                             ).then((value) {
-                              if(value is bool && value){
+                              if (value is bool && value) {
                                 menuCubit.getUserRefresh();
                               }
-
                             });
                           },
                           child: HeaderMenuMobileWidget(
@@ -126,15 +126,15 @@ class _MenuScreenState extends State<MenuScreen> {
                                   final type = data[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      if(Platform.isIOS){
+                                      if (Platform.isIOS) {
                                         Navigator.push(
                                           context,
                                           CupertinoPageRoute(
-                                       builder: (context) =>
+                                            builder: (context) =>
                                                 type.getScreen(),
                                           ),
                                         );
-                                      }else {
+                                      } else {
                                         Navigator.push(
                                           context,
                                           PageRouteBuilder(
@@ -175,15 +175,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 if (type == MenuType.chuyenPhamVi) {
                                   showChuyenPhamVi();
                                 } else {
-                                  if(Platform.isIOS){
+                                  if (Platform.isIOS) {
                                     Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                        builder: (context) =>
-                                            type.getScreen(),
+                                        builder: (context) => type.getScreen(),
                                       ),
                                     );
-                                  }else {
+                                  } else {
                                     Navigator.push(
                                       context,
                                       PageRouteBuilder(
@@ -213,7 +212,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               context,
                               funcBtnRight: () {
                                 AppStateCt.of(context).appState.setToken('');
-                                HiveLocal.clearData();
+                                menuCubit.logout();
                               },
                               showTablet: false,
                               icon: Image.asset(ImageAssets.icDangXuat),

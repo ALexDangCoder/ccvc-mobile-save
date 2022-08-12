@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -39,7 +38,6 @@ enum PERMISSION_DETAIL {
   XAC_NHAN_THAM_GIA,
   HUY_XAC_NHAN,
   XAC_NHAN_LAI,
-  TU_CHOI,
   HUY_DUYET
 }
 
@@ -100,8 +98,6 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return S.current.huy_xac_nhan;
       case PERMISSION_DETAIL.XAC_NHAN_LAI:
         return S.current.xac_nhan_lai;
-      case PERMISSION_DETAIL.TU_CHOI:
-        return S.current.tu_choi;
       case PERMISSION_DETAIL.HUY_DUYET:
         return S.current.huy_duyet;
     }
@@ -174,11 +170,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           iconMobile: ImageAssets.icDuyetLich,
           iconTablet: ImageAssets.icDuyetLich,
         );
-      case PERMISSION_DETAIL.TU_CHOI:
-        return checkDevice(
-          iconMobile: ImageAssets.icHuy,
-          iconTablet: ImageAssets.icHuy,
-        );
+
       case PERMISSION_DETAIL.HUY_DUYET:
         return checkDevice(
           iconMobile: ImageAssets.icHuyLichHop,
@@ -236,8 +228,12 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textContent: S.current.xoa_chi_tiet_lich_hop,
                 btnLeftTxt: S.current.khong,
                 funcBtnRight: () {
-                  cubit.deleteChiTietLichHop();
-                  Navigator.pop(context, true);
+                  cubit.deleteChiTietLichHop().then(
+                        (value) => Navigator.pop(
+                          context,
+                          cubit.needRefreshMainMeeting,
+                        ),
+                      );
                 },
                 title: S.current.xoa_lich_hop,
                 btnRightTxt: S.current.dong_y,
@@ -256,8 +252,12 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textRadioAbove: S.current.chi_lich_hien_tai,
                 imageUrl: ImageAssets.icXoaHopPoppup,
                 onChange: (value) {
-                  cubit.deleteChiTietLichHop(isMulti: value);
-                  Navigator.pop(context, true);
+                  cubit.deleteChiTietLichHop(isMulti: value).then(
+                        (value) => Navigator.pop(
+                          context,
+                          cubit.needRefreshMainMeeting,
+                        ),
+                      );
                 },
               ),
             );
@@ -725,12 +725,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
             );
           },
         );
-      case PERMISSION_DETAIL.TU_CHOI:
-        return CellPopPupMenu(
-          urlImage: PERMISSION_DETAIL.TU_CHOI.getIcon(),
-          text: PERMISSION_DETAIL.TU_CHOI.getString(),
-          onTap: () {},
-        );
+
       case PERMISSION_DETAIL.HUY_DUYET:
         return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.HUY_DUYET.getIcon(),

@@ -171,11 +171,11 @@ class _WidgetCapNhatThongTinDangKyXeState
                       ItemTextNote(title: S.current.bien_kiem_soat),
                       TextFieldValidator(
                         controller: bienKiemSoatController,
-                        hintText: S.current.bien_kiem_soat,
+                        hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
                           return (value ?? '')
-                              .checkTruongNull('${S.current.bien_kiem_soat}!');
+                              .checkTruongNull(S.current.bien_kiem_soat);
                         },
                       ),
                       spaceH20,

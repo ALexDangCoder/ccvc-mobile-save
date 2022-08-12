@@ -8,11 +8,17 @@ import 'package:flutter/material.dart';
 
 import 'bao_cao_thong_ke/status_widget.dart';
 import 'status_pakn.dart';
+
 class TiepCanWidget extends StatefulWidget {
-  const TiepCanWidget({Key? key, required this.model, required this.cubit})
+  const TiepCanWidget(
+      {Key? key,
+      required this.model,
+      required this.cubit,
+      this.isTablet = false})
       : super(key: key);
   final DashBoardPAKNModel model;
   final YKienNguoiDanCubitt cubit;
+  final bool? isTablet;
 
   @override
   _TiepCanWidgetState createState() => _TiepCanWidgetState();
@@ -51,6 +57,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               ),
             ),
             statusWidget(
+              isTablet: widget.isTablet,
               listData: [
                 ChartData(
                   S.current.cho_tiep_nhan,
@@ -95,6 +102,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
           height: 24,
         ),
         StatusWidget(
+          isTablet: widget.isTablet,
           listData: [
             ChartData(
               S.current.qua_han,

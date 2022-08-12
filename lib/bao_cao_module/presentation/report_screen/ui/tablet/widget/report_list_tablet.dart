@@ -106,6 +106,8 @@ class ReportListTablet extends StatelessWidget {
     required ReportItem value,
   }) {
     if (value.type == FOLDER) {
+      cubit.levelFolder++;
+      cubit.mapFolderID.add(value.id ?? '');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -113,11 +115,25 @@ class ReportListTablet extends StatelessWidget {
             return ReportDetailTablet(
               title: value.name ?? '',
               cubit: cubit,
-              reportModel: value,
+              reportId: value.id ?? '',
               isListView: isListView,
             );
           },
         ),
+      ).then(
+        (values) => {
+          if (cubit.levelFolder == 0)
+            {
+              cubit.getAppID(),
+            }
+          else
+            {
+              cubit.getListReport(
+                idFolder: cubit.mapFolderID[cubit.levelFolder - 1],
+                isTree: true,
+              ),
+            }
+        },
       );
     } else {
       Navigator.push(

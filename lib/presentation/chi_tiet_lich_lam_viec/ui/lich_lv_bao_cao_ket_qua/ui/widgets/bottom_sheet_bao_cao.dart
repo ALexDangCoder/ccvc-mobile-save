@@ -79,7 +79,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               Row(
                 children: [
                   Text(
-                    S.current.trang_thai,
+                    S.current.tinh_trang,
                     style: tokenDetailAmount(
                       fontSize: 14.0.textScale(),
                       color: titleItemEdit,
@@ -241,7 +241,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                     onPressed: () {
                       btnThem();
                     },
-                    text: widget.isEdit ? S.current.them : S.current.luu,
+                    text: widget.isEdit ? S.current.luu : S.current.them,
                   ),
                 ),
               ],

@@ -193,6 +193,7 @@ const textColorBlog = Color(0xFF7367F0);
 const textColorNguonKhac = Color(0xFFF57168);
 const titleColumn = Color(0xFF667793);
 const iconColor = Color(0xFFDADADA);
+const inactive = Color(0xFFE6EDF7);
 const bgTabletColor = Color(0xffF9FAFF);
 const toDayColor = Color(0xFFDBDFEF);
 const gradientStart = Color(0xFF4D74FD);
@@ -268,6 +269,9 @@ abstract class AppColor {
   Color buttonUnfocus();
 
   Color colorField();
+
+
+  Color inactiveColor();
 
   Color lineColor();
 
@@ -415,6 +419,11 @@ class DefaultApp extends AppColor {
   Color borderColors() {
     return borderColor;
   }
+
+  @override
+  Color inactiveColor() {
+    return inactive;
+  }
 }
 
 class BlueApp extends AppColor {
@@ -551,6 +560,11 @@ class BlueApp extends AppColor {
   @override
   Color borderColors() {
     return borderColor;
+  }
+
+  @override
+  Color inactiveColor() {
+    return inactive;
   }
 }
 
@@ -689,6 +703,11 @@ class PinkApp extends AppColor {
   Color borderColors() {
     return borderColor;
   }
+
+  @override
+  Color inactiveColor() {
+    return inactive;
+  }
 }
 
 class YellowApp extends AppColor {
@@ -825,6 +844,11 @@ class YellowApp extends AppColor {
   @override
   Color borderColors() {
     return borderColor;
+  }
+
+  @override
+  Color inactiveColor() {
+    return inactive;
   }
 }
 

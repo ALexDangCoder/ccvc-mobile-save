@@ -15,7 +15,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         getThongTinPhongHopSb.sink.add(res);
-        getThongTinYeuCauChuanBi.sink.add(res);
+        thongTinPhongHopModel = res;
+        getThongTinYeuCauChuanBi.sink.add(thongTinPhongHopModel);
         showContent();
       },
       error: (err) {},
@@ -37,7 +38,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     showLoading();
     final ChiTietLichHopModel chiTietLichHopModel = chiTietLichHopSubject.value;
     final result = await hopRp.getDanhSachPhongHop(
-      chiTietLichHopModel.chuTriModel.donViId,
+      chiTietLichHopModel.phongHopMode.donViId ?? '',
       chiTietLichHopModel.ngayBatDau,
       chiTietLichHopModel.ngayKetThuc,
       chiTietLichHopModel.phongHopMode.bit_TTDH,
@@ -66,7 +67,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         if (res) {
-          getThongTinPhongHopApi();
+          callApiCongTacChuanBi();
           MessageConfig.show(
             title: S.current.tao_thanh_cong,
           );
@@ -171,6 +172,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         if (res) {
+          needRefreshMainMeeting = true;
           getChiTietLichHop(idCuocHop);
           MessageConfig.show(
             title: S.current.tao_thanh_cong,

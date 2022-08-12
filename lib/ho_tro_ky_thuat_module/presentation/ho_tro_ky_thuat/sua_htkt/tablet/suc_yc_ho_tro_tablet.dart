@@ -472,6 +472,7 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
                   gravity: ToastGravity.BOTTOM,
                 );
                 Navigator.pop(context);
+                widget.cubit.getListHoTroKyThuat(page: 1);
               } else {
                 final FToast toast = FToast();
                 toast.init(context);
@@ -487,6 +488,6 @@ class _SuaDoiYcHoTroTabletState extends State<SuaDoiYcHoTroTablet> {
           } else {}
         },
         title1: S.current.dong,
-        title2: S.current.gui_yc,
+        title2: S.current.luu,
       );
 }

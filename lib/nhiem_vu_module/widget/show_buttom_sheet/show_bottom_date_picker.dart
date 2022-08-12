@@ -36,6 +36,22 @@ class CupertinoRoundedDatePickerWidget {
     DateTime dateSelect = initialDate;
     final BehaviorSubject<DateTime> dateTimeBloc = BehaviorSubject<DateTime>()
       ..sink.add(initialDate);
+    bool isDateOver = false;
+    void validateDay(DateTime value) {
+      final dayMin = minimumDate;
+      if (dayMin != null) {
+        if (value.millisecondsSinceEpoch < dayMin.millisecondsSinceEpoch) {
+          isDateOver = true;
+        }
+      }
+      final dayMax = maximumDate;
+      if (dayMax != null) {
+        if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
+          isDateOver = true;
+        }
+      }
+      isDateOver = false;
+    }
     return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -81,7 +97,10 @@ class CupertinoRoundedDatePickerWidget {
                     return FlutterRoundedCupertinoDatePickerWidget(
                       use24hFormat: use24hFormat,
                       onDateTimeChanged: (dateTime) {
-                        dateSelect = dateTime;
+                        validateDay(dateTime);
+                        if(!isDateOver) {
+                          dateSelect = dateTime;
+                        }
                       },
                       era: era,
                       background: Colors.transparent,

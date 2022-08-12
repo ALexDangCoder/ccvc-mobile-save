@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +36,7 @@ class SelectDateTablet extends StatefulWidget {
 class _CustomDropDownState extends State<SelectDateTablet> {
   String dateSelect = '';
   String initDate = '';
+ bool isDateOver = false;
   @override
   void initState() {
     if (!widget.isObligatory) {
@@ -42,6 +44,16 @@ class _CustomDropDownState extends State<SelectDateTablet> {
       initDate = dateSelect;
     }
     super.initState();
+  }
+  void validateDay(DateTime value) {
+
+    final dayMax = DateTime.now();
+
+    if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
+      isDateOver = true;
+    }
+
+    isDateOver = false;
   }
 
   @override
@@ -59,8 +71,11 @@ class _CustomDropDownState extends State<SelectDateTablet> {
                   child: FlutterRoundedCupertinoDatePickerWidget(
                     maximumDate: DateTime.now(),
                     onDateTimeChanged: (value) {
-                      dateSelect = value.toString();
-                      widget.onSelectDate(dateSelect);
+                      validateDay(value);
+                      if(!isDateOver) {
+                        dateSelect = value.toString();
+                        widget.onSelectDate(dateSelect);
+                      }
                     },
                     textStyleDate: titleAppbar(),
                     initialDateTime: DateTime.parse(initDate),
@@ -74,6 +89,11 @@ class _CustomDropDownState extends State<SelectDateTablet> {
           btnRightTxt: S.current.chon,
           funcBtnOk: () {
             setState(() {
+              if(isDateOver) {
+                MessageConfig.show(
+                    title: S.current.thoi_gian_chon_khong_hop_le,
+                    messState: MessState.error);
+              }
               initDate = dateSelect;
               widget.onSelectDate(dateSelect);
             });

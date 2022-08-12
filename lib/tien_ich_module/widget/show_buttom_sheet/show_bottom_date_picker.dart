@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/src/era_mode.dart';
@@ -35,8 +36,26 @@ class CupertinoRoundedDatePickerWidget {
     minimumYear ??= DateTime.now().year - 1;
     maximumYear ??= DateTime.now().year + 1;
     DateTime dateSelect = initialDate;
+    bool isCheckOver = false;
     final BehaviorSubject<DateTime> dateTimeBloc = BehaviorSubject<DateTime>()
       ..sink.add(initialDate);
+
+    void validateDay(DateTime value) {
+      final dayMin = minimumDate;
+      if (dayMin != null) {
+        if (value.millisecondsSinceEpoch < dayMin.millisecondsSinceEpoch) {
+          isCheckOver = true;
+        }
+      }
+      final dayMax = maximumDate;
+      if (dayMax != null) {
+        if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
+          isCheckOver = true;
+        }
+      }
+      isCheckOver = false;
+    }
+
     return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -84,7 +103,10 @@ class CupertinoRoundedDatePickerWidget {
                     return FlutterRoundedCupertinoDatePickerWidget(
                       use24hFormat: use24hFormat,
                       onDateTimeChanged: (dateTime) {
-                        dateSelect = dateTime;
+                        validateDay(dateTime);
+                        if (!isCheckOver) {
+                          dateSelect = dateTime;
+                        }
                       },
                       era: era,
                       background: Colors.transparent,
@@ -105,6 +127,11 @@ class CupertinoRoundedDatePickerWidget {
               ButtonBottom(
                 onPressed: () {
                   if (onTap != null) {
+                    if (isCheckOver) {
+                      MessageConfig.show(
+                          title: S.current.thoi_gian_chon_khong_hop_le,
+                          messState: MessState.error);
+                    }
                     onTap(dateSelect);
                   }
                 },

@@ -146,6 +146,7 @@ class _EditPersonalInformationTabletScreen
                                   child: Container(),
                                   funcBtnOk: () {
                                     cubit.getInfo(id: widget.id);
+                                    cubit.resetAvatar();
                                     cubit.huyenSubject.sink.add([]);
                                     cubit.xaSubject.sink.add([]);
                                     FocusManager.instance.primaryFocus

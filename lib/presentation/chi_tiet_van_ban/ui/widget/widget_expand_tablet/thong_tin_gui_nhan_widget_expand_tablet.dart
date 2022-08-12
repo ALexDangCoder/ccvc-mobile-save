@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/xem_luong_xu_ly_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_in_expand_van_ban.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/item_thong_bao_gui_nhan.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -65,16 +66,25 @@ class _ThongTinGuiNhanWidgetExpandTabletState
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   buttonStream,
-                                  Column(
-                                    children: data
-                                        .map(
-                                          (e) => WidgetInExpandVanBan(
-                                            row: e.toListRow(isTablet:  true),
-                                            flexValue: 8,
-                                          ),
-                                        )
-                                        .toList(),
+                                  ListView.builder(
+                                    itemCount: data.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return ItemThongBaoGuiNhan(
+                                        model: data[index],
+                                      );
+                                    },
                                   )
+                                  // Column(
+                                  //   children: data
+                                  //       .map(
+                                  //         (e) => WidgetInExpandVanBan(
+                                  //           row: e.toListRow(isTablet:  true),
+                                  //           flexValue: 8,
+                                  //         ),
+                                  //       )
+                                  //       .toList(),
+                                  // )
                                 ],
                               ),
                             )

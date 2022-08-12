@@ -99,6 +99,13 @@ class _SearchBarDocumentManagementState
                 : GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
+                      if(textController.text.trim().isNotEmpty){
+                        textController.clear();
+                        setState(() {});
+                        widget.qlvbCubit.keySearch =
+                            textController.value.text;
+                        eventBus.fire(RefreshList());
+                      }
                       widget.qlvbCubit.setSelectSearch();
                     },
                     child: ImageAssets.svgAssets(
@@ -122,6 +129,11 @@ class _SearchBarDocumentManagementState
           onFieldSubmitted: (value){
             widget.qlvbCubit.keySearch = value;
             eventBus.fire(RefreshList());
+          },
+          onChanged: (value){
+            setState(() {
+
+            });
           },
         ),
       ),

@@ -98,49 +98,42 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
           },
         ),
       ),
-      body: GestureDetector(
-        onTap: () {
-          if (widget.qlvbCubit.showSearchSubject.value == true) {
-            widget.qlvbCubit.showSearchSubject.sink.add(false);
-          }
-        },
-        child: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException(
-            S.current.error,
-            S.current.error,
-          ),
-          stream: widget.qlvbCubit.stateStream,
-          child: Column(
-            children: [
-              FilterDateTimeWidget(
-                context: context,
-                initStartDate: DateTime.parse(widget.qlvbCubit.startDate),
-                onChooseDateFilter: (startDate, endDate) {
-                  widget.qlvbCubit.startDate = startDate.formatApi;
-                  widget.qlvbCubit.endDate = endDate.formatApi;
-                  widget.qlvbCubit.callAPi(initTime: false);
-                  eventBus.fire(RefreshList());
-                },
+      body: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException(
+          S.current.error,
+          S.current.error,
+        ),
+        stream: widget.qlvbCubit.stateStream,
+        child: Column(
+          children: [
+            FilterDateTimeWidget(
+              context: context,
+              initStartDate: DateTime.parse(widget.qlvbCubit.startDate),
+              onChooseDateFilter: (startDate, endDate) {
+                widget.qlvbCubit.startDate = startDate.formatApi;
+                widget.qlvbCubit.endDate = endDate.formatApi;
+                widget.qlvbCubit.callAPi(initTime: false);
+                eventBus.fire(RefreshList());
+              },
+            ),
+            spaceH20,
+            tabBar(_tabController),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  DocumentInPage(
+                    qlvbCubit: widget.qlvbCubit,
+                  ),
+                  DocumentOutPage(
+                    qlvbCubit: widget.qlvbCubit,
+                  ),
+                ],
               ),
-              spaceH20,
-              tabBar(_tabController),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    DocumentInPage(
-                      qlvbCubit: widget.qlvbCubit,
-                    ),
-                    DocumentOutPage(
-                      qlvbCubit: widget.qlvbCubit,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

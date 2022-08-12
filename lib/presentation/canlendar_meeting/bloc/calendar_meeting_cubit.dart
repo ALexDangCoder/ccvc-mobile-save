@@ -452,10 +452,10 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
     result.when(
       success: (value) {
+        checkDuplicate(value.items ?? []);
         _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
         _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
-        checkDuplicate(value.items ?? []);
         _danhSachLichHopSubject.sink.add(value);
       },
       error: (error) {},
@@ -495,7 +495,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   void checkDuplicate(List<ItemDanhSachLichHop> list) {
     for (final item in list) {
-      if (item.isTrung ?? false) {
+      if (!(item.isTrung ?? false)) {
         final currentTimeFrom =
             getDate(item.dateTimeFrom ?? '').millisecondsSinceEpoch;
         final currentTimeTo =

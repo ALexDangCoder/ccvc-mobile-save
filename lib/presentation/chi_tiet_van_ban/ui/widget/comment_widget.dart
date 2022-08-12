@@ -33,12 +33,14 @@ class WidgetComments extends StatefulWidget {
 
   final void Function(String, List<PickImageFileModel>)? onSend;
   final int maxSizeMB;
+  final String? errorMaxSize;
 
   const WidgetComments({
     Key? key,
     this.onTab,
     this.onSend,
     this.focus = false,
+    this.errorMaxSize,
     this.maxSizeMB = 20,
   }) : super(key: key);
 
@@ -215,7 +217,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
               toast.removeQueuedCustomToasts();
               toast.showToast(
                 child: ShowToast(
-                  text: S.current.dung_luong_toi_da_20,
+                  text: widget.errorMaxSize ??  S.current.dung_luong_toi_da_20,
                   withOpacity: 0.4,
                 ),
                 gravity: ToastGravity.TOP_RIGHT,

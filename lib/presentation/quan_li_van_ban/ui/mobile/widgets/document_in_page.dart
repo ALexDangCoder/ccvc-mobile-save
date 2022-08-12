@@ -44,6 +44,7 @@ class _DocumentInPageState extends State<DocumentInPage>
 
   void _handleEventBus() {
     eventBus.on<RefreshList>().listen((event) {
+ _documentPagingController.nextPageKey = 1;
       _documentPagingController.refresh();
     });
   }

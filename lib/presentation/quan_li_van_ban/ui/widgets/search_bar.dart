@@ -30,9 +30,6 @@ class SearchBarDocumentManagement extends StatefulWidget {
 class _SearchBarDocumentManagementState
     extends State<SearchBarDocumentManagement> {
   TextEditingController textController = TextEditingController();
-
-  Debouncer debouncer = Debouncer();
-
   @override
   void initState() {
     textController.text = widget.initKeyWord;
@@ -102,6 +99,13 @@ class _SearchBarDocumentManagementState
                 : GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
+                      if(textController.text.trim().isNotEmpty){
+                        textController.clear();
+                        setState(() {});
+                        widget.qlvbCubit.keySearch =
+                            textController.value.text;
+                        eventBus.fire(RefreshList());
+                      }
                       widget.qlvbCubit.setSelectSearch();
                     },
                     child: ImageAssets.svgAssets(
@@ -122,11 +126,13 @@ class _SearchBarDocumentManagementState
               fontSize: 14,
             ),
           ),
-          onChanged: (text) {
-            setState(() {});
-            debouncer.run(() async {
-              widget.qlvbCubit.keySearch = text;
-              eventBus.fire(RefreshList());
+          onFieldSubmitted: (value){
+            widget.qlvbCubit.keySearch = value;
+            eventBus.fire(RefreshList());
+          },
+          onChanged: (value){
+            setState(() {
+
             });
           },
         ),

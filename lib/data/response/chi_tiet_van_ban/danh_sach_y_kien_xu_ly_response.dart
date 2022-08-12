@@ -1,7 +1,9 @@
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'danh_sach_y_kien_xu_ly_response.g.dart';
@@ -37,7 +39,6 @@ class DataDanhSachYKienXuLyResponse {
         validationResult: validationResult,
         isSuccess: isSuccess,
       );
-
 }
 
 @JsonSerializable()
@@ -115,9 +116,10 @@ class DanhSachYKienXuLyResponse {
         noiDung: noiDung?.parseHtml(),
         nguoiTaoId: nguoiTaoId,
         ngayTao: ngayTao?.changeToNewPatternDate(
-          DateTimeFormat.DATE_TIME_RECEIVE,
-          DateTimeFormat.DATE_DD_MM_HM,
-        ) ?? '',
+              DateTimeFormat.DATE_TIME_RECEIVE,
+              DateTimeFormat.DATE_DD_MM_HM,
+            ) ??
+            '',
         ngaySua: ngaySua,
         hashValue: hashValue,
         isSign: isSign,
@@ -126,15 +128,16 @@ class DanhSachYKienXuLyResponse {
         chucVu: chucVu,
         phanXuLy: phanXuLy,
         avatarCommon: avatarCommon,
-        avatar: avatar,
+        avatar: avatar != null
+            ? '${Get.find<AppConstants>().baseUrlQLNV}$avatar'
+            : avatarCommon,
         yKienXuLyFileDinhKem:
             yKienXuLyFileDinhKem?.map((e) => e.toModel()).toList() ?? [],
       );
-
 }
 
 @JsonSerializable()
-class YKienXuLyFileDinhKemResponse{
+class YKienXuLyFileDinhKemResponse {
   @JsonKey(name: 'Id')
   String? id;
   @JsonKey(name: 'YKienXuLyId')

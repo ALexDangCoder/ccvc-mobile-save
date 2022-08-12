@@ -33,6 +33,7 @@ class DanhSachLichHopModel{
             ),
             subject: i.title ?? '',
             id: i.id ?? '',
+            isDuplicate: i.isTrung ?? false,
           ),
         );
       }

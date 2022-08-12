@@ -51,7 +51,11 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
       widget.controller.calendarType.addListener(() {
         if (mounted) setState(() {});
       });
+      widget.controller.calendarFormat.addListener(() {
+        if (mounted) setState(() {});
+      });
     });
+
   }
 
   @override
@@ -64,7 +68,12 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
             ValueListenableBuilder<DateTime>(
               valueListenable: pageDateTime,
               builder: (context, value, _) {
-                return coverTime(value);
+                return GestureDetector(
+                  onTap: () {
+                    widget.controller.onExpandCalendar();
+                  },
+                  child: coverTime(value),
+                );
               },
             ),
             Row(
@@ -116,7 +125,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
         ),
         TableCalendarPhone(
           locale: 'vi',
-          isDowTop: false,
+          isDowTop: widget.controller.calendarFormat.value != CalendarFormat.week,
           onPageChanged: (value) {
             pageDateTime.value = value;
             if (value.month != widget.controller.pageTableCalendar.month) {
@@ -172,7 +181,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
             ),
           ),
           headerVisible: false,
-          calendarFormat: CalendarFormat.week,
+          calendarFormat: widget.controller.calendarFormat.value,
           firstDay: DateTime.utc(DateTime.now().year - 10, 8, 20),
           lastDay: DateTime.utc(DateTime.now().year + 10, 8, 20),
           focusedDay: selectDay,
@@ -182,24 +191,26 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
   }
 
   Widget coverTime(DateTime dateTime) {
-    return RichText(
-      text: TextSpan(
-        text: '${S.current.thang} ${dateTime.month} - ',
-        style: textNormalCustom(
-          color: color3D5586,
-          fontSize: 32,
-          fontWeight: FontWeight.w700,
-        ),
-        children: <TextSpan>[
-          TextSpan(
-            text: '${dateTime.year}',
-            style: textNormalCustom(
-              color: color3D5586,
-              fontSize: 32,
-              fontWeight: FontWeight.w400,
-            ),
+    return SizedBox(
+      child: RichText(
+        text: TextSpan(
+          text: '${S.current.thang} ${dateTime.month} - ',
+          style: textNormalCustom(
+            color: color3D5586,
+            fontSize: 32,
+            fontWeight: FontWeight.w700,
           ),
-        ],
+          children: <TextSpan>[
+            TextSpan(
+              text: '${dateTime.year}',
+              style: textNormalCustom(
+                color: color3D5586,
+                fontSize: 32,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

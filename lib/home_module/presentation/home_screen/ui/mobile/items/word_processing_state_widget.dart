@@ -69,198 +69,194 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
       },
       // selectKeyDialog: _xuLyCubit,
       //
-      child: Container(
-        color: Colors.red,
-        height: 200,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            titleChart(
-              S.current.document_incoming,
-              LoadingOnly(
-                stream: _xuLyCubit.stateStream,
-                child: StreamBuilder<DocumentDashboardModel>(
-                  stream: _xuLyCubit.getDocumentVBDen,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? DocumentDashboardModel();
-                    if (snapshot.hasData) {
-                      return Column(
-                        children: [
-                          PieChart(
-                            isSubjectInfo: false,
-                            paddingTop: 0,
-                            chartData:
-                                List.generate(data.listVBDen().length, (index) {
-                              final result = data.listVBDen()[index];
-                              return ChartData(
-                                result.key.getText(),
-                                result.value.toDouble(),
-                                result.color,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          titleChart(
+            S.current.document_incoming,
+            LoadingOnly(
+              stream: _xuLyCubit.stateStream,
+              child: StreamBuilder<DocumentDashboardModel>(
+                stream: _xuLyCubit.getDocumentVBDen,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? DocumentDashboardModel();
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        PieChart(
+                          isSubjectInfo: false,
+                          paddingTop: 0,
+                          chartData:
+                              List.generate(data.listVBDen().length, (index) {
+                            final result = data.listVBDen()[index];
+                            return ChartData(
+                              result.key.getText(),
+                              result.value.toDouble(),
+                              result.color,
+                            );
+                          }),
+                          onTap: (value, key) {
+                            if (key != null) {
+                              _xuLyCubit.selectTrangThaiVBDen(key);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IncomingDocumentScreen(
+                                    startDate: _xuLyCubit.startDate.toString(),
+                                    title: S.current.danh_sach_van_ban_den,
+                                    endDate: _xuLyCubit.endDate.toString(),
+                                    type: TypeScreen.VAN_BAN_DEN,
+                                    maTrangThai: _xuLyCubit.maTrangThaiVBDen,
+                                  ),
+                                ),
                               );
-                            }),
-                            onTap: (value, key) {
-                              if (key != null) {
-                                _xuLyCubit.selectTrangThaiVBDen(key);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => IncomingDocumentScreen(
-                                      startDate: _xuLyCubit.startDate.toString(),
-                                      title: S.current.danh_sach_van_ban_den,
-                                      endDate: _xuLyCubit.endDate.toString(),
-                                      type: TypeScreen.VAN_BAN_DEN,
-                                      maTrangThai: _xuLyCubit.maTrangThaiVBDen,
+                            }
+                          },
+                        ),
+                        GridView.count(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: 9,
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10,
+                          children: List.generate(
+                              data.listVBDenSubjectInfo().length, (index) {
+                            final result = data.listVBDenSubjectInfo()[index];
+                            return GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 14,
+                                    width: 14,
+                                    decoration: BoxDecoration(
+                                      color: result.color,
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
-                                );
-                              }
-                            },
-                          ),
-                          GridView.count(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            childAspectRatio: 9,
-                            mainAxisSpacing: 10.0,
-                            crossAxisSpacing: 10,
-                            children: List.generate(
-                                data.listVBDenSubjectInfo().length, (index) {
-                              final result = data.listVBDenSubjectInfo()[index];
-                              return GestureDetector(
-                                onTap: () {},
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 14,
-                                      width: 14,
-                                      decoration: BoxDecoration(
-                                        color: result.color,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 12,
-                                    ),
-                                    Flexible(
-                                      child: FittedBox(
-                                        child: Text(
-                                          '${result.key.getText()} (${result.value.toInt()})',
-                                          style: textNormal(
-                                            infoColor,
-                                            14,
-                                            // 14.0.textScale(),
-                                          ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Flexible(
+                                    child: FittedBox(
+                                      child: Text(
+                                        '${result.key.getText()} (${result.value.toInt()})',
+                                        style: textNormal(
+                                          infoColor,
+                                          14,
+                                          // 14.0.textScale(),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }),
-                          ),
-                          const SizedBox(
-                            height: 26,
-                          ),
-                          HanXuLyWidget(
-                            onTap: (value) {},
-                            data: [
-                              ChartData(
-                                  S.current.qua_han,
-                                  data.soLuongQuaHan.toDouble(),
-                                  statusCalenderRed),
-                              ChartData(S.current.den_han,
-                                  data.soLuongDenHan.toDouble(), yellowColor),
-                              ChartData(
-                                  S.current.trong_han,
-                                  data.soLuongTrongHan.toDouble(),
-                                  choTrinhKyColor)
-                            ],
-                          )
-                        ],
-                      );
-                    }
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 50),
-                      child: NodataWidget(),
-                    );
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            titleChart(
-              S.current.document_out_going,
-              LoadingOnly(
-                stream: _xuLyCubit.stateStream,
-                child: StreamBuilder<DocumentDashboardModel>(
-                  stream: _xuLyCubit.getDocumentVBDi,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data!;
-                      return PieChart(
-                        chartData: [
-                          ChartData(
-                            S.current.cho_trinh_ky,
-                            data.soLuongChoTrinhKy.toDouble(),
-                            choTrinhKyColor,
-                          ),
-                          ChartData(
-                            S.current.cho_xu_ly,
-                            data.soLuongChoXuLy.toDouble(),
-                            choXuLyColor,
-                          ),
-                          ChartData(
-                            S.current.da_xu_ly,
-                            data.soLuongDaXuLy.toDouble(),
-                            daXuLyColor,
-                          ),
-                          ChartData(
-                            S.current.cho_cap_so,
-                            data.soLuongChoCapSo.toDouble(),
-                            choCapSoColor,
-                          ),
-                          ChartData(
-                            S.current.cho_ban_hanh,
-                            data.soLuongChoBanHanh.toDouble(),
-                            choBanHanhColor,
-                          )
-                        ],
-                        onTap: (value, key) {
-                          if (key != null) {
-                            _xuLyCubit.selectTrangThaiVBDi(key);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    IncomingDocumentScreenDashBoard(
-                                  startDate: _xuLyCubit.startDate.toString(),
-                                  endDate: _xuLyCubit.endDate.toString(),
-                                  title: S.current.danh_sach_van_ban_di,
-                                  trangThaiFilter: _xuLyCubit.trangThaiFilter,
-                                  isDanhSachChoTrinhKy:
-                                      _xuLyCubit.isDanhSachChoTrinhKy,
-                                  isDanhSachChoXuLy: _xuLyCubit.isDanhSachChoXuLy,
-                                  isDanhSachDaXuLy: _xuLyCubit.isDanhSachDaXuLy,
-                                ),
+                                    ),
+                                  )
+                                ],
                               ),
                             );
-                          }
-                        },
-                      );
-                    }
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 50),
-                      child: NodataWidget(),
+                          }),
+                        ),
+                        const SizedBox(
+                          height: 26,
+                        ),
+                        HanXuLyWidget(
+                          onTap: (value) {},
+                          data: [
+                            ChartData(
+                                S.current.qua_han,
+                                data.soLuongQuaHan.toDouble(),
+                                statusCalenderRed),
+                            ChartData(S.current.den_han,
+                                data.soLuongDenHan.toDouble(), yellowColor),
+                            ChartData(
+                                S.current.trong_han,
+                                data.soLuongTrongHan.toDouble(),
+                                choTrinhKyColor)
+                          ],
+                        )
+                      ],
                     );
-                  },
-                ),
+                  }
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 50),
+                    child: NodataWidget(),
+                  );
+                },
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          titleChart(
+            S.current.document_out_going,
+            LoadingOnly(
+              stream: _xuLyCubit.stateStream,
+              child: StreamBuilder<DocumentDashboardModel>(
+                stream: _xuLyCubit.getDocumentVBDi,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data!;
+                    return PieChart(
+                      chartData: [
+                        ChartData(
+                          S.current.cho_trinh_ky,
+                          data.soLuongChoTrinhKy.toDouble(),
+                          choTrinhKyColor,
+                        ),
+                        ChartData(
+                          S.current.cho_xu_ly,
+                          data.soLuongChoXuLy.toDouble(),
+                          choXuLyColor,
+                        ),
+                        ChartData(
+                          S.current.da_xu_ly,
+                          data.soLuongDaXuLy.toDouble(),
+                          daXuLyColor,
+                        ),
+                        ChartData(
+                          S.current.cho_cap_so,
+                          data.soLuongChoCapSo.toDouble(),
+                          choCapSoColor,
+                        ),
+                        ChartData(
+                          S.current.cho_ban_hanh,
+                          data.soLuongChoBanHanh.toDouble(),
+                          choBanHanhColor,
+                        )
+                      ],
+                      onTap: (value, key) {
+                        if (key != null) {
+                          _xuLyCubit.selectTrangThaiVBDi(key);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  IncomingDocumentScreenDashBoard(
+                                startDate: _xuLyCubit.startDate.toString(),
+                                endDate: _xuLyCubit.endDate.toString(),
+                                title: S.current.danh_sach_van_ban_di,
+                                trangThaiFilter: _xuLyCubit.trangThaiFilter,
+                                isDanhSachChoTrinhKy:
+                                    _xuLyCubit.isDanhSachChoTrinhKy,
+                                isDanhSachChoXuLy: _xuLyCubit.isDanhSachChoXuLy,
+                                isDanhSachDaXuLy: _xuLyCubit.isDanhSachDaXuLy,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 50),
+                    child: NodataWidget(),
+                  );
+                },
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

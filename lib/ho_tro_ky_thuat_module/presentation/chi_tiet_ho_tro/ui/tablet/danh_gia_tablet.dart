@@ -69,6 +69,7 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
           FormGroup(
             key: _groupKey,
             child: textField(
+              hintText: S.current.nhap_noi_dung,
               title: S.current.noi_dung_danh_gia,
               onChange: (value) {
                 note = value;

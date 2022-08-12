@@ -27,6 +27,7 @@ class CuCanBoWidget extends StatefulWidget {
   final ThemCanBoCubit themCanBoCubit;
   final DetailMeetCalenderCubit cubit;
   final ThemDonViCubit themDonViCubit;
+  final bool isMobile;
 
   const CuCanBoWidget({
     Key? key,
@@ -34,6 +35,7 @@ class CuCanBoWidget extends StatefulWidget {
     required this.cubitThanhPhanTG,
     required this.cubit,
     required this.themDonViCubit,
+    this.isMobile = true,
   }) : super(key: key);
 
   @override
@@ -106,20 +108,22 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
-              lineContainer(),
-              const SizedBox(
-                height: 22,
-              ),
-              Align(
-                alignment: AlignmentDirectional.topStart,
-                child: Text(
-                  S.current.cu_can_bo,
-                  style: textNormalCustom(fontSize: 18, color: textTitle),
+              if (widget.isMobile) ...[
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
+                lineContainer(),
+                const SizedBox(
+                  height: 22,
+                ),
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: Text(
+                    S.current.cu_can_bo,
+                    style: textNormalCustom(fontSize: 18, color: textTitle),
+                  ),
+                ),
+              ],
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -298,20 +302,22 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
               ),
             ],
           ),
-          if (isVisible) Positioned(
-            top: 0,
-            right: 0,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    onDelete();
-                  },
-                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
-                ),
-              ],
-            )
-          ) else Container(),
+          if (isVisible)
+            Positioned(
+                top: 0,
+                right: 0,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        onDelete();
+                      },
+                      child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                    ),
+                  ],
+                ))
+          else
+            Container(),
         ],
       ),
     );

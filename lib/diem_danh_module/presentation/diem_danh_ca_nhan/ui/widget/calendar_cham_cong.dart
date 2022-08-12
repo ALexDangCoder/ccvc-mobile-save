@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/widget/view_day_calendar_widget.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
@@ -41,7 +42,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
             dataSource:
             DataSource(source: widget.cubit.toDataFCalenderSource()),
             view: CalendarView.month,
-            todayHighlightColor: color7966FF,
+            todayHighlightColor: AppTheme.getInstance().colorField(),
             appointmentTimeTextFormat: 'hh:mm:ss a',
             viewHeaderStyle: ViewHeaderStyle(
               dayTextStyle: textNormalCustom(

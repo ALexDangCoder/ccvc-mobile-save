@@ -112,8 +112,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                 child: RefreshIndicator(
                   onRefresh: () async {
                     widget.cubit.resetBeforeRefresh();
-                    widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                    widget.cubit.getDanhSachPAKN();
+                    await widget.cubit.getDashBoardPAKNTiepCanXuLy();
+                    await widget.cubit.getDanhSachPAKN();
                     widget.cubit.textFilter.sink.add(
                       TextTrangThai(
                         S.current.all,
@@ -122,6 +122,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                     );
                   },
                   child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -163,7 +164,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                           height: 22,
                         ),
                         Container(
-                          padding: const EdgeInsets.only(bottom: 66),
+                          padding: const EdgeInsets.only(
+                            bottom: 66,
+                            left: 24,
+                            top: 24,
+                          ),
                           margin: const EdgeInsets.symmetric(horizontal: 30),
                           decoration: BoxDecoration(
                             color: Colors.white,

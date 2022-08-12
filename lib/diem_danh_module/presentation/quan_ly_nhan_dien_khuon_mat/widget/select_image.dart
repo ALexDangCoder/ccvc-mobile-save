@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/file.dart';
@@ -18,6 +19,7 @@ class SelectImageWidget extends StatefulWidget {
   final Function(File? image) onTapImage;
   final Function() removeImage;
   final bool isShowLoading;
+  final ImagePermission imagePermission;
 
   SelectImageWidget({
     Key? key,
@@ -26,6 +28,7 @@ class SelectImageWidget extends StatefulWidget {
     this.image,
     this.isShowLoading = false,
     this.imageLocal,
+    required this.imagePermission,
   }) : super(key: key);
 
   @override
@@ -140,7 +143,21 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
               )
             : emptyImage(
                 onTap: () {
-                  pickImage();
+                  widget.imagePermission.checkFilePermission();
+                  switch(widget.imagePermission.perrmission) {
+                    case ImageSelection.PICK_IMAGE : {
+                      pickImage();
+                      break;
+                    }
+                    case ImageSelection.NO_STORAGE_PERMISSION: {
+                      widget.imagePermission.requestFilePermission();
+                      break;
+                    }
+                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT: {
+                      widget.imagePermission.openSettingApp();
+                      break;
+                    }
+                  }
                 },
               );
   }

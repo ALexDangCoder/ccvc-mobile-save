@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/themes/app_theme.dart'
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/thanh_vien.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/tong_dai_model.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
-import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/menu/ho_tro_ky_thuat_menu_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tablet/danh_sach_su_co_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/chart_thong_tin_chung.dart';
@@ -54,154 +53,152 @@ class _ThongTinChungTabletState extends State<ThongTinChungTablet> {
         },
         error: AppException('', S.current.something_went_wrong),
         stream: widget.cubit.stateStream,
-        child: Expanded(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              await widget.cubit.getAllApiThongTinChung();
-            },
-            child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
-              child: Column(
-                children: [
-                  spaceH28,
-                  Container(
-                    padding: const EdgeInsets.all(
-                      16,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await widget.cubit.getAllApiThongTinChung();
+          },
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            child: Column(
+              children: [
+                spaceH28,
+                Container(
+                  padding: const EdgeInsets.all(
+                    16,
+                  ),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: backgroundColorApp,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: containerColorTab,
                     ),
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 28,
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                        color: containerColorTab,
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowContainerColor.withOpacity(0.05),
+                        offset: const Offset(0, 4),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        S.current.thong_ke_su_co,
+                        style: textNormalCustom(
+                          color: AppTheme.getInstance().titleColor(),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          offset: const Offset(0, 4),
-                          blurRadius: 10,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          S.current.thong_ke_su_co,
-                          style: textNormalCustom(
-                            color: AppTheme.getInstance().titleColor(),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        StreamBuilder<bool>(
-                          stream: widget.cubit.checkDataChart,
-                          builder: (context, snapshot) {
-                            final isCheck = snapshot.data ?? false;
-                            return isCheck
-                                ? ChartThongTinChung(
-                                    chartFlex: 9,
-                                    titleFlex: 2,
-                                    listData: widget.cubit.listDataChart,
-                                    listStatusData: widget.cubit.listStatusData,
-                                    listTitle: widget.cubit.listTitle,
-                                    cubit: widget.cubit,
-                                  )
-                                : const SizedBox.shrink();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  spaceH28,
-                  Container(
-                    padding: const EdgeInsets.all(
-                      16,
-                    ),
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 28,
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                        color: containerColorTab,
+                      StreamBuilder<bool>(
+                        stream: widget.cubit.checkDataChart,
+                        builder: (context, snapshot) {
+                          final isCheck = snapshot.data ?? false;
+                          return isCheck
+                              ? ChartThongTinChung(
+                                  chartFlex: 9,
+                                  titleFlex: 2,
+                                  listData: widget.cubit.listDataChart,
+                                  listStatusData: widget.cubit.listStatusData,
+                                  listTitle: widget.cubit.listTitle,
+                                  cubit: widget.cubit,
+                                )
+                              : const SizedBox.shrink();
+                        },
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          offset: const Offset(0, 4),
-                          blurRadius: 10,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          S.current.danh_sach_ho_tro_ky_thuat,
-                          style: textNormalCustom(
-                            color: AppTheme.getInstance().titleColor(),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        StreamBuilder<List<ThanhVien>>(
-                          stream: widget.cubit.listCanCoHTKT,
-                          builder: (context, snapshot) {
-                            final list = snapshot.data ?? [];
-                            return list.isNotEmpty
-                                ? GridView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: list.length,
-                                    itemBuilder: (context, index) => Container(
-                                      margin: const EdgeInsets.only(
-                                        top: 18,
-                                      ),
-                                      child: ItemDanhSachHoTro(
-                                        isLine: list.length == index + 1 ||
-                                            list.length == index + 2,
-                                        objThanhVien: list[index],
-                                        cubit: widget.cubit,
-                                      ),
-                                    ),
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 72.0,
-                                      mainAxisExtent: 80.0,
-                                    ),
-                                  )
-                                : const SizedBox.shrink();
-                          },
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
-                  spaceH28,
-                  StreamBuilder<List<TongDaiModel>>(
-                    stream: widget.cubit.listTongDai,
-                    builder: (context, snapshot) {
-                      return snapshot.data?.isNotEmpty ?? false
-                          ? WidgetTongDaiTablet(
-                              cubit: widget.cubit,
-                            )
-                          : const SizedBox.shrink();
-                    },
+                ),
+                spaceH28,
+                Container(
+                  padding: const EdgeInsets.all(
+                    16,
                   ),
-                  spaceH28,
-                ],
-              ),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: backgroundColorApp,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: containerColorTab,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowContainerColor.withOpacity(0.05),
+                        offset: const Offset(0, 4),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        S.current.danh_sach_ho_tro_ky_thuat,
+                        style: textNormalCustom(
+                          color: AppTheme.getInstance().titleColor(),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      StreamBuilder<List<ThanhVien>>(
+                        stream: widget.cubit.listCanCoHTKT,
+                        builder: (context, snapshot) {
+                          final list = snapshot.data ?? [];
+                          return list.isNotEmpty
+                              ? GridView.builder(
+                                  physics:
+                                      const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: list.length,
+                                  itemBuilder: (context, index) => Container(
+                                    margin: const EdgeInsets.only(
+                                      top: 18,
+                                    ),
+                                    child: ItemDanhSachHoTro(
+                                      isLine: list.length == index + 1 ||
+                                          list.length == index + 2,
+                                      objThanhVien: list[index],
+                                      cubit: widget.cubit,
+                                    ),
+                                  ),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 72.0,
+                                    mainAxisExtent: 80.0,
+                                  ),
+                                )
+                              : const SizedBox.shrink();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                spaceH28,
+                StreamBuilder<List<TongDaiModel>>(
+                  stream: widget.cubit.listTongDai,
+                  builder: (context, snapshot) {
+                    return snapshot.data?.isNotEmpty ?? false
+                        ? WidgetTongDaiTablet(
+                            cubit: widget.cubit,
+                          )
+                        : const SizedBox.shrink();
+                  },
+                ),
+                spaceH28,
+              ],
             ),
           ),
         ),

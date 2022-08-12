@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -18,6 +19,7 @@ class SelectImageDangKyXe extends StatefulWidget {
   final Function() removeImage;
   final bool isTao;
   final bool isPhone;
+  final ImagePermission imagePermission;
 
   const SelectImageDangKyXe({
     Key? key,
@@ -26,6 +28,7 @@ class SelectImageDangKyXe extends StatefulWidget {
     this.image,
     required this.isTao,
     required this.isPhone,
+    required this.imagePermission,
   }) : super(key: key);
 
   @override
@@ -80,218 +83,242 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
     if (widget.isTao == true) {
       return widget.image != null
           ? Stack(
-        children: [
-          Container(
-            height: widget.isPhone
-                ? 200
-                : MediaQuery
-                .of(context)
-                .size
-                .height * 0.4,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            decoration: BoxDecoration(
-              border: Border.all(color: colorE2E8F0),
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: const [
-                BoxShadow(
-                  color: shadow,
-                  blurRadius: 2,
-                  spreadRadius: 2,
+              children: [
+                Container(
+                  height: widget.isPhone
+                      ? 200
+                      : MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: colorE2E8F0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: shadow,
+                        blurRadius: 2,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        widget.image!,
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: GestureDetector(
+                    onTap: () {
+                      removeImg();
+                    },
+                    child: SvgPicture.asset(
+                      ImageAssets.icRemoveImg,
+                    ),
+                  ),
                 ),
               ],
-              image: DecorationImage(
-                image: NetworkImage(
-                  widget.image!,
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: GestureDetector(
-              onTap: () {
-                removeImg();
-              },
-              child: SvgPicture.asset(
-                ImageAssets.icRemoveImg,
-              ),
-            ),
-          ),
-        ],
-      )
+            )
           : imageChoosse?.path != null
-          ? Stack(
-        children: [
-          Container(
-            height: widget.isPhone
-                ? 200
-                : MediaQuery
-                .of(context)
-                .size
-                .height * 0.4,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            decoration: BoxDecoration(
-              border: Border.all(color: colorE2E8F0),
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: const [
-                BoxShadow(
-                  color: shadow,
-                  blurRadius: 2,
-                  spreadRadius: 2,
-                ),
-              ],
-              image: DecorationImage(
-                image: FileImage(imageChoosse!),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: GestureDetector(
-              onTap: () {
-                removeImg();
-              },
-              child: SvgPicture.asset(
-                ImageAssets.icRemoveImg,
-              ),
-            ),
-          ),
-        ],
-      )
-          : emptyImage(
-        onTap: () {
-          pickImage();
-        },
-      );
+              ? Stack(
+                  children: [
+                    Container(
+                      height: widget.isPhone
+                          ? 200
+                          : MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: colorE2E8F0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: shadow,
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                        image: DecorationImage(
+                          image: FileImage(imageChoosse!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          removeImg();
+                        },
+                        child: SvgPicture.asset(
+                          ImageAssets.icRemoveImg,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : emptyImage(
+                  onTap: () {
+                    widget.imagePermission.checkFilePermission();
+                    switch (widget.imagePermission.perrmission) {
+                      case ImageSelection.PICK_IMAGE:
+                        {
+                          pickImage();
+                          break;
+                        }
+                      case ImageSelection.NO_STORAGE_PERMISSION:
+                        {
+                          widget.imagePermission.requestFilePermission();
+                          break;
+                        }
+                      case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
+                        {
+                          widget.imagePermission.openSettingApp();
+                          break;
+                        }
+                    }
+                  },
+                );
     } else {
       return imageChoosse != null
           ? Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          Container(
-            height: widget.isPhone
-                ? 200
-                : MediaQuery
-                .of(context)
-                .size
-                .height * 0.4,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            decoration: BoxDecoration(
-              border: Border.all(color: colorE2E8F0),
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: const [
-                BoxShadow(
-                  color: shadow,
-                  blurRadius: 2,
-                  spreadRadius: 2,
-                ),
-              ],
-              image: DecorationImage(
-                image: FileImage(imageChoosse!),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: GestureDetector(
-              onTap: () {
-                removeImg();
-              },
-              child: SvgPicture.asset(
-                ImageAssets.icRemoveImg,
-              ),
-            ),
-          ),
-        ],
-      )
-          : imageInit != null
-          ? GestureDetector(
-        onTap: () {
-          pickImage();
-        },
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            Container(
-              height: widget.isPhone
-                  ? 200
-                  : MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.4,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              decoration: BoxDecoration(
-                border: Border.all(color: colorE2E8F0),
-                borderRadius: BorderRadius.circular(8.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: shadow,
-                    blurRadius: 2,
-                    spreadRadius: 2,
-                  ),
-                ],
-                image: DecorationImage(
-                  image: NetworkImage(
-                    imageInit!,
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Container(
-              height: widget.isPhone
-                  ? 200
-                  : MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.4,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: color000000.withOpacity(0.5)),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              alignment: AlignmentDirectional.center,
               children: [
-                SvgPicture.asset(
-                  ImageAssets.icUpAnh,
-                  color: colorFFFFFF,
+                Container(
+                  height: widget.isPhone
+                      ? 200
+                      : MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: colorE2E8F0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: shadow,
+                        blurRadius: 2,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: FileImage(imageChoosse!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-                spaceH14,
-                Text(
-                  S.current.tai_anh_len,
-                  style: textNormal(
-                    colorFFFFFF,
-                    14.0,
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: GestureDetector(
+                    onTap: () {
+                      removeImg();
+                    },
+                    child: SvgPicture.asset(
+                      ImageAssets.icRemoveImg,
+                    ),
                   ),
                 ),
               ],
-            ),
-          ],
-        ),
-      )
-          : emptyImage(
-        onTap: () {
-          pickImage();
-        },
-      );
+            )
+          : imageInit != null
+              ? GestureDetector(
+                  onTap: () {
+                    widget.imagePermission.checkFilePermission();
+                    switch (widget.imagePermission.perrmission) {
+                      case ImageSelection.PICK_IMAGE:
+                        {
+                          pickImage();
+                          break;
+                        }
+                      case ImageSelection.NO_STORAGE_PERMISSION:
+                        {
+                          widget.imagePermission.requestFilePermission();
+                          break;
+                        }
+                      case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
+                        {
+                          widget.imagePermission.openSettingApp();
+                          break;
+                        }
+                    }
+                  },
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      Container(
+                        height: widget.isPhone
+                            ? 200
+                            : MediaQuery.of(context).size.height * 0.4,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: colorE2E8F0),
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: shadow,
+                              blurRadius: 2,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              imageInit!,
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: widget.isPhone
+                            ? 200
+                            : MediaQuery.of(context).size.height * 0.4,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: color000000.withOpacity(0.5)),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            ImageAssets.icUpAnh,
+                            color: colorFFFFFF,
+                          ),
+                          spaceH14,
+                          Text(
+                            S.current.tai_anh_len,
+                            style: textNormal(
+                              colorFFFFFF,
+                              14.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              : emptyImage(
+                  onTap: () {
+                    widget.imagePermission.checkFilePermission();
+                    switch (widget.imagePermission.perrmission) {
+                      case ImageSelection.PICK_IMAGE:
+                        {
+                          pickImage();
+                          break;
+                        }
+                      case ImageSelection.NO_STORAGE_PERMISSION:
+                        {
+                          widget.imagePermission.requestFilePermission();
+                          break;
+                        }
+                      case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
+                        {
+                          widget.imagePermission.openSettingApp();
+                          break;
+                        }
+                    }
+                  },
+                );
     }
   }
 
@@ -299,14 +326,8 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: widget.isPhone ? 200 : MediaQuery
-            .of(context)
-            .size
-            .height * 0.4,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        height: widget.isPhone ? 200 : MediaQuery.of(context).size.height * 0.4,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(color: colorE2E8F0),
           borderRadius: BorderRadius.circular(8.0),

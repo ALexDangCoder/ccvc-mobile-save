@@ -37,6 +37,7 @@ class ChonPhongHopScreen extends StatefulWidget {
   final bool needShowSelectedRoom;
   final String? idHop;
   final bool needTextChonPhong;
+  final String? icon;
 
   const ChonPhongHopScreen({
     Key? key,
@@ -48,7 +49,9 @@ class ChonPhongHopScreen extends StatefulWidget {
     this.initThietBi,
     this.needShowSelectedRoom = false,
     this.idHop,
-    this.onDelete, this.needTextChonPhong = false,
+    this.onDelete,
+    this.needTextChonPhong = false,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -95,7 +98,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                   text: !snapshot.hasData || widget.needTextChonPhong
                       ? S.current.chon_phong_hop
                       : S.current.doi_phong,
-                  urlIcon: ImageAssets.icChonPhongHop,
+                  urlIcon: widget.icon ?? ImageAssets.icChonPhongHop,
                 ),
                 if (widget.needShowSelectedRoom &&
                     (thongTinPhong?.phongHop?.phongHopId?.isNotEmpty ??
@@ -280,8 +283,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                     final listData = snapshot.data ?? [];
                     if (widget.initPhongHop != null) {
                       final int index = listData.indexWhere(
-                        (element) =>
-                            element.id == widget.initPhongHop!.donViId,
+                        (element) => element.id == widget.initPhongHop!.donViId,
                       );
                       if (index >= 0) {
                         widget.chonPhongHopCubit.donViSelected =

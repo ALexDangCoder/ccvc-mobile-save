@@ -229,7 +229,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                 widget.cubit.checkPermissionQuyenDuyetPhong()) {
                               return const SizedBox();
                             }
-                            return Row(
+                            if(widget.cubit.checkPermissionQuyenDuyetPhong(isCheckHideButton: true)) {
+                              return Row(
                               children: [
                                 ButtonOtherWidget(
                                   text: S.current.duyet,
@@ -250,6 +251,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                 ),
                               ],
                             );
+                            }
+                            return const SizedBox();
                           },
                         ),
                       ),
@@ -374,7 +377,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (widget.cubit.isButtonYeuCauChuanBiPhong())
+              if (widget.cubit
+                  .isButtonYeuCauChuanBiPhong(isCheckHideButton: true))
                 Expanded(
                   child: GestureDetector(
                     onTap: () {

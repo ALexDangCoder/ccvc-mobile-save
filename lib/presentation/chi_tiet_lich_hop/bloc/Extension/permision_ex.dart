@@ -426,14 +426,17 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         trangThaiPhong() == STATUS_ROOM_MEETING.HUY_DUYET;
   }
 
-  bool checkPermissionQuyenDuyetPhong() {
-    if (HiveLocal.checkPermissionApp(
+  bool checkPermissionQuyenDuyetPhong({bool? isCheckHideButton}) {
+    if(isCheckHideButton ?? false){
+      return HiveLocal.checkPermissionApp(
+        permissionType: PermissionType.VPDT,
+        permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
+      ) && trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
+    }
+    return HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
       permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
-    )) {
-      return true;
-    }
-    return false;
+    );
   }
 
   ///check button tu choi va huy duyet
@@ -471,7 +474,13 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   /// quyen duyet yeu cau chuan bi phong
-  bool isButtonYeuCauChuanBiPhong() {
+  bool isButtonYeuCauChuanBiPhong({bool? isCheckHideButton}) {
+    if(isCheckHideButton ?? false){
+      return HiveLocal.checkPermissionApp(
+        permissionType: PermissionType.VPDT,
+        permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
+      ) && trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
+    }
     return HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
       permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,

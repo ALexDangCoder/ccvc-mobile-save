@@ -67,8 +67,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         if (res) {
-          needRefreshMainMeeting = true;
-          getThongTinPhongHopApi();
+          callApiCongTacChuanBi();
           MessageConfig.show(
             title: S.current.tao_thanh_cong,
           );
@@ -97,7 +96,6 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         if (res) {
-          needRefreshMainMeeting = true;
           getThongTinPhongHopApi();
         }
       },
@@ -124,7 +122,6 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res) {
-          needRefreshMainMeeting = true;
           return true;
         }
       },
@@ -250,7 +247,6 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
         MessageConfig.show(
           title: S.current.thanh_cong,
         );
-        needRefreshMainMeeting = true;
         isSuccess = true;
       },
       error: (error) {

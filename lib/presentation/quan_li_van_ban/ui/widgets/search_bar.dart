@@ -30,9 +30,6 @@ class SearchBarDocumentManagement extends StatefulWidget {
 class _SearchBarDocumentManagementState
     extends State<SearchBarDocumentManagement> {
   TextEditingController textController = TextEditingController();
-
-  Debouncer debouncer = Debouncer(milliseconds: 600);
-
   @override
   void initState() {
     textController.text = widget.initKeyWord;

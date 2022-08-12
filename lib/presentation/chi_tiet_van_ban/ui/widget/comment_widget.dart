@@ -5,8 +5,12 @@ import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_med
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PickImageFileModel {
@@ -29,13 +33,15 @@ class WidgetComments extends StatefulWidget {
 
   final void Function(String, List<PickImageFileModel>)? onSend;
   final int maxSizeMB;
+  final String? errorMaxSize;
 
   const WidgetComments({
     Key? key,
     this.onTab,
     this.onSend,
     this.focus = false,
-    this.maxSizeMB = 30,
+    this.errorMaxSize,
+    this.maxSizeMB = 20,
   }) : super(key: key);
 
   @override
@@ -45,7 +51,7 @@ class WidgetComments extends StatefulWidget {
 class _WidgetCommentsState extends State<WidgetComments> {
   late FocusNode _focusNode;
   late TextEditingController controller;
-
+  final toast = FToast();
   final Set<PickImageFileModel> listFile = {};
   String comment = '';
 
@@ -53,6 +59,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
   void initState() {
     _focusNode = FocusNode();
     controller = TextEditingController();
+    toast.init(context);
     if (widget.focus) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         FocusScope.of(context).requestFocus(_focusNode);
@@ -207,7 +214,14 @@ class _WidgetCommentsState extends State<WidgetComments> {
               totalSize += item.size ?? 0;
             }
             if (totalSize / BYTE_TO_MB > widget.maxSizeMB) {
-              //todo popup
+              toast.removeQueuedCustomToasts();
+              toast.showToast(
+                child: ShowToast(
+                  text: widget.errorMaxSize ??  S.current.dung_luong_toi_da_20,
+                  withOpacity: 0.4,
+                ),
+                gravity: ToastGravity.TOP_RIGHT,
+              );
             } else {
               if (widget.onSend != null) {
                 widget.onSend!(comment, listFile.toList());
@@ -247,12 +261,24 @@ class _WidgetCommentsState extends State<WidgetComments> {
         children: [
           Expanded(
             flex: 9,
-            child: Text(
-              objPick.name.toString(),
-              style: textNormalCustom(
-                fontSize: 14,
-                fontWeight: FontWeight.w300,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  objPick.name.toString(),
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                Text(
+                  objPick.size?.getFileSize(2) ?? '',
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
             ),
           ),
           spaceW4,

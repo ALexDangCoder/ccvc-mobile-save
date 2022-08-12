@@ -13,6 +13,7 @@
   "unauthorized": "Your session has expired. Please sign in.",
   "don_vi_nhan_va_theo_doi_van_ban": "Đơn vị nhận và theo dõi văn bản",
   "van_ban_lien_quan_kbh": "Văn bản liên quan(không ban hành) ",
+  "chon_file_that_bai": "Chọn file thất bại",
   "ban_phai_tick_chon_bieu_quyet_muon_duyet": "Bạn phải tick chọn phát biểu muốn duyệt",
   "ban_phai_tick_chon_bieu_quyet_muon_huy_duyet": "Bạn phải tick chọn phát biểu muốn hủy duyệt",
   "vui_long_chon": "Vui lòng chọn!",
@@ -1406,5 +1407,6 @@
   "ban_phai_chon_truong": "Bạn phải chọn trường",
   "tong_dung_luong_file_toi_da": "Tổng dung lượng file tối đa",
   "just_txt": "Chỉ hỗ trợ tệp .txt",
-  "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do"
+  "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
+  "nhap_noi_dung":"Nhập nội dung"
 }

@@ -311,6 +311,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     );
     result.when(
       success: (res) {
+        needRefreshMainMeeting = true;
         showContent();
         getXemKetLuanHop(idCuocHop);
       },

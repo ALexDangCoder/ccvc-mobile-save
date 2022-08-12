@@ -88,7 +88,10 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
                 ),
                 Text(
                   dateFormat(selectDay),
-                  style: textNormalCustom(fontSize: 16, color: labelColor),
+                  style: textNormalCustom(
+                    fontSize: 16,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {

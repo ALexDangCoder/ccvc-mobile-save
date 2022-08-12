@@ -283,8 +283,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                       AppStateCt.of(context)
                                           .appState
                                           .setToken('');
-                                      HiveLocal.clearData();
-                                      PrefsService.saveLoginUserName('');
+                                      menuCubit.logout();
                                     },
                                     showTablet: true,
                                     icon: Image.asset(ImageAssets.icDangXuat),
@@ -339,19 +338,15 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
           children: [
             SvgPicture.asset(
               type.getItem().url,
+              width: 35,
+              height: 35,
             ),
-            Expanded(
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10.h),
-                    child: Text(
-                      type.getItem().title,
-                      style: textNormalCustom(fontSize: 18, color: color3D5586),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Text(
+                type.getItem().title,
+                style: textNormalCustom(fontSize: 18, color: color3D5586),
+                textAlign: TextAlign.center,
               ),
             )
           ],

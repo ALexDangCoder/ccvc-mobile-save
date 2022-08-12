@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/tien_ich_module/widget/customTextFieldVersion2.dart'
 import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +26,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class CreatTodoOrUpdateWidget extends StatefulWidget {
   final bool? isCreate;
@@ -47,6 +47,7 @@ class CreatTodoOrUpdateWidget extends StatefulWidget {
 class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController tieuDeController = TextEditingController();
   final TextEditingController noteControler = TextEditingController();
+  final TextEditingController searchControler = TextEditingController();
   BehaviorSubject<bool> isShow = BehaviorSubject.seeded(false);
   late String nameFileSelect;
   late String date;
@@ -56,6 +57,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   @override
   void initState() {
     // TODO: implement initState
+    widget.cubit.listNguoiThucHien('');
 
     /// data can update or creat
     note = widget.todo?.note ?? '';
@@ -63,19 +65,11 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
         .formatApi;
     title = widget.todo?.label ?? '';
     nameFileSelect = widget.todo?.filePath ?? '';
-
-    ///
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    widget.cubit.disposs();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,6 +194,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                           MaterialPageRoute(
                             builder: (context) => ChonNguoiThucHienScreen(
                               cubit: widget.cubit,
+                              searchController: searchControler,
                             ),
                           ),
                         );

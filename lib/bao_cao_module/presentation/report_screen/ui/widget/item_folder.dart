@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
@@ -49,10 +50,17 @@ class ItemFolder extends StatelessWidget {
           left: -3,
           bottom: -2,
           child: isShare
-              ? SvgPicture.asset(
-                  ImageAssets.icChiaSeSvg,
+              ? Container(
                   width: 16,
                   height: 16,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.getInstance().colorField(),
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    ImageAssets.icShareWhite,
+                  ),
                 )
               : const SizedBox.shrink(),
         ),

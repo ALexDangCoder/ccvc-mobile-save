@@ -129,7 +129,7 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                           child: Text(
                             Get.find<AppConstants>().urlHTCS + widget.idReport,
                             style: textNormalCustom(
-                              color: labelColor,
+                              color: AppTheme.getInstance().colorField(),
                               fontSize: 16,
                             ),
                           ),

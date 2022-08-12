@@ -25,6 +25,7 @@ mixin NhiemVuRepository {
   Future<Result<ChiTietNhiemVuModel>> getChiTietNhiemVu(
     String nhiemVuId,
     bool isCaNhan,
+    String? donViId,
   );
 
   Future<Result<List<LichSuPhanXuLyNhiemVuModel>>> getLichSuPhanXuLy(

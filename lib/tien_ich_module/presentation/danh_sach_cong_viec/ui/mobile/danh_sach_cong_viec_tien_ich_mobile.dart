@@ -37,6 +37,12 @@ class _DanhSachCongViecTienIchMobileState
   }
 
   @override
+  void dispose() {
+    cubit.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarDSCV(cubit: cubit, context: context),
@@ -97,6 +103,7 @@ class _DanhSachCongViecTienIchMobileState
                             if (dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.CVQT ||
                                 dataType == DSCVScreen.DG ||
+                                dataType == DSCVScreen.GCT ||
                                 dataType == DSCVScreen.NCVM ||
                                 dataType == DSCVScreen.DBX)
                               StreamBuilder<List<TodoDSCVModel>>(
@@ -105,17 +112,14 @@ class _DanhSachCongViecTienIchMobileState
                                   final data = snapshot.data
                                           ?.where(
                                             (element) =>
-                                                dataType != DSCVScreen.DBX
-                                                    ? element.isTicked == false
-                                                    : element.inUsed == false,
+                                                element.isTicked == false,
                                           )
                                           .toList() ??
                                       [];
                                   if (data.isNotEmpty) {
                                     return Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
-                                            dataType == DSCVScreen.NCVM)
+                                        if (dataType == DSCVScreen.DBX )
                                           textTitle(
                                             S.current.gan_cho_toi,
                                             data.length,
@@ -134,8 +138,7 @@ class _DanhSachCongViecTienIchMobileState
                                     ),
                                     child: Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
-                                            dataType == DSCVScreen.NCVM)
+                                        if (dataType == DSCVScreen.DBX)
                                           textTitle(
                                             S.current.gan_cho_toi,
                                             data.length,
@@ -148,9 +151,8 @@ class _DanhSachCongViecTienIchMobileState
                               ),
 
                             /// list down
-                            if (dataType == DSCVScreen.CVCB ||
-                                dataType == DSCVScreen.DHT ||
-                                dataType == DSCVScreen.NCVM)
+                            if (dataType == DSCVScreen.DBX ||
+                                dataType == DSCVScreen.DHT )
                               StreamBuilder<List<TodoDSCVModel>>(
                                 stream: cubit.listDSCVStream.stream,
                                 builder: (context, snapshot) {
@@ -166,8 +168,7 @@ class _DanhSachCongViecTienIchMobileState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
-                                            dataType == DSCVScreen.NCVM)
+                                        if (dataType == DSCVScreen.DBX )
                                           textTitle(
                                             S.current.da_hoan_thanh,
                                             data.length,
@@ -186,9 +187,7 @@ class _DanhSachCongViecTienIchMobileState
                                     ),
                                     child: Column(
                                       children: [
-                                        if (dataType == DSCVScreen.CVCB ||
-                                            dataType == DSCVScreen.DBX ||
-                                            dataType == DSCVScreen.NCVM)
+                                        if (dataType == DSCVScreen.DBX)
                                           textTitle(
                                             S.current.da_hoan_thanh,
                                             data.length,

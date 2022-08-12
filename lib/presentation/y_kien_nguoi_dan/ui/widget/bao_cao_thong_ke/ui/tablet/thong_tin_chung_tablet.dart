@@ -199,6 +199,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                 children: [
                                   Expanded(
                                     child: TiepCanWidget(
+                                      isTablet: true,
                                       model: data,
                                       cubit: widget.cubit,
                                     ),

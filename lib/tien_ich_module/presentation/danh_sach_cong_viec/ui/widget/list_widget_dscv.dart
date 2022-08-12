@@ -74,9 +74,7 @@ class ListUpDSCV extends StatelessWidget {
             );
           },
           onEdit: () {
-            if (cubit.listNguoiThucHienSubject.hasValue) {
-              onTapCreatOrUpdate(context, todo);
-            }
+            onTapCreatOrUpdate(context, todo);
           },
           onThuHoi: () {
             showDiaLog(
@@ -206,9 +204,7 @@ class ListDownDSCV extends StatelessWidget {
             );
           },
           onEdit: () {
-            if (cubit.listNguoiThucHienSubject.hasValue) {
-              onTapCreatOrUpdate(context, todo);
-            }
+            onTapCreatOrUpdate(context, todo);
           },
           onThuHoi: () {
             cubit.editWork(

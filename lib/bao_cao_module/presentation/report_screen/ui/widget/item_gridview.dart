@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -57,6 +58,7 @@ class ItemGridView extends StatelessWidget {
                 ImageAssets.icStarFocus,
                 width: 16,
                 height: 16,
+                color: AppTheme.getInstance().colorField(),
               ),
             ),
           Positioned(
@@ -86,7 +88,6 @@ class ItemGridView extends StatelessWidget {
                             isTree: isTree,
                             idFolder: idFolder,
                             isSearch: isSearch,
-                            isSourceShare: item.isSourceShare ?? false,
                           ),
                         );
                       } else {

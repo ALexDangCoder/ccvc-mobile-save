@@ -223,7 +223,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       DanhSachVBRequest(
         maTrangThai: statusSearchDocumentInCode(documentInStatusCode),
         index: page ?? ApiConstants.PAGE_BEGIN,
-        isSortByDoKhan: true,
         thoiGianStartFilter: startDate ?? this.startDate,
         thoiGianEndFilter: endDate ?? this.endDate,
         size: ApiConstants.DEFAULT_PAGE_SIZE,

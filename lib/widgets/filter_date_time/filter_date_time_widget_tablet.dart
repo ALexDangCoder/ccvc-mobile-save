@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
@@ -126,6 +127,13 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                         btnRightTxt: S.current.chon,
                         funcBtnOk: () {
                           setState(() {});
+                          if (validateDay(chooseTime)) {
+                            MessageConfig.show(
+                              title: S.current.thoi_gian_chon_khong_hop_le,
+                              messState: MessState.error,
+                            );
+                            return;
+                          }
                           currentStartDate = chooseTime;
                           widget.onChooseDateFilter(
                               currentStartDate, DateTime.now());
@@ -277,5 +285,15 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
         ],
       ),
     );
+  }
+
+  bool validateDay(DateTime value) {
+    final dayMax = DateTime.now();
+
+    if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
+      return true;
+    }
+
+    return false;
   }
 }

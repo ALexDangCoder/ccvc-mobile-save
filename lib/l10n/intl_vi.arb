@@ -1373,8 +1373,10 @@
   "ban_phai_chon_truong": "Bạn phải chọn trường",
   "nhap_noi_dung":"Nhập nội dung",
   "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
+  "thoi_gian_chon_khong_hop_le" : "Thời gian chọn không hợp lệ",
   "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
   "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !"
+
 }
 
 

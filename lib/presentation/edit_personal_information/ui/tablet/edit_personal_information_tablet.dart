@@ -146,6 +146,7 @@ class _EditPersonalInformationTabletScreen
                                   child: Container(),
                                   funcBtnOk: () {
                                     cubit.getInfo(id: widget.id);
+                                    cubit.resetAvatar();
                                     cubit.huyenSubject.sink.add([]);
                                     cubit.xaSubject.sink.add([]);
                                     FocusManager.instance.primaryFocus
@@ -155,7 +156,6 @@ class _EditPersonalInformationTabletScreen
                                   btnLeftTxt: S.current.khong,
                                   title2: S.current.khong_edit,
                                   title1: S.current.reset,
-                                  //  isBottomShowText: false,
                                 );
                               },
                               child: Text(

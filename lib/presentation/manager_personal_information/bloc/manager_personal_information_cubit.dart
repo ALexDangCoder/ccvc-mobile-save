@@ -181,6 +181,12 @@ class ManagerPersonalInformationCubit
     );
   }
 
+  void resetAvatar(){
+    avatarPathSubject.addError('');
+    chuKyPathSubject.addError('');
+    kyNhayPathSubject.addError('');
+  }
+
   Future<void> getDeviceDetails() async {
     final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     try {

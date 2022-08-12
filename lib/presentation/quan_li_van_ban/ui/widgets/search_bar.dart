@@ -122,12 +122,9 @@ class _SearchBarDocumentManagementState
               fontSize: 14,
             ),
           ),
-          onChanged: (text) {
-            setState(() {});
-            debouncer.run(() async {
-              widget.qlvbCubit.keySearch = text;
-              eventBus.fire(RefreshList());
-            });
+          onFieldSubmitted: (value){
+            widget.qlvbCubit.keySearch = value;
+            eventBus.fire(RefreshList());
           },
         ),
       ),

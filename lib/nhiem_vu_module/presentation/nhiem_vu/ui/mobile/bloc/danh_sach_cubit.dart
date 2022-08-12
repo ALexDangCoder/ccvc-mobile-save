@@ -161,12 +161,14 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       isNhiemVuCaNhan: isNhiemVuCaNhan,
       isSortByHanXuLy: isSortByHanXuLy,
       noiDungTheoDoi: keySearch.trim(),
-      mangTrangThai: [
-        CHO_PHAN_XU_LY,
-        CHUA_THUC_HIEN,
-        DANG_THUC_HIEN,
-        DA_HOAN_THANH,
-      ],
+      mangTrangThai: mangTrangThai == []
+          ? [
+              CHO_PHAN_XU_LY,
+              CHUA_THUC_HIEN,
+              DANG_THUC_HIEN,
+              DA_HOAN_THANH,
+            ]
+          : mangTrangThai,
       ngayTaoNhiemVu: ngayTaoNhiemVu,
       size: size,
       trangThaiHanXuLy: trangThaiHanXuLy,

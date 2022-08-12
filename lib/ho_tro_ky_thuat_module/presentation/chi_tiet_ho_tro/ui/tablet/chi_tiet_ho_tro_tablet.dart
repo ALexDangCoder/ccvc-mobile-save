@@ -237,34 +237,31 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
 
   void confirmUpdateTask() {
     if ((cubit.isNguoiXuLy || cubit.isTruongPhong) &&
-        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH) {
-      showDialog(
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH &&
+        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.TU_CHOI_XU_LY) {
+      showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
         context: context,
         builder: (_) {
-          return Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Center(
-              child: CapNhatTinhHinhHoTroTabLet(
-                cubit: cubit,
-              ),
-            ),
+          return CapNhatTinhHinhHoTroTabLet(
+            cubit: cubit,
           );
         },
       );
     } else {
-      if (cubit.supportDetail.codeTrangThai ==
-              ChiTietHoTroCubit.DA_HOAN_THANH &&
+      if ((cubit.supportDetail.codeTrangThai ==
+          ChiTietHoTroCubit.DA_HOAN_THANH ||
+          cubit.supportDetail.codeTrangThai ==
+              ChiTietHoTroCubit.TU_CHOI_XU_LY) &&
           cubit.isNguoiYeuCau) {
-        showDialog(
+        showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
           context: context,
           builder: (_) {
-            return Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Center(
-                child: DanhGiaYeuCauHoTroTabLet(
-                  cubit: cubit,
-                ),
-              ),
+            return DanhGiaYeuCauHoTroTabLet(
+              cubit: cubit,
             );
           },
         );
@@ -276,7 +273,6 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
       }
     }
   }
-
   Widget title(String title) {
     return Text(
       title,

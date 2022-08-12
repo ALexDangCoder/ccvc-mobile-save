@@ -98,6 +98,7 @@ mixin TienIchRepository {
     int? pageSize,
     String? searchWord,
     bool? isImportant,
+    bool? isForMe,
     bool? inUsed,
     bool? isTicked,
     String? groupId,

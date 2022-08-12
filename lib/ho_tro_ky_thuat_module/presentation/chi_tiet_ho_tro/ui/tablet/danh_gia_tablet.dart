@@ -95,40 +95,42 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
                 Navigator.pop(context);
               },
               onPressed2: () {
-                widget.cubit.commentTask(
-                  note ?? '',
-                  id: widget.idTask,
-                ).then(
-                      (value) {
-                    if(value == successCode){
-                      final FToast toast = FToast();
-                      toast.init(context);
-                      toast.showToast(
-                        child: ShowToast(
-                          text: S.current.luu_du_lieu_thanh_cong,
-                          icon: ImageAssets.icSucces,
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                      );
-                      if(widget.idTask?.isEmpty ?? true){
-                        widget.cubit.getSupportDetail(
-                          widget.cubit.supportDetail.id ?? '',
+                if (_groupKey.currentState?.validator() ?? false) {
+                  widget.cubit.commentTask(
+                    note ?? '',
+                    id: widget.idTask,
+                  ).then(
+                        (value) {
+                      if (value == successCode) {
+                        final FToast toast = FToast();
+                        toast.init(context);
+                        toast.showToast(
+                          child: ShowToast(
+                            text: S.current.luu_du_lieu_thanh_cong,
+                            icon: ImageAssets.icSucces,
+                          ),
+                          gravity: ToastGravity.BOTTOM,
+                        );
+                        if (widget.idTask?.isEmpty ?? true) {
+                          widget.cubit.getSupportDetail(
+                            widget.cubit.supportDetail.id ?? '',
+                          );
+                        }
+                        Navigator.pop(context);
+                      } else {
+                        final FToast toast = FToast();
+                        toast.init(context);
+                        toast.showToast(
+                          child: ShowToast(
+                            text: S.current.thay_doi_that_bai,
+                            icon: ImageAssets.icError,
+                          ),
+                          gravity: ToastGravity.BOTTOM,
                         );
                       }
-                      Navigator.pop(context);
-                    } else {
-                      final FToast toast = FToast();
-                      toast.init(context);
-                      toast.showToast(
-                        child: ShowToast(
-                          text: S.current.thay_doi_that_bai,
-                          icon: ImageAssets.icError,
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                      );
-                    }
-                  },
-                );
+                    },
+                  );
+                }
               },
               noPadding: true,
               isTablet: true,

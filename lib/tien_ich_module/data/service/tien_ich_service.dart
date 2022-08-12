@@ -145,6 +145,7 @@ abstract class TienIchService {
     @Field('pageSize') int? pageSize,
     @Field('searchWord') String? searchWord,
     @Field('isImportant') bool? isImportant,
+    @Field('isForMe') bool? isForMe,
     @Field('inUsed') bool? inUsed,
     @Field('isTicked') bool? isTicked,
     @Field('groupId') String? groupId,

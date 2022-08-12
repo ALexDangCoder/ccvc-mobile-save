@@ -102,6 +102,9 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   BehaviorSubject<List<TaoPhienHopRequest>> listPhienHop =
       BehaviorSubject.seeded([]);
 
+  BehaviorSubject<bool> needRebuildLichLap =
+  BehaviorSubject.seeded(false);
+
   bool isOverFileLength = false;
 
   LoaiSelectModel? selectLoaiHop;
@@ -624,6 +627,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     dsDiemCauSubject.close();
     loaiLichLap.close();
     chuongTrinhHopSubject.close();
+    needRebuildLichLap.close();
   }
 }
 

@@ -156,7 +156,6 @@ class _EditPersonalInformationTabletScreen
                                   btnLeftTxt: S.current.khong,
                                   title2: S.current.khong_edit,
                                   title1: S.current.reset,
-                                  //  isBottomShowText: false,
                                 );
                               },
                               child: Text(

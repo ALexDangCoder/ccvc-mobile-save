@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/d
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_bien_so_xe_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/custom_radio_loai_so_huu.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/select_image_dang_ky_xe_moi.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/item_text_note.dart';
@@ -24,12 +25,14 @@ class WidgetCapNhatThongTinDangKyXe extends StatefulWidget {
   final BuildContext context;
   final DiemDanhCubit cubit;
   final ChiTietBienSoXeModel chiTietBienSoXeModel;
+  final ImagePermission imagePermission;
 
   const WidgetCapNhatThongTinDangKyXe({
     Key? key,
     required this.cubit,
     required this.chiTietBienSoXeModel,
     required this.context,
+    required this.imagePermission,
   }) : super(key: key);
 
   @override
@@ -113,6 +116,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                             alignment: AlignmentDirectional.center,
                             children: [
                               SelectImageDangKyXe(
+                                imagePermission: widget.imagePermission,
                                 isPhone: true,
                                 image: widget.cubit.getUrlImageBienSoXe(
                                     widget.chiTietBienSoXeModel.fileId),

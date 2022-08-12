@@ -99,6 +99,7 @@ class DanhSachCongViecTienIchCubit
         result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           pageSize: ApiConstants.LONG_PAGE_SIZE,
           pageIndex: countLoadMore,
           searchWord: textSearch?.trim(),
@@ -144,7 +145,7 @@ class DanhSachCongViecTienIchCubit
           searchWord: textSearch?.trim(),
           pageIndex: countLoadMore,
           pageSize: ApiConstants.LONG_PAGE_SIZE,
-          isGiveOther: false,
+          isForMe: true,
         );
         break;
       case DSCVScreen.DBX:
@@ -160,6 +161,7 @@ class DanhSachCongViecTienIchCubit
         result = await getAllListDSCVWithFilter(
           isLoadmore: isLoadmore,
           inUsed: true,
+          isTicked: false,
           pageSize: ApiConstants.LONG_PAGE_SIZE,
           pageIndex: countLoadMore,
           groupId: groupId ?? this.groupId,
@@ -269,6 +271,7 @@ class DanhSachCongViecTienIchCubit
     bool? isImportant,
     bool? inUsed,
     bool? isTicked,
+    bool? isForMe,
     String? groupId,
     bool? isGiveOther,
     required bool isLoadmore,
@@ -278,6 +281,7 @@ class DanhSachCongViecTienIchCubit
       pageSize ?? 10,
       searchWord?.trim(),
       isImportant,
+      isForMe,
       inUsed,
       isTicked,
       groupId,
@@ -562,14 +566,15 @@ class DanhSachCongViecTienIchCubit
 
   /// tim nguoi thuc hien theo id
   String convertIdToPerson({required String vl, bool? hasChucVu}) {
+    final currentList = listNguoiThucHienSubject.valueOrNull ?? [];
     if (hasChucVu ?? true) {
-      for (final e in listNguoiThucHienSubject.value) {
+      for (final e in currentList) {
         if (vl == e.id) {
           return e.dataAll();
         }
       }
     } else {
-      for (final e in listNguoiThucHienSubject.value) {
+      for (final e in currentList) {
         if (vl == e.id) {
           return e.dataWithChucVu();
         }
@@ -580,8 +585,8 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///init data nguoi thuc hien
-  void initDataNguoiTHucHienTextFild(TodoDSCVModel todo) {
-    if (todo.performer == '' || todo.performer == null) {
+  void initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) {
+    if ((todo?.performer ??  '').isEmpty) {
       nguoiThucHienSubject.sink.add(
         NguoiThucHienModel(
           id: '',
@@ -593,8 +598,8 @@ class DanhSachCongViecTienIchCubit
     } else {
       nguoiThucHienSubject.sink.add(
         NguoiThucHienModel(
-          id: todo.performer ?? '',
-          hoten: convertIdToPerson(vl: todo.performer ?? ''),
+          id: todo?.performer ?? '',
+          hoten: convertIdToPerson(vl: todo?.performer ?? ''),
           donVi: [],
           chucVu: [],
         ),

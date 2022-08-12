@@ -51,7 +51,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.isMobile ? bgTabletColor : backgroundColorApp,
+      color:  backgroundColorApp,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(

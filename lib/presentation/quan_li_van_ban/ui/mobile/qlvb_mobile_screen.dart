@@ -108,15 +108,19 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
         stream: widget.qlvbCubit.stateStream,
         child: Column(
           children: [
-            FilterDateTimeWidget(
-              context: context,
-              initStartDate: DateTime.parse(widget.qlvbCubit.startDate),
-              onChooseDateFilter: (startDate, endDate) {
-                widget.qlvbCubit.startDate = startDate.formatApi;
-                widget.qlvbCubit.endDate = endDate.formatApi;
-                widget.qlvbCubit.callAPi(initTime: false);
-                eventBus.fire(RefreshList());
-              },
+            Container(
+              color: colorFFFFFF,
+              child: FilterDateTimeWidget(
+
+                context: context,
+                initStartDate: DateTime.parse(widget.qlvbCubit.startDate),
+                onChooseDateFilter: (startDate, endDate) {
+                  widget.qlvbCubit.startDate = startDate.formatApi;
+                  widget.qlvbCubit.endDate = endDate.formatApi;
+                  widget.qlvbCubit.callAPi(initTime: false);
+                  eventBus.fire(RefreshList());
+                },
+              ),
             ),
             spaceH20,
             tabBar(_tabController),

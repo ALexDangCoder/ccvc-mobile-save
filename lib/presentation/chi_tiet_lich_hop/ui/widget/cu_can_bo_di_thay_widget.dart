@@ -273,7 +273,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             children: [
               rowInfo(
                 value: donVi.name,
-                key: S.current.ten_don_vi,
+                key: S.current.dv_phoi_hop,
                 needShowPadding: true,
               ),
               SizedBox(
@@ -285,7 +285,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               ),
               rowInfo(
                 value: donVi.noidung,
-                key: S.current.nd_cong_viec,
+                key: S.current.just_noi_dung,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
@@ -331,7 +331,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             children: [
               rowInfo(
                 value: tenDonvi,
-                key: S.current.ten_don_vi,
+                key: S.current.dv_phoi_hop,
                 needShowPadding: true,
               ),
               SizedBox(
@@ -343,7 +343,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               ),
               rowInfo(
                 value: noiDungCV,
-                key: S.current.nd_cong_viec,
+                key: S.current.just_noi_dung,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),

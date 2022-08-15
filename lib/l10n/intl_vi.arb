@@ -1376,8 +1376,8 @@
   "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
   "thoi_gian_chon_khong_hop_le" : "Thời gian chọn không hợp lệ",
   "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
-  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !"
-
+  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !",
+  "limit_file_y_kien_pakn" : "Chỉ tải lên tối đa 15 file ý kiến"
 }
 
 

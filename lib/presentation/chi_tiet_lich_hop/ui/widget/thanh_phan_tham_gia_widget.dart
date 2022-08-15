@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/thanh_phan_tham_gia_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:ccvc_mobile/widgets/them_don_vi_phoi_hop_khac/them_don_vi_phoi_hop_khac_widget.dart';
 import 'package:ccvc_mobile/widgets/thong_tin_khach_moi_widget/them_thong_tin_khach_moi_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,21 +53,25 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   height: 0.0.textScale(space: 10),
                 ),
                 StreamBuilder<List<CanBoModel>>(
-                  stream: widget.cubit.thanhPhanThamGia,
-                  builder: (context, snapshot) {
-                    final data  = snapshot.data ?? [];
-                    return ThanhPhanThamGiaWidget(
-                      scheduleCoperatives: data,
-                      isPhuongThucNhan: true,
-                      onChange: (value) {
-                        widget.cubit.addThanhPhanThamGia(value);
-                      },
-                      phuongThucNhan: (value) {
-                        widget.cubit.phuongThucNhan = value;
-                      },
-                    );
-                  }
-                ),
+                    stream: widget.cubit.thanhPhanThamGia,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? [];
+                      return ThanhPhanThamGiaWidget(
+                        scheduleCoperatives: data
+                            .map(
+                              (e) => RemoveItemTree(
+                                  canBoId: e.canBoId, donViId: e.donViId),
+                            )
+                            .toList(),
+                        isPhuongThucNhan: true,
+                        onChange: (value) {
+                          widget.cubit.addThanhPhanThamGia(value);
+                        },
+                        phuongThucNhan: (value) {
+                          widget.cubit.phuongThucNhan = value;
+                        },
+                      );
+                    }),
                 spaceH16,
                 TitleChildWidget(
                   title: S.current.don_vi_phoi_hop_khac,

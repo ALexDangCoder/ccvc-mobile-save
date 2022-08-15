@@ -234,13 +234,16 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
 
   void confirmUpdateTask() {
     if (cubit.checkTitleButton()) {
-      showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
+      showDialog(
         context: context,
         builder: (_) {
-          return CapNhatTinhHinhHoTroTabLet(
-            cubit: cubit,
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: CapNhatTinhHinhHoTroTabLet(
+                cubit: cubit,
+              ),
+            ),
           );
         },
       );
@@ -250,13 +253,16 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
               cubit.supportDetail.codeTrangThai ==
                   ChiTietHoTroCubit.TU_CHOI_XU_LY) &&
           cubit.isNguoiYeuCau) {
-        showModalBottomSheet(
-          backgroundColor: Colors.transparent,
-          isScrollControlled: true,
+        showDialog(
           context: context,
           builder: (_) {
-            return DanhGiaYeuCauHoTroTabLet(
-              cubit: cubit,
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: DanhGiaYeuCauHoTroTabLet(
+                  cubit: cubit,
+                ),
+              ),
             );
           },
         );

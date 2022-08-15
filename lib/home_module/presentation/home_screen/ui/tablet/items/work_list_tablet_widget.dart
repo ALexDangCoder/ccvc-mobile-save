@@ -94,6 +94,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
             } else {
               final String label = controllerCongViec.text;
               danhSachCVCubit.addTodo(label, nguoiGanID);
+              controllerCongViec.clear();
               Navigator.pop(context, false);
             }
           },

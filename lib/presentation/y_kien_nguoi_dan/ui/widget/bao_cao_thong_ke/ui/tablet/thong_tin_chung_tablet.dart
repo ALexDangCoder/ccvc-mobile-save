@@ -132,14 +132,14 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                         FilterDateTimeWidgetTablet(
                           initStartDate: widget.cubit.initStartDate,
                           context: context,
-                          onChooseDateFilter: (startDate, endDate) {
+                          onChooseDateFilter: (startDate, endDate) async {
                             widget.cubit.startDate =
                                 startDate.toStringWithListFormat;
                             widget.cubit.endDate =
                                 endDate.toStringWithListFormat;
                             widget.cubit.clearDSPAKN();
-                            widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                            widget.cubit.getDanhSachPAKN();
+                            await widget.cubit.getDashBoardPAKNTiepCanXuLy();
+                            await widget.cubit.getDanhSachPAKN();
                           },
                           controller: textcontroller,
                           onChange: (searchText) {

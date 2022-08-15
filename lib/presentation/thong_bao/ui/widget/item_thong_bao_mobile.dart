@@ -60,8 +60,8 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                       if (widget.isImage)
                         SvgPicture.asset(
                           widget.image,
-                          height: 24.0.textScale(space: 10),
-                          width: 24.0.textScale(space: 10),
+                          height: 24.0,
+                          width: 24.0,
                         )
                       else
                         Container(),
@@ -73,7 +73,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                         style: textNormalCustom(
                           color: selectColorTabbar,
                           fontWeight: FontWeight.w400,
-                          fontSize: 14.0.textScale(space: 10),
+                          fontSize: 14.0,
                         ),
                       )
                     ],

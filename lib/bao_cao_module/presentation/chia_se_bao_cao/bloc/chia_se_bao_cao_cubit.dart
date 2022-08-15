@@ -132,13 +132,14 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   ) async {
     showLoading();
     final data = await _repo.getUserPaging(donViId: donViId, appId: appId);
-    showContent();
     data.when(
       success: (res) {
+        //
         for (final element in res) {
           element.parent = node;
+          element.level = node.level + 1;
           element.isCheck.isCheck = node.isCheck.isCheck;
-          if (!(node.parent?.isCheck.isCheck ?? false)) {
+          if (!node.isCheck.isCheck) {
             for (final initCheck in listUserCommon) {
               if (element.value.id == initCheck.userId) {
                 element.isCheck.isCheck = true;
@@ -148,34 +149,12 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           }
           node.addChildMember(element);
           selectTag(element);
+          getParentStart(node);
         }
+        showContent();
       },
       error: (err) {},
     );
-  }
-
-  void addSelectDonVi({
-    bool isCheck = false,
-    List<DonViModel> listDonVi = const [],
-    required DonViModel node,
-  }) {
-    if (isCheck) {
-      if (!listSelect.contains(node)) {
-        listSelect.add(node);
-      }
-      for (final element in listDonVi) {
-        if (listSelect.contains(element)) {
-          break;
-        } else {
-          listSelect.add(element);
-        }
-      }
-    } else {
-      for (final element in listDonVi) {
-        listSelect.remove(element);
-      }
-    }
-    _selectDonVi.sink.add(isCheck);
   }
 
   Future<void> getGroup() async {
@@ -285,7 +264,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         }
       }
     }
-    if (!checkAllTrue && nodeParent.parent?.value.id == null){
+    if (!checkAllTrue && nodeParent.parent?.value.id == null) {
       if (nodeChild.value.name != '') {
         if (!selectNode.contains(nodeChild)) {
           addSelectNode(
@@ -427,7 +406,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     List<ShareReport> mapData, {
     required String idReport,
   }) async {
-    if(mapData.isNotEmpty && !checkIsShared){
+    if (mapData.isNotEmpty && !checkIsShared) {
       checkIsShared = true;
     }
     String message = '';
@@ -623,17 +602,12 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         );
       }
     }
-    addSelectDonVi(
-      isCheck: nodeSearch.isCheck.isCheck,
-      listDonVi: [nodeSearch.value],
-      node: nodeSearch.value,
-    );
-
+    _selectDonVi.sink.add(nodeSearch.isCheck.isCheck);
   }
 
   Node<DonViModel> searchNode(Node<DonViModel> node) {
     for (final tree in listTree) {
-      final nodeSearch = tree.search(node);
+      final nodeSearch = tree.search(node, level: node.level);
       if (nodeSearch != null) {
         return nodeSearch;
       }

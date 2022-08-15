@@ -7,12 +7,12 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/cont
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/common_info.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/no_data.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
-import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -135,11 +135,11 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                   builderDelegate: PagedChildBuilderDelegate<VanBanModel>(
                     noItemsFoundIndicatorBuilder: (_) => const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24),
-                      child: NodataWidget(),
+                      child: NoData(),
                     ),
                     firstPageErrorIndicatorBuilder: (_) => const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24),
-                      child: NodataWidget(),
+                      child: NoData(),
                     ),
                     itemBuilder: (context, item, index) => Padding(
                       padding: EdgeInsets.only(

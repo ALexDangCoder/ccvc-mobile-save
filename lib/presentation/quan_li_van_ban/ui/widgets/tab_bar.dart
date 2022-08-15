@@ -40,6 +40,7 @@ Widget tabBar(TabController _tabController) {
         child: TabBar(
           controller: _tabController,
           labelColor: AppTheme.getInstance().colorField(),
+          indicatorColor:  AppTheme.getInstance().colorField(),
           unselectedLabelColor: textBodyTime,
           labelStyle: textNormalCustom(
               color: AppTheme.getInstance().colorField(),

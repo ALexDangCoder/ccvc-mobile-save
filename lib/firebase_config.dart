@@ -25,7 +25,7 @@ class FirebaseConfig {
       if (value != null && PrefsService.getToken().isNotEmpty) {
         final data = FcmNotificationModel.fromJson(value.data);
         if (data.screenTypeEnum != null) {
-          _pushDetails(data.screenTypeEnum!, data.detailId);
+          _pushDetails(data.screenTypeEnum!, data);
         }
       }
     });
@@ -35,18 +35,18 @@ class FirebaseConfig {
     FirebaseMessaging.onMessageOpenedApp.listen((value) {
       final data = FcmNotificationModel.fromJson(value.data);
       if (data.screenTypeEnum != null && PrefsService.getToken().isNotEmpty) {
-        _pushDetails(data.screenTypeEnum!, data.detailId);
+        _pushDetails(data.screenTypeEnum!, data);
       }
     });
   }
 
-  static void _pushDetails(ScreenType screenTypeFcm, String id) {
+  static void _pushDetails(ScreenType screenTypeFcm, FcmNotificationModel data) {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       Navigator.push(
         MessageConfig.contextConfig!,
         MaterialPageRoute(
           builder: (context) {
-            return screenTypeFcm.screen(id);
+            return screenTypeFcm.screen(data: data );
           },
         ),
       );

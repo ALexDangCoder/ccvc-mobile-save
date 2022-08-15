@@ -531,16 +531,20 @@ class ListDayOffWeek {
 }
 
 class ScreenTypeFcm {
-  static const LICH_LAM_VIEC = 'LICH_LAM_VIEC';
-  static const LICH_HOP = 'VPDT';
-  static const VAN_BAN_DEN = 'VAN_BAN_DEN';
-  static const VAN_BAN_DI = 'VAN_BAN_DI';
-  static const QUAN_LY_NHIEM_VU = 'QLNV';
-  static const QUAN_LY_CONG_VIEC = 'QUAN_LY_CONG_VIEC';
-  static const HANH_CHINH_CONG = 'HANH_CHINH_CONG';
+
+  static const LICH_LAM_VIEC = 'LichLamViec';
+  static const LICH_HOP = 'LichHop';
+  static const VAN_BAN_DEN = 'VanBanDen';
+  static const VAN_BAN_DI = 'VanBanDi';
+  static const CA_NHAN = 'CaNhan';
+  static const DON_VI = 'DonVi';
   static const PAKN = 'PAKN';
   static const BAO_CAO = 'Reports';
   static const DIEM_DANH = 'DDTH';
+  static const VPDT = 'VPDT';
+  static const QLVB = 'QLVB';
+  static const QLNV = 'QLNV';
+
 }
 
 class ThongBaoKeyConst {
@@ -549,4 +553,5 @@ class ThongBaoKeyConst {
   static const BAO_CAO = '58d75238-2785-4648-84ca-f5ca4738d9b2'; //code : Report
   static const DIEM_DANH = '5d4a66fe-256e-4dcd-aada-726a5524601e'; //code : DDTH
   static const QLVB = '42786a27-556d-4eb0-bbd7-30088ba06077'; // code : QLVB
+
 }

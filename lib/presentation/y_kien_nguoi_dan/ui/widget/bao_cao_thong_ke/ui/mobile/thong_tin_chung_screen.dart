@@ -215,8 +215,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             child: RefreshIndicator(
               onRefresh: () async {
                 widget.cubit.resetBeforeRefresh();
-                widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                widget.cubit.getDanhSachPAKN();
+                await widget.cubit.getDashBoardPAKNTiepCanXuLy();
+                await widget.cubit.getDanhSachPAKN();
                 widget.cubit.textFilter.sink.add(
                   TextTrangThai(
                     S.current.all,
@@ -233,13 +233,13 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                       initStartDate: widget.cubit.initStartDate,
                       context: context,
                       onChooseDateFilter:
-                          (DateTime startDate, DateTime endDate) {
+                          (DateTime startDate, DateTime endDate) async {
                         widget.cubit.startDate =
                             startDate.toStringWithListFormat;
                         widget.cubit.endDate = endDate.toStringWithListFormat;
                         widget.cubit.clearDSPAKN();
-                        widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                        widget.cubit.getDanhSachPAKN();
+                        await widget.cubit.getDashBoardPAKNTiepCanXuLy();
+                        await widget.cubit.getDanhSachPAKN();
                       },
                     ),
                     const SizedBox(

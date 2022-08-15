@@ -31,11 +31,18 @@ Future<Map<String, dynamic>> pickMediaFile({
   String _fileExtension = '';
   bool _validFormat = true;
   int _fileSize = 0;
+  final tempDirectory = await getTemporaryDirectory();
   final FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: allowedExtensions,
   );
-  if (result != null) {
+  if (result != null && result.files.isNotEmpty) {
+    File file = File(result.files.first.path ?? '');
+    if (Platform.isIOS) {
+      file = await file.moveToTmpDirectory(
+        '${tempDirectory.path}/${p.basename(file.path)}',
+      );
+    }
     _fileExtension = (result.files.single.extension ?? '').toUpperCase();
     _validFormat = allowedExtensions.contains(_fileExtension);
     if (PickerType.DOCUMENT.fileType.contains(_fileExtension)) {
@@ -51,9 +58,9 @@ Future<Map<String, dynamic>> pickMediaFile({
         _fileType = MEDIA_IMAGE_FILE;
       }
     }
-    _filePath = result.files.single.path ?? '';
-    _fileSize = result.files.single.size;
-    _fileName = result.files.single.name;
+    _filePath = file.path;
+    _fileSize = file.lengthSync();
+    _fileName = p.basename(p.basename(file.path));
   } else {
     // User canceled the picker
   }

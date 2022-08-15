@@ -48,7 +48,7 @@ class AvatarAndSignature extends StatelessWidget {
               await upLoadChuKy(context, 2, toast);
             },
             cubit.managerPersonalInformationModel.anhChuKyFilePath ?? '',
-          ),
+           ),
         ),
         Expanded(
           child: pickAnhKyNhay(

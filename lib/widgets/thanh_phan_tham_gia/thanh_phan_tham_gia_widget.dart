@@ -17,7 +17,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/thanh_phan_tham_
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaWidget extends StatefulWidget {
-  final List<CanBoModel> scheduleCoperatives;
+  final List<RemoveItemTree> scheduleCoperatives;
   final List<DonViModel>? listPeopleInit;
   final Function(List<DonViModel>) onChange;
   final Function(DonViModel)? onDelete;
@@ -91,6 +91,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 }
                 _cubit.addPeopleThamGiaDonVi(
                   value.map((e) => e.value).toList(),
+                    widget.isEditCalendarWord
                 );
               },
             );

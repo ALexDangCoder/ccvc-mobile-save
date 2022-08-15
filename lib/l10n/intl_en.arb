@@ -10,9 +10,11 @@
   "toa_nha": "Toà nhà",
   "so_phong": "Số phòng",
   "gui_yc": "Gửi yêu cầu",
+  "tham_gia_cuoc_hop": "Tham gia cuộc họp",
   "unauthorized": "Your session has expired. Please sign in.",
   "don_vi_nhan_va_theo_doi_van_ban": "Đơn vị nhận và theo dõi văn bản",
   "van_ban_lien_quan_kbh": "Văn bản liên quan(không ban hành) ",
+  "chon_file_that_bai": "Chọn file thất bại",
   "ban_phai_tick_chon_bieu_quyet_muon_duyet": "Bạn phải tick chọn phát biểu muốn duyệt",
   "ban_phai_tick_chon_bieu_quyet_muon_huy_duyet": "Bạn phải tick chọn phát biểu muốn hủy duyệt",
   "vui_long_chon": "Vui lòng chọn!",
@@ -1406,5 +1408,10 @@
   "ban_phai_chon_truong": "Bạn phải chọn trường",
   "tong_dung_luong_file_toi_da": "Tổng dung lượng file tối đa",
   "just_txt": "Chỉ hỗ trợ tệp .txt",
-  "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do"
+  "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
+  "thoi_gian_chon_khong_hop_le" : "Thời gian chọn không hợp lệ",
+  "nhap_noi_dung":"Nhập nội dung",
+  "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
+  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !",
+  "limit_file_y_kien_pakn" : "Chỉ tải lên tối đa 15 file ý kiến"
 }

@@ -130,6 +130,17 @@ mixin YKienNguoiDanRepository {
     String? tuKhoa,
   });
 
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({
+    String? tuNgay,
+    String? denNgay,
+    String? pageSize,
+    String? pageNumber,
+    String? trangThai,
+    String? userId,
+    String? donViId,
+    String? tuKhoa,
+  });
+
   Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachChoTaoVBDi({
     int? pageIndex,
     int? pageSize,

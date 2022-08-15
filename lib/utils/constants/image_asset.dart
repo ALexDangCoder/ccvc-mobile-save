@@ -383,6 +383,8 @@ class ImageAssets {
   static const String icCuocGoi = '$baseImg/ic_cuoc_goi.svg';
   static const String icChonPhongHop = '$baseImg/ic_chon_phong_hop.svg';
   static const String icHuy = '$baseImg/CloseSquare.svg';
+  static const String icChonPhongHopDetail = '$baseImg/ic_chon_phong_hop_detail.svg';
+
 
   static const String icBacham = '$baseImg/Group.svg';
   static const String icHai = '$baseImg/Delete.svg';

@@ -35,7 +35,10 @@ class DayTimeWidget extends StatelessWidget {
                 ),
                 StreamBuilder<DateModel>(
                   initialData: DateModel(),
-                  stream: HomeProvider.of(context).homeCubit.getDateStream,
+                  stream: HomeProvider
+                      .of(context)
+                      .homeCubit
+                      .getDateStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? DateModel();
                     return Column(
@@ -75,27 +78,35 @@ class DayTimeWidget extends StatelessWidget {
             ),
           ],
         ),
-        Positioned(
-          right: 0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Image.asset(ImageAssets.icThoiTiet),
-              const SizedBox(
-                width: 12,
-              ),
-              StreamBuilder<WeatherModel>(
-                  stream:
-                      HomeProvider.of(context).homeCubit.weatherSubject.stream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data;
-                    return Text(
-                      '${data?.resultObj?.current?.temp?.day ?? 32}°C',
-                      style: textNormalCustom(fontSize: 16, color: titleColor),
-                    );
-                  })
-            ],
-          ),
+        StreamBuilder<WeatherModel>(
+            stream: HomeProvider
+                .of(context)
+                .homeCubit
+                .weatherSubject
+                .stream,
+
+            builder: (context, snapshot) {
+              final data = snapshot.data;
+              return Visibility(
+                visible: data?.resultObj?.current?.temp?.day != null,
+                child: Positioned(
+                  right: 0,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Image.asset(ImageAssets.icThoiTiet),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        '${data?.resultObj?.current?.temp?.day ?? 0}°C',
+                        style: textNormalCustom(fontSize: 16, color: titleColor),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
         )
       ],
     );

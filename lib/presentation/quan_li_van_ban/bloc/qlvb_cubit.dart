@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/report_statistical/widgets/document_by_division_row_chart.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -214,7 +213,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     );
   }
 
-  Future<List<VanBanModel>> getListIncomeDocumentTest({
+  Future<List<VanBanModel>> getListIncomeDocument({
     String? startDate,
     String? endDate,
     int? page,
@@ -224,13 +223,13 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       DanhSachVBRequest(
         maTrangThai: statusSearchDocumentInCode(documentInStatusCode),
         index: page ?? ApiConstants.PAGE_BEGIN,
-        isSortByDoKhan: true,
         thoiGianStartFilter: startDate ?? this.startDate,
         thoiGianEndFilter: endDate ?? this.endDate,
         size: ApiConstants.DEFAULT_PAGE_SIZE,
-        keySearch: keySearch,
+        keySearch: keySearch.trim(),
         trangThaiXuLy: statusSearchDocumentInSubCode(documentInSubStatusCode),
         isDanhSachDaXuLy: documentInSubStatusCode.isNotEmpty ? false : null,
+        isSortByTrangThai: true,
       ),
     );
     result.when(
@@ -250,7 +249,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   }) async {
     try {
       final currentPage = pageKey ~/ ApiConstants.DEFAULT_PAGE_SIZE;
-      final newItems = await getListIncomeDocumentTest(
+      final newItems = await getListIncomeDocument(
         page: currentPage + 1,
       );
       final isLastPage = newItems.length < ApiConstants.DEFAULT_PAGE_SIZE;
@@ -292,7 +291,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
           ? null
           : documentOutStatusCode == DocumentState.CHO_CAP_SO,
       trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode),
-      keySearch: keySearch,
+      keySearch: keySearch.trim(),
     );
     result.when(
       success: (res) {

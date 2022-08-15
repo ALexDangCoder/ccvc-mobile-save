@@ -416,11 +416,10 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     // String? tuKhoa,
     bool isSearch = false,
   }) async {
+    showLoading();
     if (isSearch) {
       clearDSPAKN();
     }
-
-    showLoading();
     final result = await _YKNDRepo.getDanhSachPAKN(
       donViId: donViId,
       pageNumber: pageNumberDSPAKN.toString(),
@@ -433,6 +432,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
     result.when(
       success: (success) {
+        showContent();
         if (listDanhSachKetQuaPakn.hasValue) {
           listDanhSachKetQuaPakn.sink
               .add(listDanhSachKetQuaPakn.value + success);
@@ -442,12 +442,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         } else {
           listDanhSachKetQuaPakn.sink.add(success);
         }
-        showContent();
       },
       error: (error) {
         listDanhSachKetQuaPakn.sink.add([]);
       },
     );
+    showContent();
   }
 
   bool isFilter = false;
@@ -581,6 +581,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         showError();
       },
     );
+    showContent();
   }
 
   Future<void> getDashBoardTinhHinhXuLy(

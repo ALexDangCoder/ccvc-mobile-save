@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _CustomDropDownState extends State<SelectDate> {
   String dateSelect = '';
   DateTime timeNow = DateTime.now();
   String initDate = '';
-
+  bool isDateOver = false;
   @override
   void initState() {
     if (!widget.isObligatory) {
@@ -53,6 +54,21 @@ class _CustomDropDownState extends State<SelectDate> {
       initDate = dateSelect;
     }
     super.initState();
+  }
+
+  void validateDay(DateTime value) {
+    final dayMin = widget.minimumDate ?? DateTime(timeNow.year - 50);
+
+    if (value.millisecondsSinceEpoch < dayMin.millisecondsSinceEpoch) {
+      isDateOver = true;
+      return;
+    }
+    final dayMax = DateTime.now();
+    if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
+      isDateOver = true;
+      return;
+    }
+    isDateOver = false;
   }
 
   @override
@@ -69,10 +85,12 @@ class _CustomDropDownState extends State<SelectDate> {
                 child: FlutterRoundedCupertinoDatePickerWidget(
                   minimumDate:
                       widget.minimumDate ?? DateTime(timeNow.year - 50),
-                  maximumDate:
-                      DateTime.now(),
+                  maximumDate: DateTime.now(),
                   onDateTimeChanged: (value) {
-                    dateSelect = value.toString();
+                    validateDay(value);
+                    if (!isDateOver) {
+                      dateSelect = value.toString();
+                    }
                   },
                   textStyleDate: titleAppbar(),
                   initialDateTime:
@@ -88,6 +106,12 @@ class _CustomDropDownState extends State<SelectDate> {
                   title2: S.current.chon,
                   title1: S.current.dong,
                   onClickRight: () {
+                    if (isDateOver) {
+                      MessageConfig.show(
+                          title: S.current.thoi_gian_chon_khong_hop_le,
+                          messState: MessState.error);
+                      return;
+                    }
                     if (widget.callBackSelectDate != null) {
                       widget.callBackSelectDate!.call(dateSelect);
                     }

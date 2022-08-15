@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/chart/status_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ class CommonInformationDocumentManagement extends StatefulWidget {
   final List<ChartData> chartData;
   final bool isTablet;
   final Function(String) onStatusTap;
+  final bool isPaddingTop;
 
   const CommonInformationDocumentManagement({
     Key? key,
@@ -25,6 +27,7 @@ class CommonInformationDocumentManagement extends StatefulWidget {
     required this.chartData,
     this.isTablet = false,
     required this.onStatusTap,
+    this.isPaddingTop = true
   }) : super(key: key);
 
   @override
@@ -69,7 +72,7 @@ class _CommonInformationDocumentManagementState extends State<CommonInformationD
             setState(() {});
           },
         ),
-        Container(height: 20),
+        Container(height:widget.isPaddingTop ? 20 : 0),
         if (widget.documentDashboardModel != null)
           StatusWidget(
             key: UniqueKey(),

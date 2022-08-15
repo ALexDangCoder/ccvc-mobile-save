@@ -13,7 +13,7 @@ import '../dowload_file.dart';
 
 Future<void> launchURL(String url) async {
   if (await canLaunch(url)) {
-    await canLaunch(url);
+    await launch(url);
   } else {
     throw 'Could not launch $url';
   }
@@ -117,8 +117,9 @@ String getCodeFromTitlePieChart(String title) {
 
 List<String> statusSearchDocumentInCode(String code) {
   if (code == '') return [];
-  if (code == DocumentState.CHO_XU_LY)
+  if (code == DocumentState.CHO_XU_LY) {
     return [DocumentState.CHO_XU_LY, DocumentState.CHO_PHAN_XU_LY];
+  }
   return [code];
 }
 

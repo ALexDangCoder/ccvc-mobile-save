@@ -57,57 +57,63 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
     return SingleChildScrollView(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              padding: const EdgeInsets.all(25),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                color: backgroundColorApp,
-                border: Border.all(color: cellColorborder)
-              ),
-              child: ExpandOnlyWidget(
-                initExpand: true,
-                header: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    S.current.word_processing_state,
-                    style: textNormalCustom(
-                      color: textTitle,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+          Container(
+            decoration: BoxDecoration(
+              color: colorFFFFFF,
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              border: Border.all(color: borderColor.withOpacity(0.5)),
+              boxShadow: [
+                BoxShadow(
+                  color: shadowContainerColor.withOpacity(0.05),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10
+                )
+              ]
+            ),
+            padding: const EdgeInsets.all(24.0),
+            margin: const EdgeInsets.symmetric(vertical: 28,horizontal: 30),
+            child: ExpandOnlyWidget(
+              initExpand: true,
+              header: Container(
+                alignment: Alignment.centerLeft,
+                color: Colors.transparent,
+                child: Text(
+                  S.current.word_processing_state,
+                  style: textNormalCustom(
+                    color: textTitle,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                child: StreamBuilder<DocumentDashboardModel>(
-                  stream: widget.qlvbCubit.getVbDen,
-                  builder: (context, snapshot) {
-                    final dataVBDen = snapshot.data ?? DocumentDashboardModel();
-                    return CommonInformationDocumentManagement(
-                      isTablet: true,
-                      chartData: widget.qlvbCubit.chartDataVbDen,
-                      documentDashboardModel: dataVBDen,
-                      onPieTap: (value) {
-                        widget.qlvbCubit.documentInSubStatusCode = '';
-                        widget.qlvbCubit.documentInStatusCode =
-                            widget.qlvbCubit.documentInStatusCode == value
-                                ? ''
-                                : value;
-                        _documentPagingController.refresh();
-                      },
-                      onStatusTap: (key) {
-                        widget.qlvbCubit.documentInStatusCode = '';
-                        widget.qlvbCubit.documentInSubStatusCode = key;
-                        _documentPagingController.refresh();
-                      },
-                    );
-                  },
-                ),
+              ),
+              child: StreamBuilder<DocumentDashboardModel>(
+                stream: widget.qlvbCubit.getVbDen,
+                builder: (context, snapshot) {
+                  final dataVBDen = snapshot.data ?? DocumentDashboardModel();
+                  return CommonInformationDocumentManagement(
+                    isTablet: true,
+                    chartData: widget.qlvbCubit.chartDataVbDen,
+                    documentDashboardModel: dataVBDen,
+                    onPieTap: (value) {
+                      widget.qlvbCubit.documentInSubStatusCode = '';
+                      widget.qlvbCubit.documentInStatusCode =
+                          widget.qlvbCubit.documentInStatusCode == value
+                              ? ''
+                              : value;
+                      _documentPagingController.refresh();
+                    },
+                    onStatusTap: (key) {
+                      widget.qlvbCubit.documentInStatusCode = '';
+                      widget.qlvbCubit.documentInSubStatusCode = key;
+                      _documentPagingController.refresh();
+                    },
+                  );
+                },
               ),
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
                 Row(
@@ -137,7 +143,7 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                     ),
                     itemBuilder: (context, item, index) => Padding(
                       padding: EdgeInsets.only(
-                        bottom: 16,
+                        bottom: 24,
                         top: (index == 0) ? 16 : 0,
                       ),
                       child: GestureDetector(

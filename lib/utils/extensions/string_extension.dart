@@ -270,6 +270,21 @@ extension CheckValidate on String {
     }
   }
 
+  String? validateEmail({String? errMessage}) {
+    final isCheck = RegExp(
+      REGEX_EMAIL,
+    ).hasMatch(this);
+    if (isCheck) {
+      if ((indexOf('@')) > 64 || (length - indexOf('@') - 1) > 255) {
+        return errMessage ?? S.current.nhap_sai_dinh_dang;
+      } else {
+        return null;
+      }
+    } else {
+      return errMessage ?? S.current.nhap_sai_dinh_dang;
+    }
+  }
+
   String? checkEmailBoolean2(String text) {
     final isCheck = RegExp(
       REGEX_EMAIL,

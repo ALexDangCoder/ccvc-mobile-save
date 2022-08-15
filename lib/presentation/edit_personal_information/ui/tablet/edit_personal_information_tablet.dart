@@ -330,7 +330,7 @@ class _EditPersonalInformationTabletScreen
                                             return S.current.nhap_sai_dinh_dang;
                                           }
                                         }
-                                        return value.trim().checkEmailBoolean();
+                                        return value.trim().validateEmail();
                                       },
                                     ),
                                   ),

@@ -219,7 +219,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${S.current.chu_thich}:',
+                        S.current.chu_thich,
                         style: textNormalCustom(
                           color: titleItemEdit,
                           fontSize: 16,
@@ -279,7 +279,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                           rowChuThich(
                             boxShape: BoxShape.rectangle,
                             color: color6FCF97,
-                            title: S.current.chu_tri,
+                            title: S.current.chu_tri_luong_xu_ly,
                           ),
                           rowChuThich(
                             boxShape: BoxShape.rectangle,

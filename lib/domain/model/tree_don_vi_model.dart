@@ -217,24 +217,42 @@ class Node<T> {
     value = node.value;
     parent = node.parent;
     expand = node.expand;
+    isCallApi = node.isCallApi;
     isCheck = node.isCheck;
     isTickChildren = node.isTickChildren;
   }
 
-  Node<DonViModel>? search(Node<DonViModel> node) {
-    final nodeTree = value as DonViModel;
-    if (node.value.id == nodeTree.id) {
-      return this as Node<DonViModel>;
-    } else {
-      if (children.isNotEmpty) {
-        for (final vl in children) {
-          final found = vl.search(node);
-          if (found != null) {
-            return found;
+  Node<DonViModel>? search(Node<DonViModel> node,{int? level}) {
+    if(level != null){
+      final nodeTree = value as DonViModel;
+      if (node.value.id == nodeTree.id && level == this.level) {
+        return this as Node<DonViModel>;
+      } else {
+        if (children.isNotEmpty) {
+          for (final vl in children) {
+            final found = vl.search(node,level: level);
+            if (found != null) {
+              return found;
+            }
           }
         }
+        return null;
       }
-      return null;
+    } else {
+      final nodeTree = value as DonViModel;
+      if (node.value.id == nodeTree.id) {
+        return this as Node<DonViModel>;
+      } else {
+        if (children.isNotEmpty) {
+          for (final vl in children) {
+            final found = vl.search(node);
+            if (found != null) {
+              return found;
+            }
+          }
+        }
+        return null;
+      }
     }
   }
 
@@ -305,9 +323,7 @@ class Node<T> {
     child.parent = this;
   }
   void addChildMember(Node<T> child) {
-    child.level = level + 1;
     children.insert(0,child);
-    child.parent = this;
   }
 
   Node.copyWith(Node<T> node) {

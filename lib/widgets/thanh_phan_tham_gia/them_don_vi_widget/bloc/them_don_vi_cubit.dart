@@ -68,6 +68,16 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     listTree = tree;
   }
 
+  void getParentStart(Node<DonViModel> node){
+    if(node.level == 0){
+      listTree.clear();
+      listTree = [node];
+      _getTree.sink.add(listTree);
+    } else {
+      getParentStart(node.parent!);
+    }
+  }
+
   void addSelectNode(Node<DonViModel> node, {required bool isCheck}) {
     if (isCheck) {
       selectNode.add(node);

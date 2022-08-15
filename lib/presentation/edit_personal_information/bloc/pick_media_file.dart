@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/file_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 const String TYPE_OF_FILE = 'type';
@@ -77,18 +79,24 @@ Future<Map<String, dynamic>> pickImageFunc({
     NAME_OF_FILE: '',
   };
   try {
+    final tempDirectory = await getTemporaryDirectory();
     final newImage = await ImagePicker().pickImage(source: source);
     if (newImage == null) {
       return _resultMap;
     }
-    final extension = (p.extension(newImage.path)).replaceAll('.', '');
+    File file = File(newImage.path);
+    if (Platform.isIOS) {
+      file = await file.moveToTmpDirectory(
+        '${tempDirectory.path}/${p.basename(newImage.path)}',
+      );
+    }
+    final extension = (p.extension(file.path)).replaceAll('.', '');
     _resultMap[EXTENSION_OF_FILE] = extension;
     _resultMap[VALID_FORMAT_OF_FILE] =
         PickerType.IMAGE_FILE.fileType.contains(extension.toUpperCase());
-    _resultMap[SIZE_OF_FILE] =
-        File(newImage.path).readAsBytesSync().lengthInBytes;
-    _resultMap[PATH_OF_FILE] = newImage.path;
-    _resultMap[NAME_OF_FILE] = newImage.name;
+    _resultMap[SIZE_OF_FILE] = file.lengthSync();
+    _resultMap[PATH_OF_FILE] = file.path;
+    _resultMap[NAME_OF_FILE] = p.basename(p.basename(file.path));
     return _resultMap;
   } on PlatformException catch (e) {
     final permission =

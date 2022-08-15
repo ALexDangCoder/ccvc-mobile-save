@@ -25,13 +25,14 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_ca
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/widgets/can_bo_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/widgets/select_don_vi.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final ThanhPhanThamGiaCubit cubit;
-  final List<CanBoModel> listCaNhanRemove;
+  final List<RemoveItemTree> listCaNhanRemove;
   final bool needCheckTrung;
   final bool isEditCalendarWork;
   final ChiTietLichLamViecCubit? chiTietLichLamViecCubit;

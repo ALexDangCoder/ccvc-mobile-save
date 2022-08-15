@@ -258,9 +258,15 @@ class ChiTietLichHopModel {
     if (linhVuc.isNotEmpty) {
       data.add(ChiTietDataRow(urlIcon: ImageAssets.icWork, text: linhVuc));
     }
-    if ((diaDiemHop ?? '').isNotEmpty) {
+    if (!bit_HopTrucTuyen) {
       data.add(
         ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: diaDiemHop ?? ''),
+      );
+    } else {
+      data.add(
+        HopTrucTuyenRow(
+          link: linkTrucTuyen ?? '',
+        ),
       );
     }
 
@@ -313,9 +319,15 @@ class ChiTietLichHopModel {
       data.add(
           ChiTietDataRow(urlIcon: ImageAssets.icMucDoHop, text: getMucDoHop()));
     }
-    if ((diaDiemHop ?? '').isNotEmpty) {
+    if (!bit_HopTrucTuyen) {
       data.add(
         ChiTietDataRow(urlIcon: ImageAssets.icAddress, text: diaDiemHop ?? ''),
+      );
+    } else {
+      data.add(
+        HopTrucTuyenRow(
+          link: linkTrucTuyen ?? '',
+        ),
       );
     }
 
@@ -410,6 +422,17 @@ class ChiTietDataRow {
   final String text;
 
   ChiTietDataRow({required this.urlIcon, required this.text});
+}
+
+class HopTrucTuyenRow extends ChiTietDataRow {
+  String link;
+
+  HopTrucTuyenRow({
+    required this.link,
+  }) : super(
+          urlIcon: '',
+          text: '',
+        );
 }
 
 class FilesChiTietHop {

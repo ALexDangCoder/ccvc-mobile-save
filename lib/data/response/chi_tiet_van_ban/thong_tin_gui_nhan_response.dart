@@ -60,6 +60,8 @@ class ThongTinGuiNhanResponse extends Equatable {
   String? trangThai;
   @JsonKey(name: 'TrangThaiId')
   String? trangThaiId;
+  @JsonKey(name: 'MaTrangThai')
+  String? maTrangThai;
 
   ThongTinGuiNhanResponse({
     this.id,
@@ -72,6 +74,7 @@ class ThongTinGuiNhanResponse extends Equatable {
     this.vaiTroXuLy,
     this.trangThai,
     this.trangThaiId,
+    this.maTrangThai,
   });
 
   factory ThongTinGuiNhanResponse.fromJson(Map<String, dynamic> json) =>
@@ -87,6 +90,7 @@ class ThongTinGuiNhanResponse extends Equatable {
         nguoiNhan: nguoiNhan,
         thoiGian: thoiGian,
         vaiTroXuLy: vaiTroXuLy,
+        maTrangThai: maTrangThai,
       );
 
   @override

@@ -7,6 +7,8 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_state.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../them_don_vi_widget.dart';
+
 class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   ThemDonViCubit() : super(MainStateInitial()) {
     _selectDonVi.sink.add(selectNode);
@@ -15,7 +17,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   List<Node<DonViModel>> listTree = [];
   Timer? _debounce;
   List<Node<DonViModel>> selectNode = [];
-  final List<CanBoModel> listIdDonViRemove = [];
+  final List<RemoveItemTree> listIdDonViRemove = [];
   Node<DonViModel>? selectNodeOnlyValue;
   BehaviorSubject<bool> themDonViSubject = BehaviorSubject();
   BehaviorSubject<bool> validateDonVi = BehaviorSubject();
@@ -66,6 +68,16 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   void getTreeInit(List<Node<DonViModel>> tree) {
     _getTree.sink.add(tree);
     listTree = tree;
+  }
+
+  void getParentStart(Node<DonViModel> node){
+    if(node.level == 0){
+      listTree.clear();
+      listTree = [node];
+      _getTree.sink.add(listTree);
+    } else {
+      getParentStart(node.parent!);
+    }
   }
 
   void addSelectNode(Node<DonViModel> node, {required bool isCheck}) {

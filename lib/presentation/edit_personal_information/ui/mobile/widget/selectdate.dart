@@ -1,11 +1,14 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +50,7 @@ class _CustomDropDownState extends State<SelectDate> {
   DateTime timeNow = DateTime.now();
   String initDate = '';
   bool isDateOver = false;
+
   @override
   void initState() {
     if (!widget.isObligatory) {
@@ -75,60 +79,120 @@ class _CustomDropDownState extends State<SelectDate> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showBottomSheetCustom(
-          context,
-          title: S.current.chon_ngay,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 300,
-                child: FlutterRoundedCupertinoDatePickerWidget(
-                  minimumDate:
-                      widget.minimumDate ?? DateTime(timeNow.year - 50),
-                  maximumDate: DateTime.now(),
-                  onDateTimeChanged: (value) {
-                    validateDay(value);
-                    if (!isDateOver) {
-                      dateSelect = value.toString();
-                    }
-                  },
-                  textStyleDate: titleAppbar(),
-                  initialDateTime:
-                      widget.initDateTime ?? DateTime.parse(initDate),
+        if (APP_DEVICE == DeviceType.MOBILE) {
+          showBottomSheetCustom(
+            context,
+            title: S.current.chon_ngay,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 300,
+                  child: FlutterRoundedCupertinoDatePickerWidget(
+                    minimumDate:
+                        widget.minimumDate ?? DateTime(timeNow.year - 50),
+                    maximumDate: DateTime.now(),
+                    onDateTimeChanged: (value) {
+                      validateDay(value);
+                      if (!isDateOver) {
+                        dateSelect = value.toString();
+                      }
+                    },
+                    textStyleDate: titleAppbar(),
+                    initialDateTime:
+                        widget.initDateTime ?? DateTime.parse(initDate),
+                  ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 24,
-                  bottom: 32,
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    bottom: 32,
+                  ),
+                  child: DoubleButtonBottom(
+                    title2: S.current.chon,
+                    title1: S.current.dong,
+                    onClickRight: () {
+                      if (isDateOver) {
+                        MessageConfig.show(
+                            title: S.current.thoi_gian_chon_khong_hop_le,
+                            messState: MessState.error);
+                        return;
+                      }
+                      if (widget.callBackSelectDate != null) {
+                        widget.callBackSelectDate!.call(dateSelect);
+                      }
+                      setState(() {
+                        initDate = dateSelect;
+                        widget.onSelectDate(dateSelect);
+                      });
+                      Navigator.pop(context);
+                    },
+                    onClickLeft: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
+        } else {
+          showDiaLogTablet(
+            context,
+            isBottomShow: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 300,
+                  child: FlutterRoundedCupertinoDatePickerWidget(
+                    minimumDate:
+                        widget.minimumDate ?? DateTime(timeNow.year - 50),
+                    maximumDate: DateTime.now(),
+                    onDateTimeChanged: (value) {
+                      validateDay(value);
+                      if (!isDateOver) {
+                        dateSelect = value.toString();
+                      }
+                    },
+                    textStyleDate: titleAppbar(),
+                    initialDateTime:
+                        widget.initDateTime ?? DateTime.parse(initDate),
+                  ),
                 ),
-                child: DoubleButtonBottom(
-                  title2: S.current.chon,
-                  title1: S.current.dong,
-                  onClickRight: () {
-                    if (isDateOver) {
-                      MessageConfig.show(
-                          title: S.current.thoi_gian_chon_khong_hop_le,
-                          messState: MessState.error);
-                      return;
-                    }
-                    if (widget.callBackSelectDate != null) {
-                      widget.callBackSelectDate!.call(dateSelect);
-                    }
-                    setState(() {
-                      initDate = dateSelect;
-                      widget.onSelectDate(dateSelect);
-                    });
-                    Navigator.pop(context);
-                  },
-                  onClickLeft: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              )
-            ],
-          ),
-        );
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    bottom: 32,
+                  ),
+                  child: DoubleButtonBottom(
+                    title2: S.current.chon,
+                    title1: S.current.dong,
+                    onClickRight: () {
+                      if (isDateOver) {
+                        MessageConfig.show(
+                            title: S.current.thoi_gian_chon_khong_hop_le,
+                            messState: MessState.error);
+                        return;
+                      }
+                      if (widget.callBackSelectDate != null) {
+                        widget.callBackSelectDate!.call(dateSelect);
+                      }
+                      setState(() {
+                        initDate = dateSelect;
+                        widget.onSelectDate(dateSelect);
+                      });
+                      Navigator.pop(context);
+                    },
+                    onClickLeft: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                )
+              ],
+            ),
+            funcBtnOk: () {},
+            title: S.current.chon_ngay,
+          );
+        }
       },
       child: Row(
         children: [

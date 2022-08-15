@@ -28,7 +28,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   final BehaviorSubject<bool> isDuplicateCanBo = BehaviorSubject.seeded(false);
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
-   List<DonViModel> listCanBo = [];
+  List<DonViModel> listCanBo = [];
   final BehaviorSubject<bool> _phuongThucNhan = BehaviorSubject.seeded(false);
 
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;
@@ -59,16 +59,20 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   }
 
   void addPeopleThamGiaDonVi(
-    List<DonViModel> donViModel,
-  ) {
-    final listDonVi =
-        listPeople.where((element) => element.tenCanBo.trim().isEmpty).toList();
-    for (final canBo in listDonVi) {
-      if (donViModel.indexWhere((element) => element.id == canBo.id) == -1) {
-        listPeople.remove(canBo);
+      List<DonViModel> donViModel, bool isEditCalendarWork) {
+    if (!isEditCalendarWork) {
+      final listDonVi = listPeople
+          .where((element) => element.tenCanBo.trim().isEmpty)
+          .toList();
+      for (final canBo in listDonVi) {
+        if (donViModel.indexWhere((element) => element.id == canBo.id) == -1) {
+          listPeople.remove(canBo);
+        }
       }
+      addPeopleThamGia(donViModel);
+    } else {
+      addPeopleThamGia(donViModel);
     }
-    addPeopleThamGia(donViModel);
   }
 
   void addCanBoThamGia(
@@ -106,9 +110,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   }
 
   void addCuCanBo(
-      ThemCanBoCubit themCanBoCubit,
-      ThemDonViCubit themDonViCubit,
-      ) {
+    ThemCanBoCubit themCanBoCubit,
+    ThemDonViCubit themDonViCubit,
+  ) {
     if (isDuplicateItem(listCanBoThamGia.valueOrNull ?? [], newCanBo)) {
       isDuplicateCanBo.add(true);
     } else {

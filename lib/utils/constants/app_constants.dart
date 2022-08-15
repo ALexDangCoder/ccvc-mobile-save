@@ -531,6 +531,7 @@ class ListDayOffWeek {
 }
 
 class ScreenTypeFcm {
+
   static const LICH_LAM_VIEC = 'LichLamViec';
   static const LICH_HOP = 'LichHop';
   static const VAN_BAN_DEN = 'VanBanDen';
@@ -543,4 +544,14 @@ class ScreenTypeFcm {
   static const VPDT = 'VPDT';
   static const QLVB = 'QLVB';
   static const QLNV = 'QLNV';
+
+}
+
+class ThongBaoKeyConst {
+  static const QLNV = '76b984fc-e34b-4aeb-a126-3ca3d2077663'; // code : QLNV
+  static const PAKN = '5721298f-92a1-4bbc-b92d-ca3d300b55c0'; // code : QAKN
+  static const BAO_CAO = '58d75238-2785-4648-84ca-f5ca4738d9b2'; //code : Report
+  static const DIEM_DANH = '5d4a66fe-256e-4dcd-aada-726a5524601e'; //code : DDTH
+  static const QLVB = '42786a27-556d-4eb0-bbd7-30088ba06077'; // code : QLVB
+
 }

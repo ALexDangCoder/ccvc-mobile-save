@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tham_gia_cuoc_hop_button.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -28,6 +29,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailMeetCalenderScreen extends StatefulWidget {
   final String id;
@@ -130,19 +132,22 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   ],
                                 ),
                                 Column(
-                                  children: data
-                                      .valueData()
-                                      .map(
-                                        (e) => Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 16),
-                                          child: RowDataWidget(
-                                            urlIcon: e.urlIcon,
-                                            text: e.text,
-                                          ),
+                                  children: data.valueData().map(
+                                    (element) {
+                                      if (element is HopTrucTuyenRow) {
+                                        return ThamGiaCuocHopWidget(
+                                          link: element.link,
+                                        );
+                                      }
+                                      return Container(
+                                        margin: const EdgeInsets.only(top: 16),
+                                        child: RowDataWidget(
+                                          urlIcon: element.urlIcon,
+                                          text: element.text,
                                         ),
-                                      )
-                                      .toList(),
+                                      );
+                                    },
+                                  ).toList(),
                                 ),
                                 spaceH16,
                                 StatusWidget(
@@ -160,6 +165,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           },
                         ),
                       ),
+                      /// list item drop down
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,

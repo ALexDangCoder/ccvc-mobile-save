@@ -9,4 +9,14 @@ extension ConvertFile on File {
       file: this,
     );
   }
+
+  Future<File> moveToTmpDirectory(String newPath) async {
+    try {
+      return await rename(newPath);
+    } catch (e) {
+      final newFile = await copy(newPath);
+      return newFile;
+    }
+  }
+
 }

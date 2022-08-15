@@ -19,10 +19,16 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widge
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widgets/tree_widget.dart';
 import 'package:flutter/material.dart';
 
+class RemoveItemTree {
+  String? canBoId;
+  String? donViId;
+  RemoveItemTree({this.canBoId , this.donViId});
+}
+
 class ThemDonViWidget extends StatefulWidget {
   final Function(List<Node<DonViModel>>) onChange;
   final List<DonViModel> listSelectNode;
-  final List<CanBoModel> listIdDonViRemove;
+  final List<RemoveItemTree> listIdDonViRemove;
 
   final ThanhPhanThamGiaCubit cubit;
 

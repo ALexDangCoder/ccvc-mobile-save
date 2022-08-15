@@ -10,6 +10,7 @@
   "toa_nha": "Toà nhà",
   "so_phong": "Số phòng",
   "gui_yc": "Gửi yêu cầu",
+  "tham_gia_cuoc_hop": "Tham gia cuộc họp",
   "unauthorized": "Your session has expired. Please sign in.",
   "don_vi_nhan_va_theo_doi_van_ban": "Đơn vị nhận và theo dõi văn bản",
   "van_ban_lien_quan_kbh": "Văn bản liên quan(không ban hành) ",
@@ -1411,6 +1412,8 @@
   "thoi_gian_chon_khong_hop_le" : "Thời gian chọn không hợp lệ",
   "nhap_noi_dung":"Nhập nội dung",
   "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
-  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !"
-
+  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !",
+  "limit_file_y_kien_pakn" : "Chỉ tải lên tối đa 15 file ý kiến",
+  "khong_co_thong_tin_van_ban" : "Không có thông tin văn bản",
+  "chu_tri_luong_xu_ly": "Chủ trì"
 }

@@ -92,6 +92,10 @@ class _ChonNhomTabletWidgetState extends State<ChonNhomTabletWidget> {
                   spaceW12,
                   if (!showFull)
                     InkWell(
+                      onTap: (){
+                        showFull = true;
+                        setState(() {});
+                      },
                       child: Container(
                         width: 32.w,
                         height: 32.h,

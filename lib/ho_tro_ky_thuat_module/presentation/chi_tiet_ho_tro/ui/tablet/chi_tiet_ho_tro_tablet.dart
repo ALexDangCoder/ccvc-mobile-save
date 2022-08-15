@@ -208,12 +208,9 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                             child: DoubleButtonBottom(
                               onlyOneButton: cubit.checkOnlyButton(),
                               title1: S.current.dong,
-                              title2:
-                                  ((cubit.isNguoiXuLy || cubit.isTruongPhong) &&
-                                          cubit.supportDetail.codeTrangThai !=
-                                              ChiTietHoTroCubit.DA_HOAN_THANH)
-                                      ? S.current.cap_nhat_thxl
-                                      : S.current.danh_gia,
+                              title2: cubit.checkTitleButton()
+                                  ? S.current.cap_nhat_thxl
+                                  : S.current.danh_gia,
                               onPressed1: () {
                                 Navigator.pop(context);
                               },
@@ -236,32 +233,36 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
   }
 
   void confirmUpdateTask() {
-    if ((cubit.isNguoiXuLy || cubit.isTruongPhong) &&
-        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH &&
-        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.TU_CHOI_XU_LY) {
-      showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
+    if (cubit.checkTitleButton()) {
+      showDialog(
         context: context,
         builder: (_) {
-          return CapNhatTinhHinhHoTroTabLet(
-            cubit: cubit,
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: CapNhatTinhHinhHoTroTabLet(
+                cubit: cubit,
+              ),
+            ),
           );
         },
       );
     } else {
       if ((cubit.supportDetail.codeTrangThai ==
-          ChiTietHoTroCubit.DA_HOAN_THANH ||
-          cubit.supportDetail.codeTrangThai ==
-              ChiTietHoTroCubit.TU_CHOI_XU_LY) &&
+                  ChiTietHoTroCubit.DA_HOAN_THANH ||
+              cubit.supportDetail.codeTrangThai ==
+                  ChiTietHoTroCubit.TU_CHOI_XU_LY) &&
           cubit.isNguoiYeuCau) {
-        showModalBottomSheet(
-          backgroundColor: Colors.transparent,
-          isScrollControlled: true,
+        showDialog(
           context: context,
           builder: (_) {
-            return DanhGiaYeuCauHoTroTabLet(
-              cubit: cubit,
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: DanhGiaYeuCauHoTroTabLet(
+                  cubit: cubit,
+                ),
+              ),
             );
           },
         );
@@ -273,6 +274,7 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
       }
     }
   }
+
   Widget title(String title) {
     return Text(
       title,

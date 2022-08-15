@@ -39,6 +39,16 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     }
   }
 
+  bool checkTitleButton() {
+    if ((isNguoiXuLy || isTruongPhong) &&
+        (supportDetail.codeTrangThai != DA_HOAN_THANH &&
+            supportDetail.codeTrangThai != TU_CHOI_XU_LY)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   List<String> listTrangThai = [];
 
   void checkCodeTrangThai(String statusCode) {
@@ -58,7 +68,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
       ];
     }
     if (isNguoiXuLy && !isTruongPhong) {
-      if(statusCode == CHUA_XU_LY){
+      if (statusCode == CHUA_XU_LY) {
         listTrangThai = [
           DANG_XU_LY_VALUE,
           DA_HOAN_THANH_VALUE,
@@ -148,7 +158,11 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         !isNguoiXuLy &&
         supportDetail.codeTrangThai != DA_HOAN_THANH &&
         supportDetail.codeTrangThai != TU_CHOI_XU_LY) {
-      onlyButton = true;
+      if (isTruongPhong) {
+        onlyButton = false;
+      } else {
+        onlyButton = true;
+      }
     }
     return onlyButton;
   }

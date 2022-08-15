@@ -92,16 +92,16 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return ItemThongBaoMobile(
-                          image: data[index].code?.getIcon() ??
+                          image: data[index].thongBaoType?.getIcon() ??
                               ImageAssets.icCamera,
-                          title: data[index].name ?? '',
+                          title: data[index].thongBaoType?.getTitle() ?? '',
                           id: data[index].id ?? '',
                           unreadCount: data[index].total ?? 0,
                           isLine: index != data.length - 1,

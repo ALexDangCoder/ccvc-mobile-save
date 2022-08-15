@@ -111,9 +111,9 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                           itemCount: data.length,
                           itemBuilder: (context, index) {
                             return ItemThongBaoMobile(
-                              image: data[index].code?.getIcon() ??
+                              image: data[index].thongBaoType?.getIcon() ??
                                   ImageAssets.icCamera,
-                              title: data[index].name ?? '',
+                              title: data[index].thongBaoType?.getTitle() ?? '',
                               id: data[index].id ?? '',
                               unreadCount: data[index].total ?? 0,
                               isLine: index != data.length - 1,

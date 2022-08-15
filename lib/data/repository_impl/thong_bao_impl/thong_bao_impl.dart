@@ -24,7 +24,7 @@ class ThongBaoImpl implements ThongBaoRepository {
   Future<Result<List<ThongBaoModel>>> getNotifyAppcodes() {
     return runCatchingAsync<ThongBaoResponse, List<ThongBaoModel>>(
       () => service.getNotifyAppcodes(),
-      (res) => res.data.map((e) => e.toModel()).toList(),
+      (res) => res.toDomain(),
     );
   }
 

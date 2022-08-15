@@ -6,12 +6,13 @@ import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_state.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   List<DonViModel> listSelectCanBo = [];
-  final List<CanBoModel> listCaNhanRemove = [];
+  final List<RemoveItemTree> listCaNhanRemove = [];
   DonViModel donViModel = DonViModel();
   List<DonViModel> listCanBo = [];
   BehaviorSubject<String> titleCanBo = BehaviorSubject();

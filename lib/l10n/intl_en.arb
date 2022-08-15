@@ -1413,5 +1413,6 @@
   "nhap_noi_dung":"Nhập nội dung",
   "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
   "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !",
-  "limit_file_y_kien_pakn" : "Chỉ tải lên tối đa 15 file ý kiến"
+  "limit_file_y_kien_pakn" : "Chỉ tải lên tối đa 15 file ý kiến",
+  "khong_co_thong_tin_van_ban" : "Không có thông tin văn bản"
 }

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
@@ -143,8 +144,8 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                                 bottomLeft: Radius.circular(12),
                                 bottomRight: Radius.circular(12),
                               ),
-                              border:
-                                  Border.all(color: borderColor.withOpacity(0.5)),
+                              border: Border.all(
+                                  color: borderColor.withOpacity(0.5)),
                               boxShadow: [
                                 BoxShadow(
                                   offset: const Offset(0, 4),
@@ -162,9 +163,11 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                   ),
-                                  indicatorColor: indicatorColor,
+                                  indicatorColor:
+                                      AppTheme.getInstance().colorField(),
                                   unselectedLabelColor: colorA2AEBD,
-                                  labelColor: indicatorColor,
+                                  labelColor:
+                                      AppTheme.getInstance().colorField(),
                                   labelStyle: textNormalCustom(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -202,7 +205,8 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                             topLeft: Radius.circular(12),
                             topRight: Radius.circular(12),
                           ),
-                          border: Border.all(color: borderColor.withOpacity(0.5)),
+                          border:
+                              Border.all(color: borderColor.withOpacity(0.5)),
                           boxShadow: [
                             BoxShadow(
                               offset: const Offset(0, 4),

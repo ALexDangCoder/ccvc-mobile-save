@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -72,7 +73,7 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
                     child: Text(
                       S.current.vui_long_chon_loai_lich,
                       style: textNormalCustom(
-                        color: Colors.red,
+                        color: colorFF4F50,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                       ),

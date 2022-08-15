@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
@@ -161,10 +162,11 @@ class SelectThuKyCell extends StatelessWidget {
                 },
               ),
               wrapThis(
-                  listData: dataSN,
-                  cubit: cubit,
-                  isPhanCongThuKy: true,
-                  onRemove: () {})
+                listData: dataSN,
+                cubit: cubit,
+                isPhanCongThuKy: true,
+                onRemove: () {},
+              )
             ],
           );
         },
@@ -241,65 +243,71 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
     searchItemSubject = BehaviorSubject.seeded(widget.listSelect);
     if (isMobile()) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.symmetric(
+              vertical:
+                  MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
+                      ? 100
+                      : 20,
+              horizontal: 20,
+            ),
+            child: Scaffold(
+              resizeToAvoidBottomInset: true,
               backgroundColor: Colors.transparent,
-              insetPadding: EdgeInsets.symmetric(
-                vertical:
-                    MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
-                        ? 100
-                        : 20,
-                horizontal: 20,
-              ),
-              child: Scaffold(
-                resizeToAvoidBottomInset: true,
-                backgroundColor: Colors.transparent,
-                body: Container(
-                  decoration: const BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Align(
-                                child: Text(
-                                  widget.title,
-                                  style: titleAppbar(
-                                    fontSize: 18.0.textScale(space: 6.0),
-                                  ),
+              body: Container(
+                decoration: const BoxDecoration(
+                  color: backgroundColorApp,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 56,
+                        child: Stack(
+                          children: [
+                            Align(
+                              child: Text(
+                                widget.title,
+                                style: titleAppbar(
+                                  fontSize: 18.0.textScale(space: 6.0),
                                 ),
                               ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: SvgPicture.asset(ImageAssets.icClose),
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: SvgPicture.asset(ImageAssets.icClose),
+                              ),
+                            )
+                          ],
                         ),
-                        Flexible(child: dialogCell()),
-                      ],
-                    ),
+                      ),
+                      Flexible(child: dialogCell()),
+                    ],
                   ),
                 ),
               ),
-            );
-          });
+            ),
+          );
+        },
+      );
     } else {
-      showDiaLogTablet(context,
-          title: widget.title, child: dialogCell(), funcBtnOk: () {});
+      showDiaLogTablet(
+        context,
+        title: widget.title,
+        child: dialogCell(),
+        funcBtnOk: () {},
+      );
     }
   }
 
@@ -412,7 +420,7 @@ Widget tag({required String title, required Function onDelete}) {
     child: Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        color: AppTheme.getInstance().colorField(),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(
@@ -425,9 +433,7 @@ Widget tag({required String title, required Function onDelete}) {
             child: Text(
               title,
               style: textNormal(
-                APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
+                backgroundColorApp,
                 12.0.textScale(),
               ),
               overflow: TextOverflow.ellipsis,
@@ -439,9 +445,7 @@ Widget tag({required String title, required Function onDelete}) {
               ImageAssets.icClose,
               width: 7.5,
               height: 7.5,
-              color: APP_DEVICE == DeviceType.MOBILE
-                  ? labelColor
-                  : backgroundColorApp,
+              color: backgroundColorApp,
             ),
           )
         ],

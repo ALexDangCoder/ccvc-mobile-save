@@ -69,6 +69,14 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
         final _name = mediaMap.getStringValue(NAME_OF_FILE);
         final _size = mediaMap.intValue(SIZE_OF_FILE);
         final fileMy = mediaMap.getFileValue(FILE_RESULT);
+        if(widget.cubit.sizeFileList.length + fileMy.length > 15){
+          MessageConfig.show(
+            title: S.current.limit_file_y_kien_pakn,
+            messState: MessState.error,
+          );
+          return;
+        }
+
         widget.cubit.listFileMain.addAll(fileMy);
         widget.cubit.listPickFileMain.add(
           PickImageFileModel(

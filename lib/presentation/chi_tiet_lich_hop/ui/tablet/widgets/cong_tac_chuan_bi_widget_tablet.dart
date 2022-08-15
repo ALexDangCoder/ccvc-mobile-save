@@ -14,12 +14,13 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permis
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/item_thong_tin_yccb_widget.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
@@ -79,6 +80,7 @@ class _CongTacChuanBiWidgetTabletState
                   ///nếu chua có phòng nào và là người
                   ///chủ trì thì hiện button chọn phòng họp
                   return ChonPhongHopScreen(
+                    icon: ImageAssets.icChonPhongHopDetail,
                     needTextChonPhong: true,
                     dateFrom: widget.cubitTaoLichHop.getTime(),
                     dateTo:

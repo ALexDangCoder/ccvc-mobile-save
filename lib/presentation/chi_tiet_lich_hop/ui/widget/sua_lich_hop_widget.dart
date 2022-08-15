@@ -180,6 +180,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                                           formatPattern: DateFormatApp.date,
                                         )
                                         .formatApi;
+                                _cubitTaoLichHop.needRebuildLichLap.add(true);
                               },
                               onSwitchPressed: (value) {
                                 _cubitTaoLichHop.taoLichHopRequest.isAllDay =
@@ -217,41 +218,47 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         },
                       ),
                       spaceH5,
-                      LichLapWidget(
-                        urlIcon: ImageAssets.icNhacLai,
-                        title: S.current.lich_lap,
-                        value: widget.chiTietHop.lichLap(),
-                        isUpdate: true,
-                        initDayPicked: widget.chiTietHop.getDays(),
-                        initDate:
-                            widget.chiTietHop.dateRepeat?.convertStringToDate(),
-                        listSelect:
-                            danhSachLichLap.map((e) => e.label).toList(),
-                        onChange: (index) {
-                          _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
-                              danhSachLichLap[index].id;
-                          if (index == 0) {
-                            _cubitTaoLichHop.taoLichHopRequest.isLichLap =
-                                false;
-                          } else {
-                            _cubitTaoLichHop.taoLichHopRequest.isLichLap = true;
-                          }
-                        },
-                        onDayPicked: (listId) {
-                          _cubitTaoLichHop.taoLichHopRequest.days =
-                              listId.join(',');
-                          if (listId.isEmpty) {
-                            _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
-                                danhSachLichLap.first.id;
-                          }
-                        },
-                        onDateChange: (value) {
-                          _cubitTaoLichHop.taoLichHopRequest.dateRepeat =
-                              value.changeToNewPatternDate(
-                            DateFormatApp.date,
-                            DateFormatApp.dateTimeBackEnd,
+                      StreamBuilder<bool>(
+                        stream: _cubitTaoLichHop.needRebuildLichLap,
+                        builder: (context, snapshot) {
+                          return LichLapWidget(
+                            urlIcon: ImageAssets.icNhacLai,
+                            title: S.current.lich_lap,
+                            value: widget.chiTietHop.lichLap(),
+                            isUpdate: true,
+                            initDayPicked: widget.chiTietHop.getDays(),
+                            initDate:
+                                widget.chiTietHop.dateRepeat?.convertStringToDate(),
+                            listSelect:
+                                danhSachLichLap.map((e) => e.label).toList(),
+                            onChange: (index) {
+                              _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
+                                  danhSachLichLap[index].id;
+                              if (index == 0) {
+                                _cubitTaoLichHop.taoLichHopRequest.isLichLap =
+                                    false;
+                              } else {
+                                _cubitTaoLichHop.taoLichHopRequest.isLichLap = true;
+                              }
+                            },
+                            onDayPicked: (listId) {
+                              _cubitTaoLichHop.taoLichHopRequest.days =
+                                  listId.join(',');
+                              if (listId.isEmpty) {
+                                _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
+                                    danhSachLichLap.first.id;
+                              }
+                            },
+                            onDateChange: (value) {
+                              _cubitTaoLichHop.taoLichHopRequest.dateRepeat =
+                                  value.changeToNewPatternDate(
+                                DateFormatApp.date,
+                                DateFormatApp.dateTimeBackEnd,
+                              );
+                            },
+                            miniumDate: _cubitTaoLichHop.taoLichHopRequest.ngayBatDau,
                           );
-                        },
+                        }
                       ),
                       spaceH5,
                       SelectOnlyExpand(

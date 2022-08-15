@@ -291,7 +291,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
         await getListReport(
           isTree: isTree,
           idFolder: idFolder,
-          isShare: isSourceShare,
         );
       } else if (isSearch) {
         await getListReport(
@@ -341,7 +340,6 @@ class ReportListCubit extends BaseCubit<BaseState> {
   Future<void> getListReport({
     String idFolder = '',
     bool isTree = false,
-    bool isShare = false,
     bool isSearch = false,
   }) async {
     showLoading();
@@ -361,7 +359,7 @@ class ReportListCubit extends BaseCubit<BaseState> {
       isTree ? A_Z_SORT : sort,
       textSearch.value,
       appId,
-      isShare,
+      false,
     );
     result.when(
       success: (res) {

@@ -46,6 +46,7 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
 
   void _handleEventBus() {
     eventBus.on<RefreshList>().listen((event) {
+      _documentPagingController.nextPageKey = 1;
       _documentPagingController.refresh();
     });
   }
@@ -56,8 +57,21 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
     return SingleChildScrollView(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          Container(
+            decoration: BoxDecoration(
+              color: colorFFFFFF,
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              border: Border.all(color: borderColor.withOpacity(0.5)),
+              boxShadow: [
+                BoxShadow(
+                  color: shadowContainerColor.withOpacity(0.05),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10
+                )
+              ]
+            ),
+            padding: const EdgeInsets.all(24.0),
+            margin: const EdgeInsets.symmetric(vertical: 28,horizontal: 30),
             child: ExpandOnlyWidget(
               initExpand: true,
               header: Container(
@@ -99,7 +113,7 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
                 Row(
@@ -129,7 +143,7 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                     ),
                     itemBuilder: (context, item, index) => Padding(
                       padding: EdgeInsets.only(
-                        bottom: 16,
+                        bottom: 24,
                         top: (index == 0) ? 16 : 0,
                       ),
                       child: GestureDetector(

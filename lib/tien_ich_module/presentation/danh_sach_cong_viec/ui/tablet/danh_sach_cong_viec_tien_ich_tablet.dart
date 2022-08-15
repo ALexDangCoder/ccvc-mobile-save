@@ -106,6 +106,7 @@ class _DanhSachCongViecTienIchTabletState
                             if (dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.CVQT ||
                                 dataType == DSCVScreen.DG ||
+                                dataType == DSCVScreen.GCT ||
                                 dataType == DSCVScreen.NCVM ||
                                 dataType == DSCVScreen.DBX)
                               Padding(
@@ -115,17 +116,13 @@ class _DanhSachCongViecTienIchTabletState
                                   builder: (context, snapshot) {
                                     final data = snapshot.data
                                             ?.where(
-                                              (element) => dataType !=
-                                                      DSCVScreen.DBX
-                                                  ? element.isTicked == false
-                                                  : element.inUsed == false,
+                                              (element) =>
+                                                  element.isTicked == false,
                                             )
                                             .toList() ??
                                         [];
                                     return expanTablet(
-                                      isOtherType:
-                                          dataType == DSCVScreen.DBX ||
-                                              dataType == DSCVScreen.NCVM,
+                                      isOtherType: dataType == DSCVScreen.DBX,
                                       isCheck: isOpenWhenInitListUp,
                                       title: S.current.gan_cho_toi,
                                       count: data.length,
@@ -146,8 +143,7 @@ class _DanhSachCongViecTienIchTabletState
                                 ),
                               ),
                             if (dataType == DSCVScreen.DBX ||
-                                dataType == DSCVScreen.DHT ||
-                                dataType == DSCVScreen.NCVM)
+                                dataType == DSCVScreen.DHT )
                               StreamBuilder<List<TodoDSCVModel>>(
                                 stream: cubit.listDSCVStream.stream,
                                 builder: (context, snapshot) {
@@ -159,8 +155,7 @@ class _DanhSachCongViecTienIchTabletState
                                           .toList() ??
                                       [];
                                   return expanTablet(
-                                    isOtherType: dataType == DSCVScreen.DBX ||
-                                        dataType == DSCVScreen.NCVM,
+                                    isOtherType: dataType == DSCVScreen.DBX,
                                     isCheck: isOpenWhenInitListDown,
                                     title: S.current.da_hoan_thanh,
                                     count: data.length,

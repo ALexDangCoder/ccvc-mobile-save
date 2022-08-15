@@ -91,6 +91,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   }
 
   List<UserCommons> listUserCommon = [];
+  bool checkIsShared = false;
 
   Future<void> getSourceShareDetail(String idReport) async {
     listUserCommon.clear();
@@ -104,15 +105,18 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           for (final element in res.groupAccesses!) {
             themNhom(element.name ?? '');
           }
+          checkIsShared = true;
         }
         if (res.userCommons?.isNotEmpty ?? false) {
           listUserCommon.addAll(res.userCommons ?? []);
+          checkIsShared = true;
         }
 
         if (res.userInThisSystems?.isNotEmpty ?? false) {
           for (final element in res.userInThisSystems!) {
             idUsersNgoaiHeTHongDuocTruyCap.add(element.userId ?? '');
           }
+          checkIsShared = true;
         }
         showContent();
       },
@@ -281,6 +285,16 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         }
       }
     }
+    if (!checkAllTrue && nodeParent.parent?.value.id == null){
+      if (nodeChild.value.name != '') {
+        if (!selectNode.contains(nodeChild)) {
+          addSelectNode(
+            nodeChild,
+            isCheck: nodeChild.isCheck.isCheck,
+          );
+        }
+      }
+    }
     if (checkAllTrue && nodeParent.parent?.value.id != null) {
       nodeParent.isCheck.isCheck = true;
       if (!selectNode.contains(nodeParent)) {
@@ -296,6 +310,22 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         );
       }
     }
+    if (checkAllTrue && nodeParent.parent?.value.id == null) {
+      nodeParent.isCheck.isCheck = true;
+      if (!selectNode.contains(nodeParent)) {
+        addSelectNode(
+          nodeParent,
+          isCheck: true,
+        );
+      }
+      for (final element in listNodeChildren) {
+        addSelectNode(
+          element,
+          isCheck: false,
+        );
+      }
+    }
+
     return checkAllTrue;
   }
 
@@ -364,6 +394,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
             type: COMMON,
             sourceType: sourceType,
           );
+          mapData.add(map);
         }
         final list = idUsersNgoaiHeTHongDuocTruyCap.toList();
         for (final element in list) {
@@ -396,8 +427,11 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     List<ShareReport> mapData, {
     required String idReport,
   }) async {
+    if(mapData.isNotEmpty && !checkIsShared){
+      checkIsShared = true;
+    }
     String message = '';
-    if (mapData.isEmpty) {
+    if (!checkIsShared) {
       showContent();
       return S.current.danh_sach_chia_se_rong;
     }

@@ -28,11 +28,13 @@ import 'package:flutter/material.dart';
 class ChiTietNhiemVuTabletScreen extends StatefulWidget {
   final String id;
   final bool isCheck;
+  final String? donViId;
 
   const ChiTietNhiemVuTabletScreen({
     Key? key,
     required this.id,
     required this.isCheck,
+    this.donViId,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,7 @@ class _ChiTietNhiemVuTabletScreenState extends State<ChiTietNhiemVuTabletScreen>
   @override
   void initState() {
     super.initState();
+    cubit.donViId = widget.donViId;
     cubit.loadDataNhiemVuCaNhan(
       nhiemVuId: widget.id,
       isCheck: widget.isCheck,

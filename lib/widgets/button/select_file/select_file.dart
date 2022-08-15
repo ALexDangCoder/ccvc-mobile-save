@@ -31,12 +31,15 @@ class SelectFileBtn extends StatefulWidget {
     this.errMultipleFileMessage,
     this.textButton,
     this.iconButton,
+    this.replaceFile = false,
     this.overSizeTextMessage,
     this.isShowFile = true,
     this.needClearAfterPick = false,
   }) : super(key: key);
 
   final bool hasMultiFile;
+  final bool replaceFile;
+
   final double? maxSize;
   final List<String>? allowedExtensions;
   final String? textButton;
@@ -51,10 +54,10 @@ class SelectFileBtn extends StatefulWidget {
   final bool needClearAfterPick;
 
   @override
-  State<SelectFileBtn> createState() => _SelectFileBtnState();
+  State<SelectFileBtn> createState() => SelectFileBtnState();
 }
 
-class _SelectFileBtnState extends State<SelectFileBtn> {
+class SelectFileBtnState extends State<SelectFileBtn> {
   final SelectFileCubit cubit = SelectFileCubit();
   late final FToast toast;
   Directory? pathTmp;
@@ -68,6 +71,11 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
     toast = FToast();
     toast.init(context);
     getTemporaryDirectory().then((value) => pathTmp = value);
+  }
+
+  void clearData (){
+    cubit.selectedFiles.clear();
+    cubit.needRebuildListFile.sink.add(true);
   }
 
   void showToast({required String message}) {
@@ -101,7 +109,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
           FileExtensions.PNG,
           FileExtensions.XLSX,
         ];
-    for(final element in allowedExtensions){
+    for (final element in allowedExtensions) {
       element.toLowerCase();
     }
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -115,7 +123,8 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
       return;
     }
     if (!widget.hasMultiFile &&
-        (cubit.selectedFiles.isNotEmpty || cubit.filesFromApi.isNotEmpty)) {
+        (cubit.selectedFiles.isNotEmpty || cubit.filesFromApi.isNotEmpty) &&
+        !widget.replaceFile) {
       showToast(
         message: widget.errMultipleFileMessage ?? '',
       );
@@ -124,19 +133,20 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
 
     List<File> newFiles = [];
 
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       for (final file in result.files) {
-        final newFile  = await moveFile(
+        final newFile = await moveFile(
           File(file.path ?? ''),
           '${pathTmp?.path}/${path.basename(file.path ?? '')}',
         );
         newFiles.add(newFile);
       }
-    }else{
+    } else {
       newFiles = result.files
           .map(
             (file) => File(file.path ?? ''),
-      ).toList();
+          )
+          .toList();
     }
 
     newFiles.removeWhere(
@@ -162,7 +172,12 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
       );
       return;
     }
-    cubit.selectedFiles.addAll(newFiles);
+    if (widget.replaceFile){
+      cubit.selectedFiles = newFiles;
+    }else{
+      cubit.selectedFiles.addAll(newFiles);
+    }
+
     cubit.needRebuildListFile.sink.add(true);
     widget.onChange(cubit.selectedFiles);
     if (widget.needClearAfterPick) {
@@ -226,8 +241,7 @@ class _SelectFileBtnState extends State<SelectFileBtn> {
                       (file) => itemListFile(
                         onDelete: () {
                           cubit.filesFromApi.remove(file);
-                          cubit.fileFromApiSubject.sink
-                              .add(cubit.filesFromApi);
+                          cubit.fileFromApiSubject.sink.add(cubit.filesFromApi);
                           widget.onDeletedFileApi?.call(file);
                         },
                         fileTxt: file.name?.convertNameFile() ?? '',

@@ -148,13 +148,32 @@ extension CheckDuplicate on List<AppointmentWithDuplicate> {
     for (final item in this) {
       final currentTimeFrom = item.startTime.millisecondsSinceEpoch;
       final currentTimeTo = item.endTime.millisecondsSinceEpoch;
-      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) {
-        item.startTime = DateTime.fromMillisecondsSinceEpoch(
-          currentTimeFrom - 600000,
-        );
-        item.endTime = DateTime.fromMillisecondsSinceEpoch(
-          currentTimeTo + 600000,
-        );
+
+      if (currentTimeTo - currentTimeFrom < 20 * 60 * 1000) { // check nếu thời gian cuộc họp ít hơn 20p
+        final checkTimeEnd = DateTime(
+          item.endTime.year,
+          item.endTime.month,
+          item.endTime.day,
+        ).add(const Duration(minutes: 20));
+
+        final checkTimeStart = DateTime(
+          item.startTime.year,
+          item.startTime.month,
+          item.startTime.day+1,
+        ).subtract(const Duration(minutes: 20));
+
+        if(item.endTime.isBefore(checkTimeEnd)){ //check nếu thời gian kết thúc trước 00:20
+          item.endTime = checkTimeEnd;
+        }else if(item.startTime.isAfter(checkTimeStart)){ // check nếu thời gian bắt đầu 23:40
+          item.startTime = checkTimeStart;
+        }else{
+          item.startTime = DateTime.fromMillisecondsSinceEpoch(
+            currentTimeFrom - 600000,
+          );
+          item.endTime = DateTime.fromMillisecondsSinceEpoch(
+            currentTimeTo + 600000,
+          );
+        }
       }
     }
   }

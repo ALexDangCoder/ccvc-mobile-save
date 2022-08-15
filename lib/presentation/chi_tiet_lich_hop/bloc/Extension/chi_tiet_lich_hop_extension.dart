@@ -404,7 +404,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
             (canBo) => CanBoDiThay(
               id: null,
               donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
-              canBoId: canBo.canBoId.isEmpty ? null : canBo.canBoId,
+              canBoId: canBo.userId.isEmpty ? null : canBo.userId,
               taskContent: canBo.noidung,
             ),
           )

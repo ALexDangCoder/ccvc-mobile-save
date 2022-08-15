@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
@@ -145,19 +146,32 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
             : emptyImage(
                 onTap: () {
                   widget.imagePermission.checkFilePermission();
-                  switch(widget.imagePermission.perrmission) {
-                    case ImageSelection.PICK_IMAGE : {
-                      pickImage();
-                      break;
-                    }
-                    case ImageSelection.NO_STORAGE_PERMISSION: {
-                      widget.imagePermission.requestFilePermission();
-                      break;
-                    }
-                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT: {
-                      widget.imagePermission.openSettingApp();
-                      break;
-                    }
+                  switch (widget.imagePermission.perrmission) {
+                    case ImageSelection.PICK_IMAGE:
+                      {
+                        pickImage();
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION:
+                      {
+                        widget.imagePermission.requestFilePermission();
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
+                      {
+                        showDiaLog(
+                          context,
+                          title: S.current.chua_duoc_cap_quyen,
+                          textContent: S.current.quyen_truy_cap_han_che,
+                          btnRightTxt: S.current.cai_dat,
+                          btnLeftTxt: S.current.dong,
+                          funcBtnRight: () {
+                            widget.imagePermission.openSettingApp();
+                          },
+                        );
+
+                        break;
+                      }
                   }
                 },
               );

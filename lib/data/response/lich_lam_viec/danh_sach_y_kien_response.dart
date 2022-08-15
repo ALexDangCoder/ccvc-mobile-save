@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DanhSachYKienResponse {
   List<Data>? data;
@@ -63,6 +64,6 @@ class Data {
         fileName: '',
         imgAvatar: avatar ?? '',
         name: nguoiTao ?? '',
-        content: content ?? '',
+        content: content?.parseHtml() ?? '',
       );
 }

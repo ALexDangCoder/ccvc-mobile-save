@@ -38,6 +38,18 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         return '';
     }
   }
+  bool checkTitleButton(){
+    if((isNguoiXuLy ||
+        isTruongPhong) &&
+        (supportDetail.codeTrangThai !=
+            DA_HOAN_THANH &&
+            supportDetail.codeTrangThai !=
+                TU_CHOI_XU_LY)){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   List<String> listTrangThai = [];
 

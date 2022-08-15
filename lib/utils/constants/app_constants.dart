@@ -149,7 +149,7 @@ extension GetTypeByName on PickerType {
           'png',
           'heic',
         ];
-        case PickerType.IMAGE_WITHOUT_HEIC:
+      case PickerType.IMAGE_WITHOUT_HEIC:
         return [
           'jpg',
           'pdf',
@@ -207,7 +207,8 @@ const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
 const PHONE_REGEX = r'^0+([0-9]{9})$';
-const REGEX_EMAIL = r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$';
+const REGEX_EMAIL =
+    r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$';
 
 //2021-06-18 04:24:27
 const _dtFormat1 = 'yyyy-MM-dd HH:mm:ss';
@@ -506,7 +507,8 @@ class FileExtensions {
   static const String PPTX = 'pptx';
   static const String HEIC = 'heic';
 }
-class PermissionAppTxt{
+
+class PermissionAppTxt {
   static const QUYEN_CU_CAN_BO = 'quyen-cu-can-bo';
   static const LANH_DAO_CO_QUAN = 'lanh-dao-co-quan';
   static const QUYEN_CU_CAN_BO_DI_THAY = 'quyen-cu-can-can-bo-di-thay';
@@ -517,7 +519,8 @@ class PermissionAppTxt{
   static const YEU_CAU_CHUAN_BI = 'yeu-cau-chuan-bi';
   static const QUYEN_DUYET_KET_LUAN_HOP = 'quyen-duyet-ket-luan-hop';
 }
-class ListDayOffWeek{
+
+class ListDayOffWeek {
   static const CN = 'CN';
   static const T2 = 'T2';
   static const T3 = 'T3';
@@ -526,15 +529,18 @@ class ListDayOffWeek{
   static const T6 = 'T6';
   static const T7 = 'T7';
 }
-class ScreenTypeFcm{
- static const LICH_LAM_VIEC = 'LICH_LAM_VIEC';
- static const LICH_HOP = 'VPDT';
- static const VAN_BAN_DEN = 'VAN_BAN_DEN';
- static const VAN_BAN_DI = 'VAN_BAN_DI';
- static const QUAN_LY_NHIEM_VU = 'QLNV';
- static const QUAN_LY_CONG_VIEC = 'QUAN_LY_CONG_VIEC';
- static const HANH_CHINH_CONG = 'HANH_CHINH_CONG';
- static const PAKN = 'PAKN';
- static const BAO_CAO = 'Reports';
- static const DIEM_DANH = 'DDTH';
+
+class ScreenTypeFcm {
+  static const LICH_LAM_VIEC = 'LichLamViec';
+  static const LICH_HOP = 'LichHop';
+  static const VAN_BAN_DEN = 'VanBanDen';
+  static const VAN_BAN_DI = 'VanBanDi';
+  static const CA_NHAN = 'CaNhan';
+  static const DON_VI = 'DonVi';
+  static const PAKN = 'PAKN';
+  static const BAO_CAO = 'Reports';
+  static const DIEM_DANH = 'DDTH';
+  static const VPDT = 'VPDT';
+  static const QLVB = 'QLVB';
+  static const QLNV = 'QLNV';
 }

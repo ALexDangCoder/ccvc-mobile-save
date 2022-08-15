@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -39,7 +40,9 @@ class _SearchBarDocumentManagementState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: (Platform.isIOS && !widget.isTablet)
+      padding: (Platform.isIOS &&
+              !widget.isTablet &&
+              MediaQuery.of(context).viewPadding.top > 20)
           ? const EdgeInsets.only(top: 12)
           : EdgeInsets.zero,
       child: Container(
@@ -62,55 +65,50 @@ class _SearchBarDocumentManagementState
           controller: textController,
           textAlignVertical: TextAlignVertical.center,
           cursorColor: colorBlack,
-          style: textNormalCustom(
-            color: colorBlack,
-            fontSize: 14,
-          ),
+          style: textNormal(color3D5586, 14),
           decoration: InputDecoration(
             isCollapsed: true,
-            suffixIcon: textController.value.text.isNotEmpty
-                ? SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () async {
-                          textController.clear();
-                          setState(() {});
-                          widget.qlvbCubit.keySearch =
-                              textController.value.text;
-                          eventBus.fire(RefreshList());
-                        },
-                        child: const Icon(Icons.clear, color: coloriCon),
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+            suffixIcon: textController.value.text.isNotEmpty || !widget.isTablet ? SizedBox(
+              width: 20,
+              height: 20,
+              child: Center(
+                child: GestureDetector(
+                  onTap: () async {
+                    textController.clear();
+                    setState(() {});
+                    widget.qlvbCubit.keySearch = textController.value.text;
+                    eventBus.fire(RefreshList());
+
+                    widget.qlvbCubit.setSelectSearch();
+                  },
+                  child: const Icon(Icons.clear, color: coloriCon),
+                ),
+              ),
+            ) : const SizedBox(),
             prefixIcon: widget.isTablet
-                ? Padding(
-                    padding: widget.isTablet
-                        ? const EdgeInsets.only(right: 20)
-                        : EdgeInsets.zero,
-                    child: SvgPicture.asset(
-                      ImageAssets.ic_KinhRong,
-                      color: AppTheme.getInstance().colorField(),
+                ? GestureDetector(
+                    onTap: () {
+                      widget.qlvbCubit.keySearch = textController.text.trim();
+                      eventBus.fire(RefreshList());
+                    },
+                    child: Padding(
+                      padding: widget.isTablet
+                          ? const EdgeInsets.only(right: 20)
+                          : EdgeInsets.zero,
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_KinhRong,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     ),
                   )
                 : GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
-                      if(textController.text.trim().isNotEmpty){
-                        textController.clear();
-                        setState(() {});
-                        widget.qlvbCubit.keySearch =
-                            textController.value.text;
-                        eventBus.fire(RefreshList());
-                      }
-                      widget.qlvbCubit.setSelectSearch();
+                      widget.qlvbCubit.keySearch = textController.text.trim();
+                      eventBus.fire(RefreshList());
                     },
                     child: ImageAssets.svgAssets(
-                      ImageAssets.icBack,
-                      color: coloriCon,
+                      ImageAssets.icSearchPAKN,
                     ),
                   ),
             prefixIconConstraints: widget.isTablet
@@ -126,14 +124,12 @@ class _SearchBarDocumentManagementState
               fontSize: 14,
             ),
           ),
-          onFieldSubmitted: (value){
+          onFieldSubmitted: (value) {
             widget.qlvbCubit.keySearch = value;
             eventBus.fire(RefreshList());
           },
-          onChanged: (value){
-            setState(() {
-
-            });
+          onChanged: (value) {
+            setState(() {});
           },
         ),
       ),

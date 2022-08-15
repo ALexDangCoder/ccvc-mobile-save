@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_bien_so_xe_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_mobile.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/custom_radio_loai_so_huu.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/widget/select_image_dang_ky_xe_moi.dart';
@@ -29,8 +30,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class DangKyThongTinXeMoi extends StatefulWidget {
   final DiemDanhCubit cubit;
+  final ImagePermission imagePermission;
 
-  const DangKyThongTinXeMoi({Key? key, required this.cubit}) : super(key: key);
+  const DangKyThongTinXeMoi(
+      {Key? key, required this.cubit, required this.imagePermission})
+      : super(key: key);
 
   @override
   State<DangKyThongTinXeMoi> createState() => _DangKyThongTinXeMoiState();
@@ -119,6 +123,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SelectImageDangKyXe(
+                        imagePermission: widget.imagePermission,
                         isPhone: true,
                         onTapImage: (image) {
                           if (image != null) {
@@ -281,6 +286,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SelectImageDangKyXe(
+                              imagePermission: widget.imagePermission,
                               isPhone: false,
                               onTapImage: (image) {
                                 if (image != null) {

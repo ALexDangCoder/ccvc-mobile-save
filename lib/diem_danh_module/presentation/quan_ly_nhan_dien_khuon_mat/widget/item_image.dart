@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_nhan_dien_khuon_mat_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/select_image.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
@@ -13,12 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ItemImageWidget extends StatefulWidget {
   final NhanDienKhuonMatUIModel dataUI;
   final DiemDanhCubit cubit;
   final String? initImage;
   String? id;
+  final ImagePermission imagePermission;
 
   ItemImageWidget({
     Key? key,
@@ -26,6 +29,7 @@ class ItemImageWidget extends StatefulWidget {
     required this.cubit,
     this.initImage,
     required this.id,
+    required this.imagePermission,
   }) : super(key: key);
 
   @override
@@ -122,6 +126,7 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                 spaceW16,
                 Expanded(
                   child: SelectImageWidget(
+                    imagePermission: widget.imagePermission,
                     image: imageRepo == null
                         ? widget.initImage
                         : widget.cubit.getUrlImage(

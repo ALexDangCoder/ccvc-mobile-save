@@ -221,4 +221,20 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       );
     }
   }
+
+  DateTime validateDay(DateTime value) {
+    final dayMin = widget.minimumDate;
+    if (dayMin != null) {
+      if (value.millisecondsSinceEpoch < dayMin.millisecondsSinceEpoch) {
+        return dayMin;
+      }
+    }
+    final dayMax = widget.maximumDate;
+    if (dayMax != null) {
+      if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
+        return dayMax;
+      }
+    }
+    return value;
+  }
 }

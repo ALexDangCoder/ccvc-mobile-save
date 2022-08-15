@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_tablet.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/tablet/tab_anh_deo_kinh_tablet.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/tablet/tab_anh_khong_deo_kinh_tablet.dart';
@@ -28,10 +29,12 @@ class _QuanLyNhanDienKhuonMatTabletScreenState
     extends State<QuanLyNhanDienKhuonMatTabletScreen>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
+  late ImagePermission imagePermission;
 
   @override
   void initState() {
     super.initState();
+    imagePermission = ImagePermission();
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -103,9 +106,13 @@ class _QuanLyNhanDienKhuonMatTabletScreenState
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  TabAnhKhongDeoKinhTablet(cubit: widget.cubit),
+                  TabAnhKhongDeoKinhTablet(
+                    cubit: widget.cubit,
+                    imagePermission: imagePermission,
+                  ),
                   TabAnhDeoKinhTablet(
                     cubit: widget.cubit,
+                    imagePermission: imagePermission,
                   )
                 ],
               ),

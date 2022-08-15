@@ -60,6 +60,14 @@ class _TextFormWidgetState extends State<TextFormWidget> {
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: colorECEEF7),
               ),
+              errorBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: colorFF4F50),
+              ),
+              errorStyle: textNormalCustom(
+                color: colorFF4F50,
+                fontWeight: FontWeight.w400,
+                fontSize: 12.0,
+              ),
             ),
           ),
         )

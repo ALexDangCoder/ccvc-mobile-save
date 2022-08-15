@@ -187,12 +187,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                           child: DoubleButtonBottom(
                             title1: S.current.dong,
                             onlyOneButton: cubit.checkOnlyButton(),
-                            title2: ((cubit.isNguoiXuLy ||
-                                        cubit.isTruongPhong) &&
-                                    (cubit.supportDetail.codeTrangThai !=
-                                            ChiTietHoTroCubit.DA_HOAN_THANH &&
-                                        cubit.supportDetail.codeTrangThai !=
-                                            ChiTietHoTroCubit.TU_CHOI_XU_LY))
+                            title2: cubit.checkTitleButton()
                                 ? S.current.cap_nhat_thxl
                                 : S.current.danh_gia,
                             onPressed1: () {
@@ -215,9 +210,7 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
   }
 
   void confirmUpdateTask() {
-    if ((cubit.isNguoiXuLy || cubit.isTruongPhong) &&
-        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.DA_HOAN_THANH &&
-        cubit.supportDetail.codeTrangThai != ChiTietHoTroCubit.TU_CHOI_XU_LY) {
+    if (cubit.checkTitleButton()) {
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         isScrollControlled: true,

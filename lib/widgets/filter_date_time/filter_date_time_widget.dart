@@ -3,10 +3,11 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -50,7 +51,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.isMobile ? bgTabletColor : backgroundColorApp,
+      color:  backgroundColorApp,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -99,6 +100,14 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                                       title1: S.current.dong,
                                       onClickRight: () {
                                         setState(() {});
+                                        if (validateDay(chooseTime)) {
+                                          MessageConfig.show(
+                                            title: S.current
+                                                .thoi_gian_chon_khong_hop_le,
+                                            messState: MessState.error,
+                                          );
+                                          return;
+                                        }
                                         currentStartDate = chooseTime;
                                         widget.onChooseDateFilter(
                                             currentStartDate, DateTime.now());
@@ -240,6 +249,13 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                             btnRightTxt: S.current.chon,
                             funcBtnOk: () {
                               setState(() {});
+                              if (validateDay(chooseTime)) {
+                                MessageConfig.show(
+                                  title: S.current.thoi_gian_chon_khong_hop_le,
+                                  messState: MessState.error,
+                                );
+                                return;
+                              }
                               currentStartDate = chooseTime;
                               widget.onChooseDateFilter(
                                   currentStartDate, DateTime.now());
@@ -322,5 +338,15 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
         ),
       ),
     );
+  }
+
+  bool validateDay(DateTime value) {
+    final dayMax = DateTime.now();
+
+    if (value.millisecondsSinceEpoch > dayMax.millisecondsSinceEpoch) {
+      return true;
+    }
+
+    return false;
   }
 }

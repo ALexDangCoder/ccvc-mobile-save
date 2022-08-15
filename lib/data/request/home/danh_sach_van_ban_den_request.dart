@@ -10,6 +10,7 @@ class DanhSachVBRequest {
   String? keySearch;
   bool? isDanhSachDaXuLy;
   int? trangThaiXuLy;
+  bool? isSortByTrangThai;
 
   DanhSachVBRequest({
     this.maTrangThai,
@@ -23,6 +24,7 @@ class DanhSachVBRequest {
     this.keySearch,
     this.isDanhSachDaXuLy,
     this.trangThaiXuLy,
+    this.isSortByTrangThai,
   });
 
   Map<String, dynamic> toJson() {
@@ -38,7 +40,7 @@ class DanhSachVBRequest {
     data['KeySearch'] = keySearch;
     data['IsDanhSachDaXuLy'] = isDanhSachDaXuLy;
     data['TrangThaiXuLy'] = trangThaiXuLy;
-
+    data['IsSortByTrangThai'] = isSortByTrangThai;
     return data;
   }
 }

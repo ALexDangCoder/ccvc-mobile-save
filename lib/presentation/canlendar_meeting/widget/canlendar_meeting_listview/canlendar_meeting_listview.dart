@@ -94,7 +94,6 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
             ),
           ).then((value) {
             if (value != null && value) {
-              widget.cubit.emitCalendarViewState();
               widget.cubit.refreshDataDangLich();
             }
           });
@@ -108,10 +107,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
             ),
           ).then((value) {
             if (value != null && value) {
-              if (value != null && value) {
-                widget.cubit.emitCalendarViewState();
                 widget.cubit.refreshDataDangLich();
-              }
             }
           });
         }

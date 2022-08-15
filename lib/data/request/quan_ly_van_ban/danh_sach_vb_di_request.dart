@@ -4,9 +4,9 @@ part 'danh_sach_vb_di_request.g.dart';
 
 @JsonSerializable()
 class DanhSachVBDiRequest {
-  @JsonKey(name: 'ThoiGianStartFilter')
+  @JsonKey(name: 'NgayTaoStartSearch')
   final String thoiGianStartFilter;
-  @JsonKey(name: 'ThoiGianEndFilter')
+  @JsonKey(name: 'NgayTaoEndSearch')
   final String thoiGianEndFilter;
   @JsonKey(name: 'DoKhan')
   final String? doKhan;

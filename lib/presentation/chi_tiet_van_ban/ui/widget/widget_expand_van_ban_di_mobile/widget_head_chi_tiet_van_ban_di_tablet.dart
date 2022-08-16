@@ -61,6 +61,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                 child: Column(
                   children: [
                     Row(
+                      crossAxisAlignment:  CrossAxisAlignment.start,
                       children: data.toListRowHeadTablet().map(
                         (row) {
                           return Expanded(

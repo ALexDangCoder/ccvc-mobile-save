@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
-import 'package:app_settings/app_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 enum ImageSelection {
@@ -25,12 +25,12 @@ class ImagePermission {
     if (Platform.isAndroid) {
       result = await Permission.storage.request();
     } else {
-      result = await Permission.photos.request();
+      result = await Permission.photosAddOnly.request();
     }
 
     if (result.isGranted) {
       perrmission = ImageSelection.PICK_IMAGE;
-    } else if (Platform.isIOS || result.isPermanentlyDenied) {
+    } else if (result.isPermanentlyDenied) {
       perrmission = ImageSelection.NO_STORAGE_PERMISSION_PERMANENT;
     } else {
       perrmission = ImageSelection.NO_STORAGE_PERMISSION;
@@ -44,7 +44,7 @@ class ImagePermission {
     if (Platform.isAndroid) {
       result = await Permission.storage.status;
     } else {
-      result = await Permission.photos.status;
+      result = await Permission.photosAddOnly.status;
     }
 
     if (result.isGranted) {
@@ -57,6 +57,6 @@ class ImagePermission {
   }
 
   Future<void> openSettingApp() async {
-    await AppSettings.openAppSettings();
+    await MessageConfig.showDialogSetting();
   }
 }

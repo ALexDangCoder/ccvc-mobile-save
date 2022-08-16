@@ -1,5 +1,9 @@
 # CCVC Mobile
 
+# Flutter 2.5.2 • channel stable • https://github.com/flutter/flutter.git
+# Framework • revision 3595343e20 (11 months ago) • 2021-09-30 12:58:18 -0700
+# Tools • Dart 2.14.3
+
 # Build android apk flavor develop
 # flutter build apk --flavor develop -t lib/main_develop.dart
 

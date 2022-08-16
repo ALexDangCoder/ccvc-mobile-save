@@ -32,7 +32,7 @@ class _ChonNhomDialogState extends State<ChonNhomDialog> {
       },
       child: Container(
         padding: const EdgeInsets.all(8),
-        height: widget.ibTablet ? 450.h : 350.h,
+        height: widget.ibTablet ? 450 : 350.h,
         width: widget.ibTablet ? 450.w : null,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -92,8 +92,8 @@ class _ChonNhomDialogState extends State<ChonNhomDialog> {
         color: isSelect ? secondTxtColor.withOpacity(0.5) : Colors.transparent,
         padding: EdgeInsets.only(
           left: 10.w,
-          top: 12.h,
-          bottom: 12.h,
+          top: 12,
+          bottom: 12,
         ),
         child: Text(
           title,

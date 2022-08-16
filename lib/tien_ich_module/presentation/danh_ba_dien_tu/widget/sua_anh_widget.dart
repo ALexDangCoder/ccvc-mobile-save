@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -79,12 +80,12 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
   ) async {
     final _path = await widget.cubit.pickAvatar();
     if (_path.path.isNotEmpty) {
-      if (_path.size > 15000000) {
+      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
         toast.showToast(
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
         widget.cubit.suaAnhDanhBaCaNhan.sink.add(_path);

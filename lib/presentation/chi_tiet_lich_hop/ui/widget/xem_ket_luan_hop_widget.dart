@@ -274,14 +274,10 @@ class _CreateOrUpdateKetLuanHopWidgetState
                               FileExtensions.PPTX,
                               FileExtensions.XLSX,
                             ],
+                            hasMultiFile: false,
+                            replaceFile: true,
                             onChange: (List<File> files) {
-                              for (final element in files) {
-                                if (state.listFiles
-                                    .where((e) => e.path == element.path)
-                                    .isEmpty) {
-                                  state.listFiles.add(element);
-                                }
-                              }
+                              state.listFiles= files;
                               state.listFileSelect.sink.add(state.listFiles);
                             },
                           ),

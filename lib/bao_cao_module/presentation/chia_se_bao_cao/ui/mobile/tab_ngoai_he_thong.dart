@@ -169,6 +169,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             textField(
+              initialValue: name,
               isRequired: true,
               title: S.current.ho_ten,
               hintText: S.current.ho_ten,
@@ -202,6 +203,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
+              initialValue: email,
               inputFormatter: [
                 FilteringTextInputFormatter.deny(' '),
               ],
@@ -230,6 +232,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             spaceH16,
             textField(
               maxLength: 255,
+              initialValue: phoneNumber,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
@@ -243,6 +246,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: position,
               hintText: S.current.chuc_vu,
               title: S.current.chuc_vu,
               onChange: (value) {
@@ -257,6 +261,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: unit,
               title: S.current.don_vi,
               hintText: S.current.don_vi,
               onChange: (value) {
@@ -270,6 +275,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
+              initialValue: note,
               isRequired: true,
               title: S.current.ghi_chu,
               onChange: (value) {
@@ -448,6 +454,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
 
   Widget textField({
     String? hintText,
+    String? initialValue,
     int maxLine = 1,
     bool isRequired = false,
     int? maxLength,
@@ -485,6 +492,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
         ),
         spaceH8,
         TextFieldValidator(
+          initialValue: initialValue,
           hintText: hintText,
           onChange: onChange,
           maxLine: maxLine,

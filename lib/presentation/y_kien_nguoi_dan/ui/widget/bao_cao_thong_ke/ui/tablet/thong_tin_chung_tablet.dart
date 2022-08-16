@@ -139,7 +139,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                 endDate.toStringWithListFormat;
                             widget.cubit.clearDSPAKN();
                             await widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                            await widget.cubit.getDanhSachPAKN();
+                            if (widget.cubit.trangThaiFilter != null) {
+                              await widget.cubit.getDanhSachPAKNFilterChart();
+                            } else {
+                              await widget.cubit.getDanhSachPAKN();
+                            }
                           },
                           controller: textcontroller,
                           onChange: (searchText) {

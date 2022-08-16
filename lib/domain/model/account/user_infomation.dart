@@ -74,6 +74,14 @@ class DonViTrucThuoc {
   String? chucVuId;
   @HiveField(3)
   String? chucVu;
+  @HiveField(4)
+  String? maChucVu;
 
-  DonViTrucThuoc({this.id, this.tenDonVi, this.chucVuId, this.chucVu});
+  DonViTrucThuoc({
+    this.id,
+    this.tenDonVi,
+    this.chucVuId,
+    this.chucVu,
+    this.maChucVu,
+  });
 }

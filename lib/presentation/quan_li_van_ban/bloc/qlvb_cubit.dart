@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
@@ -169,6 +170,9 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     String? startDate,
     String? endDate,
   }) async {
+    final codeChucVu =
+        HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.maChucVu ??
+            '';
     final result = await qLVBRepo.getVBDen(
       startDate ?? this.startDate,
       endDate ?? this.endDate,
@@ -198,13 +202,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
             daXuLyColor,
           ),
         );
-        chartDataVbDen.add(
-          ChartData(
-            S.current.cho_vao_so,
-            dataVbDen.soLuongChoVaoSo?.toDouble() ?? 0,
-            choVaoSoColor,
-          ),
-        );
+        if (codeChucVu == ChucVu.VT) {
+          chartDataVbDen.add(
+            ChartData(
+              S.current.cho_vao_so,
+              dataVbDen.soLuongChoVaoSo?.toDouble() ?? 0,
+              choVaoSoColor,
+            ),
+          );
+        }
         _getVbDen.sink.add(dataVbDen);
       },
       error: (err) {

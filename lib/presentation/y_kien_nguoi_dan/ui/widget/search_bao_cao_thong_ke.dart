@@ -30,8 +30,8 @@ class SearchBaoCaoThongKeWidget extends StatefulWidget {
   final ThemDonViCubit themDonViCubit;
   final List<Node<DonViModel>> listNode;
   final Function(
-      List<String> donViID,
-      ) onSearch;
+    List<String> donViID,
+  ) onSearch;
 
   const SearchBaoCaoThongKeWidget({
     Key? key,
@@ -78,8 +78,8 @@ class TreeDonVi extends StatefulWidget {
   final String endDate;
   final ThemDonViCubit themDonViCubit;
   final Function(
-      List<String> donViID,
-      ) onSearch;
+    List<String> donViID,
+  ) onSearch;
   final List<Node<DonViModel>> listNode;
 
   const TreeDonVi({
@@ -141,7 +141,7 @@ class _TreeDonViState extends State<TreeDonVi> {
               height: 22.0.textScale(space: -9),
             ),
             SizedBox(
-              height: APP_DEVICE == DeviceType.MOBILE?200:300,
+              height: APP_DEVICE == DeviceType.MOBILE ? 200 : 300,
               child: StreamBuilder<List<Node<DonViModel>>>(
                 stream: widget.themDonViCubit.getTree,
                 builder: (context, snapshot) {
@@ -218,7 +218,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                       });
                     },
                     maximumDate:
-                    DateFormat(DateFormatApp.date).parse(selectEndDate),
+                        DateFormat(DateFormatApp.date).parse(selectEndDate),
                     paddings: 10,
                     leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                     value: DateFormat(DateFormatApp.date)
@@ -252,7 +252,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                     },
                     initDateTime: initEnDate,
                     minimumDate:
-                    DateFormat(DateFormatApp.date).parse(selectStartDate),
+                        DateFormat(DateFormatApp.date).parse(selectStartDate),
                     paddings: 10,
                     leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                     value: DateFormat(DateFormatApp.date)
@@ -261,9 +261,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                     onSelectDate: (dateTime) {
                       selectEndDate = DateFormat(
                         DateFormatApp.pickDateSearchFormat,
-                      )
-                          .parse(dateTime)
-                          .toStringWithListFormat;
+                      ).parse(dateTime).toStringWithListFormat;
                       setState(() {});
                     },
                   ),

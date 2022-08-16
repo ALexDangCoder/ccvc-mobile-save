@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
@@ -364,6 +365,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                 .toList();
             searchItemSubject.sink.add(searchList);
           },
+          colorIcon: AppTheme.getInstance().colorField(),
         ),
         const SizedBox(
           height: 10,
@@ -412,9 +414,9 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                                   ),
                                 ),
                                 if (itemTitle.trangThai == 4)
-                                  const Icon(
+                                   Icon(
                                     Icons.done_sharp,
-                                    color: buttonColor,
+                                    color: AppTheme.getInstance().colorField(),
                                   ),
                               ],
                             ),

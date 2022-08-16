@@ -154,6 +154,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
         !isNguoiYeuCau) {
       onlyButton = true;
     }
+
     if (isNguoiYeuCau &&
         !isNguoiXuLy &&
         supportDetail.codeTrangThai != DA_HOAN_THANH &&
@@ -163,6 +164,9 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
       } else {
         onlyButton = true;
       }
+    }
+    if (!isNguoiYeuCau && !isNguoiXuLy && !isTruongPhong) {
+      onlyButton = true;
     }
     return onlyButton;
   }

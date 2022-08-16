@@ -39,8 +39,8 @@ class _CapNhatTinhHinhHoTroTabLetState
   String? nguoiXuLy;
   bool isTruongPhong = false;
 
-    ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
-  
+  ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
+
   @override
   void initState() {
     super.initState();
@@ -118,7 +118,9 @@ class _CapNhatTinhHinhHoTroTabLetState
                         maxLine: 4,
                       ),
                       spaceH16,
-                      if (isTruongPhong)
+                      if (isTruongPhong &&
+                          _cubit.supportDetail.codeTrangThai ==
+                              ChiTietHoTroCubit.CHUA_XU_LY)
                         if (widget.idTask?.isNotEmpty ?? false) ...[
                           StreamBuilder<List<String>>(
                             stream: _cubit.getItSupport,
@@ -126,8 +128,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                               if (snapshot.hasData) {
                                 return dropDownField(
                                   title: S.current.nguoi_xu_ly,
-                                  listDropdown:
-                                  _cubit.listItSupport,
+                                  listDropdown: _cubit.listItSupport,
                                   maxLine: 2,
                                 );
                               } else {
@@ -176,8 +177,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          _cubit.supportDetail
-                                              .thoiGianYeuCau!,
+                                          _cubit.supportDetail.thoiGianYeuCau!,
                                         )
                                       : null,
                                   initDateTime: (_cubit.supportDetail
@@ -187,8 +187,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          _cubit.supportDetail
-                                              .ngayHoanThanh!,
+                                          _cubit.supportDetail.ngayHoanThanh!,
                                         )
                                       : null,
                                 );
@@ -209,8 +208,8 @@ class _CapNhatTinhHinhHoTroTabLetState
                           onSelectDate: (dateTime) {
                             birthday = dateTime;
                           },
-                          minimumDate: (_cubit.supportDetail
-                                      .thoiGianYeuCau?.isNotEmpty ??
+                          minimumDate: (_cubit.supportDetail.thoiGianYeuCau
+                                      ?.isNotEmpty ??
                                   false)
                               ? DateFormat(
                                   DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
@@ -218,15 +217,15 @@ class _CapNhatTinhHinhHoTroTabLetState
                                   _cubit.supportDetail.thoiGianYeuCau!,
                                 )
                               : null,
-                          initDateTime: (_cubit.supportDetail
-                                      .ngayHoanThanh?.isNotEmpty ??
-                                  false)
-                              ? DateFormat(
-                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                                ).parse(
-                                  _cubit.supportDetail.ngayHoanThanh!,
-                                )
-                              : null,
+                          initDateTime:
+                              (_cubit.supportDetail.ngayHoanThanh?.isNotEmpty ??
+                                      false)
+                                  ? DateFormat(
+                                      DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                    ).parse(
+                                      _cubit.supportDetail.ngayHoanThanh!,
+                                    )
+                                  : null,
                         ),
                       spaceH10,
                       Padding(
@@ -243,9 +242,9 @@ class _CapNhatTinhHinhHoTroTabLetState
                           onPressed2: () {
                             _cubit
                                 .capNhatTHXL(
-                              taskId: (_cubit.supportDetail.id ??
-                                      widget.idTask) ??
-                                  '',
+                              taskId:
+                                  (_cubit.supportDetail.id ?? widget.idTask) ??
+                                      '',
                               name: (trangThai ??
                                       widget
                                           .cubit.supportDetail.trangThaiXuLy) ??
@@ -259,8 +258,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                               handlerId: (nguoiXuLy ??
                                       _cubit.supportDetail.nguoiXuLy) ??
                                   '',
-                              id: (_cubit.supportDetail.id ??
-                                      widget.idTask) ??
+                              id: (_cubit.supportDetail.id ?? widget.idTask) ??
                                   '',
                               comment: '',
                             )

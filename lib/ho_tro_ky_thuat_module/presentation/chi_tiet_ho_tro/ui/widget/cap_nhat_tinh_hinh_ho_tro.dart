@@ -37,8 +37,9 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
   String? trangThai;
   String? nguoiXuLy;
   bool isTruongPhong = false;
-  
+
   ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
+
   @override
   void initState() {
     super.initState();
@@ -52,7 +53,6 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
       permissionTxt: QUYEN_TRUONG_PHONG,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +125,9 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                 maxLine: 4,
                               ),
                               spaceH16,
-                              if (isTruongPhong)
+                              if (isTruongPhong &&
+                                  _cubit.supportDetail.codeTrangThai ==
+                                      ChiTietHoTroCubit.CHUA_XU_LY)
                                 if (widget.idTask?.isNotEmpty ?? false) ...[
                                   StreamBuilder<List<String>>(
                                     stream: _cubit.getItSupport,
@@ -133,8 +135,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                       if (snapshot.hasData) {
                                         return dropDownField(
                                           title: S.current.nguoi_xu_ly,
-                                          listDropdown:
-                                              _cubit.listItSupport,
+                                          listDropdown: _cubit.listItSupport,
                                           maxLine: 2,
                                         );
                                       } else {
@@ -227,8 +228,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          _cubit.supportDetail
-                                              .thoiGianYeuCau!,
+                                          _cubit.supportDetail.thoiGianYeuCau!,
                                         )
                                       : null,
                                   initDateTime: (_cubit.supportDetail
@@ -238,8 +238,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                           DateTimeFormat
                                               .DATE_BE_RESPONSE_FORMAT,
                                         ).parse(
-                                          _cubit.supportDetail
-                                              .ngayHoanThanh!,
+                                          _cubit.supportDetail.ngayHoanThanh!,
                                         )
                                       : null,
                                 ),
@@ -258,18 +257,17 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                             widget.idTask) ??
                                         '',
                                     name: (trangThai ??
-                                            _cubit.supportDetail
-                                                .trangThaiXuLy) ??
+                                            _cubit
+                                                .supportDetail.trangThaiXuLy) ??
                                         '',
                                     description: note ?? '',
                                     code: (trangThai ??
-                                            _cubit.supportDetail
-                                                .trangThaiXuLy) ??
+                                            _cubit
+                                                .supportDetail.trangThaiXuLy) ??
                                         '',
                                     finishDay: birthday ?? '',
                                     handlerId: (nguoiXuLy ??
-                                            _cubit.supportDetail
-                                                .nguoiXuLy) ??
+                                            _cubit.supportDetail.nguoiXuLy) ??
                                         '',
                                     id: (_cubit.supportDetail.id ??
                                             widget.idTask) ??

@@ -117,7 +117,7 @@ class _ChonNhomTabletWidgetState extends State<ChonNhomTabletWidget> {
                     )
                   else
                     SizedBox(
-                      height: 40.h,
+                      height: 40,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -139,7 +139,7 @@ class _ChonNhomTabletWidgetState extends State<ChonNhomTabletWidget> {
                     ),
                 ] else
                   SizedBox(
-                    height: 40.h,
+                    height: 40,
                     width: 544.w,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,

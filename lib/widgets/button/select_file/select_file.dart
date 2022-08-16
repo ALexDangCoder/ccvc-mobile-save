@@ -162,6 +162,9 @@ class SelectFileBtnState extends State<SelectFileBtn> {
         return result;
       },
     );
+    if (widget.replaceFile){
+      cubit.selectedFiles.clear();
+    }
     final bool isOverMaxSize = cubit.checkOverMaxSize(
       maxSize: widget.maxSize,
       newFiles: newFiles,

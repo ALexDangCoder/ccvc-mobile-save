@@ -319,7 +319,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
     toast.init(context);
     toast.showToast(
       child: ShowToast(
-        text: S.current.file_qua_30M,
+        text: S.current.dung_luong_toi_da_20,
       ),
       gravity: ToastGravity.BOTTOM,
     );

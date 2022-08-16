@@ -548,6 +548,9 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     fCalendarControllerWeek.displayDate = this.startDate;
     fCalendarControllerMonth.selectedDate = this.startDate;
     fCalendarControllerMonth.displayDate = this.startDate;
+    if(keySearch.isNotEmpty){
+      emitListViewState();
+    }
   }
 
   String oldTitle = S.current.lich_cua_toi;

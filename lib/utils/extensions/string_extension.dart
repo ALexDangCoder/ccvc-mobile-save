@@ -275,7 +275,7 @@ extension CheckValidate on String {
       REGEX_EMAIL,
     ).hasMatch(this);
     if (isCheck) {
-      if ((indexOf('@')) > 64 || (length - indexOf('@') - 1) > 255) {
+      if ((indexOf('@')) > 64 || (length - indexOf('@') - 1) > 254) {
         return errMessage ?? S.current.nhap_sai_dinh_dang;
       } else {
         return null;

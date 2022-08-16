@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -41,7 +42,7 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
     );
     widget.taoLichLamViecCubit.lichLapItem1.add(
       listDayOffWeek.indexWhere(
-            (element) => element.isChoose == true,
+        (element) => element.isChoose == true,
       ),
     );
   }
@@ -162,11 +163,10 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: listDayOffWeekEmpty
               .map(
-                (itemDayOffWeek) =>
-                GestureDetector(
+                (itemDayOffWeek) => GestureDetector(
                   onTap: () {
                     itemDayOffWeek.isChoose =
-                    !(itemDayOffWeek.isChoose ?? false);
+                        !(itemDayOffWeek.isChoose ?? false);
                     setState(() {});
                     final lichLapItemFist = widget
                         .taoLichLamViecCubit.lichLapItem
@@ -176,7 +176,7 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
                           .remove(itemDayOffWeek.index ?? 0);
                     }
                     final lichLapItemLast =
-                    widget.taoLichLamViecCubit.lichLapItem.toList();
+                        widget.taoLichLamViecCubit.lichLapItem.toList();
                     lichLapItemLast.sort();
                     widget.taoLichLamViecCubit.lichLapItem1 = lichLapItemLast;
                     listDayOffWeekEmpty.forEach((element) {
@@ -190,10 +190,12 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
                       widget.taoLichLamViecCubit.lichLapItem1 = [];
                     }
                   },
-                  child: itemLichLapTuyChinh(itemDayOffWeek.isChoose ?? false,
-                    itemDayOffWeek.name ?? '',),
+                  child: itemLichLapTuyChinh(
+                    itemDayOffWeek.isChoose ?? false,
+                    itemDayOffWeek.name ?? '',
+                  ),
                 ),
-          )
+              )
               .toList(),
         ),
       ),
@@ -203,16 +205,22 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
 
 Widget itemLichLapTuyChinh(bool isCheck, String title) {
   return Container(
-      // margin: EdgeInsets.only(left: 14.0),
-      height: 32.0,
-      width: 32.0,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: isCheck ? textDefault : textDefault.withOpacity(0.1)),
-      child: Center(
-        child: Text(
-          title,
-          style: textNormal(isCheck ? backgroundColorApp : textDefault, 14),
+    height: 32.0,
+    width: 32.0,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      color: isCheck
+          ? AppTheme.getInstance().colorField()
+          : AppTheme.getInstance().colorField().withOpacity(0.1),
+    ),
+    child: Center(
+      child: Text(
+        title,
+        style: textNormal(
+          isCheck ? backgroundColorApp : AppTheme.getInstance().colorField(),
+          14,
         ),
-      ));
+      ),
+    ),
+  );
 }

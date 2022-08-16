@@ -125,12 +125,15 @@ class DonViTrucThuocResponse {
   String? chucVuId;
   @JsonKey(name: 'chucVu')
   String? chucVu;
+  @JsonKey(name: 'maChucVu')
+  String? maChucVu;
 
   DonViTrucThuoc toDomain() => DonViTrucThuoc(
         id: id,
         tenDonVi: tenDonVi,
         chucVu: chucVu,
         chucVuId: chucVuId,
+        maChucVu: maChucVu,
       );
 
   DonViTrucThuocResponse();

@@ -126,7 +126,6 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet>
       body: TabBarView(
         controller: _controller,
         children: [
-          //  TinRadioScreen(title: 'Tin Radio', tinTucThoiSuBloc: TinTucThoiSuBloc(),),
           const TatCaChuDeScreenTablet(),
           TheoDoiBaiVietTablet(
             topic: cubit.topic,

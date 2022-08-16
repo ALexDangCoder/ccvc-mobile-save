@@ -46,7 +46,7 @@ class LichSuVanBanModel {
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-        S.current.don_vi_cap_nhat,
+        S.current.don_vi,
         donViTaoXuLy ?? '',
         TypeDocumentDetailRow.text,
       ),

@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_exten
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -413,8 +414,9 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                                     ),
                                   ),
                                 ),
-                                if (itemTitle.trangThai == 4)
-                                   Icon(
+                                if (itemTitle.trangThai ==
+                                    ThanhPhanThamGiaStatus.THU_HOI)
+                                  Icon(
                                     Icons.done_sharp,
                                     color: AppTheme.getInstance().colorField(),
                                   ),

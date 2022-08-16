@@ -74,6 +74,18 @@ Future<Map<String, dynamic>> pickMediaFile({
   };
 }
 
+Future<bool> handlePhotosPermission() async {
+  final permission = Platform.isIOS
+      ? await Permission.photosAddOnly.request()
+      : await Permission.storage.request();
+  if (permission == PermissionStatus.denied ||
+      permission == PermissionStatus.permanentlyDenied) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 Future<Map<String, dynamic>> pickImageFunc({
   required String tittle,
   ImageSource source = ImageSource.gallery,
@@ -85,7 +97,8 @@ Future<Map<String, dynamic>> pickImageFunc({
     VALID_FORMAT_OF_FILE: '',
     NAME_OF_FILE: '',
   };
-  try {
+  final permission = await handlePhotosPermission();
+  if (permission) {
     final tempDirectory = await getTemporaryDirectory();
     final newImage = await ImagePicker().pickImage(source: source);
     if (newImage == null) {
@@ -105,13 +118,8 @@ Future<Map<String, dynamic>> pickImageFunc({
     _resultMap[PATH_OF_FILE] = file.path;
     _resultMap[NAME_OF_FILE] = p.basename(p.basename(file.path));
     return _resultMap;
-  } on PlatformException catch (e) {
-    final permission =
-        Platform.isIOS ? Permission.photosAddOnly : Permission.storage;
-    final status = await permission.status;
-    if (status.isDenied) {
-      await MessageConfig.showDialogSetting();
-    }
-    throw 'Cant upload image $e';
+  } else {
+    await MessageConfig.showDialogSetting();
+    return {};
   }
 }

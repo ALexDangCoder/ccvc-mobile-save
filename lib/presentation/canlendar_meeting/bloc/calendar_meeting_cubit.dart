@@ -548,7 +548,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     fCalendarControllerWeek.displayDate = this.startDate;
     fCalendarControllerMonth.selectedDate = this.startDate;
     fCalendarControllerMonth.displayDate = this.startDate;
-    if(keySearch.isNotEmpty){
+    if(keySearch.isNotEmpty && state is! ChartViewState){
       emitListViewState();
     }
   }

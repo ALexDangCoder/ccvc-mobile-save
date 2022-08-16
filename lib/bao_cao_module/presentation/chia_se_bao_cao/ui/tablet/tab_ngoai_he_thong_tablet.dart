@@ -275,6 +275,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               },
               maxLine: 6,
             ),
+            spaceH24,
           ],
         ),
       );

@@ -86,24 +86,27 @@ Future<Map<String, dynamic>> pickImageFunc({
     NAME_OF_FILE: '',
   };
   try {
-    final tempDirectory = await getTemporaryDirectory();
-    final newImage = await ImagePicker().pickImage(source: source);
-    if (newImage == null) {
-      return _resultMap;
+    final imagePermission = await  checkImagePermission();
+    if(imagePermission){
+      final tempDirectory = await getTemporaryDirectory();
+      final newImage = await ImagePicker().pickImage(source: source);
+      if (newImage == null) {
+        return _resultMap;
+      }
+      File file = File(newImage.path);
+      if (Platform.isIOS) {
+        file = await file.moveToTmpDirectory(
+          '${tempDirectory.path}/${p.basename(newImage.path)}',
+        );
+      }
+      final extension = (p.extension(file.path)).replaceAll('.', '');
+      _resultMap[EXTENSION_OF_FILE] = extension;
+      _resultMap[VALID_FORMAT_OF_FILE] =
+          PickerType.IMAGE_FILE.fileType.contains(extension.toUpperCase());
+      _resultMap[SIZE_OF_FILE] = file.lengthSync();
+      _resultMap[PATH_OF_FILE] = file.path;
+      _resultMap[NAME_OF_FILE] = p.basename(p.basename(file.path));
     }
-    File file = File(newImage.path);
-    if (Platform.isIOS) {
-      file = await file.moveToTmpDirectory(
-        '${tempDirectory.path}/${p.basename(newImage.path)}',
-      );
-    }
-    final extension = (p.extension(file.path)).replaceAll('.', '');
-    _resultMap[EXTENSION_OF_FILE] = extension;
-    _resultMap[VALID_FORMAT_OF_FILE] =
-        PickerType.IMAGE_FILE.fileType.contains(extension.toUpperCase());
-    _resultMap[SIZE_OF_FILE] = file.lengthSync();
-    _resultMap[PATH_OF_FILE] = file.path;
-    _resultMap[NAME_OF_FILE] = p.basename(p.basename(file.path));
     return _resultMap;
   } on PlatformException catch (e) {
     final permission =
@@ -114,4 +117,14 @@ Future<Map<String, dynamic>> pickImageFunc({
     }
     throw 'Cant upload image $e';
   }
+}
+
+Future<bool> checkImagePermission () async{
+  final permission =
+  Platform.isIOS ? Permission.photosAddOnly : Permission.storage;
+  final status = await permission.status;
+  if (status.isDenied) {
+    await MessageConfig.showDialogSetting();
+  }
+  return !status.isDenied;
 }

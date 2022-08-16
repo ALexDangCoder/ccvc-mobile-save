@@ -187,6 +187,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   bool checkIconMore({
     required String codeTrangThai,
     required String idNguoiYeuCau,
+    required String idNguoiXuLy,
   }) {
     if (checkDanhGia(
           codeTrangThai: codeTrangThai,
@@ -198,14 +199,16 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
         ) ||
         checkUpdateXuLy(
           codeTrangThai: codeTrangThai,
+          idNguoiXuLy: idNguoiXuLy,
         )) {
       return true;
     }
     return false;
   }
 
-  bool checkUpdateXuLy({required String codeTrangThai}) {
-    if ((isSupporter || isManager) &&
+  bool checkUpdateXuLy(
+      {required String codeTrangThai, required String idNguoiXuLy}) {
+    if (((idNguoiXuLy == dataUser?.userInformation?.id) || isManager) &&
         (!(codeTrangThai == DA_HOAN_THANH) &&
             !(codeTrangThai == TU_CHOI_XU_LY))) {
       return true;

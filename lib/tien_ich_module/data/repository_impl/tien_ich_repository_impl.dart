@@ -31,14 +31,15 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/topic_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/tra_cuu_van_ban_phap_luat_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 
 class TienIchRepositoryImpl implements TienIchRepository {
   final TienIchService _tienIchService;
   final TienIchServiceCommon _tienIchServiceCommon;
   final TienIchServiceGateWay _tienIchServiceGateWay;
 
-  TienIchRepositoryImpl(this._tienIchService,
-      this._tienIchServiceCommon, this._tienIchServiceGateWay);
+  TienIchRepositoryImpl(this._tienIchService, this._tienIchServiceCommon,
+      this._tienIchServiceGateWay);
 
   @override
   Future<Result<List<TopicHDSD>>> getTopicHDSD() {
@@ -85,6 +86,21 @@ class TienIchRepositoryImpl implements TienIchRepository {
         hoTen,
         pageSize,
         pageIndex,
+      ),
+      (res) => res.data.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<ItemChonBienBanCuocHopModel>> getCanBo(
+    String Id,
+  ) {
+    return runCatchingAsync<ListNguoiThucHienResponse,
+        ItemChonBienBanCuocHopModel>(
+      () => _tienIchServiceCommon.getCanBo(
+        Id,
+        ApiConstants.MIN_PAGE_SIZE,
+        ApiConstants.PAGE_BEGIN,
       ),
       (res) => res.data.toDomain(),
     );

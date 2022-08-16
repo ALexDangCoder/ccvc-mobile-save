@@ -586,26 +586,42 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///init data nguoi thuc hien
-  void initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) {
+  Future<void> initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) async {
     if ((todo?.performer ??  '').isEmpty) {
-      nguoiThucHienSubject.sink.add(
-        NguoiThucHienModel(
-          id: '',
-          hoten: S.current.tim_theo_nguoi,
-          donVi: [],
-          chucVu: [],
-        ),
-      );
+      addNguoiThucHienNull();
     } else {
-      nguoiThucHienSubject.sink.add(
-        NguoiThucHienModel(
-          id: todo?.performer ?? '',
-          hoten: convertIdToPerson(vl: todo?.performer ?? ''),
-          donVi: [],
-          chucVu: [],
-        ),
+      final result = await tienIchRep.getCanBo(
+        todo?.performer ?? '',
+      );
+      result.when(
+        success: (res) {
+          if(res.items.isNotEmpty){
+            nguoiThucHienSubject.sink.add(
+              NguoiThucHienModel(
+                id: todo?.performer ?? '',
+                hoten: res.items.first.hoten,
+                donVi: res.items.first.donVi,
+                chucVu: res.items.first.chucVu,
+              ),
+            );
+          }
+          else{
+            addNguoiThucHienNull();
+          }
+        },
+        error: (_) {},
       );
     }
+  }
+  void addNguoiThucHienNull(){
+    nguoiThucHienSubject.sink.add(
+      NguoiThucHienModel(
+        id: '',
+        hoten: S.current.tim_theo_nguoi,
+        donVi: [],
+        chucVu: [],
+      ),
+    );
   }
 
   ///up file
@@ -780,6 +796,7 @@ class DanhSachCongViecTienIchCubit
     inLoadmore.close();
     titleAppBar.close();
     listDSCVStream.close();
+    nguoiThucHienSubject.close();
     statusDSCV.close();
     countTodoModelSubject.close();
     listNguoiThucHienSubject.close();

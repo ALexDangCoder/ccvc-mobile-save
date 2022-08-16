@@ -175,6 +175,13 @@ abstract class TienIchServiceCommon {
     @Query('PageIndex') int pageIndex,
   );
 
+  @GET(ApiConstants.LIST_NGUOI_THUC_HIEN)
+  Future<ListNguoiThucHienResponse> getCanBo(
+      @Query('FilterBy') String Id,
+      @Query('PageSize') int pageSize,
+      @Query('PageIndex') int pageIndex,
+      );
+
   @GET(ApiConstants.TREE_DANH_BA)
   @FormUrlEncoded()
   Future<TreeDanhBaResponse> treeDanhBa(

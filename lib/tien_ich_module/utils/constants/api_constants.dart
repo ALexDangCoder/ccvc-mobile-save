@@ -1,6 +1,7 @@
 class ApiConstants {
   static const int LONG_PAGE_SIZE = 25;
   static const int MAX_PAGE_SIZE = 35;
+  static const int MIN_PAGE_SIZE = 1;
   static const int PAGE_BEGIN = 1;
   static const TOPIC_HDSD = '/api/FAQs/get-all-topic?';
   static const TODO_LIST_CURRENT_USER = '/api/TodoList/get-current-user';

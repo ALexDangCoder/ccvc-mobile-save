@@ -52,6 +52,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
       permissionType: PermissionType.HTKT,
       permissionTxt: QUYEN_TRUONG_PHONG,
     );
+    _cubit.selecStatus.add(_cubit.supportDetail.trangThaiXuLy ?? '');
   }
 
   @override
@@ -112,6 +113,8 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                               title(S.current.ket_qua_xu_ly),
                               spaceH16,
                               dropDownField(
+                                initData:
+                                    _cubit.supportDetail.trangThaiXuLy ?? '',
                                 title: S.current.trang_thai_xu_ly,
                                 listDropdown: _cubit.listTrangThai,
                                 maxLine: 2,
@@ -126,17 +129,89 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                               ),
                               spaceH16,
                               if (isTruongPhong &&
-                                  _cubit.supportDetail.codeTrangThai ==
-                                      ChiTietHoTroCubit.CHUA_XU_LY)
+                                  (_cubit.supportDetail.codeTrangThai ==
+                                          ChiTietHoTroCubit.CHUA_XU_LY ||
+                                      _cubit.supportDetail.codeTrangThai ==
+                                          '' ||
+                                      _cubit.supportDetail.codeTrangThai ==
+                                          ChiTietHoTroCubit.DANG_XU_LY))
                                 if (widget.idTask?.isNotEmpty ?? false) ...[
                                   StreamBuilder<List<String>>(
                                     stream: _cubit.getItSupport,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return dropDownField(
-                                          title: S.current.nguoi_xu_ly,
-                                          listDropdown: _cubit.listItSupport,
-                                          maxLine: 2,
+                                        return StreamBuilder<String>(
+                                          stream: _cubit.selecStatus,
+                                          builder: (context, snapshot) {
+                                            final enable = snapshot.data ==
+                                                    ChiTietHoTroCubit
+                                                        .CHUA_XU_LY_VALUE ||
+                                                snapshot.data == '';
+                                            if (enable) {
+                                              return dropDownField(
+                                                initData: _cubit.listItSupport
+                                                    .firstWhere(
+                                                  (element) => element.contains(
+                                                    _cubit.supportDetail
+                                                            .nguoiXuLy ??
+                                                        '',
+                                                  ),
+                                                ),
+                                                title: S.current.nguoi_xu_ly,
+                                                listDropdown:
+                                                    _cubit.listItSupport,
+                                                maxLine: 2,
+                                              );
+                                            } else {
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    S.current.nguoi_xu_ly,
+                                                    style: tokenDetailAmount(
+                                                      fontSize: 14,
+                                                      color: color3D5586,
+                                                    ),
+                                                  ),
+                                                  spaceH8,
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                      left: 12.w,
+                                                      top: 12.h,
+                                                      bottom: 12.h,
+                                                    ),
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                      color: borderColor
+                                                          .withOpacity(0.2),
+                                                      border: Border.all(
+                                                        color: borderColor,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        6,
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          _cubit.supportDetail
+                                                                  .nguoiXuLy ??
+                                                              '',
+                                                          style:
+                                                              tokenDetailAmount(
+                                                            fontSize: 14,
+                                                            color: borderColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            }
+                                          },
                                         );
                                       } else {
                                         return const Center(
@@ -148,10 +223,73 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                     },
                                   ),
                                 ] else ...[
-                                  dropDownField(
-                                    title: S.current.nguoi_xu_ly,
-                                    listDropdown: _cubit.listItSupport,
-                                    maxLine: 2,
+                                  StreamBuilder<String>(
+                                    stream: _cubit.selecStatus,
+                                    builder: (context, snapshot) {
+                                      final enable = snapshot.data ==
+                                              ChiTietHoTroCubit
+                                                  .CHUA_XU_LY_VALUE ||
+                                          snapshot.data == '';
+                                      if (enable) {
+                                        return dropDownField(
+                                          initData:
+                                              _cubit.listItSupport.firstWhere(
+                                            (element) => element.contains(
+                                              _cubit.supportDetail.nguoiXuLy ??
+                                                  '',
+                                            ),
+                                          ),
+                                          title: S.current.nguoi_xu_ly,
+                                          listDropdown: _cubit.listItSupport,
+                                          maxLine: 2,
+                                        );
+                                      } else {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              S.current.nguoi_xu_ly,
+                                              style: tokenDetailAmount(
+                                                fontSize: 14,
+                                                color: color3D5586,
+                                              ),
+                                            ),
+                                            spaceH8,
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                left: 12.w,
+                                                top: 12.h,
+                                                bottom: 12.h,
+                                              ),
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: borderColor
+                                                    .withOpacity(0.2),
+                                                border: Border.all(
+                                                  color: borderColor,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    _cubit.supportDetail
+                                                            .nguoiXuLy ??
+                                                        '',
+                                                    style: tokenDetailAmount(
+                                                      fontSize: 14,
+                                                      color: borderColor,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    },
                                   ),
                                 ],
                               spaceH16,
@@ -414,6 +552,7 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
             if (title == S.current.trang_thai_xu_ly) {
               trangThai = listDropdown[value];
               nguoiXuLy = nguoiXuLy;
+              _cubit.selecStatus.add(trangThai ?? '');
             } else {
               trangThai = trangThai;
               nguoiXuLy = listDropdown[value];

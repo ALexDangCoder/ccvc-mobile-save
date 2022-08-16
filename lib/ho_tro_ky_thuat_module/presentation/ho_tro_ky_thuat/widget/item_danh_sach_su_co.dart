@@ -211,6 +211,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
             child: (widget.cubit.checkIconMore(
               idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
               codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+              idNguoiXuLy: widget.objDSSC.idNguoiXuLy ?? '',
             ))
                 ? InkWell(
                     onTap: () =>
@@ -367,6 +368,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                         ],
                         if (widget.cubit.checkUpdateXuLy(
                               codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                              idNguoiXuLy: widget.objDSSC.idNguoiXuLy ?? '',
                             ) &&
                             widget.cubit.checkDeleteAndSua(
                               idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
@@ -377,6 +379,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                           ),
                         if (widget.cubit.checkUpdateXuLy(
                           codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                          idNguoiXuLy: widget.objDSSC.idNguoiXuLy ?? '',
                         ))
                           itemMenu(
                             title: S.current.chap_nhap_thxl,

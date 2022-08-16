@@ -56,7 +56,6 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     if (isTruongPhong && !isNguoiXuLy) {
       listTrangThai = [
         CHUA_XU_LY_VALUE,
-        DANG_XU_LY_VALUE,
       ];
     }
     if (isTruongPhong && isNguoiXuLy) {
@@ -94,6 +93,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   static const String TU_CHOI_XU_LY = 'tu-choi-xu-ly';
 
   BehaviorSubject<String> selectDate = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selecStatus = BehaviorSubject.seeded('');
   BehaviorSubject<List<String>> getItSupport = BehaviorSubject();
   BehaviorSubject<SupportDetail> ngayHoanThanhStream = BehaviorSubject();
 
@@ -117,6 +117,8 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
           res.thoiGianYeuCau = dateFormat.format(ngayYeuCau);
         }
         getNguoiXuLy(res);
+        supportDetail = res;
+        selecStatus.add(res.trangThaiXuLy ?? '');
       },
       error: (error) {
         emit(

@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +33,7 @@ class DanhSachCongViecTienIchCubit
   bool canLoadMoreNguoiThucHien = true;
   TextEditingController searchControler = TextEditingController();
   Timer? _debounce;
-  final int maxSizeFile = 31457280;
+  final int maxSizeFile = MaxSizeFile.MAX_SIZE_20MB.toInt();
 
   ///id nhom nhiem vu
   String groupId = '';

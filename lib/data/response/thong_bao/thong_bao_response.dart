@@ -23,6 +23,12 @@ class ThongBaoResponse {
       _$ThongBaoResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThongBaoResponseToJson(this);
+  List<ThongBaoModel> toDomain() {
+    return data
+        .map((e) => e.toModel())
+        .where((element) => element.thongBaoType != null)
+        .toList();
+  }
 }
 
 @JsonSerializable()

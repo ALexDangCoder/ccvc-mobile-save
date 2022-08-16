@@ -168,6 +168,7 @@ class _MultiSelectListState extends State<MultiSelectList> {
       showDiaLogTablet<List<int>>(
         context,
         title: widget.title ?? '',
+        btnRightTxt: S.current.luu,
         child: Issue(
           onChange: (String? value) {},
           logic: logic,

@@ -11,12 +11,14 @@ class BaseSearchBar extends StatelessWidget {
     this.onChange,
     this.controller,
     this.hintText,
+    this.colorIcon,
   }) : super(key: key);
   final Function(String)? onSubmit;
   final Function(String)? onChange;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final String? hintText;
+  final Color? colorIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +43,9 @@ class BaseSearchBar extends StatelessWidget {
         ),
         decoration: InputDecoration(
           isCollapsed: true,
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.search,
-            color: Color(0xff5F63E8),
+            color: colorIcon ?? const Color(0xff5F63E8),
           ),
           border: InputBorder.none,
           hintText: hintText ?? S.current.enterkeysearch,

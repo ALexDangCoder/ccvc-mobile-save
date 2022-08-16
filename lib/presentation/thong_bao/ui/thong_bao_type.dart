@@ -2,12 +2,7 @@ import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 
-enum ThongBaoType {
-  LichHopMoi,
-  TinNhanMoi,
-}
 
-extension SettingThongBao on ThongBaoType {}
 
 extension GetDataNoti on String {
   String urlIconScreen({

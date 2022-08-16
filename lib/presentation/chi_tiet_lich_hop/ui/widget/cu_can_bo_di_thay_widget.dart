@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
@@ -53,8 +52,8 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
     widget.themDonViCubit.listDonVi.clear();
     widget.cubitThanhPhanTG.isDuplicateCanBo.add(false);
     widget.themCanBoCubit.getCanbo.add([]);
-    widget.cubitThanhPhanTG.listCanBoDuocChon=[];
-    widget.cubitThanhPhanTG.listCanBo=[];
+    widget.cubitThanhPhanTG.listCanBoDuocChon = [];
+    widget.cubitThanhPhanTG.listCanBo = [];
   }
 
   @override
@@ -169,12 +168,12 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                 final data = snapshot.data ?? false;
                 return data
                     ? Text(
-                  S.current.can_bo_nay_da_ton_tai,
-                  style: textNormalCustom(
-                    color: Colors.red,
-                    fontSize: 12.0.textScale(),
-                  ),
-                )
+                        S.current.can_bo_nay_da_ton_tai,
+                        style: textNormalCustom(
+                          color: Colors.red,
+                          fontSize: 12.0.textScale(),
+                        ),
+                      )
                     : Container();
               },
             ),
@@ -273,19 +272,19 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             children: [
               rowInfo(
                 value: donVi.name,
-                key: S.current.ten_don_vi,
+                key: S.current.dv_phoi_hop,
                 needShowPadding: true,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: donVi.tenCanBo, key: S.current.ten_can_bo),
+              rowInfo(value: donVi.tenCanBo, key: S.current.nguoi_pho_hop),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
               rowInfo(
                 value: donVi.noidung,
-                key: S.current.nd_cong_viec,
+                key: S.current.just_noi_dung,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
@@ -331,19 +330,19 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             children: [
               rowInfo(
                 value: tenDonvi,
-                key: S.current.ten_don_vi,
+                key: S.current.dv_phoi_hop,
                 needShowPadding: true,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: tenCanBo, key: S.current.ten_can_bo),
+              rowInfo(value: tenCanBo, key: S.current.nguoi_pho_hop),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
               rowInfo(
                 value: noiDungCV,
-                key: S.current.nd_cong_viec,
+                key: S.current.just_noi_dung,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
@@ -351,20 +350,20 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             ],
           ),
           if (isXoa == false)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    onDelete();
-                  },
-                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
-                ),
-              ],
-            ),
-          )
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      onDelete();
+                    },
+                    child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                  ),
+                ],
+              ),
+            )
           else
             const SizedBox(),
         ],

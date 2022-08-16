@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/background_model.dart';
@@ -7,7 +6,7 @@ import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_state.dart';
-import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
+
 import 'package:ccvc_mobile/presentation/thong_bao/ui/type_detail.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -208,7 +207,6 @@ extension ThongBaoScreen on ThongBaoCubit {
   }
 
   Future<void> getThongBaoQuanTrong() async {
-    showLoading();
     final result = await _service.getThongBaoQuanTrong(
       active: true,
       seen: -1,
@@ -222,7 +220,6 @@ extension ThongBaoScreen on ThongBaoCubit {
       },
       error: (error) {},
     );
-    showContent();
   }
 
   Future<void> deleteNoti(String id) async {

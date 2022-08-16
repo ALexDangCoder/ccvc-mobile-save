@@ -49,7 +49,7 @@ class ImagePermission {
 
     if (result.isGranted) {
       perrmission = ImageSelection.PICK_IMAGE;
-    } else if (Platform.isIOS || result.isPermanentlyDenied) {
+    } else if (result.isPermanentlyDenied) {
       perrmission = ImageSelection.NO_STORAGE_PERMISSION_PERMANENT;
     } else {
       perrmission = ImageSelection.NO_STORAGE_PERMISSION;

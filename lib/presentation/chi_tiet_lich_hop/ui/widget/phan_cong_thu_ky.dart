@@ -322,6 +322,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
       mainAxisSize: MainAxisSize.min,
       children: [
         BaseSearchBar(
+          colorIcon: AppTheme.getInstance().colorField(),
           onChange: (keySearch) {
             bool isListThuKy(NguoiChutriModel thuKy) {
               return thuKy
@@ -385,9 +386,9 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                                   ),
                                 ),
                                 if (itemTitle.isThuKy ?? false)
-                                  const Icon(
+                                  Icon(
                                     Icons.done_sharp,
-                                    color: buttonColor,
+                                    color: AppTheme.getInstance().colorField(),
                                   ),
                               ],
                             ),

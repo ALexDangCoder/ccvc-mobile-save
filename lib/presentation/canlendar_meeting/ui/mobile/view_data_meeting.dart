@@ -240,7 +240,6 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         ),
       ).then((value) {
         if (value != null && value) {
-          widget.cubit.emitCalendarViewState();
           widget.cubit.refreshDataDangLich();
         }
       });
@@ -254,7 +253,6 @@ class _ViewDataMeetingState extends State<ViewDataMeeting> {
         ),
       ).then((value) {
         if (value != null && value) {
-          widget.cubit.emitCalendarViewState();
           widget.cubit.refreshDataDangLich();
         }
       });

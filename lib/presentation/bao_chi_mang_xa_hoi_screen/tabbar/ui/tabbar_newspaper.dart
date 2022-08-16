@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/bao_chi_mang_xa_hoi_menu_phone.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/bloc/bao_chi_mang_xa_hoi_cubit.dart';
@@ -105,15 +106,11 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
         ],
         bottom: TabBar(
           controller: _controller,
-          indicatorColor: indicatorColor,
+          indicatorColor: AppTheme.getInstance().colorField(),
           unselectedLabelColor: colorA2AEBD,
           labelColor: selectColorTabbar,
           isScrollable: true,
-          onTap: (value) {
-            // if (value == 3) {
-            //   blocTinTuc.listTinTuc.clear();
-            // }
-          },
+          onTap: (value) {},
           tabs: [
             Tab(
               child: Text(S.current.tat_ca_chu_de),

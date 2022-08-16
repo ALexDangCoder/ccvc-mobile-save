@@ -39,8 +39,8 @@ class _CapNhatTinhHinhHoTroTabLetState
   String? nguoiXuLy;
   bool isTruongPhong = false;
 
-    ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
-  
+  ChiTietHoTroCubit _cubit = ChiTietHoTroCubit();
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +48,7 @@ class _CapNhatTinhHinhHoTroTabLetState
       _cubit.getSupportDetail(widget.idTask ?? '');
     } else {
       _cubit = widget.cubit;
+      _cubit.selecStatus.add(_cubit.supportDetail.trangThaiXuLy ?? '');
     }
     isTruongPhong = HiveLocal.checkPermissionApp(
       permissionType: PermissionType.HTKT,
@@ -118,17 +119,77 @@ class _CapNhatTinhHinhHoTroTabLetState
                         maxLine: 4,
                       ),
                       spaceH16,
-                      if (isTruongPhong)
+                      if (isTruongPhong &&
+                          (_cubit.supportDetail.codeTrangThai ==
+                                  ChiTietHoTroCubit.CHUA_XU_LY ||
+                              _cubit.supportDetail.codeTrangThai == '' ||
+                              _cubit.supportDetail.codeTrangThai ==
+                                  ChiTietHoTroCubit.DANG_XU_LY))
                         if (widget.idTask?.isNotEmpty ?? false) ...[
                           StreamBuilder<List<String>>(
                             stream: _cubit.getItSupport,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return dropDownField(
-                                  title: S.current.nguoi_xu_ly,
-                                  listDropdown:
-                                  _cubit.listItSupport,
-                                  maxLine: 2,
+                                return StreamBuilder<String>(
+                                  stream: _cubit.selecStatus,
+                                  builder: (context, snapshot) {
+                                    final enable = snapshot.data ==
+                                            ChiTietHoTroCubit
+                                                .CHUA_XU_LY_VALUE ||
+                                        snapshot.data == '';
+                                    if (enable) {
+                                      return dropDownField(
+                                        title: S.current.nguoi_xu_ly,
+                                        listDropdown: _cubit.listItSupport,
+                                        maxLine: 2,
+                                      );
+                                    } else {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            S.current.nguoi_xu_ly,
+                                            style: tokenDetailAmount(
+                                              fontSize: 16,
+                                              color: color3D5586,
+                                            ),
+                                          ),
+                                          spaceH8,
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              left: 12.w,
+                                              top: 12,
+                                              bottom: 12,
+                                            ),
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  borderColor.withOpacity(0.2),
+                                              border: Border.all(
+                                                color: borderColor,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  _cubit.supportDetail
+                                                          .nguoiXuLy ??
+                                                      '',
+                                                  style: tokenDetailAmount(
+                                                    fontSize: 16,
+                                                    color: borderColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                  },
                                 );
                               } else {
                                 return const Center(
@@ -140,10 +201,61 @@ class _CapNhatTinhHinhHoTroTabLetState
                             },
                           ),
                         ] else ...[
-                          dropDownField(
-                            title: S.current.nguoi_xu_ly,
-                            listDropdown: _cubit.listItSupport,
-                            maxLine: 2,
+                          StreamBuilder<String>(
+                            stream: _cubit.selecStatus,
+                            builder: (context, snapshot) {
+                              final enable = snapshot.data ==
+                                      ChiTietHoTroCubit.CHUA_XU_LY_VALUE ||
+                                  snapshot.data == '';
+                              if (enable) {
+                                return dropDownField(
+                                  title: S.current.nguoi_xu_ly,
+                                  listDropdown: _cubit.listItSupport,
+                                  maxLine: 2,
+                                );
+                              } else {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      S.current.nguoi_xu_ly,
+                                      style: tokenDetailAmount(
+                                        fontSize: 16,
+                                        color: color3D5586,
+                                      ),
+                                    ),
+                                    spaceH8,
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                        left: 12.w,
+                                        top: 12,
+                                        bottom: 12,
+                                      ),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: borderColor.withOpacity(0.2),
+                                        border: Border.all(
+                                          color: borderColor,
+                                        ),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            _cubit.supportDetail.nguoiXuLy ??
+                                                '',
+                                            style: tokenDetailAmount(
+                                              fontSize: 16,
+                                              color: borderColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            },
                           ),
                         ],
                       spaceH16,
@@ -158,48 +270,45 @@ class _CapNhatTinhHinhHoTroTabLetState
                       spaceH8,
                       if (widget.idTask?.isNotEmpty ?? false) ...[
                         StreamBuilder<SupportDetail>(
-                            stream: _cubit.ngayHoanThanhStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData && snapshot.data?.id != '') {
-                                return DateInput(
-                                  paddings: 10,
-                                  leadingIcon: SvgPicture.asset(
-                                    image_utils.ImageAssets.icCalenders,
-                                  ),
-                                  onSelectDate: (dateTime) {
-                                    birthday = dateTime;
-                                  },
-                                  minimumDate: (_cubit.supportDetail
-                                              .thoiGianYeuCau?.isNotEmpty ??
-                                          false)
-                                      ? DateFormat(
-                                          DateTimeFormat
-                                              .DATE_BE_RESPONSE_FORMAT,
-                                        ).parse(
-                                          _cubit.supportDetail
-                                              .thoiGianYeuCau!,
-                                        )
-                                      : null,
-                                  initDateTime: (_cubit.supportDetail
-                                              .ngayHoanThanh?.isNotEmpty ??
-                                          false)
-                                      ? DateFormat(
-                                          DateTimeFormat
-                                              .DATE_BE_RESPONSE_FORMAT,
-                                        ).parse(
-                                          _cubit.supportDetail
-                                              .ngayHoanThanh!,
-                                        )
-                                      : null,
-                                );
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                    color: sideBtnUnselected,
-                                  ),
-                                );
-                              }
-                            })
+                          stream: _cubit.ngayHoanThanhStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData && snapshot.data?.id != '') {
+                              return DateInput(
+                                paddings: 10,
+                                leadingIcon: SvgPicture.asset(
+                                  image_utils.ImageAssets.icCalenders,
+                                ),
+                                onSelectDate: (dateTime) {
+                                  birthday = dateTime;
+                                },
+                                minimumDate: (_cubit.supportDetail
+                                            .thoiGianYeuCau?.isNotEmpty ??
+                                        false)
+                                    ? DateFormat(
+                                        DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                      ).parse(
+                                        _cubit.supportDetail.thoiGianYeuCau!,
+                                      )
+                                    : null,
+                                initDateTime: (_cubit.supportDetail
+                                            .ngayHoanThanh?.isNotEmpty ??
+                                        false)
+                                    ? DateFormat(
+                                        DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                      ).parse(
+                                        _cubit.supportDetail.ngayHoanThanh!,
+                                      )
+                                    : null,
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: sideBtnUnselected,
+                                ),
+                              );
+                            }
+                          },
+                        )
                       ] else
                         DateInput(
                           paddings: 10,
@@ -209,8 +318,8 @@ class _CapNhatTinhHinhHoTroTabLetState
                           onSelectDate: (dateTime) {
                             birthday = dateTime;
                           },
-                          minimumDate: (_cubit.supportDetail
-                                      .thoiGianYeuCau?.isNotEmpty ??
+                          minimumDate: (_cubit.supportDetail.thoiGianYeuCau
+                                      ?.isNotEmpty ??
                                   false)
                               ? DateFormat(
                                   DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
@@ -218,15 +327,15 @@ class _CapNhatTinhHinhHoTroTabLetState
                                   _cubit.supportDetail.thoiGianYeuCau!,
                                 )
                               : null,
-                          initDateTime: (_cubit.supportDetail
-                                      .ngayHoanThanh?.isNotEmpty ??
-                                  false)
-                              ? DateFormat(
-                                  DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-                                ).parse(
-                                  _cubit.supportDetail.ngayHoanThanh!,
-                                )
-                              : null,
+                          initDateTime:
+                              (_cubit.supportDetail.ngayHoanThanh?.isNotEmpty ??
+                                      false)
+                                  ? DateFormat(
+                                      DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+                                    ).parse(
+                                      _cubit.supportDetail.ngayHoanThanh!,
+                                    )
+                                  : null,
                         ),
                       spaceH10,
                       Padding(
@@ -243,9 +352,9 @@ class _CapNhatTinhHinhHoTroTabLetState
                           onPressed2: () {
                             _cubit
                                 .capNhatTHXL(
-                              taskId: (_cubit.supportDetail.id ??
-                                      widget.idTask) ??
-                                  '',
+                              taskId:
+                                  (_cubit.supportDetail.id ?? widget.idTask) ??
+                                      '',
                               name: (trangThai ??
                                       widget
                                           .cubit.supportDetail.trangThaiXuLy) ??
@@ -259,8 +368,7 @@ class _CapNhatTinhHinhHoTroTabLetState
                               handlerId: (nguoiXuLy ??
                                       _cubit.supportDetail.nguoiXuLy) ??
                                   '',
-                              id: (_cubit.supportDetail.id ??
-                                      widget.idTask) ??
+                              id: (_cubit.supportDetail.id ?? widget.idTask) ??
                                   '',
                               comment: '',
                             )
@@ -395,11 +503,15 @@ class _CapNhatTinhHinhHoTroTabLetState
         CoolDropDown(
           initData: title == S.current.trang_thai_xu_ly
               ? (_cubit.supportDetail.trangThaiXuLy ?? '')
-              : (_cubit.supportDetail.nguoiXuLy ?? ''),
+              : _cubit.listItSupport.firstWhere(
+                  (element) =>
+                      element.contains(_cubit.supportDetail.nguoiXuLy ?? ''),
+                ),
           placeHoder: S.current.chon,
           onChange: (value) {
             if (title == S.current.trang_thai_xu_ly) {
               trangThai = listDropdown[value];
+              _cubit.selecStatus.add(trangThai ?? '');
               nguoiXuLy = nguoiXuLy;
             } else {
               trangThai = trangThai;

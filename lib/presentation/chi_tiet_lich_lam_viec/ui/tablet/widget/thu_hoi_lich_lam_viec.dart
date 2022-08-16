@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
@@ -125,7 +126,7 @@ class SelectTHuHoiCell extends StatelessWidget {
                 showHintText: dataSN.isEmpty,
                 title: S.current.thu_hoi_lich,
                 listSelect: data,
-                hintText:S.current.chon_can_bo_hoac_don_vi_de_thu_hoi,
+                hintText: S.current.chon_can_bo_hoac_don_vi_de_thu_hoi,
                 onChange: (vl) {
                   if (cubit.dataRecall[vl].status == 4) {
                     cubit.dataRecall[vl].status = 0;
@@ -163,7 +164,7 @@ class SelectTHuHoiCell extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        color: AppTheme.getInstance().colorField().withOpacity(0.1),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(
@@ -176,9 +177,7 @@ class SelectTHuHoiCell extends StatelessWidget {
             child: Text(
               title,
               style: textNormal(
-                APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
+                AppTheme.getInstance().colorField(),
                 12.0.textScale(),
               ),
               overflow: TextOverflow.ellipsis,
@@ -194,9 +193,7 @@ class SelectTHuHoiCell extends StatelessWidget {
                 ImageAssets.icClose,
                 width: 7.5,
                 height: 7.5,
-                color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
-                    : backgroundColorApp,
+                color: AppTheme.getInstance().colorField(),
               ),
             ),
           )
@@ -391,9 +388,9 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                               ),
                             ),
                             if (itemTitle.status == 4)
-                              const Icon(
+                              Icon(
                                 Icons.done_sharp,
-                                color: buttonColor,
+                                color: AppTheme.getInstance().colorField(),
                               ),
                           ],
                         ),

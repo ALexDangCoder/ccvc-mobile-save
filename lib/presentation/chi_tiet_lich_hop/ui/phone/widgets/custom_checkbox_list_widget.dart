@@ -1,10 +1,13 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/checkbox/custom_checkbox.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
@@ -141,8 +144,20 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                                           padding: const EdgeInsets.only(
                                             right: 4,
                                           ),
-                                          child: SvgPicture.asset(
-                                            ImageAssets.icCheck,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              SvgPicture.asset(
+                                                ImageAssets.icCheck,
+                                                color: AppTheme.getInstance()
+                                                    .colorField(),
+                                              ),
+                                              const Icon(
+                                                Icons.check,
+                                                size: 15.0,
+                                                color: backgroundColorApp,
+                                              ),
+                                            ],
                                           ),
                                         )
                                       : Padding(

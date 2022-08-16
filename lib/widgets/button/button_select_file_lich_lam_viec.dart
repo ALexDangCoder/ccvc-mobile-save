@@ -5,12 +5,13 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/file_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ButtonSelectFileLichLamViec extends StatefulWidget {
   final Color? background;
@@ -138,54 +139,59 @@ class _ButtonSelectFileLichLamViecState
       children: [
         GestureDetector(
           onTap: () async {
-            final FilePickerResult? result =
-                await FilePicker.platform.pickFiles(
-              allowMultiple: widget.hasMultipleFile,
-              allowedExtensions: widget.allowedExtensions,
-              type: (widget.allowedExtensions ?? []).isNotEmpty
-                  ? FileType.custom
-                  : FileType.any,
-            );
-            if (result != null) {
-              if (isFileError(result.paths)) {
-                MessageConfig.show(
-                  messState: MessState.error,
-                  title: S.current.file_khong_hop_le,
-                );
-                return;
-              }
-              if (!widget.hasMultipleFile && selectFiles.isNotEmpty) {
-                errMessage = widget.errMultipleFileMessage;
-                isShowErr = true;
-                setState(() {});
-                return;
-              }
-              errMessage = '';
-              isShowErr = false;
-              selectFiles.addAll(
-                result.files
-                    .map(
-                      (file) => FileModel(
-                        file: File(file.path ?? ''),
-                        size: file.size,
-                      ),
-                    )
-                    .toSet()
-                    .toList(),
+            final permission = await handleFilePermission();
+            if (permission) {
+              final FilePickerResult? result =
+                  await FilePicker.platform.pickFiles(
+                allowMultiple: widget.hasMultipleFile,
+                allowedExtensions: widget.allowedExtensions,
+                type: (widget.allowedExtensions ?? []).isNotEmpty
+                    ? FileType.custom
+                    : FileType.any,
               );
-              if (widget.maxSize != null) {
-                sumListFileSize(selectFiles, widget.errOverSizeMessage);
+              if (result != null) {
+                if (isFileError(result.paths)) {
+                  MessageConfig.show(
+                    messState: MessState.error,
+                    title: S.current.file_khong_hop_le,
+                  );
+                  return;
+                }
+                if (!widget.hasMultipleFile && selectFiles.isNotEmpty) {
+                  errMessage = widget.errMultipleFileMessage;
+                  isShowErr = true;
+                  setState(() {});
+                  return;
+                }
+                errMessage = '';
+                isShowErr = false;
+                selectFiles.addAll(
+                  result.files
+                      .map(
+                        (file) => FileModel(
+                          file: File(file.path ?? ''),
+                          size: file.size,
+                        ),
+                      )
+                      .toSet()
+                      .toList(),
+                );
+                if (widget.maxSize != null) {
+                  sumListFileSize(selectFiles, widget.errOverSizeMessage);
+                }
+                setState(() {});
               }
-              setState(() {});
-            }
 
-            widget.onChange(
-              List.generate(
-                selectFiles.length,
-                (index) => selectFiles[index].file,
-              ),
-              isShowErr,
-            );
+              widget.onChange(
+                List.generate(
+                  selectFiles.length,
+                  (index) => selectFiles[index].file,
+                ),
+                isShowErr,
+              );
+            } else {
+              await MessageConfig.showDialogSetting();
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -316,6 +322,17 @@ class _ButtonSelectFileLichLamViecState
         ],
       ),
     );
+  }
+}
+
+Future<bool> handleFilePermission() async {
+  final permission =
+      Platform.isAndroid ? await Permission.storage.request() : null;
+  if (permission == PermissionStatus.denied ||
+      permission == PermissionStatus.permanentlyDenied) {
+    return false;
+  } else {
+    return true;
   }
 }
 

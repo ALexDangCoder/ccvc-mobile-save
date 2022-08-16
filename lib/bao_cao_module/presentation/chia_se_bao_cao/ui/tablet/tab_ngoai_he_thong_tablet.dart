@@ -165,6 +165,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             textField(
+              initialValue: name,
               isRequired: true,
               title: S.current.ho_ten,
               hintText: S.current.ho_ten,
@@ -198,6 +199,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             ),
             spaceH16,
             textField(
+              initialValue: email,
               isRequired: true,
               title: S.current.email,
               hintText: S.current.email,
@@ -223,6 +225,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               maxLength: 255,
+              initialValue: phoneNumber,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
@@ -236,6 +239,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: position,
               hintText: S.current.chuc_vu,
               title: S.current.chuc_vu,
               onChange: (value) {
@@ -250,6 +254,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: unit,
               title: S.current.don_vi,
               hintText: S.current.don_vi,
               onChange: (value) {
@@ -264,6 +269,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: note,
               validate: (value) {
                 if ((value ?? '').isEmpty) {
                   return '${S.current.ban_phai_nhap_truong} ${S.current.ghi_chu}!';
@@ -435,6 +441,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
       );
 
   Widget textField({
+    String? initialValue,
     String? hintText,
     int maxLine = 1,
     int? maxLength,
@@ -473,6 +480,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
         ),
         spaceH8,
         TextFieldValidator(
+          initialValue: initialValue,
           hintText: hintText,
           onChange: onChange,
           maxLine: maxLine,

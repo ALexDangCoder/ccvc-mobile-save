@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -56,17 +57,22 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
       children: [
         GestureDetector(
           onTap: () async {
-            final FilePickerResult? result =
-                await FilePicker.platform.pickFiles(allowMultiple: true);
+            try{
+              final FilePickerResult? result =
+              await FilePicker.platform.pickFiles(allowMultiple: true);
 
-            if (result != null) {
-              widget.files = result.paths.map((path) => File(path!)).toList();
-            } else {
-              // User canceled the picker
+              if (result != null) {
+                widget.files = result.paths.map((path) => File(path!)).toList();
+              } else {
+                // User canceled the picker
+              }
+
+              widget.onChange(widget.files);
+              setState(() {});
             }
-
-            widget.onChange(widget.files);
-            setState(() {});
+            catch(e){
+              await MessageConfig.showDialogSetting();
+            }
           },
           child: Container(
             decoration: BoxDecoration(

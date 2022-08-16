@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -136,7 +137,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
                 border: InputBorder.none,
               ),
               onChanged: (value) {
-                final  name = getNameNoSpace(value);
+                final name = getNameNoSpace(value);
                 setState(() {
                   maxLength = name.length >= 30 ? value.length : null;
                 });
@@ -148,14 +149,13 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
     );
   }
 
-  String getNameNoSpace(String text ){
+  String getNameNoSpace(String text) {
     final textTrim = text.trim();
     String name = '';
     for (int index = 0; index < textTrim.length; index++) {
       if (name.isEmpty) {
         name += textTrim[index];
-      } else if (!(name[name.length - 1] == ' ' &&
-          textTrim[index] == ' ')) {
+      } else if (!(name[name.length - 1] == ' ' && textTrim[index] == ' ')) {
         name += textTrim[index];
       }
     }
@@ -166,7 +166,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        color: AppTheme.getInstance().colorField().withOpacity(0.1),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(
@@ -179,9 +179,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
             child: Text(
               title,
               style: textNormal(
-                APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
+                AppTheme.getInstance().colorField(),
                 12.0.textScale(),
               ),
               overflow: TextOverflow.ellipsis,
@@ -198,9 +196,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
                 ImageAssets.icClose,
                 width: 7.5,
                 height: 7.5,
-                color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
-                    : backgroundColorApp,
+                color: AppTheme.getInstance().colorField(),
               ),
             ),
           )

@@ -78,28 +78,30 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
           ),
         ),
         child: SizedBox(
-          height: 300,
-          child : CupertinoDatePicker(
-            maximumDate: DateTime(2099, 12, 30),
-            maximumYear: 2099,
-            minimumYear: DateTime.now().year,
-            minimumDate: widget.createWorkCalendar
-                ? widget.initDate
-                : widget.createCubit.dateTimeLapDenNgay,
-            backgroundColor: backgroundColorApp,
-            mode: CupertinoDatePickerMode.date,
-            use24hFormat: true,
-            initialDateTime: widget.createWorkCalendar
-                ? widget.initDate
-                : widget.createCubit.dateTimeLapDenNgay,
-            onDateTimeChanged: (value) {
-              deboucer.run(() {
-                widget.createCubit.dateTimeLapDenNgay = value;
-                widget.createCubit.changeDateTimeSubject.add(value);
-              });
-            },
-          )
-        ),
+            height: 300,
+            child: CupertinoDatePicker(
+              maximumDate: DateTime(2099, 12, 30),
+              maximumYear: 2099,
+              minimumYear: DateTime.now().year,
+              minimumDate: widget.createWorkCalendar
+                  ? widget.initDate
+                  : DateTime.parse(
+                      widget.createCubit.dateTimeFrom ??
+                          DateTime.now().toString(),
+                    ),
+              backgroundColor: backgroundColorApp,
+              mode: CupertinoDatePickerMode.date,
+              use24hFormat: true,
+              initialDateTime: widget.createWorkCalendar
+                  ? widget.initDate
+                  : widget.createCubit.dateTimeLapDenNgay,
+              onDateTimeChanged: (value) {
+                deboucer.run(() {
+                  widget.createCubit.dateTimeLapDenNgay = value;
+                  widget.createCubit.changeDateTimeSubject.add(value);
+                });
+              },
+            )),
       ),
     );
   }

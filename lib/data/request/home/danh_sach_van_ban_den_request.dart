@@ -8,6 +8,7 @@ class DanhSachVBRequest {
   String? thoiGianStartFilter;
   String? thoiGianEndFilter;
   String? keySearch;
+  String? trichYeu; // search title
   bool? isDanhSachDaXuLy;
   int? trangThaiXuLy;
   bool? isSortByTrangThai;
@@ -22,6 +23,7 @@ class DanhSachVBRequest {
     this.thoiGianStartFilter,
     this.thoiGianEndFilter,
     this.keySearch,
+    this.trichYeu,
     this.isDanhSachDaXuLy,
     this.trangThaiXuLy,
     this.isSortByTrangThai,
@@ -38,6 +40,7 @@ class DanhSachVBRequest {
     data['ThoiGianStartFilter'] = thoiGianStartFilter;
     data['ThoiGianEndFilter'] = thoiGianEndFilter;
     data['KeySearch'] = keySearch;
+    data['trichYeu'] = trichYeu;
     data['IsDanhSachDaXuLy'] = isDanhSachDaXuLy;
     data['TrangThaiXuLy'] = trangThaiXuLy;
     data['IsSortByTrangThai'] = isSortByTrangThai;

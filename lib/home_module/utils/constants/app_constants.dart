@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -187,6 +189,12 @@ class DateFormatApp {
 }
 
 class PermissionConst {
-  static const  VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
-  static const  VB_DEN_VAO_SO_VAN_BAN = 'van-ban-den-vao-so-van-ban-giay';
+  static const VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
+  static const VB_DEN_VAO_SO_VAN_BAN = 'van-ban-den-vao-so-van-ban-giay';
+}
+
+class ChucVuHome extends ChucVu {
+  String get codeVT{
+    return ChucVu.VT;
+  }
 }

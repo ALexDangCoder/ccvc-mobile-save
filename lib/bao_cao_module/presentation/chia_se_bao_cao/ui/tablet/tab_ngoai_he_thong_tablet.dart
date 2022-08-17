@@ -201,6 +201,9 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             textField(
               initialValue: email,
               isRequired: true,
+              inputFormatter: [
+                FilteringTextInputFormatter.deny(' '),
+              ],
               title: S.current.email,
               hintText: S.current.email,
               onChange: (value) {

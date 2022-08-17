@@ -2,6 +2,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -44,6 +46,7 @@ class _DateInputState extends State<DateInput> {
           DateFormat(DateTimeFormat.DATE_ISO_86).format(widget.initDateTime!);
     }
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -53,45 +56,79 @@ class _DateInputState extends State<DateInput> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showBottomSheetCustom(
-          context,
-          title: S.current.chon_ngay,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 300,
-                child: FlutterRoundedCupertinoDatePickerWidget(
-                  minimumDate: widget.minimumDate ?? DateTime.now(),
-                  onDateTimeChanged: (value) {
-                    cachedSelect = value.toString();
-                  },
-                  textStyleDate: titleAppbar(),
-                  initialDateTime: DateTime.tryParse(dateSelect ?? ''),
+        if (isMobile()) {
+          showBottomSheetCustom(
+            context,
+            title: S.current.chon_ngay,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 300,
+                  child: FlutterRoundedCupertinoDatePickerWidget(
+                    minimumDate: widget.minimumDate ?? DateTime.now(),
+                    onDateTimeChanged: (value) {
+                      cachedSelect = value.toString();
+                    },
+                    textStyleDate: titleAppbar(),
+                    initialDateTime: DateTime.tryParse(dateSelect ?? ''),
+                  ),
                 ),
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    bottom: 32,
+                  ),
+                  child: DoubleButtonBottom(
+                    title2: S.current.chon,
+                    title1: S.current.dong,
+                    onClickRight: () {
+                      setState(() {
+                        dateSelect = cachedSelect;
+                      });
+                      widget.onSelectDate(dateSelect);
+                      Navigator.pop(context);
+                    },
+                    onClickLeft: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
+        } else {
+          showDiaLogTablet(
+            context,
+            title: S.current.chon_ngay,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 300,
+                    child: FlutterRoundedCupertinoDatePickerWidget(
+                      minimumDate: widget.minimumDate ?? DateTime.now(),
+                      onDateTimeChanged: (value) {
+                        cachedSelect = value.toString();
+                      },
+                      textStyleDate: titleAppbar(),
+                      initialDateTime: DateTime.tryParse(dateSelect ?? ''),
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 24,
-                  bottom: 32,
-                ),
-                child: DoubleButtonBottom(
-                  title2: S.current.chon,
-                  title1: S.current.dong,
-                  onClickRight: () {
-                    setState(() {
-                      dateSelect = cachedSelect;
-                    });
-                    widget.onSelectDate(dateSelect);
-                    Navigator.pop(context);
-                  },
-                  onClickLeft: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              )
-            ],
-          ),
-        );
+            ),
+            isBottomShow: true,
+            btnLeftTxt: S.current.dong,
+            btnRightTxt: S.current.chon,
+            funcBtnOk: () {
+              setState(() {
+                dateSelect = cachedSelect;
+              });
+              widget.onSelectDate(dateSelect);
+              Navigator.pop(context);
+            },
+          );
+        }
       },
       child: Row(
         children: [
@@ -117,7 +154,7 @@ class _DateInputState extends State<DateInput> {
                         ),
                         child: dateSelect == null
                             ? Text(
-                                DateTimeFormat.DATE_FORMAT_TEXT_FIELD,
+                                dtFormatUpperCase,
                                 style: textNormal(
                                   titleItemEdit.withOpacity(0.5),
                                   14,

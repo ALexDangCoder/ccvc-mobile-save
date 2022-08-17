@@ -229,10 +229,22 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 btnLeftTxt: S.current.khong,
                 funcBtnRight: () {
                   cubit.deleteChiTietLichHop().then(
-                        (value) => Navigator.pop(
-                          context,
-                          cubit.needRefreshMainMeeting,
-                        ),
+                        (value) {
+                          if(value){
+                            MessageConfig.show(
+                              title: S.current.xoa_thanh_cong,
+                            );
+                            Navigator.pop(
+                              context,
+                              cubit.needRefreshMainMeeting,
+                            );
+                          }else{
+                            MessageConfig.show(
+                              title: S.current.xoa_thanh_cong,
+                              messState: MessState.error,
+                            );
+                          }
+                        }
                       );
                 },
                 title: S.current.xoa_lich_hop,
@@ -253,10 +265,22 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 imageUrl: ImageAssets.icXoaHopPoppup,
                 onChange: (value) {
                   cubit.deleteChiTietLichHop(isMulti: !value).then(
-                        (value) => Navigator.pop(
-                          context,
-                          cubit.needRefreshMainMeeting,
-                        ),
+                        (value) {
+                          if(value){
+                            MessageConfig.show(
+                              title: S.current.xoa_thanh_cong,
+                            );
+                            Navigator.pop(
+                              context,
+                              cubit.needRefreshMainMeeting,
+                            );
+                          }else{
+                            MessageConfig.show(
+                              title: S.current.xoa_thanh_cong,
+                              messState: MessState.error,
+                            );
+                          }
+                        }
                       );
                 },
               ),

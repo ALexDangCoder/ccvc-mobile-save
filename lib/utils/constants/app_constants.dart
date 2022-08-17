@@ -555,3 +555,183 @@ class ThongBaoKeyConst {
   static const QLVB = '42786a27-556d-4eb0-bbd7-30088ba06077'; // code : QLVB
 
 }
+
+class ChucVu {
+  static const VT = 'VT';
+  static const CCTr = 'CCTr';
+  static const CV = 'CV';
+  static const VTr = 'VTr';
+  static const LDB = 'LDB';
+  static const ab = 'ab';
+  static const TP = 'TP';
+  static const KTT = 'KTT';
+  static const CTT = 'CTT';
+  static const GDS = 'GDS';
+  static const PTP = 'PTP';
+  static const PGD = 'PGD';
+  static const PGDS = 'PGDS';
+  static const PCTT = 'PCTT';
+  static const GD = 'GD';
+  static const PB = 'PB';
+  static const PTPPT = 'PTPPT';
+  static const BT = 'BT';
+  static const TRV = 'TRV';
+  static const KT = 'KT';
+  static const ThuTruong = 'ThuTruong';
+  static const ChanhVanPhongBo = 'ChanhVanPhongBo';
+  static const TongCucTruong = 'TongCucTruong';
+  static const CucTruong = 'CucTruong';
+  static const VienTruong = 'VienTruong';
+  static const HieuTruong = 'HieuTruong';
+  static const TongBienTap = 'TongBienTap';
+  static const TQ = 'tq';
+  static const ChanhThanhTra = 'ChanhThanhTra';
+  static const PhoChanhVanPhongBo = 'PhoChanhVanPhongBo';
+  static const PhoTongCucTruong = 'PhoTongCucTruong';
+  static const PhoCucTruong = 'PhoCucTruong';
+  static const PhoVuTruong = 'PhoVuTruong';
+  static const PhoVienTruong = 'PhoVienTruong';
+  static const PhoHieuTruong = 'PhoHieuTruong';
+  static const PhoTongBienTap = 'PhoTongBienTap';
+  static const PhoChanhThanhTra = 'PhoChanhThanhTra';
+  static const GiamDocTT = 'GiamDocTT';
+  static const ChanhVanPhongDonVi = 'ChanhVanPhongDonVi';
+  static const TruongBan = 'TruongBan';
+  static const TruongKhoa = 'TruongKhoa';
+  static const TruongBoMon = 'TruongBoMon';
+  static const PhoChanhVanPhongDonVi = 'PhoChanhVanPhongDonVi';
+  static const PhoTruongBan = 'PhoTruongBan';
+  static const PhoTruongKhoa = 'PhoTruongKhoa';
+  static const PhoTruongBoMon = 'PhoTruongBoMon';
+  static const CanBoPhong = 'CanBoPhong';
+  static const ThuKy = 'ThuKy';
+  static const PhoVuTruongPhuTrachVu = 'PhoVuTruongPhuTrachVu';
+  static const PhoGiamDocPhuTrachTT = 'PhoGiamDocPhuTrachTT';
+  static const VienTruongVienChienLuocPhatTrien =
+      'VienTruongVienChienLuocPhatTrien';
+  static const TruongPhongKeHoach_TaiChinh = 'TruongPhongKeHoach-TaiChinh';
+  static const TruongPhongVanThu_LuuTru = 'TruongPhongVanThu-LuuTru';
+  static const ThuKyBoTruong_PhoChanhVanPhongBo =
+      'ThuKyBoTruong-PhoChanhVanPhongBo';
+  static const VanThuBo = 'VanThuBo';
+  static const NhanVien = 'NhanVien';
+
+  String getName(String code) {
+    switch (code) {
+      case VT:
+        return 'Văn thư';
+      case CCTr:
+        return 'Chi cục trưởng';
+      case CV:
+        return 'Chuyên viên';
+      case VTr:
+        return 'Vụ trưởng';
+      case LDB:
+        return 'Lãnh đạo bộ';
+      case ab:
+        return 'Chánh văn phòng';
+      case TP:
+        return 'Trưởng phòng';
+      case KTT:
+        return 'Kế toán trưởng';
+      case CTT:
+        return 'Chủ tịch';
+      case GDS:
+        return 'Giám đốc sở';
+      case PTP:
+        return 'Phó trưởng phòng';
+      case PGD:
+        return 'Phó giám đốc';
+      case PGDS:
+        return 'Phó giám đốc sở';
+      case PCTT:
+        return 'Phó chủ tịch';
+      case GD:
+        return 'Giám đốc';
+      case PB:
+        return 'Phó ban';
+      case PTPPT:
+        return 'Phó trưởng phòng phụ trách';
+      case BT:
+        return 'Bộ trưởng';
+      case TRV:
+        return 'Thanh tra viên';
+      case KT:
+        return 'Kế toán';
+      case ThuTruong:
+        return 'Thứ trưởng';
+      case ChanhVanPhongBo:
+        return 'Chánh Văn phòng Bộ';
+      case TongCucTruong:
+        return 'Tổng Cục trưởng';
+      case CucTruong:
+        return 'Cục trưởng';
+      case VienTruong:
+        return 'Viện trưởng';
+      case HieuTruong:
+        return 'Hiệu trưởng';
+      case TongBienTap:
+        return 'Tổng biên tập';
+      case TQ:
+        return 'thủ quỹ';
+      case ChanhThanhTra:
+        return 'Chánh Thanh tra';
+      case PhoChanhVanPhongBo:
+        return 'Phó Chánh Văn phòng Bộ';
+      case PhoTongCucTruong:
+        return 'Phó Tổng Cục trưởng';
+      case PhoCucTruong:
+        return 'Phó Cục trưởng';
+      case PhoVuTruong:
+        return 'Phó Vụ trưởng';
+      case PhoVienTruong:
+        return 'Phó Viện trưởng';
+      case PhoHieuTruong:
+        return 'Phó Hiệu trưởng';
+      case PhoTongBienTap:
+        return 'Phó Tổng biên tập';
+      case PhoChanhThanhTra:
+        return 'Phó Chánh Thanh tra';
+      case GiamDocTT:
+        return 'Giám đốc TT';
+      case ChanhVanPhongDonVi:
+        return 'Chánh văn phòng đơn vị';
+      case TruongBan:
+        return 'Trưởng ban';
+      case TruongKhoa:
+        return 'Trưởng khoa';
+      case TruongBoMon:
+        return 'Trưởng bộ môn';
+      case PhoChanhVanPhongDonVi:
+        return 'Phó Chánh văn phòng đơn vị';
+      case PhoTruongBan:
+        return 'Phó Trưởng ban';
+      case PhoTruongKhoa:
+        return 'Phó Trưởng khoa';
+      case PhoTruongBoMon:
+        return 'Phó Trưởng bộ môn';
+      case CanBoPhong:
+        return 'Cán bộ phòng';
+      case ThuKy:
+        return 'Thư ký';
+      case PhoVuTruongPhuTrachVu:
+        return 'Phó Vụ trưởng phụ trách Vụ';
+      case PhoGiamDocPhuTrachTT:
+        return 'Phó Giám đốc phụ trách TT';
+      case VienTruongVienChienLuocPhatTrien:
+        return 'Viện trưởng Viện Chiến lược phát triển';
+      case TruongPhongKeHoach_TaiChinh:
+        return 'Trưởng Phòng Kế hoạch - Tài chính';
+      case TruongPhongVanThu_LuuTru:
+        return 'Trưởng phòng Văn thư - Lưu trữ';
+      case ThuKyBoTruong_PhoChanhVanPhongBo:
+        return 'Thư ký Bộ trưởng - Phó Chánh Văn phòng Bộ';
+      case VanThuBo:
+        return 'Văn thư bộ';
+      case NhanVien:
+        return 'Nhân viên';
+      default:
+        return '';
+    }
+  }
+}

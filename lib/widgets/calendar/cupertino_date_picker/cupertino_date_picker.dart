@@ -330,11 +330,11 @@ class CupertinoDatePickerDateState
         if (newMonthIndex == -1 && selectedMonth > newMonthCount.last) {
           newMonthIndex = newMonthCount.length - 1;
         }
-        if (newMonthIndex == -1 && selectedMonth < newMonthCount.last){
+        if (newMonthIndex == -1 && selectedMonth < newMonthCount.last) {
           newMonthIndex = 0;
         }
         if (newDayIndex == -1 && selectedDay > newDayCount.last) {
-          newDayIndex = newDayCount.length ;
+          newDayIndex = newDayCount.length;
         }
         if (newDayIndex == -1 && selectedDay < newDayCount.last) {
           newDayIndex = 1;

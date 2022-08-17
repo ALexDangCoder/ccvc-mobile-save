@@ -28,6 +28,9 @@ mixin TienIchRepository {
     int pageSize,
     int pageIndex,
   );
+  Future<Result<ItemChonBienBanCuocHopModel>> getCanBo(
+    String Id,
+  );
 
   Future<Result<DataDanhSachTitleHDSD>> getDanhSachHDSD(
     int pageIndex,

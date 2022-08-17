@@ -63,7 +63,15 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI, HEAD_ORIGIN,HTCS }
+enum BaseURLOption {
+  GATE_WAY,
+  COMMON,
+  CCVC,
+  API_AND_UAT,
+  NOTI,
+  HEAD_ORIGIN,
+  HTCS
+}
 
 void configureDependencies() {
   Get.put(
@@ -205,7 +213,7 @@ void configureDependencies() {
       provideDio(baseOption: BaseURLOption.GATE_WAY),
     ),
   );
-  Get.put<ReportRepository>(ReportImpl(Get.find(),Get.find()));
+  Get.put<ReportRepository>(ReportImpl(Get.find(), Get.find()));
 
 
   Get.put(
@@ -242,7 +250,6 @@ String getUrlDomain({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       return appConstants.headerOrigin;
     case BaseURLOption.HTCS:
       return appConstants.baseUrlHTCS;
-
   }
 }
 
@@ -274,19 +281,18 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
   }
   final options = BaseOptions(
     baseUrl: baseUrl,
-    receiveTimeout: _connectTimeOut,
-    connectTimeout: _connectTimeOut,
+    receiveTimeout:_connectTimeOut,
+    connectTimeout:_connectTimeOut,
     followRedirects: false,
   );
   final dio = Dio(options);
-  void _onReFreshToken(DioError e, ErrorInterceptorHandler handler){
+  void _onReFreshToken(DioError e, ErrorInterceptorHandler handler) {
     HandleUnauthorized.resignRefreshToken(onRefreshToken: (token) async {
       if (token.isNotEmpty) {
         options.headers['Authorization'] = 'Bearer $token';
       }
       final opts = Options(
-          method: e.requestOptions.method,
-          headers: e.requestOptions.headers);
+          method: e.requestOptions.method, headers: e.requestOptions.headers);
       final cloneReq = await dio.request(e.requestOptions.path,
           options: opts,
           data: e.requestOptions.data,
@@ -316,7 +322,7 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       },
       onError: (DioError e, handler) async {
         if (e.response?.statusCode == 401) {
-          return _onReFreshToken(e,handler);
+          return _onReFreshToken(e, handler);
         } else {
           return handler.next(e);
         }

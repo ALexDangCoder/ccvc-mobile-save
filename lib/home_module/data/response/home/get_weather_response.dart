@@ -83,27 +83,7 @@ class Current {
   });
 
   Current.fromJson(Map<String, dynamic> json) {
-    dt = json['dt'];
-    sunrise = json['sunrise'];
-    sunset = json['sunset'];
     temp = json['temp'] != null ? Temp?.fromJson(json['temp']) : null;
-    feelslike = json['feels_like'] != null
-        ? FeelsLike?.fromJson(json['feels_like'])
-        : null;
-    pressure = json['pressure'];
-    humidity = json['humidity'];
-    dewpoint = json['dew_point'];
-    windspeed = json['wind_speed'];
-    winddeg = json['wind_deg'];
-    if (json['weather'] != null) {
-      weather = <Weather>[];
-      json['weather'].forEach((v) {
-        weather!.add(Weather.fromJson(v));
-      });
-    }
-    clouds = json['clouds'];
-    pop = json['pop'];
-    uvi = json['uvi'];
   }
 
   Map<String, dynamic> toJson() {
@@ -232,62 +212,35 @@ class FeelsLike {
 
 class ResultObj {
   Current? current;
-  List<Daily?>? daily;
-  AddressInfo? addressInfo;
 
-  ResultObj({this.current, this.daily, this.addressInfo});
+  ResultObj({
+    this.current,
+  });
 
   ResultObj.fromJson(Map<String, dynamic> json) {
     current =
         json['current'] != null ? Current?.fromJson(json['current']) : null;
-    if (json['daily'] != null) {
-      daily = <Daily>[];
-      json['daily'].forEach((v) {
-        daily!.add(Daily.fromJson(v));
-      });
-    }
-    addressInfo = json['addressInfo'] != null
-        ? AddressInfo?.fromJson(json['addressInfo'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['current'] = current!.toJson();
-    data['daily'] =
-        daily != null ? daily!.map((v) => v?.toJson()).toList() : null;
-    data['addressInfo'] = addressInfo!.toJson();
     return data;
   }
 }
 
 class Temp {
-  double? min;
-  double? max;
-  int? day;
-  double? night;
-  double? eve;
-  double? morn;
+  double? day;
 
-  Temp({this.min, this.max, this.day, this.night, this.eve, this.morn});
+  Temp({this.day});
 
   Temp.fromJson(Map<String, dynamic> json) {
-    min = json['min'];
-    max = json['max'];
-    day = (json['day'] as double).round();
-    night = json['night'];
-    eve = json['eve'];
-    morn = json['morn'];
+    day = json['day'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['min'] = min;
-    data['max'] = max;
     data['day'] = day;
-    data['night'] = night;
-    data['eve'] = eve;
-    data['morn'] = morn;
     return data;
   }
 }

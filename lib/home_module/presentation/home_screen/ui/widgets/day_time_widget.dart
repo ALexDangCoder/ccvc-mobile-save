@@ -35,10 +35,7 @@ class DayTimeWidget extends StatelessWidget {
                 ),
                 StreamBuilder<DateModel>(
                   initialData: DateModel(),
-                  stream: HomeProvider
-                      .of(context)
-                      .homeCubit
-                      .getDateStream,
+                  stream: HomeProvider.of(context).homeCubit.getDateStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? DateModel();
                     return Column(
@@ -79,12 +76,7 @@ class DayTimeWidget extends StatelessWidget {
           ],
         ),
         StreamBuilder<WeatherModel>(
-            stream: HomeProvider
-                .of(context)
-                .homeCubit
-                .weatherSubject
-                .stream,
-
+            stream: HomeProvider.of(context).homeCubit.weatherSubject.stream,
             builder: (context, snapshot) {
               final data = snapshot.data;
               return Visibility(
@@ -99,15 +91,15 @@ class DayTimeWidget extends StatelessWidget {
                         width: 12,
                       ),
                       Text(
-                        '${data?.resultObj?.current?.temp?.day ?? 0}°C',
-                        style: textNormalCustom(fontSize: 16, color: titleColor),
+                        '${data?.resultObj?.current?.temp?.day?.round() ?? 0}°C',
+                        style:
+                            textNormalCustom(fontSize: 16, color: titleColor),
                       )
                     ],
                   ),
                 ),
               );
-            }
-        )
+            })
       ],
     );
   }

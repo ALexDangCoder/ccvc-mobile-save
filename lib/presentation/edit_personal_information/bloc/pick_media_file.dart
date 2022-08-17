@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/file_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -21,6 +20,17 @@ const String MEDIA_VIDEO_FILE = 'media_video_file';
 const String MEDIA_AUDIO_FILE = 'media_audio_file';
 const String MEDIA_IMAGE_FILE = 'media_image_file';
 
+Future<bool> handleFilePermission() async {
+  final permission =
+      Platform.isAndroid ? await Permission.storage.request() : true;
+  if (permission == PermissionStatus.denied ||
+      permission == PermissionStatus.permanentlyDenied) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 Future<Map<String, dynamic>> pickMediaFile({
   required PickerType type,
 }) async {
@@ -32,37 +42,43 @@ Future<Map<String, dynamic>> pickMediaFile({
   bool _validFormat = true;
   int _fileSize = 0;
   final tempDirectory = await getTemporaryDirectory();
-  final FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.custom,
-    allowedExtensions: allowedExtensions,
-  );
-  if (result != null && result.files.isNotEmpty) {
-    File file = File(result.files.first.path ?? '');
-    if (Platform.isIOS) {
-      file = await file.moveToTmpDirectory(
-        '${tempDirectory.path}/${p.basename(file.path)}',
-      );
-    }
-    _fileExtension = (result.files.single.extension ?? '').toUpperCase();
-    _validFormat = allowedExtensions.contains(_fileExtension);
-    if (PickerType.DOCUMENT.fileType.contains(_fileExtension)) {
-      _fileType = DOCUMENT_FILE;
-    } else {
-      if (_fileExtension == 'MP4' || _fileExtension == 'WEBM') {
-        _fileType = MEDIA_VIDEO_FILE;
-      } else if (_fileExtension == 'MP3' ||
-          _fileExtension == 'WAV' ||
-          _fileExtension == 'OOG') {
-        _fileType = MEDIA_AUDIO_FILE;
-      } else {
-        _fileType = MEDIA_IMAGE_FILE;
+  final permission = await handlePhotosPermission();
+  if (permission) {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: allowedExtensions,
+    );
+    if (result != null && result.files.isNotEmpty) {
+      File file = File(result.files.first.path ?? '');
+      if (Platform.isIOS) {
+        file = await file.moveToTmpDirectory(
+          '${tempDirectory.path}/${p.basename(file.path)}',
+        );
       }
+      _fileExtension = (result.files.single.extension ?? '').toUpperCase();
+      _validFormat = allowedExtensions.contains(_fileExtension);
+      if (PickerType.DOCUMENT.fileType.contains(_fileExtension)) {
+        _fileType = DOCUMENT_FILE;
+      } else {
+        if (_fileExtension == 'MP4' || _fileExtension == 'WEBM') {
+          _fileType = MEDIA_VIDEO_FILE;
+        } else if (_fileExtension == 'MP3' ||
+            _fileExtension == 'WAV' ||
+            _fileExtension == 'OOG') {
+          _fileType = MEDIA_AUDIO_FILE;
+        } else {
+          _fileType = MEDIA_IMAGE_FILE;
+        }
+      }
+      _filePath = file.path;
+      _fileSize = file.lengthSync();
+      _fileName = p.basename(p.basename(file.path));
+    } else {
+      // User canceled the picker
     }
-    _filePath = file.path;
-    _fileSize = file.lengthSync();
-    _fileName = p.basename(p.basename(file.path));
   } else {
-    // User canceled the picker
+    await MessageConfig.showDialogSetting();
+    return {};
   }
   return {
     TYPE_OF_FILE: _fileType,

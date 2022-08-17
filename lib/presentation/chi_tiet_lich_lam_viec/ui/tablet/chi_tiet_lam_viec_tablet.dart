@@ -114,7 +114,12 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                       funcBtnOk: () {
                         Navigator.pop(context);
                       },
-                    );
+                    ).then((value) {
+                      if (value is bool && value) {
+                        chiTietLichLamViecCubit
+                            .getDanhSachBaoCaoKetQua(widget.id);
+                      }
+                    });;
                   },
                 ),
 

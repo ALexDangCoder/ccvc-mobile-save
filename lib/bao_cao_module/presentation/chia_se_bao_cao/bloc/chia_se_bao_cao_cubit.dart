@@ -113,7 +113,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
         }
 
         if (res.unitAccesses?.isNotEmpty ?? false) {
-          for(final element in res.unitAccesses!){
+          for (final element in res.unitAccesses!) {
             selectNodeInit(element.donViId);
           }
         }
@@ -144,16 +144,15 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           element.parent = node;
           element.level = node.level + 1;
           element.isCheck.isCheck = node.isCheck.isCheck;
-          if (!node.isCheck.isCheck) {
-            for (final initCheck in listUserCommon) {
-              if (element.value.id == initCheck.userId) {
-                element.isCheck.isCheck = true;
-                listUserCommon.remove(initCheck);
-                break;
-              }
+
+          for (final initCheck in listUserCommon) {
+            if (element.value.id == initCheck.userId) {
+              element.isCheck.isCheck = true;
+              listUserCommon.remove(initCheck);
+              break;
             }
-          } else {
           }
+
           node.addChildMember(element);
           selectTag(element);
           getParentStart(node);
@@ -620,8 +619,8 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     for (final tree in listTree) {
       final nodeSearch = tree.search(node);
       if (nodeSearch != null) {
-         nodeSearch.isCheck.isCheck = true;
-         selectTag(nodeSearch);
+        nodeSearch.isCheck.isCheck = true;
+        selectTag(nodeSearch);
       }
     }
   }

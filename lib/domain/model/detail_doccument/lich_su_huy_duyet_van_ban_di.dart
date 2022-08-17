@@ -49,7 +49,7 @@ class LichSuHuyDuyetVanBanDi {
         S.current.thoi_gian,
         thoiGian?.changeToNewPatternDate(
               DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-              DateTimeFormat.DATE_DD_MM_YYYY,
+              DateTimeFormat.DAY_MONTH_YEAR,
             ) ??
             '',
         TypeDocumentDetailRow.text,

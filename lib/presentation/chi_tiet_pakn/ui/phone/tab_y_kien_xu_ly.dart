@@ -87,6 +87,9 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
           ),
         );
         widget.cubit.sizeFileList.add(_size);
+        if (widget.cubit.listPickFileMain.isNotEmpty) {
+          widget.cubit.validateNhapYkien.add('');
+        }
         setState(() {});
       }
     }

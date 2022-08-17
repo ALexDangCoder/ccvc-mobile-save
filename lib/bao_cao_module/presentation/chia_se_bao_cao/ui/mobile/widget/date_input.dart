@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/color.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -40,61 +42,68 @@ class _DateInputState extends State<DateInput> {
   bool onchangeSelect = false;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.initDateTime != null) {
+      dateSelect = widget.initDateTime!.toIso8601String();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showBottomSheetCustom(
-          context,
-          title: S.current.chon_ngay,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 300,
-                child: FlutterRoundedCupertinoDatePickerWidget(
-                  maximumDate: DateTime(
-                    initDateTime.year - 18,
-                    initDateTime.month,
-                    initDateTime.day - 1,
-                  ),
-                  onDateTimeChanged: (value) {
-                    checkEnableDate(value);
-                    cachedSelect = value.toString();
-                  },
-                  textStyleDate: titleAppbar(),
-                  initialDateTime: DateTime.tryParse(dateSelect ?? '') ??
-                      DateTime(
+        if (isMobile()) {
+          showBottomSheetCustom(
+            context,
+            title: S.current.chon_ngay,
+            child: calenderPicker(),
+          );
+        } else {
+          showDiaLogTablet(
+            context,
+            title: S.current.chon_ngay,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 300,
+                    child: FlutterRoundedCupertinoDatePickerWidget(
+                      maximumDate: DateTime(
                         initDateTime.year - 18,
                         initDateTime.month,
                         initDateTime.day - 1,
                       ),
-                ),
+                      onDateTimeChanged: (value) {
+                        checkEnableDate(value);
+                        cachedSelect = value.toString();
+                      },
+                      textStyleDate: titleAppbar(),
+                      initialDateTime: DateTime.tryParse(dateSelect ?? '') ??
+                          DateTime(
+                            initDateTime.year - 18,
+                            initDateTime.month,
+                            initDateTime.day - 1,
+                          ),
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 24,
-                  bottom: 32,
-                ),
-                child: DoubleButtonBottom(
-                  title2: S.current.chon,
-                  title1: S.current.dong,
-                  onClickRight: () {
-                    if(!onchangeSelect){
-                      setState(() {
-                        dateSelect = cachedSelect;
-                      });
-                      widget.onSelectDate(DateTime.tryParse(dateSelect ?? ''));
-                      Navigator.pop(context);
-                    }
-                  },
-                  onClickLeft: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              )
-            ],
-          ),
-        );
+            ),
+            isBottomShow: true,
+            btnLeftTxt: S.current.dong,
+            btnRightTxt: S.current.chon,
+            funcBtnOk: () {
+              if (!onchangeSelect) {
+                setState(() {
+                  dateSelect = cachedSelect;
+                });
+                widget.onSelectDate(DateTime.tryParse(dateSelect ?? ''));
+                Navigator.pop(context);
+              }
+            },
+          );
+        }
       },
       child: Row(
         children: [
@@ -152,16 +161,67 @@ class _DateInputState extends State<DateInput> {
       ),
     );
   }
-  void checkEnableDate(DateTime date){
+
+  void checkEnableDate(DateTime date) {
     final maximumDate = DateTime(
       initDateTime.year - 18,
       initDateTime.month,
       initDateTime.day - 1,
     );
-    if(date.millisecondsSinceEpoch - maximumDate.millisecondsSinceEpoch > 0){
+    if (date.millisecondsSinceEpoch - maximumDate.millisecondsSinceEpoch > 0) {
       onchangeSelect = true;
     } else {
       onchangeSelect = false;
     }
+  }
+
+  Widget calenderPicker() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 300,
+          child: FlutterRoundedCupertinoDatePickerWidget(
+            maximumDate: DateTime(
+              initDateTime.year - 18,
+              initDateTime.month,
+              initDateTime.day - 1,
+            ),
+            onDateTimeChanged: (value) {
+              checkEnableDate(value);
+              cachedSelect = value.toString();
+            },
+            textStyleDate: titleAppbar(),
+            initialDateTime: DateTime.tryParse(dateSelect ?? '') ??
+                DateTime(
+                  initDateTime.year - 18,
+                  initDateTime.month,
+                  initDateTime.day - 1,
+                ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(
+            top: 24,
+            bottom: 32,
+          ),
+          child: DoubleButtonBottom(
+            title2: S.current.chon,
+            title1: S.current.dong,
+            onClickRight: () {
+              if (!onchangeSelect) {
+                setState(() {
+                  dateSelect = cachedSelect;
+                });
+                widget.onSelectDate(DateTime.tryParse(dateSelect ?? ''));
+                Navigator.pop(context);
+              }
+            },
+            onClickLeft: () {
+              Navigator.pop(context);
+            },
+          ),
+        )
+      ],
+    );
   }
 }

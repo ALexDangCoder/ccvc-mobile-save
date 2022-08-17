@@ -57,6 +57,7 @@ class _ThongTinGuiNhanExpandWidgetMobileState
                 final data = snapshot.data ?? [];
                 if (data.isEmpty) {
                   return CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       SliverFillRemaining(
                         child: Column(

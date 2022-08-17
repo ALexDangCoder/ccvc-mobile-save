@@ -28,8 +28,10 @@ class DanhSachVBDiRequest {
   final int size;
   @JsonKey(name: 'KeySearch')
   final String? keySearch;
+  @JsonKey(name: 'TrichYeuSearch')
+  final String? trichYeu; // search title
 
-  DanhSachVBDiRequest({
+  DanhSachVBDiRequest( {
     required this.thoiGianStartFilter,
     required this.thoiGianEndFilter,
     this.doKhan,
@@ -42,6 +44,7 @@ class DanhSachVBDiRequest {
     required this.index,
     required this.size,
     this.keySearch,
+    this.trichYeu,
   });
 
   factory DanhSachVBDiRequest.fromJson(Map<String, dynamic> json) =>

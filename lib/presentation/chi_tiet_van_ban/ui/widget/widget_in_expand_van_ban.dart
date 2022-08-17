@@ -40,6 +40,7 @@ class WidgetInExpandVanBan extends StatelessWidget {
                 (e) => Container(
                   margin: const EdgeInsets.only(bottom: 10),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         flex: 2,

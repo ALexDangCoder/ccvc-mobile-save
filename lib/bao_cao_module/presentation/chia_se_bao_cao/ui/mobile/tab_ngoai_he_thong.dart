@@ -42,14 +42,6 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
   Timer? debounce;
   late TextEditingController controller;
 
-  String? name;
-  DateTime? birthday;
-  String? email;
-  String? phoneNumber;
-  String? position;
-  String? unit;
-  String? note;
-
   @override
   void initState() {
     super.initState();
@@ -169,12 +161,12 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             textField(
-              initialValue: name,
+              initialValue: widget.cubit.nameCached,
               isRequired: true,
               title: S.current.ho_ten,
               hintText: S.current.ho_ten,
               onChange: (value) {
-                name = value;
+                widget.cubit.nameCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -197,13 +189,13 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               leadingIcon:
                   SvgPicture.asset(image_utils.ImageAssets.icCalenders),
               onSelectDate: (dateTime) {
-                birthday = dateTime;
+                widget.cubit.birthdayCached = dateTime;
               },
-              initDateTime: birthday,
+              initDateTime: widget.cubit.birthdayCached,
             ),
             spaceH16,
             textField(
-              initialValue: email,
+              initialValue: widget.cubit.emailCached,
               inputFormatter: [
                 FilteringTextInputFormatter.deny(' '),
               ],
@@ -211,7 +203,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
               title: S.current.email,
               hintText: S.current.email,
               onChange: (value) {
-                email = value;
+                widget.cubit.emailCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -232,11 +224,11 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             spaceH16,
             textField(
               maxLength: 255,
-              initialValue: phoneNumber,
+              initialValue: widget.cubit.phoneNumberCached,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
-                phoneNumber = value;
+                widget.cubit.phoneNumberCached = value;
               },
               inputFormatter: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -246,11 +238,11 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             spaceH16,
             textField(
               isRequired: true,
-              initialValue: position,
+              initialValue: widget.cubit.positionCached,
               hintText: S.current.chuc_vu,
               title: S.current.chuc_vu,
               onChange: (value) {
-                position = value;
+                widget.cubit.positionCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -261,11 +253,11 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             spaceH16,
             textField(
               isRequired: true,
-              initialValue: unit,
+              initialValue: widget.cubit.unitCached,
               title: S.current.don_vi,
               hintText: S.current.don_vi,
               onChange: (value) {
-                unit = value;
+                widget.cubit.unitCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -275,11 +267,11 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
             ),
             spaceH16,
             textField(
-              initialValue: note,
+              initialValue: widget.cubit.noteCached,
               isRequired: true,
               title: S.current.ghi_chu,
               onChange: (value) {
-                note = value;
+                widget.cubit.noteCached = value;
               },
               maxLine: 6,
               validate: (value) {
@@ -361,17 +353,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                     btnLeftTxt: S.current.huy,
                     btnRightTxt: S.current.dong_y,
                     funcBtnRight: () {
-                      widget.cubit
-                          .themMoiDoiTuong(
-                        email: email,
-                        fullName: name,
-                        birthday: birthday,
-                        phone: phoneNumber,
-                        position: position,
-                        unit: unit,
-                        description: note,
-                      )
-                          .then((value) {
+                      widget.cubit.themMoiDoiTuong().then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {
                           MessageConfig.show(title: value);
                           Navigator.pop(context);

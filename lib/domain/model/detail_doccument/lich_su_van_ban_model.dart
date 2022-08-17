@@ -52,11 +52,7 @@ class LichSuVanBanModel {
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGianTao?.changeToNewPatternDate(
-              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-              DateTimeFormat.DATE_DD_MM_YYYY,
-            ) ??
-            '',
+        thoiGianTao ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -130,11 +126,7 @@ class LichSuVanBanModel {
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGianTao?.changeToNewPatternDate(
-              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-              DateTimeFormat.DATE_TIME_23,
-            ) ??
-            '',
+        thoiGianTao?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(

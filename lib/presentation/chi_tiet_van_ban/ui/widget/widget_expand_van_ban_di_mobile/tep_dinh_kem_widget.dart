@@ -86,6 +86,7 @@ class TepDinhKemMobile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             flex: 3,
@@ -98,6 +99,7 @@ class TepDinhKemMobile extends StatelessWidget {
               ),
             ),
           ),
+          spaceW6,
           Expanded(
             flex: isTablet ? 10 : 7,
             child: data.isNotEmpty

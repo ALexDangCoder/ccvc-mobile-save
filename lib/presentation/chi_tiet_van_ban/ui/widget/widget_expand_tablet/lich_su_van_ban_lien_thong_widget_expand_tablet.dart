@@ -26,8 +26,6 @@ class LichSuVanBanLienThongWidgetExpandTablet extends StatefulWidget {
 class _LichSuVanBanLienThongWidgetExpandTabletState
     extends State<LichSuVanBanLienThongWidgetExpandTablet>
     with AutomaticKeepAliveClientMixin {
-
-
   @override
   void initState() {
     widget.cubit.getLichSuVanBanLichSuLienThong(widget.processId, LIEN_THONG);
@@ -56,34 +54,35 @@ class _LichSuVanBanLienThongWidgetExpandTabletState
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                child: StreamBuilder<List<LichSuVanBanModel>>(
-                  stream: widget.cubit.lichSuVanBanLienThongStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? [];
-                    return data.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Column(
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      flexValue: 8,
-                                      row: e.toListRowLichSuVanBanLienThong(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          )
-                        : const Padding(
+          child: StreamBuilder<List<LichSuVanBanModel>>(
+            stream: widget.cubit.lichSuVanBanLienThongStream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              return data.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: data
+                            .map(
+                              (e) => WidgetInExpandVanBan(
+                                flexValue: 8,
+                                row: e.toListRowLichSuVanBanLienThong(),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : const CustomScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        SliverFillRemaining(
+                          child: Padding(
                             padding: EdgeInsets.only(top: 16.0),
                             child: NodataWidget(),
-                          );
-                  },
-                ),
-              ),
-            ],
+                          ),
+                        ),
+                      ],
+                    );
+            },
           ),
         ),
       ),

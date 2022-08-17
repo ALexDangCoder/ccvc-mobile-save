@@ -55,38 +55,39 @@ class _LichSuCapNhatTinhHinhWidgetExpandTabletState
             CAP_NHAT_TINH_HINH_THUC_HIEN,
           );
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              child: StreamBuilder<List<LichSuVanBanModel>>(
-                stream: widget.cubit.lichSuCapNhatXuLyStream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: data.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      flexValue: 8,
-                                      row: e.toListRowLichSuCapNhat(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          )
-                        : const Padding(
+        child: StreamBuilder<List<LichSuVanBanModel>>(
+          stream: widget.cubit.lichSuCapNhatXuLyStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: data.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: data
+                            .map(
+                              (e) => WidgetInExpandVanBan(
+                                flexValue: 8,
+                                row: e.toListRowLichSuCapNhat(),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : const CustomScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        SliverFillRemaining(
+                          child: Padding(
                             padding: EdgeInsets.only(top: 16.0),
                             child: NodataWidget(),
                           ),
-                  );
-                },
-              ),
-            ),
-          ],
+                        ),
+                      ],
+                    ),
+            );
+          },
         ),
       ),
     );

@@ -123,8 +123,8 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   Future<void> refreshData() async {
-    final queue = Queue(parallel: 4);
-
+    final queue = Queue(parallel: 5);
+    unawaited(queue.add(() => getWeather()));
     unawaited(queue.add(() => getUserInFor()));
     unawaited(queue.add(() => getDate()));
     unawaited(queue.add(() => _getTinhHuongKhanCap()));

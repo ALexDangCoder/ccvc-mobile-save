@@ -83,46 +83,12 @@ class Current {
   });
 
   Current.fromJson(Map<String, dynamic> json) {
-    dt = json['dt'];
-    sunrise = json['sunrise'];
-    sunset = json['sunset'];
     temp = json['temp'] != null ? Temp?.fromJson(json['temp']) : null;
-    feelslike = json['feels_like'] != null
-        ? FeelsLike?.fromJson(json['feels_like'])
-        : null;
-    pressure = json['pressure'];
-    humidity = json['humidity'];
-    dewpoint = json['dew_point'];
-    windspeed = json['wind_speed'];
-    winddeg = json['wind_deg'];
-    if (json['weather'] != null) {
-      weather = <Weather>[];
-      json['weather'].forEach((v) {
-        weather!.add(Weather.fromJson(v));
-      });
-    }
-    clouds = json['clouds'];
-    pop = json['pop'];
-    uvi = json['uvi'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['dt'] = dt;
-    data['sunrise'] = sunrise;
-    data['sunset'] = sunset;
     data['temp'] = temp!.toJson();
-    data['feels_like'] = feelslike!.toJson();
-    data['pressure'] = pressure;
-    data['humidity'] = humidity;
-    data['dew_point'] = dewpoint;
-    data['wind_speed'] = windspeed;
-    data['wind_deg'] = winddeg;
-    data['weather'] =
-        weather != null ? weather!.map((v) => v?.toJson()).toList() : null;
-    data['clouds'] = clouds;
-    data['pop'] = pop;
-    data['uvi'] = uvi;
     return data;
   }
 }
@@ -240,23 +206,11 @@ class ResultObj {
   ResultObj.fromJson(Map<String, dynamic> json) {
     current =
         json['current'] != null ? Current?.fromJson(json['current']) : null;
-    if (json['daily'] != null) {
-      daily = <Daily>[];
-      json['daily'].forEach((v) {
-        daily!.add(Daily.fromJson(v));
-      });
-    }
-    addressInfo = json['addressInfo'] != null
-        ? AddressInfo?.fromJson(json['addressInfo'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['current'] = current!.toJson();
-    data['daily'] =
-        daily != null ? daily!.map((v) => v?.toJson()).toList() : null;
-    data['addressInfo'] = addressInfo!.toJson();
     return data;
   }
 }
@@ -264,7 +218,7 @@ class ResultObj {
 class Temp {
   double? min;
   double? max;
-  int? day;
+  double? day;
   double? night;
   double? eve;
   double? morn;
@@ -272,22 +226,14 @@ class Temp {
   Temp({this.min, this.max, this.day, this.night, this.eve, this.morn});
 
   Temp.fromJson(Map<String, dynamic> json) {
-    min = json['min'];
-    max = json['max'];
-    day = (json['day'] as double).round();
-    night = json['night'];
-    eve = json['eve'];
-    morn = json['morn'];
+    day = json['day'] as double;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['min'] = min;
-    data['max'] = max;
+
     data['day'] = day;
-    data['night'] = night;
-    data['eve'] = eve;
-    data['morn'] = morn;
+
     return data;
   }
 }

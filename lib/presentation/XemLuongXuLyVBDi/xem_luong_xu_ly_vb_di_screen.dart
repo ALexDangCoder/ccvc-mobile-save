@@ -77,7 +77,9 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                                 child: Container(
                                   height: 6,
                                   width: double.infinity,
-                                  color: LuongXuLyVBDiModel.getLoaiBanHanh(data.loaiXuLy).color,
+                                  color: LuongXuLyVBDiModel.getLoaiBanHanh(
+                                          data.loaiXuLy)
+                                      .color,
                                 ),
                               ),
                               const SizedBox(
@@ -100,7 +102,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                                         ),
                                         child: CachedNetworkImage(
                                           imageUrl:
-                                              '${data.infoCanBo?.anhDaiDien}',
+                                              '${data.infoCanBo?.pathAnhDaiDien}',
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
                                               Container(
@@ -141,7 +143,10 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Text(LuongXuLyVBDiModel.getLoaiBanHanh(data.loaiXuLy).title,
+                              Text(
+                                  LuongXuLyVBDiModel.getLoaiBanHanh(
+                                          data.loaiXuLy)
+                                      .title,
                                   style: textNormal(borderCaneder, 14)),
                               const SizedBox(
                                 height: 6,
@@ -219,8 +224,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                           children:
                               List.generate(chuThichTrangThai.length, (index) {
                             return rowChuThich(
-                                isTablet: widget.isTablet,
-                                index: index);
+                                isTablet: widget.isTablet, index: index);
                           }),
                         ),
                         const SizedBox(
@@ -234,18 +238,23 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                           childAspectRatio: 6.7,
                           children: List.generate(
                               chuThichTrangThaiLuong.length -
-                                  ( 1.0.textScale(space: -1).toInt()), (index) {
+                                  (1.0.textScale(space: -1).toInt()), (index) {
                             return rowChuThich(
                               index: index,
                               boxShape: BoxShape.rectangle,
                             );
                           }),
                         ),
-                        const SizedBox(height: 6,),
-                        if (widget.isTablet) const SizedBox() else rowChuThich(
-                          index: chuThichTrangThaiLuong.length - 1,
-                          boxShape: BoxShape.rectangle,
+                        const SizedBox(
+                          height: 6,
                         ),
+                        if (widget.isTablet)
+                          const SizedBox()
+                        else
+                          rowChuThich(
+                            index: chuThichTrangThaiLuong.length - 1,
+                            boxShape: BoxShape.rectangle,
+                          ),
                       ],
                     ),
                   ),

@@ -45,8 +45,8 @@ Future<Map<String, dynamic>> pickMediaFile({
   final permission = await handlePhotosPermission();
   if (permission) {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: allowedExtensions,
+      type: type == PickerType.FULL ? FileType.any :  FileType.custom,
+      allowedExtensions: type == PickerType.FULL ? null :  allowedExtensions,
     );
     if (result != null && result.files.isNotEmpty) {
       File file = File(result.files.first.path ?? '');

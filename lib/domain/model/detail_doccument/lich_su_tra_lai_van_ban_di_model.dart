@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DataLichSuTraLaiVanBanDi {
   String? messages;
@@ -49,7 +51,11 @@ class LichSuTraLaiVanBanDi {
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGian ?? '',
+        thoiGian?.changeToNewPatternDate(
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DAY_MONTH_YEAR,
+            ) ??
+            '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(

@@ -245,14 +245,14 @@ extension GetDataPermission on PERMISSION_DETAIL {
             }
             showDialog(
               context: context,
-              builder: (context) => RadioOptionDialog(
+              builder: (_) => RadioOptionDialog(
                 title: S.current.xoa_lich_hop,
                 textConfirm: S.current.xoa_chi_tiet_lich_hop,
                 textRadioBelow: S.current.tu_hien_tai_ve_sau,
                 textRadioAbove: S.current.chi_lich_hien_tai,
                 imageUrl: ImageAssets.icXoaHopPoppup,
                 onChange: (value) {
-                  cubit.deleteChiTietLichHop(isMulti: value).then(
+                  cubit.deleteChiTietLichHop(isMulti: !value).then(
                         (value) => Navigator.pop(
                           context,
                           cubit.needRefreshMainMeeting,

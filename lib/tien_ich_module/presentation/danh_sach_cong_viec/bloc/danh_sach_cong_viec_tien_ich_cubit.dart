@@ -341,7 +341,7 @@ class DanhSachCongViecTienIchCubit
           groupId: statusDSCV.value == DSCVScreen.NCVM ? groupId : null,
           label: title.trim(),
           isTicked: false,
-          important: false,
+          important: statusDSCV.value == DSCVScreen.CVQT,
           inUsed: true,
           finishDay: checkData(
             defaultData: DateTime.now().formatApi,

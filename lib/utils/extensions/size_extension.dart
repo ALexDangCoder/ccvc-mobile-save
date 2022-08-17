@@ -36,8 +36,10 @@ class SizeConfig {
   static late double _safeAreaVertical;
   static late double safeBlockHorizontal;
   static late double safeBlockVertical;
+  static  BuildContext? contextConfig;
 
   static void init(BuildContext context) {
+    contextConfig ??= context;
     _mediaQueryData = MediaQuery.of(context);
     keyBoardHeight = _mediaQueryData.viewInsets;
     screenWidth = _mediaQueryData.size.width;

@@ -21,16 +21,15 @@ class CustomSelectDate extends StatefulWidget {
   final double? paddings;
   final DateTime? initDateTime;
 
-  const CustomSelectDate(
-      {Key? key,
-      this.value,
-      required this.onSelectDate,
-      this.hintText,
-      this.backgroundColor,
-      this.leadingIcon,
-      this.paddings,
-      this.isObligatory = false,
-      this.initDateTime})
+  const CustomSelectDate({Key? key,
+    this.value,
+    required this.onSelectDate,
+    this.hintText,
+    this.backgroundColor,
+    this.leadingIcon,
+    this.paddings,
+    this.isObligatory = false,
+    this.initDateTime})
       : super(key: key);
 
   @override
@@ -158,21 +157,21 @@ class _CustomDropDownState extends State<CustomSelectDate> {
                         ),
                         child: widget.value == null
                             ? Text(
-                                widget.hintText ?? S.current.vuiLongChon,
-                                style: tokenDetailAmount(
-                                  fontSize: 14.0.textScale(),
-                                  color: AppTheme.getInstance().unselectColor(),
-                                ),
-                              )
+                          widget.hintText ?? S.current.vuiLongChon,
+                          style: tokenDetailAmount(
+                            fontSize: 14.0.textScale(),
+                            color: AppTheme.getInstance().unselectColor(),
+                          ),
+                        )
                             : Text(
-                                widget.isObligatory
-                                    ? '${widget.value}'
-                                    : dateSelect.toStringWithListFormat,
-                                style: tokenDetailAmount(
-                                  fontSize: 14.0.textScale(),
-                                  color: color3D5586,
-                                ),
-                              ),
+                          widget.isObligatory
+                              ? widget.value!.toStringWithListFormat
+                          : dateSelect.toStringWithListFormat,
+                          style: tokenDetailAmount(
+                            fontSize: 14.0.textScale(),
+                            color: color3D5586,
+                          ),
+                        ),
                       )
                     ],
                   ),

@@ -77,12 +77,17 @@ class _ThongTinGuiNhanWidgetExpandTabletState
                                 ],
                               ),
                             )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                buttonStream,
-                                const Expanded(
-                                  child: NodataWidget(),
+                          : CustomScrollView(
+                              slivers: [
+                                SliverFillRemaining(
+                                  child: Column(
+                                    children: [
+                                      buttonStream,
+                                      const Expanded(
+                                        child: NodataWidget(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

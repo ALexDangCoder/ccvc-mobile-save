@@ -22,6 +22,22 @@ class TodoListModelTwo {
   }
 }
 
+class NguoiGiaoModel {
+  String? tenCanBo;
+  String? chucVu;
+  String? idCanBo;
+
+  NguoiGiaoModel({
+    this.tenCanBo,
+    this.chucVu,
+    this.idCanBo,
+  });
+
+  String dataWithChucVu() {
+    return '$tenCanBo${(chucVu ?? '').isNotEmpty ? ' - $chucVu' : ''}';
+  }
+}
+
 class TodoDSCVModel {
   String? id;
   String? label;
@@ -38,6 +54,7 @@ class TodoDSCVModel {
   String? groupId;
   String? filePath;
   String? finishDay;
+  NguoiGiaoModel? nguoiGiao;
 
   TodoDSCVModel({
     this.id,
@@ -55,6 +72,7 @@ class TodoDSCVModel {
     this.groupId,
     this.filePath,
     this.finishDay,
+    this.nguoiGiao,
   });
 
   bool showDotOne() {
@@ -99,11 +117,11 @@ class CountTodoModel {
 
   String icon() {
     switch (code) {
-      case DSCVScreen.CVCB :
+      case DSCVScreen.CVCB:
         return ImageAssets.icCVCuaBan;
       case DSCVScreen.DHT:
         return ImageAssets.icHT;
-      case DSCVScreen.CVQT :
+      case DSCVScreen.CVQT:
         return ImageAssets.icCVQT;
       case DSCVScreen.DBX:
         return ImageAssets.icXoa;

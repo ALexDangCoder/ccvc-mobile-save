@@ -187,39 +187,7 @@ class DanhSachCongViecTienIchCubit
     showContent();
   }
 
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<void> getToDoListDSCV() async {
-    final result = await tienIchRep.getListTodoDSCV();
-    result.when(
-      success: (res) {},
-      error: (err) {},
-    );
-  }
 
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<void> getDSCVGanCHoToi() async {
-    final result = await tienIchRep.getListDSCVGanChoToi();
-    result.when(
-      success: (res) {
-        if (res.isNotEmpty) {}
-      },
-      error: (err) {},
-    );
-  }
-
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<void> getNHomCVMoi() async {
-    final result = await tienIchRep.nhomCVMoi();
-    result.when(
-      success: (res) {
-        nhomCVMoiSubject.sink.add(res);
-      },
-      error: (err) {},
-    );
-  }
 
   ///các danh sach api
   Future<void> listNguoiThucHien(String keySearch) async {
@@ -242,27 +210,6 @@ class DanhSachCongViecTienIchCubit
       error: (_) {},
     );
     showLoadNguoiThucHien.sink.add(false);
-  }
-
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<bool> getListDSCVGanChoNguoiKhac() async {
-    showLoading();
-    final result = await tienIchRep.getListDSCVGanChoNguoiKhac();
-    result.when(
-      success: (res) {
-        showContent();
-        if (res.isNotEmpty) {
-          listDSCVStream.sink.add(res);
-        }
-      },
-      error: (err) {
-        showError();
-        return false;
-      },
-    );
-    showContent();
-    return true;
   }
 
   Future<bool> getAllListDSCVWithFilter({
@@ -564,26 +511,6 @@ class DanhSachCongViecTienIchCubit
   }
 
 
-
-  /// tim nguoi thuc hien theo id
-  String convertIdToPerson({required String vl, bool? hasChucVu}) {
-    final currentList = listNguoiThucHienSubject.valueOrNull ?? [];
-    if (hasChucVu ?? true) {
-      for (final e in currentList) {
-        if (vl == e.id) {
-          return e.dataAll();
-        }
-      }
-    } else {
-      for (final e in currentList) {
-        if (vl == e.id) {
-          return e.dataWithChucVu();
-        }
-      }
-    }
-
-    return '';
-  }
 
   ///init data nguoi thuc hien
   Future<void> initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) async {

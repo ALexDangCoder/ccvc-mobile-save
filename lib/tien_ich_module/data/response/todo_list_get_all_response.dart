@@ -17,18 +17,6 @@ class TodoGetAllResponse {
     code = json['code'];
     message = json['message'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    data['statusCode'] = statusCode;
-    data['succeeded'] = succeeded;
-    data['code'] = code;
-    data['message'] = message;
-    return data;
-  }
 }
 
 class Data {
@@ -39,13 +27,14 @@ class Data {
   bool? hasPreviousPage;
   bool? hasNextPage;
 
-  Data(
-      {this.pageIndex,
-      this.totalPages,
-      this.totalItems,
-      this.pageData,
-      this.hasPreviousPage,
-      this.hasNextPage});
+  Data({
+    this.pageIndex,
+    this.totalPages,
+    this.totalItems,
+    this.pageData,
+    this.hasPreviousPage,
+    this.hasNextPage,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     pageIndex = json['pageIndex'];
@@ -61,21 +50,32 @@ class Data {
     hasNextPage = json['hasNextPage'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['pageIndex'] = pageIndex;
-    data['totalPages'] = totalPages;
-    data['totalItems'] = totalItems;
-    if (pageData != null) {
-      data['pageData'] = pageData!.map((v) => v.toJson()).toList();
-    }
-    data['hasPreviousPage'] = hasPreviousPage;
-    data['hasNextPage'] = hasNextPage;
-    return data;
-  }
-
   List<TodoDSCVModel> toModel() =>
       pageData?.map((e) => e.toDomain()).toList() ?? [];
+}
+
+class NguoiGiaoResponse {
+  String? tenCanBo;
+  String? chucVu;
+  String? idCanBo;
+
+  NguoiGiaoResponse({
+    this.tenCanBo,
+    this.chucVu,
+    this.idCanBo,
+  });
+
+  NguoiGiaoResponse.fromJson(Map<String, dynamic> json) {
+    tenCanBo = json['tenCanBo'];
+    chucVu = json['chucVu'];
+    idCanBo = json['idCanBo'];
+  }
+
+  NguoiGiaoModel toModel() => NguoiGiaoModel(
+        chucVu: chucVu,
+        idCanBo: idCanBo,
+        tenCanBo: tenCanBo,
+      );
 }
 
 class PageData {
@@ -95,24 +95,27 @@ class PageData {
   String? note;
   int? status;
   String? performer;
+  NguoiGiaoResponse? nguoiGiao;
 
-  PageData(
-      {this.id,
-      this.label,
-      this.filePath,
-      this.isTicked,
-      this.important,
-      this.inUsed,
-      this.isDeleted,
-      this.createdOn,
-      this.createdBy,
-      this.updatedOn,
-      this.updatedBy,
-      this.groupId,
-      this.finishDay,
-      this.note,
-      this.status,
-      this.performer});
+  PageData({
+    this.id,
+    this.label,
+    this.filePath,
+    this.isTicked,
+    this.important,
+    this.inUsed,
+    this.isDeleted,
+    this.createdOn,
+    this.createdBy,
+    this.updatedOn,
+    this.updatedBy,
+    this.groupId,
+    this.finishDay,
+    this.note,
+    this.status,
+    this.performer,
+    this.nguoiGiao,
+  });
 
   PageData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -131,42 +134,25 @@ class PageData {
     note = json['note'];
     status = json['status'];
     performer = json['performer'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['label'] = label;
-    data['filePath'] = filePath;
-    data['isTicked'] = isTicked;
-    data['important'] = important;
-    data['inUsed'] = inUsed;
-    data['isDeleted'] = isDeleted;
-    data['createdOn'] = createdOn;
-    data['createdBy'] = createdBy;
-    data['updatedOn'] = updatedOn;
-    data['updatedBy'] = updatedBy;
-    data['groupId'] = groupId;
-    data['finishDay'] = finishDay;
-    data['note'] = note;
-    data['status'] = status;
-    data['performer'] = performer;
-    return data;
+    nguoiGiao = json['nguoiGiao'] == null
+        ? null
+        : NguoiGiaoResponse.fromJson(json['nguoiGiao']);
   }
 
   TodoDSCVModel toDomain() => TodoDSCVModel(
-    id: id,
-    label: label,
-    important: important ?? false,
-    inUsed: inUsed,
-    isDeleted: isDeleted,
-    isTicked: isTicked,
-    createdBy: createdBy,
-    createdOn: createdOn,
-    performer: performer,
-    groupId: groupId,
-    note: note,
-    filePath: filePath,
-    finishDay: finishDay,
-  );
+        id: id,
+        label: label,
+        important: important ?? false,
+        inUsed: inUsed,
+        isDeleted: isDeleted,
+        isTicked: isTicked,
+        createdBy: createdBy,
+        createdOn: createdOn,
+        performer: performer,
+        groupId: groupId,
+        note: note,
+        filePath: filePath,
+        finishDay: finishDay,
+        nguoiGiao: nguoiGiao?.toModel(),
+      );
 }

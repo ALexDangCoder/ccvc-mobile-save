@@ -240,7 +240,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                             );
                           }else{
                             MessageConfig.show(
-                              title: S.current.xoa_thanh_cong,
+                              title: S.current.xoa_that_bai,
                               messState: MessState.error,
                             );
                           }
@@ -276,7 +276,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                             );
                           }else{
                             MessageConfig.show(
-                              title: S.current.xoa_thanh_cong,
+                              title: S.current.xoa_that_bai,
                               messState: MessState.error,
                             );
                           }

@@ -131,8 +131,8 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
       DayOffWeek(index: 5, name: ListDayOffWeek.T6, isChoose: false),
       DayOffWeek(index: 6, name: ListDayOffWeek.T7, isChoose: false),
     ];
-    widget.taoLichLamViecCubit.lichLapItem1 = widget.initDataTuyChinh;
     if (widget.initDataTuyChinh.isEmpty) {
+      listDayOffWeekEmpty = listDayOffWeek;
       widget.taoLichLamViecCubit.lichLapItem.add(
         listDayOffWeek.indexWhere(
           (element) => element.isChoose == true,
@@ -143,14 +143,20 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
           (element) => element.isChoose == true,
         ),
       );
-    }
-
-    for (final initDataTuyChinh in widget.initDataTuyChinh) {
-      for (final listDay in listDayOffWeekEmpty) {
-        if (initDataTuyChinh == listDay.index) {
-          listDay.isChoose = true;
+    } else {
+      widget.taoLichLamViecCubit.lichLapItem1 = widget.initDataTuyChinh;
+      for (final initDataTuyChinh in widget.initDataTuyChinh) {
+        for (final listDay in listDayOffWeekEmpty) {
+          if (initDataTuyChinh == listDay.index) {
+            listDay.isChoose = true;
+          }
         }
       }
+      widget.taoLichLamViecCubit.lichLapItem.add(
+        listDayOffWeekEmpty.indexWhere(
+          (element) => element.isChoose == true,
+        ),
+      );
     }
   }
 

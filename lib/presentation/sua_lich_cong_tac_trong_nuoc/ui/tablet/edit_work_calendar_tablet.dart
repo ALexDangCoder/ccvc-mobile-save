@@ -469,6 +469,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                                       createCubit: createCubit,
                                                       createWorkCalendar: false,
                                                       initDate: data,
+                                                      key: UniqueKey(),
                                                     );
                                                   },
                                                 )

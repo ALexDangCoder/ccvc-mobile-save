@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
@@ -45,6 +46,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
   final keyGroup = GlobalKey<FormGroupState>();
   bool isShow = false;
   bool isShowValidate = false;
+  bool isValidateStartEndTime = false;
   bool isShowValidateDanhSach = false;
   late String timeStart;
   late String timeEnd;
@@ -78,6 +80,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
     final dateTimeEnd = '$date $timeEnd'.convertStringToDate(
       formatPattern: DateTimeFormat.DATE_TIME_PUT_EDIT,
     );
+    isValidateStartEndTime = dateTimeStart.isAfter(dateTimeEnd);
     if (dateTimeStart.isBefore(
           widget.cubit.getTime().convertStringToDate(
                 formatPattern: DateFormatApp.monthDayFormat,
@@ -94,6 +97,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
       widget.cubit.isValidateTimer.sink.add(false);
       isShowValidate = false;
     }
+    setState(() {});
   }
 
   @override
@@ -169,64 +173,65 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   child: StreamBuilder<bool>(
                     stream: widget.cubit.isValidateTimer,
                     builder: (context, snapshot) {
+                      return SelectDateWidget(
+                        paddings: 10,
+                        leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
+                        value: widget.cubit.paserDateTime(
+                          widget.cubit.getChiTietLichHopModel.ngayBatDau,
+                        ),
+                        onSelectDate: (dateTime) {
+                          if (mounted) setState(() {});
+                          widget.cubit.date = dateTime;
+                          validateTime();
+                        },
+                      );
+                    },
+                  ),
+                ),
+                spaceH20,
+                SizedBox(
+                  child: StreamBuilder<bool>(
+                    stream: widget.cubit.isValidateTimer,
+                    builder: (context, snapshot) {
                       return ShowRequied(
+                        paddingLeft: 0,
                         isShow: snapshot.data ?? true,
                         textShow: S.current.validate_bieu_quyet,
-                        child: SelectDateWidget(
-                          paddings: 10,
-                          leadingIcon:
-                              SvgPicture.asset(ImageAssets.icCalenders),
-                          value: widget.cubit.paserDateTime(
-                            widget.cubit.getChiTietLichHopModel.ngayBatDau,
+                        child: BaseChooseTimerWidget(
+                          key: _keyBaseTime,
+                          timeBatDau: timeStart.getTimeData(
+                            timeReturnParseFail: TimerData(
+                              hour: DateTime.now().hour,
+                              minutes: DateTime.now().minute,
+                            ),
                           ),
-                          onSelectDate: (dateTime) {
-                            if (mounted) setState(() {});
-                            widget.cubit.date = dateTime;
+                          timeKetThuc: timeEnd.getTimeData(
+                            timeReturnParseFail: TimerData(
+                              hour: DateTime.now().hour,
+                              minutes: DateTime.now().minute,
+                            ),
+                          ),
+                          onChange: (start, end) {
+                            timeStart = start.timerToString;
+                            timeEnd = end.timerToString;
                             validateTime();
+                          },
+                          validator: (timeBegin, timerEn) {
+                            return timeBegin.equalTime(timerEn);
                           },
                         ),
                       );
                     },
                   ),
                 ),
-                spaceH20,
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: SizedBox(
-                    child: StreamBuilder<bool>(
-                      stream: widget.cubit.isValidateTimer,
-                      builder: (context, snapshot) {
-                        return ShowRequied(
-                          isShow: snapshot.data ?? true,
-                          textShow: S.current.validate_bieu_quyet,
-                          child: BaseChooseTimerWidget(
-                            key: _keyBaseTime,
-                            timeBatDau: timeStart.getTimeData(
-                              timeReturnParseFail: TimerData(
-                                hour: DateTime.now().hour,
-                                minutes: DateTime.now().minute,
-                              ),
-                            ),
-                            timeKetThuc: timeEnd.getTimeData(
-                              timeReturnParseFail: TimerData(
-                                hour: DateTime.now().hour,
-                                minutes: DateTime.now().minute,
-                              ),
-                            ),
-                            onChange: (start, end) {
-                              timeStart = start.timerToString;
-                              timeEnd = end.timerToString;
-                              validateTime();
-                            },
-                            validator: (timeBegin, timerEn) {
-                              return timeBegin.equalTime(timerEn);
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                Visibility(
+                  visible: isValidateStartEndTime,
+                  child: Text(
+                    S.current.thoi_gian_bat_dau_phai_nho_hon_thoi_gian_ket_thuc,
+                    style: textDetailHDSD(color: canceledColor, fontSize: 12),
                   ),
                 ),
+                spaceH20,
                 Flexible(
                   child: BlockTextViewLich(
                     formKey: formKeyNoiDung,

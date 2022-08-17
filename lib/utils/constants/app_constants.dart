@@ -96,6 +96,7 @@ enum PickerType {
   ALL,
   DOCUMENT_IMG,
   IMAGE_WITHOUT_HEIC,
+  FULL,
 }
 
 extension GetTypeByName on PickerType {
@@ -159,6 +160,8 @@ extension GetTypeByName on PickerType {
           'xlsx',
           'png',
         ];
+      case PickerType.FULL :
+        return [];
     }
   }
 }

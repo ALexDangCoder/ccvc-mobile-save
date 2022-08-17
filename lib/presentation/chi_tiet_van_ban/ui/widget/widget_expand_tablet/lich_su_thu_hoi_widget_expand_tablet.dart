@@ -51,32 +51,33 @@ class _LichSuThuHoiWidgetExpandTabletState
           stream: widget.cubit.lichSuThuHoiStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? [];
-            return CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: data.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      flexValue: 8,
-                                      row: e.toListRowLichSuThuHoi(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          )
-                        : const Padding(
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: data.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: data
+                            .map(
+                              (e) => WidgetInExpandVanBan(
+                                flexValue: 8,
+                                row: e.toListRowLichSuThuHoi(),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : const CustomScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        SliverFillRemaining(
+                          child: Padding(
                             padding: EdgeInsets.only(top: 16.0),
                             child: NodataWidget(),
                           ),
-                  ),
-                ),
-              ],
+                        ),
+                      ],
+                    ),
             );
           },
         ),

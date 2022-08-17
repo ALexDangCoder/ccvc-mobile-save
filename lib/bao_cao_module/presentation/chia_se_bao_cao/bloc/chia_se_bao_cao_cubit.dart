@@ -112,6 +112,12 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
           checkIsShared = true;
         }
 
+        if (res.unitAccesses?.isNotEmpty ?? false) {
+          for(final element in res.unitAccesses!){
+            selectNodeInit(element.donViId);
+          }
+        }
+
         if (res.userInThisSystems?.isNotEmpty ?? false) {
           for (final element in res.userInThisSystems!) {
             idUsersNgoaiHeTHongDuocTruyCap.add(element.userId ?? '');
@@ -134,7 +140,6 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     final data = await _repo.getUserPaging(donViId: donViId, appId: appId);
     data.when(
       success: (res) {
-        //
         for (final element in res) {
           element.parent = node;
           element.level = node.level + 1;
@@ -143,9 +148,11 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
             for (final initCheck in listUserCommon) {
               if (element.value.id == initCheck.userId) {
                 element.isCheck.isCheck = true;
+                listUserCommon.remove(initCheck);
                 break;
               }
             }
+          } else {
           }
           node.addChildMember(element);
           selectTag(element);
@@ -308,23 +315,15 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     return checkAllTrue;
   }
 
-  Future<String> themMoiDoiTuong({
-    String? email,
-    String? fullName,
-    DateTime? birthday,
-    String? phone,
-    String? position,
-    String? unit,
-    String? description,
-  }) async {
+  Future<String> themMoiDoiTuong() async {
     final NewUserRequest mapData = NewUserRequest(
-      email: email,
-      fullName: fullName?.trim(),
-      birthday: birthday?.toIso8601String(),
-      phone: phone,
-      position: position?.trim(),
-      unit: unit?.trim(),
-      description: description?.trim(),
+      email: emailCached,
+      fullName: nameCached?.trim(),
+      birthday: birthdayCached?.toIso8601String(),
+      phone: phoneNumberCached,
+      position: positionCached?.trim(),
+      unit: unitCached?.trim(),
+      description: noteCached?.trim(),
     );
     final rs = await chiaSeBaoCao(Share.COMMON, newUser: mapData);
     return rs;
@@ -483,6 +482,14 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   bool canLoadMoreList = true;
   bool refresh = false;
 
+  String? nameCached;
+  DateTime? birthdayCached;
+  String? emailCached;
+  String? phoneNumberCached;
+  String? positionCached;
+  String? unitCached;
+  String? noteCached;
+
   final Set<String> idUsersNgoaiHeTHongDuocTruyCap = {};
 
   bool checkTick(String idUser) {
@@ -603,6 +610,20 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
       }
     }
     _selectDonVi.sink.add(nodeSearch.isCheck.isCheck);
+  }
+
+  void selectNodeInit(String donViId) {
+    final Node<DonViModel> node = Node<DonViModel>(DonViModel(
+      id: donViId,
+      donViId: donViId,
+    ));
+    for (final tree in listTree) {
+      final nodeSearch = tree.search(node);
+      if (nodeSearch != null) {
+         nodeSearch.isCheck.isCheck = true;
+         selectTag(nodeSearch);
+      }
+    }
   }
 
   Node<DonViModel> searchNode(Node<DonViModel> node) {

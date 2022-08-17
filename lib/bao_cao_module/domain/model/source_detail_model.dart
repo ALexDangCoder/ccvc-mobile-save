@@ -13,6 +13,7 @@ class SourceDetail {
   int? type;
   List<GroupAccesses>? groupAccesses;
   List<UserCommons>? userCommons;
+  List<UnitAccesses>? unitAccesses;
   List<UserInThisSystems>? userInThisSystems;
 
   SourceDetail({
@@ -31,6 +32,7 @@ class SourceDetail {
     this.groupAccesses,
     this.userCommons,
     this.userInThisSystems,
+    this.unitAccesses,
   });
 }
 
@@ -55,6 +57,18 @@ class UserCommons {
     this.userId,
     this.username,
     this.fullname,
+  });
+}
+
+class UnitAccesses {
+  int? countUser;
+  String donViId;
+  String? name;
+
+  UnitAccesses({
+    this.countUser,
+    required this.donViId,
+    this.name,
   });
 }
 

@@ -152,6 +152,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                     ),
                   ),
                 ),
+                spaceH5,
                 Text(
                   item.vaiTro ?? '',
                   style: textNormalCustom(

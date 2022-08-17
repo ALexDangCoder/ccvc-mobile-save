@@ -61,7 +61,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
         border: Border(bottom: BorderSide(color: borderButtomColor)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: Column(
           children: [
             /// Widget up

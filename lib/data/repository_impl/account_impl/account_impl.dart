@@ -45,9 +45,15 @@ class AccountImpl implements AccountRepository {
   Future<Result<DataLogin>> login(
       String userName, String passWord, String appCode) {
     return runCatchingAsync<LoginResponse, DataLogin>(
-        () => _accountServiceCommon.login(LoginRequest(
-            username: userName, password: passWord, appCode: appCode)),
-        (response) => response.toModel());
+      () => _accountServiceCommon.login(
+        LoginRequest(
+          username: userName,
+          password: passWord,
+          appCode: appCode,
+        ),
+      ),
+      (response) => response.toModel(),
+    );
   }
 
   @override

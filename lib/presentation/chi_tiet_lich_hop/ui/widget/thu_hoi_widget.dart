@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
@@ -11,6 +12,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_exten
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -364,6 +366,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                 .toList();
             searchItemSubject.sink.add(searchList);
           },
+          colorIcon: AppTheme.getInstance().colorField(),
         ),
         const SizedBox(
           height: 10,
@@ -411,10 +414,11 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                                     ),
                                   ),
                                 ),
-                                if (itemTitle.trangThai == 4)
-                                  const Icon(
+                                if (itemTitle.trangThai ==
+                                    ThanhPhanThamGiaStatus.THU_HOI)
+                                  Icon(
                                     Icons.done_sharp,
-                                    color: buttonColor,
+                                    color: AppTheme.getInstance().colorField(),
                                   ),
                               ],
                             ),

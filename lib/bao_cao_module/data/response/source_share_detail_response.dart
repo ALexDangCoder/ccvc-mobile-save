@@ -51,6 +51,8 @@ class SourceDetailResponse {
   List<GroupAccessesResponse>? groupAccesses;
   @JsonKey(name: 'userCommons')
   List<UserCommonsResponse>? userCommons;
+  @JsonKey(name: 'unitAccesses')
+  List<UnitAccessesResponse>? unitAccesses;
   @JsonKey(name: 'userInThisSystems')
   List<UserInThisSystemsResponse>? userInThisSystems;
 
@@ -70,6 +72,7 @@ class SourceDetailResponse {
     this.groupAccesses,
     this.userCommons,
     this.userInThisSystems,
+    this.unitAccesses,
   });
 
   factory SourceDetailResponse.fromJson(Map<String, dynamic> json) =>
@@ -90,6 +93,7 @@ class SourceDetailResponse {
         name: name,
         description: description,
         type: type,
+        unitAccesses: unitAccesses?.map((e) => e.toDomain()).toList() ?? [],
         groupAccesses: groupAccesses?.map((e) => e.toDomain()).toList() ?? [],
         userCommons: userCommons?.map((e) => e.toDomain()).toList() ?? [],
         userInThisSystems:
@@ -149,6 +153,34 @@ class UserCommonsResponse {
         username: username,
         fullname: fullname,
       );
+}
+
+@JsonSerializable()
+class UnitAccessesResponse {
+  @JsonKey(name: 'countUser')
+  int? countUser;
+  @JsonKey(name: 'donViId')
+  String? donViId;
+  @JsonKey(name: 'name')
+  String? name;
+
+
+  UnitAccessesResponse({
+    this.countUser,
+    this.donViId,
+    this.name,
+  });
+
+  factory UnitAccessesResponse.fromJson(Map<String, dynamic> json) =>
+      _$UnitAccessesResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UnitAccessesResponseToJson(this);
+
+  UnitAccesses toDomain() => UnitAccesses(
+    countUser: countUser,
+    donViId: donViId ?? '',
+    name: name,
+  );
 }
 
 @JsonSerializable()

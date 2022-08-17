@@ -103,161 +103,158 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
             ),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (widget.isMobile) ...[
-                const SizedBox(
-                  height: 20,
-                ),
-                lineContainer(),
-                const SizedBox(
-                  height: 22,
-                ),
-                Align(
-                  alignment: AlignmentDirectional.topStart,
-                  child: Text(
-                    S.current.cu_can_bo,
-                    style: textNormalCustom(fontSize: 18, color: textTitle),
-                  ),
-                ),
-              ],
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      ThemCanBoScreen(
-                        cubit: widget.cubitThanhPhanTG,
-                        needCheckTrung: false,
-                        removeButton: true,
-                        themCanBoCubit: widget.themCanBoCubit,
-                        titleCanBo: S.current.can_bo,
-                        hindSearch: S.current.tim_kiem_can_bo,
-                        checkStyle: false,
-                        checkUiCuCanBo: true,
-                        themDonViCubit: widget.themDonViCubit,
-                        hindText: S.current.chon_don_vi,
-                      ),
-                      spaceH20,
-                      BlockTextViewLich(
-                        isRequired: false,
-                        hintText: S.current.chi_tiet_cong_viec_can_phoi_hop,
-                        formKey: formKeyNoiDung,
-                        contentController: noiDungController,
-                        title: S.current.noi_dung,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 22, bottom: 14),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (widget.themDonViCubit.listDonVi.isEmpty) {
-                              widget.themDonViCubit.validateDonVi.sink
-                                  .add(true);
-                            } else {
-                              widget.themDonViCubit.validateDonVi.sink
-                                  .add(false);
-
-                              if ((widget.themCanBoCubit.titleCanBo
-                                          .valueOrNull ??
-                                      '')
-                                  .isEmpty) {
-                                widget.themDonViCubit.listDonVi.last.noidung =
-                                    noiDungController.text;
-                              } else {
-                                widget.cubitThanhPhanTG.newCanBo.noidung =
-                                    noiDungController.text;
-                              }
-
-                              widget.cubitThanhPhanTG.addCuCanBo(
-                                widget.themCanBoCubit,
-                                widget.themDonViCubit,
-                              );
-                            }
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SvgPicture.asset(ImageAssets.ic_plus),
-                                spaceW10,
-                                Text(
-                                  S.current.them,
-                                  style: textNormalCustom(
-                                    fontSize: 12.0,
-                                    color: titleCalenderWork,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      StreamBuilder<bool>(
-                        stream: widget.cubitThanhPhanTG.isDuplicateCanBo.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? false;
-
-                          return data
-                              ? Text(
-                                  S.current.can_bo_nay_da_ton_tai,
-                                  style: textNormalCustom(
-                                    color: Colors.red,
-                                    fontSize: 12.0.textScale(),
-                                  ),
-                                )
-                              : Container();
-                        },
-                      ),
-                      StreamBuilder<List<DonViModel>>(
-                        stream: widget.cubitThanhPhanTG.listCanBoThamGia.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <DonViModel>[];
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(
-                              data.length,
-                              (index) => Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20.0.textScale(space: -2),
-                                ),
-                                child: itemListCanBo(
-                                  isVisible: index != 0,
-                                  noiDungCV: data[index].noidung,
-                                  cubit: widget.cubitThanhPhanTG,
-                                  donVi: data[index],
-                                  onDelete: () {
-                                    widget.cubitThanhPhanTG
-                                        .xoaCanBoThamGiaCuCanBo(
-                                      data[index],
-                                      widget.cubitThanhPhanTG.listCanBoDuocChon,
-                                    );
-                                    widget.themCanBoCubit.titleCanBo.sink
-                                        .add('');
-                                    widget.themDonViCubit.selectNodeOnlyValue =
-                                        null;
-                                    widget.themDonViCubit.themDonViSubject.sink
-                                        .add(true);
-                                    noiDungController.text = '';
-                                    widget.themDonViCubit.sinkSelectOnlyDonVi
-                                        .add(null);
-                                    widget.themDonViCubit.listDonVi.clear();
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (widget.isMobile) ...[
+              const SizedBox(
+                height: 20,
+              ),
+              lineContainer(),
+              const SizedBox(
+                height: 22,
+              ),
+              Align(
+                alignment: AlignmentDirectional.topStart,
+                child: Text(
+                  S.current.cu_can_bo,
+                  style: textNormalCustom(fontSize: 18, color: textTitle),
                 ),
               ),
             ],
-          ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    ThemCanBoScreen(
+                      cubit: widget.cubitThanhPhanTG,
+                      needCheckTrung: false,
+                      removeButton: true,
+                      themCanBoCubit: widget.themCanBoCubit,
+                      titleCanBo: S.current.can_bo,
+                      hindSearch: S.current.tim_kiem_can_bo,
+                      checkStyle: false,
+                      checkUiCuCanBo: true,
+                      themDonViCubit: widget.themDonViCubit,
+                      hindText: S.current.chon_don_vi,
+                    ),
+                    spaceH20,
+                    BlockTextViewLich(
+                      isRequired: false,
+                      hintText: S.current.chi_tiet_cong_viec_can_phoi_hop,
+                      formKey: formKeyNoiDung,
+                      contentController: noiDungController,
+                      title: S.current.noi_dung,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 22, bottom: 14),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (widget.themDonViCubit.listDonVi.isEmpty) {
+                            widget.themDonViCubit.validateDonVi.sink
+                                .add(true);
+                          } else {
+                            widget.themDonViCubit.validateDonVi.sink
+                                .add(false);
+
+                            if ((widget.themCanBoCubit.titleCanBo
+                                        .valueOrNull ??
+                                    '')
+                                .isEmpty) {
+                              widget.themDonViCubit.listDonVi.last.noidung =
+                                  noiDungController.text;
+                            } else {
+                              widget.cubitThanhPhanTG.newCanBo.noidung =
+                                  noiDungController.text;
+                            }
+
+                            widget.cubitThanhPhanTG.addCuCanBo(
+                              widget.themCanBoCubit,
+                              widget.themDonViCubit,
+                            );
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SvgPicture.asset(ImageAssets.ic_plus),
+                              spaceW10,
+                              Text(
+                                S.current.them,
+                                style: textNormalCustom(
+                                  fontSize: 12.0,
+                                  color: titleCalenderWork,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    StreamBuilder<bool>(
+                      stream: widget.cubitThanhPhanTG.isDuplicateCanBo.stream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? false;
+
+                        return data
+                            ? Text(
+                                S.current.can_bo_nay_da_ton_tai,
+                                style: textNormalCustom(
+                                  color: Colors.red,
+                                  fontSize: 12.0.textScale(),
+                                ),
+                              )
+                            : Container();
+                      },
+                    ),
+                    StreamBuilder<List<DonViModel>>(
+                      stream: widget.cubitThanhPhanTG.listCanBoThamGia.stream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? <DonViModel>[];
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: List.generate(
+                            data.length,
+                            (index) => Padding(
+                              padding: EdgeInsets.only(
+                                top: 20.0.textScale(space: -2),
+                              ),
+                              child: itemListCanBo(
+                                isVisible: index != 0,
+                                noiDungCV: data[index].noidung,
+                                cubit: widget.cubitThanhPhanTG,
+                                donVi: data[index],
+                                onDelete: () {
+                                  widget.cubitThanhPhanTG
+                                      .xoaCanBoThamGiaCuCanBo(
+                                    data[index],
+                                    widget.cubitThanhPhanTG.listCanBoDuocChon,
+                                  );
+                                  widget.themCanBoCubit.titleCanBo.sink
+                                      .add('');
+                                  widget.themDonViCubit.selectNodeOnlyValue =
+                                      null;
+                                  widget.themDonViCubit.themDonViSubject.sink
+                                      .add(true);
+                                  noiDungController.text = '';
+                                  widget.themDonViCubit.sinkSelectOnlyDonVi
+                                      .add(null);
+                                  widget.themDonViCubit.listDonVi.clear();
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

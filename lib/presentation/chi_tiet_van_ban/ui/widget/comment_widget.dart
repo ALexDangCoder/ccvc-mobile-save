@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -98,9 +99,33 @@ class _WidgetCommentsState extends State<WidgetComments> {
     super.dispose();
   }
 
+  bool validateSizeFile({int newSize = 0}) {
+    int totalSize =0;
+    for(final item in listFile){
+      totalSize += item.size ?? 0;
+    }
+    final validateSized = (totalSize + newSize) / BYTE_TO_MB > widget.maxSizeMB;
+    if (validateSized) {
+      showToast(widget.errorMaxSize ?? S.current.dung_luong_toi_da_20);
+    }
+    return validateSized;
+  }
+
+  void showToast(String message) {
+    toast.removeQueuedCustomToasts();
+    toast.showToast(
+      child: ShowToast(
+        text: message,
+        withOpacity: 0.4,
+      ),
+      gravity: ToastGravity.TOP_RIGHT,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Flexible(
@@ -144,9 +169,14 @@ class _WidgetCommentsState extends State<WidgetComments> {
                               );
                               final newImage = addDataListPick(mediaMap);
                               if (newImage != null) {
-                                setState(() {
-                                  listFile.add(newImage);
-                                });
+                                if (!validateSizeFile(
+                                  newSize: newImage.size ?? 0,
+                                )) {
+                                  setState(() {
+                                    listFile.add(newImage);
+                                  });
+
+                                }
                               }
                             },
                             child: SvgPicture.asset(
@@ -161,13 +191,18 @@ class _WidgetCommentsState extends State<WidgetComments> {
                             onTap: () async {
                               final Map<String, dynamic> mediaMap =
                                   await pickMediaFile(
-                                type: PickerType.ALL,
+                                type: PickerType.FULL,
                               );
                               final newFile = addDataListPick(mediaMap);
                               if (newFile != null) {
-                                setState(() {
-                                  listFile.add(newFile);
-                                });
+                                if (!validateSizeFile(
+                                  newSize: newFile.size ?? 0,
+                                )) {
+                                  setState(() {
+                                    listFile.add(newFile);
+                                  });
+
+                                }
                               }
                             },
                             child: SvgPicture.asset(
@@ -209,19 +244,10 @@ class _WidgetCommentsState extends State<WidgetComments> {
         spaceW16,
         GestureDetector(
           onTap: () {
-            int totalSize = 0;
-            for (final PickImageFileModel item in listFile) {
-              totalSize += item.size ?? 0;
-            }
-            if (totalSize / BYTE_TO_MB > widget.maxSizeMB) {
-              toast.removeQueuedCustomToasts();
-              toast.showToast(
-                child: ShowToast(
-                  text: widget.errorMaxSize ??  S.current.dung_luong_toi_da_20,
-                  withOpacity: 0.4,
-                ),
-                gravity: ToastGravity.TOP_RIGHT,
-              );
+            if (listFile.isEmpty &&
+                controller.text.isEmpty &&
+                !validateSizeFile()) {
+              showToast(S.current.vui_long_chon_file_hoac_nhap_y_kien);
             } else {
               if (widget.onSend != null) {
                 widget.onSend!(comment, listFile.toList());
@@ -229,10 +255,13 @@ class _WidgetCommentsState extends State<WidgetComments> {
               }
             }
           },
-          child: SvgPicture.asset(
-            ImageAssets.ic_send,
-            width: 24,
-            height: 24,
+          child: SizedBox(
+            height: 45,
+            child: SvgPicture.asset(
+              ImageAssets.ic_send,
+              width: 24,
+              height: 24,
+            ),
           ),
         ),
       ],

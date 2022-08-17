@@ -167,10 +167,14 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                 spacing: 10.w, // gap between adjacent chips
                                 runSpacing: 10, // gap between lines
                                 children: List.generate(
-                                    widget.cubit.selectNode.length + 1,
-                                    (index) {
-                                  if (index == widget.cubit.selectNode.length) {
+                                    widget.cubit.listUserCommon.length +
+                                        widget.cubit.selectNode.length +
+                                        1, (index) {
+                                  if (index ==
+                                      widget.cubit.listUserCommon.length +
+                                          widget.cubit.selectNode.length) {
                                     return Container(
+                                      width: 200,
                                       color: Colors.transparent,
                                       child: TextField(
                                         onChanged: (value) {
@@ -189,7 +193,7 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                           ),
                                           isDense: true,
                                           contentPadding:
-                                              const EdgeInsets.symmetric(
+                                          const EdgeInsets.symmetric(
                                             vertical: 5,
                                           ),
                                           isCollapsed: true,
@@ -198,18 +202,36 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                       ),
                                     );
                                   }
-                                  final data = widget.cubit.selectNode[index];
+                                  if (index >=
+                                      widget
+                                          .cubit.listUserCommon.length) {
+                                    final data = widget.cubit.selectNode[
+                                    index -
+                                        widget
+                                            .cubit.listUserCommon.length];
+                                    return ItemNguoiDungTablet(
+                                      name: data.value.name != ''
+                                          ? data.value.name
+                                          : data.value.tenCanBo,
+                                      hasFunction: true,
+                                      delete: () {
+                                        data.isCheck.isCheck = false;
+                                        widget.cubit.selectTag(
+                                          data,
+                                        );
+                                        widget.cubit.removeTag(data);
+                                      },
+                                    );
+                                  }
+                                  final data =
+                                  widget.cubit.listUserCommon[index];
                                   return ItemNguoiDungTablet(
-                                    name: data.value.name != ''
-                                        ? data.value.name
-                                        : data.value.tenCanBo,
+                                    name: data.fullname ?? '',
                                     hasFunction: true,
                                     delete: () {
-                                      data.isCheck.isCheck = false;
-                                      widget.cubit.selectTag(
-                                        data,
-                                      );
-                                      widget.cubit.removeTag(data);
+                                      widget.cubit.listUserCommon
+                                          .removeAt(index);
+                                      widget.cubit.showTree.add(true);
                                     },
                                   );
                                 }),

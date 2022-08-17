@@ -144,15 +144,16 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                   showDialog(
                     context: context,
                     builder: (_) {
-                      return Scaffold(
-                        //resizeToAvoidBottomInset: false,
-                        backgroundColor: Colors.transparent,
-                        body: Center(
-                          child: ChiaSeBaoCaoTablet(
-                            idReport: widget.item.id ?? '',
-                            appId: widget.cubit.appId,
-                            type: widget.item.type ?? 0,
-                          ),
+                      return Dialog(
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: ChiaSeBaoCaoTablet(
+                          idReport: widget.item.id ?? '',
+                          appId: widget.cubit.appId,
+                          type: widget.item.type ?? 0,
                         ),
                       );
                     },

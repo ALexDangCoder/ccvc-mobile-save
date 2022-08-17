@@ -284,13 +284,16 @@ class VanBanChiDaoModel {
           TypeDocumentDetailRow.text,
         ),
         DocumentDetailRow(
-          S.current.noi_dung,
+          S.current.just_noi_dung,
           noiDung,
           TypeDocumentDetailRow.text,
         ),
         DocumentDetailRow(
           S.current.ngay_han_xu_ly,
-          ngayXuLy,
+          ngayXuLy.changeToNewPatternDate(
+              DateTimeFormat.DATE_TIME_HHT,
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+          ),
           TypeDocumentDetailRow.text,
         ),
       ];

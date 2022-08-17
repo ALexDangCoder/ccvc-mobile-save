@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 extension DateFormatString on DateTime {
   String get toStringWithListFormat {
     final dateString =
-        DateFormat(DateTimeFormat.DATE_FORMAT_TEXT_FIELD).format(this);
+        DateFormat(DateTimeFormat.DATE_TIME_FORMAT_8).format(this);
     return dateString;
   }
 

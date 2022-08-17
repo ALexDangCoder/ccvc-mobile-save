@@ -8,10 +8,11 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -104,6 +105,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                 child: FileFromAPIWidget(
                   canDelete: !widget.cubit.isNguoiThamGia(),
                   data: dataIndex.name ?? '',
+                  url: dataIndex.path,
                   onTapDelete: () {
                     widget.cubit.deleteFileHop(id: dataIndex.id ?? '');
                   },
@@ -129,6 +131,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
 class FileFromAPIWidget extends StatelessWidget {
   final Function onTapDelete;
   final String data;
+  final String? url;
   final String? lengthFile;
   final bool canDelete;
 
@@ -137,6 +140,7 @@ class FileFromAPIWidget extends StatelessWidget {
     required this.onTapDelete,
     required this.data,
     this.lengthFile,
+    this.url,
     this.canDelete = true,
   }) : super(key: key);
 
@@ -157,13 +161,21 @@ class FileFromAPIWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  data,
-                  style: textNormalCustom(
-                    color: color5A8DEE,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0.textScale(),
+                GestureDetector(
+                  child: Text(
+                    data,
+                    style: textNormalCustom(
+                      color: color5A8DEE,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.0.textScale(),
+                    ),
                   ),
+                  onTap: (){
+                    if(url != null){
+                      saveFile(fileName: data, url: url ?? '');
+                    }
+
+                  },
                 ),
                 Visibility(
                   visible: lengthFile != null,

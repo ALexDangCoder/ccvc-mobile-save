@@ -232,7 +232,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         thoiGianStartFilter: startDate ?? this.startDate,
         thoiGianEndFilter: endDate ?? this.endDate,
         size: ApiConstants.DEFAULT_PAGE_SIZE,
-        //keySearch: keySearch.trim(),
         trichYeu: keySearch.trim(),
         trangThaiXuLy: statusSearchDocumentInSubCode(documentInSubStatusCode),
         isDanhSachDaXuLy: documentInSubStatusCode.isNotEmpty ? false : null,

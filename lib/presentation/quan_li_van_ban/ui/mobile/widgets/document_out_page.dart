@@ -39,7 +39,6 @@ class _DocumentInPageState extends State<DocumentOutPage>
       );
     });
     _handleEventBus();
-
     super.initState();
   }
 

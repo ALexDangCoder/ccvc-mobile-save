@@ -28,7 +28,7 @@ class DocumentInPage extends StatefulWidget {
 class _DocumentInPageState extends State<DocumentInPage>
     with AutomaticKeepAliveClientMixin {
   final PagingController<int, VanBanModel> _documentPagingController =
-      PagingController(firstPageKey: 0);
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 0);
 
   @override
   void initState() {

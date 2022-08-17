@@ -119,6 +119,8 @@ class QLVBImlp implements QLVBRepository {
                   size: size,
                   index: index,
                   keySearch: keySearch,
+                  isDanhSachChoCapSo: isDanhSachChoCapSo,
+                  isDanhSachChoBanHanh: isDanhSachChoBanHanh,
                   isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
                   isDanhSachChoXuLy: isDanhSachChoXuLy,
                   isDanhSachDaXuLy: isDanhSachDaXuLy,

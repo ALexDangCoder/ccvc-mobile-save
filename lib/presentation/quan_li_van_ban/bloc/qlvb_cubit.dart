@@ -113,7 +113,9 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     String? endDate,
   }) async {
     final result = await qLVBRepo.getVBDi(
-        startDate ?? this.startDate, endDate ?? this.endDate);
+      startDate ?? this.startDate,
+      endDate ?? this.endDate,
+    );
     result.when(
       success: (res) {
         chartDataVbDi.clear();
@@ -281,21 +283,11 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       endDate: endDate ?? this.endDate,
       index: page ?? ApiConstants.PAGE_BEGIN,
       size: ApiConstants.DEFAULT_PAGE_SIZE,
-      isDanhSachChoTrinhKy: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == DocumentState.CHO_TRINH_KY,
-      isDanhSachChoXuLy: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == DocumentState.CHO_XU_LY,
-      isDanhSachDaXuLy: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == DocumentState.DA_XU_LY,
-      isDanhSachChoBanHanh: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == DocumentState.CHO_BAN_HANH,
-      isDanhSachChoCapSo: documentOutStatusCode == ''
-          ? null
-          : documentOutStatusCode == DocumentState.CHO_CAP_SO,
+      isDanhSachChoTrinhKy: getStatus(DocumentState.CHO_TRINH_KY),
+      isDanhSachChoXuLy: getStatus(DocumentState.CHO_XU_LY),
+      isDanhSachDaXuLy: getStatus(DocumentState.DA_XU_LY),
+      isDanhSachChoBanHanh: getStatus(DocumentState.CHO_BAN_HANH),
+      isDanhSachChoCapSo: getStatus(DocumentState.CHO_CAP_SO),
       trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode),
       keySearch: keySearch.trim(),
     );
@@ -337,5 +329,12 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30)
             .formatApi;
     endDate = dataDateTime.formatApi;
+  }
+
+  bool? getStatus(String status) {
+    if (status.isEmpty) {
+      return null;
+    }
+    return documentOutStatusCode == status;
   }
 }

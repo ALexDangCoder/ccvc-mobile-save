@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -517,8 +518,11 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                           children: [
                             buttomWidget(
                               title: S.current.dong,
-                              background: bgTag,
-                              textColor: labelColor,
+                              background: AppTheme.getInstance()
+                                  .colorField()
+                                  .withOpacity(0.1),
+                              textColor: AppTheme.getInstance()
+                                  .colorField(),
                               onTap: () {
                                 Navigator.of(context).pop();
                               },
@@ -532,7 +536,8 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                 final data = snapshot.data ?? false;
                                 return buttomWidget(
                                   title: S.current.luu,
-                                  background: textDefault,
+                                  background: AppTheme.getInstance()
+                                      .colorField(),
                                   textColor: Colors.white,
                                   onTap: () {
                                     validateField(data);

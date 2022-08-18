@@ -270,13 +270,8 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      GridView.count(
-                        shrinkWrap: true,
-                        // physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 3.textScale(),
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 6.7,
-                        // scrollDirection: Axis.horizontal,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           rowChuThich(
                             boxShape: BoxShape.rectangle,
@@ -299,7 +294,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -321,14 +316,9 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
         const SizedBox(
           width: 10,
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              title,
-              style: textNormal(titleItemEdit, 16),
-            ),
-          ),
+        Text(
+          title,
+          style: textNormal(titleItemEdit, 16),
         ),
       ],
     );

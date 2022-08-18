@@ -136,6 +136,7 @@ abstract class HopServices {
   @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)
   Future<DanhSachCanBoHopResponse> getDanhSachChuTri(
     @Query('id') String id,
+    @Query('onlyPerson') bool? onlyPerson,
   );
 
   @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)

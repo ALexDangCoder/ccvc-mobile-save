@@ -34,7 +34,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
   Future<void> getDanhSachCuCanBoHop(
     ThanhPhanThamGiaCubit cubitThanhPhanTG,
   ) async {
-    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id: idCuocHop);
     result.when(
       success: (res) {
         listTPTG = res
@@ -107,7 +107,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
   }
 
   Future<void> getDanhSachCanBoHop(String id) async {
-    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id);
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id: id);
     result.when(
       success: (res) {
         final donViId =
@@ -330,7 +330,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
   Future<void> callApiChuongTrinhHop() async {
     showLoading();
     await getDanhSachCanBoHop(idCuocHop);
-    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    await getDanhSachNguoiChuTriPhienHop(id: idCuocHop);
     await getListPhienHop(idCuocHop);
     showContent();
   }

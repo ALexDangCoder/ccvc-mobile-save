@@ -185,13 +185,12 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<List<NguoiChutriModel>>> getDanhSachNguoiChuTriPhienHop(
-    String id,
-  ) {
+  Future<Result<List<NguoiChutriModel>>> getDanhSachNguoiChuTriPhienHop({
+    required String id,
+    bool? onlyPerson,
+  }) {
     return runCatchingAsync<DanhSachCanBoHopResponse, List<NguoiChutriModel>>(
-      () => _hopServices.getDanhSachChuTri(
-        id,
-      ),
+      () => _hopServices.getDanhSachChuTri(id, onlyPerson),
       (res) => res.data?.listCanBo?.map((e) => e.toDomain()).toList() ?? [],
     );
   }

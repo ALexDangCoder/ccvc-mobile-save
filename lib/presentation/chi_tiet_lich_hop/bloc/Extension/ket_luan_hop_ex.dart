@@ -392,7 +392,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     getDanhSachLoaiNhiemVu();
     listStatusKetLuanHop();
     danhSachCanBoTPTG(id: idCuocHop);
-    getDanhSachNguoiChuTriPhienHop('');
+    getDanhSachNguoiChuTriPhienHop(id: '');
     postChonMauHop();
   }
 

@@ -62,7 +62,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
 
   void _refreshThanhPhanThamGia() {
     eventBus.on<RefreshThanhPhanThamGia>().listen((event) {
-      cubit.getDanhSachNguoiChuTriPhienHop(cubit.idCuocHop);
+      cubit.getDanhSachNguoiChuTriPhienHop(id: cubit.idCuocHop);
     });
   }
 

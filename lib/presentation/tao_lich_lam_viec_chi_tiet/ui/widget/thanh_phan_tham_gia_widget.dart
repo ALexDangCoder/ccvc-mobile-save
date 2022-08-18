@@ -76,16 +76,6 @@ class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
             onChange: (value) {
               widget.taoLichLamViecCubit.donviModel = value;
             },
-            // scheduleCoperatives: widget.chiTietLichLamViecCubit
-            //         ?.chiTietLichLamViecModel.scheduleCoperatives
-            //         ?.map(
-            //           (e) => RemoveItemTree(
-            //             canBoId: e.canBoId,
-            //             donViId: e.donViId,
-            //           ),
-            //         )
-            //         .toList() ??
-            //     [],
             phuongThucNhan: (value) {},
             isPhuongThucNhan: false,
           ),

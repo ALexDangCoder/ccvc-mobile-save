@@ -216,7 +216,9 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                       ImageAssets.icStarFocus,
                       width: 16,
                       height: 16,
-                      color: AppTheme.getInstance().unselectColor(),
+                      color: isLove
+                          ? AppTheme.getInstance().unselectColor()
+                          : AppTheme.getInstance().colorField(),
                     ),
                     spaceW13,
                     Text(
@@ -245,6 +247,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                           textContent: S.current.ban_co_chac_chan_yeu_thich,
                           icon: SvgPicture.asset(
                             bao_cao.ImageAssets.ic_star_bold,
+                            color: AppTheme.getInstance().colorField(),
                           ),
                           funcBtnLeft: () {
                             isLove = widget.isFavorite;
@@ -280,6 +283,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                           textContent: S.current.ban_co_bo_chac_chan_yeu_thich,
                           icon: SvgPicture.asset(
                             bao_cao.ImageAssets.ic_star_bold,
+                            color: AppTheme.getInstance().colorField(),
                           ),
                           funcBtnRight: () {
                             widget.cubit.putDislikeFavorite(

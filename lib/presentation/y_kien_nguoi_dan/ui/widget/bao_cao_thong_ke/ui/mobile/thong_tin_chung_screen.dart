@@ -239,10 +239,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         widget.cubit.endDate = endDate.toStringWithListFormat;
                         widget.cubit.clearDSPAKN();
                         await widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                        if(widget.cubit.trangThaiFilter!=null){
+                        if (widget.cubit.trangThaiFilter != null) {
                           await widget.cubit.getDanhSachPAKNFilterChart();
-                        }
-                        else{
+                        } else {
                           await widget.cubit.getDanhSachPAKN();
                         }
                       },
@@ -611,6 +610,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                       ),
                       if ((dsKetQuaPakn.trangThaiText ?? '').isNotEmpty)
                         Container(
+                          width: (dsKetQuaPakn.trangThaiText?.length  ?? 0)> 30
+                              ? 150
+                              : null,
                           padding: const EdgeInsets.symmetric(
                             vertical: 3,
                             horizontal: 15,
@@ -626,6 +628,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
+                              maxLines: 3,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         )

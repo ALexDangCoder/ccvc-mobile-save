@@ -319,6 +319,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                     title: S.current.chia_se_thu_muc,
                     icon: SvgPicture.asset(
                       ImageAssets.ic_chia_se,
+                      color: AppTheme.getInstance().colorField(),
                     ),
                     btnLeftTxt: S.current.huy,
                     btnRightTxt: S.current.dong_y,
@@ -349,6 +350,7 @@ class _TabNgoaiHeThongMobileState extends State<TabNgoaiHeThongMobile> {
                     title: S.current.chia_se_thu_muc,
                     icon: SvgPicture.asset(
                       ImageAssets.ic_chia_se,
+                      color: AppTheme.getInstance().colorField(),
                     ),
                     btnLeftTxt: S.current.huy,
                     btnRightTxt: S.current.dong_y,

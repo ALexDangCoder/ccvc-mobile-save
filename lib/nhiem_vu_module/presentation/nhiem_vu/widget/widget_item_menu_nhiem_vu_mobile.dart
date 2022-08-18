@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,7 +29,7 @@ class ItemMenuNhiemVuWidgetMobile extends StatelessWidget {
           horizontal: 17.0.textScale(space: 13),
           vertical: 10.0.textScale(space: 4),
         ),
-        color: isSelect ? AppTheme.getInstance().colorField() : Colors.white,
+        color:  isSelect ? color_464646 : null,
         child: Row(
           children: [
             SizedBox(
@@ -40,7 +39,7 @@ class ItemMenuNhiemVuWidgetMobile extends StatelessWidget {
                 icon,
                 color: isSelect
                     ? Colors.white
-                    : AppTheme.getInstance().colorField(),
+                    : Colors.grey,
               ),
             ),
             SizedBox(
@@ -49,7 +48,7 @@ class ItemMenuNhiemVuWidgetMobile extends StatelessWidget {
             Text(
               name,
               style: textNormalCustom(
-                color: isSelect ? Colors.white : color3D5586,
+                color: backgroundColorApp,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(space: 4),
               ),

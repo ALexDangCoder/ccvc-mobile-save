@@ -21,6 +21,7 @@ class _YKienNguoiDanMenuState extends State<YKienNguoiDanMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundDrawerMenu,
       body: Column(
         children: [
           const SizedBox(
@@ -67,24 +68,6 @@ class _YKienNguoiDanMenuState extends State<YKienNguoiDanMenu> {
               },
             ),
           ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 24, left: 16, right: 16),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(4),
-                ),
-                color: bgButtonDropDown,
-              ),
-              height: 40,
-              child: Center(
-                child: Text(
-                  S.current.phan_anh_kien_nghi,
-                  style: textNormalCustom(fontSize: 14, fontWeight: FontWeight.w500, ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -103,7 +86,7 @@ class _YKienNguoiDanMenuState extends State<YKienNguoiDanMenu> {
         Text(
           menu,
           style: textNormalCustom(
-            color: color3D5586,
+            color: backgroundColorApp,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

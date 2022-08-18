@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extens
 import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/bao_cao_module/widget/views/no_data_widget.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -61,17 +62,15 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                         showDialog(
                           context: context,
                           builder: (_) {
-                            return Scaffold(
-                              backgroundColor: Colors.transparent,
-                              body: InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Center(
-                                  child: ChonNhomDialog(
-                                    cubit: widget.cubit,
-                                  ),
-                                ),
+                            return Dialog(
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              child: ChonNhomDialog(
+                                cubit: widget.cubit,
                               ),
                             );
                           },
@@ -205,8 +204,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                       );
                                     }
                                     if (index >=
-                                            widget
-                                                .cubit.listUserCommon.length) {
+                                        widget.cubit.listUserCommon.length) {
                                       final data = widget.cubit.selectNode[
                                           index -
                                               widget
@@ -362,6 +360,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                 title: S.current.chia_se_thu_muc,
                 icon: SvgPicture.asset(
                   ImageAssets.ic_chia_se,
+                  color: AppTheme.getInstance().colorField(),
                 ),
                 btnLeftTxt: S.current.huy,
                 btnRightTxt: S.current.dong_y,

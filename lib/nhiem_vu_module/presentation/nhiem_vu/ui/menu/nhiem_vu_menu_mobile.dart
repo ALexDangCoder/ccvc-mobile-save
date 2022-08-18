@@ -21,6 +21,7 @@ class _NhiemVuMenuMobileState extends State<NhiemVuMenuMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundDrawerMenu,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -98,7 +99,7 @@ class _NhiemVuMenuMobileState extends State<NhiemVuMenuMobile> {
         Text(
           menu,
           style: textNormalCustom(
-            color: titleColor,
+            color: backgroundColorApp,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

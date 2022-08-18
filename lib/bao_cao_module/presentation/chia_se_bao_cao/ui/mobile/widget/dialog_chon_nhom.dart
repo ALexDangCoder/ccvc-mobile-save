@@ -33,7 +33,7 @@ class _ChonNhomDialogState extends State<ChonNhomDialog> {
       child: Container(
         padding: const EdgeInsets.all(8),
         height: widget.ibTablet ? 450 : 350.h,
-        width: widget.ibTablet ? 450.w : null,
+        width: widget.ibTablet ? 450.w : double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(12.r)),
@@ -80,7 +80,7 @@ class _ChonNhomDialogState extends State<ChonNhomDialog> {
   }
 
   Widget itemSelect(String title, bool isSelect) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         if (!isSelect) {
           widget.cubit.themNhom(title);

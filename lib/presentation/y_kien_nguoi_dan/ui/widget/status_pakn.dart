@@ -51,7 +51,6 @@ Widget statusWidget({
                                     ),
                                   ),
                                 ),
-                                spaceH6,
                               ],
                             ),
                           ),

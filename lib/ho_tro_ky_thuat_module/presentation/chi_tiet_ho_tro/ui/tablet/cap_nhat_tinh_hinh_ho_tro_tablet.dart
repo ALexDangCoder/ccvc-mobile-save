@@ -176,8 +176,12 @@ class _CapNhatTinhHinhHoTroTabLetState
                                               children: [
                                                 Text(
                                                   _cubit.supportDetail
-                                                          .nguoiXuLy ??
-                                                      '',
+                                                      .nguoiXuLy ??
+                                                      (_cubit
+                                                          .dataUser
+                                                          ?.userInformation
+                                                          ?.hoTen ??
+                                                          ''),
                                                   style: tokenDetailAmount(
                                                     fontSize: 16,
                                                     color: borderColor,
@@ -242,8 +246,13 @@ class _CapNhatTinhHinhHoTroTabLetState
                                       child: Row(
                                         children: [
                                           Text(
-                                            _cubit.supportDetail.nguoiXuLy ??
-                                                '',
+                                            _cubit.supportDetail
+                                                .nguoiXuLy ??
+                                                (_cubit
+                                                    .dataUser
+                                                    ?.userInformation
+                                                    ?.hoTen ??
+                                                    ''),
                                             style: tokenDetailAmount(
                                               fontSize: 16,
                                               color: borderColor,

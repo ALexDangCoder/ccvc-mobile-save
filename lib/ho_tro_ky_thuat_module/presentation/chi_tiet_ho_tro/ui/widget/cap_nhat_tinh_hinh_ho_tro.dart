@@ -149,14 +149,6 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                                 snapshot.data == '';
                                             if (enable) {
                                               return dropDownField(
-                                                initData: _cubit.listItSupport
-                                                    .firstWhere(
-                                                  (element) => element.contains(
-                                                    _cubit.supportDetail
-                                                            .nguoiXuLy ??
-                                                        '',
-                                                  ),
-                                                ),
                                                 title: S.current.nguoi_xu_ly,
                                                 listDropdown:
                                                     _cubit.listItSupport,
@@ -197,8 +189,12 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                                       children: [
                                                         Text(
                                                           _cubit.supportDetail
-                                                                  .nguoiXuLy ??
-                                                              '',
+                                                              .nguoiXuLy ??
+                                                              (_cubit
+                                                                  .dataUser
+                                                                  ?.userInformation
+                                                                  ?.hoTen ??
+                                                                  ''),
                                                           style:
                                                               tokenDetailAmount(
                                                             fontSize: 14,
@@ -232,13 +228,6 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                           snapshot.data == '';
                                       if (enable) {
                                         return dropDownField(
-                                          initData:
-                                              _cubit.listItSupport.firstWhere(
-                                            (element) => element.contains(
-                                              _cubit.supportDetail.nguoiXuLy ??
-                                                  '',
-                                            ),
-                                          ),
                                           title: S.current.nguoi_xu_ly,
                                           listDropdown: _cubit.listItSupport,
                                           maxLine: 2,
@@ -277,7 +266,11 @@ class _CapNhatTinhHinhHoTroState extends State<CapNhatTinhHinhHoTro>
                                                   Text(
                                                     _cubit.supportDetail
                                                             .nguoiXuLy ??
-                                                        '',
+                                                        (_cubit
+                                                                .dataUser
+                                                                ?.userInformation
+                                                                ?.hoTen ??
+                                                            ''),
                                                     style: tokenDetailAmount(
                                                       fontSize: 14,
                                                       color: borderColor,

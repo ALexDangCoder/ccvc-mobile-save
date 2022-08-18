@@ -112,7 +112,8 @@ class ItemList extends StatelessWidget {
           if (cubit.checkHideIcMore(
             isReportShareToMe: item.shareToMe ?? false,
             typeReport: item.type ?? REPORT,
-            listAccess: item.accesses ?? []
+            hasSharedAccess: item.hasSharedAccess,
+            createdBy: item.createdBy ?? '',
           ))
             InkWell(
               onTap: () {

@@ -54,9 +54,18 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
   void checkCodeTrangThai(String statusCode) {
     listTrangThai.clear();
     if (isTruongPhong && !isNguoiXuLy) {
-      listTrangThai = [
-        CHUA_XU_LY_VALUE,
-      ];
+      if (nullNguoiXuLy) {
+        listTrangThai = [
+          CHUA_XU_LY_VALUE,
+          DANG_XU_LY_VALUE,
+          DA_HOAN_THANH_VALUE,
+          TU_CHOI_XU_LY_VALUE,
+        ];
+      } else {
+        listTrangThai = [
+          CHUA_XU_LY_VALUE,
+        ];
+      }
     }
     if (isTruongPhong && isNguoiXuLy) {
       listTrangThai = [
@@ -133,6 +142,7 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
 
   bool isItSupport = false;
   bool isNguoiXuLy = false;
+  bool nullNguoiXuLy = false;
   bool isTruongPhong = false;
   bool isNguoiYeuCau = false;
 
@@ -191,6 +201,9 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     }
     if (supportDetail?.idNguoiXuLy == dataUser?.userInformation?.id) {
       isNguoiXuLy = true;
+    }
+    if (supportDetail?.nguoiXuLy == null) {
+      nullNguoiXuLy = true;
     }
     checkCodeTrangThai(supportDetail?.codeTrangThai ?? '');
     emit(

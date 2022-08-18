@@ -86,8 +86,8 @@ class ReportItemsResponse {
   bool? isShared;
   @JsonKey(name: 'shareToMe')
   bool? shareToMe;
-  @JsonKey(name: 'accesses')
-  List<AccessResponse>? accesses;
+  @JsonKey(name: 'hasSharedAccess')
+  bool? hasSharedAccess;
 
   ReportItemsResponse(
     this.id,
@@ -138,7 +138,8 @@ class ReportItemsResponse {
         status: status,
         shareByMe: shareByMe,
         shareToMe: shareToMe,
-        accesses: accesses?.map((e) => e.toDomain()).toList(),
+        hasSharedAccess: hasSharedAccess ?? false,
+        createdBy: createdBy,
       );
 
   ReportItem toModelShare() => ReportItem(
@@ -158,26 +159,6 @@ class ReportItemsResponse {
         status: status,
         shareToMe: isShared,
         isSourceShare: true,
-        accesses: accesses?.map((e) => e.toDomain()).toList(),
-      );
-}
-
-@JsonSerializable()
-class AccessResponse {
-  @JsonKey(name: 'code')
-  String? code;
-  @JsonKey(name: 'title')
-  String? title;
-
-  AccessResponse({this.code, this.title});
-
-  factory AccessResponse.fromJson(Map<String, dynamic> json) =>
-      _$AccessResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AccessResponseToJson(this);
-
-  Access toDomain() => Access(
-        code: code,
-        title: title,
+        hasSharedAccess: hasSharedAccess ?? false,
       );
 }

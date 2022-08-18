@@ -34,6 +34,7 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
       ..levelSeparation = (70)
       ..subtreeSeparation = (70)
       ..orientation = 3;
+
   }
 
   @override
@@ -45,7 +46,7 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
               constrained: false,
               scaleEnabled: widget.scaleEnable,
               transformationController: controller,
-              boundaryMargin: const EdgeInsets.all(100),
+              boundaryMargin: const EdgeInsets.all(double.infinity),
               minScale: 0.001,
               maxScale: 3,
               child: widget.tree.children.isEmpty

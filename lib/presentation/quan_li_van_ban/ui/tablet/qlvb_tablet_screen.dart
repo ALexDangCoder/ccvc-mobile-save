@@ -10,7 +10,6 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.d
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/tab_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
@@ -45,10 +44,6 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgTabletColor,
-      // appBar: AppBarDefaultBack(
-      //   S.current.thong_tin_chung,
-      //
-      // ),
       appBar: AppBarWithTwoLeading(
         backGroundColorTablet: bgWidgets,
         leadingIcon: IconButton(

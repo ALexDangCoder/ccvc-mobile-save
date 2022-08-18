@@ -111,7 +111,6 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             Container(
               color: colorFFFFFF,
               child: FilterDateTimeWidget(
-
                 context: context,
                 initStartDate: DateTime.parse(widget.qlvbCubit.startDate),
                 onChooseDateFilter: (startDate, endDate) {

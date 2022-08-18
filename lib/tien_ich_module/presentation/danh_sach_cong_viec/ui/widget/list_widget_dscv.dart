@@ -207,9 +207,21 @@ class ListDownDSCV extends StatelessWidget {
             onTapCreatOrUpdate(context, todo);
           },
           onThuHoi: () {
-            cubit.editWork(
-              todo: todo,
-              inUsed: !(todo.inUsed ?? false),
+            showDiaLog(
+              context,
+              funcBtnRight: () {
+                cubit.editWork(
+                  todo: todo,
+                  inUsed: !(todo.inUsed ?? false),
+                );
+              },
+              icon: SvgPicture.asset(
+                ImageAssets.ic_hoan_tac_dscv,
+              ),
+              title: S.current.ban_co_chan_chan_muon_hoan_tac,
+              btnLeftTxt: S.current.huy,
+              btnRightTxt: S.current.hoan_tac,
+              showTablet: !isMobile(),
             );
           },
           onXoaVinhVien: () {

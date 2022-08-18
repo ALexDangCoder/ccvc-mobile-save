@@ -38,7 +38,7 @@ class LichSuCapNhatVanBanDi {
   List<DocumentDetailRow> toListRowCapNhat() {
     final List<DocumentDetailRow> list = [
       DocumentDetailRow(
-        S.current.ho_va_ten,
+        S.current.nguoi_cap_nhat,
         nguoiCapNhat ?? '',
         TypeDocumentDetailRow.text,
       ),
@@ -51,7 +51,7 @@ class LichSuCapNhatVanBanDi {
         S.current.thoi_gian,
         thoiGian?.changeToNewPatternDate(
               DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-              DateTimeFormat.DATE_DD_MM_YYYY,
+              DateTimeFormat.DAY_MONTH_YEAR,
             ) ??
             '',
         TypeDocumentDetailRow.text,

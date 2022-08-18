@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file_cubit.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SelectFileBtn extends StatefulWidget {
   const SelectFileBtn({
@@ -97,6 +100,16 @@ class SelectFileBtnState extends State<SelectFileBtn> {
       return newFile;
     }
   }
+  Future<bool> handleFilePermission() async {
+    final permission =
+    Platform.isAndroid ? await Permission.storage.request() : true;
+    if (permission == PermissionStatus.denied ||
+        permission == PermissionStatus.permanentlyDenied) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   Future<void> handleButtonFileClicked() async {
     final allowedExtensions = widget.allowedExtensions ??
@@ -162,6 +175,9 @@ class SelectFileBtnState extends State<SelectFileBtn> {
         return result;
       },
     );
+    if (widget.replaceFile){
+      cubit.selectedFiles.clear();
+    }
     final bool isOverMaxSize = cubit.checkOverMaxSize(
       maxSize: widget.maxSize,
       newFiles: newFiles,
@@ -193,8 +209,13 @@ class SelectFileBtnState extends State<SelectFileBtn> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () {
-            handleButtonFileClicked();
+          onTap: () async {
+            final permission = await handleFilePermission();
+            if(permission){
+              unawaited(handleButtonFileClicked());
+            }else{
+              await MessageConfig.showDialogSetting();
+            }
           },
           child: Container(
             decoration: BoxDecoration(

@@ -42,14 +42,6 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
   late TextEditingController controller;
   Timer? debounce;
 
-  String? name;
-  DateTime? birthday;
-  String? email;
-  String? phoneNumber;
-  String? position;
-  String? unit;
-  String? note;
-
   @override
   void initState() {
     super.initState();
@@ -78,7 +70,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
           return true;
         },
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             FocusScope.of(context).unfocus();
           },
           child: RefreshIndicator(
@@ -113,7 +105,8 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                               groupValue: isDuocTruyCap,
                               isRow: true,
                               onchange: (value) {
-                                widget.cubit.isDuocTruyCapSink.add(value ?? false);
+                                widget.cubit.isDuocTruyCapSink
+                                    .add(value ?? false);
                               },
                             );
                           },
@@ -165,11 +158,12 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             textField(
+              initialValue: widget.cubit.nameCached,
               isRequired: true,
               title: S.current.ho_ten,
               hintText: S.current.ho_ten,
               onChange: (value) {
-                name = value;
+                widget.cubit.nameCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -192,17 +186,21 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               leadingIcon:
                   SvgPicture.asset(image_utils.ImageAssets.icCalenders),
               onSelectDate: (dateTime) {
-                birthday = dateTime;
+                widget.cubit.birthdayCached = dateTime;
               },
-              initDateTime: birthday,
+              initDateTime: widget.cubit.birthdayCached,
             ),
             spaceH16,
             textField(
+              initialValue: widget.cubit.emailCached,
               isRequired: true,
+              inputFormatter: [
+                FilteringTextInputFormatter.deny(' '),
+              ],
               title: S.current.email,
               hintText: S.current.email,
               onChange: (value) {
-                email = value;
+                widget.cubit.emailCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -223,10 +221,11 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               maxLength: 255,
+              initialValue: widget.cubit.phoneNumberCached,
               hintText: S.current.so_dien_thoai,
               title: S.current.so_dien_thoai,
               onChange: (value) {
-                phoneNumber = value;
+                widget.cubit.phoneNumberCached = value;
               },
               inputFormatter: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -236,10 +235,11 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: widget.cubit.positionCached,
               hintText: S.current.chuc_vu,
               title: S.current.chuc_vu,
               onChange: (value) {
-                position = value;
+                widget.cubit.positionCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -250,10 +250,11 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: widget.cubit.unitCached,
               title: S.current.don_vi,
               hintText: S.current.don_vi,
               onChange: (value) {
-                unit = value;
+                widget.cubit.unitCached = value;
               },
               validate: (value) {
                 if ((value ?? '').isEmpty) {
@@ -264,6 +265,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
             spaceH16,
             textField(
               isRequired: true,
+              initialValue: widget.cubit.noteCached,
               validate: (value) {
                 if ((value ?? '').isEmpty) {
                   return '${S.current.ban_phai_nhap_truong} ${S.current.ghi_chu}!';
@@ -271,10 +273,11 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
               },
               title: S.current.ghi_chu,
               onChange: (value) {
-                note = value;
+                widget.cubit.noteCached = value;
               },
               maxLine: 6,
             ),
+            spaceH24,
           ],
         ),
       );
@@ -342,17 +345,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
                     btnLeftTxt: S.current.huy,
                     btnRightTxt: S.current.dong_y,
                     funcBtnRight: () {
-                      widget.cubit
-                          .themMoiDoiTuong(
-                        email: email,
-                        fullName: name,
-                        birthday: birthday,
-                        phone: phoneNumber,
-                        position: position,
-                        unit: unit,
-                        description: note,
-                      )
-                          .then((value) {
+                      widget.cubit.themMoiDoiTuong().then((value) {
                         if (value == ChiaSeBaoCaoCubit.success) {
                           MessageConfig.show(title: value);
                           Navigator.pop(context);
@@ -434,6 +427,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
       );
 
   Widget textField({
+    String? initialValue,
     String? hintText,
     int maxLine = 1,
     int? maxLength,
@@ -472,6 +466,7 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
         ),
         spaceH8,
         TextFieldValidator(
+          initialValue: initialValue,
           hintText: hintText,
           onChange: onChange,
           maxLine: maxLine,

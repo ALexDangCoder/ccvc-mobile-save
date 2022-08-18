@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'package:app_settings/app_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 enum ImageSelection {
   /// chưa có quyền truy cập ảnh
@@ -57,6 +56,6 @@ class ImagePermission {
   }
 
   Future<void> openSettingApp() async {
-    await AppSettings.openAppSettings();
+    await MessageConfig.showDialogSetting();
   }
 }

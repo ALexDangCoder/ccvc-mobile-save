@@ -65,7 +65,7 @@ mixin QLVBRepository {
     bool? isDanhSachChoBanHanh,
     List<int>? trangThaiFilter,
     required int size,
-    String keySearch = '',
+    String searchTitle = '',
   });
 
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDiDashBoard(

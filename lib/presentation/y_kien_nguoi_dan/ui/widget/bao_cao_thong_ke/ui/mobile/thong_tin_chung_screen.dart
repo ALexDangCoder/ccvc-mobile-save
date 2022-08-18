@@ -239,7 +239,12 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         widget.cubit.endDate = endDate.toStringWithListFormat;
                         widget.cubit.clearDSPAKN();
                         await widget.cubit.getDashBoardPAKNTiepCanXuLy();
-                        await widget.cubit.getDanhSachPAKN();
+                        if(widget.cubit.trangThaiFilter!=null){
+                          await widget.cubit.getDanhSachPAKNFilterChart();
+                        }
+                        else{
+                          await widget.cubit.getDanhSachPAKN();
+                        }
                       },
                     ),
                     const SizedBox(

@@ -13,11 +13,13 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/wi
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 enum PickImage {
   PICK_MAIN,
@@ -209,14 +211,22 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                       ),
                                     );
                                   } else {
-                                    final Map<String, dynamic> mediaMapImage =
-                                        await pickImage(fromCamera: true);
-                                    addDataListPick(
-                                      mediaMapImage,
-                                      isMain
-                                          ? PickImage.PICK_MAIN
-                                          : PickImage.PICK_Y_KIEN,
-                                    );
+                                    const permission = Permission.storage;
+                                    final status = await permission.status;
+                                    if (!(status.isGranted ||
+                                        status.isLimited)) {
+                                      await MessageConfig.showDialogSetting();
+                                    } else {
+                                      final Map<String, dynamic> mediaMapImage =
+                                      await pickImage(fromCamera: true);
+                                      addDataListPick(
+                                        mediaMapImage,
+                                        isMain
+                                            ? PickImage.PICK_MAIN
+                                            : PickImage.PICK_Y_KIEN,
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: SvgPicture.asset(
@@ -262,14 +272,21 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                       ),
                                     );
                                   } else {
-                                    final Map<String, dynamic> mediaMapImage =
-                                        await pickFile();
-                                    addDataListPick(
-                                      mediaMapImage,
-                                      isMain
-                                          ? PickImage.PICK_MAIN
-                                          : PickImage.PICK_Y_KIEN,
-                                    );
+                                    const permission = Permission.storage;
+                                    final status = await permission.status;
+                                    if (!(status.isGranted ||
+                                        status.isLimited)) {
+                                      await MessageConfig.showDialogSetting();
+                                    } else {
+                                      final Map<String, dynamic> mediaMapImage =
+                                      await pickFile();
+                                      addDataListPick(
+                                        mediaMapImage,
+                                        isMain
+                                            ? PickImage.PICK_MAIN
+                                            : PickImage.PICK_Y_KIEN,
+                                      );
+                                    }
                                   }
                                 },
                                 child: SvgPicture.asset(
@@ -314,52 +331,26 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                   currentFocus.unfocus();
                 }
                 if (_nhapYMainController.text.trim().isNotEmpty) {
-                  final String result = await widget.cubit.postYKienXuLy(
+                  await widget.cubit.postYKienXuLy(
                     noiDung: _nhapYMainController.text,
                     nhiemvuId: widget.cubit.idNhiemVu,
                     fileId: widget.cubit.listFileId,
                   );
-
-                  ///Popup success
-                  // if (result == 'true') {
-                  //
-                  //   MessageConfig.show(
-                  //     title: S.current.tao_y_kien_xu_ly_thanh_cong,
-                  //   );
                   _nhapYMainController.text = '';
                   widget.cubit.listFileId.clear();
                   widget.cubit.listPickFileMain.clear();
                   setState(() {});
-                  // } else {
-                  //   MessageConfig.show(
-                  //     title: S.current.tao_y_kien_xu_ly_that_bai,
-                  //     messState: MessState.error,
-                  //   );
-                  // }
                 } else {
-                  //todo
                   if (widget.cubit.listPickFileMain.isNotEmpty) {
-                    final String result = await widget.cubit.postYKienXuLy(
+                    await widget.cubit.postYKienXuLy(
                       noiDung: _nhapYMainController.text,
                       nhiemvuId: widget.cubit.idNhiemVu,
                       fileId: widget.cubit.listFileId,
                     );
-
-                    ///Popup success
-                    // if (result == 'true') {
-                    //   MessageConfig.show(
-                    //     title: S.current.tao_y_kien_xu_ly_thanh_cong,
-                    //   );
                     _nhapYMainController.text = '';
                     widget.cubit.listFileId.clear();
                     widget.cubit.listPickFileMain.clear();
                     setState(() {});
-                    // } else {
-                    //   MessageConfig.show(
-                    //     title: S.current.tao_y_kien_xu_ly_that_bai,
-                    //     messState: MessState.error,
-                    //   );
-                    // }
                   } else {
                     widget.cubit.validateNhapYkien
                         .add(S.current.ban_chua_nhap_y_kien);

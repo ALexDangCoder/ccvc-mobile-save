@@ -46,17 +46,13 @@ class LichSuVanBanModel {
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-        S.current.don_vi_cap_nhat,
+        S.current.don_vi,
         donViTaoXuLy ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGianTao?.changeToNewPatternDate(
-              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-              DateTimeFormat.DATE_DD_MM_YYYY,
-            ) ??
-            '',
+        thoiGianTao ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -88,10 +84,7 @@ class LichSuVanBanModel {
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGianTao?.changeToNewPatternDate(
-              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-              DateTimeFormat.DATE_DD_MM_YYYY,
-            ) ??
+        thoiGianTao??
             '',
         TypeDocumentDetailRow.text,
       ),
@@ -133,11 +126,7 @@ class LichSuVanBanModel {
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGianTao?.changeToNewPatternDate(
-              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-              DateTimeFormat.DATE_DD_MM_YYYY,
-            ) ??
-            '',
+        thoiGianTao?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(

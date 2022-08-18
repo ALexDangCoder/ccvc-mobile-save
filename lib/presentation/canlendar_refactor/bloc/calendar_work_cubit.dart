@@ -173,7 +173,11 @@ class CalendarWorkCubit extends BaseCubit<CalendarWorkState> {
       unawaited(queue.add(() => getTotalWork()));
       unawaited(queue.add(() => getDashboardSchedule()));
       unawaited(queue.add(() => getFullListWork()));
-      unawaited(queue.add(() => dayHaveEvent()));
+      unawaited(
+        queue.add(
+          () => dayHaveEvent(startDate: startDate, endDate: endDate),
+        ),
+      );
       await queue.onComplete;
       showContent();
       apiCalling = false;

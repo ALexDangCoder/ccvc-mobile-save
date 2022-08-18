@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +33,7 @@ class DanhSachCongViecTienIchCubit
   bool canLoadMoreNguoiThucHien = true;
   TextEditingController searchControler = TextEditingController();
   Timer? _debounce;
-  final int maxSizeFile = 31457280;
+  final int maxSizeFile = MaxSizeFile.MAX_SIZE_20MB.toInt();
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -186,39 +187,7 @@ class DanhSachCongViecTienIchCubit
     showContent();
   }
 
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<void> getToDoListDSCV() async {
-    final result = await tienIchRep.getListTodoDSCV();
-    result.when(
-      success: (res) {},
-      error: (err) {},
-    );
-  }
 
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<void> getDSCVGanCHoToi() async {
-    final result = await tienIchRep.getListDSCVGanChoToi();
-    result.when(
-      success: (res) {
-        if (res.isNotEmpty) {}
-      },
-      error: (err) {},
-    );
-  }
-
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<void> getNHomCVMoi() async {
-    final result = await tienIchRep.nhomCVMoi();
-    result.when(
-      success: (res) {
-        nhomCVMoiSubject.sink.add(res);
-      },
-      error: (err) {},
-    );
-  }
 
   ///các danh sach api
   Future<void> listNguoiThucHien(String keySearch) async {
@@ -241,27 +210,6 @@ class DanhSachCongViecTienIchCubit
       error: (_) {},
     );
     showLoadNguoiThucHien.sink.add(false);
-  }
-
-  ///  I HAVE USED IT BUT MY BOSS SAID CHANGE IT
-  ///  => I JUST LET IT HERE FOR SOMEONE NEED IT TO FIX BUG OR TODO SOME THING
-  Future<bool> getListDSCVGanChoNguoiKhac() async {
-    showLoading();
-    final result = await tienIchRep.getListDSCVGanChoNguoiKhac();
-    result.when(
-      success: (res) {
-        showContent();
-        if (res.isNotEmpty) {
-          listDSCVStream.sink.add(res);
-        }
-      },
-      error: (err) {
-        showError();
-        return false;
-      },
-    );
-    showContent();
-    return true;
   }
 
   Future<bool> getAllListDSCVWithFilter({
@@ -340,7 +288,7 @@ class DanhSachCongViecTienIchCubit
           groupId: statusDSCV.value == DSCVScreen.NCVM ? groupId : null,
           label: title.trim(),
           isTicked: false,
-          important: false,
+          important: statusDSCV.value == DSCVScreen.CVQT,
           inUsed: true,
           finishDay: checkData(
             defaultData: DateTime.now().formatApi,
@@ -564,47 +512,43 @@ class DanhSachCongViecTienIchCubit
 
 
 
-  /// tim nguoi thuc hien theo id
-  String convertIdToPerson({required String vl, bool? hasChucVu}) {
-    final currentList = listNguoiThucHienSubject.valueOrNull ?? [];
-    if (hasChucVu ?? true) {
-      for (final e in currentList) {
-        if (vl == e.id) {
-          return e.dataAll();
-        }
-      }
-    } else {
-      for (final e in currentList) {
-        if (vl == e.id) {
-          return e.dataWithChucVu();
-        }
-      }
-    }
-
-    return '';
-  }
-
   ///init data nguoi thuc hien
-  void initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) {
+  Future<void> initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) async {
     if ((todo?.performer ??  '').isEmpty) {
-      nguoiThucHienSubject.sink.add(
-        NguoiThucHienModel(
-          id: '',
-          hoten: S.current.tim_theo_nguoi,
-          donVi: [],
-          chucVu: [],
-        ),
-      );
+      addNguoiThucHienNull();
     } else {
-      nguoiThucHienSubject.sink.add(
-        NguoiThucHienModel(
-          id: todo?.performer ?? '',
-          hoten: convertIdToPerson(vl: todo?.performer ?? ''),
-          donVi: [],
-          chucVu: [],
-        ),
+      final result = await tienIchRep.getCanBo(
+        todo?.performer ?? '',
+      );
+      result.when(
+        success: (res) {
+          if(res.items.isNotEmpty){
+            nguoiThucHienSubject.sink.add(
+              NguoiThucHienModel(
+                id: todo?.performer ?? '',
+                hoten: res.items.first.hoten,
+                donVi: res.items.first.donVi,
+                chucVu: res.items.first.chucVu,
+              ),
+            );
+          }
+          else{
+            addNguoiThucHienNull();
+          }
+        },
+        error: (_) {},
       );
     }
+  }
+  void addNguoiThucHienNull(){
+    nguoiThucHienSubject.sink.add(
+      NguoiThucHienModel(
+        id: '',
+        hoten: S.current.tim_theo_nguoi,
+        donVi: [],
+        chucVu: [],
+      ),
+    );
   }
 
   ///up file
@@ -779,6 +723,7 @@ class DanhSachCongViecTienIchCubit
     inLoadmore.close();
     titleAppBar.close();
     listDSCVStream.close();
+    nguoiThucHienSubject.close();
     statusDSCV.close();
     countTodoModelSubject.close();
     listNguoiThucHienSubject.close();

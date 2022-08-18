@@ -115,7 +115,6 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
       child: FollowKeyBoardWidget(
         bottomWidget: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
-
           /// hai button
           child: DoubleButtonBottom(
             onClickRight: () {
@@ -188,6 +187,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     stream: widget.cubit.isValidateTimer.stream,
                     builder: (context, snapshot) {
                       return ShowRequied(
+                        paddingLeft: 0,
                         isShow: snapshot.data ?? true,
                         textShow: S.current.validata_phien_hop,
                         child: BaseChooseTimerWidget(

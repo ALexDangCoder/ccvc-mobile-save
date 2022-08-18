@@ -117,19 +117,23 @@ class _DanhSachCongViecTienIchMobileState
                                           .toList() ??
                                       [];
                                   if (data.isNotEmpty) {
-                                    return Column(
-                                      children: [
-                                        if (dataType == DSCVScreen.DBX )
-                                          textTitle(
-                                            S.current.gan_cho_toi,
-                                            data.length,
-                                          ),
-                                        ListUpDSCV(
+                                    if (dataType == DSCVScreen.DBX) {
+                                      return expandMobile(
+                                        child: ListUpDSCV(
                                           data: data,
                                           cubit: cubit,
                                           dataType: dataType,
                                         ),
-                                      ],
+                                        header: textTitle(
+                                          S.current.gan_cho_toi,
+                                          data.length,
+                                        ),
+                                      );
+                                    }
+                                    return ListUpDSCV(
+                                      data: data,
+                                      cubit: cubit,
+                                      dataType: dataType,
                                     );
                                   }
                                   return Padding(
@@ -139,9 +143,12 @@ class _DanhSachCongViecTienIchMobileState
                                     child: Column(
                                       children: [
                                         if (dataType == DSCVScreen.DBX)
-                                          textTitle(
-                                            S.current.gan_cho_toi,
-                                            data.length,
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 16),
+                                            child: textTitle(
+                                              S.current.gan_cho_toi,
+                                              data.length,
+                                            ),
                                           ),
                                         const NodataWidget(),
                                       ],
@@ -152,7 +159,7 @@ class _DanhSachCongViecTienIchMobileState
 
                             /// list down
                             if (dataType == DSCVScreen.DBX ||
-                                dataType == DSCVScreen.DHT )
+                                dataType == DSCVScreen.DHT)
                               StreamBuilder<List<TodoDSCVModel>>(
                                 stream: cubit.listDSCVStream.stream,
                                 builder: (context, snapshot) {
@@ -164,21 +171,23 @@ class _DanhSachCongViecTienIchMobileState
                                           .toList() ??
                                       [];
                                   if (data.isNotEmpty) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (dataType == DSCVScreen.DBX )
-                                          textTitle(
-                                            S.current.da_hoan_thanh,
-                                            data.length,
-                                          ),
-                                        ListDownDSCV(
+                                    if (dataType == DSCVScreen.DBX) {
+                                      return expandMobile(
+                                        child: ListDownDSCV(
                                           data: data,
                                           dataType: dataType,
                                           cubit: cubit,
                                         ),
-                                      ],
+                                        header: textTitle(
+                                          S.current.da_hoan_thanh,
+                                          data.length,
+                                        ),
+                                      );
+                                    }
+                                    return ListDownDSCV(
+                                      data: data,
+                                      dataType: dataType,
+                                      cubit: cubit,
                                     );
                                   }
                                   return Padding(
@@ -188,9 +197,12 @@ class _DanhSachCongViecTienIchMobileState
                                     child: Column(
                                       children: [
                                         if (dataType == DSCVScreen.DBX)
-                                          textTitle(
-                                            S.current.da_hoan_thanh,
-                                            data.length,
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 16),
+                                            child: textTitle(
+                                              S.current.da_hoan_thanh,
+                                              data.length,
+                                            ),
                                           ),
                                         const NodataWidget(),
                                       ],
@@ -222,39 +234,53 @@ class _DanhSachCongViecTienIchMobileState
     );
   }
 
-  Widget textTitle(String text, int count) => Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: Row(
-          children: [
-            Text(
-              text,
-              style: textNormalCustom(
-                fontSize: 14,
-                color: infoColor,
-              ),
-            ),
-            const Expanded(
-              child: SizedBox(),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 4,
-                horizontal: 5,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: AppTheme.getInstance().colorField(),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                count.toString(),
-                style: textNormalCustom(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12.0.textScale(),
-                ),
-              ),
-            ),
-          ],
+  Widget textTitle(String text, int count) => Row(
+    children: [
+      Text(
+        text,
+        style: textNormalCustom(
+          fontSize: 14,
+          color: infoColor,
         ),
+      ),
+      const Expanded(
+        child: SizedBox(),
+      ),
+      Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 4,
+          horizontal: 5,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: AppTheme.getInstance().colorField(),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          count.toString(),
+          style: textNormalCustom(
+            fontWeight: FontWeight.w500,
+            fontSize: 12.0.textScale(),
+          ),
+        ),
+      ),
+    ],
+  );
+
+  Widget expandMobile({
+    required Widget child,
+    required Widget header,
+  }) =>
+      ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        childrenPadding: EdgeInsets.zero,
+        iconColor: AppTheme.getInstance().colorField(),
+        initiallyExpanded: true,
+        controlAffinity: ListTileControlAffinity.leading,
+        title: header,
+        collapsedIconColor: AppTheme.getInstance().colorField(),
+        children: [
+          child,
+        ],
       );
 }

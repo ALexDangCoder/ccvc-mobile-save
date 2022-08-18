@@ -73,11 +73,13 @@ class _ThongTinGuiNhanExpandWidgetMobileState
                   );
                 }
                 return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       buttonStream,
                       ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: data.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {

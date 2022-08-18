@@ -21,6 +21,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class TabYKienXuLy extends StatefulWidget {
   const TabYKienXuLy({
@@ -217,6 +218,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
               ),
             ],
           ),
+          if(noiDung.isNotEmpty)
           spaceH12,
           Text(
             noiDung,
@@ -226,7 +228,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
               color: AppTheme.getInstance().titleColor(),
             ), //infoColor
           ),
-          if (isViewData) spaceH10,
+          if (isViewData && noiDung.isNotEmpty) spaceH10,
           if (isViewData)
             Text(
               S.current.van_ban_dinh_kem,
@@ -237,37 +239,34 @@ class _TabYKienXuLyState extends State<TabYKienXuLy>
               ), //infoColor
             ),
           spaceH6,
-          Row(
-            children: [
-              if (isViewData)
-                SizedBox(
-                  width: 90,
-                  child: Wrap(
-                    spacing: 4,
-                    runSpacing: 4,
-                    children: List.generate(file.length, (index) {
-                      final dataSnb = file[index];
-                      return GestureDetector(
-                        onTap: () async {
-                          await saveFile(
-                            fileName: dataSnb.ten.toString(),
-                            url: dataSnb.duongDan.toString(),
-                          );
-                        },
-                        child: Text(
-                          dataSnb.ten ?? '',
-                          style: textNormalCustom(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: textColorMangXaHoi,
-                          ), //infoColor
-                        ),
+          if (isViewData)
+            SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(file.length, (index) {
+                  final dataSnb = file[index];
+                  return GestureDetector(
+                    onTap: () async {
+                      await saveFile(
+                        fileName: dataSnb.ten.toString(),
+                        url: dataSnb.duongDan.toString(),
                       );
-                    }),
-                  ),
-                ),
-            ],
-          ),
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        dataSnb.ten?.convertNameFile() ?? '',
+                        style: textNormalCustom(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: textColorMangXaHoi,
+                        ), //infoColor
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
         ],
       ),
     );

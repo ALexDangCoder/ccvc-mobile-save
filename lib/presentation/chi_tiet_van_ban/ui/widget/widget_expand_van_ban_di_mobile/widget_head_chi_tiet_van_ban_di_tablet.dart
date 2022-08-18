@@ -94,7 +94,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                     ...?data.vanBanDenResponses
                         ?.map(
                           (e) => WidgetInExpandVanBan(
-                            flexValue: 19,
+                            flexValue: 10,
                             row: e.toListRowView(),
                           ),
                         )
@@ -112,11 +112,12 @@ class _WidgetHeadChiTietVanBanDiTabletState
                     ...?data.vanBanChiDaoResponses
                         ?.map(
                           (e) => WidgetInExpandVanBan(
-                            flexValue: 19,
+                            flexValue: 10,
                             row: e.toListRowView(),
                           ),
                         )
                         .toList(),
+                    spaceH30,
                   ],
                 ),
               );

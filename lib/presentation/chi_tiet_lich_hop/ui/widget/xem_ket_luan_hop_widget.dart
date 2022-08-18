@@ -523,11 +523,13 @@ class ShowRequied extends StatelessWidget {
   final Widget child;
   final bool isShow;
   final String textShow;
+  final double paddingLeft;
 
   const ShowRequied({
     Key? key,
     required this.child,
     this.isShow = false,
+    this.paddingLeft = 10,
     this.textShow = '',
   }) : super(key: key);
 
@@ -540,8 +542,8 @@ class ShowRequied extends StatelessWidget {
         child,
         if (isShow)
           Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
+            padding: EdgeInsets.only(
+              left: paddingLeft,
             ),
             child: Text(
               textShow.isEmpty ? S.current.khong_duoc_de_trong : textShow,

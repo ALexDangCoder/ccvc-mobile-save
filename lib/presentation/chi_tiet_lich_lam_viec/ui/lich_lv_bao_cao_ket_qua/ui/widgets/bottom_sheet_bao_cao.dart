@@ -136,7 +136,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
               ),
               SelectFileBtn(
                 onChange: (files) {
-                  widget.cubit.files.addAll(files);
+                  widget.cubit.files = files;
                 },
                 initFileFromApi: widget.cubit.fileInit,
                 onDeletedFileApi: (file) {

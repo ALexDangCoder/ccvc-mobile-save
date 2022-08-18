@@ -204,8 +204,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: DateTimeFormat
-                                                  .DATE_TIME_LOW_CASE,
+                                              hintText: dtLowCase,
                                               value: DateTime.tryParse(
                                                 cubit.createOn ?? '',
                                               ),
@@ -225,8 +224,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: DateTimeFormat
-                                                  .DATE_TIME_LOW_CASE,
+                                              hintText: dtLowCase,
                                               value: DateTime.tryParse(
                                                 cubit.finishDay ?? '',
                                               ),

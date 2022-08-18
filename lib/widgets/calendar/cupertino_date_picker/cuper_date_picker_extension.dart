@@ -80,7 +80,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
   }
 
   List<int> countMonth() {
-    final  dataMonth = <int>[];
+    final dataMonth = <int>[];
     for (int i = 0; i < 12; i++) {
       final month = i + 1;
       if (widget.maximumDate != null) {

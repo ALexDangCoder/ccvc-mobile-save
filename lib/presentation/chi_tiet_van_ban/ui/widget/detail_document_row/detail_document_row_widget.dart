@@ -39,6 +39,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   flex: 4,
@@ -51,6 +52,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     ),
                   ),
                 ),
+                spaceW6,
                 Expanded(
                   flex: widget.isTablet ? 26 : 6,
                   child: Wrap(
@@ -100,6 +102,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     ),
                   ),
                 ),
+              spaceW6,
                 Expanded(
                   flex: widget.isTablet ? 26 : 6,
                   child: Row(
@@ -150,6 +153,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     ),
                   ),
                 ),
+                spaceW6,
                 Expanded(
                   flex: widget.isTablet ? 26 : 6,
                   child: widget.row.type == TypeDocumentDetailRow.text
@@ -227,6 +231,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     ),
                   ),
                 ),
+                spaceW6,
                 Expanded(
                   flex: widget.isTablet ? 26 : 6,
                   child: Text(
@@ -262,6 +267,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     ),
                   ),
                 ),
+                spaceW6,
                 Expanded(
                   flex: widget.isTablet ? 26 : 6,
                   child: Text(

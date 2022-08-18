@@ -257,7 +257,7 @@ class CommentDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
     showLoading();
     final listIdFile = await postListFile(listData);
     final isSuccess = await postComment(
-      comment,
+      comment.trim(),
       listIdFile,
       processId,
       idParent,
@@ -283,7 +283,7 @@ class CommentDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
     final request = GiveCommentRequest(
       files: listIdFile,
       idProcess: documentId,
-      noiDung: comment,
+      noiDung: comment.trim(),
     );
     if (idParent == null) {
       request.hashValue = 'SHA256';

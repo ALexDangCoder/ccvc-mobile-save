@@ -109,20 +109,21 @@ class QLVBImlp implements QLVBRepository {
     bool? isDanhSachChoBanHanh,
     List<int>? trangThaiFilter,
     required int size,
-    String keySearch = '',
+    String searchTitle = '',
   }) {
     return runCatchingAsync<DanhSachVBDiResponse, DanhSachVanBanModel>(
         () => _quanLyVanBanClient.getDanhSachVanBanDi(
               DanhSachVBDiRequest(
-                  thoiGianStartFilter: startDate,
-                  thoiGianEndFilter: endDate,
-                  size: size,
-                  index: index,
-                  keySearch: keySearch,
-                  isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
-                  isDanhSachChoXuLy: isDanhSachChoXuLy,
-                  isDanhSachDaXuLy: isDanhSachDaXuLy,
-                  trangThaiFilter: trangThaiFilter),
+                thoiGianStartFilter: startDate,
+                thoiGianEndFilter: endDate,
+                size: size,
+                index: index,
+                trichYeu: searchTitle,
+                isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
+                isDanhSachChoXuLy: isDanhSachChoXuLy,
+                isDanhSachDaXuLy: isDanhSachDaXuLy,
+                trangThaiFilter: trangThaiFilter,
+              ),
             ), (response) {
       return response.danhSachVB.toDomain();
     });

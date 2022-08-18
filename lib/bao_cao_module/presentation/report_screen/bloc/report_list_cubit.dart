@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/repor
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ import 'package:rxdart/subjects.dart';
 class ReportListCubit extends BaseCubit<BaseState> {
   ReportListCubit() : super(ReportListStateInitial()) {
     getAppID();
+
   }
 
   String appId = '';
@@ -222,34 +224,14 @@ class ReportListCubit extends BaseCubit<BaseState> {
     getListReport();
   }
 
+  final dataUser = HiveLocal.getDataUser();
+
   bool checkShare({
-    required List<Access> listAccess,
+    required bool hasSharedAccess,
+    required String createdBy,
   }) {
-    if (listAccess.isNotEmpty) {
-      bool accessCheck = false;
-      for (final element in listAccess) {
-        if (element.code == OWNER || element.code == SHARE) {
-          accessCheck = true;
-          break;
-        }
-      }
-
-      return accessCheck;
-    } else {
-      return false;
-    }
-  }
-  bool isCheckOwner({required List<Access> listAccess,}){
-    if (listAccess.isNotEmpty) {
-      bool accessCheck = false;
-      for (final element in listAccess) {
-        if (element.code == OWNER) {
-          accessCheck = true;
-          break;
-        }
-      }
-
-      return accessCheck;
+    if (hasSharedAccess || createdBy == dataUser?.userId) {
+      return true;
     } else {
       return false;
     }
@@ -258,23 +240,15 @@ class ReportListCubit extends BaseCubit<BaseState> {
   bool checkHideIcMore({
     required int typeReport,
     required bool isReportShareToMe,
-    required List<Access> listAccess,
+    required bool hasSharedAccess,
+    required String createdBy,
   }) {
     if (typeReport == REPORT) {
       return true;
     } else {
-      if (listAccess.isNotEmpty) {
-        bool accessCheck = false;
-
-        for (final element in listAccess) {
-          if (element.code == OWNER || element.code == SHARE) {
-            accessCheck = true;
-            break;
-          }
-        }
-
-        return accessCheck;
-      } else {
+      if(hasSharedAccess || createdBy == dataUser?.userId){
+        return true;
+      } else{
         return false;
       }
     }

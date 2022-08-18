@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/repor
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/bao_cao_module/utils/constants/image_asset.dart'
-    as bao_cao;
+as bao_cao;
 import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -82,8 +82,14 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                       children: [
                         SizedBox(
                           width: widget.isIconClose
-                              ? MediaQuery.of(context).size.width / 4
-                              : MediaQuery.of(context).size.width / 1.5,
+                              ? MediaQuery
+                              .of(context)
+                              .size
+                              .width / 4
+                              : MediaQuery
+                              .of(context)
+                              .size
+                              .width / 1.5,
                           child: Text(
                             widget.item.name ?? '',
                             style: textNormalCustom(
@@ -127,10 +133,16 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
         ),
         Container(
           height: 1,
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           color: borderColor.withOpacity(0.5),
         ),
-        if (widget.cubit.checkShare(listAccess: widget.item.accesses ?? []))
+        if (widget.cubit.checkShare(
+          hasSharedAccess: widget.item.hasSharedAccess,
+          createdBy: widget.item.createdBy ?? '',
+        ))
           Padding(
             padding: const EdgeInsets.only(
               right: 16,
@@ -233,7 +245,7 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                 ),
                 customSwitch(
                   isLove,
-                  (value) {
+                      (value) {
                     isLove = !isLove;
                     setState(() {
                       if (isLove) {
@@ -322,7 +334,8 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
   }
 }
 
-Widget reportLine({double left = 48}) => Padding(
+Widget reportLine({double left = 48}) =>
+    Padding(
       padding: EdgeInsets.only(
         right: 16,
         left: left,

@@ -809,7 +809,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         children: [
           rowTextData(data.tenDonVi ?? '', S.current.don_vi_phoi_hop),
           spaceH8,
-          rowTextData(data.hoTen ?? '', S.current.nguoi_pho_hop),
+          rowTextData(data.hoTen ?? '', S.current.nguoi_phoi_hop),
           spaceH8,
           rowTextData(data.taskContent ?? '', S.current.nd_cong_viec),
           spaceH8,

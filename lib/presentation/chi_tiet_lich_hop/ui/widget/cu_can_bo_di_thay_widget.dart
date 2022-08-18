@@ -278,7 +278,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: donVi.tenCanBo, key: S.current.nguoi_pho_hop),
+              rowInfo(value: donVi.tenCanBo, key: S.current.nguoi_phoi_hop),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
@@ -336,7 +336,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: tenCanBo, key: S.current.nguoi_pho_hop),
+              rowInfo(value: tenCanBo, key: S.current.nguoi_phoi_hop),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),

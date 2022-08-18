@@ -320,7 +320,7 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
               ),
               rowInfo(
                 value: widget.data.dauMoiLienHe,
-                key: S.current.nguoi_pho_hop,
+                key: S.current.nguoi_phoi_hop,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),

@@ -280,19 +280,19 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
             children: [
               rowInfo(
                 value: donVi.tenCoQuan,
-                key: S.current.ten_don_vi,
+                key: S.current.dv_phoi_hop,
                 needShowPadding: true,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: donVi.tenCanBo, key: S.current.ten_can_bo),
+              rowInfo(value: donVi.tenCanBo, key: S.current.nguoi_phoi_hop),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
               rowInfo(
                 value: donVi.noidung,
-                key: S.current.nd_cong_viec,
+                key: S.current.just_noi_dung,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),

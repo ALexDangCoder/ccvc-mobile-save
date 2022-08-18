@@ -29,7 +29,6 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailMeetCalenderScreen extends StatefulWidget {
   final String id;
@@ -367,7 +366,8 @@ PreferredSizeWidget appbarChiTietHop(
           stream: cubit.listButtonSubject.stream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? [];
-            if (!cubit.trangThaiHuy() && data.isNotEmpty) {
+            final isHuyOrThuHoi = cubit.trangThaiHuy() || cubit.trangThaiThuHoi();
+            if (!isHuyOrThuHoi && data.isNotEmpty) {
               return MenuSelectWidget(
                 listSelect: data
                     .map(

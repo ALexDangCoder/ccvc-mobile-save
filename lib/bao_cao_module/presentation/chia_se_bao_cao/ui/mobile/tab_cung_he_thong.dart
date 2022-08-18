@@ -64,7 +64,7 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                             return Scaffold(
                               backgroundColor: Colors.transparent,
                               body: InkWell(
-                                onTap: (){
+                                onTap: () {
                                   Navigator.pop(context);
                                 },
                                 child: Center(
@@ -169,10 +169,12 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                   spacing: 10.w, // gap between adjacent chips
                                   runSpacing: 10.h, // gap between lines
                                   children: List.generate(
-                                      widget.cubit.selectNode.length + 1,
-                                      (index) {
+                                      widget.cubit.listUserCommon.length +
+                                          widget.cubit.selectNode.length +
+                                          1, (index) {
                                     if (index ==
-                                        widget.cubit.selectNode.length) {
+                                        widget.cubit.listUserCommon.length +
+                                            widget.cubit.selectNode.length) {
                                       return Container(
                                         width: 200,
                                         color: Colors.transparent,
@@ -202,18 +204,36 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
                                         ),
                                       );
                                     }
-                                    final data = widget.cubit.selectNode[index];
+                                    if (index >=
+                                            widget
+                                                .cubit.listUserCommon.length) {
+                                      final data = widget.cubit.selectNode[
+                                          index -
+                                              widget
+                                                  .cubit.listUserCommon.length];
+                                      return ItemNguoiDung(
+                                        name: data.value.name != ''
+                                            ? data.value.name
+                                            : data.value.tenCanBo,
+                                        hasFunction: true,
+                                        delete: () {
+                                          data.isCheck.isCheck = false;
+                                          widget.cubit.selectTag(
+                                            data,
+                                          );
+                                          widget.cubit.removeTag(data);
+                                        },
+                                      );
+                                    }
+                                    final data =
+                                        widget.cubit.listUserCommon[index];
                                     return ItemNguoiDung(
-                                      name: data.value.name != ''
-                                          ? data.value.name
-                                          : data.value.tenCanBo,
+                                      name: data.fullname ?? '',
                                       hasFunction: true,
                                       delete: () {
-                                        data.isCheck.isCheck = false;
-                                        widget.cubit.selectTag(
-                                          data,
-                                        );
-                                        widget.cubit.removeTag(data);
+                                        widget.cubit.listUserCommon
+                                            .removeAt(index);
+                                        widget.cubit.showTree.add(true);
                                       },
                                     );
                                   }),

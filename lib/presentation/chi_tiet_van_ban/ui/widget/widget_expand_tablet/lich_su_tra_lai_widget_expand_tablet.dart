@@ -49,37 +49,38 @@ class _LichSuTraLaiWidgetExpandTabletState
             TRA_LAI,
           );
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              child: StreamBuilder<List<LichSuVanBanModel>>(
-                stream: widget.cubit.lichSuTraLaiStream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: data.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Column(
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      flexValue: 8,
-                                      row: e.toListRowLichSuTraLai(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          )
-                        : const Padding(
+        child: StreamBuilder<List<LichSuVanBanModel>>(
+          stream: widget.cubit.lichSuTraLaiStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: data.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: data
+                            .map(
+                              (e) => WidgetInExpandVanBan(
+                                flexValue: 8,
+                                row: e.toListRowLichSuTraLai(),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : const CustomScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        SliverFillRemaining(
+                          child: Padding(
                             padding: EdgeInsets.only(top: 16.0),
                             child: NodataWidget(),
                           ),
-                  );
-                },
-              ),
-            ),
-          ],
+                        ),
+                      ],
+                    ),
+            );
+          },
         ),
       ),
     );

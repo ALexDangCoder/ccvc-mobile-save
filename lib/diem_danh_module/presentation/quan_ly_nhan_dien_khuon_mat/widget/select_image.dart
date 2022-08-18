@@ -159,17 +159,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
                       }
                     case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
                       {
-                        showDiaLog(
-                          context,
-                          title: S.current.chua_duoc_cap_quyen,
-                          textContent: S.current.quyen_truy_cap_han_che,
-                          btnRightTxt: S.current.cai_dat,
-                          btnLeftTxt: S.current.dong,
-                          funcBtnRight: () {
-                            widget.imagePermission.openSettingApp();
-                          },
-                        );
-
+                        widget.imagePermission.openSettingApp();
                         break;
                       }
                   }

@@ -49,48 +49,52 @@ class _ThongTinGuiNhanWidgetExpandTabletState
           onRefresh: () async {
             await widget.cubit.getThongTinGuiNhan(widget.processId);
           },
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              SliverFillRemaining(
-                child: StreamBuilder<List<ThongTinGuiNhanModel>>(
-                  stream: widget.cubit.thongTinGuiNhanStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? [];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: data.isNotEmpty
-                          ? SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  buttonStream,
-                                  ListView.builder(
-                                    itemCount: data.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return ItemThongBaoGuiNhan(
-                                        model: data[index],
-                                      );
-                                    },
-                                  )
-                                ],
-                              ),
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                buttonStream,
-                                const Expanded(
-                                  child: NodataWidget(),
-                                ),
-                              ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StreamBuilder<List<ThongTinGuiNhanModel>>(
+              stream: widget.cubit.thongTinGuiNhanStream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: data.isNotEmpty
+                      ? SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buttonStream,
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return ItemThongBaoGuiNhan(
+                              model: data[index],
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                      : CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverFillRemaining(
+                        child: Column(
+                          children: [
+                            buttonStream,
+                            const Expanded(
+                              child: NodataWidget(),
                             ),
-                    );
-                  },
-                ),
-              )
-            ],
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

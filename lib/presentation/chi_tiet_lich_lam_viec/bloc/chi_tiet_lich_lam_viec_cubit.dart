@@ -1073,7 +1073,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 ///Báo cáo kết quả
 class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   String reportStatusId = '';
-  Set<File> files = {};
+  List<File> files = [];
   List<FileModel> fileInit = [];
   List<String> fileDeleteId = [];
   String content = '';
@@ -1084,7 +1084,7 @@ class BaoCaoKetQuaCubit extends ChiTietLichLamViecCubit {
   bool checkFile(List<File> listFilePath) {
     bool isSelectFile = false;
 
-    final List<File> list = files.toList();
+    final List<File> list = files;
     for (final elementChose in list) {
       for (final elementCheck in listFilePath) {
         if (elementCheck.path.contains(elementChose.path)) {

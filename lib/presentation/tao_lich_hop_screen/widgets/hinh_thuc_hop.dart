@@ -126,7 +126,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               }
               if(value && !isDuyetKyThuat){
                 isDuyetKyThuat = true;
-                widget.cubit.taoLichHopRequest.bitYeuCauDuyet = true;
+                widget.cubit.taoLichHopRequest.isDuyetKyThuat = true;
               }
               widget.cubit.taoLichHopRequest.bitHopTrucTuyen = value;
               setState(() {});

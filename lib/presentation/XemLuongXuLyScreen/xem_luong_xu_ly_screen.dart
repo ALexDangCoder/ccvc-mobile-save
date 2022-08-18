@@ -136,10 +136,12 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                           height: 48,
                                           clipBehavior: Clip.antiAlias,
                                           decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.red),
+                                            shape: BoxShape.circle,
+                                          ),
                                           child: CachedNetworkImage(
-                                            imageUrl: '',
+                                            imageUrl:
+                                                donViLuongModel.avatarCommon ??
+                                                    '',
                                             fit: BoxFit.cover,
                                             errorWidget:
                                                 (context, url, error) =>

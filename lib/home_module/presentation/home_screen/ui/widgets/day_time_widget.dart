@@ -99,7 +99,7 @@ class DayTimeWidget extends StatelessWidget {
                         width: 12,
                       ),
                       Text(
-                        '${data?.resultObj?.current?.temp?.day ?? 0}°C',
+                        '${data?.resultObj?.current?.temp?.day.round() ?? 0}°C',
                         style: textNormalCustom(fontSize: 16, color: titleColor),
                       )
                     ],

@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
@@ -147,7 +146,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   ),
                 if (widget.showIcon?.contains(IconDSCV.icHoanTac) ?? false)
                   GestureDetector(
-                    onTap:  widget.onThuHoi ,
+                    onTap: widget.onThuHoi,
                     child: Padding(
                       padding: EdgeInsets.only(right: padingIcon),
                       child: SvgPicture.asset(
@@ -186,27 +185,17 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                           .toStringWithListFormat,
                     ),
                   if (widget.todoModel.showDotOne()) circleWidget(),
-                  StreamBuilder<List<NguoiThucHienModel>>(
-                    stream: widget.cubit.listNguoiThucHienSubject,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && widget.todoModel.showDotOne()) {
-                        return Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.3,
-                          ),
-                          padding: const EdgeInsets.only(left: 8),
+                  if (widget.todoModel.showDotOne())
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only( left:  8),
+                        child: Container(
                           child: textUnder(
-                            widget.cubit.convertIdToPerson(
-                              vl: widget.todoModel.performer ?? '',
-                              hasChucVu: false,
-                            ),
+                            widget.todoModel.nguoiGiao?.dataWithChucVu() ?? '',
                           ),
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  ),
+                        ),
+                      ),
+                    ),
                   if (widget.todoModel.showDotTwo()) circleWidget(),
                   if (widget.todoModel.showIconNote())
                     Padding(

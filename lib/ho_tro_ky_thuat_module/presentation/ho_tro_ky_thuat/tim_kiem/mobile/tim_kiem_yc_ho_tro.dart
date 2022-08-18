@@ -8,12 +8,12 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/date_input.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/tree_widget.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/form_input_base.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -204,7 +204,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: INIT_DATE_PICK,
+                                              hintText: dtLowCase,
                                               value: DateTime.tryParse(
                                                 cubit.createOn ?? '',
                                               ),
@@ -224,7 +224,7 @@ class _TimKiemYcHoTroState extends State<TimKiemYcHoTro> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: INIT_DATE_PICK,
+                                              hintText: dtLowCase,
                                               value: DateTime.tryParse(
                                                 cubit.finishDay ?? '',
                                               ),

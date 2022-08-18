@@ -109,7 +109,7 @@ class QLVBImlp implements QLVBRepository {
     bool? isDanhSachChoBanHanh,
     List<int>? trangThaiFilter,
     required int size,
-    String keySearch = '',
+    String searchTitle = '',
   }) {
     return runCatchingAsync<DanhSachVBDiResponse, DanhSachVanBanModel>(
         () => _quanLyVanBanClient.getDanhSachVanBanDi(
@@ -118,9 +118,7 @@ class QLVBImlp implements QLVBRepository {
                   thoiGianEndFilter: endDate,
                   size: size,
                   index: index,
-                  keySearch: keySearch,
-                  isDanhSachChoCapSo: isDanhSachChoCapSo,
-                  isDanhSachChoBanHanh: isDanhSachChoBanHanh,
+                  trichYeu: keySearch,
                   isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
                   isDanhSachChoXuLy: isDanhSachChoXuLy,
                   isDanhSachDaXuLy: isDanhSachDaXuLy,

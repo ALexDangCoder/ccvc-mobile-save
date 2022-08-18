@@ -69,6 +69,7 @@ class _VBDiLichSuTraLaiExpandWidgetState
                 );
               } else {
                 return const CustomScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
                   slivers: [
                     SliverFillRemaining(
                       child: Padding(

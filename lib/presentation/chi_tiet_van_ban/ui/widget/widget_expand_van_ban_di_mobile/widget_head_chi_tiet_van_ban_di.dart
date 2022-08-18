@@ -100,6 +100,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                         ),
                       )
                       .toList(),
+                  spaceH30,
                 ],
               );
             },

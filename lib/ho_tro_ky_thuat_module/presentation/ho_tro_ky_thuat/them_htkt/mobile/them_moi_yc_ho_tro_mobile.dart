@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart'
-as p;
+    as p;
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/extension/create_tech_suport.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/widget/area_drop_down.dart';
@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dropdown/custom_drop_d
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/multi_select_list/multi_select_list.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -208,10 +209,12 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                                   );
                                   if (selectIndexList.isNotEmpty) {
                                     widget.cubit.showErrorLoaiSuCo.add(
-                                        false,);
+                                      false,
+                                    );
                                   } else {
                                     widget.cubit.showErrorLoaiSuCo.add(
-                                        true,);
+                                      true,
+                                    );
                                   }
                                 },
                               );
@@ -223,29 +226,26 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
                             builder: (context, snapshot) {
                               return snapshot.data ?? false
                                   ? Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                  top: 8.0,
-                                ),
-                                child: Text(
-                                  S.current
-                                      .ban_phai_nhap_truong_loai_su_co,
-                                  style: textNormalCustom(
-                                    color: redChart,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              )
+                                      padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        top: 8.0,
+                                      ),
+                                      child: Text(
+                                        S.current
+                                            .ban_phai_nhap_truong_loai_su_co,
+                                        style: textNormalCustom(
+                                          color: redChart,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    )
                                   : const SizedBox.shrink();
                             },
                           ),
                           spaceH16,
-                          TaiLieuWidget(
-                            isHaveExpanded: true,
-                            isTitle: false,
-                            idRemove: (String id) {},
-                            onChange: (files, value) {
+                          SelectFileBtn(
+                            onChange: (files) {
                               widget.cubit.addTaskHTKTRequest.fileUpload =
                                   files;
                             },
@@ -383,8 +383,7 @@ class _ThemMoiYCHoTroMobileState extends State<ThemMoiYCHoTroMobile> {
     );
   }
 
-  Widget doubleBtn() =>
-      DoubleButtonBottom(
+  Widget doubleBtn() => DoubleButtonBottom(
         onClickLeft: () {
           Navigator.pop(context);
         },

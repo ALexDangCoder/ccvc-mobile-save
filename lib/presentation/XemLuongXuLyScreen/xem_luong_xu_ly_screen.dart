@@ -341,9 +341,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
           width: 12,
           decoration: BoxDecoration(shape: boxShape, color: color),
         ),
-        const SizedBox(
-          width: 10,
-        ),
+        spaceW10,
         Text(
           title,
           style: textNormal(titleItemEdit, 16),

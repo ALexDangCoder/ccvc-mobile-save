@@ -33,10 +33,13 @@ class PhanCongThuKyWidget extends StatefulWidget {
 }
 
 class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
-
   @override
   void initState() {
-    widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.id);
+    widget.cubit.getDanhSachNguoiChuTriPhienHop(
+      id: widget.id,
+      onlyPerson: true,
+      isShowloading: true,
+    );
     super.initState();
   }
 
@@ -49,7 +52,7 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (APP_DEVICE == DeviceType.MOBILE)
+            if (isMobile())
               Text(
                 S.current.chon_thu_ky_cuoc_hop,
                 style: textNormalCustom(color: infoColor),

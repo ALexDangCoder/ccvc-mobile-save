@@ -131,9 +131,10 @@ mixin HopRepository {
     NguoiChuTriRequest nguoiChuTriRequest,
   );
 
-  Future<Result<List<NguoiChutriModel>>> getDanhSachNguoiChuTriPhienHop(
-    String id,
-  );
+  Future<Result<List<NguoiChutriModel>>> getDanhSachNguoiChuTriPhienHop({
+    required String id,
+    bool? onlyPerson,
+  });
 
   Future<Result<List<NguoiChutriModel>>> getDanhSachThuHoi(
     String id,

@@ -269,7 +269,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       ),
     );
     unawaited(queue.add(() => getDanhSachThuHoiLichHop(idCuocHop)));
-    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(idCuocHop)));
+    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id: idCuocHop)));
     unawaited(queue.add(() => getDanhSachCanBoHop(idCuocHop)));
     await queue.onComplete;
 
@@ -291,15 +291,35 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }
 
   /// dùng cho cả bên: tao moi nhiem vu - kl hop
-  Future<void> getDanhSachNguoiChuTriPhienHop(String id) async {
-    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(idCuocHop);
+  Future<void> getDanhSachNguoiChuTriPhienHop({
+    required String id,
+    bool? onlyPerson,
+    bool? isShowloading,
+  }) async {
+    if(isShowloading ?? false){
+      showLoading();
+    }
+    final result = await hopRp.getDanhSachNguoiChuTriPhienHop(
+      id: idCuocHop,
+      onlyPerson: onlyPerson,
+    );
     result.when(
       success: (res) {
+        if(isShowloading ?? false){
+          showContent();
+        }
         listNguoiCHuTriModel.sink.add(res);
         dataThuKyOrThuHoiDeFault = res;
       },
-      error: (error) {},
+      error: (error) {
+        if(isShowloading ?? false){
+          showError();
+        }
+      },
     );
+    if(isShowloading ?? false){
+      showContent();
+    }
   }
 
   /// init widget in detail meet
@@ -436,7 +456,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
         eventBus.fire(RefreshThanhPhanThamGia());
-        await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+        await getDanhSachNguoiChuTriPhienHop(id: idCuocHop);
         moiHopRequest.clear();
       },
       error: (error) {

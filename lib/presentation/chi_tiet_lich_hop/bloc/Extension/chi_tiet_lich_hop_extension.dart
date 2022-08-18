@@ -169,7 +169,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         }
         showContent();
         MessageConfig.show(title: S.current.thanh_cong);
-        getDanhSachNguoiChuTriPhienHop(idCuocHop);
+        getDanhSachNguoiChuTriPhienHop(id: idCuocHop);
         needRefreshMainMeeting = true;
       },
       error: (error) {
@@ -200,7 +200,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         if (isShowLoading) {
           showContent();
         }
-        await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+        await getDanhSachNguoiChuTriPhienHop(id: idCuocHop);
         eventBus.fire(RefreshPhanCongThuKi());
       },
       error: (error) {

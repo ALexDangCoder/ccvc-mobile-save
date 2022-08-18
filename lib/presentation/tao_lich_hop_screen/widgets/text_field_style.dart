@@ -104,6 +104,14 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
         counterText: '',
         isDense: true,
         contentPadding: EdgeInsets.zero,
+        errorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: colorFF4F50),
+        ),
+        errorStyle: textNormalCustom(
+          color: colorFF4F50,
+          fontWeight: FontWeight.w400,
+          fontSize: 12.0,
+        ),
       ),
     );
   }

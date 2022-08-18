@@ -4,7 +4,9 @@ import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_med
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 
 extension PickImageExtension on ManagerPersonalInformationCubit {
   Future<ModelAnh> pickAvatar() async {
@@ -25,30 +27,37 @@ extension PickImageExtension on ManagerPersonalInformationCubit {
       FileExtensions.PNG,
       FileExtensions.HEIC,
     ];
-
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowedExtensions: allowedExtensions,
-      type: FileType.custom,
-    );
-    if (result == null || result.files.isEmpty) {
+    try{
+      final FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowedExtensions: allowedExtensions,
+        type: FileType.custom,
+      );
+      if (result == null || result.files.isEmpty) {
+        return ModelAnh(
+          path: '',
+          size: 0,
+        );
+      }
+      if (!allowedExtensions.contains(
+        result.files.first.extension?.toLowerCase().replaceAll('.', ''),
+      )) {
+        return ModelAnh(
+          path: '',
+          size: 0,
+          notAcceptFile: true,
+        );
+      }
+      return ModelAnh(
+        path: result.files.first.path ?? '',
+        size: result.files.first.size,
+      );
+    }on PlatformException catch(_){
+      await MessageConfig.showDialogSetting();
       return ModelAnh(
         path: '',
         size: 0,
       );
     }
-    if (!allowedExtensions.contains(
-      result.files.first.extension?.toLowerCase().replaceAll('.', ''),
-    )) {
-      return ModelAnh(
-        path: '',
-        size: 0,
-        notAcceptFile: true,
-      );
-    }
-    return ModelAnh(
-      path: result.files.first.path ?? '',
-      size: result.files.first.size,
-    );
   }
 }
 

@@ -270,25 +270,20 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      GridView.count(
-                        shrinkWrap: true,
-                        // physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 3.textScale(),
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 6.7,
-                        // scrollDirection: Axis.horizontal,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          rowChuThich(
+                          rowChuThichMobile(
                             boxShape: BoxShape.rectangle,
                             color: color6FCF97,
                             title: S.current.chu_tri_luong_xu_ly,
                           ),
-                          rowChuThich(
+                          rowChuThichMobile(
                             boxShape: BoxShape.rectangle,
                             color: dangThucHienPurble,
                             title: S.current.phoi_hop,
                           ),
-                          rowChuThich(
+                          rowChuThichMobile(
                             boxShape: BoxShape.rectangle,
                             color: color979797,
                             title: S.current.nhan_de_biet,
@@ -299,7 +294,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -329,6 +324,27 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
               style: textNormal(titleItemEdit, 16),
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget rowChuThichMobile({
+    required Color color,
+    required String title,
+    BoxShape boxShape = BoxShape.circle,
+  }) {
+    return Row(
+      children: [
+        Container(
+          height: 12,
+          width: 12,
+          decoration: BoxDecoration(shape: boxShape, color: color),
+        ),
+        spaceW10,
+        Text(
+          title,
+          style: textNormal(titleItemEdit, 16),
         ),
       ],
     );

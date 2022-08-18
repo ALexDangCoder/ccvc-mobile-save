@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '/home_module/domain/model/home/WidgetType.dart';
@@ -39,12 +41,24 @@ class DashBoardResponse {
     final Set<String> listComponent = {};
     final List<WidgetModel> listWidget = [];
     data?.forEach((element) {
-      if (listComponent.contains(element.component) == false) {
-        listWidget.add(element.toDomain());
+      final type = element.toDomain();
+      if (listComponent.contains(element.component) == false &&
+          checkPermissionShow(type.widgetType)) {
+        listWidget.add(type);
       }
       listComponent.add(element.component ?? '');
     });
     return listWidget;
+  }
+
+  bool checkPermissionShow(WidgetType? type) {
+    if (type == WidgetType.vanBanDonVi) {
+      return HiveLocal.checkPermissionApp(
+        permissionType: PermissionType.QLVB,
+        permissionTxt: PermissionConst.LANH_DAO_DON_VI,
+      );
+    }
+    return true;
   }
 }
 

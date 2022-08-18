@@ -191,6 +191,7 @@ class DateFormatApp {
 class PermissionConst {
   static const VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
   static const VB_DEN_VAO_SO_VAN_BAN = 'van-ban-den-vao-so-van-ban-giay';
+  static const LANH_DAO_DON_VI = 'lanh-dao-don-vi';
 }
 
 class ChucVuHome extends ChucVu {

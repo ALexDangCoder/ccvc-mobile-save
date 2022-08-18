@@ -220,7 +220,10 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             width: double.infinity,
-            child: select.hoTen == ''
+            child: widget.listSelect
+                    .where((element) => element.isThuKy ?? false)
+                    .toList()
+                    .isEmpty
                 ? Text(
                     widget.hintText,
                     style: textNormal(

@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -38,14 +37,7 @@ class RowDataWidget extends StatelessWidget {
         const SizedBox(
           width: 14,
         ),
-        if (isMobile())
-          Expanded(
-            child: SizedBox(
-              child: textVl(),
-            ),
-          )
-        else
-          textVl(),
+        Expanded(child: textVl()),
       ],
     );
   }
@@ -55,6 +47,7 @@ class RowDataWidget extends StatelessWidget {
         child: Text(
           text,
           style: styleText ?? textNormal(textTitle, 16),
+          overflow: TextOverflow.ellipsis,
         ),
       );
 }

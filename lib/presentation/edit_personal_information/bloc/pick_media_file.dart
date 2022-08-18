@@ -94,6 +94,7 @@ Future<bool> handlePhotosPermission() async {
   final permission = Platform.isIOS
       ? await Permission.photosAddOnly.request()
       : await Permission.storage.request();
+  print('fuck permission $permission');
   if (permission == PermissionStatus.denied ||
       permission == PermissionStatus.permanentlyDenied) {
     return false;

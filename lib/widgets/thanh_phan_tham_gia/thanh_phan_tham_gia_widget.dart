@@ -1,10 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -27,7 +24,6 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
   final String noiDungCV;
   final TaoLichHopCubit? cubit;
   final bool isEditCalendarWord;
-  final ChiTietLichLamViecCubit? chiTietLichLamViecCubit;
 
   const ThanhPhanThamGiaWidget({
     Key? key,
@@ -41,7 +37,6 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     this.cubit,
     this.onDelete,
     this.isEditCalendarWord = false,
-    this.chiTietLichLamViecCubit,
   }) : super(key: key);
 
   @override
@@ -80,7 +75,8 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
             return ThemDonViWidget(
               cubit: _cubit,
               listIdDonViRemove: widget.scheduleCoperatives,
-              listSelectNode: data,
+              listSelectNode:
+                  data.where((element) => element.canBoId.isEmpty).toList(),
               onChange: (value) {
                 for (final Node<DonViModel> element in value) {
                   element.value.vaiTroThamGia = 1;
@@ -91,7 +87,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 }
                 _cubit.addPeopleThamGiaDonVi(
                   value.map((e) => e.value).toList(),
-                    widget.isEditCalendarWord
+                  widget.isEditCalendarWord,
                 );
               },
             );
@@ -101,7 +97,6 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           height: 16.0.textScale(space: 8),
         ),
         ThemCanBoWidget(
-          chiTietLichLamViecCubit: widget.chiTietLichLamViecCubit,
           isEditCalendarWork: widget.isEditCalendarWord,
           cubit: _cubit,
           listCaNhanRemove: widget.scheduleCoperatives,
@@ -194,8 +189,17 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         cubit: _cubit,
         onDelete: (DonViModel donViModel) {
           if (widget.isEditCalendarWord) {
-            widget.chiTietLichLamViecCubit!.listOfficerSelected
-                .removeWhere((element) => element.userId == donViModel.userId);
+            _cubit.listPeople.removeWhere(
+              (element) {
+                final isCaNhan = donViModel.canBoId.isNotEmpty;
+                if (isCaNhan) {
+                  return element.canBoId == donViModel.canBoId;
+                } else {
+                  return element.donViId == donViModel.donViId &&
+                      element.canBoId.isEmpty;
+                }
+              },
+            );
           }
         },
       );

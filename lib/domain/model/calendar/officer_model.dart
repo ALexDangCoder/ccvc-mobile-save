@@ -65,7 +65,7 @@ class Officer {
       );
 
   DonViModel toUnitName() => DonViModel(
-        id: id ?? '',
+        id: donViId ?? '',
         donViId: donViId ?? id ?? '',
         tenDonVi: tenDonVi ?? '',
         canBoId: canBoId ?? '',

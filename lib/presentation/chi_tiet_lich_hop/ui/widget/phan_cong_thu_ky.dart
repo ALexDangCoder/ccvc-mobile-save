@@ -33,6 +33,13 @@ class PhanCongThuKyWidget extends StatefulWidget {
 }
 
 class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
+
+  @override
+  void initState() {
+    widget.cubit.getDanhSachNguoiChuTriPhienHop(widget.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FollowKeyBoardWidget(

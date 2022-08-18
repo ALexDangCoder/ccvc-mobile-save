@@ -12,7 +12,7 @@
   "them_moi_doi_tuong": "Thêm mới đối tượng",
   "search": "Search...",
   "nguoi_thao_tac": "Người thao tác",
-  "vui_long_chon_file_hoac_nhap_y_kien" : "Vui lòng chọn file hoặc nhập ý kiến!",
+  "vui_long_chon_file_hoac_nhap_y_kien": "Vui lòng chọn file hoặc nhập ý kiến!",
   "gui_yc": "Gửi yêu cầu",
   "cho_bo_duyet": "Chờ bộ duyệt",
   "chon_file_that_bai": "Chọn file thất bại",
@@ -1373,16 +1373,17 @@
   "tong_dung_luong_file_toi_da": "Tổng dung lượng file tối đa",
   "just_txt": "Chỉ hỗ trợ tệp .txt",
   "ban_phai_chon_truong": "Bạn phải chọn trường",
-  "nhap_noi_dung":"Nhập nội dung",
-  "so_ngay_nghi_co_ly_do" : "Số ngày nghỉ có lý do",
-  "thoi_gian_chon_khong_hop_le" : "Thời gian chọn không hợp lệ",
-  "vui_long_chon_truong_loai_nhiem_vu" : "Vui lòng chọn trường Loại nhiệm vụ !",
-  "vui_long_nhap_truong_noi_dung" : "Vui lòng nhập trường Nội dung theo dõi !",
-  "chua_duoc_cap_quyen" : "Chưa được cấp quyền",
-  "quyen_truy_cap_han_che" : "Quyền truy cập file của bạn hiện tại đang bị từ chối. Vui lòng chọn vào cài đặt để mở quyền truy cập file",
-  "limit_file_y_kien_pakn" : "Chỉ tải lên tối đa 15 file ý kiến",
-  "khong_co_thong_tin_van_ban" : "Không có thông tin văn bản",
-  "chu_tri_luong_xu_ly": "Chủ trì"
+  "nhap_noi_dung": "Nhập nội dung",
+  "so_ngay_nghi_co_ly_do": "Số ngày nghỉ có lý do",
+  "thoi_gian_chon_khong_hop_le": "Thời gian chọn không hợp lệ",
+  "vui_long_chon_truong_loai_nhiem_vu": "Vui lòng chọn trường Loại nhiệm vụ !",
+  "vui_long_nhap_truong_noi_dung": "Vui lòng nhập trường Nội dung theo dõi !",
+  "chua_duoc_cap_quyen": "Chưa được cấp quyền",
+  "quyen_truy_cap_han_che": "Quyền truy cập file của bạn hiện tại đang bị từ chối. Vui lòng chọn vào cài đặt để mở quyền truy cập file",
+  "limit_file_y_kien_pakn": "Chỉ tải lên tối đa 15 file ý kiến",
+  "khong_co_thong_tin_van_ban": "Không có thông tin văn bản",
+  "chu_tri_luong_xu_ly": "Chủ trì",
+  "chon_phong": "Chọn phòng"
 }
 
 

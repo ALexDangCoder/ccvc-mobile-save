@@ -96,7 +96,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                     showBottomSheet();
                   },
                   text: !snapshot.hasData || widget.needTextChonPhong
-                      ? S.current.chon_phong_hop
+                      ? S.current.chon_phong
                       : S.current.doi_phong,
                   urlIcon: widget.icon ?? ImageAssets.icChonPhongHop,
                 ),

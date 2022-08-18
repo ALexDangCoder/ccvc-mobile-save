@@ -43,7 +43,8 @@ class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
         if (data.isNotEmpty) {
           return SelectDonViCell(
             controller: controller,
-            listSelect: data,
+            listSelect:
+                data.where((element) => element.value.canBoId.isEmpty).toList(),
             onChange: (value) {
               widget.themDonViCubit.onSearch(value);
             },

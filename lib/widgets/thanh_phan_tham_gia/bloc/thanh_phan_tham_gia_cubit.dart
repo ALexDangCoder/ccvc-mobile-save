@@ -50,9 +50,27 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   void addPeopleThamGia(
     List<DonViModel> donViModel,
   ) {
-    for (final vl in donViModel) {
-      if (listPeople.indexWhere((element) => element.id == vl.id) == -1) {
-        listPeople.add(vl);
+    for (final newItem in donViModel) {
+      final newIsCanBo = newItem.canBoId.isNotEmpty;
+      bool isDuplicate = false;
+      for (final currentItem in listPeople) {
+        final currentIsCanBo = currentItem.canBoId.isNotEmpty;
+        if (newIsCanBo == currentIsCanBo) {
+          if (newIsCanBo) {
+            isDuplicate = newItem.canBoId == currentItem.canBoId;
+          } else {
+            isDuplicate = newItem.donViId == currentItem.donViId;
+            if (!isDuplicate) {
+              isDuplicate = newItem.id == currentItem.id;
+            }
+          }
+        }
+        if (isDuplicate) {
+         break;
+        }
+      }
+      if (!isDuplicate) {
+        listPeople.add(newItem);
       }
     }
     _listPeopleThamGia.sink.add(listPeople);
@@ -61,12 +79,11 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   void addPeopleThamGiaDonVi(
       List<DonViModel> donViModel, bool isEditCalendarWork) {
     if (!isEditCalendarWork) {
-      final listDonVi = listPeople
-          .where((element) => element.tenCanBo.trim().isEmpty)
-          .toList();
-      for (final canBo in listDonVi) {
-        if (donViModel.indexWhere((element) => element.id == canBo.id) == -1) {
-          listPeople.remove(canBo);
+      final listDonVi =
+          listPeople.where((element) => element.canBoId.isEmpty).toList();
+      for (final donVi in listDonVi) {
+        if (donViModel.indexWhere((element) => element.id == donVi.id) == -1) {
+          listPeople.remove(donVi);
         }
       }
       addPeopleThamGia(donViModel);

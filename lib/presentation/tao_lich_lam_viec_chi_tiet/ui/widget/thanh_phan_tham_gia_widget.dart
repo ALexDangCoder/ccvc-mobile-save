@@ -7,7 +7,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/thanh_phan_tham_gia_widget.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -72,22 +71,21 @@ class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
         ExpandedSection(
           expand: isExpand,
           child: ThanhPhanThamGiaWidget(
-            chiTietLichLamViecCubit: widget.chiTietLichLamViecCubit,
             isEditCalendarWord: widget.isEditCalendarWord,
             listPeopleInit: widget.listPeopleInit,
             onChange: (value) {
               widget.taoLichLamViecCubit.donviModel = value;
             },
-            scheduleCoperatives: widget.chiTietLichLamViecCubit
-                    ?.chiTietLichLamViecModel.scheduleCoperatives
-                    ?.map(
-                      (e) => RemoveItemTree(
-                        canBoId: e.canBoId,
-                        donViId: e.donViId,
-                      ),
-                    )
-                    .toList() ??
-                [],
+            // scheduleCoperatives: widget.chiTietLichLamViecCubit
+            //         ?.chiTietLichLamViecModel.scheduleCoperatives
+            //         ?.map(
+            //           (e) => RemoveItemTree(
+            //             canBoId: e.canBoId,
+            //             donViId: e.donViId,
+            //           ),
+            //         )
+            //         .toList() ??
+            //     [],
             phuongThucNhan: (value) {},
             isPhuongThucNhan: false,
           ),

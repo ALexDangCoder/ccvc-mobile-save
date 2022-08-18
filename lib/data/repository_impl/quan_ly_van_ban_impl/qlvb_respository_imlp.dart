@@ -122,6 +122,8 @@ class QLVBImlp implements QLVBRepository {
                 isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
                 isDanhSachChoXuLy: isDanhSachChoXuLy,
                 isDanhSachDaXuLy: isDanhSachDaXuLy,
+                isDanhSachChoCapSo: isDanhSachChoCapSo,
+                isDanhSachChoBanHanh: isDanhSachChoBanHanh,
                 trangThaiFilter: trangThaiFilter,
               ),
             ), (response) {

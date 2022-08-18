@@ -95,7 +95,6 @@ dependencies:
   sound_mode: ^2.0.2
   transparent_pointer: ^1.0.0
   #lazy load more
-  infinite_scroll_pagination: 3.0.1
   grouped_list: ^5.1.2
   expandable_page_view: ^1.0.13
   analyzer: ^1.7.2

@@ -273,17 +273,17 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          rowChuThich(
+                          rowChuThichMobile(
                             boxShape: BoxShape.rectangle,
                             color: color6FCF97,
                             title: S.current.chu_tri_luong_xu_ly,
                           ),
-                          rowChuThich(
+                          rowChuThichMobile(
                             boxShape: BoxShape.rectangle,
                             color: dangThucHienPurble,
                             title: S.current.phoi_hop,
                           ),
-                          rowChuThich(
+                          rowChuThichMobile(
                             boxShape: BoxShape.rectangle,
                             color: color979797,
                             title: S.current.nhan_de_biet,
@@ -302,6 +302,34 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
   }
 
   Widget rowChuThich({
+    required Color color,
+    required String title,
+    BoxShape boxShape = BoxShape.circle,
+  }) {
+    return Row(
+      children: [
+        Container(
+          height: 12,
+          width: 12,
+          decoration: BoxDecoration(shape: boxShape, color: color),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              title,
+              style: textNormal(titleItemEdit, 16),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget rowChuThichMobile({
     required Color color,
     required String title,
     BoxShape boxShape = BoxShape.circle,

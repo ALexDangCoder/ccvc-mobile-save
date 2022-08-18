@@ -21,6 +21,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -1958,6 +1959,19 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
         isSortByHanXuLy: true,
       ),
     );
+  }
+
+  List<CalendarMeetingModel> sortTime(List<CalendarMeetingModel> listData) {
+    listData.sort((beforeElement, afterElement) {
+      final DateTime parsedDateBefore =
+          DateFormat(DateFormatApp.date).parse(beforeElement.hanXuLy);
+      final DateTime parsedDateAfter =
+          DateFormat(DateFormatApp.date).parse(afterElement.hanXuLy);
+      final String dataBefore = parsedDateBefore.formatApi;
+      final String dataAfter = parsedDateAfter.formatApi;
+      return dataAfter.compareTo(dataBefore);
+    });
+    return listData;
   }
 }
 

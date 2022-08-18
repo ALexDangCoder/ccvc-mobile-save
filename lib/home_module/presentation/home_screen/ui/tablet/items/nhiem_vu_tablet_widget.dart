@@ -100,6 +100,7 @@ class _NhiemVuTabletWidgetState extends State<NhiemVuTabletWidget> {
           stream: _nhiemVuCubit.getNhiemVu,
           builder: (context, snapshot) {
             final data = snapshot.data ?? <CalendarMeetingModel>[];
+            final sortData= _nhiemVuCubit.sortTime(data);
             if (data.isEmpty) {
               return const Padding(
                 padding: EdgeInsets.symmetric(vertical: 100),
@@ -107,8 +108,8 @@ class _NhiemVuTabletWidgetState extends State<NhiemVuTabletWidget> {
               );
             }
             return ScrollBarWidget(
-              children: List.generate(data.length, (index) {
-                final result = data[index];
+              children: List.generate(sortData.length, (index) {
+                final result = sortData[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: GestureDetector(

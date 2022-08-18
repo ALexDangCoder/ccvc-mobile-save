@@ -206,6 +206,8 @@ class _TreeDonViState extends State<TreeDonVi> {
               children: [
                 Expanded(
                   child: SelectDate(
+                    colorIsObligatory:backgroundColorApp,
+                    isObligatory: true,
                     initDateTime: initStartDate,
                     callBackSelectDate: (String selectDate) {
                       setState(() {
@@ -221,9 +223,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                         DateFormat(DateFormatApp.date).parse(selectEndDate),
                     paddings: 10,
                     leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                    value: DateFormat(DateFormatApp.date)
-                        .parse(selectStartDate)
-                        .toString(),
+                    value: initStartDate.toStringWithListFormat,
                     onSelectDate: (dateTime) {
                       selectStartDate =
                           DateFormat(DateFormatApp.pickDateSearchFormat)
@@ -240,6 +240,8 @@ class _TreeDonViState extends State<TreeDonVi> {
                 ),
                 Expanded(
                   child: SelectDate(
+                    colorIsObligatory: backgroundColorApp,
+                    isObligatory: true,
                     callBackSelectDate: (String selectDate) {
                       setState(() {
                         final formatDate =
@@ -255,14 +257,11 @@ class _TreeDonViState extends State<TreeDonVi> {
                         DateFormat(DateFormatApp.date).parse(selectStartDate),
                     paddings: 10,
                     leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                    value: DateFormat(DateFormatApp.date)
-                        .parse(selectEndDate)
-                        .toString(),
+                    value: initEnDate.toStringWithListFormat,
                     onSelectDate: (dateTime) {
                       selectEndDate = DateFormat(
                         DateFormatApp.pickDateSearchFormat,
                       ).parse(dateTime).toStringWithListFormat;
-                      setState(() {});
                     },
                   ),
                 )

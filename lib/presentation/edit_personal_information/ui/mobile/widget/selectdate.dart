@@ -25,6 +25,7 @@ class SelectDate extends StatefulWidget {
   final DateTime? minimumDate;
   final DateTime? maximumDate;
   final Function(String selectDate)? callBackSelectDate;
+  final Color? colorIsObligatory;
 
   const SelectDate({
     Key? key,
@@ -39,6 +40,7 @@ class SelectDate extends StatefulWidget {
     this.minimumDate,
     this.maximumDate,
     this.callBackSelectDate,
+    this.colorIsObligatory,
   }) : super(key: key);
 
   @override
@@ -113,8 +115,9 @@ class _CustomDropDownState extends State<SelectDate> {
                     onClickRight: () {
                       if (isDateOver) {
                         MessageConfig.show(
-                            title: S.current.thoi_gian_chon_khong_hop_le,
-                            messState: MessState.error);
+                          title: S.current.thoi_gian_chon_khong_hop_le,
+                          messState: MessState.error,
+                        );
                         return;
                       }
                       if (widget.callBackSelectDate != null) {
@@ -200,7 +203,7 @@ class _CustomDropDownState extends State<SelectDate> {
             child: Container(
               decoration: BoxDecoration(
                 color: widget.isObligatory
-                    ? borderColor.withOpacity(0.3)
+                    ? widget.colorIsObligatory ?? borderColor.withOpacity(0.3)
                     : widget.backgroundColor ?? Colors.transparent,
                 border: Border.all(
                   color: borderColor,

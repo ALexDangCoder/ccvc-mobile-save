@@ -98,6 +98,7 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
             stream: _nhiemVuCubit.getNhiemVu,
             builder: (context, snapshot) {
               final data = snapshot.data ?? <CalendarMeetingModel>[];
+              final sortData= _nhiemVuCubit.sortTime(data);
               if (data.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.symmetric(vertical: 100),
@@ -105,7 +106,7 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
                 );
               }
               return Column(
-                children: List.generate(data.length, (index) {
+                children: List.generate(sortData.length, (index) {
                   final result = data[index];
                   return Padding(
                     padding: const EdgeInsets.only(top: 16),

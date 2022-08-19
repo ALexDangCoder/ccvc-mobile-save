@@ -259,21 +259,26 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     )
                   : Padding(
                       padding: const EdgeInsets.only(top: 16.0),
-                      child: DateTimeCus(
-                        onDatePicked: (onDatePicked) {
-                          callBackEndPick(onDatePicked, typePicker);
-                          widget.onDateTimeChanged(
-                            timeFrom,
-                            timeTo,
-                            dateFrom,
-                            dateTo,
-                          );
-                        },
-                        initialDate: widget.initDateEnd ??
-                            initDataTo.convertStringToDate(
-                              formatPattern: DateFormatApp.pickDateFormat,
-                            ),
-                      ),
+                      child: StreamBuilder<DateTime>(
+                          stream: _cubit.editCheckAllDay.stream,
+                          initialData: widget.initDateEnd ??
+                              initDataTo.convertStringToDate(
+                                formatPattern: DateFormatApp.pickDateFormat,
+                              ),
+                          builder: (context, snapshot) {
+                            return DateTimeCus(
+                              onDatePicked: (onDatePicked) {
+                                callBackEndPick(onDatePicked, typePicker);
+                                widget.onDateTimeChanged(
+                                  timeFrom,
+                                  timeTo,
+                                  dateFrom,
+                                  dateTo,
+                                );
+                              },
+                              initialDate: snapshot.data,
+                            );
+                          }),
                     );
             },
           ),
@@ -391,20 +396,26 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                     )
                   : Padding(
                       padding: const EdgeInsets.only(top: 16.0),
-                      child: DateTimeCus(
-                        onDatePicked: (onDatePicked) {
-                          callBackStartPick(onDatePicked, typePicker);
-                          widget.onDateTimeChanged(
-                            timeFrom,
-                            timeTo,
-                            dateFrom,
-                            dateTo,
-                          );
-                        },
-                        initialDate: widget.initDateStart ??
+                      child: StreamBuilder<DateTime>(
+                        stream: _cubit.editCheckAllDay.stream,
+                        initialData: widget.initDateStart ??
                             initDataFrom.convertStringToDate(
                               formatPattern: DateFormatApp.pickDateFormat,
                             ),
+                        builder: (context, snapshot) {
+                          return DateTimeCus(
+                            onDatePicked: (onDatePicked) {
+                              callBackStartPick(onDatePicked, typePicker);
+                              widget.onDateTimeChanged(
+                                timeFrom,
+                                timeTo,
+                                dateFrom,
+                                dateTo,
+                              );
+                            },
+                            initialDate: snapshot.data,
+                          );
+                        },
                       ),
                     );
             },
@@ -486,7 +497,25 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                       return CustomSwitch(
                         value: isChecked,
                         onToggle: (bool value) {
+
                           _cubit.handleSwitchButtonPressed(isToggled: value);
+                          if (value) {
+                            _cubit.editCheckAllDay.sink.add(DateTime.now());
+                          } else {
+                            if (typeStart == TypePickerDateTime.DATE_START) {
+                              _cubit.editCheckAllDay.sink.add(
+                                initDataFrom.convertStringToDate(
+                                  formatPattern: DateFormatApp.pickDateFormat,
+                                ),
+                              );
+                            } else if (typeEnd == TypePickerDateTime.DATE_END) {
+                              _cubit.editCheckAllDay.sink.add(
+                                initDataTo.convertStringToDate(
+                                  formatPattern: DateFormatApp.pickDateFormat,
+                                ),
+                              );
+                            }
+                          }
                           widget.onSwitchPressed?.call(value);
                           if (value) {
                             _cubit.setTypePickerStart(
@@ -544,6 +573,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
 
   String get dateFrom => _cubit.dateBeginSubject.valueOrNull ?? now;
+
+  TypePickerDateTime get typeStart => _cubit.typePickerSubjectStart.value;
+
+  TypePickerDateTime get typeEnd => _cubit.typePickerSubjectEnd.value;
 
   String get dateTo => _cubit.dateEndSubject.valueOrNull ?? now;
 

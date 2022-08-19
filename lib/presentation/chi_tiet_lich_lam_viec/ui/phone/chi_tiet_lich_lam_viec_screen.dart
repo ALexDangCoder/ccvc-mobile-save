@@ -297,52 +297,53 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
               /// Cu can bo di thay
               if (chiTietLichLamViecCubit.checkChoCuCanBoDiThay(dataModel))
                 CellPopPupMenu(
-                urlImage: ImageAssets.icCuCanBoDiThay,
-                text: S.current.cu_can_bo_di_thay,
-                onTap: () {
-                  showBottomSheetCustom<List<DonViModel>>(
-                    context,
-                    title: S.current.cu_can_bo_di_thay,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                  urlImage: ImageAssets.icCuCanBoDiThay,
+                  text: S.current.cu_can_bo_di_thay,
+                  onTap: () {
+                    showBottomSheetCustom<List<DonViModel>>(
+                      context,
+                      title: S.current.cu_can_bo_di_thay,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.8,
+                        ),
+                        child: CuCanBoDiThayLichLamViecWidget(
+                          themCanBoCubit: themCanBoCubit,
+                          cubit: chiTietLichLamViecCubit,
+                          cubitThanhPhanTG: cubitThanhPhan,
+                          themDonViCubit: themDonViCubit,
+                        ),
                       ),
-                      child: CuCanBoDiThayLichLamViecWidget(
-                        themCanBoCubit: themCanBoCubit,
-                        cubit: chiTietLichLamViecCubit,
-                        cubitThanhPhanTG: cubitThanhPhan,
-                        themDonViCubit: themDonViCubit,
-                      ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                ),
               //cu can bo
               if (chiTietLichLamViecCubit.checkChoCuCanBo(dataModel))
-              CellPopPupMenu(
-                urlImage: ImageAssets.icCuCanBo,
-                text: S.current.cu_can_bo,
-                onTap: () {
-                  showBottomSheetCustom<List<DonViModel>>(
-                    context,
-                    title: S.current.cu_can_bo,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                CellPopPupMenu(
+                  urlImage: ImageAssets.icCuCanBo,
+                  text: S.current.cu_can_bo,
+                  onTap: () {
+                    showBottomSheetCustom<List<DonViModel>>(
+                      context,
+                      title: S.current.cu_can_bo,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.8,
+                        ),
+                        child: CuCanBoLichLamViecWidget(
+                          themCanBoCubit: themCanBoCubit,
+                          cubit: chiTietLichLamViecCubit,
+                          cubitThanhPhanTG: cubitThanhPhan,
+                          themDonViCubit: themDonViCubit,
+                        ),
                       ),
-                      child: CuCanBoLichLamViecWidget(
-                        themCanBoCubit: themCanBoCubit,
-                        cubit: chiTietLichLamViecCubit,
-                        cubitThanhPhanTG: cubitThanhPhan,
-                        themDonViCubit: themDonViCubit,
-                      ),
-                    ),
-                  );
-                },
-              )
+                    );
+                  },
+                )
             ];
           }
-
+          final isThuHoiOrHuy = chiTietLichLamViecCubit.isLichHuy(dataModel) ||
+              chiTietLichLamViecCubit.isLichThuHoi(dataModel);
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -406,29 +407,33 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   data: dataModel,
                                   cubit: chiTietLichLamViecCubit,
                                 ),
-                                listScheduleCooperatives(),
-                                StreamBuilder<ChiTietLichLamViecModel>(
-                                  stream: chiTietLichLamViecCubit
-                                      .chiTietLichLamViecStream,
-                                  builder: (context, snapshot) {
-                                    final data = snapshot.data?.files ?? [];
-                                    return DocumentFile(
-                                      files: data,
-                                    );
-                                  },
-                                ),
+                                if (!isThuHoiOrHuy) listScheduleCooperatives(),
+                                if (!isThuHoiOrHuy)
+                                  StreamBuilder<ChiTietLichLamViecModel>(
+                                    stream: chiTietLichLamViecCubit
+                                        .chiTietLichLamViecStream,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data?.files ?? [];
+                                      return DocumentFile(
+                                        files: data,
+                                      );
+                                    },
+                                  ),
                                 if (chiTietLichLamViecCubit
-                                    .isCreateOrThamGiaOrCongKhai(dataModel))
+                                        .isCreateOrThamGiaOrCongKhai(
+                                            dataModel) &&
+                                    !isThuHoiOrHuy)
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,
                                     dataModel: dataModel,
                                   ),
-                                DanhSachYKienButtom(
-                                  dataModel: dataModel,
-                                  id: widget.id,
-                                  cubit: chiTietLichLamViecCubit,
-                                ),
+                                if (!isThuHoiOrHuy)
+                                  DanhSachYKienButtom(
+                                    dataModel: dataModel,
+                                    id: widget.id,
+                                    cubit: chiTietLichLamViecCubit,
+                                  ),
                                 spaceH12,
                                 if (dataModel.status !=
                                         EnumScheduleStatus.Cancel &&
@@ -445,8 +450,10 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                           children: [
                                             Expanded(
                                               child: bottomButtonWidget(
-                                                background: AppTheme.getInstance().colorField()
-                                                    .withOpacity(0.1),
+                                                background:
+                                                    AppTheme.getInstance()
+                                                        .colorField()
+                                                        .withOpacity(0.1),
                                                 title: S.current.tu_choi,
                                                 onTap: () {
                                                   chiTietLichLamViecCubit
@@ -462,7 +469,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                                         .loadApi(widget.id);
                                                   });
                                                 },
-                                                textColor: AppTheme.getInstance().colorField(),
+                                                textColor:
+                                                    AppTheme.getInstance()
+                                                        .colorField(),
                                               ),
                                             ),
                                             const SizedBox(
@@ -470,7 +479,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                             ),
                                             Expanded(
                                               child: bottomButtonWidget(
-                                                background: AppTheme.getInstance().colorField(),
+                                                background:
+                                                    AppTheme.getInstance()
+                                                        .colorField(),
                                                 title: S.current.tham_du,
                                                 onTap: () {
                                                   chiTietLichLamViecCubit

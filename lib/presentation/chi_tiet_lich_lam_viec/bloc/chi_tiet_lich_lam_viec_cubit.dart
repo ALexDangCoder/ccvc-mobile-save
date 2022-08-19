@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/cu_can_bo_lich_lam_viec_r
 import 'package:ccvc_mobile/data/request/lich_lam_viec/thu_hoi_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
@@ -984,6 +985,37 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         coThamDu(dataModel) ||
         dataModel.canBoChuTri?.id == currentUserId;
     return validTime && validPerson;
+  }
+
+  bool isLichHuy(ChiTietLichLamViecModel dataMode) =>
+      dataMode.status == EnumScheduleStatus.Cancel;
+
+  bool isLichThuHoi(ChiTietLichLamViecModel dataModel) {
+    final DataUser? dataUser = HiveLocal.getDataUser();
+    final idUser = (dataUser?.userId ?? '').toLowerCase();
+    final isChuTri = (dataModel.canBoChuTri?.id ?? '').toLowerCase() == idUser;
+    bool isCaNhan = false;
+    bool thuHoiCaNhan = false;
+    bool isDonVi = false;
+    bool thuHoiDonVi = false;
+    for (final ScheduleCoperatives element
+        in dataModel.scheduleCoperatives ?? []) {
+      final isThuHoi = element.status == StatusOfficersConst.STATUS_THU_HOI;
+      if (!isCaNhan) {
+        isCaNhan = (element.canBoId ?? '').toLowerCase() == idUser;
+        if (isCaNhan) thuHoiCaNhan = isThuHoi;
+      }
+      if (!isDonVi) {
+        final donVi = (element.donViId ?? '').isEmpty;
+        final chungDonVi = (element.donViId ?? '').toLowerCase() ==
+            (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
+        isDonVi = donVi && chungDonVi;
+        if (isDonVi) thuHoiDonVi = isThuHoi;
+      }
+    }
+    final biThuHoiCaNhan = (isCaNhan && thuHoiCaNhan) || !isCaNhan;
+    final biThuHoiDonVi = (isDonVi && thuHoiDonVi) || !isDonVi;
+    return !isChuTri && biThuHoiDonVi && biThuHoiCaNhan;
   }
 
   bool isCreateOrThamGiaOrCongKhai(ChiTietLichLamViecModel dataModel) {

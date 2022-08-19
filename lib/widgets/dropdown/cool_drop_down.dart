@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart' ;
 import 'package:flutter/material.dart';
 
 class CoolDropDown extends StatefulWidget {
@@ -33,12 +33,13 @@ class CoolDropDown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CoolDropDownState createState() => _CoolDropDownState();
+  CoolDropDownState createState() => CoolDropDownState();
 }
 
-class _CoolDropDownState extends State<CoolDropDown> {
+class CoolDropDownState extends State<CoolDropDown> {
   final List<Map<dynamic, dynamic>> listSelect = [];
   int initIndex = -1;
+  final _dropKey = GlobalKey<CoolDropdownState>();
 
   @override
   void initState() {
@@ -50,7 +51,6 @@ class _CoolDropDownState extends State<CoolDropDown> {
       });
     }
     initIndex = widget.listData.indexOf(widget.initData);
-
     super.initState();
   }
 
@@ -68,13 +68,27 @@ class _CoolDropDownState extends State<CoolDropDown> {
     super.didUpdateWidget(oldWidget);
   }
 
+  void initData({required List<String> data, required String value}){
+    listSelect.clear();
+    for (var i = 0; i < widget.listData.length; i++) {
+      listSelect.add({
+        'label': widget.listData[i],
+        'value': widget.listData[i],
+        'icon': const SizedBox(),
+      });
+    }
+    initIndex = widget.listData.indexOf(widget.initData);
+    _dropKey.currentState?.initData(value);
+    setState(() {
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return CoolDropdown(
+      key: _dropKey,
       maxLines: widget.maxLines,
       defaultValue: initIndex < 0 ? null : listSelect[initIndex],
-      // resultWidth: MediaQuery.of(context).size.width,
-      // dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,
       dropdownHeight: 200,
       resultAlign: Alignment.center,
       dropdownList: listSelect,
@@ -118,7 +132,6 @@ class _CoolDropDownState extends State<CoolDropDown> {
       ),
       isTriangle: false,
       gap: 1.0,
-      // resultWidth: 800,
     );
   }
 }

@@ -117,7 +117,7 @@ Widget getStatus(StatusNV status) {
     case StatusNV.DANG_THUC_HIEN:
       return statusChiTietNhiemVu(
         name: S.current.dang_thuc_hien,
-        background: blueNhatChart,
+        background: color02C5DD,
       );
     case StatusNV.THU_HOI:
       return statusChiTietNhiemVu(

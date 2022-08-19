@@ -211,8 +211,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                       ),
                                     );
                                   } else {
-                                    const permission = Permission.storage;
-                                    final status = await permission.status;
+                                    final status = await Permission.storage.request();
                                     if (!(status.isGranted ||
                                         status.isLimited)) {
                                       await MessageConfig.showDialogSetting();

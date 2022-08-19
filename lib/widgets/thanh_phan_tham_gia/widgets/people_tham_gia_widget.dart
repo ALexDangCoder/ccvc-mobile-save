@@ -44,7 +44,11 @@ class PeopleThamGiaWidget extends StatelessWidget {
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: donVi.tenCanBo, key: S.current.nguoi_phoi_hop),
+              Padding(
+                padding: const EdgeInsets.only(right: 25),
+                child: rowInfo(
+                    value: donVi.tenCanBo, key: S.current.nguoi_phoi_hop),
+              ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),

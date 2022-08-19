@@ -11,6 +11,14 @@ extension StringHandle on String {
         '${substring(0, 7)}...${substring(length - 10, length)}';
     return result;
   }
+
+  String changeToNewPatternDate(String oldPattern, String newPattern) {
+    try {
+      return DateFormat(newPattern).format(DateFormat(oldPattern).parse(this));
+    } catch (_) {
+      return '';
+    }
+  }
 }
 
 extension StringMoneyFormat on String {

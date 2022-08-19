@@ -87,6 +87,7 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungTabletScreen> {
                     contentController: controller,
                     formKey: formKey,
                     title: S.current.gui_loi_chuc,
+                    textValidate: S.current.vui_long_nhap_loi_chuc,
                   ),
                 ),
                 const SizedBox(

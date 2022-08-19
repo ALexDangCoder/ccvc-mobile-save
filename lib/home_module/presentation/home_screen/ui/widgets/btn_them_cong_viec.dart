@@ -211,7 +211,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                             if (controllerCongViec.text.isEmpty) {
                               keyGroup.currentState!.validator();
                             } else {
-                              label = controllerCongViec.text;
+                              label = controllerCongViec.text.trim();
                               widget.danhSachCVCubit.addTodo(label, nguoiGanID);
                               Navigator.pop(context, false);
                             }

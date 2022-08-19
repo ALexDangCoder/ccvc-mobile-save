@@ -170,7 +170,7 @@ abstract class TienIchServiceCommon {
 
   @GET(ApiConstants.LIST_NGUOI_THUC_HIEN)
   Future<ListNguoiThucHienResponse> getListNguoiThucHien(
-    @Query('HoTenFilter') String hoTen,
+    @Query('FilterBy') String hoTen,
     @Query('PageSize') int pageSize,
     @Query('PageIndex') int pageIndex,
   );

@@ -66,7 +66,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
           }
         }
         if (isDuplicate) {
-         break;
+          break;
         }
       }
       if (!isDuplicate) {
@@ -150,7 +150,9 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     for (final DonViModel canBo in listRoot) {
       if (canBo.id == newCanBo.id) {
         return true;
-      } else if (canBo.userId.isNotEmpty && canBo.userId == newCanBo.userId) {
+      } else if (newCanBo.userId.isNotEmpty &&
+          (canBo.userId == newCanBo.userId ||
+              canBo.canBoId == newCanBo.userId)) {
         return true;
       } else if (canBo.canBoId.isEmpty &&
           newCanBo.canBoId.isEmpty &&

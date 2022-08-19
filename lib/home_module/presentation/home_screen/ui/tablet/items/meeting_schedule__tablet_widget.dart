@@ -64,7 +64,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
       selectKeyDialog: _lichHopCubit,
       listSelect: const [
         SelectKey.LICH_HOP_CUA_TOI,
-        SelectKey.LICH_HOP_DUOC_MOI,
+        SelectKey.LICH_CHO_XAC_NHAN,
         SelectKey.LICH_HOP_CAN_DUYET,
       ],
       onChangeKey: (value) {
@@ -140,6 +140,11 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
                             urlIcon: ImageAssets.icTime,
                             key: S.current.time,
                             value: result.convertTime(),
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icAddress,
+                            key: S.current.dia_diem,
+                            value: result.address,
                           ),
                           InfoData(
                             urlIcon: ImageAssets.icPeople,

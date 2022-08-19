@@ -1,14 +1,15 @@
 import 'dart:io';
 
-import 'package:ccvc_mobile/bao_cao_module/widget/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
 import 'package:ccvc_mobile/utils/constants/file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,25 +47,33 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
   }
 
   Future<void> pickImage() async {
-    final XFile? pickImg = await picker.pickImage(source: ImageSource.gallery);
-    if (pickImg != null) {
-      final File fileIamge = File(pickImg.path);
-      final int fileSize = await fileIamge.length();
-
-      if (fileSize < FileSize.MB5) {
-        widget.onTapImage(File(pickImg.path));
-      } else {
-        widget.onTapImage(null);
-        final toast = FToast();
-        toast.init(context);
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.dung_luong_toi_da_5mb,
-            withOpacity: 0.6,
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
+    final permission = await handlePhotosPermission();
+    if (permission) {
+      late dynamic results;
+      late int fileSize;
+      results = Platform.isIOS
+          ? await picker.pickImage(source: ImageSource.gallery)
+          : await pickAvatarOnAndroid();
+      if (results != null) {
+        final File fileImage = File(results.path);
+        fileSize = fileImage.lengthSync();
+        if (fileSize < FileSize.MB5) {
+          widget.onTapImage(File(results.path));
+        } else {
+          widget.onTapImage(null);
+          final toast = FToast();
+          toast.init(context);
+          toast.showToast(
+            child: ShowToast(
+              text: S.current.dung_luong_toi_da_5mb,
+              withOpacity: 0.6,
+            ),
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
       }
+    } else {
+      if (Platform.isIOS) await MessageConfig.showDialogSetting();
     }
   }
 
@@ -145,24 +154,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
               )
             : emptyImage(
                 onTap: () {
-                  widget.imagePermission.checkFilePermission();
-                  switch (widget.imagePermission.perrmission) {
-                    case ImageSelection.PICK_IMAGE:
-                      {
-                        pickImage();
-                        break;
-                      }
-                    case ImageSelection.NO_STORAGE_PERMISSION:
-                      {
-                        widget.imagePermission.requestFilePermission();
-                        break;
-                      }
-                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
-                      {
-                        widget.imagePermission.openSettingApp();
-                        break;
-                      }
-                  }
+                  pickImage();
                 },
               );
   }

@@ -352,6 +352,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
           }
           final isThuHoiOrHuy = chiTietLichLamViecCubit.isLichHuy(dataModel) ||
               chiTietLichLamViecCubit.isLichThuHoi(dataModel);
+          final isCongKhai = chiTietLichLamViecCubit.isCongKhai(dataModel);
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -449,15 +450,14 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                       ),
                                       spaceH16,
                                       if (chiTietLichLamViecCubit
-                                              .isCreateOrThamGiaOrCongKhai(
-                                                  dataModel) &&
+                                              .isCreateOrCongKhai(dataModel) ||
                                           !isThuHoiOrHuy)
                                         BtnShowChinhSuaBaoCao(
                                           chiTietLichLamViecCubit:
                                               chiTietLichLamViecCubit,
                                           dataModel: dataModel,
                                         ),
-                                      if (!isThuHoiOrHuy)
+                                      if (!isThuHoiOrHuy || isCongKhai)
                                         DanhSachYKienButtom(
                                           dataModel: dataModel,
                                           isTablet: true,
@@ -650,9 +650,8 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                 Expanded(
                                   child: Column(
                                     children: [
-                                      if (!isThuHoiOrHuy)
+                                      if (!isThuHoiOrHuy || isCongKhai) ...[
                                         listScheduleCooperatives(),
-                                      if (!isThuHoiOrHuy)
                                         StreamBuilder<ChiTietLichLamViecModel>(
                                           stream: chiTietLichLamViecCubit
                                               .chiTietLichLamViecStream,
@@ -664,6 +663,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                             );
                                           },
                                         ),
+                                      ]
                                     ],
                                   ),
                                 ),

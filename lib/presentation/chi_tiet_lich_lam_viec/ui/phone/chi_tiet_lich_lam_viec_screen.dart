@@ -344,6 +344,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           }
           final isThuHoiOrHuy = chiTietLichLamViecCubit.isLichHuy(dataModel) ||
               chiTietLichLamViecCubit.isLichThuHoi(dataModel);
+          final isCongKhai = chiTietLichLamViecCubit.isCongKhai(dataModel);
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -407,8 +408,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   data: dataModel,
                                   cubit: chiTietLichLamViecCubit,
                                 ),
-                                if (!isThuHoiOrHuy) listScheduleCooperatives(),
-                                if (!isThuHoiOrHuy)
+                                if (!isThuHoiOrHuy || isCongKhai)
+                                  listScheduleCooperatives(),
+                                if (!isThuHoiOrHuy || isCongKhai)
                                   StreamBuilder<ChiTietLichLamViecModel>(
                                     stream: chiTietLichLamViecCubit
                                         .chiTietLichLamViecStream,
@@ -419,16 +421,16 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                       );
                                     },
                                   ),
-                                if (chiTietLichLamViecCubit
-                                        .isCreateOrThamGiaOrCongKhai(
-                                            dataModel) &&
+                                if (chiTietLichLamViecCubit.isCreateOrCongKhai(
+                                      dataModel,
+                                    ) ||
                                     !isThuHoiOrHuy)
                                   BtnShowChinhSuaBaoCao(
                                     chiTietLichLamViecCubit:
                                         chiTietLichLamViecCubit,
                                     dataModel: dataModel,
                                   ),
-                                if (!isThuHoiOrHuy)
+                                if (!isThuHoiOrHuy || isCongKhai)
                                   DanhSachYKienButtom(
                                     dataModel: dataModel,
                                     id: widget.id,

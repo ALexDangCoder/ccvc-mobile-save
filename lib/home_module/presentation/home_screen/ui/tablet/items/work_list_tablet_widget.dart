@@ -92,7 +92,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
             if (controllerCongViec.text.isEmpty) {
               keyGroup.currentState!.validator();
             } else {
-              final String label = controllerCongViec.text;
+              final String label = controllerCongViec.text.trim();
               danhSachCVCubit.addTodo(label, nguoiGanID);
               controllerCongViec.clear();
               Navigator.pop(context, false);

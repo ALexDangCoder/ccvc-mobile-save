@@ -1,6 +1,22 @@
 import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
+
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+class ModelAnh {
+  String path;
+  int size;
+  bool notAcceptFile;
+
+  ModelAnh({
+    required this.path,
+    required this.size,
+    this.notAcceptFile = false,
+  });
+}
 
 enum ImageSelection {
   /// chưa có quyền truy cập ảnh
@@ -11,6 +27,46 @@ enum ImageSelection {
 
   /// Chấp nhận quyền truy cập ảnh
   PICK_IMAGE,
+}
+
+Future<ModelAnh> pickAvatarOnAndroid() async {
+  const allowedExtensions = [
+    FileExtensions.JPEG,
+    FileExtensions.JPG,
+    FileExtensions.PNG,
+    FileExtensions.HEIC,
+  ];
+  try {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowedExtensions: allowedExtensions,
+      type: FileType.custom,
+    );
+    if (result == null || result.files.isEmpty) {
+      return ModelAnh(
+        path: '',
+        size: 0,
+      );
+    }
+    if (!allowedExtensions.contains(
+      result.files.first.extension?.toLowerCase().replaceAll('.', ''),
+    )) {
+      return ModelAnh(
+        path: '',
+        size: 0,
+        notAcceptFile: true,
+      );
+    }
+    return ModelAnh(
+      path: result.files.first.path ?? '',
+      size: result.files.first.size,
+    );
+  } on PlatformException catch (_) {
+    await MessageConfig.showDialogSetting();
+    return ModelAnh(
+      path: '',
+      size: 0,
+    );
+  }
 }
 
 class ImagePermission {

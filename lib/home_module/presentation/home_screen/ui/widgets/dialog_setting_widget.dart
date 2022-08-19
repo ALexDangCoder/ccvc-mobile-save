@@ -484,7 +484,6 @@ class DialogData {
       SelectKey.HOM_NAY,
       SelectKey.TUAN_NAY,
       SelectKey.THANG_NAY,
-      SelectKey.NAM_NAY,
     ],
     this.startDate,
     this.endDate,

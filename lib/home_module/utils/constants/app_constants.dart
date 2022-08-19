@@ -108,6 +108,8 @@ const _dtFormat3 = 'dd/MM hh:mm a';
 const _dtFormat4 = 'yyyy-MM-dd';
 const _dtFormat5 = 'MMM dd, yyyy';
 const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
+const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
+const _dtFormat8 = 'yyyy-MM-ddTHH:mm:ss';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -116,6 +118,8 @@ class DateTimeFormat {
   static const DOB_FORMAT = _dtFormat4;
   static const CREATE_BLOG_FORMAT = _dtFormat5;
   static const DATE_MM_DD_YYYY = _dtFormat6;
+  static const DATE_WITH_DIVIDER = _dtFormat7;
+  static const DATE_WITH_T = _dtFormat8;
 }
 
 class ThongBaoTypeConstant {

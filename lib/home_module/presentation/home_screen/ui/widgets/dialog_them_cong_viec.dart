@@ -194,42 +194,6 @@ class _DiaLogThemCongViecState extends State<DiaLogThemCongViec> {
                         ),
                       );
                     }),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 20),
-                //   child: Row(
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       Expanded(
-                //         child: ButtonCustomBottom(
-                //           title: S.current.dong,
-                //           isColorBlue: false,
-                //           onPressed: () {
-                //             Navigator.pop(context);
-                //           },
-                //         ),
-                //       ),
-                //       const SizedBox(
-                //         width: 16,
-                //       ),
-                //       Expanded(
-                //         child: ButtonCustomBottom(
-                //           title: S.current.them,
-                //           isColorBlue: true,
-                //           onPressed: () {
-                //             if (controllerCongViec.text.isEmpty) {
-                //               keyGroup.currentState!.validator();
-                //             } else {
-                //               label = controllerCongViec.text;
-                //               widget.danhSachCVCubit.addTodo(label, nguoiGanID);
-                //               Navigator.pop(context, false);
-                //             }
-                //           },
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // const SizedBox(height: 33),
               ],
             ),
           ),

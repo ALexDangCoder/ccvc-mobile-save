@@ -270,14 +270,14 @@ class _DateTimeCusState extends State<DateTimeCus>
           color:
               '${(i + 1).monthToNumString()}-${month.monthToNumString()}-$year' ==
                       selectDate
-                  ? textDefault
+                  ? AppTheme.getInstance().colorField()
                   : Colors.white,
           shape: BoxShape.circle,
           border: Border.all(
             color:
                 '${(i + 1).monthToNumString()}-${month.monthToNumString()}-$year' ==
                         DateTime.now().formatddMMYYYY()
-                    ? textDefault
+                    ? AppTheme.getInstance().colorField()
                     : Colors.transparent,
           ),
         ),
@@ -290,7 +290,7 @@ class _DateTimeCusState extends State<DateTimeCus>
                 ? ('${(i + 1).monthToNumString()}-${month.monthToNumString()}-$year' ==
                         selectDate
                     ? AppTheme.getInstance().backGroundColor()
-                    : textDefault)
+                    : AppTheme.getInstance().colorField())
                 : ('${(i + 1).monthToNumString()}-${month.monthToNumString()}-$year' ==
                         selectDate
                     ? AppTheme.getInstance().backGroundColor()

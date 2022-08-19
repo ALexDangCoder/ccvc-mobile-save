@@ -186,7 +186,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                     ),
                   if (widget.todoModel.showDotOne()) circleWidget(),
                   if (widget.todoModel.showDotOne())
-                    Expanded(
+                    Flexible(
                       child: Padding(
                         padding: const EdgeInsets.only( left:  8),
                         child: Container(

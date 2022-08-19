@@ -274,62 +274,63 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
   void showListItem(BuildContext context) {
     if (isMobile()) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.symmetric(
+              vertical:
+                  MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
+                      ? 100
+                      : 20,
+              horizontal: 20,
+            ),
+            child: Scaffold(
+              resizeToAvoidBottomInset: true,
               backgroundColor: Colors.transparent,
-              insetPadding: EdgeInsets.symmetric(
-                vertical:
-                    MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
-                        ? 100
-                        : 20,
-                horizontal: 20,
-              ),
-              child: Scaffold(
-                resizeToAvoidBottomInset: true,
-                backgroundColor: Colors.transparent,
-                body: Container(
-                  decoration: const BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Align(
-                                child: Text(
-                                  widget.title,
-                                  style: titleAppbar(
-                                    fontSize: 18.0.textScale(space: 6.0),
-                                  ),
+              body: Container(
+                decoration: const BoxDecoration(
+                    color: backgroundColorApp,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 56,
+                        child: Stack(
+                          children: [
+                            Align(
+                              child: Text(
+                                widget.title,
+                                style: titleAppbar(
+                                  fontSize: 18.0.textScale(space: 6.0),
                                 ),
                               ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: SvgPicture.asset(ImageAssets.icClose),
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: SvgPicture.asset(ImageAssets.icClose),
+                              ),
+                            )
+                          ],
                         ),
-                        Flexible(child: dialogCell()),
-                      ],
-                    ),
+                      ),
+                      Flexible(child: dialogCell()),
+                    ],
                   ),
                 ),
               ),
-            );
-          });
+            ),
+          );
+        },
+      ).then((value) => widget.cubit.keySearchThuHoi.sink.add(''));
     } else {
       showDiaLogTablet(
         context,
@@ -337,7 +338,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
         child: dialogCell(),
         isBottomShow: false,
         funcBtnOk: () {},
-      );
+      ).then((value) => widget.cubit.keySearchThuHoi.sink.add(''));
     }
   }
 
@@ -366,65 +367,66 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                   padding: EdgeInsets.all(16),
                   child: NodataWidget(),
                 )
-              : ListView.separated(
-                  itemBuilder: (context, index) {
-                    final itemTitle = listData[index];
-                    return StreamBuilder<String>(
-                        stream: widget.cubit.keySearchThuHoi.stream,
-                        builder: (context, snapshot) {
-                          final keySearch = snapshot.data ?? '';
-                          if (!itemTitle
-                              .getTitle()
-                              .toLowerCase()
-                              .vietNameseParse()
-                              .contains(keySearch)) {
-                            return const SizedBox.shrink();
-                          }
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                select = itemTitle;
-                              });
-                              widget.onChange(selectIndex());
-                              Navigator.of(context).pop();
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 4,
-                                horizontal: 4,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      itemTitle.getTitle(),
-                                      style: textNormalCustom(
-                                        color: titleItemEdit,
-                                        fontWeight: itemTitle == select
-                                            ? FontWeight.w600
-                                            : FontWeight.w400,
-                                      ),
+              : StreamBuilder<String>(
+                  stream: widget.cubit.keySearchThuHoi.stream,
+                  builder: (context, snapshot) {
+                    final keySearch = snapshot.data ?? '';
+                    final listResult = <Officer>[];
+                    for (final item in listData) {
+                      if (getKeySearch(item.getTitle()).contains(
+                        getKeySearch(keySearch),
+                      )) {
+                        listResult.add(item);
+                      }
+                    }
+                    return ListView.separated(
+                      itemBuilder: (context, index) {
+                        final itemTitle = listResult[index];
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              select = itemTitle;
+                            });
+                            widget.onChange(selectIndex());
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 4,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    itemTitle.getTitle(),
+                                    style: textNormalCustom(
+                                      color: titleItemEdit,
+                                      fontWeight: itemTitle == select
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
                                     ),
                                   ),
-                                  if (itemTitle.status == 4)
-                                    Icon(
-                                      Icons.done_sharp,
-                                      color:
-                                          AppTheme.getInstance().colorField(),
-                                    ),
-                                ],
-                              ),
+                                ),
+                                if (itemTitle.status == 4)
+                                  Icon(
+                                    Icons.done_sharp,
+                                    color: AppTheme.getInstance().colorField(),
+                                  ),
+                              ],
                             ),
-                          );
-                        });
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      color: borderColor,
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          color: borderColor,
+                        );
+                      },
+                      itemCount: listResult.length,
                     );
                   },
-                  itemCount: listData.length,
                 ),
         ),
         const SizedBox(
@@ -433,4 +435,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
       ],
     );
   }
+
+  String getKeySearch(String keySearch) =>
+      keySearch.toLowerCase().vietNameseParse().trim();
 }

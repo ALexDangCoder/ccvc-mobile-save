@@ -12,7 +12,6 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/no_data.dart
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -30,14 +29,7 @@ class _DocumentInPageState extends State<DocumentInPage>
 
   @override
   void initState() {
-    _handleEventBus();
     super.initState();
-  }
-
-  void _handleEventBus() {
-    eventBus.on<RefreshList>().listen((event) {
-      widget.qlvbCubit.fetchIncomeDocumentCustom(initLoad: true);
-    });
   }
 
   @override

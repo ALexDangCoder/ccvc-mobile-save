@@ -64,7 +64,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
       selectKeyDialog: _lichHopCubit,
       listSelect: const [
         SelectKey.LICH_HOP_CUA_TOI,
-        SelectKey.LICH_HOP_DUOC_MOI,
+        SelectKey.LICH_CHO_XAC_NHAN,
         SelectKey.LICH_HOP_CAN_DUYET,
       ],
       onChangeKey: (value) {

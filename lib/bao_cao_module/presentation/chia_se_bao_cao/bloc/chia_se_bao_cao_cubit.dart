@@ -149,14 +149,19 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
             if (element.value.id == initCheck.userId) {
               element.isCheck.isCheck = true;
               listUserCommon.remove(initCheck);
+              selectTag(element);
               break;
             }
           }
-
+          for(final elementNode in selectNode){
+            if(element.value.id == elementNode.value.id){
+              element.isCheck.isCheck = true;
+            }
+          }
           node.addChildMember(element);
-          selectTag(element);
-          getParentStart(node);
+
         }
+        getParentStart(node);
         showContent();
       },
       error: (err) {},

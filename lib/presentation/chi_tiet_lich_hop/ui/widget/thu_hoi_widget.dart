@@ -255,7 +255,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                 : Text(
                     widget.hintText,
                     style: textNormal(
-                      titleItemEdit,
+                      textBodyTime,
                       14.0.textScale(),
                     ),
                   ),

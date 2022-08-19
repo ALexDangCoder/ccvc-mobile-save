@@ -12,7 +12,9 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_li
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -244,7 +246,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                 ? Text(
                     widget.hintText,
                     style: textNormal(
-                      titleItemEdit,
+                      textBodyTime,
                       14.0.textScale(),
                     ),
                   )
@@ -350,7 +352,14 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        spaceH8,
+        BaseSearchBar(
+          onChange: (keySearch) {
+            widget.cubit.keySearchThuHoi.sink.add(keySearch);
+          },
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         Expanded(
           child: listData.isEmpty
               ? const Padding(
@@ -360,42 +369,55 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
               : ListView.separated(
                   itemBuilder: (context, index) {
                     final itemTitle = listData[index];
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          select = itemTitle;
-                        });
-                        widget.onChange(selectIndex());
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 4,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                itemTitle.getTitle(),
-                                style: textNormalCustom(
-                                  color: titleItemEdit,
-                                  fontWeight: itemTitle == select
-                                      ? FontWeight.w600
-                                      : FontWeight.w400,
-                                ),
+                    return StreamBuilder<String>(
+                        stream: widget.cubit.keySearchThuHoi.stream,
+                        builder: (context, snapshot) {
+                          final keySearch = snapshot.data ?? '';
+                          if (!itemTitle
+                              .getTitle()
+                              .toLowerCase()
+                              .vietNameseParse()
+                              .contains(keySearch)) {
+                            return const SizedBox.shrink();
+                          }
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                select = itemTitle;
+                              });
+                              widget.onChange(selectIndex());
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 4,
+                                horizontal: 4,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      itemTitle.getTitle(),
+                                      style: textNormalCustom(
+                                        color: titleItemEdit,
+                                        fontWeight: itemTitle == select
+                                            ? FontWeight.w600
+                                            : FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  if (itemTitle.status == 4)
+                                    Icon(
+                                      Icons.done_sharp,
+                                      color:
+                                          AppTheme.getInstance().colorField(),
+                                    ),
+                                ],
                               ),
                             ),
-                            if (itemTitle.status == 4)
-                              Icon(
-                                Icons.done_sharp,
-                                color: AppTheme.getInstance().colorField(),
-                              ),
-                          ],
-                        ),
-                      ),
-                    );
+                          );
+                        });
                   },
                   separatorBuilder: (context, index) {
                     return const Divider(

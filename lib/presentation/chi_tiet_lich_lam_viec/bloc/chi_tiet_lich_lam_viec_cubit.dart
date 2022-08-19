@@ -200,6 +200,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   final listOfficer = BehaviorSubject<List<Officer>>();
   List<Officer> listOfficerSelected = [];
   final listRecall = BehaviorSubject<List<Officer>>();
+  final keySearchThuHoi = BehaviorSubject<String>();
 
   Future<void> getOfficer(String id) async {
     final rs = await dataRepo.getOfficerJoin(id);

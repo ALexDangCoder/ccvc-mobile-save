@@ -36,7 +36,11 @@ class _PhanAnhKienNghiDonViTabletState
     super.initState();
     _phanAnhKienNghiCubit.callApi(true);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+      HomeProvider
+          .of(context)
+          .homeCubit
+          .refreshListen
+          .listen((value) {
         _phanAnhKienNghiCubit.callApi(true);
       });
     });
@@ -46,7 +50,9 @@ class _PhanAnhKienNghiDonViTabletState
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    cubit = HomeProvider.of(context).homeCubit;
+    cubit = HomeProvider
+        .of(context)
+        .homeCubit;
   }
 
   @override
@@ -70,29 +76,29 @@ class _PhanAnhKienNghiDonViTabletState
         child: LoadingOnly(
           stream: _phanAnhKienNghiCubit.stateStream,
           child: StreamBuilder<DocumentDashboardModel>(
-              stream: _phanAnhKienNghiCubit.getTinhHinhXuLy,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? DocumentDashboardModel();
-                return statusBarWidget(
-                  [
-                    ChartData(
-                      S.current.dang_xu_ly,
-                      data.soLuongDangXuLy.toDouble(),
-                      choVaoSoColor,
-                    ),
-                    ChartData(
-                      S.current.da_qua_han,
-                      data.soLuongQuaHan.toDouble(),
-                      statusCalenderRed,
-                    ),
-                    ChartData(
-                      S.current.da_hoan_thanh,
-                      data.soLuongDaHoanThanh.toDouble(),
-                      itemWidgetUsing,
-                    )
-                  ],
-                );
-              }),
+            stream: _phanAnhKienNghiCubit.getTinhHinhXuLy,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? DocumentDashboardModel();
+              return statusBarWidget(
+                [
+                  ChartData(
+                    S.current.dang_xu_ly,
+                    data.soLuongDangXuLy.toDouble(),
+                    choVaoSoColor,
+                  ),
+                  ChartData(
+                    S.current.da_qua_han,
+                    data.soLuongQuaHan.toDouble(),
+                    statusCalenderRed,
+                  ),
+                  ChartData(
+                    S.current.da_hoan_thanh,
+                    data.soLuongDaHoanThanh.toDouble(),
+                    itemWidgetUsing,
+                  )
+                ],
+              );
+            },),
         ),
       ),
     );
@@ -113,36 +119,26 @@ class _PhanAnhKienNghiDonViTabletState
           width: double.maxFinite,
           child: Row(
             children: [
-              Expanded(
-                flex: listData[0].value.toInt(),
-                child: Container(
-                  color: listData[0].color,
-                  child: Center(
-                    child: Text(
-                      listData[0].value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
+              ...List.generate(2, (index) {
+                final data = listData[index];
+                return data.value == 0
+                    ? const SizedBox()
+                    : Expanded(
+                  flex: data.value.toInt(),
+                  child: Container(
+                    color: data.color,
+                    child: Center(
+                      child: Text(
+                        data.value.toInt().toString(),
+                        style: textNormal(
+                          backgroundColorApp,
+                          14.0.textScale(),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              Expanded(
-                flex: listData[1].value.toInt(),
-                child: Container(
-                  color: listData[1].color,
-                  child: Center(
-                    child: Text(
-                      listData[1].value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+                );
+              }),
               Expanded(
                 flex: (total - (listData[0].value + listData[1].value)).toInt(),
                 child: const SizedBox(),
@@ -159,21 +155,24 @@ class _PhanAnhKienNghiDonViTabletState
           color: backgroundRowColor,
           child: Row(
             children: [
-              Expanded(
-                flex: listData[2].value.toInt(),
-                child: Container(
-                  color: listData[2].color,
-                  child: Center(
-                    child: Text(
-                      listData[2].value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
+              if (listData[2].value == 0)
+                const SizedBox()
+              else
+                Expanded(
+                  flex: listData[2].value.toInt(),
+                  child: Container(
+                    color: listData[2].color,
+                    child: Center(
+                      child: Text(
+                        listData[2].value.toInt().toString(),
+                        style: textNormal(
+                          backgroundColorApp,
+                          14.0.textScale(),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
               Expanded(
                 flex: (total - (listData[2].value)).toInt(),
                 child: const SizedBox(),

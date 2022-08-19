@@ -4,9 +4,13 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/widget/tai_lieu_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart'
+    as Hop;
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_work_calendar_cubit.dart';
@@ -14,9 +18,6 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/custom_switch_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_dat_nuoc_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap_tuy_chinh.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_quan_huyen_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_tinh_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_xa_widget.dart';
@@ -27,6 +28,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nh
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/bloc/date_time_cupertino_custom_cubit.dart';
@@ -120,6 +122,10 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
     }
     createCubit.files = event.files;
     createCubit.id = event.id;
+    createCubit.isCheckAllDaySubject.sink.add(event.isAllDay ?? false);
+    createCubit.dateTimeLapDenNgay = DateTime.parse(
+      event.dateRepeat ?? DateTime.now().toString(),
+    );
   }
 
   @override
@@ -427,54 +433,75 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                               .pleaseEnter(S.current.dia_diem);
                                         },
                                       ),
-                                      LichLapWidget(
-                                        cubit: createCubit,
-                                        isEdit: true,
-                                      ),
-                                      StreamBuilder<bool>(
-                                        stream: createCubit
-                                            .lichLapTuyChinhSubject.stream,
+                                      StreamBuilder<DateTime>(
+                                        stream:
+                                            createCubit.startDateSubject.stream,
                                         builder: (context, snapshot) {
-                                          final data = snapshot.data ?? false;
-                                          return data
-                                              ? SuaLichLapTuyChinh(
-                                                  taoLichLamViecCubit:
-                                                      createCubit,
-                                                  initDataTuyChinh: createCubit
-                                                      .listNgayChonTuan(
-                                                    createCubit.days ?? '',
-                                                  ),
-                                                )
-                                              : Container();
-                                        },
-                                      ),
-                                      StreamBuilder<bool>(
-                                        stream: createCubit
-                                            .lichLapKhongLapLaiSubject.stream,
-                                        builder: (context, snapshot) {
-                                          final data = snapshot.data ?? false;
-                                          return data
-                                              ? StreamBuilder<DateTime>(
-                                                  stream: createCubit
-                                                      .endDateSubject.stream,
-                                                  initialData: DateTime.parse(
-                                                    createCubit.dateRepeat ??
-                                                        DateTime.now()
-                                                            .toString(),
-                                                  ),
-                                                  builder: (context, snapshot) {
-                                                    final data =
-                                                        snapshot.data ??
-                                                            DateTime.now();
-                                                    return ItemLapDenNgayWidget(
-                                                      createCubit: createCubit,
-                                                      createWorkCalendar: false,
-                                                      initDate: data,
-                                                      key: UniqueKey(),
-                                                    );
-                                                  },
-                                                )
-                                              : Container();
+                                          final date = snapshot.data
+                                              ?.tryDateTimeFormatter(
+                                                  pattern: DateFormatApp
+                                                      .pickDateSearchFormat);
+                                          return Hop.LichLapWidget(
+                                            urlIcon: ImageAssets.icNhacLai,
+                                            title: S.current.lich_lap,
+                                            value: createCubit
+                                                .detailCalendarWorkModel
+                                                .lichLap(),
+                                            isUpdate: true,
+                                            initDayPicked:
+                                                createCubit.listNgayChonTuan(
+                                              createCubit.days ?? '',
+                                            ),
+                                            initDate: createCubit.dateRepeat
+                                                ?.convertStringToDate(),
+                                            listSelect: danhSachLichLap
+                                                .map((e) => e.label)
+                                                .toList(),
+                                            onChange: (index) {
+                                              //danhSachLichLap
+                                              createCubit.selectLichLap.id =
+                                                  danhSachLichLap[index].id;
+                                              if (danhSachLichLap[index].id ==
+                                                  LichLapModel.TUY_CHINH) {
+                                                createCubit
+                                                    .lichLapTuyChinhSubject
+                                                    .add(true);
+                                              } else {
+                                                createCubit
+                                                    .lichLapTuyChinhSubject
+                                                    .add(false);
+                                              }
+
+                                              if (danhSachLichLap[index].id !=
+                                                  LichLapModel.KHONG_LAP_LAI) {
+                                                createCubit
+                                                    .lichLapKhongLapLaiSubject
+                                                    .add(true);
+                                              } else {
+                                                createCubit
+                                                    .lichLapKhongLapLaiSubject
+                                                    .add(false);
+                                              }
+                                            },
+                                            onDayPicked: (listId) {
+                                              //listId: daysOfWeek
+                                              if (listId.isEmpty) {
+                                                createCubit.selectLichLap.id =
+                                                    LichLapModel.KHONG_LAP_LAI;
+                                                createCubit.lichLapItem1 = [];
+                                              } else {
+                                                createCubit.lichLapItem1 =
+                                                    listId;
+                                              }
+                                            },
+                                            onDateChange: (value) {
+                                              createCubit.dateTimeLapDenNgay =
+                                                  value.convertStringToDate(
+                                                      formatPattern:
+                                                          DateFormatApp.date);
+                                            },
+                                            miniumDate: date,
+                                          );
                                         },
                                       ),
                                       TextFieldStyle(
@@ -521,8 +548,7 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                               background: AppTheme.getInstance()
                                   .colorField()
                                   .withOpacity(0.1),
-                              textColor: AppTheme.getInstance()
-                                  .colorField(),
+                              textColor: AppTheme.getInstance().colorField(),
                               onTap: () {
                                 Navigator.of(context).pop();
                               },
@@ -536,8 +562,8 @@ class _EditWorkCalendarTabletState extends State<EditWorkCalendarTablet> {
                                 final data = snapshot.data ?? false;
                                 return buttomWidget(
                                   title: S.current.luu,
-                                  background: AppTheme.getInstance()
-                                      .colorField(),
+                                  background:
+                                      AppTheme.getInstance().colorField(),
                                   textColor: Colors.white,
                                   onTap: () {
                                     validateField(data);

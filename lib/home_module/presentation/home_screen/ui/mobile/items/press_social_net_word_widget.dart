@@ -123,7 +123,6 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                   SelectKey.TUAN_NAY,
                   SelectKey.THANG_NAY,
                   SelectKey.NAM_NAY,
-                  SelectKey.TUY_CHON,
                 ],
                 onSelect: (value, startDate, endDate) {
                   _xaHoiCubit.editSelectDate(value);

@@ -180,7 +180,7 @@ class DanhSachCongViecTienIchCubit
 
   /// khoi tao data
   Future<void> initialData() async {
-    final queue = Queue(parallel: 3);
+    final queue = Queue(parallel: 2);
     unawaited(queue.add(() => callAPITheoFilter()));
     unawaited(queue.add(() => getCountTodoAndMenu()));
     await queue.onComplete;
@@ -310,17 +310,19 @@ class DanhSachCongViecTienIchCubit
       );
       result.when(
         success: (res) {
-          showContent();
-          final data = listDSCVStream.value;
-          data.insert(
-            0,
-            res,
+          MessageConfig.show(
+            title: S.current.thanh_cong,
           );
-          listDSCVStream.sink.add(data);
-          closeDialog();
+          countLoadMore = ApiConstants.PAGE_BEGIN;
+          callAPITheoFilter(
+            textSearch: searchControler.text,
+          );
         },
         error: (err) {
-          showError();
+          MessageConfig.show(
+            title: S.current.that_bai,
+            messState: MessState.error,
+          );
         },
       );
     }
@@ -415,7 +417,6 @@ class DanhSachCongViecTienIchCubit
           ((defaultData ?? '').isNotEmpty) &&
           changeData != null;
     }
-
     showLoading();
     date ??= DateTime.now().toString();
     final result = await tienIchRep.upDateTodo(
@@ -478,36 +479,20 @@ class DanhSachCongViecTienIchCubit
     );
     result.when(
       success: (res) {
-        showContent();
-        final data = listDSCVStream.valueOrNull ?? [];
         MessageConfig.show(title: S.current.thanh_cong);
-        if (isTicked != null) {
-          data.insert(0, res);
-          data.remove(todo);
-          listDSCVStream.sink.add(data);
-        }
-        if (important != null) {
-          data[data.lastIndexOf(todo)] = res;
-          listDSCVStream.sink.add(data);
-        }
-        if (inUsed != null) {
-          data.remove(todo);
-          listDSCVStream.sink.add(data);
-        }
-        if (isDeleted != null) {}
-        if (filePathTodo != null) {
-          data[data.lastIndexOf(todo)] = res;
-          listDSCVStream.sink.add(data);
-        }
+        countLoadMore = ApiConstants.PAGE_BEGIN;
+        callAPITheoFilter(
+          textSearch: searchControler.text,
+        );
       },
       error: (err) {
+        showContent();
         MessageConfig.show(
           title: S.current.that_bai,
           messState: MessState.error,
         );
       },
     );
-    showContent();
   }
 
 

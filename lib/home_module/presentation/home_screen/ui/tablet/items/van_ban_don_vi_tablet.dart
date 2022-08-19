@@ -122,26 +122,26 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
                               ),
                               StatusWidget(
                                 showZeroValue: false,
-                              listData:   [
-                                ChartData(
-                                  S.current.qua_han,
-                                  dataVBDen.soLuongQuaHan.toDouble(),
-                                  statusCalenderRed,
-                                  SelectKey.CHO_VAO_SO,
-                                ),
-                                ChartData(
-                                  S.current.den_han,
-                                  dataVBDen.soLuongDenHan.toDouble(),
-                                  yellowColor,
-                                  SelectKey.DANG_XU_LY,
-                                ),
-                                ChartData(
-                                  S.current.trong_han,
-                                  dataVBDen.soLuongTrongHan.toDouble(),
-                                  choTrinhKyColor,
-                                  SelectKey.DA_XU_LY,
-                                ),
-                              ],
+                                listData: [
+                                  ChartData(
+                                    S.current.qua_han,
+                                    dataVBDen.soLuongQuaHan.toDouble(),
+                                    statusCalenderRed,
+                                    SelectKey.CHO_VAO_SO,
+                                  ),
+                                  ChartData(
+                                    S.current.den_han,
+                                    dataVBDen.soLuongDenHan.toDouble(),
+                                    yellowColor,
+                                    SelectKey.DANG_XU_LY,
+                                  ),
+                                  ChartData(
+                                    S.current.trong_han,
+                                    dataVBDen.soLuongTrongHan.toDouble(),
+                                    choTrinhKyColor,
+                                    SelectKey.DA_XU_LY,
+                                  ),
+                                ],
                               )
                             ],
                           ),
@@ -149,48 +149,49 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
                       ),
                       Expanded(
                         child: titleChart(
-                            S.current.document_out_going,
-                            PieChart(
-                              chartData: [
-                                ChartData(
-                                  S.current.cho_trinh_ky,
-                                  dataVBDi.soLuongChoTrinhKy.toDouble(),
-                                  choTrinhKyColor,
-                                  SelectKey.CHO_TRINH_KY,
-                                ),
-                                ChartData(
-                                  S.current.cho_xu_ly,
-                                  dataVBDi.soLuongChoXuLy.toDouble(),
-                                  choXuLyColor,
-                                  SelectKey.CHO_XU_LY,
-                                ),
-                                ChartData(
-                                  S.current.da_xu_ly,
-                                  dataVBDi.soLuongDaXuLy.toDouble(),
-                                  daXuLyColor,
-                                  SelectKey.DA_XU_LY,
-                                ),
-                                ChartData(
-                                  S.current.cho_cap_so,
-                                  dataVBDi.soLuongChoCapSo.toDouble(),
-                                  choCapSoColor,
-                                  SelectKey.CHO_CAP_SO,
-                                ),
-                                ChartData(
-                                  S.current.cho_ban_hanh,
-                                  dataVBDi.soLuongChoBanHanh.toDouble(),
-                                  choBanHanhColor,
-                                  SelectKey.CHO_BAN_HANH,
-                                )
-                              ],
-                              onTap: (value, key) {},
-                            ),
-                            ),
+                          S.current.document_out_going,
+                          PieChart(
+                            chartData: [
+                              ChartData(
+                                S.current.cho_trinh_ky,
+                                dataVBDi.soLuongChoTrinhKy.toDouble(),
+                                choTrinhKyColor,
+                                SelectKey.CHO_TRINH_KY,
+                              ),
+                              ChartData(
+                                S.current.cho_xu_ly,
+                                dataVBDi.soLuongChoXuLy.toDouble(),
+                                choXuLyColor,
+                                SelectKey.CHO_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.da_xu_ly,
+                                dataVBDi.soLuongDaXuLy.toDouble(),
+                                daXuLyColor,
+                                SelectKey.DA_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.cho_cap_so,
+                                dataVBDi.soLuongChoCapSo.toDouble(),
+                                choCapSoColor,
+                                SelectKey.CHO_CAP_SO,
+                              ),
+                              ChartData(
+                                S.current.cho_ban_hanh,
+                                dataVBDi.soLuongChoBanHanh.toDouble(),
+                                choBanHanhColor,
+                                SelectKey.CHO_BAN_HANH,
+                              )
+                            ],
+                            onTap: (value, key) {},
+                          ),
+                        ),
                       )
                     ],
                   );
                 } else {
-                  return const SizedBox(height: 400,
+                  return const SizedBox(
+                    height: 400,
                     child: NodataWidget(),
                   );
                 }
@@ -213,7 +214,7 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
             children: listData
                 .map(
                   (e) => Expanded(
-                    flex: e.value.toInt() + 1,
+                    flex: e.value.toInt(),
                     child: Container(
                       color: e.color,
                       child: Center(

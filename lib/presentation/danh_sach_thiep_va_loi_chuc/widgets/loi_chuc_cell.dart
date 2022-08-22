@@ -4,14 +4,13 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/text/ellipsis_character_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:intl/intl.dart';
 
 class LoiChucCell extends StatelessWidget {
   const LoiChucCell({
@@ -60,9 +59,10 @@ class LoiChucCell extends StatelessWidget {
               ),
               spaceH6,
               Text(
-                DateFormat(DateFormatApp.dateSecondBackEnd)
-                    .parse(data.ngayGuiLoiChuc)
-                    .formatApiDDMMYYYYHHSS,
+                data.ngayGuiLoiChuc.changeToNewPatternDate(
+                    DateTimeFormat.DATE_WITH_T,
+                    DateTimeFormat.DATE_WITH_DIVIDER,
+                ),
                 style: textNormal(infoColor, 14),
               )
             ],

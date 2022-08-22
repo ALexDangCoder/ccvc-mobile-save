@@ -20,6 +20,7 @@ class DateTimeCupertinoCustomCubit
   BehaviorSubject<bool> isSwitchBtnCheckedSubject = BehaviorSubject.seeded(
     false,
   );
+  BehaviorSubject<DateTime> editCheckAllDay = BehaviorSubject();
 
   bool get allDayValue => isSwitchBtnCheckedSubject.value;
 

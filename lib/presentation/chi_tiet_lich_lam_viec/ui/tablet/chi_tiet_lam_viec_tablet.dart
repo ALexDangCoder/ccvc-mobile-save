@@ -350,6 +350,9 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                 )
             ];
           }
+          final isThuHoiOrHuy = chiTietLichLamViecCubit.isLichHuy(dataModel) ||
+              chiTietLichLamViecCubit.isLichThuHoi(dataModel);
+          final isCongKhai = chiTietLichLamViecCubit.isCongKhai(dataModel);
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
@@ -447,19 +450,20 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                       ),
                                       spaceH16,
                                       if (chiTietLichLamViecCubit
-                                          .isCreateOrThamGiaOrCongKhai(
-                                              dataModel))
+                                              .isCreateOrCongKhai(dataModel) ||
+                                          !isThuHoiOrHuy)
                                         BtnShowChinhSuaBaoCao(
                                           chiTietLichLamViecCubit:
                                               chiTietLichLamViecCubit,
                                           dataModel: dataModel,
                                         ),
-                                      DanhSachYKienButtom(
-                                        dataModel: dataModel,
-                                        isTablet: true,
-                                        id: widget.id,
-                                        cubit: chiTietLichLamViecCubit,
-                                      ),
+                                      if (!isThuHoiOrHuy || isCongKhai)
+                                        DanhSachYKienButtom(
+                                          dataModel: dataModel,
+                                          isTablet: true,
+                                          id: widget.id,
+                                          cubit: chiTietLichLamViecCubit,
+                                        ),
                                       spaceH12,
                                       StreamBuilder<bool>(
                                           stream: chiTietLichLamViecCubit
@@ -644,21 +648,25 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                   ),
                                 ),
                                 Expanded(
-                                    child: Column(
-                                  children: [
-                                    listScheduleCooperatives(),
-                                    StreamBuilder<ChiTietLichLamViecModel>(
-                                      stream: chiTietLichLamViecCubit
-                                          .chiTietLichLamViecStream,
-                                      builder: (context, snapshot) {
-                                        final data = snapshot.data?.files ?? [];
-                                        return DocumentFile(
-                                          files: data,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                )),
+                                  child: Column(
+                                    children: [
+                                      if (!isThuHoiOrHuy || isCongKhai) ...[
+                                        listScheduleCooperatives(),
+                                        StreamBuilder<ChiTietLichLamViecModel>(
+                                          stream: chiTietLichLamViecCubit
+                                              .chiTietLichLamViecStream,
+                                          builder: (context, snapshot) {
+                                            final data =
+                                                snapshot.data?.files ?? [];
+                                            return DocumentFile(
+                                              files: data,
+                                            );
+                                          },
+                                        ),
+                                      ]
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),

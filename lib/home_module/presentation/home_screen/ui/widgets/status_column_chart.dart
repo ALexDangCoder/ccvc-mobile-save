@@ -1,4 +1,4 @@
-
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
@@ -15,6 +15,7 @@ class StatusColumnChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final data = listData.map((e) => e.value).toList();
     final total = data.reduce((a, b) => a + b);
+    final lastStatusChart = listData.last;
     return Stack(
       children: [
         SizedBox(
@@ -110,10 +111,10 @@ class StatusColumnChart extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
-              childAspectRatio: 5,
+              childAspectRatio: 8,
               mainAxisSpacing: 10.0.textScale(space: 4),
               crossAxisSpacing: 10,
-              children: List.generate(listData.length, (index) {
+              children: List.generate(listData.length - 1, (index) {
                 final result = listData[index];
                 // ignore: avoid_unnecessary_containers
                 return GestureDetector(
@@ -131,10 +132,9 @@ class StatusColumnChart extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-
-                      Flexible(
+                      Expanded(
                         child: Text(
-                           '${result.title} (${result.value.toInt()})',
+                          '${result.title} (${result.value.toInt()})',
                           style: textNormal(
                             infoColor,
                             14.0.textScale(),
@@ -146,6 +146,48 @@ class StatusColumnChart extends StatelessWidget {
                 );
               }),
             ),
+            SizedBox(
+              height: 10.0.textScale(space: 4),
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.only(right: !isMobile() ? 14.0 : 0.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 14,
+                            width: 14,
+                            decoration: BoxDecoration(
+                              color: lastStatusChart.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${lastStatusChart.title} (${lastStatusChart.value.toInt()})',
+                              style: textNormal(
+                                infoColor,
+                                14.0.textScale(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Expanded(child: SizedBox.shrink()),
+                ],
+              ),
+            )
           ],
         ),
       ],

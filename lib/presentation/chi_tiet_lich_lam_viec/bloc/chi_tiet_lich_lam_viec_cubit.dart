@@ -1003,7 +1003,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         if (isCaNhan) thuHoiCaNhan = isThuHoi;
       }
       if (!isDonVi) {
-        final donVi = (element.donViId ?? '').isEmpty;
+        final donVi = (element.canBoId ?? '').isEmpty;
         final chungDonVi = (element.donViId ?? '').toLowerCase() ==
             (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
         isDonVi = donVi && chungDonVi;

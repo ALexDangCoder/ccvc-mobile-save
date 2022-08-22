@@ -185,7 +185,7 @@ class QLVBImlp implements QLVBRepository {
             ChiTietVanBanDenModel>(
         () => _quanLyVanBanClient.getDataChiTietVanBanDen(
             processId, taskId, isYKien),
-        (response) => response.data!.toModel());
+        (response) => response.data?.toModel() ?? ChiTietVanBanDenModel.empty());
   }
 
   @override

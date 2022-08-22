@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_state.dart';
@@ -49,16 +48,16 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   void getTreeDonVi(List<Node<DonViModel>> tree, {bool isDonVi = false}) {
     final data = <Node<DonViModel>>[];
     for (final vl in tree) {
-      Node<DonViModel>? nodeAdd = vl;
+      Node<DonViModel>? nodeAdd = vl.coppyWith();
       if (isDonVi) {
         for (final donViRemove in listIdDonViRemove) {
-          nodeAdd = vl.removeFirstWhere(
+          nodeAdd = nodeAdd?.removeFirstWhere(
             (element) => donViRemove.donViId == element.id,
           );
         }
       }
       if (nodeAdd != null) {
-        data.add(vl.coppyWith());
+        data.add(nodeAdd);
       }
     }
     _getTree.sink.add(data);
@@ -69,10 +68,10 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     _getTree.sink.add(tree);
     listTree = tree;
   }
-
+   List<Node<DonViModel>> listTreeCached = [];
   void getParentStart(Node<DonViModel> node){
     if(node.level == 0){
-      final listTreeCached = [node];
+      listTreeCached = [node];
       _getTree.sink.add(listTreeCached);
     } else {
       getParentStart(node.parent!);

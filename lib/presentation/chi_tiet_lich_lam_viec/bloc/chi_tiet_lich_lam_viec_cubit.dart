@@ -242,18 +242,27 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   }
 
   void checkShowButtonApprove() {
-    bool? isThamGia;
+    bool? isCaNhanThamGia;
+    bool? isDonViThamGia;
     for (final element in officersTmp) {
-      if (element.canBoId == currentUserId ||
-          (element.donViId == donViTrucThuocId &&
-              (element.canBoId ?? '').isEmpty)) {
-        isThamGia = element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
-            element.isThamGia == true &&
-            chiTietLichLamViecModel.status != EnumScheduleStatus.Cancel;
-        break;
+      final isThamGia =
+          element.status == StatusOfficersConst.STATUS_CHO_XAC_NHAN &&
+              element.isThamGia == true &&
+              chiTietLichLamViecModel.status != EnumScheduleStatus.Cancel;
+      if (element.canBoId == currentUserId) {
+        isCaNhanThamGia = isThamGia;
+      }
+      if (element.donViId == donViTrucThuocId &&
+          (element.canBoId ?? '').isEmpty) {
+        isDonViThamGia = isThamGia;
       }
     }
-    showButtonApprove.sink.add(isThamGia ?? false);
+    if (isCaNhanThamGia ?? false) {
+      showButtonApprove.sink.add(isCaNhanThamGia ?? false);
+    } else {
+      showButtonApprove.sink
+          .add((isDonViThamGia ?? false) && isCaNhanThamGia == null);
+    }
   }
 
   Future<void> getDanhSachBaoCaoKetQua(
@@ -928,11 +937,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             ?.where(
               (element) =>
                   (element.donViId == donViTrucThuocId) &&
-                  (element.canBoId == null) &&
-                  HiveLocal.checkPermissionApp(
-                    permissionType: PermissionType.VPDT,
-                    permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
-                  ),
+                  (element.canBoId == null),
             )
             .isNotEmpty ??
         false;
@@ -1007,7 +1012,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         if (isCaNhan) thuHoiCaNhan = isThuHoi;
       }
       if (!isDonVi) {
-        final donVi = (element.donViId ?? '').isEmpty;
+        final donVi = (element.canBoId ?? '').isEmpty;
         final chungDonVi = (element.donViId ?? '').toLowerCase() ==
             (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
         isDonVi = donVi && chungDonVi;

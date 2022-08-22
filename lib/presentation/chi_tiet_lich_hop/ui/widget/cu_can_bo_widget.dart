@@ -166,10 +166,10 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                       '')
                                   .isEmpty) {
                                 widget.themDonViCubit.listDonVi.last.noidung =
-                                    noiDungController.text;
+                                    noiDungController.text.trim();
                               } else {
                                 widget.cubitThanhPhanTG.newCanBo.noidung =
-                                    noiDungController.text;
+                                    noiDungController.text.trim();
                               }
 
                               widget.cubitThanhPhanTG.addCuCanBo(

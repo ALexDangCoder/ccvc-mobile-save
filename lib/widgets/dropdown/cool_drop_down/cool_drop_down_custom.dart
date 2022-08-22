@@ -197,10 +197,10 @@ class CoolDropdown extends StatefulWidget {
   }
 
   @override
-  _CoolDropdownState createState() => _CoolDropdownState();
+  CoolDropdownState createState() => CoolDropdownState();
 }
 
-class _CoolDropdownState extends State<CoolDropdown>
+class CoolDropdownState extends State<CoolDropdown>
     with TickerProviderStateMixin {
   GlobalKey<DropdownBodyState> dropdownBodyChild = GlobalKey();
   LayerLink layerLink = LayerLink();
@@ -215,6 +215,16 @@ class _CoolDropdownState extends State<CoolDropdown>
   late Animation<double> textWidth;
   AnimationUtil au = AnimationUtil();
   late bool isOpen = false;
+
+  void initData(String value){
+    setState(() {
+      selectedItem = {
+        'label': value,
+        'value': value,
+        'icon': const SizedBox(),
+      };
+    });
+  }
 
   void openDropdown() {
     isOpen = true;

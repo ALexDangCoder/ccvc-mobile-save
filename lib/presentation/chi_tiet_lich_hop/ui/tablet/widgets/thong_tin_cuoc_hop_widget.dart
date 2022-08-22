@@ -10,7 +10,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/status_widg
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tham_gia_cuoc_hop_button.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:flutter/material.dart';
@@ -72,85 +71,92 @@ class ThongTinCuocHopTabletWidget extends StatelessWidget {
                         ) &&
                         !cubit.trangThaiHuy() &&
                         !cubit.trangThaiThuHoi()) {
-                      return SizedBox(
-                        width: 300,
-                        height: 40,
-                        child: DoubleButtonBottom(
-                          title1: S.current.tu_choi,
-                          title2: S.current.tham_du,
-                          onClickRight: () {
-                            showDiaLog(
-                              context,
-                              btnLeftTxt: S.current.khong,
-                              funcBtnRight: () {
-                                cubit
-                                    .confirmThamGiaHop(
-                                  lichHopId: cubit.getChiTietLichHopModel.id,
-                                  isThamGia: true,
-                                )
-                                    .then((value) {
-                                  if (value) {
-                                    MessageConfig.show(
-                                      title: '${S.current.xac_nhan_tham_gia}'
-                                          ' ${S.current.thanh_cong.toLowerCase()}',
-                                    );
-                                    cubit.initDataChiTiet(
-                                      needCheckPermission: true,
-                                    );
-                                  } else {
-                                    MessageConfig.show(
-                                      messState: MessState.error,
-                                      title: '${S.current.xac_nhan_tham_gia}'
-                                          ' ${S.current.that_bai.toLowerCase()}',
-                                    );
-                                  }
-                                });
-                              },
-                              title: S.current.xac_nhan_tham_gia,
-                              btnRightTxt: S.current.dong_y,
-                              icon: SvgPicture.asset(
-                                ImageAssets.img_tham_gia,
-                              ),
-                              textContent: S.current.confirm_tham_gia,
-                            );
-                          },
-                          onClickLeft: () {
-                            showDiaLog(
-                              context,
-                              btnLeftTxt: S.current.khong,
-                              funcBtnRight: () {
-                                cubit
-                                    .confirmThamGiaHop(
-                                  lichHopId: cubit.getChiTietLichHopModel.id,
-                                  isThamGia: false,
-                                )
-                                    .then((value) {
-                                  if (value) {
-                                    MessageConfig.show(
-                                      title: '${S.current.tu_choi_tham_gia} '
-                                          '${S.current.thanh_cong.toLowerCase()}',
-                                    );
-                                    cubit.initDataChiTiet(
-                                      needCheckPermission: true,
-                                    );
-                                  } else {
-                                    MessageConfig.show(
-                                      messState: MessState.error,
-                                      title: '${S.current.tu_choi_tham_gia}'
-                                          ' ${S.current.that_bai.toLowerCase()}',
-                                    );
-                                  }
-                                });
-                              },
-                              title: S.current.tu_choi_tham_gia,
-                              btnRightTxt: S.current.dong_y,
-                              icon: SvgPicture.asset(
-                                ImageAssets.img_tu_choi_tham_gia,
-                              ),
-                              textContent: S.current.confirm_tu_choi_tham_gia,
-                            );
-                          },
-                        ),
+                      return Row (
+                        children: [
+                          buttonAcceptOrReject(
+                            color: color28C76F,
+                            text: S.current.tham_gia,
+                            onTab: (){
+                              showDiaLog(
+                                context,
+                                btnLeftTxt: S.current.khong,
+                                funcBtnRight: () {
+                                  cubit
+                                      .confirmThamGiaHop(
+                                    lichHopId: cubit.getChiTietLichHopModel.id,
+                                    isThamGia: true,
+                                  )
+                                      .then((value) {
+                                    if (value) {
+                                      MessageConfig.show(
+                                        title: '${S.current.xac_nhan_tham_gia}'
+                                            ' ${S.current.thanh_cong.toLowerCase()}',
+                                      );
+                                      cubit.initDataChiTiet(
+                                        needCheckPermission: true,
+                                      );
+                                    } else {
+                                      MessageConfig.show(
+                                        messState: MessState.error,
+                                        title: '${S.current.xac_nhan_tham_gia}'
+                                            ' ${S.current.that_bai.toLowerCase()}',
+                                      );
+                                    }
+                                  });
+                                },
+                                title: S.current.xac_nhan_tham_gia,
+                                btnRightTxt: S.current.dong_y,
+                                icon: SvgPicture.asset(
+                                  ImageAssets.img_tham_gia,
+                                ),
+                                textContent: S.current.confirm_tham_gia,
+                              );
+                            },
+                            icon: ImageAssets.ic_tick,
+                          ),
+                          spaceW20,
+                          buttonAcceptOrReject(
+                            color: colorEA5455,
+                            text: S.current.tu_choi,
+                            onTab: (){
+                              showDiaLog(
+                                context,
+                                btnLeftTxt: S.current.khong,
+                                funcBtnRight: () {
+                                  cubit
+                                      .confirmThamGiaHop(
+                                    lichHopId: cubit.getChiTietLichHopModel.id,
+                                    isThamGia: false,
+                                  )
+                                      .then((value) {
+                                    if (value) {
+                                      MessageConfig.show(
+                                        title: '${S.current.tu_choi_tham_gia} '
+                                            '${S.current.thanh_cong.toLowerCase()}',
+                                      );
+                                      cubit.initDataChiTiet(
+                                        needCheckPermission: true,
+                                      );
+                                    } else {
+                                      MessageConfig.show(
+                                        messState: MessState.error,
+                                        title: '${S.current.tu_choi_tham_gia}'
+                                            ' ${S.current.that_bai.toLowerCase()}',
+                                      );
+                                    }
+                                  });
+                                },
+                                title: S.current.tu_choi_tham_gia,
+                                btnRightTxt: S.current.dong_y,
+                                icon: SvgPicture.asset(
+                                  ImageAssets.img_tu_choi_tham_gia,
+                                ),
+                                textContent: S.current.confirm_tu_choi_tham_gia,
+                              );
+                            },
+                            icon: ImageAssets.icClose,
+                          ),
+                        ],
                       );
                     }
                     return const SizedBox.shrink();
@@ -210,6 +216,54 @@ class ThongTinCuocHopTabletWidget extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget buttonAcceptOrReject({
+    required Color color,
+    required String text,
+    required Function() onTab,
+    required String icon,
+  }) {
+    return GestureDetector(
+      onTap: onTab,
+      child: Container(
+        width: 150,
+        constraints: const  BoxConstraints(
+          minHeight: 40,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: color.withOpacity(0.1),
+        ),
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+              ),
+              width: 20,
+              height: 20,
+              padding: const  EdgeInsets.all(5),
+              child: SvgPicture.asset(
+                icon,
+                color: backgroundColorApp,
+              ),
+            ),
+            spaceW14,
+            Text(
+              text,
+              style: textNormalCustom(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: color3D5586,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

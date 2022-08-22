@@ -102,6 +102,27 @@ class DonViModel {
   bool isCheck = false;
   bool? isXoa;
 
+  DonViModel copyWith() => DonViModel(
+        id: id,
+        name: name,
+        tenCanBo: tenCanBo,
+        chucVu: chucVu,
+        canBoId: canBoId,
+        noidung: noidung,
+        dauMoiLienHe: dauMoiLienHe,
+        email: email,
+        sdt: sdt,
+        vaiTroThamGia: vaiTroThamGia,
+        tenDonVi: tenDonVi,
+        status: status,
+        type: type,
+        donViId: donViId,
+        userId: userId,
+        tenCoQuan: tenCoQuan,
+        soLuong: soLuong,
+        isXoa: isXoa,
+      )..isCheck = isCheck;
+
   //param sử dụng tại tạo lịch làm việc
   int soLuong = 0;
   String uuid = DateTime.now().microsecondsSinceEpoch.toString();
@@ -222,15 +243,15 @@ class Node<T> {
     isTickChildren = node.isTickChildren;
   }
 
-  Node<DonViModel>? search(Node<DonViModel> node,{int? level}) {
-    if(level != null){
+  Node<DonViModel>? search(Node<DonViModel> node, {int? level}) {
+    if (level != null) {
       final nodeTree = value as DonViModel;
       if (node.value.id == nodeTree.id && level == this.level) {
         return this as Node<DonViModel>;
       } else {
         if (children.isNotEmpty) {
           for (final vl in children) {
-            final found = vl.search(node,level: level);
+            final found = vl.search(node, level: level);
             if (found != null) {
               return found;
             }
@@ -305,7 +326,6 @@ class Node<T> {
       }
       parent!.isCheckTickChildren();
     }
-
   }
 
   void removeCkeckBox() {
@@ -322,8 +342,9 @@ class Node<T> {
     children.add(child);
     child.parent = this;
   }
+
   void addChildMember(Node<T> child) {
-    children.insert(0,child);
+    children.insert(0, child);
   }
 
   Node.copyWith(Node<T> node) {

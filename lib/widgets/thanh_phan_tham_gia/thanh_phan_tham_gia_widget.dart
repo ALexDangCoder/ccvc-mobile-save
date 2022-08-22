@@ -72,11 +72,18 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           stream: _cubit.listPeopleThamGia,
           builder: (context, snapshot) {
             final data = snapshot.data ?? [];
+            final selectedNode =
+                data.where((element) => element.canBoId.isEmpty).toList();
             return ThemDonViWidget(
               cubit: _cubit,
-              listIdDonViRemove: widget.scheduleCoperatives,
-              listSelectNode:
-                  data.where((element) => element.canBoId.isEmpty).toList(),
+              listIdDonViRemove: widget.isEditCalendarWord
+                  ? selectedNode
+                      .map(
+                        (e) => RemoveItemTree(donViId: e.donViId, canBoId: ''),
+                      )
+                      .toList()
+                  : widget.scheduleCoperatives,
+              listSelectNode: selectedNode,
               onChange: (value) {
                 for (final Node<DonViModel> element in value) {
                   element.value.vaiTroThamGia = 1;

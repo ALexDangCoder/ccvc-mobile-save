@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/cai_dat_giao_dien_screen/widgets/title_cai_dat_widget.dart';
@@ -54,11 +55,24 @@ class CaiDatMauWidget extends StatelessWidget {
             height: 70,
             width: 70,
             decoration: BoxDecoration(
-                color: color,
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
+              color: color,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(8),
+              ),
+            ),
             child: Center(
               child: APP_THEME == appMode
-                  ? SvgPicture.asset(ImageAssets.icCheckBoxSelect)
+                  ? Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: colorFFFFFF.withOpacity(0.8),
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        ImageAssets.icCheckBoxSelect,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
+                    )
                   : const SizedBox(),
             ),
           ),

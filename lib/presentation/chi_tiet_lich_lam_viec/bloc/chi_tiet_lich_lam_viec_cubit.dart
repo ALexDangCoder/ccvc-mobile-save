@@ -928,11 +928,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             ?.where(
               (element) =>
                   (element.donViId == donViTrucThuocId) &&
-                  (element.canBoId == null) &&
-                  HiveLocal.checkPermissionApp(
-                    permissionType: PermissionType.VPDT,
-                    permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
-                  ),
+                  (element.canBoId == null),
             )
             .isNotEmpty ??
         false;

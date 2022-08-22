@@ -61,15 +61,15 @@ class SelectMuaWidget extends StatelessWidget {
                 child: appBackGround == APP_BACKGROUND
                     ? Container(
                   padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: colorFFFFFF.withOpacity(0.8),
-                    shape: BoxShape.circle,
-                  ),
-                  child: SvgPicture.asset(
-                    ImageAssets.icCheckBoxSelect,
-                    color: AppTheme.getInstance().colorField(),
-                  ),
-                )
+                        decoration: BoxDecoration(
+                          color: colorFFFFFF.withOpacity(0.8),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset(
+                          ImageAssets.icCheckBoxSelect,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
+                      )
                     : const SizedBox(),
               ),
             ),

@@ -1,6 +1,7 @@
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -261,6 +262,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
               ImageAssets.ic_send,
               width: 24,
               height: 24,
+              color: AppTheme.getInstance().colorField(),
             ),
           ),
         ),

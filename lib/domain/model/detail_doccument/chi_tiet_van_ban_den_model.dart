@@ -134,6 +134,8 @@ class ChiTietVanBanDenModel {
     this.coTheSaoChep,
   });
 
+  ChiTietVanBanDenModel.empty();
+
   List<DocumentDetailRow> toListRow() {
     final List<DocumentDetailRow> list = [
       DocumentDetailRow(

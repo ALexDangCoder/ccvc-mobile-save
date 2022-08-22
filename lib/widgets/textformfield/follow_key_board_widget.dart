@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class FollowKeyBoardWidget extends StatefulWidget {
   final Widget child;
   final Widget? bottomWidget;
+  final double? bottomInset;
 
-  const FollowKeyBoardWidget({
-    Key? key,
-    this.bottomWidget,
-    required this.child,
-  }) : super(key: key);
+  const FollowKeyBoardWidget(
+      {Key? key, this.bottomWidget, required this.child, this.bottomInset})
+      : super(key: key);
 
   @override
   _FollowKeyBoardWidgetState createState() => _FollowKeyBoardWidgetState();
@@ -61,7 +60,9 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
 
   double viewInsertPadding() {
     if (_viewInsert.bottom > mouseRegion) {
-      return (_viewInsert.bottom - mouseRegion) + 45.h;
+      return (widget.bottomInset == null)
+          ? (_viewInsert.bottom - mouseRegion) + 50.h
+          : (_viewInsert.bottom - widget.bottomInset!.h) + 50.h;
     }
     return 0;
   }

@@ -229,6 +229,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
         error: AppException('', S.current.something_went_wrong),
         stream: widget.chonPhongHopCubit.stateStream,
         child: FollowKeyBoardWidget(
+          bottomInset: 120,
           bottomWidget: Padding(
             padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
             child: DoubleButtonBottom(

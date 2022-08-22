@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
@@ -336,6 +337,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                     S.current.xem_truoc_phong_hop,
                     style: textNormal(bgButtonDropDown, 14).copyWith(
                       fontWeight: FontWeight.bold,
+                      color: AppTheme.getInstance().colorField(),
                     ),
                   ),
                 ),

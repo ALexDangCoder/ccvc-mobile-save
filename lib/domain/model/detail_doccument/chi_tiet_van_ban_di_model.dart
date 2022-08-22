@@ -292,7 +292,7 @@ class VanBanChiDaoModel {
           S.current.ngay_han_xu_ly,
           ngayXuLy.changeToNewPatternDate(
               DateTimeFormat.DATE_TIME_HHT,
-              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DAY_MONTH_YEAR,
           ),
           TypeDocumentDetailRow.text,
         ),

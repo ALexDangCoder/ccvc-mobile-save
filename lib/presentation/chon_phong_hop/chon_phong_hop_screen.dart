@@ -199,8 +199,8 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   final TextEditingController controller = TextEditingController();
   ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
   final _key = GlobalKey<FormState>();
-  int groupValue = -1;
   late bool isFirstTime;
+  final _dropDownKey = GlobalKey<CoolDropDownState>();
 
   @override
   void initState() {
@@ -298,8 +298,12 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                         );
                       }
                     }
+                    _dropDownKey.currentState?.initData(
+                      data: listData.map((e) => e.tenDonVi).toList(),
+                      value: widget.chonPhongHopCubit.donViSelected,
+                    );
                     return CoolDropDown(
-                      key: UniqueKey(),
+                      key: _dropDownKey,
                       onChange: (index) {
                         widget.chonPhongHopCubit.donViSelected =
                             listData[index].tenDonVi;
@@ -313,6 +317,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                               LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH,
                         );
                       },
+                      needReInitData: true,
                       useCustomHintColors: true,
                       listData: listData.map((e) => e.tenDonVi).toList(),
                       initData: widget.chonPhongHopCubit.donViSelected,
@@ -345,37 +350,36 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                         stream: widget.chonPhongHopCubit.phongHopSubject,
                         builder: (context, snapshot) {
                           final listData = snapshot.data ?? [];
-                          if (!isFirstTime) {
-                            groupValue = listData.indexWhere(
-                              (element) =>
-                                  element.id ==
-                                      widget.initPhongHop?.phongHopId ||
-                                  element.id ==
-                                      widget.chonPhongHopCubit.phongHop
-                                          .phongHopId,
-                            );
-                            isFirstTime = true;
-                          }
                           return listData.isNotEmpty
                               ? ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: listData.length,
-                                  itemBuilder: (_, index) => itemPhongHop(
-                                    phongHop: listData[index],
-                                    index: index,
-                                    groupValue: groupValue,
-                                    onChange: (index) {
-                                      widget.chonPhongHopCubit.phongHop
-                                        ..donViId = listData[index].donViDuyetId
-                                        ..ten = listData[index].ten
-                                        ..bitTTDH = listData[index].bit_TTDH
-                                        ..phongHopId = listData[index].id;
-                                      groupValue = index;
-                                      setState(() {});
-                                    },
-                                  ),
-                                )
+                                  itemBuilder: (_, index) {
+                                    final phongHop = listData[index];
+                                    return itemPhongHop(
+                                      phongHop: phongHop,
+                                      index: index,
+                                      groupValue: phongHop.id ==
+                                                  widget.initPhongHop
+                                                      ?.phongHopId ||
+                                              phongHop.id ==
+                                                  widget.chonPhongHopCubit
+                                                      .phongHop.phongHopId
+                                          ? index
+                                          : -1,
+                                      onChange: (index) {
+                                        widget.chonPhongHopCubit.phongHop
+                                          ..donViId = phongHop.donViDuyetId
+                                          ..ten = phongHop.ten
+                                          ..bitTTDH = phongHop.bit_TTDH
+                                          ..phongHopId = phongHop.id;
+
+                                        setState(() {});
+                                      },
+                                    );
+                                  },
+                          )
                               : const NodataWidget();
                         },
                       ),

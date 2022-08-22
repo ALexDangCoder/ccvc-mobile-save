@@ -1,29 +1,30 @@
-
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
 import 'package:ccvc_mobile/home_module/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 class StatusColumnChart extends StatelessWidget {
   final List<ChartData> listData;
-  const StatusColumnChart({Key? key,required this.listData}) : super(key: key);
+
+  const StatusColumnChart({Key? key, required this.listData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final data = listData.map((e) => e.value).toList();
     final total = data.reduce((a, b) => a + b);
+    final lastStatusChart = listData.last;
     return Stack(
       children: [
         SizedBox(
           height: 260,
           child: Column(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
               8,
-                  (index) => const MySeparator(
+              (index) => const MySeparator(
                 color: lineColor,
                 height: 2,
               ),
@@ -40,34 +41,18 @@ class StatusColumnChart extends StatelessWidget {
                 children: listData
                     .map(
                       (e) => Row(
-                    children: [
-                      Container(
-                        height: 260,
-                        width: 38,
-                        alignment: Alignment.bottomCenter,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: lineColor,
-                        ),
-                        // color: e.color,
-                        child: e.value.toInt() == 0
-                            ? FittedBox(
-                          child: Text(
-                            e.value.toInt().toString(),
-                            style: textNormal(
-                              textTitleColumn,
-                              14.0.textScale(),
+                        children: [
+                          Container(
+                            height: 260,
+                            width: 38,
+                            alignment: Alignment.bottomCenter,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: lineColor,
                             ),
-                          ),
-                        )
-                            : Column(
-                          children: [
-                            Expanded(
-                              flex: (total - (e.value)).toInt(),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  FittedBox(
+                            // color: e.color,
+                            child: e.value.toInt() == 0
+                                ? FittedBox(
                                     child: Text(
                                       e.value.toInt().toString(),
                                       style: textNormal(
@@ -75,29 +60,47 @@ class StatusColumnChart extends StatelessWidget {
                                         14.0.textScale(),
                                       ),
                                     ),
+                                  )
+                                : Column(
+                                    children: [
+                                      Expanded(
+                                        flex: (total - (e.value)).toInt(),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            FittedBox(
+                                              child: Text(
+                                                e.value.toInt().toString(),
+                                                style: textNormal(
+                                                  textTitleColumn,
+                                                  14.0.textScale(),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: e.value.toInt(),
+                                        child: Container(
+                                          width: 38,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: e.color,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: e.value.toInt(),
-                              child: Container(
-                                width: 38,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: e.color,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
+                    )
                     .toList(),
               ),
             ),
@@ -108,10 +111,10 @@ class StatusColumnChart extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
-              childAspectRatio: 9,
+              childAspectRatio: 8,
               mainAxisSpacing: 10.0.textScale(space: 4),
               crossAxisSpacing: 10,
-              children: List.generate(listData.length, (index) {
+              children: List.generate(listData.length - 1, (index) {
                 final result = listData[index];
                 // ignore: avoid_unnecessary_containers
                 return GestureDetector(
@@ -129,14 +132,12 @@ class StatusColumnChart extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Flexible(
-                        child: FittedBox(
-                          child: Text(
-                            '${result.title} (${result.value.toInt()})',
-                            style: textNormal(
-                              infoColor,
-                              14.0.textScale(),
-                            ),
+                      Expanded(
+                        child: Text(
+                          '${result.title} (${result.value.toInt()})',
+                          style: textNormal(
+                            infoColor,
+                            14.0.textScale(),
                           ),
                         ),
                       )
@@ -145,6 +146,48 @@ class StatusColumnChart extends StatelessWidget {
                 );
               }),
             ),
+            SizedBox(
+              height: 10.0.textScale(space: 4),
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.only(right: !isMobile() ? 14.0 : 0.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 14,
+                            width: 14,
+                            decoration: BoxDecoration(
+                              color: lastStatusChart.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${lastStatusChart.title} (${lastStatusChart.value.toInt()})',
+                              style: textNormal(
+                                infoColor,
+                                14.0.textScale(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Expanded(child: SizedBox.shrink()),
+                ],
+              ),
+            )
           ],
         ),
       ],

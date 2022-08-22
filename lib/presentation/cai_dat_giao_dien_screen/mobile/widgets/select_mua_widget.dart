@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/cai_dat_giao_dien_screen/widgets/title_cai_dat_widget.dart';
 import 'package:ccvc_mobile/utils/app_back_ground_extension.dart';
@@ -58,7 +59,17 @@ class SelectMuaWidget extends StatelessWidget {
               ),
               child: Center(
                 child: appBackGround == APP_BACKGROUND
-                    ? SvgPicture.asset(ImageAssets.icCheckBoxSelect)
+                    ? Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: colorFFFFFF.withOpacity(0.8),
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    ImageAssets.icCheckBoxSelect,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
+                )
                     : const SizedBox(),
               ),
             ),

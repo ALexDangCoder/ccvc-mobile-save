@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -29,16 +31,19 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
   List<DonViModel> listCanBo = [];
+  final dataDonVi = <Node<DonViModel>>[];
   final BehaviorSubject<bool> _phuongThucNhan = BehaviorSubject.seeded(false);
 
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;
 
-  final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
+  final BehaviorSubject<List<Node<DonViModel>>> treeDonViSubject =
       BehaviorSubject<List<Node<DonViModel>>>();
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeCaNhan =
       BehaviorSubject<List<Node<DonViModel>>>();
 
-  Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
+  Stream<List<Node<DonViModel>>> get getTreeDonVi => treeDonViSubject.stream;
+
+  StreamSink<List<Node<DonViModel>>> get treeDonViSink => treeDonViSubject.sink;
 
   Stream<List<Node<DonViModel>>> get getTreeCaNhan => _getTreeCaNhan.stream;
 
@@ -199,9 +204,10 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       value.when(
         success: (res) {
           final data = <Node<DonViModel>>[];
-          _getTreeDonVi.sink.add(res);
+          treeDonViSubject.sink.add(res);
           for (final Node<DonViModel> element in res) {
             data.add(element.coppyWith());
+            dataDonVi.add(element.coppyWith());
           }
           _getTreeCaNhan.sink.add(data);
         },
@@ -227,7 +233,7 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   void dispose() {
     _phuongThucNhan.close();
     _listPeopleThamGia.close();
-    _getTreeDonVi.close();
+    treeDonViSubject.close();
     _getTreeCaNhan.close();
     listCanBoThamGia.close();
   }

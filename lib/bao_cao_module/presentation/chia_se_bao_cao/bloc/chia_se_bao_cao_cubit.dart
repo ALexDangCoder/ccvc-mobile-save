@@ -168,6 +168,7 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
     );
   }
 
+
   Future<void> getGroup() async {
     listResponse.clear();
     listDropDown.clear();
@@ -631,13 +632,23 @@ class ChiaSeBaoCaoCubit extends ThemDonViCubit {
   }
 
   Node<DonViModel> searchNode(Node<DonViModel> node) {
-    for (final tree in listTree) {
-      final nodeSearch = tree.search(node, level: node.level);
-      if (nodeSearch != null) {
-        return nodeSearch;
+    if(keySearchChonNguoi == ''){
+      for (final tree in listTree) {
+        final nodeSearch = tree.search(node, level: node.level);
+        if (nodeSearch != null) {
+          return nodeSearch;
+        }
       }
+      return node;
+    } else {
+      for (final tree in listTreeCached) {
+        final nodeSearch = tree.search(node, level: node.level);
+        if (nodeSearch != null) {
+          return nodeSearch;
+        }
+      }
+      return node;
     }
-    return node;
   }
 
   @override

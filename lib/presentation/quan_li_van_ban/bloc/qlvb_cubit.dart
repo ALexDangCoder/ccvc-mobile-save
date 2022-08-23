@@ -49,6 +49,27 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   bool vbDenLoadMore = true;
   List<VanBanModel> listVBDen = [];
 
+  Future<void> refreshDocumentList({bool showLoad = true}) async {
+    final queue = Queue();
+    if (showLoad) {
+      showLoading();
+    }
+    unawaited(
+      queue.add(
+        () => fetchIncomeDocumentCustom(initLoad: true, loadingCircle: false),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => fetchOutcomeDocumentCustom(initLoad: true, loadingCircle: false),
+      ),
+    );
+    await queue.onComplete;
+    if (showLoad) {
+      showContent();
+    }
+  }
+
   Stream<ChartData> get dataChatVbDen => dataChartVBDen.stream;
 
   Stream<ChartData> get dataChatVbDi => dataChartVBDi.stream;

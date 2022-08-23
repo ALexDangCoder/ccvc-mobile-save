@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -6,8 +5,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/debouncer.dart';
-import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -41,25 +38,25 @@ class _SearchBarDocumentManagementState
   Widget build(BuildContext context) {
     return Padding(
       padding: (Platform.isIOS &&
-              !widget.isTablet &&
-              MediaQuery.of(context).viewPadding.top > 20)
+          !widget.isTablet &&
+          MediaQuery.of(context).viewPadding.top > 20)
           ? const EdgeInsets.only(top: 12)
           : EdgeInsets.zero,
       child: Container(
         margin:
-            widget.isTablet ? EdgeInsets.zero : const EdgeInsets.only(top: 30),
+        widget.isTablet ? EdgeInsets.zero : const EdgeInsets.only(top: 30),
         padding: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           border: widget.isTablet
               ? Border(
-                  bottom: BorderSide(
-                    color: cellColorborder,
-                  ),
-                )
+            bottom: BorderSide(
+              color: cellColorborder,
+            ),
+          )
               : Border.all(
-                  color: cellColorborder,
-                ),
+            color: cellColorborder,
+          ),
         ),
         child: TextFormField(
           controller: textController,
@@ -73,12 +70,11 @@ class _SearchBarDocumentManagementState
               height: 20,
               child: Center(
                 child: GestureDetector(
-                  onTap: () async {
+                  onTap: () {
                     textController.clear();
                     setState(() {});
                     widget.qlvbCubit.keySearch = textController.value.text;
-                    eventBus.fire(RefreshList());
-
+                    widget.qlvbCubit.refreshDocumentList();
                     widget.qlvbCubit.setSelectSearch();
                   },
                   child: const Icon(Icons.clear, color: coloriCon),
@@ -87,35 +83,35 @@ class _SearchBarDocumentManagementState
             ) : const SizedBox(),
             prefixIcon: widget.isTablet
                 ? GestureDetector(
-                    onTap: () {
-                      widget.qlvbCubit.keySearch = textController.text.trim();
-                      eventBus.fire(RefreshList());
-                    },
-                    child: Padding(
-                      padding: widget.isTablet
-                          ? const EdgeInsets.only(right: 20)
-                          : EdgeInsets.zero,
-                      child: SvgPicture.asset(
-                        ImageAssets.ic_KinhRong,
-                        color: AppTheme.getInstance().colorField(),
-                      ),
-                    ),
-                  )
+              onTap: () {
+                widget.qlvbCubit.keySearch = textController.text.trim();
+                widget.qlvbCubit.refreshDocumentList();
+              },
+              child: Padding(
+                padding: widget.isTablet
+                    ? const EdgeInsets.only(right: 20)
+                    : EdgeInsets.zero,
+                child: SvgPicture.asset(
+                  ImageAssets.ic_KinhRong,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+              ),
+            )
                 : GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      widget.qlvbCubit.keySearch = textController.text.trim();
-                      eventBus.fire(RefreshList());
-                    },
-                    child: ImageAssets.svgAssets(
-                      ImageAssets.icSearchPAKN,
-                    ),
-                  ),
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                widget.qlvbCubit.keySearch = textController.text.trim();
+                widget.qlvbCubit.refreshDocumentList();
+              },
+              child: ImageAssets.svgAssets(
+                ImageAssets.icSearchPAKN,
+              ),
+            ),
             prefixIconConstraints: widget.isTablet
                 ? const BoxConstraints(
-                    minWidth: 26,
-                    minHeight: 26,
-                  )
+              minWidth: 26,
+              minHeight: 26,
+            )
                 : null,
             border: InputBorder.none,
             hintText: S.current.tim_kiem,
@@ -126,7 +122,7 @@ class _SearchBarDocumentManagementState
           ),
           onFieldSubmitted: (value) {
             widget.qlvbCubit.keySearch = value;
-            eventBus.fire(RefreshList());
+            widget.qlvbCubit.refreshDocumentList();
           },
           onChanged: (value) {
             setState(() {});

@@ -942,27 +942,19 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
             .isNotEmpty ??
         false;
   }
-
-  int checkHuyXacNhan(ChiTietLichLamViecModel dataModel) {
-    return dataModel.scheduleCoperatives?.indexWhere(
-          (element) =>
-              element.status == StatusOfficersConst.STATUS_THAM_GIA &&
-              (element.canBoId == currentUserId ||
-                  (element.donViId == donViTrucThuocId &&
-                      element.canBoId == null)),
-        ) ??
-        StatusOfficersConst.STATUS_DEFAULT;
-  }
-
-  int checkXacNhanLai(ChiTietLichLamViecModel dataModel) {
-    return dataModel.scheduleCoperatives?.indexWhere(
-          (element) =>
-              element.status == StatusOfficersConst.STATUS_TU_CHOI &&
-              (element.canBoId == currentUserId ||
-                  (element.donViId == donViTrucThuocId &&
-                      element.canBoId == null)),
-        ) ??
-        StatusOfficersConst.STATUS_DEFAULT;
+  int statusThamDu(ChiTietLichLamViecModel dataModel) {
+    int? statusCaNhan;
+    int? statusDonVi;
+    for (final ScheduleCoperatives item
+    in dataModel.scheduleCoperatives ?? []) {
+      if (item.canBoId == currentUserId) {
+        statusCaNhan = item.status;
+      }
+      if (item.donViId == donViTrucThuocId && item.canBoId == null) {
+        statusDonVi =item.status;
+      }
+    }
+    return statusCaNhan ?? statusDonVi ?? StatusOfficersConst.STATUS_DEFAULT;
   }
 
   bool checkChoSuaLich(ChiTietLichLamViecModel dataModel) {
@@ -1041,13 +1033,13 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       checkChoSuaLich(dataModel);
 
   bool checkChoHuyXacNhan(ChiTietLichLamViecModel dataModel) {
-    return checkHuyXacNhan(dataModel) >=
-        StatusOfficersConst.STATUS_CHO_XAC_NHAN;
+    return statusThamDu(dataModel) ==
+        StatusOfficersConst.STATUS_THAM_GIA;
   }
 
   bool checkChoXacNhanLai(ChiTietLichLamViecModel dataModel) {
-    return checkXacNhanLai(dataModel) >=
-        StatusOfficersConst.STATUS_CHO_XAC_NHAN;
+    return statusThamDu(dataModel) ==
+        StatusOfficersConst.STATUS_TU_CHOI;
   }
 
   //checkChoCuCanBo

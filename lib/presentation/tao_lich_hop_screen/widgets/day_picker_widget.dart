@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,8 +66,8 @@ class _DayPickerWidgetState extends State<DayPickerWidget> {
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: selectedIndex.contains(index)
-                      ? textDefault
-                      : textDefault.withOpacity(
+                      ?  AppTheme.getInstance().colorField()
+                      :  AppTheme.getInstance().colorField().withOpacity(
                           0.1,
                         ),
                   shape: BoxShape.circle,
@@ -76,7 +77,7 @@ class _DayPickerWidgetState extends State<DayPickerWidget> {
                   style: textNormal(
                     selectedIndex.contains(index)
                         ? backgroundColorApp
-                        : textDefault,
+                        :  AppTheme.getInstance().colorField(),
                     12,
                   ).copyWith(
                     fontWeight: FontWeight.w600,

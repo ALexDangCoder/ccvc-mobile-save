@@ -26,51 +26,54 @@ class ItemDanhSachHoTro extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppTheme.getInstance().choXuLyColor(),
-                  ),
-                  child: Center(
-                    child: Text(
-                      cubit.subText(objThanhVien.tenThanhVien ?? ''),
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppTheme.getInstance().dfBtnTxtColor(),
-                      ),
-                    ),
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.getInstance().choXuLyColor(),
+              ),
+              child: Center(
+                child: Text(
+                  cubit.subText(objThanhVien.tenThanhVien ?? ''),
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.getInstance().dfBtnTxtColor(),
                   ),
                 ),
-                spaceW12,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      objThanhVien.tenThanhVien ?? '',
+              ),
+            ),
+            spaceW12,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    child: Text(
+                      '${objThanhVien.tenThanhVien ?? ''}'
+                          '${(objThanhVien.chucVu ?? '').isEmpty ? ''
+                          : ' - ${objThanhVien.chucVu ?? ''}'}',
                       style: textNormalCustom(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.getInstance().infoColors(),
                       ),
                     ),
-                    spaceH6,
-                    Text(
-                      objThanhVien.soDienThoai ?? '',
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppTheme.getInstance().unselectColor(),
-                      ),
-                    )
-                  ],
-                ),
-              ],
+                  ),
+                  spaceH6,
+                  Text(
+                    objThanhVien.soDienThoai ?? '',
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppTheme.getInstance().unselectColor(),
+                    ),
+                  )
+                ],
+              ),
             ),
+            spaceW12,
             GestureDetector(
               onTap: () {
                 if (objThanhVien.soDienThoai?.isNotEmpty ?? false) {

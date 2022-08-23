@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/calendar_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -127,6 +128,11 @@ class DateTimeCupertinoCustomCubit
         if (!allDayValue) {
           dateToTmp = dateFromTmp;
           dateEndSubject.sink.add(dateFromTmp);
+          editCheckAllDay.sink.add(
+            '$dateFromTmp 00:00'.convertStringToDate(
+              formatPattern: DateFormatApp.pickDateFormat,
+            ),
+          );
         }
         break;
       case TypePickerDateTime.DATE_END:
@@ -135,6 +141,11 @@ class DateTimeCupertinoCustomCubit
         if (!allDayValue) {
           dateFromTmp = dateToTmp;
           dateBeginSubject.sink.add(dateToTmp);
+          editCheckAllDay.sink.add(
+            '$dateToTmp 00:00'.convertStringToDate(
+              formatPattern: DateFormatApp.pickDateFormat,
+            ),
+          );
         }
         break;
     }

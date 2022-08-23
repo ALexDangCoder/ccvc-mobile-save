@@ -129,7 +129,7 @@ class DateTimeCupertinoCustomCubit
           dateToTmp = dateFromTmp;
           dateEndSubject.sink.add(dateFromTmp);
           editCheckAllDay.sink.add(
-            dateFromTmp.convertStringToDate(
+            '$dateFromTmp 00:00'.convertStringToDate(
               formatPattern: DateFormatApp.pickDateFormat,
             ),
           );
@@ -141,6 +141,11 @@ class DateTimeCupertinoCustomCubit
         if (!allDayValue) {
           dateFromTmp = dateToTmp;
           dateBeginSubject.sink.add(dateToTmp);
+          editCheckAllDay.sink.add(
+            '$dateToTmp 00:00'.convertStringToDate(
+              formatPattern: DateFormatApp.pickDateFormat,
+            ),
+          );
         }
         break;
     }

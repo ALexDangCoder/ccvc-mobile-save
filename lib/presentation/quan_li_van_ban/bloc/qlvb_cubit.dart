@@ -130,28 +130,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     showContent();
   }
 
-  Future<void> refreshDocumentList({bool showLoad = true}) async {
-    final queue = Queue();
-    if(showLoad) {
-      showLoading();
-    }
-    unawaited(
-      queue.add(
-            () => fetchIncomeDocumentCustom(initLoad: true, loadingCircle: false),
-      ),
-    );
-    unawaited(
-      queue.add(
-            () => fetchOutcomeDocumentCustom(initLoad: true, loadingCircle: false),
-      ),
-    );
-    await queue.onComplete;
-    if(showLoad) {
-      showContent();
-    }
-  }
-
-
   final QLVBRepository qLVBRepo = Get.find();
 
   void initTimeRange() {

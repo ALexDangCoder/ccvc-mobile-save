@@ -73,10 +73,13 @@ class DocumentDashboardModel {
       DataRow(SelectKey.DA_XU_LY, daXuLyColor, soLuongDaXuLy),
     ]);
     if (HiveLocal.checkPermissionApp(
-        permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
-        permissionType: PermissionType.QLVB)) {
-      list.add(
-          DataRow(SelectKey.CHO_VAO_SO, choVaoSoColor, soLuongChoVaoSo ));
+          permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
+          permissionType: PermissionType.QLVB,
+        ) &&
+        ((HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.maChucVu ??
+                '') ==
+            ChucVuHome().codeVT)) {
+      list.add(DataRow(SelectKey.CHO_VAO_SO, choVaoSoColor, soLuongChoVaoSo));
     }
     return list;
   }

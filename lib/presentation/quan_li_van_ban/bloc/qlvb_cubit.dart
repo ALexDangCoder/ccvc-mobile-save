@@ -67,7 +67,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Stream<bool> get showSearchStream => showSearchSubject.stream;
 
   void setSelectSearch() {
-    print('dádaasas');
     showSearchSubject.sink.add(!showSearchSubject.value);
   }
 

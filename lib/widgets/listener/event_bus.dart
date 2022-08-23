@@ -32,10 +32,6 @@ class ListSearchListNode {
   ListSearchListNode(this.listNode);
 }
 
-class RefreshList {
-  RefreshList();
-}
-
 class CallBackNguoiGan {
   final String id;
 

@@ -314,7 +314,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                           horizontal: 16,
                         ),
                         decoration: BoxDecoration(
-                          color: buttonColor,
+                          color: AppTheme.getInstance().colorField(),
                           border: Border.all(
                             color: borderColor.withOpacity(0.5),
                           ),

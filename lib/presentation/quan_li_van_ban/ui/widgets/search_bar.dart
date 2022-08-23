@@ -73,8 +73,10 @@ class _SearchBarDocumentManagementState
                   onTap: () {
                     textController.clear();
                     setState(() {});
-                    widget.qlvbCubit.keySearch = textController.value.text;
-                    widget.qlvbCubit.refreshDocumentList();
+                    if(widget.qlvbCubit.keySearch.isNotEmpty){
+                      widget.qlvbCubit.keySearch = textController.value.text;
+                      widget.qlvbCubit.refreshDocumentList();
+                    }
                     widget.qlvbCubit.setSelectSearch();
                   },
                   child: const Icon(Icons.clear, color: coloriCon),
@@ -83,30 +85,30 @@ class _SearchBarDocumentManagementState
             ) : const SizedBox(),
             prefixIcon: widget.isTablet
                 ? GestureDetector(
-              onTap: () {
-                widget.qlvbCubit.keySearch = textController.text.trim();
-                widget.qlvbCubit.refreshDocumentList();
-              },
-              child: Padding(
-                padding: widget.isTablet
-                    ? const EdgeInsets.only(right: 20)
-                    : EdgeInsets.zero,
-                child: SvgPicture.asset(
-                  ImageAssets.ic_KinhRong,
-                  color: AppTheme.getInstance().colorField(),
-                ),
-              ),
-            )
+                    onTap: () {
+                      widget.qlvbCubit.keySearch = textController.text.trim();
+                      widget.qlvbCubit.refreshDocumentList();
+                    },
+                    child: Padding(
+                      padding: widget.isTablet
+                          ? const EdgeInsets.only(right: 20)
+                          : EdgeInsets.zero,
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_KinhRong,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
+                    ),
+                  )
                 : GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                widget.qlvbCubit.keySearch = textController.text.trim();
-                widget.qlvbCubit.refreshDocumentList();
-              },
-              child: ImageAssets.svgAssets(
-                ImageAssets.icSearchPAKN,
-              ),
-            ),
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      widget.qlvbCubit.keySearch = textController.text.trim();
+                      widget.qlvbCubit.refreshDocumentList();
+                    },
+                    child: ImageAssets.svgAssets(
+                      ImageAssets.icSearchPAKN,
+                    ),
+                  ),
             prefixIconConstraints: widget.isTablet
                 ? const BoxConstraints(
               minWidth: 26,

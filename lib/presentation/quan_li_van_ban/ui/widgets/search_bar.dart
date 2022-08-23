@@ -38,25 +38,25 @@ class _SearchBarDocumentManagementState
   Widget build(BuildContext context) {
     return Padding(
       padding: (Platform.isIOS &&
-              !widget.isTablet &&
-              MediaQuery.of(context).viewPadding.top > 20)
+          !widget.isTablet &&
+          MediaQuery.of(context).viewPadding.top > 20)
           ? const EdgeInsets.only(top: 12)
           : EdgeInsets.zero,
       child: Container(
         margin:
-            widget.isTablet ? EdgeInsets.zero : const EdgeInsets.only(top: 30),
+        widget.isTablet ? EdgeInsets.zero : const EdgeInsets.only(top: 30),
         padding: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           border: widget.isTablet
               ? Border(
-                  bottom: BorderSide(
-                    color: cellColorborder,
-                  ),
-                )
+            bottom: BorderSide(
+              color: cellColorborder,
+            ),
+          )
               : Border.all(
-                  color: cellColorborder,
-                ),
+            color: cellColorborder,
+          ),
         ),
         child: TextFormField(
           controller: textController,
@@ -111,9 +111,9 @@ class _SearchBarDocumentManagementState
                   ),
             prefixIconConstraints: widget.isTablet
                 ? const BoxConstraints(
-                    minWidth: 26,
-                    minHeight: 26,
-                  )
+              minWidth: 26,
+              minHeight: 26,
+            )
                 : null,
             border: InputBorder.none,
             hintText: S.current.tim_kiem,

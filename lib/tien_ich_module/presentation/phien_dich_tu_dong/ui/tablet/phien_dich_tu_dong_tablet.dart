@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 import 'dart:math';
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -170,7 +169,10 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
             ),
             Container(
               height: 250,
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               padding: const EdgeInsets.symmetric(
                 horizontal: 30,
                 vertical: 16,
@@ -243,7 +245,8 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                   horizontal: 12.0,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     //mic
                                     if (Platform.isAndroid)
@@ -258,7 +261,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                             ImageAssets.icVoiceMini,
                                             color: speech.isListening
                                                 ? AppTheme.getInstance()
-                                                    .colorField()
+                                                .colorField()
                                                 : textBodyTime,
                                           ),
                                         ),
@@ -277,7 +280,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                             ImageAssets.icVoiceMini,
                                             color: isListening
                                                 ? AppTheme.getInstance()
-                                                    .colorField()
+                                                .colorField()
                                                 : textBodyTime,
                                           ),
                                         ),
@@ -304,7 +307,8 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                           StreamBuilder<String>(
                             stream: cubit.textTranslateSubject,
                             builder: (context, snapshot) {
-                              final isNotEmpty = (snapshot.data ?? '').isNotEmpty;
+                              final isNotEmpty =
+                                  (snapshot.data ?? '').isNotEmpty;
                               return isNotEmpty
                                   ? Positioned(
                                 top: 10,
@@ -424,20 +428,23 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
           vertical: 10,
         ),
         decoration: BoxDecoration(
-          color: textDefault.withOpacity(0.1),
+          color: AppTheme.getInstance().colorField().withOpacity(0.1),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(ImageAssets.icDocumentBlue),
+            SvgPicture.asset(
+              ImageAssets.icDocumentBlue,
+              color: AppTheme.getInstance().colorField(),
+            ),
             const SizedBox(
               width: 9,
             ),
             Text(
               S.current.tim_tep_tren_dien_thoai_cua_ban,
               style: textNormalCustom(
-                color: buttonColor,
+                color: AppTheme.getInstance().colorField(),
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

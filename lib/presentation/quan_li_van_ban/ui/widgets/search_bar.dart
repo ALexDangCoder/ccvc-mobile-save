@@ -73,8 +73,10 @@ class _SearchBarDocumentManagementState
                   onTap: () {
                     textController.clear();
                     setState(() {});
-                    widget.qlvbCubit.keySearch = textController.value.text;
-                    widget.qlvbCubit.refreshDocumentList();
+                    if(widget.qlvbCubit.keySearch.isNotEmpty){
+                      widget.qlvbCubit.keySearch = textController.value.text;
+                      widget.qlvbCubit.refreshDocumentList();
+                    }
                     widget.qlvbCubit.setSelectSearch();
                   },
                   child: const Icon(Icons.clear, color: coloriCon),

@@ -77,7 +77,6 @@ class _ContainerMenuBaoChiTabletWidgetState
                                   width: 15.0.textScale(space: 8),
                                   child: SvgPicture.asset(
                                     widget.icon ?? '',
-                                    color: Colors.grey,
                                   ),
                                 )
                               : SizedBox(

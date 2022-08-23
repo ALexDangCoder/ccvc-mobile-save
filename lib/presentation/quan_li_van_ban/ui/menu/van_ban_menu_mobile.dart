@@ -21,6 +21,7 @@ class _VanBanMenuMobileState extends State<VanBanMenuMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:backgroundDrawerMenu,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

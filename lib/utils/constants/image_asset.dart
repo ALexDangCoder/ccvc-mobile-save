@@ -553,6 +553,8 @@ class ImageAssets {
   static const String ic_file_meeting = '$baseImg/ic_file_meeting.svg';
   static const String icSelectYear = '$baseImg/ic_select_year.svg';
   static const String icShareWhite = '$baseImg/ic_share_white.svg';
+  static const String icThongTinVanBanTablet = '$baseImg/ic_thongtinvb_tablet.svg';
+  static const String icBaoCaoThongKeVanBanTablet = '$baseImg/ic_baocaothongke_vb_tablet.svg';
 
   static SvgPicture svgAssets(
     String name, {

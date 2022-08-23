@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -6,8 +5,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/debouncer.dart';
-import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -73,12 +70,13 @@ class _SearchBarDocumentManagementState
               height: 20,
               child: Center(
                 child: GestureDetector(
-                  onTap: () async {
+                  onTap: () {
                     textController.clear();
                     setState(() {});
-                    widget.qlvbCubit.keySearch = textController.value.text;
-                    eventBus.fire(RefreshList());
-
+                    if(widget.qlvbCubit.keySearch.isNotEmpty){
+                      widget.qlvbCubit.keySearch = textController.value.text;
+                      widget.qlvbCubit.refreshDocumentList();
+                    }
                     widget.qlvbCubit.setSelectSearch();
                   },
                   child: const Icon(Icons.clear, color: coloriCon),
@@ -89,7 +87,7 @@ class _SearchBarDocumentManagementState
                 ? GestureDetector(
                     onTap: () {
                       widget.qlvbCubit.keySearch = textController.text.trim();
-                      eventBus.fire(RefreshList());
+                      widget.qlvbCubit.refreshDocumentList();
                     },
                     child: Padding(
                       padding: widget.isTablet
@@ -105,7 +103,7 @@ class _SearchBarDocumentManagementState
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
                       widget.qlvbCubit.keySearch = textController.text.trim();
-                      eventBus.fire(RefreshList());
+                      widget.qlvbCubit.refreshDocumentList();
                     },
                     child: ImageAssets.svgAssets(
                       ImageAssets.icSearchPAKN,
@@ -126,7 +124,7 @@ class _SearchBarDocumentManagementState
           ),
           onFieldSubmitted: (value) {
             widget.qlvbCubit.keySearch = value;
-            eventBus.fire(RefreshList());
+            widget.qlvbCubit.refreshDocumentList();
           },
           onChanged: (value) {
             setState(() {});

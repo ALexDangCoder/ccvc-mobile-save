@@ -497,7 +497,6 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                       return CustomSwitch(
                         value: isChecked,
                         onToggle: (bool value) {
-
                           _cubit.handleSwitchButtonPressed(isToggled: value);
                           if (value) {
                             _cubit.editCheckAllDay.sink.add(DateTime.now());
@@ -553,7 +552,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedBegin.currentState?.collapseGesture();
       }
     }
-    _cubit.setTypePickerEnd(type);
+    if (typeEnd != TypePickerDateTime.TIME_END) {
+      _cubit.setTypePickerEnd(type);
+    }
   }
 
   void expandTimeStart(TypePickerDateTime type) {
@@ -566,7 +567,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedEnd.currentState?.collapseGesture();
       }
     }
-    _cubit.setTypePickerStart(type);
+    if (typeStart != TypePickerDateTime.TIME_START) {
+      _cubit.setTypePickerStart(type);
+    }
   }
 
   String get now =>
@@ -600,7 +603,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedBegin.currentState?.collapseGesture();
       }
     }
-    _cubit.setTypePickerEnd(type);
+    if (typeEnd != TypePickerDateTime.DATE_END) {
+      _cubit.setTypePickerEnd(type);
+    }
   }
 
   void expandDateStart(TypePickerDateTime type) {
@@ -613,7 +618,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedEnd.currentState?.collapseGesture();
       }
     }
-    _cubit.setTypePickerStart(type);
+    if (typeStart != TypePickerDateTime.DATE_START) {
+      _cubit.setTypePickerStart(type);
+    }
   }
 }
 

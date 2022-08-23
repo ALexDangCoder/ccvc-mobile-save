@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -81,13 +80,16 @@ class _ExpandedSectionState extends State<LichLapWidget>
         selectBloc.sink.add(index);
       }
     }
+    if (widget.initDate != null) {
+      date = widget.initDate!.tryDateTimeFormatter(pattern: DateFormatApp.date);
+    }
 
-    if(date.isEmpty){
+    if (date.isEmpty) {
       date = DateTime.now().dateTimeFormatter(
         pattern: DateFormatApp.date,
       );
     }
-
+    handleInitValue();
   }
 
   @override
@@ -106,6 +108,12 @@ class _ExpandedSectionState extends State<LichLapWidget>
       valueSelect = '';
     }
 
+    handleInitValue();
+
+    setState(() {});
+  }
+
+  void handleInitValue() {
     if (widget.miniumDate != null) {
       minimunDate = widget.miniumDate?.changeToNewPatternDate(
         DateFormatApp.pickDateSearchFormat,
@@ -122,7 +130,6 @@ class _ExpandedSectionState extends State<LichLapWidget>
         date = minimunDate!;
       }
     }
-    setState(() {});
   }
 
   @override
@@ -260,16 +267,17 @@ class _ExpandedSectionState extends State<LichLapWidget>
                           key: UniqueKey(),
                           maximumDate: DateTime(2099, 12, 30),
                           maximumYear: 2099,
-                          minimumDate: minimunDate
-                              ?.convertStringToDate(
-                                formatPattern: DateFormatApp.date,
-                              ),
+                          minimumDate: minimunDate?.convertStringToDate(
+                            formatPattern: DateFormatApp.date,
+                          ),
                           backgroundColor: backgroundColorApp,
                           mode: CupertinoDatePickerMode.date,
                           use24hFormat: true,
-                          initialDateTime: date.convertStringToDate(
-                            formatPattern: DateFormatApp.date,
-                          ).add(const Duration(minutes: 5)),
+                          initialDateTime: date
+                              .convertStringToDate(
+                                formatPattern: DateFormatApp.date,
+                              )
+                              .add(const Duration(minutes: 5)),
                           onDateTimeChanged: (value) {
                             deboucer.run(() {
                               date = value.dateTimeFormatter(

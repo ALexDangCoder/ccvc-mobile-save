@@ -184,11 +184,14 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                       DateTime.parse(widget.todoModel.finishDay ?? '')
                           .toStringWithListFormat,
                     ),
-                  if (widget.todoModel.showDotOne()) circleWidget(),
-                  if (widget.todoModel.showDotOne())
+                  if ((widget.todoModel.nguoiGiao?.dataWithChucVu() ?? '')
+                      .isNotEmpty)
+                    circleWidget(),
+                  if ((widget.todoModel.nguoiGiao?.dataWithChucVu() ?? '')
+                      .isNotEmpty)
                     Flexible(
                       child: Padding(
-                        padding: const EdgeInsets.only( left:  8),
+                        padding: const EdgeInsets.only(left: 8),
                         child: Container(
                           child: textUnder(
                             widget.todoModel.nguoiGiao?.dataWithChucVu() ?? '',

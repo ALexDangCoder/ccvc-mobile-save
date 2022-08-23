@@ -51,7 +51,9 @@ class ItemDanhSachHoTro extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      objThanhVien.tenThanhVien ?? '',
+                      '${objThanhVien.tenThanhVien ?? ''}'
+                      '${(objThanhVien.chucVu ?? '').isEmpty ? ''
+                          : ' - ${objThanhVien.chucVu ?? ''}'}',
                       style: textNormalCustom(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,

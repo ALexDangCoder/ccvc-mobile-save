@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -120,8 +121,11 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
         stream: widget.cubit.danhSachChuongTrinhHop.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
-          if (!snapshot.hasData) {
-            return Container();
+          if (data.isEmpty) {
+            return const SizedBox(
+              height: 150,
+              child: NodataWidget(),
+            );
           }
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),

@@ -25,8 +25,8 @@ class StatusWidget extends StatelessWidget {
             children: listData.map(
               (e) {
                 final index = listData.indexOf(e);
-                return Expanded(
-                  flex: e.value.toInt() + 1,
+                return e.value==0 ? const SizedBox(): Expanded(
+                  flex: e.value.toInt(),
                   child: InkWell(
                     onTap: () {
                       if (callBack != null) callBack!(index);

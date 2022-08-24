@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_phat_bieu_widget.dart';
@@ -46,23 +47,33 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            IconWithTiltleWidget(
-              icon: ImageAssets.icMic,
-              title: S.current.dang_ky_phat_bieu,
-              onPress: () {
-                showDiaLogTablet(
-                  context,
-                  maxHeight: MediaQuery.of(context).size.height * 0.5,
-                  title: S.current.dang_ky_phat_bieu,
-                  child: DangKyPhatBieuWidget(
-                    cubit: widget.cubit,
-                    id: widget.cubit.idCuocHop,
-                  ),
-                  isBottomShow: false,
-                  funcBtnOk: () {
-                    Navigator.pop(context);
-                  },
-                );
+            StreamBuilder<int>(
+              stream: widget.cubit.typeStatus,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? 0;
+                final showButton = widget.cubit.isChuTriOrThamGia();
+                if (data == StatePhatBieu.danh_Sach_phat_bieu && showButton) {
+                  return IconWithTiltleWidget(
+                    icon: ImageAssets.icMic,
+                    title: S.current.dang_ky_phat_bieu,
+                    onPress: () {
+                      showDiaLogTablet(
+                        context,
+                        maxHeight: MediaQuery.of(context).size.height * 0.5,
+                        title: S.current.dang_ky_phat_bieu,
+                        child: DangKyPhatBieuWidget(
+                          cubit: widget.cubit,
+                          id: widget.cubit.idCuocHop,
+                        ),
+                        isBottomShow: false,
+                        funcBtnOk: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
+                }
+                return const  SizedBox.shrink();
               },
             ),
             Padding(
@@ -220,9 +231,10 @@ class PhatBieuChildWidget extends StatelessWidget {
       stream: cubit.typeStatus,
       builder: (context, snapshot) {
         final data = snapshot.data ?? 0;
+        final showButton = cubit.isChuTriOrThamGia();
         return Column(
           children: [
-            if (data == StatePhatBieu.danh_Sach_phat_bieu)
+            if (data == StatePhatBieu.danh_Sach_phat_bieu && showButton)
               IconWithTiltleWidget(
                 icon: ImageAssets.icMic,
                 title: S.current.dang_ky_phat_bieu,

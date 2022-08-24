@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/comment_widget.dart';
@@ -127,7 +128,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
   Widget themYKienWidgetForPhoneAndTab() {
     return Column(
       children: [
-        Padding(
+        if(widget.cubit.isChuTriOrThamGia())Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: IconWithTiltleWidget(
             icon: ImageAssets.Comment_ic,

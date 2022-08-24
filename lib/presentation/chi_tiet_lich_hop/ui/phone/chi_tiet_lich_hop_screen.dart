@@ -120,12 +120,15 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                     const SizedBox(
                                       width: 16,
                                     ),
-                                    Text(
-                                      data.title,
-                                      style: textNormalCustom(
-                                        color: titleCalenderWork,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
+                                    Expanded(
+                                      child: Text(
+                                        data.title,
+                                        style: textNormalCustom(
+                                          color: titleCalenderWork,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     )
                                   ],
@@ -164,6 +167,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                           },
                         ),
                       ),
+
                       /// list item drop down
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -366,7 +370,8 @@ PreferredSizeWidget appbarChiTietHop(
           stream: cubit.listButtonSubject.stream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? [];
-            final isHuyOrThuHoi = cubit.trangThaiHuy() || cubit.trangThaiThuHoi();
+            final isHuyOrThuHoi =
+                cubit.trangThaiHuy() || cubit.trangThaiThuHoi();
             if (!isHuyOrThuHoi && data.isNotEmpty) {
               return MenuSelectWidget(
                 listSelect: data

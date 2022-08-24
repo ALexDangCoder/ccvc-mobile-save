@@ -601,9 +601,12 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
         children: [
           Stack(
             children: [
-              RowDataWidget(
-                keyTxt: S.current.loai_thiet_bi,
-                value: model.loaiThietBi ?? '',
+              Container(
+                margin: const EdgeInsets.only(right: 20),
+                child: RowDataWidget(
+                  keyTxt: S.current.loai_thiet_bi,
+                  value: model.loaiThietBi ?? '',
+                ),
               ),
               Row(
                 children: [

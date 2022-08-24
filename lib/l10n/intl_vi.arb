@@ -1383,7 +1383,9 @@
   "limit_file_y_kien_pakn": "Chỉ tải lên tối đa 15 file ý kiến",
   "khong_co_thong_tin_van_ban": "Không có thông tin văn bản",
   "chu_tri_luong_xu_ly": "Chủ trì",
-  "chon_phong": "Chọn phòng"
+  "chon_phong": "Chọn phòng",
+  "van_ban_den": "Văn bản đến",
+  "van_ban_di": "Văn bản đi"
 }
 
 

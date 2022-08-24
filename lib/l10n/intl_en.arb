@@ -1419,5 +1419,7 @@
   "chua_duoc_cap_quyen": "Chưa được cấp quyền",
   "quyen_truy_cap_han_che": "Quyền truy cập file của bạn hiện tại đang bị từ chối. Vui lòng chọn vào cài đặt để mở quyền truy cập file",
   "khong_co_thong_tin_van_ban": "Không có thông tin văn bản",
-  "chon_phong": "Chọn phòng"
+  "chon_phong": "Chọn phòng",
+  "van_ban_den": "Văn bản đến",
+  "van_ban_di": "Văn bản đi"
 }

@@ -53,10 +53,10 @@ Widget tabBar(TabController _tabController) {
           ),
           tabs: [
             Tab(
-              text: S.current.danh_sach_van_ban_den,
+              text: S.current.van_ban_den,
             ),
             Tab(
-              text: S.current.danh_sach_van_ban_di,
+              text: S.current.van_ban_di,
             ),
           ],
         ),

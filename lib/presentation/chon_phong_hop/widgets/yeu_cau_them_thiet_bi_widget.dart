@@ -45,6 +45,7 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
       children: [
         SolidButton(
           onTap: () {
+            FocusScope.of(context).unfocus();
             showSelect();
           },
           text: S.current.yeu_cau_them_thiet_bi,

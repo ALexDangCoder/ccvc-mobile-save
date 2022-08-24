@@ -237,7 +237,7 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                     Navigator.pop(
                       context,
                       ThietBiValue(
-                        tenThietBi: tenThietBi.text,
+                        tenThietBi: tenThietBi.text.trim(),
                         soLuong: int.parse(soLuong.text),
                       ),
                     );

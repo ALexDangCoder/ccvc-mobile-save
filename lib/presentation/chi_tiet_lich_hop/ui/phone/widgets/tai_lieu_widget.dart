@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -94,6 +95,12 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         stream: widget.cubit.chiTietLichHopSubject,
         builder: (context, snapshot) {
           final data = snapshot.data?.fileData ?? [];
+          if (data.isEmpty){
+            return const SizedBox(
+              height: 150,
+              child: NodataWidget(),
+            );
+          }
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,

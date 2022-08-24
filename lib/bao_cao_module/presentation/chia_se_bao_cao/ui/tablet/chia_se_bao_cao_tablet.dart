@@ -111,8 +111,9 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                     right: 24,
                   ),
                   child: Container(
-                    height: 44,
                     padding: const EdgeInsets.only(
+                      top: 6,
+                      bottom: 6,
                       left: 16,
                       right: 12,
                     ),
@@ -139,7 +140,8 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                             onTap: () {
                               Clipboard.setData(
                                 ClipboardData(
-                                  text: widget.idReport,
+                                  text: Get.find<AppConstants>().urlHTCS +
+                                      widget.idReport,
                                 ),
                               ).then((value) {
                                 MessageConfig.show(

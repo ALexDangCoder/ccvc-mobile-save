@@ -427,11 +427,12 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool checkPermissionQuyenDuyetPhong({bool? isCheckHideButton}) {
-    if(isCheckHideButton ?? false){
+    if (isCheckHideButton ?? false) {
       return HiveLocal.checkPermissionApp(
-        permissionType: PermissionType.VPDT,
-        permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
-      ) && trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
+            permissionType: PermissionType.VPDT,
+            permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
+          ) &&
+          trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
     }
     return HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -475,11 +476,12 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   /// quyen duyet yeu cau chuan bi phong
   bool isButtonYeuCauChuanBiPhong({bool? isCheckHideButton}) {
-    if(isCheckHideButton ?? false){
+    if (isCheckHideButton ?? false) {
       return HiveLocal.checkPermissionApp(
-        permissionType: PermissionType.VPDT,
-        permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
-      ) && trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
+            permissionType: PermissionType.VPDT,
+            permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
+          ) &&
+          trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
     }
     return HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -610,6 +612,30 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       return true;
     }
     return false;
+  }
+
+  bool isChuTriOrThamGia() {
+    final chuTri = isChuTri();
+    bool caNhan = false;
+    bool donVi = false;
+    final loginUserId = getIdCurrentUser().toLowerCase();
+    final donViUserId =
+        (dataUser?.userInformation?.donViTrucThuoc?.id ?? '').toLowerCase();
+    final isLanhDao = HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.VPDT,
+      permissionTxt: PermissionAppTxt.LANH_DAO_CO_QUAN,
+    );
+    for (final element in scheduleCoperatives) {
+      final canBoId = element.CanBoId?.toLowerCase();
+      final donViId = element.donViId?.toLowerCase();
+      if (canBoId == loginUserId) {
+        caNhan = true;
+      }
+      if (donViId == donViUserId && (canBoId ?? '').isEmpty && isLanhDao) {
+        donVi = true;
+      }
+    }
+    return donVi || caNhan || chuTri;
   }
 
   bool isNguoiThamGia() {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 import 'dart:math';
 
@@ -10,12 +11,14 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/ui/w
 import 'package:ccvc_mobile/tien_ich_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -38,6 +41,16 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
   bool isListening = false;
   late final Debouncer debouncer;
 
+  Future<bool> checkPermissionRecord() async {
+    final permission = await Permission.microphone.request();
+    if (permission == PermissionStatus.denied ||
+        permission == PermissionStatus.permanentlyDenied) {
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   Future<void> initSpeechState() async {
     try {
       final hasSpeech = await speech.initialize();
@@ -52,23 +65,30 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
     }
   }
 
-  void startListening() {
-    if (!_hasSpeech) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(S.current.speech_not_available),
+  Future<void> startListening() async {
+    final permission = await checkPermissionRecord();
+    if (permission){
+      if (!_hasSpeech) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.current.speech_not_available),
+          ),
+        );
+        return;
+      }
+      unawaited(
+        speech.listen(
+          onResult: resultListener,
+          pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
+          localeId: cubit.voiceType,
         ),
       );
-      return;
+      setState(() {
+        isListening = true;
+      });
+    }else{
+      await MessageConfig.showDialogSetting();
     }
-    speech.listen(
-      onResult: resultListener,
-      pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
-      localeId: cubit.voiceType,
-    );
-    setState(() {
-      isListening = true;
-    });
   }
 
   void stopListening() {

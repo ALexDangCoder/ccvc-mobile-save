@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class ListPerSon {
@@ -146,19 +147,19 @@ class ChiTietLichLamViecModel {
   String lichLap() {
     switch (typeRepeat) {
       case 1:
-        return 'Không lặp lại';
+        return LichLapConst.KHONG_LAP_LAI;
       case 2:
-        return 'Lặp lại hàng ngày';
+        return LichLapConst.LAP_LAI_HANG_NGAY;
       case 3:
-        return 'Từ thứ 2 đến thứ 6 hàng tuần';
+        return LichLapConst.THU_2_DEN_THU_6;
       case 4:
-        return 'Lặp lại hàng tuần';
+        return LichLapConst.LAP_LAI_HANG_TUAN;
       case 5:
-        return 'Lặp lại hàng tháng';
+        return LichLapConst.LAP_LAI_HANG_THANG;
       case 6:
-        return 'Lặp lại hàng năm';
+        return LichLapConst.LAP_LAI_HANG_NAM;
       case 7:
-        return 'Tùy chỉnh';
+        return LichLapConst.TUY_CHINH;
     }
     return '';
   }

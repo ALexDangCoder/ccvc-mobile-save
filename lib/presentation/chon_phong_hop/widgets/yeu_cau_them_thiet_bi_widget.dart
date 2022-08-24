@@ -117,23 +117,26 @@ Widget thietBiWidget({
       border: Border.all(color: borderItemCalender),
       borderRadius: const BorderRadius.all(Radius.circular(6)),
     ),
-    child: Stack(
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            rowInfo(
-              key: S.current.ten_thiet_bi,
-              value: value.tenThietBi,
-            ),
-            spaceH10,
-            rowInfo(
-              key: S.current.so_luong,
-              value: value.soLuong < 10
-                  ? '0${value.soLuong}'
-                  : value.soLuong.toString(),
-            )
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              rowInfo(
+                key: S.current.ten_thiet_bi,
+                value: value.tenThietBi,
+              ),
+              spaceH10,
+              rowInfo(
+                key: S.current.so_luong,
+                value: value.soLuong < 10
+                    ? '0${value.soLuong}'
+                    : value.soLuong.toString(),
+              )
+            ],
+          ),
         ),
         Positioned(
           right: 0,

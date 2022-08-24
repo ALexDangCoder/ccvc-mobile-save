@@ -295,7 +295,7 @@ class ChiTietLichHopModel {
       );
       final dateTime = dateFormat.parse(ngayKetThuc);
       final String calendar =
-          '${dateTime.day} ${S.current.thang} ${dateTime.month},${dateTime.year}';
+          '${dateTime.day} ${S.current.thang} ${dateTime.month}, ${dateTime.year}';
       data.add(ChiTietDataRow(urlIcon: ImageAssets.icCalendar, text: calendar));
     } else {
       final startDate = dateFormat.parse(ngayBatDau);

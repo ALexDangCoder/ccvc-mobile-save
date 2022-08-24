@@ -51,6 +51,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       Node<DonViModel>? nodeAdd = vl.coppyWith();
       if (isDonVi) {
         for (final donViRemove in listIdDonViRemove) {
+          if((donViRemove.canBoId ?? '').isNotEmpty) continue;
           nodeAdd = nodeAdd?.removeFirstWhere(
             (element) => donViRemove.donViId == element.id,
           );

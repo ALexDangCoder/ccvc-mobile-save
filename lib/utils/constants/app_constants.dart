@@ -738,3 +738,13 @@ class ChucVu {
     }
   }
 }
+
+class LichLapConst {
+  static const KHONG_LAP_LAI = 'Không lặp lại';
+  static const LAP_LAI_HANG_NGAY = 'Lặp lại hàng ngày';
+  static const THU_2_DEN_THU_6 = 'Thứ 2 đến thứ 6 hàng tuần';
+  static const LAP_LAI_HANG_TUAN = 'Lặp lại hàng tuần';
+  static const LAP_LAI_HANG_THANG = 'Lặp lại hàng tháng';
+  static const LAP_LAI_HANG_NAM = 'Lặp lại hàng năm';
+  static const TUY_CHINH = 'Tùy chỉnh';
+}

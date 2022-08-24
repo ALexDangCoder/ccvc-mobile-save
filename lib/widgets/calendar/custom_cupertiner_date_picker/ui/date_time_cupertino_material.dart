@@ -267,6 +267,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                               ),
                           builder: (context, snapshot) {
                             return DateTimeCus(
+                              key: UniqueKey(),
                               onDatePicked: (onDatePicked) {
                                 callBackEndPick(onDatePicked, typePicker);
                                 widget.onDateTimeChanged(
@@ -404,6 +405,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             ),
                         builder: (context, snapshot) {
                           return DateTimeCus(
+                            key: UniqueKey(),
                             onDatePicked: (onDatePicked) {
                               callBackStartPick(onDatePicked, typePicker);
                               widget.onDateTimeChanged(

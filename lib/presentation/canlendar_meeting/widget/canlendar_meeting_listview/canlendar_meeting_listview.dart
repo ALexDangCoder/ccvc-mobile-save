@@ -238,7 +238,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                         decoration: BoxDecoration(
                           color: ((item.bit_HopTrucTuyen ?? false) ||
                                   (item.linkTrucTuyen?.isNotEmpty ?? false))
-                              ? color28C76F
+                              ? colorFF9F43
                               : dangXyLyColor,
                           borderRadius: BorderRadius.circular(30),
                         ),

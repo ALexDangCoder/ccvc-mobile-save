@@ -132,33 +132,35 @@ class TreeDonVi extends StatelessWidget {
       color: Colors.transparent,
       child: Column(
         children: [
-          SizedBox(
-            height: 20.0.textScale(space: 4),
-          ),
-          SelectSearchDonViWidget(
-            themDonViCubit: themDonViCubit,
-          ),
-          SizedBox(
-            height: 18.0.textScale(),
-          ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  S.current.danh_sach_don_vi_tham_gia,
-                  style: textNormal(textTitle, 16),
-                ),
-                SizedBox(
-                  height: 22.0.textScale(space: -9),
-                ),
-                Expanded(
-                  child: StreamBuilder<List<Node<DonViModel>>>(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    height: 20.0.textScale(space: 4),
+                  ),
+                  SelectSearchDonViWidget(
+                    themDonViCubit: themDonViCubit,
+                  ),
+                  SizedBox(
+                    height: 18.0.textScale(),
+                  ),
+                  Text(
+                    S.current.danh_sach_don_vi_tham_gia,
+                    style: textNormal(textTitle, 16),
+                  ),
+                  SizedBox(
+                    height: 22.0.textScale(space: -9),
+                  ),
+                  StreamBuilder<List<Node<DonViModel>>>(
                     stream: themDonViCubit.getTree,
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? <Node<DonViModel>>[];
                       if (data.isNotEmpty) {
                         return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           keyboardDismissBehavior: isMobile()
                               ? ScrollViewKeyboardDismissBehavior.onDrag
                               : ScrollViewKeyboardDismissBehavior.manual,
@@ -173,13 +175,15 @@ class TreeDonVi extends StatelessWidget {
                       }
                       return Column(
                         children: const [
-                          NodataWidget(),
+                          NodataWidget(
+                            height: 150,
+                          ),
                         ],
                       );
                     },
                   ),
-                )
-              ],
+                ],
+              ),
             ),
           ),
           screenDevice(

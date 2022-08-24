@@ -87,7 +87,7 @@ class _VanBanMenuMobileState extends State<VanBanMenuMobile> {
         Text(
           menu,
           style: textNormalCustom(
-            color: color3D5586,
+            color: backgroundColorApp,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

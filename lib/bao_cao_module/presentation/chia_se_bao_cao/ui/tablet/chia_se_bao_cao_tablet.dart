@@ -56,9 +56,9 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
       builder: () {
         return Container(
           clipBehavior: Clip.hardEdge,
-          height: 750,
-          width: 592.w,
-          //padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          height: 1050.h,
+          width: 750.w,
+          //padding: EdgeInsets.ßonly(top: MediaQuery.of(context).padding.top),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -126,16 +126,19 @@ class _ChiaSeBaoCaoTabletState extends State<ChiaSeBaoCaoTablet>
                     child: Row(
                       children: [
                         Expanded(
-                          flex: 9,
-                          child: Text(
-                            Get.find<AppConstants>().urlHTCS + widget.idReport,
-                            style: textNormalCustom(
-                              color: AppTheme.getInstance().colorField(),
-                              fontSize: 16,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              Get.find<AppConstants>().urlHTCS +
+                                  widget.idReport,
+                              style: textNormalCustom(
+                                color: AppTheme.getInstance().colorField(),
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ),
-                        Expanded(
+                        Container(
+                          margin: EdgeInsets.only(left: 8.w),
                           child: InkWell(
                             onTap: () {
                               Clipboard.setData(

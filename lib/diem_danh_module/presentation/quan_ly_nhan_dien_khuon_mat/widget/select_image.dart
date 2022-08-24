@@ -73,7 +73,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
         }
       }
     } else {
-      if (Platform.isIOS) await MessageConfig.showDialogSetting();
+       await MessageConfig.showDialogSetting();
     }
   }
 

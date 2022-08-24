@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_in_page_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_out_page_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.dart';
@@ -54,12 +55,12 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
         title: S.current.thong_tin_chung,
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
             child: GestureDetector(
               onTap: () {
                 DrawerSlide.navigatorSlide(
                   context: context,
-                  screen: VanBanMenuMobile(
+                  screen: VanBanMenuTablet(
                     cubit: qlvbCubit,
                   ),
                 );
@@ -81,7 +82,6 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                   color: Colors.white,
                   border: Border(bottom: BorderSide(color: bgDropDown))),
               child: Row(
-
                 children: [
                   FilterDateTimeWidget(
                     context: context,

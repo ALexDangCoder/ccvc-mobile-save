@@ -43,32 +43,38 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
 
   Future<bool> checkPermissionRecord() async {
     final permission = await Permission.microphone.request();
-    if (permission == PermissionStatus.denied ||
-        permission == PermissionStatus.permanentlyDenied) {
-      return false;
-    }else{
-      return true;
-    }
+    final permissionBluetooth = await Permission.bluetoothConnect.request();
+    final microReject = permission == PermissionStatus.denied ||
+        permission == PermissionStatus.permanentlyDenied;
+    final blueToothReject = permissionBluetooth == PermissionStatus.denied ||
+        permissionBluetooth == PermissionStatus.permanentlyDenied;
+    return  !microReject && !blueToothReject;
   }
 
   Future<void> initSpeechState() async {
-    try {
-      final hasSpeech = await speech.initialize();
-      if (!mounted) return;
-      setState(() {
-        _hasSpeech = hasSpeech;
-      });
-    } catch (e) {
-      setState(() {
-        _hasSpeech = false;
-      });
+    final permission = await checkPermissionRecord();
+    if (permission) {
+      try {
+        final hasSpeech = await speech.initialize();
+        if (!mounted) return;
+        setState(() {
+          _hasSpeech = hasSpeech;
+        });
+      } catch (e) {
+        setState(() {
+          _hasSpeech = false;
+        });
+      }
+    } else {
+      await MessageConfig.showDialogSetting();
     }
   }
 
   Future<void> startListening() async {
-    final permission = await checkPermissionRecord();
-    if (permission){
+    if (!_hasSpeech) {
+      await initSpeechState();
       if (!_hasSpeech) {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(S.current.speech_not_available),
@@ -76,19 +82,17 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
         );
         return;
       }
-      unawaited(
-        speech.listen(
-          onResult: resultListener,
-          pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
-          localeId: cubit.voiceType,
-        ),
-      );
-      setState(() {
-        isListening = true;
-      });
-    }else{
-      await MessageConfig.showDialogSetting();
     }
+    unawaited(
+      speech.listen(
+        onResult: resultListener,
+        pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
+        localeId: cubit.voiceType,
+      ),
+    );
+    setState(() {
+      isListening = true;
+    });
   }
 
   void stopListening() {

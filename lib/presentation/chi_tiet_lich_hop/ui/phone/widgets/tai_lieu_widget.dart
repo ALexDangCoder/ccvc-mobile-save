@@ -56,7 +56,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  if (!widget.cubit.isNguoiThamGia()) selectFile(),
+                  if (!widget.cubit.addFilePermission()) selectFile(),
                   listFileFromApi(),
                 ],
               ),

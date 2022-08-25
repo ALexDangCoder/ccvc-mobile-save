@@ -86,7 +86,7 @@ class _ThanhPhanThamGiaWidgetTabletState
           const SizedBox(
             height: 60,
           ),
-          IconWithTiltleWidget(
+          if (widget.cubit.isBtnMoiNguoiThamGia())IconWithTiltleWidget(
             icon: ImageAssets.ic_addUser,
             title: S.current.moi_nguoi_tham_gia,
             onPress: () {
@@ -106,7 +106,7 @@ class _ThanhPhanThamGiaWidgetTabletState
           const SizedBox(
             height: 16,
           ),
-          Row(
+          if (widget.cubit.isChuTri() || widget.cubit.isThuKy())Row(
             children: [
               Flexible(
                 child: IconWithTiltleWidget(

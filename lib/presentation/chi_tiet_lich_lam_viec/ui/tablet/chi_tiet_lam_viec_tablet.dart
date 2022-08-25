@@ -783,7 +783,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
           final data = snapshot.data ?? [];
           if (data.isEmpty) {
             return const NodataWidget(
-              height: 150,
+              height: 50,
             );
           }
           return ListView.builder(

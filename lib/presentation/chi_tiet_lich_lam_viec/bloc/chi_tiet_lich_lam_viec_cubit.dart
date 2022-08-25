@@ -1026,13 +1026,17 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
 
   bool showDetail (ChiTietLichLamViecModel dataModel){
+    final DataUser? dataUser = HiveLocal.getDataUser();
+    final idUser = (dataUser?.userId ?? '').toLowerCase();
+    final isChuTri = (dataModel.canBoChuTri?.id ?? '').toLowerCase() == idUser;
+    final isCreateUser = (dataModel.createBy?.id ?? '').toLowerCase() == idUser;
     final isCongKhai = dataModel.publishSchedule ?? false;
     final isHuy = isLichHuy(dataModel) ;
     final isThuHoi = isLichThuHoi(dataModel) ;
     if (isHuy || isThuHoi == true){
       return false;
     }else{
-      return isCongKhai || !isThuHoi;
+      return isCongKhai || !isThuHoi || isCreateUser || isChuTri;
     }
   }
 

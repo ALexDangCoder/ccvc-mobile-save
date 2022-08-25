@@ -250,9 +250,12 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
         if (isDonVi) thuHoiDonVi = isThuHoi;
       }
     }
+    if (!isCaNhan && !isDonVi){
+      return false;
+    }
     final biThuHoiCaNhan = (isCaNhan && thuHoiCaNhan) || !isCaNhan;
     final biThuHoiDonVi = (isDonVi && thuHoiDonVi) || !isDonVi;
-    return !chuTri && biThuHoiDonVi && biThuHoiCaNhan;
+    return !chuTri && biThuHoiDonVi && biThuHoiCaNhan && !isNguoiTao();
   }
 
   bool thanhPhanThamGiaDaXacNhan() {

@@ -173,7 +173,6 @@ class _TabCungHeThongTabletState extends State<TabCungHeThongTablet> {
                                       widget.cubit.listUserCommon.length +
                                           widget.cubit.selectNode.length) {
                                     return Container(
-                                      width: 200,
                                       color: Colors.transparent,
                                       child: TextField(
                                         onChanged: (value) {

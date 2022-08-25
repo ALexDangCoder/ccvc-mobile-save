@@ -29,6 +29,10 @@ class DataResponseDoashBoashVBDi {
   int? soLuongDaXuLy;
   @JsonKey(name: 'SoLuongThuongKhan')
   int? soLuongThuongKhan;
+  @JsonKey(name: 'SoLuongChoCapSo')
+  int? soLuongChoCapSo;
+  @JsonKey(name: 'SoLuongChoBanHanh')
+  int? soLuongChoBanHanh;
 
   DataResponseDoashBoashVBDi(this.soLuongChoTrinhKy, this.soLuongChoXuLy,
       this.soLuongDaXuLy, this.soLuongThuongKhan);
@@ -43,6 +47,8 @@ class DataResponseDoashBoashVBDi {
         soLuongChoXuLy: soLuongChoXuLy,
         soLuongDaXuLy: soLuongDaXuLy,
         soLuongThuongKhan: soLuongThuongKhan,
+        soLuongChoCapSo: soLuongChoCapSo,
+        soLuongChoBanHanh: soLuongChoBanHanh,
       );
 
   @override

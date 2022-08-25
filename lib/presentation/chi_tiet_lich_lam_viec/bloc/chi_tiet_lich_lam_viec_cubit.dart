@@ -992,7 +992,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final DataUser? dataUser = HiveLocal.getDataUser();
     final idUser = (dataUser?.userId ?? '').toLowerCase();
     final isChuTri = (dataModel.canBoChuTri?.id ?? '').toLowerCase() == idUser;
-    final isCreateUser = (dataModel.createBy?.id ?? '').toLowerCase() == idUser;
     bool isCaNhan = false;
     bool thuHoiCaNhan = false;
     bool isDonVi = false;
@@ -1012,32 +1011,22 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         if (isDonVi) thuHoiDonVi = isThuHoi;
       }
     }
-    if (!isCaNhan && !isDonVi){
-      return false;
-    }
     final biThuHoiCaNhan = (isCaNhan && thuHoiCaNhan) || !isCaNhan;
     final biThuHoiDonVi = (isDonVi && thuHoiDonVi) || !isDonVi;
-    return !isChuTri && biThuHoiDonVi && biThuHoiCaNhan && !isCreateUser;
+    return !isChuTri && biThuHoiDonVi && biThuHoiCaNhan;
   }
 
   bool isCongKhai(ChiTietLichLamViecModel dataModel) =>
       dataModel.publishSchedule ?? false;
 
-
-
-  bool showDetail (ChiTietLichLamViecModel dataModel){
-    final DataUser? dataUser = HiveLocal.getDataUser();
-    final idUser = (dataUser?.userId ?? '').toLowerCase();
-    final isChuTri = (dataModel.canBoChuTri?.id ?? '').toLowerCase() == idUser;
+  bool isCreateOrCongKhai(ChiTietLichLamViecModel dataModel) {
+    final idUser = currentUserId.toLowerCase();
     final isCreateUser = (dataModel.createBy?.id ?? '').toLowerCase() == idUser;
+    final isChuTri = (dataModel.canBoChuTri?.id ?? '').toLowerCase() == idUser;
     final isCongKhai = dataModel.publishSchedule ?? false;
-    final isHuy = isLichHuy(dataModel) ;
-    final isThuHoi = isLichThuHoi(dataModel) ;
-    if (isHuy || isThuHoi){
-      return false;
-    }else{
-      return isCongKhai || !isThuHoi || isCreateUser || isChuTri;
-    }
+    return isCreateUser ||
+        isCongKhai ||
+        isChuTri ;
   }
 
   bool checkChoxoa(ChiTietLichLamViecModel dataModel) =>

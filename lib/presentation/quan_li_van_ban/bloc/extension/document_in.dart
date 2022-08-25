@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:core';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -12,7 +9,6 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
-import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 
 extension DocumentInCubit on QLVBCCubit {
   Future<void> getDashBoardIncomeDocument({
@@ -92,7 +88,6 @@ extension DocumentInCubit on QLVBCCubit {
         listVbDen = res.pageData ?? [];
       },
       error: (error) {
-        return error;
       },
     );
     return listVbDen;
@@ -102,15 +97,15 @@ extension DocumentInCubit on QLVBCCubit {
     bool initLoad = false,
     bool loadingCircle = true,
   }) async {
-    if (loadingCircle){
-      ShowLoadingScreen.show();
-    }
     if (initLoad) {
       vbDenLoadMore = true;
       listVBDen.clear();
     }
     final currentPage = listVBDen.length ~/ ApiConstants.DEFAULT_PAGE_SIZE;
     if (!vbDenLoading && vbDenLoadMore) {
+      if (loadingCircle) {
+        showLoading();
+      }
       vbDenLoading = true;
       final newItems = await getListIncomeDocument(
         page: currentPage + 1,
@@ -119,9 +114,9 @@ extension DocumentInCubit on QLVBCCubit {
       vbDenLoading = false;
       listVBDen.addAll(newItems);
       danhSachVBDen.sink.add(listVBDen);
-    }
-    if (loadingCircle){
-      ShowLoadingScreen.dismiss();
+      if (loadingCircle) {
+        showContent();
+      }
     }
   }
 }

@@ -199,9 +199,6 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (!_hasSpeech) {
-                        return;
-                      }
                       !isListening ? startListening() : stopListening();
                       cubit.isVoiceSubject.sink.add(speech.isListening);
                     },

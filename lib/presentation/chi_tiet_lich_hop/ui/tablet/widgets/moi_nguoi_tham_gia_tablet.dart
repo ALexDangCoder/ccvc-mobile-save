@@ -85,7 +85,7 @@ class _ThanhPhanThamGiaWidgetTabletState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          if (widget.cubit.isBtnMoiNguoiThamGia())Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: IconWithTiltleWidget(
               icon: ImageAssets.ic_addUser,
@@ -108,7 +108,7 @@ class _ThanhPhanThamGiaWidgetTabletState
           const SizedBox(
             height: 16,
           ),
-          Row(
+          if (widget.cubit.isChuTri() || widget.cubit.isThuKy())Row(
             children: [
               Flexible(
                 child: IconWithTiltleWidget(

@@ -44,9 +44,6 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
         permission == PermissionStatus.permanentlyDenied;
     final blueToothReject = permissionBluetooth == PermissionStatus.denied ||
         permissionBluetooth == PermissionStatus.permanentlyDenied;
-    print('aaaaaaaaaaaaaaaaaa');
-    print(microReject);
-    print(permissionBluetooth);
     return !microReject && !blueToothReject;
   }
 
@@ -202,6 +199,9 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      if (!_hasSpeech) {
+                        return;
+                      }
                       !isListening ? startListening() : stopListening();
                       cubit.isVoiceSubject.sink.add(speech.isListening);
                     },

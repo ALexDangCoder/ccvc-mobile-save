@@ -44,7 +44,7 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
     final microReject = permission == PermissionStatus.denied ||
         permission == PermissionStatus.permanentlyDenied;
     final blueToothReject = permissionBluetooth == PermissionStatus.denied ||
-        permissionBluetooth == PermissionStatus.permanentlyDenied;
+        permission == PermissionStatus.permanentlyDenied;
     return !microReject && !blueToothReject;
   }
 

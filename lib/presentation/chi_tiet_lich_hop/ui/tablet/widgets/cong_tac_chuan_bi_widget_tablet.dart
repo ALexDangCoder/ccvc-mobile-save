@@ -65,7 +65,7 @@ class _CongTacChuanBiWidgetTabletState
 
   Widget body() {
     return Padding(
-      padding: const EdgeInsets.only(top: 60.0),
+      padding: const EdgeInsets.only(top: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -184,16 +184,14 @@ class _CongTacChuanBiWidgetTabletState
                         ? ItemThongTinYCCB(
                             cubit: widget.cubit,
                           )
-                        : const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 50),
-                            child: NodataWidget(),
+                        : const NodataWidget(
+                            height: 100,
                           ),
                   ),
                 );
               }
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 50),
-                child: NodataWidget(),
+              return const NodataWidget(
+                height: 100.0,
               );
             },
           ),

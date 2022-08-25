@@ -20,6 +20,7 @@ import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ThanhPhanThamGiaWidgetTablet extends StatefulWidget {
@@ -50,25 +51,26 @@ class _ThanhPhanThamGiaWidgetTabletState
     }
     _handleEventBus();
   }
-  void _handleEventBus (){
+
+  void _handleEventBus() {
     eventBus.on<ReloadMeetingDetail>().listen((event) {
-      if (event.tabReload.contains(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA)){
+      if (event.tabReload.contains(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA)) {
         fetchData();
       }
     });
   }
+
   void _refreshPhanCongThuKy() {
     eventBus.on<RefreshPhanCongThuKi>().listen((event) {
       thanhPhanThamGiaCubit.callApiThanhPhanThamGia(isShowMessage: true);
     });
   }
 
-  void fetchData(){
+  void fetchData() {
     thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
     thanhPhanThamGiaCubit.detailMeetCalenderCubit = widget.cubit;
     thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
   }
-
 
   @override
   void dispose() {
@@ -83,25 +85,25 @@ class _ThanhPhanThamGiaWidgetTabletState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 60,
-          ),
-          IconWithTiltleWidget(
-            icon: ImageAssets.ic_addUser,
-            title: S.current.moi_nguoi_tham_gia,
-            onPress: () {
-              showDiaLogTablet(
-                context,
-                title: S.current.them_thanh_phan_tham_gia,
-                child: ThemThanhPhanThamGiaWidget(
-                  cubit: thanhPhanThamGiaCubit,
-                ),
-                isBottomShow: false,
-                funcBtnOk: () {
-                  Navigator.pop(context);
-                },
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: IconWithTiltleWidget(
+              icon: ImageAssets.ic_addUser,
+              title: S.current.moi_nguoi_tham_gia,
+              onPress: () {
+                showDiaLogTablet(
+                  context,
+                  title: S.current.them_thanh_phan_tham_gia,
+                  child: ThemThanhPhanThamGiaWidget(
+                    cubit: thanhPhanThamGiaCubit,
+                  ),
+                  isBottomShow: false,
+                  funcBtnOk: () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -192,6 +194,7 @@ class _ThanhPhanThamGiaWidgetTabletState
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {
                 return ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 8.0),
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: _list.length,
@@ -209,9 +212,8 @@ class _ThanhPhanThamGiaWidgetTabletState
                   },
                 );
               } else {
-                return const SizedBox(
-                  height: 200,
-                  child: NodataWidget(),
+                return const NodataWidget(
+                  height: 100,
                 );
               }
             },

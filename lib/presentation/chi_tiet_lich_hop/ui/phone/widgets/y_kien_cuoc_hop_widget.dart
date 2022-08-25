@@ -96,7 +96,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
         ),
       ),
       tabletScreen: Padding(
-        padding: const EdgeInsets.only(top: 60.0),
+        padding: const EdgeInsets.only(top: 16.0),
         child: SingleChildScrollView(
           child: themYKienWidgetForPhoneAndTab(),
         ),
@@ -223,7 +223,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                         final data = snapshot.data ?? [];
                         if (data.isEmpty) {
                           return const NodataWidget(
-                            height: 200,
+                            height: 100,
                           );
                         }
                         return ListView.builder(
@@ -285,7 +285,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                             final data = snapshot.data ?? [];
                             if (data.isEmpty) {
                               return const NodataWidget(
-                                height: 200,
+                                height: 100,
                               );
                             }
                             return ListView.builder(

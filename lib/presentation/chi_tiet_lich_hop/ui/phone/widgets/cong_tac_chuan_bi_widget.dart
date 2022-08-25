@@ -191,17 +191,13 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                           model: data,
                           cubit: widget.cubit,
                         )
-                      : const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 50),
-                          child: NodataWidget(),
-                        ),
+                      : const NodataWidget(
+                    height: 100.0,
+                  ),
                 ),
               );
             }
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 50),
-              child: NodataWidget(),
-            );
+            return const NodataWidget(height: 100,);
           },
         ),
 
@@ -216,9 +212,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? <ThietBiPhongHopModel>[];
                   if (data.isEmpty) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 50),
-                      child: NodataWidget(),
+                    return const NodataWidget(
+                      height: 100.0,
                     );
                   }
                   return Column(
@@ -747,9 +742,8 @@ class _ChonPhongHopScreenOnlyState extends State<_ChonPhongHopScreenOnly> {
                     ),
                   );
                 } else {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30),
-                    child: NodataWidget(),
+                  return const NodataWidget(
+                    height: 100,
                   );
                 }
               },

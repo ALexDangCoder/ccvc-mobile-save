@@ -37,7 +37,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 60),
+        padding: const EdgeInsets.only(top: 16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -82,9 +82,8 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                     },
                   );
                 } else {
-                  return const SizedBox(
-                    height: 200,
-                    child: NodataWidget(),
+                  return const NodataWidget(
+                    height: 100.0,
                   );
                 }
               },

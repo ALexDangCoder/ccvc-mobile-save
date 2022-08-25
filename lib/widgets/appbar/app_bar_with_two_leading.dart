@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,9 +31,11 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-      ),
+      systemOverlayStyle: isMobile()
+          ? const SystemUiOverlayStyle(
+              statusBarBrightness: Brightness.light,
+            )
+          : SystemUiOverlayStyle.dark,
       backgroundColor: backGroundColorTablet ?? backgroundColorApp,
       bottomOpacity: 0.0,
       leadingWidth: 100,

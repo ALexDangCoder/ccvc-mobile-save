@@ -232,7 +232,13 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                         onChange: (value) {
                           taoPhienHopRequest.hoTen = data[value].hoTen ?? '';
                         },
-                        listSelect: data.map((e) => e.hoTen ?? '').toList(),
+                        listSelect: data
+                            .map(
+                              (e) => (e.tenCanBo ?? '').isNotEmpty
+                                  ? e.tenCanBo ?? ''
+                                  : e.tenCoQuan ?? '',
+                            )
+                            .toList(),
                       ),
                     );
                   },

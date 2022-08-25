@@ -66,6 +66,9 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
   final keyExpandedBegin =
       GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
+  var counterTimeStart = 0;
+  var counterTimeEnd = 0;
+  var counterDate = 0;
 
   @override
   void initState() {
@@ -260,26 +263,27 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                   : Padding(
                       padding: const EdgeInsets.only(top: 16.0),
                       child: StreamBuilder<DateTime>(
-                          stream: _cubit.editCheckAllDay.stream,
-                          initialData: widget.initDateEnd ??
-                              initDataTo.convertStringToDate(
-                                formatPattern: DateFormatApp.pickDateFormat,
-                              ),
-                          builder: (context, snapshot) {
-                            return DateTimeCus(
-                              key: UniqueKey(),
-                              onDatePicked: (onDatePicked) {
-                                callBackEndPick(onDatePicked, typePicker);
-                                widget.onDateTimeChanged(
-                                  timeFrom,
-                                  timeTo,
-                                  dateFrom,
-                                  dateTo,
-                                );
-                              },
-                              initialDate: snapshot.data,
-                            );
-                          }),
+                        stream: _cubit.editCheckAllDay.stream,
+                        initialData: widget.initDateEnd ??
+                            initDataTo.convertStringToDate(
+                              formatPattern: DateFormatApp.pickDateFormat,
+                            ),
+                        builder: (context, snapshot) {
+                          return DateTimeCus(
+                            key: UniqueKey(),
+                            onDatePicked: (onDatePicked) {
+                              callBackEndPick(onDatePicked, typePicker);
+                              widget.onDateTimeChanged(
+                                timeFrom,
+                                timeTo,
+                                dateFrom,
+                                dateTo,
+                              );
+                            },
+                            initialDate: snapshot.data,
+                          );
+                        },
+                      ),
                     );
             },
           ),
@@ -545,6 +549,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       );
 
   void expandTimeEnd(TypePickerDateTime type) {
+    counterTimeEnd++;
     if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.TIME_END &&
         keyExpandedEnd.currentState!.isExpandedGroup) {
       keyExpandedEnd.currentState?.collapseGesture();
@@ -554,12 +559,17 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedBegin.currentState?.collapseGesture();
       }
     }
+    if (counterTimeEnd == 1) {
+      _cubit.timeToTmp = '00:00';
+      _cubit.timeEndSubject.sink.add(_cubit.timeToTmp);
+    }
     if (typeEnd != TypePickerDateTime.TIME_END) {
       _cubit.setTypePickerEnd(type);
     }
   }
 
   void expandTimeStart(TypePickerDateTime type) {
+    counterTimeStart++;
     if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.TIME_START &&
         keyExpandedBegin.currentState!.isExpandedGroup) {
       keyExpandedBegin.currentState?.collapseGesture();
@@ -568,6 +578,10 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       if (keyExpandedEnd.currentState!.isExpandedGroup) {
         keyExpandedEnd.currentState?.collapseGesture();
       }
+    }
+    if (counterTimeStart == 1) {
+      _cubit.timeFromTmp = '00:00';
+      _cubit.timeBeginSubject.sink.add(_cubit.timeFromTmp);
     }
     if (typeStart != TypePickerDateTime.TIME_START) {
       _cubit.setTypePickerStart(type);
@@ -596,6 +610,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       '${dateTo != INIT_DATE_PICK ? dateTo : now} ${timeTo != INIT_TIME_PICK ? timeTo : '00:00'}';
 
   void expandDateEnd(TypePickerDateTime type) {
+    counterDate++;
     if (_cubit.typePickerSubjectEnd.value == TypePickerDateTime.DATE_END &&
         keyExpandedEnd.currentState!.isExpandedGroup) {
       keyExpandedEnd.currentState?.collapseGesture();
@@ -605,12 +620,20 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedBegin.currentState?.collapseGesture();
       }
     }
+    if (counterDate == 1) {
+      _cubit.dateToTmp =
+          DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+      _cubit.dateFromTmp =  _cubit.dateToTmp;
+      _cubit.dateEndSubject.sink.add(_cubit.dateToTmp);
+      _cubit.dateBeginSubject.sink.add(_cubit.dateToTmp);
+    }
     if (typeEnd != TypePickerDateTime.DATE_END) {
       _cubit.setTypePickerEnd(type);
     }
   }
 
   void expandDateStart(TypePickerDateTime type) {
+    counterDate++;
     if (_cubit.typePickerSubjectStart.value == TypePickerDateTime.DATE_START &&
         keyExpandedBegin.currentState!.isExpandedGroup) {
       keyExpandedBegin.currentState?.collapseGesture();
@@ -622,6 +645,13 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     }
     if (typeStart != TypePickerDateTime.DATE_START) {
       _cubit.setTypePickerStart(type);
+    }
+    if(counterDate == 1){
+      _cubit.dateToTmp =
+          DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
+      _cubit.dateFromTmp =  _cubit.dateToTmp;
+      _cubit.dateEndSubject.sink.add(_cubit.dateToTmp);
+      _cubit.dateBeginSubject.sink.add(_cubit.dateToTmp);
     }
   }
 }

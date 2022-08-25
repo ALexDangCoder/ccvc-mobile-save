@@ -271,16 +271,19 @@ class _DanhSachCongViecTienIchMobileState
     required Widget child,
     required Widget header,
   }) =>
-      ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        childrenPadding: EdgeInsets.zero,
-        iconColor: AppTheme.getInstance().colorField(),
-        initiallyExpanded: true,
-        controlAffinity: ListTileControlAffinity.leading,
-        title: header,
-        collapsedIconColor: AppTheme.getInstance().colorField(),
-        children: [
-          child,
-        ],
+      Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          tilePadding: EdgeInsets.zero,
+          childrenPadding: EdgeInsets.zero,
+          iconColor: AppTheme.getInstance().colorField(),
+          initiallyExpanded: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          title: header,
+          collapsedIconColor: AppTheme.getInstance().colorField(),
+          children: [
+            child,
+          ],
+        ),
       );
 }

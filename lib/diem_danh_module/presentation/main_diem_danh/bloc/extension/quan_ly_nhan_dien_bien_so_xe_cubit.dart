@@ -114,7 +114,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
       id: id,
       loaiSoHuu: loaiSoHuu ?? DanhSachBienSoXeConst.XE_CAN_BO,
       userId: HiveLocal.getDataUser()?.userId ?? '',
-      bienKiemSoat: bienKiemSoat,
+      bienKiemSoat: bienKiemSoat.trim(),
       loaiXeMay: xeMay ?? DanhSachBienSoXeConst.XE_MAY,
       fileId: fileId,
     );
@@ -177,13 +177,13 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
       success: (success) {
         if (isTao) {
           dangKyThongTinXeMoi(
-            bienKiemSoat: bienKiemSoat,
+            bienKiemSoat: bienKiemSoat.trim(),
             fileId: success.data?.first ?? '',
             context: context,
           );
         } else {
           capNhatBienSoxe(
-            bienKiemSoat: bienKiemSoat,
+            bienKiemSoat: bienKiemSoat.trim(),
             id: id ?? '',
             fileId: success.data!.isEmpty
                 ? (fileId ?? '')

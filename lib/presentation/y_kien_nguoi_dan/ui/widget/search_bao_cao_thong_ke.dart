@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -20,6 +19,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+
+import 'bao_cao_thong_ke/widgets/cuptino_date_picker.dart';
 
 class SearchBaoCaoThongKeWidget extends StatefulWidget {
   final String startDate;
@@ -101,6 +102,7 @@ class _TreeDonViState extends State<TreeDonVi> {
   late DateTime initStartDate;
   late DateTime initEnDate;
   List<String> donViID = [];
+  final timeNow = DateTime.now();
 
   @override
   void initState() {
@@ -205,7 +207,7 @@ class _TreeDonViState extends State<TreeDonVi> {
             Row(
               children: [
                 Expanded(
-                  child: SelectDate(
+                  child: CuptinoDatePicker(
                     colorIsObligatory:backgroundColorApp,
                     isObligatory: true,
                     initDateTime: initStartDate,
@@ -239,7 +241,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                   ),
                 ),
                 Expanded(
-                  child: SelectDate(
+                  child: CuptinoDatePicker(
                     colorIsObligatory: backgroundColorApp,
                     isObligatory: true,
                     callBackSelectDate: (String selectDate) {

@@ -49,14 +49,14 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         ),
       ),
       tabletScreen: Padding(
-        padding: const EdgeInsets.only(top: 60, left: 13.5),
+        padding: const EdgeInsets.only(top: 16.0, left: 13.5),
         child: StreamBuilder<ChiTietLichHopModel>(
           stream: widget.cubit.chiTietLichHopSubject,
           builder: (context, snapshot) {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  if (!widget.cubit.isNguoiThamGia()) selectFile(),
+                  if (!widget.cubit.addFilePermission()) selectFile(),
                   listFileFromApi(),
                 ],
               ),
@@ -96,9 +96,8 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         builder: (context, snapshot) {
           final data = snapshot.data?.fileData ?? [];
           if (data.isEmpty){
-            return const SizedBox(
-              height: 150,
-              child: NodataWidget(),
+            return const NodataWidget(
+              height: 50.0,
             );
           }
           return ListView.builder(

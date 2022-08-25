@@ -19,7 +19,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SelectDonVi extends StatefulWidget {
   final Function(DonViModel) onChange;
   final String? title;
-  final bool  isDonVi;
+  final bool isDonVi;
   final String? hintText;
   final ThanhPhanThamGiaCubit cubit;
   final ThemDonViCubit themDonViCubit;
@@ -41,7 +41,6 @@ class SelectDonVi extends StatefulWidget {
 }
 
 class _SelectDonViState extends State<SelectDonVi> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -87,10 +86,7 @@ class _SelectDonViState extends State<SelectDonVi> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(
-                    title(),
-                    style: textNormal(textTitle, 14.0.textScale()),
-                  ),
+                  child: title(),
                 ),
                 SvgPicture.asset(ImageAssets.icEditInfor)
               ],
@@ -137,15 +133,23 @@ class _SelectDonViState extends State<SelectDonVi> {
     }
   }
 
-  String title() {
+  Widget title() {
     if (widget.cubit.nodeDonViThemCanBo == null) {
-      return widget.hintText ?? S.current.chon_don_vi_phong_ban;
+      return Text(
+        widget.hintText ?? S.current.chon_don_vi_phong_ban,
+        style: textNormal(titleItemEdit.withOpacity(0.5), 14.0.textScale()),
+      );
     } else {
       final Node<DonViModel> nodeDonVi = widget.cubit.nodeDonViThemCanBo!;
+      String text = '';
       if (nodeDonVi.children.isEmpty) {
-        return nodeDonVi.value.name;
+        text = nodeDonVi.value.name;
       }
-      return '${nodeDonVi.value.name} (${nodeDonVi.children.length})';
+      text = '${nodeDonVi.value.name} (${nodeDonVi.children.length})';
+      return Text(
+        text,
+        style: textNormal(textTitle, 14.0.textScale()),
+      );
     }
   }
 }

@@ -50,9 +50,10 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
       );
     });
   }
-  void _handleEventBus (){
+
+  void _handleEventBus() {
     eventBus.on<ReloadMeetingDetail>().listen((event) {
-      if (event.tabReload.contains(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA)){
+      if (event.tabReload.contains(TabWidgetDetailMeet.THANH_PHAN_THAM_GIA)) {
         thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
         thanhPhanThamGiaHopCubit.detailMeetCalenderCubit = widget.cubit;
         thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
@@ -154,9 +155,8 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                     },
                   );
                 } else {
-                  return const SizedBox(
-                    height: 200,
-                    child: NodataWidget(),
+                  return const NodataWidget(
+                    height: 50,
                   );
                 }
               },

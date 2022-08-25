@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +26,11 @@ class BaseAppBarMobile extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-      ),
+      systemOverlayStyle: isMobile()
+          ? const SystemUiOverlayStyle(
+              statusBarBrightness: Brightness.light,
+            )
+          : SystemUiOverlayStyle.dark,
       backgroundColor: backgroundColorApp,
       bottomOpacity: 0.0,
       elevation: elevation ?? 0.0,

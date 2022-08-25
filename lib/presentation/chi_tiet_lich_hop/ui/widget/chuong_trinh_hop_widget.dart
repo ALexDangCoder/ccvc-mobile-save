@@ -66,7 +66,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
         ),
       ),
       tabletScreen: Padding(
-        padding: const EdgeInsets.only(top: 60),
+        padding: const EdgeInsets.only(top: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,9 +122,8 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
           if (data.isEmpty) {
-            return const SizedBox(
-              height: 150,
-              child: NodataWidget(),
+            return const NodataWidget(
+              height: 50.0,
             );
           }
           return ListView.builder(
@@ -332,7 +331,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            listPhienHopModel.dateTimeView() ,
+                            listPhienHopModel.dateTimeView(),
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
                               color: textTitle,
@@ -378,12 +377,11 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        physics:const NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: listPhienHopModel.files.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          final data = listPhienHopModel.files
-                              .toList();
+                          final data = listPhienHopModel.files.toList();
                           return GestureDetector(
                             onTap: () {
                               saveFile(

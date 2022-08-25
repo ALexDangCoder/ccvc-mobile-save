@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class QLVBCCubit extends BaseCubit<QLVBState> {
@@ -50,21 +49,13 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   List<VanBanModel> listVBDen = [];
 
   Future<void> refreshDocumentList({bool showLoad = true}) async {
-    final queue = Queue();
     if (showLoad) {
       showLoading();
     }
-    unawaited(
-      queue.add(
-        () => fetchIncomeDocumentCustom(initLoad: true, loadingCircle: false),
-      ),
-    );
-    unawaited(
-      queue.add(
-        () => fetchOutcomeDocumentCustom(initLoad: true, loadingCircle: false),
-      ),
-    );
-    await queue.onComplete;
+    await Future.wait([
+      fetchIncomeDocumentCustom(initLoad: true, loadingCircle: false),
+      fetchOutcomeDocumentCustom(initLoad: true, loadingCircle: false),
+    ]);
     if (showLoad) {
       showContent();
     }
@@ -114,19 +105,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   ///End declare Report Statistical variable
 
   Future<void> callAPi({bool initTime = true}) async {
-    final queue = Queue();
     showLoading();
     if (initTime) {
       initTimeRange();
     }
-    unawaited(queue.add(() => getDashBoardIncomeDocument()));
-    unawaited(queue.add(() => getDashBoardOutcomeDocument()));
-    unawaited(
-      queue.add(
-        () => refreshDocumentList(showLoad: false),
-      ),
-    );
-    await queue.onComplete;
+    await Future.wait([
+      getDashBoardIncomeDocument(),
+      getDashBoardOutcomeDocument(),
+      refreshDocumentList(showLoad: false),
+    ]);
     showContent();
   }
 

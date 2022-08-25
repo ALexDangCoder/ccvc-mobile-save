@@ -43,7 +43,7 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 60),
+      padding: const EdgeInsets.only(top: 16.0),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -73,7 +73,7 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                     },
                   );
                 }
-                return const  SizedBox.shrink();
+                return const SizedBox.shrink();
               },
             ),
             Padding(
@@ -111,9 +111,8 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                     },
                   );
                 } else {
-                  return const SizedBox(
-                    height: 200,
-                    child: NodataWidget(),
+                  return const NodataWidget(
+                    height: 50.0,
                   );
                 }
               },

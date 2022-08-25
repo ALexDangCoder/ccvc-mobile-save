@@ -13,7 +13,6 @@ import 'package:syncfusion_flutter_core/localizations.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-
 import 'appointment_engine/appointment.dart';
 import 'appointment_engine/appointment_helper.dart';
 import 'appointment_engine/calendar_datasource.dart';
@@ -458,7 +457,7 @@ class SfCalendar extends StatefulWidget {
   ///  ```
   final DateTime minDate;
 
-  final void Function(DateTime day , int count )? onMoreDayClick;
+  final void Function(DateTime day, int count)? onMoreDayClick;
 
   /// The maximum date as much as the [SfCalendar]  will navigate.
   ///
@@ -9948,11 +9947,8 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
                       width: todayIconWidth,
                       height: headerHeight,
                       alignment: Alignment.center,
-                      child: Icon(
-                        Icons.today,
-                        color: style.color,
-                        size: style.fontSize,
-                      ))
+                      child: const SizedBox.shrink(),
+                    )
                   : Container(
                       decoration: BoxDecoration(
                         border: Border.all(

@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:core';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
@@ -10,7 +7,6 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
-import 'package:ccvc_mobile/widgets/views/show_loading_screen.dart';
 
 extension DocumentOutCubit on QLVBCCubit {
   Future<void> getDashBoardOutcomeDocument({
@@ -99,7 +95,6 @@ extension DocumentOutCubit on QLVBCCubit {
         listVbDi = res.pageData ?? [];
       },
       error: (err) {
-        return err;
       },
     );
     return listVbDi;
@@ -109,9 +104,6 @@ extension DocumentOutCubit on QLVBCCubit {
     bool initLoad = false,
     bool loadingCircle = true,
   }) async {
-    if (loadingCircle) {
-    ShowLoadingScreen.show();
-    }
     if (initLoad) {
       vbDiLoadMore = true;
       listVBDi.clear();
@@ -119,6 +111,9 @@ extension DocumentOutCubit on QLVBCCubit {
     }
     final currentPage = listVBDi.length ~/ ApiConstants.DEFAULT_PAGE_SIZE;
     if (!vbDiLoading && vbDiLoadMore) {
+      if (loadingCircle) {
+        showLoading();
+      }
       vbDiLoading = true;
       final newItems = await getListOutcomeDocument(
         page: currentPage + 1,
@@ -127,9 +122,9 @@ extension DocumentOutCubit on QLVBCCubit {
       vbDiLoading = false;
       listVBDi.addAll(newItems);
       danhSachVBDi.sink.add(listVBDi);
-    }
-    if (loadingCircle) {
-    ShowLoadingScreen.dismiss();
+      if (loadingCircle) {
+        showContent();
+      }
     }
   }
 }

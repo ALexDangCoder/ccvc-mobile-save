@@ -93,11 +93,14 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   child: !widget.enabled
                       ? Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            widget.text,
-                            style: textNormal(
-                              infoColor,
-                              14,
+                          child: GestureDetector (
+                            onTap: widget.isEnableIcon ? widget.onEdit : onTapNull,
+                            child: Text(
+                              widget.text,
+                              style: textNormal(
+                                infoColor,
+                                14,
+                              ),
                             ),
                           ),
                         )

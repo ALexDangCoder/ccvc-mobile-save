@@ -43,9 +43,9 @@ class _NguoiChuTriWidgetState extends State<NguoiChuTriWidget> {
               : _cubit.selectNguoiChuTri?.userId ?? '',
           value: widget.isEdit
               ? widget.name
-              : _cubit.selectNguoiChuTri?.title() ?? '',
+              : _cubit.selectNguoiChuTri?.position() ?? '',
           title: S.current.nguoi_chu_tri,
-          maxLine: 2,
+          maxLine: 1,
         );
       },
     );

@@ -53,10 +53,7 @@ class _DocumentFileState extends State<DocumentFile> {
               },
             ),
           if (widget.files.isEmpty)
-            const SizedBox(
-              height: 150,
-              child: NodataWidget(),
-            ),
+            const NodataWidget(height: 50.0,),
         ],
       ),
     );

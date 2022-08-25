@@ -665,7 +665,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           final data = snapshot.data ?? [];
           if (data.isEmpty) {
             return const NodataWidget(
-              height: 150,
+              height: 50.0,
             );
           }
           return ListView.builder(

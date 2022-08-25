@@ -36,7 +36,9 @@ class _DanhSachYKienScreenState extends State<DanhSachYKienScreen> {
                 },
               );
             } else {
-              return const  NodataWidget( height: 100,);
+              return const NodataWidget(
+                height: 50.0,
+              );
             }
           },
         ),

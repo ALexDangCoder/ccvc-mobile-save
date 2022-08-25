@@ -243,7 +243,7 @@ class CreateBy {
   }
 
   String nameUnitPosition() {
-    return '$hoTen - $tenDonVi - $chucVu';
+    return '$hoTen - $chucVu - $tenDonVi ';
   }
 
   String namePosition() {
@@ -298,10 +298,10 @@ class Files {
     this.fileId,
   });
 
-  double getSize(){
-    try{
+  double getSize() {
+    try {
       return double.parse(size ?? '');
-    }catch(e){
+    } catch (e) {
       return 0;
     }
   }

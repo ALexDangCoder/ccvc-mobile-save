@@ -97,7 +97,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
           final data = snapshot.data?.fileData ?? [];
           if (data.isEmpty){
             return const NodataWidget(
-              height: 100.0,
+              height: 50.0,
             );
           }
           return ListView.builder(

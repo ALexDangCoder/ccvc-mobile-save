@@ -223,7 +223,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                         final data = snapshot.data ?? [];
                         if (data.isEmpty) {
                           return const NodataWidget(
-                            height: 100,
+                            height: 50.0,
                           );
                         }
                         return ListView.builder(
@@ -285,7 +285,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                             final data = snapshot.data ?? [];
                             if (data.isEmpty) {
                               return const NodataWidget(
-                                height: 100,
+                                height: 50.0,
                               );
                             }
                             return ListView.builder(

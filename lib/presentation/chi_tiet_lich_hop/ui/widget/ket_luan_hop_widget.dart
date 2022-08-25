@@ -186,7 +186,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
             );
           }
           return const NodataWidget(
-            height: 100,
+            height: 50.0,
           );
         },
       );
@@ -225,7 +225,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
             );
           } else {
             return const NodataWidget(
-              height: 100,
+              height: 50.0,
             );
           }
         },

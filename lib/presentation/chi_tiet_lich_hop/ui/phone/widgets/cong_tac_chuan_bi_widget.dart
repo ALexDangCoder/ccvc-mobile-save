@@ -192,12 +192,14 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                           cubit: widget.cubit,
                         )
                       : const NodataWidget(
-                    height: 100.0,
-                  ),
+                          height: 50.0,
+                        ),
                 ),
               );
             }
-            return const NodataWidget(height: 100,);
+            return const NodataWidget(
+              height: 50.0,
+            );
           },
         ),
 
@@ -213,7 +215,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   final data = snapshot.data ?? <ThietBiPhongHopModel>[];
                   if (data.isEmpty) {
                     return const NodataWidget(
-                      height: 100.0,
+                      height: 50.0,
                     );
                   }
                   return Column(
@@ -743,7 +745,7 @@ class _ChonPhongHopScreenOnlyState extends State<_ChonPhongHopScreenOnly> {
                   );
                 } else {
                   return const NodataWidget(
-                    height: 100,
+                    height: 50,
                   );
                 }
               },

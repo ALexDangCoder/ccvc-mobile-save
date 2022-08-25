@@ -123,7 +123,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
           final data = snapshot.data ?? [];
           if (data.isEmpty) {
             return const NodataWidget(
-              height: 100,
+              height: 50.0,
             );
           }
           return ListView.builder(

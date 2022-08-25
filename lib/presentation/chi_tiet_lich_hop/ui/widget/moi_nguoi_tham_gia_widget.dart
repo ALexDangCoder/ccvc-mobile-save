@@ -156,7 +156,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   );
                 } else {
                   return const NodataWidget(
-                    height: 100,
+                    height: 50,
                   );
                 }
               },

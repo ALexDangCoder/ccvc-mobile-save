@@ -112,7 +112,7 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                   );
                 } else {
                   return const NodataWidget(
-                    height: 100.0,
+                    height: 50.0,
                   );
                 }
               },

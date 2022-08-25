@@ -213,7 +213,7 @@ class _ThanhPhanThamGiaWidgetTabletState
                 );
               } else {
                 return const NodataWidget(
-                  height: 100,
+                  height: 50.0,
                 );
               }
             },

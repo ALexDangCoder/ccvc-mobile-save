@@ -81,7 +81,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                     },
                   );
                 } else {
-                  return const NodataWidget(height: 100,);
+                  return const NodataWidget(height: 50.0,);
                 }
               },
             )

@@ -25,6 +25,8 @@ extension DocumentOutCubit on QLVBCCubit {
           soLuongChoXuLy: res.soLuongChoXuLy,
           soLuongDaXuLy: res.soLuongDaXuLy,
           soLuongThuongKhan: res.soLuongThuongKhan,
+          soLuongChoBanHanh: res.soLuongChoBanHanh,
+          soLuongChoCapSo: res.soLuongChoCapSo,
         );
         chartDataVbDi.add(
           ChartData(

@@ -1033,7 +1033,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     final isCongKhai = dataModel.publishSchedule ?? false;
     final isHuy = isLichHuy(dataModel) ;
     final isThuHoi = isLichThuHoi(dataModel) ;
-    if (isHuy || isThuHoi == true){
+    if (isHuy || isThuHoi){
       return false;
     }else{
       return isCongKhai || !isThuHoi || isCreateUser || isChuTri;

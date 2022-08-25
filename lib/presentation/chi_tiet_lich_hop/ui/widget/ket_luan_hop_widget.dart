@@ -56,7 +56,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
       mobileScreen: SelectOnlyWidget(
         onchange: (value) {
           if (value) {
-            widget.cubit.getDanhSachNguoiChuTriPhienHop(id: widget.cubit.idCuocHop);
+            widget.cubit
+                .getDanhSachNguoiChuTriPhienHop(id: widget.cubit.idCuocHop);
             widget.cubit.callApiKetLuanHop();
           }
         },
@@ -71,7 +72,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
         ),
       ),
       tabletScreen: Padding(
-        padding: const EdgeInsets.only(top: 60),
+        padding: const EdgeInsets.only(top: 16.0),
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -109,21 +110,18 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
           /// nêu không có cuộc họp trả về button soạn
           if ((data.title ?? '').isEmpty && widget.cubit.isSoanKetLuanHop()) {
-            return Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: IconWithTiltleWidget(
-                icon: ImageAssets.icDocument2,
-                title: S.current.soan_ket_luan_hop,
-                onPress: () {
-                  xemOrTaoOrSuaKetLuanHop(
-                    cubit: widget.cubit,
-                    context: context,
-                    title: S.current.soan_ket_luan_hop,
-                    isCreate: true,
-                    listFile: [],
-                  );
-                },
-              ),
+            return IconWithTiltleWidget(
+              icon: ImageAssets.icDocument2,
+              title: S.current.soan_ket_luan_hop,
+              onPress: () {
+                xemOrTaoOrSuaKetLuanHop(
+                  cubit: widget.cubit,
+                  context: context,
+                  title: S.current.soan_ket_luan_hop,
+                  isCreate: true,
+                  listFile: [],
+                );
+              },
             );
 
             /// nêu có cuộc họp trả về thông tin và các button khác
@@ -187,9 +185,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
               ],
             );
           }
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 30),
-            child: NodataWidget(),
+          return const NodataWidget(
+            height: 50.0,
           );
         },
       );
@@ -227,9 +224,8 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
               },
             );
           } else {
-            return const SizedBox(
-              height: 200,
-              child: NodataWidget(),
+            return const NodataWidget(
+              height: 50.0,
             );
           }
         },

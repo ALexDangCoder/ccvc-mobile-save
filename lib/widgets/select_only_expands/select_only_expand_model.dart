@@ -60,7 +60,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
       final index =
           widget.listSelect.indexWhere((element) => element.userId == widget.userId);
       if (index != -1) {
-        valueSelect = widget.listSelect[index].title();
+        valueSelect = widget.listSelect[index].position();
         if (widget.onChange != null) {
           widget.onChange!(index);
         }
@@ -77,7 +77,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
       final index =
           widget.listSelect.indexWhere((element) => element.userId == widget.userId);
       if (index != -1) {
-        valueSelect = widget.listSelect[index].title();
+        valueSelect = widget.listSelect[index].position();
         if (widget.onChange != null) {
           widget.onChange!(index);
         }
@@ -117,7 +117,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      valueSelect = widget.listSelect[index].title();
+                      valueSelect = widget.listSelect[index].position();
                       if (widget.onChange != null) {
                         widget.onChange!(index);
                       }
@@ -131,7 +131,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
                         children: [
                           Flexible(
                             child: Text(
-                              widget.listSelect[index].title(),
+                              widget.listSelect[index].position(),
                               style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
                               maxLines: widget.maxLine,

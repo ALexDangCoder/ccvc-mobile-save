@@ -154,42 +154,47 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                                 )
                               ],
                             ),
-                            child: StickyHeader(
-                              header: Container(
-                                color: backgroundColorApp,
-                                child: TabBar(
-                                  controller: _controller,
-                                  unselectedLabelStyle: textNormalCustom(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  indicatorColor:
-                                      AppTheme.getInstance().colorField(),
-                                  unselectedLabelColor: colorA2AEBD,
-                                  labelColor:
-                                      AppTheme.getInstance().colorField(),
-                                  labelStyle: textNormalCustom(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  isScrollable: true,
-                                  tabs: List.generate(
-                                    cubit.getListWidgetDetailSubject.length,
-                                    (index) => Tab(
-                                      child: Text(
-                                        cubit.getListWidgetDetailSubject[index]
-                                            .getName(),
+                            child: Column(
+                              children: [
+                                Container(
+                                  color: backgroundColorApp,
+                                  child: TabBar(
+                                    controller: _controller,
+                                    unselectedLabelStyle: textNormalCustom(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    indicatorColor:
+                                        AppTheme.getInstance().colorField(),
+                                    unselectedLabelColor: colorA2AEBD,
+                                    labelColor:
+                                        AppTheme.getInstance().colorField(),
+                                    labelStyle: textNormalCustom(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    isScrollable: true,
+                                    tabs: List.generate(
+                                      cubit.getListWidgetDetailSubject.length,
+                                      (index) => Tab(
+                                        child: Text(
+                                          cubit
+                                              .getListWidgetDetailSubject[index]
+                                              .getName(),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              content: TabBarView(
-                                controller: _controller,
-                                children: cubit.getListWidgetDetailSubject
-                                    .map((e) => e.getWidget(cubit))
-                                    .toList(),
-                              ),
+                                Expanded(
+                                  child: TabBarView(
+                                    controller: _controller,
+                                    children: cubit.getListWidgetDetailSubject
+                                        .map((e) => e.getWidget(cubit))
+                                        .toList(),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),

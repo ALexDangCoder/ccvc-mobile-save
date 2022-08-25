@@ -169,6 +169,7 @@ class DonViModel {
       donViId: donViId,
       hoTen: tenCanBo,
       userId: userId,
+      chucVu: chucVu,
     );
   }
 

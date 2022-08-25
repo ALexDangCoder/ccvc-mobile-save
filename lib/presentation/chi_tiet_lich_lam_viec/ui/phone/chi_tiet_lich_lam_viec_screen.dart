@@ -350,7 +350,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   ? Scaffold(
                       appBar: BaseAppBar(
                         title: S.current.chi_tiet_lich_lam_viec,
-                        actions: listAction.isNotEmpty && isThuHoiOrHuy
+                        actions: listAction.isNotEmpty && !isThuHoiOrHuy
                             ? [
                                 MenuSelectWidget(
                                   listSelect: listAction,

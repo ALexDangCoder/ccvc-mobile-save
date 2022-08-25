@@ -199,6 +199,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                       spaceH20,
                       ItemTextNote(title: S.current.bien_kiem_soat),
                       TextFieldValidator(
+                        maxLength: 20,
                         controller: bienKiemSoatController,
                         hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
@@ -366,6 +367,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             ItemTextNote(title: S.current.bien_kiem_soat),
                             TextFieldValidator(
                               fillColor: colorFFFFFF,
+                              maxLength: 20,
                               controller: bienKiemSoatController,
                               hintText: S.current.nhap_bien_kiem_soat,
                               onChange: (value) {},

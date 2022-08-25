@@ -102,7 +102,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
             style: textNormal(infoColor, 14.0.textScale()),
           ),
         ),
-        spaceW10,
+        spaceW20,
         Expanded(
           flex: 6,
           child: Text(

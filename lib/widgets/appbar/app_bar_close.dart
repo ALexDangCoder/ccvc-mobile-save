@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,8 +23,11 @@ class AppBarDefaultClose extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      systemOverlayStyle:
-          const SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+      systemOverlayStyle: isMobile()
+          ? const SystemUiOverlayStyle(
+        statusBarBrightness: Brightness.light,
+      )
+          : SystemUiOverlayStyle.dark,
       centerTitle: true,
       title: FittedBox(
         child: Text(

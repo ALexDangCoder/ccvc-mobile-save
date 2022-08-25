@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class QLVBCCubit extends BaseCubit<QLVBState> {
@@ -106,19 +105,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   ///End declare Report Statistical variable
 
   Future<void> callAPi({bool initTime = true}) async {
-    final queue = Queue();
     showLoading();
     if (initTime) {
       initTimeRange();
     }
-    unawaited(queue.add(() => getDashBoardIncomeDocument()));
-    unawaited(queue.add(() => getDashBoardOutcomeDocument()));
-    unawaited(
-      queue.add(
-        () => refreshDocumentList(showLoad: false),
-      ),
-    );
-    await queue.onComplete;
+    await Future.wait([
+      getDashBoardIncomeDocument(),
+      getDashBoardOutcomeDocument(),
+      refreshDocumentList(showLoad: false),
+    ]);
     showContent();
   }
 

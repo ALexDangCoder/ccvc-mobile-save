@@ -118,6 +118,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
               formKey: formKeyNoiDung,
               contentController: noiDungController,
               title: S.current.noi_dung,
+              maxLenght: 255,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 22, bottom: 14),

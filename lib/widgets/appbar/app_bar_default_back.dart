@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -23,9 +24,11 @@ class AppBarDefaultBack extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
+      systemOverlayStyle: isMobile()
+          ? const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
-      ),
+      )
+          : SystemUiOverlayStyle.dark,
       backgroundColor:
           APP_DEVICE == DeviceType.MOBILE ? backgroundColorApp : bgQLVBTablet,
       bottomOpacity: 0.0,

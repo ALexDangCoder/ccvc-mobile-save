@@ -42,4 +42,13 @@ class NguoiChutriModel {
     }
     return title;
   }
+  String position() {
+    String title = '';
+    if (hoTen != '' && chucVu != '') {
+      title = ' ${hoTen!} - $chucVu - $tenDonVi';
+    } else {
+      title = tenCoQuan ?? '';
+    }
+    return title;
+  }
 }

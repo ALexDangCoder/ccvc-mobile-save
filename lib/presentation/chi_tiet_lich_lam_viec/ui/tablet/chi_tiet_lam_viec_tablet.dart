@@ -352,14 +352,14 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
           }
           final isThuHoiOrHuy = chiTietLichLamViecCubit.isLichHuy(dataModel) ||
               chiTietLichLamViecCubit.isLichThuHoi(dataModel);
-          final isCongKhai = chiTietLichLamViecCubit.isCongKhai(dataModel);
+          final showDetail = chiTietLichLamViecCubit.showDetail(dataModel);
           return snapshot.data != null
               ? dataModel.id != null
                   ? Scaffold(
                       backgroundColor: bgWidgets,
                       appBar: BaseAppBar(
                         title: S.current.chi_tiet_lich_lam_viec,
-                        actions: listAction.isNotEmpty
+                        actions: listAction.isNotEmpty && !isThuHoiOrHuy
                             ? [
                                 MenuSelectWidget(
                                   listSelect: listAction,
@@ -449,15 +449,13 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                         ],
                                       ),
                                       spaceH16,
-                                      if (chiTietLichLamViecCubit
-                                              .isCreateOrCongKhai(dataModel) ||
-                                          !isThuHoiOrHuy)
+                                      if (showDetail)
                                         BtnShowChinhSuaBaoCao(
                                           chiTietLichLamViecCubit:
                                               chiTietLichLamViecCubit,
                                           dataModel: dataModel,
                                         ),
-                                      if (!isThuHoiOrHuy || isCongKhai)
+                                      if (showDetail)
                                         DanhSachYKienButtom(
                                           dataModel: dataModel,
                                           isTablet: true,
@@ -650,7 +648,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                 Expanded(
                                   child: Column(
                                     children: [
-                                      if (!isThuHoiOrHuy || isCongKhai) ...[
+                                      if (showDetail) ...[
                                         listScheduleCooperatives(),
                                         StreamBuilder<ChiTietLichLamViecModel>(
                                           stream: chiTietLichLamViecCubit

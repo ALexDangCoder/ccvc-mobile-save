@@ -186,20 +186,18 @@ class _SelectTHuHoiCellState extends State<SelectTHuHoiCell> {
                     widget.cubit.dataThuKyOrThuHoiDeFault[vl].trangThai =
                         CoperativeStatus.Revoked;
                   }
-                  widget.cubit.listThuHoi.sink.add(widget.cubit.dataThuKyOrThuHoiDeFault);
+                  widget.cubit.listThuHoi.sink
+                      .add(widget.cubit.dataThuKyOrThuHoiDeFault);
                 },
               ),
               wrapThis(
-                listData: dataSN,
-                cubit: widget.cubit,
-                isPhanCongThuKy: false,
-                onRemove: () {
-                  keyDropDown.currentState?.isSelect = false;
-                  setState(() {
-
-                  });
-                }
-              )
+                  listData: dataSN,
+                  cubit: widget.cubit,
+                  isPhanCongThuKy: false,
+                  onRemove: () {
+                    keyDropDown.currentState?.isSelect = false;
+                    setState(() {});
+                  })
             ],
           );
         },
@@ -356,7 +354,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                   .title()
                   .toLowerCase()
                   .vietNameseParse()
-                  .contains(keySearch);
+                  .contains(keySearch.trim().toLowerCase().vietNameseParse());
             }
 
             searchList = widget.listSelect

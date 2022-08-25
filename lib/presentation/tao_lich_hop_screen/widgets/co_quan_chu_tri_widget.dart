@@ -115,7 +115,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ..canBoId = null
                   ..donViId = null;
               }
-              if(!value && !isNgoaiDonVi){
+              if (!value && !isNgoaiDonVi) {
                 widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
               }
               setState(() {});
@@ -141,7 +141,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     return data.isEmpty
                         ? const NodataWidget()
                         : ExpandGroup(
-                      child: SelectOnlyExpandModel(
+                            child: SelectOnlyExpandModel(
                               urlIcon: '',
                               title: S.current.nguoi_chu_tri,
                               listSelect: data
@@ -169,9 +169,11 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                       child: Stack(
                         children: [
                           ContainerToggleWidget(
-                            initData: !isEnable ?
-                                widget.cubit.taoLichHopRequest.bitYeuCauDuyet ??
-                                    false : false,
+                            initData: !isEnable
+                                ? widget.cubit.taoLichHopRequest
+                                        .bitYeuCauDuyet ??
+                                    false
+                                : false,
                             title: S.current.chu_tri_duyet,
                             onChange: (value) {
                               widget.cubit.taoLichHopRequest.bitYeuCauDuyet =
@@ -205,14 +207,14 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 isTrongDonVi = false;
                 widget.cubit.taoLichHopRequest.bitYeuCauDuyet = false;
               }
-              if(!value && !isNgoaiDonVi){
+              if (!value && !isNgoaiDonVi) {
                 widget.cubit.taoLichHopRequest.bitTrongDonVi = null;
               }
               widget.cubit.taoLichHopRequest.bitTrongDonVi = isTrongDonVi;
               setState(() {});
             },
           ),
-          if(!isNgoaiDonVi)
+          if (!isNgoaiDonVi)
             const Padding(
               padding: EdgeInsets.only(left: 28.0),
               child: Divider(
@@ -220,7 +222,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                 thickness: 1,
               ),
             ),
-          if(isNgoaiDonVi)
+          if (isNgoaiDonVi)
             Padding(
               padding: const EdgeInsets.only(left: 28.0),
               child: Column(

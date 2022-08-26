@@ -401,7 +401,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
         TextFormField(
           style: textNormal(color3D5586, 14.0.textScale()),
           onChanged: (value) {
-            onChange(value);
+            onChange(value.trim());
           },
           maxLength: maxLength,
           inputFormatters: inputFormatter,
@@ -471,21 +471,21 @@ class ItemDiemCau extends StatelessWidget {
             child: Column(
               children: [
                 rowInfo(
-                  value: diemCau.tenDiemCau ?? '',
+                  value: (diemCau.tenDiemCau ?? '').trim(),
                   key: S.current.ten_don_vi,
                 ),
                 SizedBox(
                   height: 10.0.textScale(space: 10),
                 ),
                 rowInfo(
-                  value: diemCau.canBoDauMoiHoTen ?? '',
+                  value: (diemCau.canBoDauMoiHoTen ?? '').trim(),
                   key: S.current.can_bo_dau_moi,
                 ),
                 SizedBox(
                   height: 10.0.textScale(space: 10),
                 ),
                 rowInfo(
-                  value: diemCau.canBoDauMoiChucVu ?? '',
+                  value: (diemCau.canBoDauMoiChucVu ?? '').trim(),
                   key: S.current.chuc_vu,
                 ),
                 SizedBox(

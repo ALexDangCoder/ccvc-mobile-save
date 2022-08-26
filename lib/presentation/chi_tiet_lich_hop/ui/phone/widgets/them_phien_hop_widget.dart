@@ -282,8 +282,6 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     FileExtensions.JPG,
                     FileExtensions.PDF,
                     FileExtensions.PNG,
-                    FileExtensions.XLSX,
-                    FileExtensions.PPTX,
                   ],
                 ),
               ],

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -69,9 +70,11 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       )
                           : GestureDetector(
                         onTap: widget.ontap,
-                        child: SvgPicture.asset(
-                            ImageAssets.ic_huyDiemDanh),
-                      ),
+                              child: SvgPicture.asset(
+                                ImageAssets.ic_huyDiemDanh,
+                                color: AppTheme.getInstance().colorField(),
+                              ),
+                            ),
                     ),
                 ],
               ),

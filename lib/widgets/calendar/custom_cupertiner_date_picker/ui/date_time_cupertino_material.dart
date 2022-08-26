@@ -66,14 +66,15 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
       GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
   final keyExpandedBegin =
       GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
-  var counterTimeStart = 0;
-  var counterTimeEnd = 0;
-  var counterDate = 0;
+  int counterTimeStart = 0;
+  int counterTimeEnd = 0;
+  int counterDate = 0;
 
   @override
   void initState() {
     super.initState();
     _cubit = widget.cubit ?? DateTimeCupertinoCustomCubit();
+    _cubit.isSwitchBtnCheckedSubject.add(widget.isSwitchButtonChecked);
     _cubit.timeStartConfigSystem = widget.timeStartConfigSystem ?? '00:00';
     _cubit.timeEndConfigSystem = widget.timeEndConfigSystem ?? '00:00';
     debouncer = Debouncer();
@@ -100,7 +101,6 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         timeSelected: widget.initDateStart ?? DateTime.now(),
         typePicker: TypePickerDateTime.DATE_START,
       );
-      _cubit.isSwitchBtnCheckedSubject.add(widget.isSwitchButtonChecked);
     }
   }
 

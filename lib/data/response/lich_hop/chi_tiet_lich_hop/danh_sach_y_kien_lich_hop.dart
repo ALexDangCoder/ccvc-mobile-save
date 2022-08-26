@@ -43,17 +43,16 @@ class Data {
   String? traLoiYKien;
   String? avatar;
 
-  Data(
-      {this.id,
-      this.scheduleId,
-      this.content,
-      this.nguoiTao,
-      this.ngayTao,
-      this.nguoiTaoId,
-      this.traLoiYKien,
-      this.avatar,
-
-      });
+  Data({
+    this.id,
+    this.scheduleId,
+    this.content,
+    this.nguoiTao,
+    this.ngayTao,
+    this.nguoiTaoId,
+    this.traLoiYKien,
+    this.avatar,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -70,15 +69,16 @@ class Data {
     List<YkienCuocHopModel> listTraLoi = [];
     if (traLoiYKien != null) {
       final listData = jsonDecode(traLoiYKien ?? '') as List<dynamic>;
-      listTraLoi = listData.map((e) => DataTraLoiYKien.fromJson(e).toDomain()).toList();
+      listTraLoi =
+          listData.map((e) => DataTraLoiYKien.fromJson(e).toDomain()).toList();
     }
     return YkienCuocHopModel(
       id: id,
       ngayTao: ngayTao?.changeToNewPatternDate(
-          DateTimeFormat.DATE_TIME_RECEIVE,
-          DateTimeFormat.DATE_TIME_PICKER,
+        DateTimeFormat.DATE_TIME_RECEIVE,
+        DateTimeFormat.DATE_TIME_PICKER,
       ),
-      avatar : avatar ?? '',
+      avatar: avatar ?? '',
       nguoiTaoId: nguoiTaoId ?? '',
       nguoiTao: nguoiTao ?? '',
       content: content?.parseHtml() ?? '',
@@ -95,15 +95,16 @@ class DataTraLoiYKien {
   String? nguoiTao;
   String? ngayTao;
   String? nguoiTaoId;
+  String? avatar;
 
-  DataTraLoiYKien({
-    this.id,
-    this.scheduleId,
-    this.content,
-    this.nguoiTao,
-    this.ngayTao,
-    this.nguoiTaoId,
-  });
+  DataTraLoiYKien(
+      {this.id,
+      this.scheduleId,
+      this.content,
+      this.nguoiTao,
+      this.ngayTao,
+      this.nguoiTaoId,
+      this.avatar});
 
   DataTraLoiYKien.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -112,6 +113,7 @@ class DataTraLoiYKien {
     nguoiTao = json['NguoiTao'];
     ngayTao = json['NgayTao'];
     nguoiTaoId = json['NguoiTaoId'];
+    avatar = json['Avatar'];
   }
 
   YkienCuocHopModel toDomain() {
@@ -122,6 +124,7 @@ class DataTraLoiYKien {
       ),
       nguoiTao: nguoiTao ?? '',
       content: content?.parseHtml() ?? '',
+      avatar: avatar ?? '',
     );
   }
 }

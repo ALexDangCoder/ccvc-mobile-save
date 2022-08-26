@@ -1,9 +1,9 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -23,7 +23,6 @@ import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
@@ -166,7 +165,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
 
   late String timeStart;
   late String timeEnd;
-  String thoiGianHop = DateTime.now().formatApi;
+  late String thoiGianHop;
+
   bool isOverFileLength = false;
 
   @override
@@ -185,6 +185,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
         taoPhienHopRequest.thoiGian_BatDau.split(' ').first;
     timeStart = taoPhienHopRequest.thoiGian_BatDau.split(' ').last;
     timeEnd = taoPhienHopRequest.thoiGian_KetThuc.split(' ').last;
+    thoiGianHop =
+        (taoPhienHopRequest.date?.convertStringToDate() ?? DateTime.now())
+            .formatApi;
   }
 
   void handleButtonSaveClick() {
@@ -247,7 +250,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
-      child: FollowKeyBoardWidget(
+      child: FollowKeyBoardEdt(
         bottomWidget: Padding(
           padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
           child: DoubleButtonBottom(
@@ -264,6 +267,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
         ),
         child: SingleChildScrollView(
           reverse: true,
+          physics: const AlwaysScrollableScrollPhysics(),
           child: FormGroup(
             key: _key,
             child: Column(
@@ -431,7 +435,7 @@ class ItemPhienHop extends StatelessWidget {
               rowInfo(
                 value: '${phienHop.thoiGian_BatDau}'
                     '${phienHop.timeEnd?.isNotEmpty ?? false ? ''
-                    ' - ${phienHop.timeEnd}' : ''}',
+                        ' - ${phienHop.timeEnd}' : ''}',
                 key: S.current.thoi_gian,
               ),
               SizedBox(

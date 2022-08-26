@@ -269,7 +269,7 @@ class ChiTietLichHopModel {
         ),
       );
     }
-
+    data.add(ChiTietDataRow(urlIcon: ImageAssets.icNotify, text: nhacLai()));
     data.add(
       ChiTietDataRow(
         urlIcon: ImageAssets.icPeople,
@@ -330,7 +330,7 @@ class ChiTietLichHopModel {
         ),
       );
     }
-
+    data.add(ChiTietDataRow(urlIcon: ImageAssets.icNotify, text: nhacLai()));
     data.add(
       ChiTietDataRow(
         urlIcon: ImageAssets.icPeople,

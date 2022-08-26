@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -20,13 +21,15 @@ class CustomSelectMultiItems extends StatefulWidget {
   final Function(ListItemType) onChange;
   final String hintText;
   final bool isShowIconRight;
+
   const CustomSelectMultiItems({
     Key? key,
     this.title,
     required this.context,
     required this.items,
     required this.onChange,
-    this.hintText = '', this.isShowIconRight=false,
+    this.hintText = '',
+    this.isShowIconRight = false,
   }) : super(key: key);
 
   @override
@@ -51,6 +54,7 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
       );
     } else {
       showDiaLogTablet(context,
+          isCenterTitle: true,
           title: widget.title ?? '',
           child: Column(
             children: [
@@ -150,25 +154,52 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppBarDefaultClose(
-                    widget.title ?? '',
-                    color3D5586,
-                    sizeTitle: 16,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              widget.title ?? '',
+                              style: textNormalCustom(
+                                  color: color3D5586,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            color: colorA2AEBD,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  BaseSearchBar(onChange: (keySearch) async {
-                    searchList = widget.items
-                        .where(
-                          (item) => item.title
-                          .trim()
-                          .toLowerCase()
-                          .vietNameseParse()
-                          .contains(
-                        keySearch.trim().toLowerCase().vietNameseParse(),
-                      ),
-                    )
-                        .toList();
-                    searchItemSubject.sink.add(searchList);
-                  }),
+                  BaseSearchBar(
+                    onChange: (keySearch) async {
+                      searchList = widget.items
+                          .where(
+                            (item) => item.title
+                                .trim()
+                                .toLowerCase()
+                                .vietNameseParse()
+                                .contains(
+                                  keySearch
+                                      .trim()
+                                      .toLowerCase()
+                                      .vietNameseParse(),
+                                ),
+                          )
+                          .toList();
+                      searchItemSubject.sink.add(searchList);
+                    },
+                  ),
                   Expanded(
                     child: StreamBuilder<List<ListItemType>>(
                       stream: searchItemSubject,
@@ -231,6 +262,7 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
   }
 
   final GlobalKey keyDiaLog = GlobalKey();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -248,34 +280,37 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
         showListItem(widget.context);
       },
       child: Container(
-        key: keyDiaLog,
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: borderColor),
-          borderRadius: const BorderRadius.all(Radius.circular(6)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (selectedItems != null) Text(
-              selectedItems?.title ?? '',
-              style: tokenDetailAmount(
-                fontSize: 14.0.textScale(),
-                color: titleCalenderWork,
-              ),
-            ) else Text(
-              widget.hintText,
-              style: textNormal(titleItemEdit.withOpacity(0.5), 14),
-            ),
-            if(widget.isShowIconRight)const Icon(
-              Icons.keyboard_arrow_down_outlined,
-              color: AqiColor,
-            )
-          ],
-        )
-      ),
+          key: keyDiaLog,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: borderColor),
+            borderRadius: const BorderRadius.all(Radius.circular(6)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (selectedItems != null)
+                Text(
+                  selectedItems?.title ?? '',
+                  style: tokenDetailAmount(
+                    fontSize: 14.0.textScale(),
+                    color: titleCalenderWork,
+                  ),
+                )
+              else
+                Text(
+                  widget.hintText,
+                  style: textNormal(titleItemEdit.withOpacity(0.5), 14),
+                ),
+              if (widget.isShowIconRight)
+                const Icon(
+                  Icons.keyboard_arrow_down_outlined,
+                  color: AqiColor,
+                )
+            ],
+          )),
     );
   }
 }

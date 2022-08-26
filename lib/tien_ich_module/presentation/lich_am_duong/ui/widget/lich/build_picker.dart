@@ -1,7 +1,13 @@
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+const double kItemExtent = 40.0;
+
+const bool kUseMagnifier = true;
+const double kMagnification = 1.08;
+const double kDatePickerPadSize = 12.0;
+const double kSqueeze = 0.7;
 
 class BuildPickerCusTom extends StatelessWidget {
   final double offAxisFraction;

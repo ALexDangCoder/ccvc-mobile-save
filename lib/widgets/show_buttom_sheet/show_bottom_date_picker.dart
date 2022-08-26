@@ -2,17 +2,15 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/calendar/fix_bug_cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/src/era_mode.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CupertinoRoundedDatePickerWidget {
   static Future<dynamic> show(
     BuildContext context, {
-    Locale? locale,
     DateTime? initialDate,
     DateTime? minimumDate,
     DateTime? maximumDate,
@@ -23,11 +21,7 @@ class CupertinoRoundedDatePickerWidget {
     bool use24hFormat = false,
     CupertinoDatePickerMode initialDatePickerMode =
         CupertinoDatePickerMode.date,
-    EraMode era = EraMode.CHRIST_YEAR,
-    double borderRadius = 16,
-    String? fontFamily,
     Color background = Colors.white,
-    TextStyle? textStyle,
   }) async {
     initialDate ??= DateTime.now();
     minimumDate ??= DateTime.now().subtract(const Duration(days: 7));
@@ -96,7 +90,7 @@ class CupertinoRoundedDatePickerWidget {
                 child: StreamBuilder<DateTime>(
                   stream: dateTimeBloc.stream,
                   builder: (context, snapshot) {
-                    return FlutterRoundedCupertinoDatePickerWidget(
+                    return FixBugCupertinoDatePicker(
                       use24hFormat: use24hFormat,
                       onDateTimeChanged: (dateTime) {
                         if (!validateDay(dateTime)) {
@@ -104,11 +98,6 @@ class CupertinoRoundedDatePickerWidget {
                         }
                         dateOld = dateTime;
                       },
-                      era: era,
-                      background: Colors.transparent,
-                      textStyleDate: textStyle ?? const TextStyle(),
-                      borderRadius: borderRadius,
-                      fontFamily: fontFamily,
                       initialDateTime: snapshot.data,
                       mode: initialDatePickerMode,
                       minuteInterval: minuteInterval,

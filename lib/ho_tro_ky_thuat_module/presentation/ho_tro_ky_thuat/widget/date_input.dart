@@ -8,7 +8,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_b
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/calendar/fix_bug_cupertino_date_picker.dart';
 import 'package:flutter/material.dart';
 
 class CustomSelectDate extends StatefulWidget {
@@ -65,7 +65,7 @@ class _CustomDropDownState extends State<CustomSelectDate> {
               children: [
                 SizedBox(
                   height: 300,
-                  child: FlutterRoundedCupertinoDatePickerWidget(
+                  child: FixBugCupertinoDatePicker(
                     onDateTimeChanged: (value) {
                       dateSelect = value;
                       widget.onSelectDate(value);
@@ -105,7 +105,7 @@ class _CustomDropDownState extends State<CustomSelectDate> {
                 children: [
                   SizedBox(
                     height: 300,
-                    child: FlutterRoundedCupertinoDatePickerWidget(
+                    child: FixBugCupertinoDatePicker(
                       onDateTimeChanged: (value) {
                         dateSelect = value;
                         widget.onSelectDate(dateSelect);

@@ -7,7 +7,11 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+
+import 'cupertino_text_selection_controls.dart';
+import 'custom_ material_text_selection_controls.dart';
 
 class TextFieldValidator extends StatefulWidget {
   final TextEditingController? controller;
@@ -55,6 +59,7 @@ class TextFieldValidator extends StatefulWidget {
 
 class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
+  final keyTextFeild = GlobalKey();
   final focusNode = FocusNode();
   late TextSelectionControls _selectionControls;
   FormProvider? formProvider;
@@ -63,6 +68,12 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   void initState() {
     super.initState();
     if (Platform.isIOS) {
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        if (_selectionControls is AppCupertinoTextSelectionControls) {
+          (_selectionControls as AppCupertinoTextSelectionControls)
+              .boxTextFeild = getOffsetTextFeild();
+        }
+      });
       _selectionControls = AppCupertinoTextSelectionControls(
         validatorPaste: (value) {
           if (widget.validatorPaste == null) {
@@ -73,7 +84,13 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
       );
     } else {
-      _selectionControls = AppMaterialTextSelectionControls(
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        if (_selectionControls is CustomMaterialTextSelectionControls) {
+          (_selectionControls as CustomMaterialTextSelectionControls)
+              .boxTextFeild = getOffsetTextFeild();
+        }
+      });
+      _selectionControls = CustomMaterialTextSelectionControls(
         validatorPaste: (value) {
           if (widget.validatorPaste == null) {
             return true;
@@ -102,6 +119,9 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
     }
   }
 
+  RenderBox? getOffsetTextFeild() =>
+      keyTextFeild.currentContext?.findRenderObject() as RenderBox?;
+
   @override
   void dispose() {
     super.dispose();
@@ -113,6 +133,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
     return Form(
       key: key,
       child: TextFormField(
+        key: keyTextFeild,
         focusNode: focusNode,
         selectionControls: _selectionControls,
         inputFormatters: widget.inputFormatters,
@@ -180,87 +201,5 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
       ),
     );
-  }
-}
-
-class AppCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
-  AppCupertinoTextSelectionControls({
-    required this.validatorPaste,
-  });
-
-  final bool Function(String) validatorPaste;
-
-  @override
-  Future<void> handlePaste(final TextSelectionDelegate delegate) async {
-    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-    if (validatorPaste(data?.text ?? '')) {
-      await handlePasteValidator(delegate, data?.text);
-    } else {
-      delegate.bringIntoView(delegate.textEditingValue.selection.extent);
-      delegate.hideToolbar();
-    }
-  }
-
-  Future<void> handlePasteValidator(
-      TextSelectionDelegate delegate, String? text) async {
-    final TextEditingValue value =
-        delegate.textEditingValue; // Snapshot the input before using `await`.
-    if (text != null) {
-      delegate.userUpdateTextEditingValue(
-        TextEditingValue(
-          text: value.selection.textBefore(value.text) +
-              text +
-              value.selection.textAfter(value.text),
-          selection: TextSelection.collapsed(
-            offset: value.selection.start + text.length,
-          ),
-        ),
-        SelectionChangedCause.toolBar,
-      );
-    }
-    delegate.bringIntoView(delegate.textEditingValue.selection.extent);
-    delegate.hideToolbar();
-  }
-}
-
-class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
-  AppMaterialTextSelectionControls({
-    required this.validatorPaste,
-  });
-
-  final bool Function(String)? validatorPaste;
-
-  @override
-  Future<void> handlePaste(final TextSelectionDelegate delegate) async {
-    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-    final validator = validatorPaste!(data?.text ?? '');
-
-    if (validator) {
-      await handlePasteValidator(delegate, data?.text);
-    } else {
-      delegate.bringIntoView(delegate.textEditingValue.selection.extent);
-      delegate.hideToolbar();
-    }
-  }
-
-  Future<void> handlePasteValidator(
-      TextSelectionDelegate delegate, String? text) async {
-    final TextEditingValue value =
-        delegate.textEditingValue; // Snapshot the input before using `await`.
-    if (text != null) {
-      delegate.userUpdateTextEditingValue(
-        TextEditingValue(
-          text: value.selection.textBefore(value.text) +
-              text +
-              value.selection.textAfter(value.text),
-          selection: TextSelection.collapsed(
-            offset: value.selection.start + text.length,
-          ),
-        ),
-        SelectionChangedCause.toolBar,
-      );
-    }
-    delegate.bringIntoView(delegate.textEditingValue.selection.extent);
-    delegate.hideToolbar();
   }
 }

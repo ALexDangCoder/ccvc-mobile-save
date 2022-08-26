@@ -215,6 +215,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
       BehaviorSubject();
 
+  BehaviorSubject<int> initThuKyNumber = BehaviorSubject.seeded(0);
+
   Stream<ThongTinPhongHopModel> get getThongTinPhongHop =>
       getThongTinPhongHopSb.stream;
   BehaviorSubject<ThongTinPhongHopModel> getThongTinYeuCauChuanBi =
@@ -296,7 +298,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     bool? onlyPerson,
     bool? isShowloading,
   }) async {
-    if(isShowloading ?? false){
+    if (isShowloading ?? false) {
       showLoading();
     }
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(
@@ -305,19 +307,22 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
     result.when(
       success: (res) {
-        if(isShowloading ?? false){
+        if (isShowloading ?? false) {
           showContent();
         }
         listNguoiCHuTriModel.sink.add(res);
+        initThuKyNumber.sink.add(
+          res.where((element) => element.isThuKy ?? false).toList().length,
+        );
         dataThuKyOrThuHoiDeFault = res;
       },
       error: (error) {
-        if(isShowloading ?? false){
+        if (isShowloading ?? false) {
           showError();
         }
       },
     );
-    if(isShowloading ?? false){
+    if (isShowloading ?? false) {
       showContent();
     }
   }

@@ -82,8 +82,8 @@ class _ThemDonViPhoiHopKhacWidgetState
                           data: data[index],
                           cubit: cubit,
                           isCheckedEmail: widget.isCheckedEmail,
-                          onDelete: () {
-                            widget.onDelete?.call(data[index]);
+                          onDelete: (value) {
+                            widget.onDelete?.call(value);
                           },
                         )
                       : ItemThanhPhanWidget(
@@ -269,7 +269,7 @@ class ItemDonViPhoiHopWidget extends StatefulWidget {
   final DonViModel data;
   final ThanhPhanThamGiaCubit cubit;
   final bool isCheckedEmail;
-  final Function()? onDelete;
+  final Function(DonViModel)? onDelete;
 
   const ItemDonViPhoiHopWidget({
     Key? key,
@@ -359,7 +359,7 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
                 GestureDetector(
                   onTap: () {
                     widget.cubit.removeDonViPhoiHop(widget.data);
-                    widget.onDelete?.call();
+                    widget.onDelete?.call(widget.data);
                   },
                   child: SvgPicture.asset(ImageAssets.icDeleteRed),
                 ),

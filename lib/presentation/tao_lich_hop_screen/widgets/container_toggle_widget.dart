@@ -21,7 +21,7 @@ class ContainerToggleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 9),
-      margin: const EdgeInsets.only(left: 29),
+      margin: const EdgeInsets.only(left: 28.0),
       decoration: showDivider ? const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: colorECEEF7),

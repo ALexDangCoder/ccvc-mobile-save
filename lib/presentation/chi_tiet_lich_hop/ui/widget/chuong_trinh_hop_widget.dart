@@ -284,6 +284,8 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   height: 10,
                 ),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       child: Column(
@@ -319,6 +321,16 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              '${S.current.file_dinh_kem}                      ',
+                              style: textDetailHDSD(
+                                fontSize: 14.0.textScale(),
+                                color: infoColor,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -327,6 +339,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
@@ -358,49 +371,65 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                             ),
                           ),
                         ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: listPhienHopModel.files.map((e) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                e.name.toString(),
+                                style: textDetailHDSD(
+                                  fontSize: 14.0.textScale(),
+                                  color: color5A8DEE,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ],
                     )
                   ],
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${S.current.file_dinh_kem}                      ',
-                      style: textDetailHDSD(
-                        fontSize: 14.0.textScale(),
-                        color: infoColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: listPhienHopModel.files.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final data = listPhienHopModel.files.toList();
-                          return GestureDetector(
-                            onTap: () {
-                              saveFile(
-                                  fileName: data[index].name ?? '',
-                                  url: data[index].path ?? '');
-                            },
-                            child: Text(
-                              data[index].name ?? S.current.khong_co_tep_nao,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: color5A8DEE,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                )
+
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Text(
+                //       '${S.current.file_dinh_kem}                      ',
+                //       style: textDetailHDSD(
+                //         fontSize: 14.0.textScale(),
+                //         color: infoColor,
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 14,
+                //     ),
+                //     Expanded(
+                //       child: ListView.builder(
+                //         physics: const NeverScrollableScrollPhysics(),
+                //         itemCount: listPhienHopModel.files.length,
+                //         shrinkWrap: true,
+                //         itemBuilder: (context, index) {
+                //           final data = listPhienHopModel.files.toList();
+                //           return GestureDetector(
+                //             onTap: () {
+                //               saveFile(
+                //                   fileName: data[index].name ?? '',
+                //                   url: data[index].path ?? '');
+                //             },
+                //             child: Text(
+                //               data[index].name ?? S.current.khong_co_tep_nao,
+                //               style: textDetailHDSD(
+                //                 fontSize: 14.0.textScale(),
+                //                 color: color5A8DEE,
+                //               ),
+                //             ),
+                //           );
+                //         },
+                //       ),
+                //     )
+                //   ],
+                // )
               ],
             ),
             if (widget.cubit.isBtnThemSuaXoaPhienHop())

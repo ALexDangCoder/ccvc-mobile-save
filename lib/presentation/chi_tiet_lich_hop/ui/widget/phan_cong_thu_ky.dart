@@ -91,8 +91,8 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
                                   widget.id,
                                   isShowLoading: false,
                                 );
+                                Navigator.pop(context);
                               }
-                              Navigator.pop(context);
                             },
                           );
                         });

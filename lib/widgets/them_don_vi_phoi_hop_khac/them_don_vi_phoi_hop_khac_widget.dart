@@ -183,7 +183,7 @@ class ItemThanhPhanWidget extends StatelessWidget {
                 SizedBox(
                   height: 10.0.textScale(space: 10),
                 ),
-                rowInfo(value: data.tenCanBo, key: S.current.ten_can_bo),
+                rowInfo(value: data.tenCanBo.trim(), key: S.current.ten_can_bo),
                 SizedBox(
                   height: 10.0.textScale(space: 10),
                 ),
@@ -202,7 +202,7 @@ class ItemThanhPhanWidget extends StatelessWidget {
                     Expanded(
                       flex: 6,
                       child: Text(
-                        data.noidung,
+                        data.noidung.trim(),
                         style: textNormal(color3D5586, 14.0.textScale()),
                       ),
                     )

@@ -56,17 +56,17 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
           builder: (context, snapshot) {
             final data = snapshot.data ?? <ThietBiValue>[];
             if (data.isNotEmpty) {
-              return Column(
-                children: List.generate(
-                  data.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: thietBiWidget(
-                      value: data[index],
-                      onDelete: () {
-                        widget.chonPhongHopCubit.removeThietBi(data[index]);
-                      },
-                    ),
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: data.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: thietBiWidget(
+                    value: data[index],
+                    onDelete: () {
+                      widget.chonPhongHopCubit.removeThietBi(data[index]);
+                    },
                   ),
                 ),
               );
@@ -139,15 +139,12 @@ Widget thietBiWidget({
             ],
           ),
         ),
-        Positioned(
-          right: 0,
-          child: GestureDetector(
-            onTap: () {
-              onDelete();
-            },
-            child: SvgPicture.asset(ImageAssets.icDeleteRed),
-          ),
-        )
+        GestureDetector(
+          onTap: () {
+            onDelete();
+          },
+          child: SvgPicture.asset(ImageAssets.icDeleteRed),
+        ),
       ],
     ),
   );

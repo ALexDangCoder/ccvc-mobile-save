@@ -474,13 +474,13 @@ class _ThemDonViPhoiHopKhacScreenState
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
-                    dauMoiLienHe: _dauMoiLamViecController.text,
-                    noidung: _noiDungLamViecController.text,
+                    dauMoiLienHe: _dauMoiLamViecController.text.trim(),
+                    noidung: _noiDungLamViecController.text.trim(),
                     email: _emailController.text,
                     sdt: _sdtController.text,
                     vaiTroThamGia: 4,
-                    tenDonVi: _tenDonViController.text,
-                    tenCoQuan: _tenDonViController.text,
+                    tenDonVi: _tenDonViController.text.trim(),
+                    tenCoQuan: _tenDonViController.text.trim(),
                   ),
                 );
                 Navigator.pop(context);

@@ -192,16 +192,16 @@ final scroll = ScrollController();
               if (_keyFormGroup.currentState!.validator()) {
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
-                    name: _hoTenController.text,
-                    tenDonVi: _tenDonViController.text,
-                    noidung: _noiDungLamViecController.text,
-                    email: _emailController.text,
-                    sdt: _sdtController.text,
-                    tenCoQuan: _tenDonViController.text,
+                    name: _hoTenController.text.trim(),
+                    tenDonVi: _tenDonViController.text.trim(),
+                    noidung: _noiDungLamViecController.text.trim(),
+                    email: _emailController.text.trim(),
+                    sdt: _sdtController.text.trim(),
+                    tenCoQuan: _tenDonViController.text.trim(),
                     vaiTroThamGia: 5,
-                    dauMoiLienHe: _hoTenController.text,
-                    tenCanBo: _hoTenController.text,
-                    soLuong: int.parse(_soLuongController.text),
+                    dauMoiLienHe: _hoTenController.text.trim(),
+                    tenCanBo: _hoTenController.text.trim(),
+                    soLuong: int.parse(_soLuongController.text.trim()),
                   ),
                 );
                 Navigator.pop(context);

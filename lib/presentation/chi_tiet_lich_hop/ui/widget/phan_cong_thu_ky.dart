@@ -480,7 +480,7 @@ Widget wrapThis({
       children: List.generate(listData.length, (index) {
         final dataSnb = listData[index];
         return tag(
-          title: dataSnb.title(),
+          title: dataSnb.titleDonVi(),
           onDelete: () {
             final indexThis = cubit.dataThuKyOrThuHoiDeFault.indexOf(dataSnb);
             if (isPhanCongThuKy) {

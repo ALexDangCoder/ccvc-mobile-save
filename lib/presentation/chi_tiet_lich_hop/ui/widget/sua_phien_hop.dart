@@ -132,23 +132,25 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
             onClickRight: () async {
               final nav = Navigator.of(context);
               if (_key.currentState?.validator() ?? false) {
-                await widget.cubit.suaChuongTrinhHop(
-                  id: widget.id,
-                  lichHopId: widget.lichHopId,
-                  tieuDe: tenPhienHop.text,
-                  thoiGianBatDau: '$thoiGianHop $timeStart',
-                  thoiGianKetThuc: '$thoiGianHop $timeEnd',
-                  canBoId: HiveLocal.getDataUser()?.userId ?? '',
-                  donViId: HiveLocal.getDataUser()
-                          ?.userInformation
-                          ?.donViTrucThuoc
-                          ?.id ??
-                      '',
-                  noiDung: noiDung.text,
-                  hoTen: widget.cubit.idPerson,
-                  isMultipe: false,
-                );
-                nav.pop(true);
+                if (!isShowValidate) {
+                  await widget.cubit.suaChuongTrinhHop(
+                    id: widget.id,
+                    lichHopId: widget.lichHopId,
+                    tieuDe: tenPhienHop.text,
+                    thoiGianBatDau: '$thoiGianHop $timeStart',
+                    thoiGianKetThuc: '$thoiGianHop $timeEnd',
+                    canBoId: HiveLocal.getDataUser()?.userId ?? '',
+                    donViId: HiveLocal.getDataUser()
+                            ?.userInformation
+                            ?.donViTrucThuoc
+                            ?.id ??
+                        '',
+                    noiDung: noiDung.text,
+                    hoTen: widget.cubit.idPerson,
+                    isMultipe: false,
+                  );
+                  nav.pop(true);
+                }
               } else {
                 return;
               }

@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
@@ -152,7 +151,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                         taoBieuQuyetRequest.time = int.parse(value);
                       } catch (_) {}
                     },
-                    maxLength: 10,
+                    maxLength: 9,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],

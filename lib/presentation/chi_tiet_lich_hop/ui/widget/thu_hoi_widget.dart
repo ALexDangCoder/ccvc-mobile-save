@@ -195,7 +195,12 @@ class _SelectTHuHoiCellState extends State<SelectTHuHoiCell> {
                   cubit: widget.cubit,
                   isPhanCongThuKy: false,
                   onRemove: () {
-                    keyDropDown.currentState?.isSelect = false;
+                    if ((dataSN.length - 1) == 0) {
+                      keyDropDown.currentState?.isSelect = false;
+
+                    } else {
+                      keyDropDown.currentState?.isSelect = true;
+                    }
                     setState(() {});
                   })
             ],

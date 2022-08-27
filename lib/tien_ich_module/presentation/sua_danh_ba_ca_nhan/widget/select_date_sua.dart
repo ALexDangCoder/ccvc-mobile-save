@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/calendar/fix_bug_cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +64,7 @@ class _CustomDropDownState extends State<SelectDateSua> {
                     children: [
                       SizedBox(
                         height: 300,
-                        child: FlutterRoundedCupertinoDatePickerWidget(
+                        child: FixBugCupertinoDatePicker(
                           onDateTimeChanged: (value) {
                             dateSelect = value.toString();
                             final dateFormat = DateFormat(
@@ -160,7 +160,7 @@ class _CustomDropDownState extends State<SelectDateSua> {
                     children: [
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
-                        child: FlutterRoundedCupertinoDatePickerWidget(
+                        child: FixBugCupertinoDatePicker(
                           onDateTimeChanged: (value) {
                             dateSelect = value.toString();
                             final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss')

@@ -6,11 +6,13 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/calendar/fix_bug_cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 
 class CuptinoDatePicker extends StatefulWidget {
   final String? value;
@@ -88,7 +90,7 @@ class _CustomDropDownState extends State<CuptinoDatePicker> {
               children: [
                 SizedBox(
                   height: 300,
-                  child: CupertinoDatePicker(
+                  child: FixBugCupertinoDatePicker(
                     minimumYear: widget.minimumDate?.year ?? timeNow.year - 50,
                     maximumDate: widget.maximumDate ?? DateTime.now(),
                     maximumYear: timeNow.year,
@@ -146,7 +148,7 @@ class _CustomDropDownState extends State<CuptinoDatePicker> {
               children: [
                 SizedBox(
                   height: 300,
-                  child: CupertinoDatePicker(
+                  child: FixBugCupertinoDatePicker(
                     minimumYear: widget.minimumDate?.year ?? timeNow.year - 50,
                     maximumDate: widget.maximumDate ?? DateTime.now(),
                     maximumYear: timeNow.year,

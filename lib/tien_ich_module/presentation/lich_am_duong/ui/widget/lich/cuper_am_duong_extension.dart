@@ -6,6 +6,13 @@ import 'package:flutter_rounded_date_picker/src/era_mode.dart';
 import 'package:intl/intl.dart';
 import 'package:lunar_calendar_converter_new/lunar_solar_converter.dart';
 
+const double kItemExtent = 40.0;
+
+const bool kUseMagnifier = true;
+const double kMagnification = 1.08;
+const double kDatePickerPadSize = 12.0;
+const double kSqueeze = 0.7;
+
 extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
   Widget buildDayPicker(
     double offAxisFraction,

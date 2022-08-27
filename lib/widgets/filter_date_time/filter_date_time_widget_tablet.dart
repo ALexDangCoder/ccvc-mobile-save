@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/calendar/fix_bug_cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -108,7 +108,7 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                             children: [
                               SizedBox(
                                 height: 300,
-                                child: FlutterRoundedCupertinoDatePickerWidget(
+                                child: FixBugCupertinoDatePicker(
                                   maximumDate: DateTime.now(),
                                   onDateTimeChanged: (value) {
                                     setState(() {

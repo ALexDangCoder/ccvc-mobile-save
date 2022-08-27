@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dar
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
+import 'package:ccvc_mobile/widgets/calendar/fix_bug_cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +43,7 @@ class _DateInputState extends State<DateInput> {
             children: [
               SizedBox(
                 height: 300,
-                child: FlutterRoundedCupertinoDatePickerWidget(
+                child: FixBugCupertinoDatePicker(
                   maximumDate: DateTime.now(),
                   onDateTimeChanged: (value) {
                     setState(() {

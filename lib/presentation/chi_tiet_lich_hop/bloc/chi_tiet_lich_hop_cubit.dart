@@ -296,7 +296,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     bool? onlyPerson,
     bool? isShowloading,
   }) async {
-    if(isShowloading ?? false){
+    if (isShowloading ?? false) {
       showLoading();
     }
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(
@@ -305,19 +305,19 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
     result.when(
       success: (res) {
-        if(isShowloading ?? false){
+        if (isShowloading ?? false) {
           showContent();
         }
         listNguoiCHuTriModel.sink.add(res);
         dataThuKyOrThuHoiDeFault = res;
       },
       error: (error) {
-        if(isShowloading ?? false){
+        if (isShowloading ?? false) {
           showError();
         }
       },
     );
-    if(isShowloading ?? false){
+    if (isShowloading ?? false) {
       showContent();
     }
   }
@@ -459,6 +459,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
           title: S.current.them_thanh_phan_tham_gia_thanh_cong,
         );
         eventBus.fire(RefreshThanhPhanThamGia());
+        eventBus.fire(const ReloadMeetingDetail(
+            [TabWidgetDetailMeet.THANH_PHAN_THAM_GIA]));
         await getDanhSachNguoiChuTriPhienHop(id: idCuocHop);
         moiHopRequest.clear();
       },

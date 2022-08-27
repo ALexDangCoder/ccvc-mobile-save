@@ -133,62 +133,63 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                         },
                       ),
                       StreamBuilder<Map<String, String>>(
-                          stream: _cubitTaoLichHop.timeConfigSubject,
-                          builder: (context, snapshot) {
-                            final timeConfig = snapshot.data ?? {};
-                            return CupertinoMaterialPicker(
-                              key: _timerPickerKey,
-                              isEdit: true,
-                              timeEndConfigSystem: timeConfig['timeEnd'],
-                              timeStartConfigSystem: timeConfig['timeStart'],
-                              initDateStart: widget.chiTietHop.ngayBatDau
-                                  .convertStringToDate(
-                                formatPattern: DateFormatApp.monthDayFormat,
-                              ),
-                              initDateEnd: widget.chiTietHop.ngayKetThuc
-                                  .convertStringToDate(
-                                formatPattern: DateFormatApp.monthDayFormat,
-                              ),
-                              initTimeEnd:
-                                  widget.chiTietHop.timeTo.convertStringToDate(
-                                formatPattern: DateFormatApp.timeFormat,
-                              ),
-                              initTimeStart: widget.chiTietHop.timeStart
-                                  .convertStringToDate(
-                                formatPattern: DateFormatApp.timeFormat,
-                              ),
-                              isAllDay: widget.chiTietHop.isAllDay,
-                              onDateTimeChanged: (
-                                String timeStart,
-                                String timeEnd,
-                                String dateStart,
-                                String dateEnd,
-                              ) {
-                                _cubitTaoLichHop.taoLichHopRequest.timeStart =
-                                    timeStart;
-                                _cubitTaoLichHop.taoLichHopRequest.timeTo =
-                                    timeEnd;
-                                _cubitTaoLichHop.taoLichHopRequest.ngayBatDau =
-                                    dateStart
-                                        .convertStringToDate(
-                                          formatPattern: DateFormatApp.date,
-                                        )
-                                        .formatApi;
-                                _cubitTaoLichHop.taoLichHopRequest.ngayKetThuc =
-                                    dateEnd
-                                        .convertStringToDate(
-                                          formatPattern: DateFormatApp.date,
-                                        )
-                                        .formatApi;
-                                _cubitTaoLichHop.needRebuildLichLap.add(true);
-                              },
-                              onSwitchPressed: (value) {
-                                _cubitTaoLichHop.taoLichHopRequest.isAllDay =
-                                    value;
-                              },
-                              validateTime: (String value) {},
-                            );
-                          },
+                        stream: _cubitTaoLichHop.timeConfigSubject,
+                        builder: (context, snapshot) {
+                          final timeConfig = snapshot.data ?? {};
+                          return CupertinoMaterialPicker(
+                            key: _timerPickerKey,
+                            isEdit: true,
+                            timeEndConfigSystem: timeConfig['timeEnd'],
+                            timeStartConfigSystem: timeConfig['timeStart'],
+                            initDateStart: widget.chiTietHop.ngayBatDau
+                                .convertStringToDate(
+                              formatPattern: DateFormatApp.monthDayFormat,
+                            ),
+                            initDateEnd: widget.chiTietHop.ngayKetThuc
+                                .convertStringToDate(
+                              formatPattern: DateFormatApp.monthDayFormat,
+                            ),
+                            initTimeEnd:
+                                widget.chiTietHop.timeTo.convertStringToDate(
+                              formatPattern: DateFormatApp.timeFormat,
+                            ),
+                            initTimeStart:
+                                widget.chiTietHop.timeStart.convertStringToDate(
+                              formatPattern: DateFormatApp.timeFormat,
+                            ),
+                            isSwitchButtonChecked: widget.chiTietHop.isAllDay,
+                            isAllDay: widget.chiTietHop.isAllDay,
+                            onDateTimeChanged: (
+                              String timeStart,
+                              String timeEnd,
+                              String dateStart,
+                              String dateEnd,
+                            ) {
+                              _cubitTaoLichHop.taoLichHopRequest.timeStart =
+                                  timeStart;
+                              _cubitTaoLichHop.taoLichHopRequest.timeTo =
+                                  timeEnd;
+                              _cubitTaoLichHop.taoLichHopRequest.ngayBatDau =
+                                  dateStart
+                                      .convertStringToDate(
+                                        formatPattern: DateFormatApp.date,
+                                      )
+                                      .formatApi;
+                              _cubitTaoLichHop.taoLichHopRequest.ngayKetThuc =
+                                  dateEnd
+                                      .convertStringToDate(
+                                        formatPattern: DateFormatApp.date,
+                                      )
+                                      .formatApi;
+                              _cubitTaoLichHop.needRebuildLichLap.add(true);
+                            },
+                            onSwitchPressed: (value) {
+                              _cubitTaoLichHop.taoLichHopRequest.isAllDay =
+                                  value;
+                            },
+                            validateTime: (String value) {},
+                          );
+                        },
                       ),
                       spaceH5,
                       SelectOnlyExpand(
@@ -219,47 +220,48 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                       ),
                       spaceH5,
                       StreamBuilder<bool>(
-                        stream: _cubitTaoLichHop.needRebuildLichLap,
-                        builder: (context, snapshot) {
-                          return LichLapWidget(
-                            urlIcon: ImageAssets.icNhacLai,
-                            title: S.current.lich_lap,
-                            value: widget.chiTietHop.lichLap(),
-                            isUpdate: true,
-                            initDayPicked: widget.chiTietHop.getDays(),
-                            initDate:
-                                widget.chiTietHop.dateRepeat?.convertStringToDate(),
-                            listSelect:
-                                danhSachLichLap.map((e) => e.label).toList(),
-                            onChange: (index) {
-                              _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
-                                  danhSachLichLap[index].id;
-                              if (index == 0) {
-                                _cubitTaoLichHop.taoLichHopRequest.isLichLap =
-                                    false;
-                              } else {
-                                _cubitTaoLichHop.taoLichHopRequest.isLichLap = true;
-                              }
-                            },
-                            onDayPicked: (listId) {
-                              _cubitTaoLichHop.taoLichHopRequest.days =
-                                  listId.join(',');
-                              if (listId.isEmpty) {
+                          stream: _cubitTaoLichHop.needRebuildLichLap,
+                          builder: (context, snapshot) {
+                            return LichLapWidget(
+                              urlIcon: ImageAssets.icNhacLai,
+                              title: S.current.lich_lap,
+                              value: widget.chiTietHop.lichLap(),
+                              isUpdate: true,
+                              initDayPicked: widget.chiTietHop.getDays(),
+                              initDate: widget.chiTietHop.dateRepeat
+                                  ?.convertStringToDate(),
+                              listSelect:
+                                  danhSachLichLap.map((e) => e.label).toList(),
+                              onChange: (index) {
                                 _cubitTaoLichHop.taoLichHopRequest.typeRepeat =
-                                    danhSachLichLap.first.id;
-                              }
-                            },
-                            onDateChange: (value) {
-                              _cubitTaoLichHop.taoLichHopRequest.dateRepeat =
-                                  value.changeToNewPatternDate(
-                                DateFormatApp.date,
-                                DateFormatApp.dateTimeBackEnd,
-                              );
-                            },
-                            miniumDate: _cubitTaoLichHop.taoLichHopRequest.ngayBatDau,
-                          );
-                        }
-                      ),
+                                    danhSachLichLap[index].id;
+                                if (index == 0) {
+                                  _cubitTaoLichHop.taoLichHopRequest.isLichLap =
+                                      false;
+                                } else {
+                                  _cubitTaoLichHop.taoLichHopRequest.isLichLap =
+                                      true;
+                                }
+                              },
+                              onDayPicked: (listId) {
+                                _cubitTaoLichHop.taoLichHopRequest.days =
+                                    listId.join(',');
+                                if (listId.isEmpty) {
+                                  _cubitTaoLichHop.taoLichHopRequest
+                                      .typeRepeat = danhSachLichLap.first.id;
+                                }
+                              },
+                              onDateChange: (value) {
+                                _cubitTaoLichHop.taoLichHopRequest.dateRepeat =
+                                    value.changeToNewPatternDate(
+                                  DateFormatApp.date,
+                                  DateFormatApp.dateTimeBackEnd,
+                                );
+                              },
+                              miniumDate:
+                                  _cubitTaoLichHop.taoLichHopRequest.ngayBatDau,
+                            );
+                          }),
                       spaceH5,
                       SelectOnlyExpand(
                         urlIcon: ImageAssets.icMucDoHop,

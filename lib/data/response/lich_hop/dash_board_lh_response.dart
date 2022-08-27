@@ -158,7 +158,7 @@ class LichHopItemResponse {
         soLichChoDuyetKyThuat: soLichChoDuyetKyThuat,
         soLichDaDuyetKyThuat: soLichDaDuyetKyThuat,
         soLichTuChoiDuyetKyThuat: soLichTuChoiDuyetKyThuat,
-        soLichCanKLCH: soLichCanBaoCaoV2,
+        soLichCanKLCH: soLichCanBaoCao,
       );
 
 }

@@ -18,25 +18,25 @@ extension TypeFileShowDonViEx on TypeFileShowDonVi {
   String valueDonViModel(DonViModel donViModel) {
     switch (this) {
       case TypeFileShowDonVi.HO_VA_TEN:
-        return donViModel.name;
+        return donViModel.name.trim();
       case TypeFileShowDonVi.TEN_CAN_BO:
-        return donViModel.tenCanBo;
+        return donViModel.tenCanBo.trim();
       case TypeFileShowDonVi.CHUC_VU:
-        return donViModel.chucVu;
+        return donViModel.chucVu.trim();
       case TypeFileShowDonVi.NOI_DUNG:
-        return donViModel.noidung;
+        return donViModel.noidung.trim();
       case TypeFileShowDonVi.DAU_MOI_LIEN_HE:
-        return donViModel.dauMoiLienHe;
+        return donViModel.dauMoiLienHe.trim();
       case TypeFileShowDonVi.EMAIL:
-        return donViModel.email;
+        return donViModel.email.trim();
       case TypeFileShowDonVi.SDT:
-        return donViModel.sdt;
+        return donViModel.sdt.trim();
       case TypeFileShowDonVi.TEN_DON_VI:
-        return donViModel.tenDonVi;
+        return donViModel.tenDonVi.trim();
       case TypeFileShowDonVi.TEN_CO_QUAN:
-        return donViModel.tenCoQuan;
+        return donViModel.tenCoQuan.trim();
       case TypeFileShowDonVi.SO_LUONG:
-        return donViModel.soLuong.toString();
+        return donViModel.soLuong.toString().trim();
     }
   }
 }

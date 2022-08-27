@@ -65,14 +65,17 @@ class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
           Column(
             children: [
               rowInfo(
-                value: widget.donVi.name,
+                value: widget.donVi.name.trim(),
                 key: S.current.ten_don_vi,
                 needShowPadding: true,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: widget.donVi.tenCanBo, key: S.current.ten_can_bo),
+              rowInfo(
+                value: widget.donVi.tenCanBo.trim(),
+                key: S.current.ten_can_bo,
+              ),
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
@@ -89,7 +92,7 @@ class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
               ],
               if (widget.isKhachMoi) ...[
                 rowInfo(
-                  value: widget.donVi.soLuong.toString(),
+                  value: widget.donVi.soLuong.toString().trim(),
                   key: S.current.so_luong,
                 ),
                 SizedBox(
@@ -97,8 +100,9 @@ class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
                 ),
               ],
               rowInfo(
-                value:
-                    widget.isKhachMoi ? widget.donVi.noidung : widget.noiDungCV,
+                value: widget.isKhachMoi
+                    ? widget.donVi.noidung.trim()
+                    : widget.noiDungCV.trim(),
                 key: S.current.nd_cong_viec,
               ),
               SizedBox(

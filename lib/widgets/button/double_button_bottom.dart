@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class DoubleButtonBottom extends StatelessWidget {
   final String title1;
   final String title2;
-
+  final bool disable;
   final Function onClickLeft;
   final Function onClickRight;
   final bool isTablet;
@@ -20,6 +20,7 @@ class DoubleButtonBottom extends StatelessWidget {
     required this.onClickLeft,
     required this.onClickRight,
     this.isTablet = false,
+    this.disable = false,
     this.noPadding = false,
   }) : super(key: key);
 
@@ -42,6 +43,7 @@ class DoubleButtonBottom extends StatelessWidget {
                   onTap: () {
                     onClickRight();
                   },
+                  disable: disable,
                   title: title2,
                   isLeft: false,
                 )
@@ -89,7 +91,9 @@ class DoubleButtonBottom extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: AppTheme.getInstance().colorField(),
+                      color: AppTheme.getInstance()
+                          .colorField()
+                          .withOpacity(disable ? 0.5 : 1),
                     ),
                     child: Center(
                       child: Text(
@@ -111,6 +115,7 @@ class DoubleButtonBottom extends StatelessWidget {
     required Function onTap,
     required String title,
     bool isLeft = true,
+    bool disable = false,
   }) {
     return GestureDetector(
       onTap: () {
@@ -123,7 +128,9 @@ class DoubleButtonBottom extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: isLeft
               ? AppTheme.getInstance().colorField().withOpacity(0.1)
-              : AppTheme.getInstance().colorField(),
+              : AppTheme.getInstance()
+                  .colorField()
+                  .withOpacity(disable ? 0.5 : 1),
         ),
         child: Center(
           child: Text(

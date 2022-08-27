@@ -215,6 +215,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
       BehaviorSubject();
 
+  BehaviorSubject<int> initThuKyNumber = BehaviorSubject.seeded(0);
+
   Stream<ThongTinPhongHopModel> get getThongTinPhongHop =>
       getThongTinPhongHopSb.stream;
   BehaviorSubject<ThongTinPhongHopModel> getThongTinYeuCauChuanBi =
@@ -309,6 +311,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
           showContent();
         }
         listNguoiCHuTriModel.sink.add(res);
+        initThuKyNumber.sink.add(
+          res.where((element) => element.isThuKy ?? false).toList().length,
+        );
         dataThuKyOrThuHoiDeFault = res;
       },
       error: (error) {

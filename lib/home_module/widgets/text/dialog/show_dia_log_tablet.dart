@@ -6,17 +6,16 @@ import '/home_module/config/resources/color.dart';
 import '/home_module/config/resources/styles.dart';
 import '/home_module/utils/constants/image_asset.dart';
 
-Future<T?> showDiaLogTablet<T>(
-  BuildContext context, {
-  required String title,
-  required Widget child,
-  String? btnRightTxt,
-  String? btnLeftTxt,
-  bool isBottomShow = true,
-  required Function funcBtnOk,
-  double maxHeight = 878,
-  double width = 592,
-}) {
+Future<T?> showDiaLogTablet<T>(BuildContext context,
+    {required String title,
+    required Widget child,
+    String? btnRightTxt,
+    String? btnLeftTxt,
+    bool isBottomShow = true,
+    required Function funcBtnOk,
+    double maxHeight = 878,
+    double width = 592,
+    bool? isCenterTitle}) {
   return showDialog(
     context: context,
     builder: (_) {
@@ -34,6 +33,7 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: maxHeight,
           width: width,
+          isCenterTitle: isCenterTitle,
           child: child,
         ),
       );
@@ -50,6 +50,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final bool isBottomShow;
   final double maxHeight;
   final double width;
+  final bool? isCenterTitle;
 
   const _DiaLogFeatureWidget({
     Key? key,
@@ -61,6 +62,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
+    this.isCenterTitle = false,
   }) : super(key: key);
 
   @override
@@ -78,10 +80,21 @@ class _DiaLogFeatureWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: textNormalCustom(fontSize: 20, color: textTitle),
-                  ),
+                  if (isCenterTitle == true)
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          title,
+                          style:
+                              textNormalCustom(fontSize: 20, color: textTitle),
+                        ),
+                      ),
+                    )
+                  else
+                    Text(
+                      title,
+                      style: textNormalCustom(fontSize: 20, color: textTitle),
+                    ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);

@@ -74,7 +74,7 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
             InputInfoUserWidget(
               title: S.current.cap_nhat_trang_thai,
               child: CoolDropDown(
-                initData: '',
+                initData: widget.model.trangThaiChuanBi ?? '',
                 placeHoder: S.current.noi_dung,
                 onChange: (index) {
                   widget.cubit.idCapNhatTrangThai =

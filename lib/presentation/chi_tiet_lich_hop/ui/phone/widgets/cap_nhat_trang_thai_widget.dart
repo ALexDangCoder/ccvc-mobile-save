@@ -49,9 +49,8 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
           onPressed1: () {
             Navigator.pop(context);
           },
-          onPressed2: () async {
-            final nav = Navigator.of(context);
-            await widget.cubit
+          onPressed2: ()  {
+            widget.cubit
                 .capNhatTrangThai(
               id: widget.model.lichHopPhongHopId ?? '',
               ghiChu: noiDungController.text,
@@ -62,7 +61,7 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
                 widget.cubit.callApiCongTacChuanBi();
               }
             });
-            nav.pop();
+            Navigator.of(context).pop();
           },
         ),
       ),

@@ -85,60 +85,62 @@ class _ThanhPhanThamGiaWidgetTabletState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (widget.cubit.isBtnMoiNguoiThamGia())Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: IconWithTiltleWidget(
-              icon: ImageAssets.ic_addUser,
-              title: S.current.moi_nguoi_tham_gia,
-              onPress: () {
-                showDiaLogTablet(
-                  context,
-                  title: S.current.them_thanh_phan_tham_gia,
-                  child: ThemThanhPhanThamGiaWidget(
-                    cubit: thanhPhanThamGiaCubit,
-                  ),
-                  isBottomShow: false,
-                  funcBtnOk: () {
-                    Navigator.pop(context);
-                  },
-                );
-              },
+          if (widget.cubit.isBtnMoiNguoiThamGia())
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: IconWithTiltleWidget(
+                icon: ImageAssets.ic_addUser,
+                title: S.current.moi_nguoi_tham_gia,
+                onPress: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.them_thanh_phan_tham_gia,
+                    child: ThemThanhPhanThamGiaWidget(
+                      cubit: thanhPhanThamGiaCubit,
+                    ),
+                    isBottomShow: false,
+                    funcBtnOk: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
             ),
-          ),
           const SizedBox(
             height: 16,
           ),
-          if (widget.cubit.isChuTri() || widget.cubit.isThuKy())Row(
-            children: [
-              Flexible(
-                child: IconWithTiltleWidget(
-                  icon: ImageAssets.ic_diemDanh,
-                  title: S.current.diem_danh,
-                  onPress: () {
-                    if (thanhPhanThamGiaCubit.diemDanhIds.isEmpty) {
-                      MessageConfig.show(
-                        title: S.current.ban_chua_chon_nguoi_diem_danh,
-                        messState: MessState.error,
+          if (widget.cubit.isChuTri() || widget.cubit.isThuKy())
+            Row(
+              children: [
+                Flexible(
+                  child: IconWithTiltleWidget(
+                    icon: ImageAssets.ic_diemDanh,
+                    title: S.current.diem_danh,
+                    onPress: () {
+                      if (thanhPhanThamGiaCubit.diemDanhIds.isEmpty) {
+                        MessageConfig.show(
+                          title: S.current.ban_chua_chon_nguoi_diem_danh,
+                          messState: MessState.error,
+                        );
+                        return;
+                      }
+                      showDiaLog(
+                        context,
+                        title: S.current.diem_danh,
+                        icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+                        btnLeftTxt: S.current.khong,
+                        btnRightTxt: S.current.dong_y,
+                        textContent: S.current.conten_diem_danh,
+                        funcBtnRight: () {
+                          thanhPhanThamGiaCubit.postDiemDanh();
+                        },
                       );
-                      return;
-                    }
-                    showDiaLog(
-                      context,
-                      title: S.current.diem_danh,
-                      icon: SvgPicture.asset(ImageAssets.icDiemDanh),
-                      btnLeftTxt: S.current.khong,
-                      btnRightTxt: S.current.dong_y,
-                      textContent: S.current.conten_diem_danh,
-                      funcBtnRight: () {
-                        thanhPhanThamGiaCubit.postDiemDanh();
-                      },
-                    );
-                  },
+                    },
+                  ),
                 ),
-              ),
-              const Expanded(child: SizedBox()),
-            ],
-          ),
+                const Expanded(child: SizedBox()),
+              ],
+            ),
           const SizedBox(height: 16),
           BaseSearchBar(
             hintText: S.current.tim_kiem_can_bo,
@@ -147,9 +149,10 @@ class _ThanhPhanThamGiaWidgetTabletState
             },
           ),
           StreamBuilder<List<CanBoModel>>(
-            stream: widget.cubit.thanhPhanThamGia.stream,
+            stream: thanhPhanThamGiaCubit.thanhPhanThamGia,
             builder: (context, snapshot) {
-              final _list = snapshot.data ?? [];
+              final _list = (snapshot.data ?? [])
+                  .where((element) => element.isVangMat ?? true);
               if (_list.isNotEmpty) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 13.5, top: 18),
@@ -157,14 +160,21 @@ class _ThanhPhanThamGiaWidgetTabletState
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       StreamBuilder<bool>(
-                        stream: widget.cubit.checkBoxCheckAllTPTG.stream,
+                        stream: thanhPhanThamGiaCubit.checkBoxCheckAllTPTG,
                         builder: (context, snapshot) {
                           return CustomCheckBox(
-                            title: '',
+                            isOnlyCheckbox: true,
                             isCheck: snapshot.data ?? false,
-                            onChange: (value) {
-                              widget.cubit.check = !widget.cubit.check;
-                              widget.cubit.checkAll();
+                            onChange: (_) {
+                              thanhPhanThamGiaCubit.check =
+                                  !thanhPhanThamGiaCubit.check;
+                              thanhPhanThamGiaCubit.checkBoxCheckAllTPTG.sink
+                                  .add(thanhPhanThamGiaCubit.check);
+                              if (thanhPhanThamGiaCubit.check) {
+                                thanhPhanThamGiaCubit.checkAll();
+                              } else {
+                                thanhPhanThamGiaCubit.removeCheckAll();
+                              }
                             },
                           );
                         },

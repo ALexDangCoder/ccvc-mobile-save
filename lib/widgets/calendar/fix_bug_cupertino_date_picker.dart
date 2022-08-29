@@ -235,7 +235,7 @@ class FixBugCupertinoDatePicker extends StatefulWidget {
   /// Defaults to the locale's default date format/order.
   FixBugCupertinoDatePicker({
     Key? key,
-    this.mode = CupertinoDatePickerMode.dateAndTime,
+    this.mode = CupertinoDatePickerMode.date ,
     required this.onDateTimeChanged,
     DateTime? initialDateTime,
     this.minimumDate,

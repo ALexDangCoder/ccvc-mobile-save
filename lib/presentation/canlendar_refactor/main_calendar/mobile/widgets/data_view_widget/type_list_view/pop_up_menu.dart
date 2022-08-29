@@ -41,6 +41,7 @@ class PopUpMenu extends StatefulWidget {
 
 class _PopUpMenuState extends State<PopUpMenu> {
   final GlobalKey _key = GlobalKey();
+  LayerLink layerLink = LayerLink();
   late OverlayEntry overlayEntry;
 
   @override
@@ -67,10 +68,13 @@ class _PopUpMenuState extends State<PopUpMenu> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              key: _key,
-              color: Colors.transparent,
-              child: getMenuView(widget.initData, null),
+            CompositedTransformTarget(
+              link: layerLink,
+              child: Container(
+                key: _key,
+                color: Colors.transparent,
+                child: getMenuView(widget.initData, null),
+              ),
             ),
           ],
         ),
@@ -89,6 +93,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
   OverlayEntry overlayWidget(Offset position) => OverlayEntry(
         builder: (BuildContext overlayContext) {
           return DialogSelectWidget(
+            layerLink: layerLink,
             offset: position,
             currentItem: widget.initData,
             onDismiss: (item) {
@@ -111,6 +116,7 @@ class DialogSelectWidget extends StatefulWidget {
   final Function(ItemMenuData?) onDismiss;
   final List<ItemMenuData> data;
   final ItemMenuData currentItem;
+  final LayerLink layerLink;
 
   const DialogSelectWidget({
     Key? key,
@@ -118,6 +124,7 @@ class DialogSelectWidget extends StatefulWidget {
     required this.onDismiss,
     required this.data,
     required this.currentItem,
+    required this.layerLink,
   }) : super(key: key);
 
   @override
@@ -155,9 +162,10 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
               ),
             ),
           ),
-          Positioned(
-            right: 16,
-            top: widget.offset.dy,
+          CompositedTransformFollower(
+            link: widget.layerLink,
+            targetAnchor:Alignment.topRight,
+            followerAnchor: Alignment.topRight,
             child: AnimatedBuilder(
               animation: _animationController,
               builder: (context, _) => Opacity(
@@ -188,18 +196,19 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                       right: 16,
                     ),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: widget.data
                           .map(
                             (e) => GestureDetector(
-                              onTap: () {
-                                widget.onDismiss.call(e);
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [getMenuView(e, widget.currentItem)],
-                              ),
-                            ),
-                          )
+                          onTap: () {
+                            widget.onDismiss.call(e);
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [getMenuView(e, widget.currentItem)],
+                          ),
+                        ),
+                      )
                           .toList(),
                     ),
                   ),

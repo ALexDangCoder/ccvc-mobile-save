@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -211,14 +212,24 @@ class _DropDownSearchState extends State<DropDownSearch> {
                             padding: const EdgeInsets.symmetric(
                               vertical: 8,
                             ),
-                            child: Text(
-                              itemTitle,
-                              style: textNormalCustom(
-                                color: titleItemEdit,
-                                fontWeight: itemTitle == select
-                                    ? FontWeight.w600
-                                    : FontWeight.w400,
-                              ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    itemTitle,
+                                    style: textNormalCustom(
+                                      color: titleItemEdit,
+                                      fontWeight: itemTitle == select
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                if(itemTitle == select)Icon(
+                                  Icons.done_sharp,
+                                  color: AppTheme.getInstance().colorField(),
+                                ),
+                              ],
                             ),
                           ),
                         );

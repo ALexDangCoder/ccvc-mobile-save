@@ -35,6 +35,7 @@ class ThuHoiLichWidget extends StatefulWidget {
 }
 
 class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
+  final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -51,6 +52,7 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SelectThuHoiWidget(
+            controller: controller,
             cubit: widget.cubit,
           ),
           const SizedBox(
@@ -67,21 +69,23 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                 Navigator.pop(context);
               },
               onClickRight: () {
-                showDiaLog(
-                  context,
-                  icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
-                  textContent: S.current.thu_hoi_chi_tiet_lich_hop,
-                  btnLeftTxt: S.current.khong,
-                  funcBtnRight: () {
-                    widget.cubit.postThuHoiHop(
-                      widget.id,
-                    );
-                    Navigator.pop(context);
-                  },
-                  title: S.current.thu_hoi_lich_hop,
-                  btnRightTxt: S.current.dong_y,
-                  showTablet: true,
-                );
+                if(controller.text.isNotEmpty){
+                  showDiaLog(
+                    context,
+                    icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
+                    textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                    btnLeftTxt: S.current.khong,
+                    funcBtnRight: () {
+                      widget.cubit.postThuHoiHop(
+                        widget.id,
+                      );
+                      Navigator.pop(context);
+                    },
+                    title: S.current.thu_hoi_lich_hop,
+                    btnRightTxt: S.current.dong_y,
+                    showTablet: true,
+                  );
+                }
               },
             ),
           ),
@@ -96,10 +100,12 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
 
 class SelectThuHoiWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
+  final TextEditingController controller;
 
   const SelectThuHoiWidget({
     Key? key,
     required this.cubit,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -107,14 +113,14 @@ class SelectThuHoiWidget extends StatefulWidget {
 }
 
 class _SelectThuHoiWidgetState extends State<SelectThuHoiWidget> {
-  final TextEditingController controller = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         SelectTHuHoiCell(
-          controller: controller,
+          controller: widget.controller,
           cubit: widget.cubit,
         ),
       ],

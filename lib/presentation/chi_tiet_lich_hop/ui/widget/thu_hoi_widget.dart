@@ -35,7 +35,6 @@ class ThuHoiLichWidget extends StatefulWidget {
 }
 
 class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
-  final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +51,6 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SelectThuHoiWidget(
-            controller: controller,
             cubit: widget.cubit,
           ),
           const SizedBox(
@@ -62,32 +60,48 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
             padding: APP_DEVICE == DeviceType.MOBILE
                 ? EdgeInsets.zero
                 : const EdgeInsets.symmetric(horizontal: 100),
-            child: DoubleButtonBottom(
-              title1: S.current.dong,
-              title2: S.current.thu_hoi,
-              onClickLeft: () {
-                Navigator.pop(context);
-              },
-              onClickRight: () {
-                if(controller.text.isNotEmpty){
-                  showDiaLog(
-                    context,
-                    icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
-                    textContent: S.current.thu_hoi_chi_tiet_lich_hop,
-                    btnLeftTxt: S.current.khong,
-                    funcBtnRight: () {
-                      widget.cubit.postThuHoiHop(
-                        widget.id,
-                      );
-                      Navigator.pop(context);
-                    },
-                    title: S.current.thu_hoi_lich_hop,
-                    btnRightTxt: S.current.dong_y,
-                    showTablet: true,
-                  );
-                }
-              },
-            ),
+            child: StreamBuilder<int>(
+                stream: widget.cubit.initThuKyNumber.stream,
+                builder: (context, snapshot) {
+                  final initThuKyNumber = snapshot.data ?? 0;
+                  return StreamBuilder<List<NguoiChutriModel>>(
+                      stream: widget.cubit.listNguoiCHuTriModel,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        final currentThukyNumber = data
+                            .where((e) => e.isThuKy == true)
+                            .toList()
+                            .length;
+                        final disable =
+                            initThuKyNumber == 0 && currentThukyNumber == 0;
+                        return DoubleButtonBottom(
+                          disable: disable,
+                          title1: S.current.dong,
+                          title2: S.current.thu_hoi,
+                          onClickLeft: () {
+                            Navigator.pop(context);
+                          },
+                          onClickRight: () {
+                            showDiaLog(
+                              context,
+                              icon:
+                                  SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
+                              textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                              btnLeftTxt: S.current.khong,
+                              funcBtnRight: () {
+                                widget.cubit.postThuHoiHop(
+                                  widget.id,
+                                );
+                                Navigator.pop(context);
+                              },
+                              title: S.current.thu_hoi_lich_hop,
+                              btnRightTxt: S.current.dong_y,
+                              showTablet: true,
+                            );
+                          },
+                        );
+                      });
+                }),
           ),
           const SizedBox(
             height: 16,
@@ -100,12 +114,10 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
 
 class SelectThuHoiWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
-  final TextEditingController controller;
 
   const SelectThuHoiWidget({
     Key? key,
     required this.cubit,
-    required this.controller,
   }) : super(key: key);
 
   @override
@@ -113,14 +125,14 @@ class SelectThuHoiWidget extends StatefulWidget {
 }
 
 class _SelectThuHoiWidgetState extends State<SelectThuHoiWidget> {
-
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         SelectTHuHoiCell(
-          controller: widget.controller,
+          controller: controller,
           cubit: widget.cubit,
         ),
       ],
@@ -203,7 +215,6 @@ class _SelectTHuHoiCellState extends State<SelectTHuHoiCell> {
                   onRemove: () {
                     if ((dataSN.length - 1) == 0) {
                       keyDropDown.currentState?.isSelect = false;
-
                     } else {
                       keyDropDown.currentState?.isSelect = true;
                     }

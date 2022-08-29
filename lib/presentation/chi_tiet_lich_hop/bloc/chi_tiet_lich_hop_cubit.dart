@@ -71,7 +71,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   KetLuanHopState ketLuanHopState = KetLuanHopState();
   String ngayBatDaus = '';
   String ngayKetThucs = '';
-  bool check = false;
   int currentIndexTablet = -1;
   String startTime = '00:00';
   String endTime = '00:00';
@@ -362,7 +361,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
       BehaviorSubject<List<CanBoModel>>();
   List<CanBoModel> listCanBo = [];
-  BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
   BehaviorSubject<CanBoModel> isCheckDiemDanhSubject = BehaviorSubject();
   List<String> selectedIds = [];
 
@@ -429,8 +427,10 @@ const _THONG_TIN_KHAC_MOI = 2;
 
 class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   DetailMeetCalenderCubit? detailMeetCalenderCubit;
+  BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
   final Map<int, List<DonViModel>> _data = {};
   List<String> diemDanhIds = [];
+  bool check = false;
 
   Future<void> getDanhSachCuocHopTPTH() async {
     final result = await hopRp.getDanhSachCuocHopTPTH(idCuocHop);
@@ -538,47 +538,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     final value =
         dataThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
     thanhPhanThamGia.sink.add(value);
-  }
-
-  void checkBoxButton() {
-    checkBoxCheckAllTPTG.sink.add(check);
-  }
-
-  bool checkIsSelected(String id) {
-    bool value = false;
-    if (selectedIds.contains(id)) {
-      value = true;
-    }
-
-    return value;
-  }
-
-  void addOrRemoveId({
-    required bool isSelected,
-    required String id,
-  }) {
-    if (isSelected) {
-      diemDanhIds.add(id);
-    } else {
-      diemDanhIds.remove(id);
-    }
-  }
-
-  void checkAll() {
-    selectedIds.clear();
-    if (check) {
-      selectedIds = dataThanhPhanThamGia
-          .where((element) => element.showCheckBox())
-          .map((e) => e.id ?? '')
-          .toList();
-    }
-    List<CanBoModel> _tempList = [];
-    if (thanhPhanThamGia.hasValue) {
-      _tempList = thanhPhanThamGia.value;
-    } else {
-      _tempList = dataThanhPhanThamGia;
-    }
-    thanhPhanThamGia.sink.add(_tempList);
   }
 
   Future<void> callApiThanhPhanThamGia({

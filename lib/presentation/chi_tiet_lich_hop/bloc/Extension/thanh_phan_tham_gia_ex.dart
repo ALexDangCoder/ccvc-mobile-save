@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -88,60 +87,52 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
     thanhPhanThamGia.sink.add(value);
   }
 
-  void checkBoxButton() {
-    checkBoxCheckAllTPTG.sink.add(check);
-  }
-
-  bool checkIsSelected(String id) {
-    bool value = false;
-    if (selectedIds.contains(id)) {
-      value = true;
-    }
-    validateCheckAll();
-    return value;
-  }
-
-  void addOrRemoveId({
-    required bool isSelected,
-    required String id,
-  }) {
-    if (isSelected) {
-      selectedIds.remove(id);
-    } else {
-      selectedIds.add(id);
-      final temp = selectedIds.toSet();
-      selectedIds = temp.toList();
-    }
-    validateCheckAll();
-  }
-
-  void checkAll() {
-    selectedIds.clear();
-    if (check) {
-      selectedIds = dataThanhPhanThamGia
-          .where((element) => element.showCheckBox())
-          .map((e) => e.id ?? '')
-          .toList();
-    }
-    List<CanBoModel> _tempList = [];
-    if (thanhPhanThamGia.hasValue) {
-      _tempList = thanhPhanThamGia.value;
-    } else {
-      _tempList = dataThanhPhanThamGia;
-    }
-    thanhPhanThamGia.sink.add(_tempList);
-  }
-
-  void validateCheckAll() {
-    check = selectedIds.length ==
-        dataThanhPhanThamGia.where((element) => element.showCheckBox()).length;
-    checkBoxCheckAllTPTG.sink.add(check);
-  }
-
   Future<void> callApiThanhPhanThamGia() async {
     showLoading();
     await getDanhSachCuocHopTPTH();
     await danhSachCanBoTPTG(id: idCuocHop);
     showContent();
+  }
+}
+
+extension ThanhPhanThamGiaExt on ThanhPhanThamGiaHopCubit {
+  void addOrRemoveId({
+    required bool isSelected,
+    required String id,
+  }) {
+    if (isSelected) {
+      diemDanhIds.remove(id);
+    } else {
+      diemDanhIds.add(id);
+      final temp = diemDanhIds.toSet();
+      diemDanhIds = temp.toList();
+    }
+    validateCheckAll();
+  }
+
+  void checkAll() {
+    final selectedCanBo = thanhPhanThamGia.valueOrNull ?? [];
+    diemDanhIds.clear();
+    if (check) {
+      diemDanhIds = selectedCanBo
+          .where((element) => element.isVangMat ?? true)
+          .map((e) => e.id ?? '')
+          .toList();
+    }
+
+    thanhPhanThamGia.sink.add(selectedCanBo);
+  }
+
+  void removeCheckAll() {
+    final selectedCanBo = thanhPhanThamGia.valueOrNull ?? [];
+    diemDanhIds.clear();
+    thanhPhanThamGia.sink.add(selectedCanBo);
+  }
+
+  void validateCheckAll() {
+    final selectedCanBo = thanhPhanThamGia.valueOrNull ?? [];
+    check = diemDanhIds.length ==
+        selectedCanBo.where((element) => element.isVangMat ?? true).length;
+    checkBoxCheckAllTPTG.sink.add(check);
   }
 }

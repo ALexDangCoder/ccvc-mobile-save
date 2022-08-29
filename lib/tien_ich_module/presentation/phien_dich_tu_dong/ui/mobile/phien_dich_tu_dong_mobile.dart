@@ -43,7 +43,9 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
 
   Future<bool> checkPermissionRecord() async {
     final permission = await Permission.microphone.request();
-    final permissionBluetooth = await Permission.bluetoothConnect.request();
+    final permissionBluetooth = Platform.isAndroid
+        ? await Permission.bluetoothConnect.request()
+        : await Permission.speech.request();
     final microReject = permission == PermissionStatus.denied ||
         permission == PermissionStatus.permanentlyDenied;
     final blueToothReject = permissionBluetooth == PermissionStatus.denied ||

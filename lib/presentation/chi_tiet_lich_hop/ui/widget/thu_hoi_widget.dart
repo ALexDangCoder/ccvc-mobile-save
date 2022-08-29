@@ -233,7 +233,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
   final TextEditingController textEditingController = TextEditingController();
   BehaviorSubject<List<NguoiChutriModel>> searchItemSubject = BehaviorSubject();
   List<NguoiChutriModel> searchList = [];
-  NguoiChutriModel select = NguoiChutriModel();
+  NguoiChutriModel  select = NguoiChutriModel();
   bool isSelect = false;
 
   @override
@@ -395,7 +395,6 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                               select = itemTitle;
                             });
                             widget.onChange(selectIndex());
-                            Navigator.of(context).pop();
                             searchItemSubject.close();
                           },
                           child: Container(

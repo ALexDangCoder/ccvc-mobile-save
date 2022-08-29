@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class HinhThucHop extends StatefulWidget {
   const HinhThucHop({
@@ -307,6 +308,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               textField(
                 onChange: (value) {
                   diemCau.canBoDauMoiSDT = value;
+
+                  _key.currentState?.validate();
                 },
                 maxLength: 255,
                 validator: (value) {

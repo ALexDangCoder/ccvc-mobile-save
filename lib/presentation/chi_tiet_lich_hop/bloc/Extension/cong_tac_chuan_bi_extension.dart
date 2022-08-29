@@ -241,8 +241,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     final CapNhatTrangThaiRequest capNhatTrangThaiRequest =
         CapNhatTrangThaiRequest(
       id: id,
-      ghiChu: ghiChu,
-      trangThaiChuanBiId: trangThai,
+      ghiChu: ghiChu.trim(),
+      trangThaiChuanBiId: trangThai.trim(),
     );
     final rs = await hopRp.capNhatTrangThai(capNhatTrangThaiRequest);
     rs.when(

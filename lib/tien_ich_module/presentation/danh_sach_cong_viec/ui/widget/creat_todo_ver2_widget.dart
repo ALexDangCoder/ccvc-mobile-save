@@ -127,9 +127,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              spaceH20,
               Text(
                 S.current.nguoi_thuc_hien,
                 style: textNormalCustom(
@@ -138,9 +136,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   fontSize: 14.0.textScale(),
                 ),
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              spaceH8,
 
               ///chọn người thực hiện
               StreamBuilder<NguoiThucHienModel>(
@@ -215,9 +211,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   );
                 },
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              spaceH20,
 
               /// chọn file
               ButtonSelectFile(
@@ -251,7 +245,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   return const SizedBox();
                 },
               ),
-              const SizedBox(height: 20),
+              spaceH20,
 
               /// textfild note
               ItemTextFieldWidgetDSNV(
@@ -264,7 +258,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                 maxLine: 8,
                 controller: noteControler,
               ),
-              const SizedBox(height: 20),
+              spaceH20,
 
               Container(
                 margin: const EdgeInsets.only(bottom: 16),

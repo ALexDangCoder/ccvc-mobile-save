@@ -97,8 +97,13 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                     controller.clear();
                                     widget.cubit.tuKhoa = '';
                                     widget.cubit.clearDSPAKN();
-                                    widget.cubit
-                                        .getDanhSachPAKN(isSearch: true);
+                                    if (widget.cubit.trangThaiFilter != null) {
+                                      widget.cubit.getDanhSachPAKNFilterChart(
+                                          flagLoadMore: true);
+                                    } else {
+                                      widget.cubit
+                                          .getDanhSachPAKN(isSearch: true);
+                                    }
                                     widget.cubit.showCleanText = false;
                                     setState(() {});
                                   },
@@ -121,13 +126,23 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             widget.cubit.showCleanText = false;
                             widget.cubit.tuKhoa = '';
                             widget.cubit.clearDSPAKN();
-                            widget.cubit.getDanhSachPAKN(isSearch: true);
+                            if (widget.cubit.trangThaiFilter != null) {
+                              widget.cubit.getDanhSachPAKNFilterChart(
+                                  flagLoadMore: true);
+                            } else {
+                              widget.cubit.getDanhSachPAKN(isSearch: true);
+                            }
                           } else {
                             widget.cubit.debouncer.run(() {
                               setState(() {});
                               widget.cubit.tuKhoa = searchText.trim();
                               widget.cubit.clearDSPAKN();
-                              widget.cubit.getDanhSachPAKN(isSearch: true);
+                              if (widget.cubit.trangThaiFilter != null) {
+                                widget.cubit.getDanhSachPAKNFilterChart(
+                                    flagLoadMore: true);
+                              } else {
+                                widget.cubit.getDanhSachPAKN(isSearch: true);
+                              }
                               widget.cubit.showCleanText = true;
                             });
                           }
@@ -610,7 +625,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                       ),
                       if ((dsKetQuaPakn.trangThaiText ?? '').isNotEmpty)
                         Container(
-                          width: (dsKetQuaPakn.trangThaiText?.length  ?? 0)> 30
+                          width: (dsKetQuaPakn.trangThaiText?.length ?? 0) > 30
                               ? 150
                               : null,
                           padding: const EdgeInsets.symmetric(

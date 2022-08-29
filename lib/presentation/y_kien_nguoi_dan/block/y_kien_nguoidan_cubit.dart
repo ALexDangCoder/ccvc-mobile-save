@@ -413,7 +413,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       BehaviorSubject();
 
   Future<void> getDanhSachPAKN({
-    // String? tuKhoa,
     bool isSearch = false,
   }) async {
     showLoading();
@@ -470,6 +469,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       dateTo: startDate,
       dateFrom: endDate,
       hanXuLy: hanXuLy,
+      tuKhoa: tuKhoa,
     );
     data.when(
       success: (success) {

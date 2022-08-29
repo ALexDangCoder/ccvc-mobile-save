@@ -72,8 +72,8 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                           widget.cubit.textFilter.add(value);
                           widget.cubit.isShowFilterList.add(false);
                           widget.cubit.setColorWhenChooseDropDown(index);
-                          widget.cubit.resetBeforeRefresh();
                           widget.cubit.getDashBoardPAKNTiepCanXuLy();
+                          widget.cubit.trangThaiFilter = null;
                           widget.cubit.getDanhSachPAKN(isSearch: true);
                           widget.cubit.textFilter.sink.add(
                             TextTrangThai(

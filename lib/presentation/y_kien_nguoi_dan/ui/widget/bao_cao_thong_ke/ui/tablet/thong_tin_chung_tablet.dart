@@ -152,13 +152,25 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                               widget.cubit.showCleanText = false;
                               widget.cubit.tuKhoa = '';
                               widget.cubit.clearDSPAKN();
-                              widget.cubit.getDanhSachPAKN(isSearch: true);
+                              if (widget.cubit.trangThaiFilter != null) {
+                                widget.cubit.getDanhSachPAKNFilterChart(
+                                    flagLoadMore: true);
+                              } else {
+                                widget.cubit
+                                    .getDanhSachPAKN(isSearch: true);
+                              }
                             } else {
                               widget.cubit.debouncer.run(() {
                                 setState(() {});
                                 widget.cubit.tuKhoa = searchText.trim();
                                 widget.cubit.clearDSPAKN();
-                                widget.cubit.getDanhSachPAKN(isSearch: true);
+                                if (widget.cubit.trangThaiFilter != null) {
+                                  widget.cubit.getDanhSachPAKNFilterChart(
+                                      flagLoadMore: true);
+                                } else {
+                                  widget.cubit
+                                      .getDanhSachPAKN(isSearch: true);
+                                }
                                 widget.cubit.showCleanText = true;
                               });
                             }

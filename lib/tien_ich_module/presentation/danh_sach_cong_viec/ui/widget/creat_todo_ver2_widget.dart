@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/blo
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chon_nguoi_thuc_hien_screen.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/select_date_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/customTextFieldVersion2.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -73,241 +72,235 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
-      /// button dong va luu
-      bottomWidget: Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: APP_DEVICE == DeviceType.MOBILE
-            ? EdgeInsets.zero
-            : const EdgeInsets.symmetric(horizontal: 100),
-        child: DoubleButtonBottom(
-          isTablet: !isMobile(),
-          title1: S.current.dong,
-          title2: S.current.luu,
-          onClickLeft: () {
-            Navigator.pop(context);
-          },
-          onClickRight: () {
-            if (title.isEmpty) {
-              isShow.sink.add(true);
-              return;
-            }
-
-            if (widget.isCreate ?? true) {
-              widget.cubit.addTodo(
-                title: title,
-                fileName: nameFileSelect,
-                date: date,
-                note: note,
-              );
-            } else {
-              widget.cubit.editWork(
-                todo: widget.todo ?? TodoDSCVModel(),
-                filePathTodo: nameFileSelect,
-                title: title,
-                date: date,
-                note: note,
-                performer: widget.cubit.getDataNguoiThucHienModel.id,
-              );
-            }
-
-            Navigator.pop(context);
-          },
-        ),
+    return Container(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
       ),
-      child: Container(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.7,
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// textFild tiêu đề
-                StreamBuilder<Object>(
-                  stream: isShow,
-                  builder: (context, snapshot) {
-                    return ShowRequied(
-                      textShow: S.current.ban_phai_nhap_truong_tieu_de,
-                      isShow: isShow.value,
-                      child: ItemTextFieldWidgetDSNV(
-                        initialValue: widget.todo?.label ?? '',
-                        title: S.current.tieu_de,
-                        controller: tieuDeController,
-                        validator: (String? value) {},
-                        onChange: (String value) {
-                          title = value;
-                          if (value.isNotEmpty) {
-                            isShow.sink.add(false);
-                          }
-                        },
-                      ),
-                    );
-                  },
-                ),
-
-                ///chọn ngày hoàn thành
-                InputInfoUserWidget(
-                  title: S.current.ngay_hoan_thanh,
-                  child: SelectDateDSCV(
-                    initDateTime:
-                        (widget.todo?.finishDay ?? DateTime.now().toString())
-                            .convertStringToDate(
-                      formatPattern: DateFormatApp.dateTimeBackEnd,
-                    ),
-                    leadingIcon: Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: SvgPicture.asset(ImageAssets.icCalendar),
-                    ),
-                    value: date,
-                    onSelectDate: (value) {
-                      date = value;
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  S.current.nguoi_thuc_hien,
-                  style: textNormalCustom(
-                    color: titleItemEdit,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0.textScale(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-
-                ///chọn người thực hiện
-                StreamBuilder<NguoiThucHienModel>(
-                  stream: widget.cubit.nguoiThucHienSubject,
-                  builder: (context, snapshot) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChonNguoiThucHienScreen(
-                              cubit: widget.cubit,
-                              searchController: searchControler,
-                            ),
-                          ),
-                        );
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// textFild tiêu đề
+              StreamBuilder<Object>(
+                stream: isShow,
+                builder: (context, snapshot) {
+                  return ShowRequied(
+                    textShow: S.current.ban_phai_nhap_truong_tieu_de,
+                    isShow: isShow.value,
+                    child: ItemTextFieldWidgetDSNV(
+                      initialValue: widget.todo?.label ?? '',
+                      title: S.current.tieu_de,
+                      controller: tieuDeController,
+                      validator: (String? value) {},
+                      onChange: (String value) {
+                        title = value;
+                        if (value.isNotEmpty) {
+                          isShow.sink.add(false);
+                        }
                       },
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(6.0),
-                              ),
-                              border: Border.all(
-                                color: borderColor,
-                              ),
+                    ),
+                  );
+                },
+              ),
+
+              ///chọn ngày hoàn thành
+              InputInfoUserWidget(
+                title: S.current.ngay_hoan_thanh,
+                child: SelectDateDSCV(
+                  initDateTime:
+                      (widget.todo?.finishDay ?? DateTime.now().toString())
+                          .convertStringToDate(
+                    formatPattern: DateFormatApp.dateTimeBackEnd,
+                  ),
+                  leadingIcon: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: SvgPicture.asset(ImageAssets.icCalendar),
+                  ),
+                  value: date,
+                  onSelectDate: (value) {
+                    date = value;
+                  },
+                ),
+              ),
+              spaceH20,
+              Text(
+                S.current.nguoi_thuc_hien,
+                style: textNormalCustom(
+                  color: titleItemEdit,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0.textScale(),
+                ),
+              ),
+              spaceH8,
+
+              ///chọn người thực hiện
+              StreamBuilder<NguoiThucHienModel>(
+                stream: widget.cubit.nguoiThucHienSubject,
+                builder: (context, snapshot) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChonNguoiThucHienScreen(
+                            cubit: widget.cubit,
+                            searchController: searchControler,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(6.0),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10,
-                                top: 14,
-                                bottom: 14,
-                                right: 30,
-                              ),
-                              child: Text(
-                                snapshot.data?.dataAll() ?? '',
-                                style: textNormalCustom(
-                                  color: titleItemEdit,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14.0.textScale(),
-                                ),
+                            border: Border.all(
+                              color: borderColor,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              top: 14,
+                              bottom: 14,
+                              right: 30,
+                            ),
+                            child: Text(
+                              snapshot.data?.dataAll() ?? '',
+                              style: textNormalCustom(
+                                color: titleItemEdit,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.0.textScale(),
                               ),
                             ),
                           ),
-                          Positioned(
-                            right: 14,
-                            top: 14,
-                            bottom: 14,
-                            child: GestureDetector(
-                              onTap: () {
-                                widget.cubit.nguoiThucHienSubject.add(
-                                  NguoiThucHienModel(
-                                    id: '',
-                                    hoten: S.current.tim_theo_nguoi,
-                                    donVi: [],
-                                    chucVu: [],
-                                  ),
-                                );
-                              },
-                              child: snapshot.data?.hoten !=
-                                      S.current.tim_theo_nguoi
-                                  ? SvgPicture.asset(
-                                      ImageAssets.icClose,
-                                    )
-                                  : const SizedBox(),
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        Positioned(
+                          right: 14,
+                          top: 14,
+                          bottom: 14,
+                          child: GestureDetector(
+                            onTap: () {
+                              widget.cubit.nguoiThucHienSubject.add(
+                                NguoiThucHienModel(
+                                  id: '',
+                                  hoten: S.current.tim_theo_nguoi,
+                                  donVi: [],
+                                  chucVu: [],
+                                ),
+                              );
+                            },
+                            child:
+                                snapshot.data?.hoten != S.current.tim_theo_nguoi
+                                    ? SvgPicture.asset(
+                                        ImageAssets.icClose,
+                                      )
+                                    : const SizedBox(),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+              spaceH20,
+
+              /// chọn file
+              ButtonSelectFile(
+                isShowListFile: false,
+                title: S.current.them_tai_lieu_dinh_kem,
+                onChange: (files) {
+                  if (files.first.lengthSync() > widget.cubit.maxSizeFile) {
+                    showToast();
+                  } else {
+                    widget.cubit.uploadFilesWithFile(files.first).then(
+                          (value) => nameFileSelect = value,
+                        );
+                  }
+                },
+              ),
+
+              /// list file ở api
+              StreamBuilder<String>(
+                stream: widget.cubit.nameFile,
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  if (snapshot.hasData && data != '') {
+                    return FileFromAPIWidget(
+                      data: data?.split('/').toList().last ?? '',
+                      onTapDelete: () {
+                        nameFileSelect = '';
+                        widget.cubit.nameFile.sink.add('');
+                      },
                     );
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                  }
+                  return const SizedBox();
+                },
+              ),
+              spaceH20,
 
-                /// chọn file
-                ButtonSelectFile(
-                  isShowListFile: false,
-                  title: S.current.them_tai_lieu_dinh_kem,
-                  onChange: (files) {
-                    if (files.first.lengthSync() > widget.cubit.maxSizeFile) {
-                      showToast();
-                    } else {
-                      widget.cubit.uploadFilesWithFile(files.first).then(
-                            (value) => nameFileSelect = value,
-                          );
+              /// textfild note
+              ItemTextFieldWidgetDSNV(
+                initialValue: widget.todo?.note ?? '',
+                title: S.current.ghi_chu,
+                validator: (String? value) {},
+                onChange: (value) {
+                  note = value;
+                },
+                maxLine: 8,
+                controller: noteControler,
+              ),
+              spaceH20,
+
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: APP_DEVICE == DeviceType.MOBILE
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.symmetric(horizontal: 100),
+                child: DoubleButtonBottom(
+                  isTablet: !isMobile(),
+                  title1: S.current.dong,
+                  title2: S.current.luu,
+                  onClickLeft: () {
+                    Navigator.pop(context);
+                  },
+                  onClickRight: () {
+                    if (title.isEmpty) {
+                      isShow.sink.add(true);
+                      return;
                     }
-                  },
-                ),
 
-                /// list file ở api
-                StreamBuilder<String>(
-                  stream: widget.cubit.nameFile,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data;
-                    if (snapshot.hasData && data != '') {
-                      return FileFromAPIWidget(
-                        data: data?.split('/').toList().last ?? '',
-                        onTapDelete: () {
-                          nameFileSelect = '';
-                          widget.cubit.nameFile.sink.add('');
-                        },
+                    if (widget.isCreate ?? true) {
+                      widget.cubit.addTodo(
+                        title: title,
+                        fileName: nameFileSelect,
+                        date: date,
+                        note: note,
+                      );
+                    } else {
+                      widget.cubit.editWork(
+                        todo: widget.todo ?? TodoDSCVModel(),
+                        filePathTodo: nameFileSelect,
+                        title: title,
+                        date: date,
+                        note: note,
+                        performer: widget.cubit.getDataNguoiThucHienModel.id,
                       );
                     }
-                    return const SizedBox();
-                  },
-                ),
-                const SizedBox(height: 20),
 
-                /// textfild note
-                ItemTextFieldWidgetDSNV(
-                  initialValue: widget.todo?.note ?? '',
-                  title: S.current.ghi_chu,
-                  validator: (String? value) {},
-                  onChange: (value) {
-                    note = value;
+                    Navigator.pop(context);
                   },
-                  maxLine: 8,
-                  controller: noteControler,
                 ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

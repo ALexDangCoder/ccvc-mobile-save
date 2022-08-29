@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
@@ -20,10 +21,10 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class HinhThucHop extends StatefulWidget {
   const HinhThucHop({
@@ -264,7 +265,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
   }
 
   Widget themDiemCau(DsDiemCau diemCau){
-    return FollowKeyBoardWidget(
+    return FollowKeyBoardEdt(
       child: SingleChildScrollView(
         child: Form(
           key: _key,
@@ -307,6 +308,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               textField(
                 onChange: (value) {
                   diemCau.canBoDauMoiSDT = value;
+
+                  _key.currentState?.validate();
                 },
                 maxLength: 255,
                 validator: (value) {

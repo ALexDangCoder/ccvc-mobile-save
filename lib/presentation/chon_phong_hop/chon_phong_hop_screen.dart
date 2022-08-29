@@ -246,7 +246,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   ChonPhongHopModel(
                     loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
                     listThietBi: widget.chonPhongHopCubit.listThietBi,
-                    yeuCauKhac: controller.text,
+                    yeuCauKhac: controller.text.trim(),
                     phongHop: widget.chonPhongHopCubit.phongHop,
                   ),
                 );

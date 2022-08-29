@@ -107,18 +107,18 @@ class DateTimeCupertinoCustomCubit
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
         timeFromTmp = timeSelected.dateTimeFormatter(
-          pattern: HOUR_MINUTE_FORMAT,
+          pattern: DateTimeFormat.DATE_TIME_24,
         );
         timeBeginSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+          timeSelected.dateTimeFormatter(pattern: DateTimeFormat.DATE_TIME_24),
         );
         break;
       case TypePickerDateTime.TIME_END:
         timeToTmp = timeSelected.dateTimeFormatter(
-          pattern: HOUR_MINUTE_FORMAT,
+          pattern: DateTimeFormat.DATE_TIME_24,
         );
         timeEndSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+          timeSelected.dateTimeFormatter(pattern: DateTimeFormat.DATE_TIME_24),
         );
         break;
       case TypePickerDateTime.DATE_START:

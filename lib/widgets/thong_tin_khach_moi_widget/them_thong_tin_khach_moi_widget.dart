@@ -225,6 +225,7 @@ final scroll = ScrollController();
                     children: [
                       InputInfoUserWidget(
                         title: S.current.ho_va_ten,
+                        isObligatory: true,
                         child: TextFieldValidator(
                           controller: _hoTenController,
                           hintText: S.current.ho_va_ten,
@@ -237,6 +238,7 @@ final scroll = ScrollController();
                       ),
                       InputInfoUserWidget(
                         title: S.current.ten_don_vi,
+                        isObligatory: true,
                         child: TextFieldValidator(
                           controller: _tenDonViController,
                           hintText: S.current.ten_don_vi,

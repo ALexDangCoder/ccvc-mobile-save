@@ -45,7 +45,7 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         child: DoubleButtonBottom(
           title1: S.current.dong,
-          title2: S.current.luu,
+          title2: S.current.cap_nhat,
           onPressed1: () {
             Navigator.pop(context);
           },
@@ -74,8 +74,9 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
             InputInfoUserWidget(
               title: S.current.cap_nhat_trang_thai,
               child: CoolDropDown(
+                useCustomHintColors: true,
                 initData: '',
-                placeHoder: S.current.noi_dung,
+                placeHoder: S.current.chon_trang_thai,
                 onChange: (index) {
                   widget.cubit.idCapNhatTrangThai =
                       widget.cubit.listStatusRom[index].id ?? '';

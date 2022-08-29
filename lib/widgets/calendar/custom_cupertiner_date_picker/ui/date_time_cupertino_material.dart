@@ -559,7 +559,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedBegin.currentState?.collapseGesture();
       }
     }
-    if (counterTimeEnd == 1) {
+    if (counterTimeEnd == 1 && !widget.isEdit) {
       _cubit.timeToTmp = '00:00';
       _cubit.timeEndSubject.sink.add(_cubit.timeToTmp);
     }
@@ -579,7 +579,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedEnd.currentState?.collapseGesture();
       }
     }
-    if (counterTimeStart == 1) {
+    if (counterTimeStart == 1 && !widget.isEdit) {
       _cubit.timeFromTmp = '00:00';
       _cubit.timeBeginSubject.sink.add(_cubit.timeFromTmp);
     }
@@ -620,7 +620,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
         keyExpandedBegin.currentState?.collapseGesture();
       }
     }
-    if (counterDate == 1) {
+    if (counterDate == 1 && !widget.isEdit) {
       _cubit.dateToTmp =
           DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
       _cubit.dateFromTmp =  _cubit.dateToTmp;
@@ -646,7 +646,7 @@ class CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     if (typeStart != TypePickerDateTime.DATE_START) {
       _cubit.setTypePickerStart(type);
     }
-    if(counterDate == 1){
+    if(counterDate == 1  && !widget.isEdit){
       _cubit.dateToTmp =
           DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date);
       _cubit.dateFromTmp =  _cubit.dateToTmp;

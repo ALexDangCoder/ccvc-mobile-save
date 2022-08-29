@@ -8,7 +8,9 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/them_htkt/mobile/them_moi_yc_ho_tro_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/tim_kiem/mobile/tim_kiem_yc_ho_tro.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/widget/item_danh_sach_su_co.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/event_bus.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/listview/listview_loadmore.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
@@ -32,7 +34,16 @@ class _DanhSachSuCoMobileState extends State<DanhSachSuCoMobile> {
     widget.cubit.loadMoreListStream.listen((event) {
       widget.cubit.initListCheckPopup(widget.cubit.loadMoreList.length);
     });
+    handleEventBus();
     super.initState();
+  }
+
+  void handleEventBus() {
+    eventBus.on<RefreshListTrouble>().listen((event) {
+      widget.cubit.getListHoTroKyThuat(
+        page: ApiConstants.PAGE_BEGIN,
+      );
+    });
   }
 
   @override

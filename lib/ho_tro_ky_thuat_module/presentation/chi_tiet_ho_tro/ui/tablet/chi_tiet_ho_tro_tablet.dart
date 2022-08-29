@@ -211,6 +211,8 @@ class _ChiTietHoTroTabletState extends State<ChiTietHoTroTablet> {
                               title2: cubit.checkTitleButton()
                                   ? S.current.cap_nhat_thxl
                                   : S.current.danh_gia,
+                              disableRightButton: !cubit.checkTitleButton() &&
+                                  cubit.supportDetail.nhanXet.isNotEmpty,
                               onPressed1: () {
                                 Navigator.pop(context);
                               },

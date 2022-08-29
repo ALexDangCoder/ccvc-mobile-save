@@ -19,6 +19,7 @@ class SuCoModel {
   String? ketQuaXuLy;
   String? nguoiXuLy;
   String? ngayHoanThanh;
+  String nhanXet;
 
   SuCoModel({
     this.id,
@@ -41,5 +42,6 @@ class SuCoModel {
     this.nguoiXuLy,
     this.ngayHoanThanh,
     this.idNguoiXuLy,
+    this.nhanXet = '',
   });
 }

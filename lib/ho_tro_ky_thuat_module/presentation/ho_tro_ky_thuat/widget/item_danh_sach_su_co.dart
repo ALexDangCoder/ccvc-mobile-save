@@ -212,6 +212,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
               idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
               codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
               idNguoiXuLy: widget.objDSSC.idNguoiXuLy ?? '',
+              rated : widget.objDSSC.nhanXet,
             ))
                 ? InkWell(
                     onTap: () =>
@@ -317,6 +318,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                             widget.cubit.checkDanhGia(
                               idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
                               codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                              rated: widget.objDSSC.nhanXet,
                             ))
                           line(
                             paddingLeft: 35,
@@ -324,6 +326,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                         if (widget.cubit.checkDanhGia(
                           idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
                           codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
+                            rated: widget.objDSSC.nhanXet,
                         )) ...[
                           itemMenu(
                             title: S.current.danh_gia,

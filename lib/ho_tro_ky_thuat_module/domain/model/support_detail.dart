@@ -13,7 +13,7 @@ class SupportDetail {
   String? idNguoiXuLy;
   String? ketQuaXuLy;
   String? nguoiXuLy;
-  String? nhanXet;
+  String nhanXet;
   String? buildingId;
   String? districId;
   String? ngayHoanThanh;
@@ -37,7 +37,7 @@ class SupportDetail {
     this.trangThaiXuLy,
     this.ketQuaXuLy,
     this.nguoiXuLy,
-    this.nhanXet,
+    this.nhanXet = '',
     this.districId,
     this.buildingId,
     this.codeTrangThai,
@@ -69,5 +69,4 @@ class ListFileDinhKems {
 
   ListFileDinhKems(
       {this.id, this.taskId, this.fileId, this.filePath, this.fileName});
-
 }

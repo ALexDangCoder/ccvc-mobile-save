@@ -2,8 +2,11 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/event_bus.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/text_field_validator.dart';
@@ -26,6 +29,7 @@ class DanhGiaYeuCauHoTro extends StatefulWidget {
 class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
   String? note;
   final _groupKey = GlobalKey<FormGroupState>();
+  final HoTroKyThuatCubit supportCubit = HoTroKyThuatCubit();
 
   @override
   @override
@@ -97,12 +101,14 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
                   },
                   onPressed2: () {
                     if (_groupKey.currentState?.validator() ?? false) {
-                      widget.cubit.commentTask(
+                      widget.cubit
+                          .commentTask(
                         note ?? '',
                         id: widget.idTask,
-                      ).then(
-                            (value) {
-                          if(value == successCode){
+                      )
+                          .then(
+                        (value) {
+                          if (value == successCode) {
                             final FToast toast = FToast();
                             toast.init(context);
                             toast.showToast(
@@ -112,8 +118,9 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTro> {
                               ),
                               gravity: ToastGravity.BOTTOM,
                             );
+                            eventBus.fire(RefreshListTrouble());
                             Navigator.pop(context);
-                            if(widget.idTask?.isEmpty ?? true){
+                            if (widget.idTask?.isEmpty ?? true) {
                               widget.cubit.getSupportDetail(
                                 widget.cubit.supportDetail.id ?? '',
                               );

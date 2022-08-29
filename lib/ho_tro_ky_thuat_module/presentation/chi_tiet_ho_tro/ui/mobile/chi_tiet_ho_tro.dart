@@ -193,6 +193,8 @@ class _ChiTietHoTroMobileState extends State<ChiTietHoTroMobile> {
                             onPressed1: () {
                               Navigator.pop(context);
                             },
+                            disableRightButton: !cubit.checkTitleButton() &&
+                                cubit.supportDetail.nhanXet.isNotEmpty,
                             onPressed2: () {
                               confirmUpdateTask();
                             },

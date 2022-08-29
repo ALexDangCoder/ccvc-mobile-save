@@ -114,7 +114,7 @@ class GroupResponse {
         donVi: donVi,
         codeTrangThai: codeTrangThai,
         trangThaiXuLy: trangThaiXuLy,
-        nhanXet: nhanXet,
+        nhanXet: nhanXet ?? '',
         districId: districtId,
         buildingId: buildingId,
         ngayHoanThanh: ngayHoanThanh,

@@ -83,6 +83,8 @@ class PageDataResponse {
   String? nguoiXuLy;
   @JsonKey(name: 'ngayHoanThanh')
   String? ngayHoanThanh;
+  @JsonKey(name: 'nhanXet')
+  String? nhanXet;
 
   PageDataResponse(
     this.id,
@@ -105,6 +107,7 @@ class PageDataResponse {
     this.ketQuaXuLy,
     this.nguoiXuLy,
     this.ngayHoanThanh,
+    this.nhanXet,
   );
 
   factory PageDataResponse.fromJson(
@@ -128,6 +131,7 @@ class PageDataResponse {
             : '',
         nguoiYeuCau: nguoiYeuCau,
         donVi: donVi,
+        nhanXet: nhanXet ?? '',
         trangThaiXuLy: trangThaiXuLy,
         ketQuaXuLy: ketQuaXuLy,
         nguoiXuLy: nguoiXuLy,

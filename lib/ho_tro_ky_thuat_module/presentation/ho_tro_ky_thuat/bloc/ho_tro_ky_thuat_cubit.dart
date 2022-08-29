@@ -188,10 +188,12 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
     required String codeTrangThai,
     required String idNguoiYeuCau,
     required String idNguoiXuLy,
+    String rated = '',
   }) {
     if (checkDanhGia(
           codeTrangThai: codeTrangThai,
           idNguoiYeuCau: idNguoiYeuCau,
+          rated: rated,
         ) ||
         checkDeleteAndSua(
           codeTrangThai: codeTrangThai,
@@ -230,8 +232,10 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   bool checkDanhGia({
     required String codeTrangThai,
     required String idNguoiYeuCau,
+    required String rated,
   }) {
     if ((codeTrangThai == DA_HOAN_THANH || codeTrangThai == TU_CHOI_XU_LY) &&
+        rated.isEmpty &&
         (idNguoiYeuCau == dataUser?.userInformation?.id)) {
       return true;
     }

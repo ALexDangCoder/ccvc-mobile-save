@@ -2,8 +2,11 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/chi_tiet_ho_tro/cubit/chi_tiet_ho_tro_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/presentation/ho_tro_ky_thuat/bloc/ho_tro_ky_thuat_cubit.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/event_bus.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/dialog/show_toat.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/textformfield/text_field_validator.dart';
@@ -26,7 +29,7 @@ class DanhGiaYeuCauHoTroTabLet extends StatefulWidget {
 class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
   String? note;
   final _groupKey = GlobalKey<FormGroupState>();
-
+  final HoTroKyThuatCubit supportCubit = HoTroKyThuatCubit();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -112,6 +115,7 @@ class _DanhGiaYeuCauHoTroState extends State<DanhGiaYeuCauHoTroTabLet> {
                           ),
                           gravity: ToastGravity.BOTTOM,
                         );
+                        eventBus.fire(RefreshListTrouble());
                         if (widget.idTask?.isEmpty ?? true) {
                           widget.cubit.getSupportDetail(
                             widget.cubit.supportDetail.id ?? '',

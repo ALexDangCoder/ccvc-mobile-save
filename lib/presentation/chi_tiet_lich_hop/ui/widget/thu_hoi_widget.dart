@@ -377,7 +377,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
           onChange: (keySearch) {
             bool isListThuKy(NguoiChutriModel thuKy) {
               return thuKy
-                  .title()
+                  .titleDonVi()
                   .toLowerCase()
                   .vietNameseParse()
                   .contains(keySearch.trim().toLowerCase().vietNameseParse());
@@ -429,7 +429,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    itemTitle.title(),
+                                    itemTitle.titleDonVi(),
                                     style: textNormalCustom(
                                       color: titleItemEdit,
                                       fontWeight: itemTitle.trangThai ==

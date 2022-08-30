@@ -378,7 +378,6 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       success: (res) {
         if (res.isEmpty && loadMorePage == 1) {
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
-          print('------------------- list lenght ${loadMoreList.length}');
           showContent();
         } else {
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res));

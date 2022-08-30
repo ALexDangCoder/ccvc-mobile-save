@@ -132,10 +132,10 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                     if ((widget.themCanBoCubit.titleCanBo.valueOrNull ?? '')
                         .isEmpty) {
                       widget.themDonViCubit.listDonVi.last.noidung =
-                          noiDungController.text;
+                          noiDungController.text.trim();
                     } else {
                       widget.cubitThanhPhanTG.newCanBo.noidung =
-                          noiDungController.text;
+                          noiDungController.text.trim();
                     }
 
                     widget.cubitThanhPhanTG.addCanBoThamGiaCuCanBo(

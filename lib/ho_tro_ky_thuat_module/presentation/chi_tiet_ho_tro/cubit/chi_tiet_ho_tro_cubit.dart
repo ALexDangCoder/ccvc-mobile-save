@@ -171,20 +171,19 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     if (isNguoiYeuCau &&
         !isNguoiXuLy &&
         supportDetail.codeTrangThai != DA_HOAN_THANH &&
-        supportDetail.codeTrangThai != TU_CHOI_XU_LY) {
+        supportDetail.codeTrangThai != TU_CHOI_XU_LY
+        ) {
       if (isTruongPhong) {
         onlyButton = false;
       } else {
         onlyButton = true;
       }
     }
-    if (!isNguoiYeuCau && !isNguoiXuLy && !isTruongPhong) {
+    if(!checkTitleButton() && supportDetail.nhanXet.isNotEmpty){
       onlyButton = true;
     }
-    if (!checkTitleButton() && supportDetail.nhanXet.isNotEmpty) {
+    if (!isNguoiYeuCau && !isNguoiXuLy && !isTruongPhong) {
       onlyButton = true;
-    } else {
-      onlyButton = false;
     }
     return onlyButton;
   }

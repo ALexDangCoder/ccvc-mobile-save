@@ -16,7 +16,6 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_ca
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class DetailMeetCalenderTablet extends StatefulWidget {
   final String id;

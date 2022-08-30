@@ -65,7 +65,9 @@ class _ItemPeopleThamGiaState extends State<ItemPeopleThamGia> {
           Column(
             children: [
               rowInfo(
-                value: widget.donVi.name.trim(),
+                value: widget.isKhachMoi
+                    ? widget.donVi.tenDonVi.trim()
+                    : widget.donVi.name.trim(),
                 key: S.current.ten_don_vi,
                 needShowPadding: true,
               ),

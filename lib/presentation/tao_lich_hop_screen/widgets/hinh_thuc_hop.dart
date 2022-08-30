@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
@@ -24,7 +23,6 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class HinhThucHop extends StatefulWidget {
   const HinhThucHop({
@@ -57,13 +55,15 @@ class _HinhThucHopState extends State<HinhThucHop> {
       isHopTrucTiep = widget.chiTietHop!.diaDiemHop?.isNotEmpty ?? false;
       isHopTrucTuyen = widget.chiTietHop!.bit_HopTrucTuyen;
       isDuyetKyThuat = widget.chiTietHop!.isDuyetKyThuat ?? false;
-      if(widget.chiTietHop!.bit_LinkTrongHeThong != null){
-        kieuLinkHop = widget.chiTietHop!.bit_LinkTrongHeThong! ?  0 : 1;
+      if (widget.chiTietHop!.bit_LinkTrongHeThong != null) {
+        kieuLinkHop = widget.chiTietHop!.bit_LinkTrongHeThong! ? 0 : 1;
       }
       widget.cubit.taoLichHopRequest.linkTrucTuyen =
-      widget.chiTietHop!.linkTrucTuyen;
+          widget.chiTietHop!.linkTrucTuyen;
+      final List<DsDiemCau> initDanhSachDiemCau = [];
+      initDanhSachDiemCau.addAll(widget.chiTietHop!.dsDiemCau ?? []);
       widget.cubit.dsDiemCauSubject.sink.add(
-        widget.chiTietHop!.dsDiemCau ?? [],
+        initDanhSachDiemCau,
       );
     }
   }
@@ -105,8 +105,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
               onChange: (value) {
                 widget.cubit.taoLichHopRequest.diaDiemHop = value;
               },
-              validate: (value){
-                if(isHopTrucTiep){
+              validate: (value) {
+                if (isHopTrucTiep) {
                   if (value.trim().isEmpty) {
                     return '${S.current.vui_long_nhap} '
                         '${S.current.dia_diem_hop.toLowerCase()}';
@@ -125,7 +125,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 isHopTrucTiep = false;
                 widget.cubit.isHopTrucTiep = false;
               }
-              if(value && !isDuyetKyThuat){
+              if (value && !isDuyetKyThuat) {
                 isDuyetKyThuat = true;
                 widget.cubit.taoLichHopRequest.isDuyetKyThuat = true;
               }
@@ -154,8 +154,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                       widget.cubit.taoLichHopRequest.linkTrucTuyen = '';
                       kieuLinkHop = 1;
                     }
-                    widget.cubit.taoLichHopRequest.bitLinkTrongHeThong =
-                        value;
+                    widget.cubit.taoLichHopRequest.bitLinkTrongHeThong = value;
                     setState(() {});
                   });
                 },
@@ -225,8 +224,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               },
             ),
           ],
-          if (!isHopTrucTuyen)
-          spaceH20,
+          if (!isHopTrucTuyen) spaceH20,
           TitleChildWidget(
             title: S.current.ky_thuat,
             child: ContainerToggleWidget(
@@ -243,31 +241,29 @@ class _HinhThucHopState extends State<HinhThucHop> {
     );
   }
 
-
-
-
   void themDiemCauBTS() {
     final DsDiemCau diemCau = DsDiemCau();
-    if(isMobile()) {
+    if (isMobile()) {
       showBottomSheetCustom(
-      context,
-      child: themDiemCau(diemCau),
-      title: S.current.them_diem_cau,
-    );
-    }else{
+        context,
+        child: themDiemCau(diemCau),
+        title: S.current.them_diem_cau,
+      );
+    } else {
       showDiaLogTablet(
         context,
         title: S.current.them_diem_cau,
         child: themDiemCau(diemCau),
-        isBottomShow: false, funcBtnOk: () {  },
+        isBottomShow: false,
+        funcBtnOk: () {},
       );
     }
   }
 
-  Widget themDiemCau(DsDiemCau diemCau){
+  Widget themDiemCau(DsDiemCau diemCau) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height *0.8,
+        maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
       child: FollowKeyBoardEdt(
         child: SingleChildScrollView(

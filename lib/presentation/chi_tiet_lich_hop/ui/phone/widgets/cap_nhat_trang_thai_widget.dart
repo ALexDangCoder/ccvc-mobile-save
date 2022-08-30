@@ -2,10 +2,10 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 
@@ -40,7 +40,7 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
+    return FollowKeyBoardEdt(
       bottomWidget: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         child: DoubleButtonBottom(

@@ -126,13 +126,26 @@ class _ThanhPhanThamGiaWidgetTabletState
                       }
                       showDiaLog(
                         context,
+                        showTablet: true,
                         title: S.current.diem_danh,
                         icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                         btnLeftTxt: S.current.khong,
                         btnRightTxt: S.current.dong_y,
                         textContent: S.current.conten_diem_danh,
                         funcBtnRight: () {
-                          thanhPhanThamGiaCubit.postDiemDanh();
+                          thanhPhanThamGiaCubit.postDiemDanh().then((value) {
+                            showDiaLog(
+                              context,
+                              isOneButton: false,
+                              showTablet: true,
+                              title: S.current.diem_danh,
+                              icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+                              btnLeftTxt: '',
+                              textContent: S.current.diem_danh_ho_nguoi_khac,
+                              btnRightTxt: S.current.khong,
+                              funcBtnRight: () {},
+                            );
+                          });
                         },
                       );
                     },
@@ -149,10 +162,12 @@ class _ThanhPhanThamGiaWidgetTabletState
             },
           ),
           StreamBuilder<List<CanBoModel>>(
-            stream: thanhPhanThamGiaCubit.thanhPhanThamGia,
+            stream: thanhPhanThamGiaCubit.thanhPhanThamGiaSubject,
             builder: (context, snapshot) {
-              final _list = (snapshot.data ?? [])
-                  .where((element) => element.isVangMat ?? true);
+              final _list = (snapshot.data ?? []).where(
+                (element) =>
+                    (element.isVangMat ?? true) || !(element.diemDanh ?? false),
+              );
               if (_list.isNotEmpty) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 13.5, top: 18),
@@ -199,7 +214,7 @@ class _ThanhPhanThamGiaWidgetTabletState
           ),
           spaceH16,
           StreamBuilder<List<CanBoModel>>(
-            stream: thanhPhanThamGiaCubit.thanhPhanThamGia,
+            stream: thanhPhanThamGiaCubit.thanhPhanThamGiaSubject,
             builder: (context, snapshot) {
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {

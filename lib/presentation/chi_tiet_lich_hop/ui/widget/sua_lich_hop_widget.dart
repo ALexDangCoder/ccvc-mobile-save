@@ -374,6 +374,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
   }
 
   void handleButtonEditPressed() {
+    widget.chiTietHop.dsDiemCau=_cubitTaoLichHop.dsDiemCauSubject.value;
     final bool validateTime =
         _timerPickerKey.currentState?.validator() ?? false;
     final bool validateTextField = _formKey.currentState?.validator() ?? false;

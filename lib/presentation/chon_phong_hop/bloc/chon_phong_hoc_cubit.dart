@@ -17,7 +17,7 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   final BehaviorSubject<List<ThietBiValue>> _listThietBi =
       BehaviorSubject<List<ThietBiValue>>();
 
-  ChonPhongHopCubit() : super(ConPhongHopStateInitial()){
+  ChonPhongHopCubit() : super(ConPhongHopStateInitial()) {
     showContent();
   }
 
@@ -92,7 +92,13 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
     this.loaiPhongHopEnum = loaiPhongHopEnum;
   }
 
-  void dispose() {
-    _listThietBi.close();
+  void clearDataChonPhongHop() {
+    _listThietBi.sink.add([]);
+    loaiPhongHopEnum = LoaiPhongHopEnum.PHONG_HOP_THUONG;
+    phongHopSubject.sink.add([]);
+    isShowPhongHopSubject.sink.add(false);
+    phongHop.noiDungYeuCau = '';
+    donViSelected = '';
+    donViSelectedId = '';
   }
 }

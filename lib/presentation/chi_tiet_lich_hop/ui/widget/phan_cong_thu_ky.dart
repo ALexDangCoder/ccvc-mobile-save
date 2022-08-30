@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -48,58 +48,60 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
     return FollowKeyBoardWidget(
       child: Padding(
         padding: const EdgeInsets.only(top: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (isMobile())
-              Text(
-                S.current.chon_thu_ky_cuoc_hop,
-                style: textNormalCustom(color: infoColor),
-              ),
-            spaceH8,
-            SelectThuKyWidget(cubit: widget.cubit),
-            spaceH30,
-            Padding(
-              padding: APP_DEVICE == DeviceType.MOBILE
-                  ? EdgeInsets.zero
-                  : const EdgeInsets.symmetric(horizontal: 100),
-              child: StreamBuilder<int>(
-                  stream: widget.cubit.initThuKyNumber.stream,
-                  builder: (context, snapshot) {
-                    final initThuKyNumber = snapshot.data ?? 0;
-                    return StreamBuilder<List<NguoiChutriModel>>(
-                        stream: widget.cubit.listNguoiCHuTriModel,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          final currentThukyNumber = data
-                              .where((e) => e.isThuKy == true)
-                              .toList()
-                              .length;
-                          final disable =
-                              initThuKyNumber == 0 && currentThukyNumber == 0;
-                          return DoubleButtonBottom(
-                            title1: S.current.dong,
-                            title2: S.current.xac_nhan,
-                            onClickLeft: () {
-                              Navigator.pop(context);
-                            },
-                            disable: disable,
-                            onClickRight: () {
-                              if (!disable) {
-                                widget.cubit.postPhanCongThuKy(
-                                  widget.id,
-                                  isShowLoading: false,
-                                );
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (isMobile())
+                Text(
+                  S.current.chon_thu_ky_cuoc_hop,
+                  style: textNormalCustom(color: infoColor),
+                ),
+              spaceH8,
+              SelectThuKyWidget(cubit: widget.cubit),
+              spaceH30,
+              Padding(
+                padding: APP_DEVICE == DeviceType.MOBILE
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.symmetric(horizontal: 100),
+                child: StreamBuilder<int>(
+                    stream: widget.cubit.initThuKyNumber.stream,
+                    builder: (context, snapshot) {
+                      final initThuKyNumber = snapshot.data ?? 0;
+                      return StreamBuilder<List<NguoiChutriModel>>(
+                          stream: widget.cubit.listNguoiCHuTriModel,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            final currentThukyNumber = data
+                                .where((e) => e.isThuKy == true)
+                                .toList()
+                                .length;
+                            final disable =
+                                initThuKyNumber == 0 && currentThukyNumber == 0;
+                            return DoubleButtonBottom(
+                              title1: S.current.dong,
+                              title2: S.current.xac_nhan,
+                              onClickLeft: () {
                                 Navigator.pop(context);
-                              }
-                            },
-                          );
-                        });
-                  }),
-            ),
-            spaceH16,
-          ],
+                              },
+                              disable: disable,
+                              onClickRight: () {
+                                if (!disable) {
+                                  widget.cubit.postPhanCongThuKy(
+                                    widget.id,
+                                    isShowLoading: false,
+                                  );
+                                  Navigator.pop(context);
+                                }
+                              },
+                            );
+                          });
+                    }),
+              ),
+              spaceH16,
+            ],
+          ),
         ),
       ),
     );
@@ -336,8 +338,10 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
     } else {
       showDiaLogTablet(
         context,
+        isCenterTitle: true,
         title: widget.title,
         child: dialogCell(),
+        isBottomShow: false,
         funcBtnOk: () {},
       );
     }
@@ -353,12 +357,16 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (!isMobile())
+          const SizedBox(
+            height: 16.0,
+          ),
         BaseSearchBar(
           colorIcon: AppTheme.getInstance().colorField(),
           onChange: (keySearch) {
             bool isListThuKy(NguoiChutriModel thuKy) {
               return thuKy
-                  .title()
+                  .titleDonVi()
                   .toLowerCase()
                   .vietNameseParse()
                   .contains(keySearch);
@@ -408,12 +416,13 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    itemTitle.title(),
+                                    itemTitle.titleDonVi(),
                                     style: textNormalCustom(
                                       color: titleItemEdit,
-                                      fontWeight: itemTitle == select
-                                          ? FontWeight.w600
-                                          : FontWeight.w400,
+                                      fontWeight:
+                                          (itemTitle.isThuKy ?? false) == true
+                                              ? FontWeight.w600
+                                              : FontWeight.w400,
                                     ),
                                   ),
                                 ),

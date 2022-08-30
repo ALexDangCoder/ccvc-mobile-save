@@ -106,7 +106,10 @@ class MoiThamGiaHopRequest {
     if (donViId != null) {
       data['donViId'] = donViId;
     }
-    if (tenDonVi != null) {
+    if(TenCoQuan != null) {
+      data['TenCoQuan'] = TenCoQuan;
+    }
+    if(tenDonVi != null) {
       data['tenDonVi'] = tenDonVi;
     }
     if (userId != null) {
@@ -165,9 +168,6 @@ class MoiThamGiaHopRequest {
     }
     if (id != null) {
       data['id'] = id;
-    }
-    if (TenCoQuan != null) {
-      data['TenCoQuan'] = TenCoQuan;
     }
     return data;
   }

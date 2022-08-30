@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
@@ -162,6 +164,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   final _key = GlobalKey<FormGroupState>();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   late final TaoPhienHopRequest taoPhienHopRequest;
+  List<File> tempFiles = [];
 
   late String timeStart;
   late String timeEnd;
@@ -174,6 +177,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
     super.initState();
     if (widget.indexEdit >= 0) {
       taoPhienHopRequest = widget.cubit.listPhienHop.value[widget.indexEdit];
+      tempFiles = taoPhienHopRequest.files ?? [];
     } else {
       taoPhienHopRequest = TaoPhienHopRequest(
         thoiGian_BatDau: widget.cubit.getTime(),
@@ -230,6 +234,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
     }
 
     if (validateRequireField && validateTime) {
+      taoPhienHopRequest.files = tempFiles;
       taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
       taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
       taoPhienHopRequest.timeEnd = timeEnd;
@@ -381,9 +386,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 SelectFileBtn(
                   onChange: (files) {
-                    taoPhienHopRequest.files = files;
+                    tempFiles = files;
                   },
-                  initFileSystem: taoPhienHopRequest.files,
+                  initFileSystem: tempFiles,
                 ),
               ],
             ),

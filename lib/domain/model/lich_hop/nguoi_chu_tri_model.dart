@@ -10,6 +10,7 @@ class NguoiChutriModel {
   int? trangThai;
   String? chucVu;
   String? canBoId;
+  String? dauMoiLienHe;
   String? parentId;
   String? tenCoQuan;
   String? tenCanBo;
@@ -20,6 +21,7 @@ class NguoiChutriModel {
     this.userId = '',
     this.hoTen = '',
     this.userTaoHoId = '',
+    this.dauMoiLienHe = '',
     this.donViId = '',
     this.id = '',
     this.isThuKy,
@@ -36,17 +38,20 @@ class NguoiChutriModel {
   String title() {
     String title = '';
     if (hoTen != '') {
-      title = ' ${hoTen!} - $tenDonVi';
+      title = '${hoTen!} - $tenDonVi';
     } else {
       title = tenCoQuan ?? '';
     }
     return title;
   }
+
   String titleDonVi() {
     String title = '';
-    if (hoTen != '') {
-      title = ' ${hoTen!} - $tenCoQuan- $tenDonVi';
-    }else {
+    final name = (hoTen ?? '').isNotEmpty ? hoTen : dauMoiLienHe ?? '';
+    if (name?.isNotEmpty ?? false) {
+      title = [name ?? '', tenCoQuan, if ((tenDonVi ?? '').isNotEmpty) tenDonVi]
+          .join(' - ');
+    } else {
       title = tenCoQuan ?? '';
     }
     return title;

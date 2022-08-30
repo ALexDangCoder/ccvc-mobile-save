@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
@@ -157,14 +158,22 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
         if (value.succeeded == true) {
           getDanhSachThuHoiLichHop(scheduleId);
           thuHoiHopRequest.clear();
-          if (getListWidgetDetailSubject.length > currentIndexTablet &&
-              getListWidgetDetailSubject[currentIndexTablet] ==
-                  TabWidgetDetailMeet.THANH_PHAN_THAM_GIA) {
+          if (isMobile()) {
             eventBus.fire(
               const ReloadMeetingDetail([
                 TabWidgetDetailMeet.THANH_PHAN_THAM_GIA,
               ]),
             );
+          } else {
+            if (getListWidgetDetailSubject.length > currentIndexTablet &&
+                getListWidgetDetailSubject[currentIndexTablet] ==
+                    TabWidgetDetailMeet.THANH_PHAN_THAM_GIA) {
+              eventBus.fire(
+                const ReloadMeetingDetail([
+                  TabWidgetDetailMeet.THANH_PHAN_THAM_GIA,
+                ]),
+              );
+            }
           }
         }
         showContent();
@@ -434,8 +443,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
   }
 
   String idCanBoThamGia() {
-    final canboId =
-        HiveLocal.getDataUser()?.userId ?? '';
+    final canboId = HiveLocal.getDataUser()?.userId ?? '';
 
     return listTPTG
         .firstWhere(

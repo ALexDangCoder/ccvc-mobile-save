@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
@@ -61,6 +60,20 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     listCanBo[index].isCheck = true;
     titleCanBo.sink.add(listCanBo[index].tenCanBo);
     getCanbo.sink.add(listCanBo);
+  }
+
+  void addDataListByModel(DonViModel data) {
+    final currentList = getCanbo.valueOrNull ?? [];
+    for (final value in listCanBo) {
+      value.isCheck = false;
+      titleCanBo.sink.add('');
+    }
+    final index = currentList.indexOf(data);
+    if (index != -1 ){
+      currentList[index].isCheck = true;
+    }
+    titleCanBo.sink.add(currentList[index].tenCanBo);
+    getCanbo.sink.add(currentList);
   }
 
   HopRepository get hopRepo => Get.find();

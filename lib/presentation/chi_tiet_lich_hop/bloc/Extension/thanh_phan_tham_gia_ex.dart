@@ -11,8 +11,8 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
 
     result.when(
       success: (success) {
-        thanhPhanThamGia.add(success.listCanBo ?? []);
-        // dataThaGiaDefault = success.listCanBo ?? [];
+        thanhPhanThamGiaSubject.sink.add(success.listCanBo ?? []);
+        listThanhPhanThamGia = success.listCanBo ?? [];
       },
       error: (error) {},
     );
@@ -34,9 +34,9 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachCanBoTPTG(id);
     result.when(
       success: (value) {
-        dataThanhPhanThamGia = value.listCanBo ?? [];
+        listThanhPhanThamGia = value.listCanBo ?? [];
         isCheckDiemDanh(value.listCanBo ?? []);
-        thanhPhanThamGia.sink.add(value.listCanBo ?? []);
+        thanhPhanThamGiaSubject.sink.add(value.listCanBo ?? []);
       },
       error: (error) {},
     );
@@ -83,8 +83,8 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
     }
 
     final value =
-        dataThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
-    thanhPhanThamGia.sink.add(value);
+        listThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
+    thanhPhanThamGiaSubject.sink.add(value);
   }
 
   Future<void> callApiThanhPhanThamGia() async {
@@ -111,28 +111,36 @@ extension ThanhPhanThamGiaExt on ThanhPhanThamGiaHopCubit {
   }
 
   void checkAll() {
-    final selectedCanBo = thanhPhanThamGia.valueOrNull ?? [];
+    final selectedCanBo = thanhPhanThamGiaSubject.valueOrNull ?? [];
     diemDanhIds.clear();
     if (check) {
       diemDanhIds = selectedCanBo
-          .where((element) => element.isVangMat ?? true)
+          .where(
+            (element) =>
+                (element.isVangMat ?? true) || !(element.diemDanh ?? false),
+          )
           .map((e) => e.id ?? '')
           .toList();
     }
 
-    thanhPhanThamGia.sink.add(selectedCanBo);
+    thanhPhanThamGiaSubject.sink.add(selectedCanBo);
   }
 
   void removeCheckAll() {
-    final selectedCanBo = thanhPhanThamGia.valueOrNull ?? [];
+    final selectedCanBo = thanhPhanThamGiaSubject.valueOrNull ?? [];
     diemDanhIds.clear();
-    thanhPhanThamGia.sink.add(selectedCanBo);
+    thanhPhanThamGiaSubject.sink.add(selectedCanBo);
   }
 
   void validateCheckAll() {
-    final selectedCanBo = thanhPhanThamGia.valueOrNull ?? [];
+    final selectedCanBo = thanhPhanThamGiaSubject.valueOrNull ?? [];
     check = diemDanhIds.length ==
-        selectedCanBo.where((element) => element.isVangMat ?? true).length;
+        selectedCanBo
+            .where(
+              (element) =>
+                  (element.isVangMat ?? true) || !(element.diemDanh ?? false),
+            )
+            .length;
     checkBoxCheckAllTPTG.sink.add(check);
   }
 }

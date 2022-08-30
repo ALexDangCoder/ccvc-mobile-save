@@ -55,7 +55,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
     ngGiaoNvId = '';
     themNhiemVuRequest = ThemNhiemVuRequest(
       idCuocHop: widget.cubit.idCuocHop,
-      hanXuLy: DateTime.now().toStringWithListFormat,
+      hanXuLy: DateTime
+          .now()
+          .toStringWithListFormat,
     );
 
     widget.cubit.clearData();
@@ -73,7 +75,10 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.8,
+        maxHeight: MediaQuery
+            .of(context)
+            .size
+            .height * 0.8,
       ),
       child: FormGroup(
         key: keyGroup,
@@ -126,7 +131,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                           final data = snapshot.data ?? false;
                           return ShowRequied(
                             textShow:
-                                S.current.vui_long_chon_truong_loai_nhiem_vu,
+                            S.current.vui_long_chon_truong_loai_nhiem_vu,
                             isShow: data,
                             child: DropDownWidget(
                               listData: widget
@@ -212,13 +217,18 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         isShowIconRight: true,
                         items: widget.cubit.dataThuKyOrThuHoiDeFault
                             .map(
-                              (e) => ListItemType(
-                                title: (e.hoTen?.isEmpty ?? true)
-                                    ? e.tenCoQuan ?? ''
-                                    : e.hoTen ?? '',
-                                id: e.id ?? '',
-                              ),
-                            )
+                              (element) {
+                            final name = (element.hoTen ?? '').isNotEmpty
+                                ? element.hoTen
+                                : element.dauMoiLienHe ?? '';
+                            return ListItemType(
+                              title: (name?.isNotEmpty ?? false)
+                                  ? name ?? ''
+                                  : element.tenCoQuan ?? '',
+                              id: element.id ?? '',
+                            );
+                          },
+                        )
                             .toList(),
                         context: context,
                         hintText: S.current.nguoi_giao_nhiem_vu,
@@ -233,6 +243,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         context: context,
                       ),
                       sb20,
+
                       /// van ban khac
                       buttonThemVb(
                         loaiVbThem: KHAC,
@@ -277,8 +288,8 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
             stream: widget.cubit.listVBGiaoNhiemVu.stream,
             builder: (context, snapshot) {
               final data = snapshot.data
-                      ?.where((element) => element.hinhThucVanBan == loaiVbThem)
-                      .toList() ??
+                  ?.where((element) => element.hinhThucVanBan == loaiVbThem)
+                  .toList() ??
                   [];
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -291,9 +302,11 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                   return ItemVbGIaoNhiemVuWidget(
                     cubit: widget.cubit,
                     soKyHieu: data[index].soVanBan ?? '',
-                    ngayVB: DateTime.parse(
+                    ngayVB: DateTime
+                        .parse(
                       data[index].ngayVanBan ?? DateTime.now().toString(),
-                    ).toStringWithListFormat,
+                    )
+                        .toStringWithListFormat,
                     trichYeu: data[index].trichYeu ?? '',
                     file: fileName,
                     onTap: () {

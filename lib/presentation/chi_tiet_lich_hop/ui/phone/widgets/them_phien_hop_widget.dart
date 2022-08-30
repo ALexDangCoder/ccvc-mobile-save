@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
@@ -115,12 +114,15 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
       child: FollowKeyBoardWidget(
         bottomWidget: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
+
           /// hai button
           child: DoubleButtonBottom(
             onClickRight: () {
-              final validateTime = widget.cubit.isValidateTimer.valueOrNull ?? true;
+              final validateTime =
+                  widget.cubit.isValidateTimer.valueOrNull ?? true;
               if ((_key.currentState?.validator() ?? false) &&
-                  !isOverFileLength && !validateTime) {
+                  !isOverFileLength &&
+                  !validateTime) {
                 taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
                 taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
                 taoPhienHopRequest.timeEnd = timeEnd;
@@ -232,13 +234,16 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                         onChange: (value) {
                           taoPhienHopRequest.hoTen = data[value].hoTen ?? '';
                         },
-                        listSelect: data
-                            .map(
-                              (e) => (e.tenCanBo ?? '').isNotEmpty
-                                  ? e.tenCanBo ?? ''
-                                  : e.tenCoQuan ?? '',
-                            )
-                            .toList(),
+                        listSelect: data.map(
+                          (value) {
+                            final name = (value.hoTen ?? '').isNotEmpty
+                                ? value.hoTen
+                                : value.dauMoiLienHe ?? '';
+                            return name?.isNotEmpty ?? false
+                                ? name ?? ''
+                                : value.tenCoQuan ?? '';
+                          },
+                        ).toList(),
                       ),
                     );
                   },
@@ -266,7 +271,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
 
                 SelectFileBtn(
                   onChange: (files) {
-                      taoPhienHopRequest.files = files;
+                    taoPhienHopRequest.files = files;
                   },
                   maxSize: MaxSizeFile.MAX_SIZE_20MB.toDouble(),
                   initFileSystem: taoPhienHopRequest.files ?? [],

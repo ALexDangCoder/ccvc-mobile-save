@@ -113,7 +113,18 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                     btnRightTxt: S.current.dong_y,
                     textContent: S.current.conten_diem_danh,
                     funcBtnRight: () {
-                      thanhPhanThamGiaHopCubit.postDiemDanh();
+                      thanhPhanThamGiaHopCubit.postDiemDanh().then((value) {
+                        showDiaLog(
+                          context,
+                          isOneButton: false,
+                          title: S.current.diem_danh,
+                          icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+                          btnLeftTxt: '',
+                          textContent: S.current.diem_danh_ho_nguoi_khac,
+                          btnRightTxt: S.current.khong,
+                          funcBtnRight: () {},
+                        );
+                      });
                     },
                   );
                 },
@@ -122,7 +133,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               height: 16,
             ),
             StreamBuilder<List<CanBoModel>>(
-              stream: thanhPhanThamGiaHopCubit.thanhPhanThamGia,
+              stream: thanhPhanThamGiaHopCubit.thanhPhanThamGiaSubject,
               builder: (context, snapshot) {
                 final list = snapshot.data ?? [];
                 if (list.isNotEmpty) {

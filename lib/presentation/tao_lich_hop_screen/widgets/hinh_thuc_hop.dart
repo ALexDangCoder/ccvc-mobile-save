@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -187,7 +188,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 child: Text(
                   widget.cubit.taoLichHopRequest.linkTrucTuyen ?? '',
                   style: textNormal(textDefault, 14).copyWith(
-                    fontWeight: FontWeight.bold,
+                    color: AppTheme.getInstance().colorField()
                   ),
                 ),
               ),

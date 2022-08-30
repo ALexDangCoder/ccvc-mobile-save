@@ -327,6 +327,11 @@ class _HinhThucHopState extends State<HinhThucHop> {
                   hint: S.current.so_dien_thoai,
                 ),
                 spaceH20,
+                Text(
+                  S.current.diem,
+                  style: textNormal(titleColumn, 14),
+                ),
+                spaceH4,
                 CoolDropDown(
                   onChange: (index) {
                     /// điểm chính = 1

@@ -151,8 +151,10 @@ class _ThanhPhanThamGiaWidgetTabletState
           StreamBuilder<List<CanBoModel>>(
             stream: thanhPhanThamGiaCubit.thanhPhanThamGia,
             builder: (context, snapshot) {
-              final _list = (snapshot.data ?? [])
-                  .where((element) => element.isVangMat ?? true);
+              final _list = (snapshot.data ?? []).where(
+                (element) =>
+                    (element.isVangMat ?? true) || !(element.diemDanh ?? false),
+              );
               if (_list.isNotEmpty) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 13.5, top: 18),

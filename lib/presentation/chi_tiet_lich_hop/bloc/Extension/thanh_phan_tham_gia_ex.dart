@@ -115,7 +115,10 @@ extension ThanhPhanThamGiaExt on ThanhPhanThamGiaHopCubit {
     diemDanhIds.clear();
     if (check) {
       diemDanhIds = selectedCanBo
-          .where((element) => element.isVangMat ?? true)
+          .where(
+            (element) =>
+                (element.isVangMat ?? true) || !(element.diemDanh ?? false),
+          )
           .map((e) => e.id ?? '')
           .toList();
     }
@@ -132,7 +135,12 @@ extension ThanhPhanThamGiaExt on ThanhPhanThamGiaHopCubit {
   void validateCheckAll() {
     final selectedCanBo = thanhPhanThamGia.valueOrNull ?? [];
     check = diemDanhIds.length ==
-        selectedCanBo.where((element) => element.isVangMat ?? true).length;
+        selectedCanBo
+            .where(
+              (element) =>
+                  (element.isVangMat ?? true) || !(element.diemDanh ?? false),
+            )
+            .length;
     checkBoxCheckAllTPTG.sink.add(check);
   }
 }

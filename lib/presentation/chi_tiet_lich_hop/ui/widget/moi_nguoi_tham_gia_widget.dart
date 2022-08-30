@@ -133,7 +133,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               height: 16,
             ),
             StreamBuilder<List<CanBoModel>>(
-              stream: thanhPhanThamGiaHopCubit.thanhPhanThamGia,
+              stream: thanhPhanThamGiaHopCubit.thanhPhanThamGiaSubject,
               builder: (context, snapshot) {
                 final list = snapshot.data ?? [];
                 if (list.isNotEmpty) {

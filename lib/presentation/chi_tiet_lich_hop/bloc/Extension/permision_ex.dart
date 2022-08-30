@@ -286,8 +286,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     final caNhanThamDu = caNhanTrongDsThamDu();
 
     ///check quyen sua lich
-    if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
-        (chuTri || nguoiTao || thuKy) &&
+    if ((chuTri || nguoiTao || thuKy) &&
         getChiTietLichHopModel.status != 8 &&
         !isLichHuy() &&
         !isLichThuHoi()) {

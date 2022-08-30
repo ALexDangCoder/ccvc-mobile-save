@@ -351,6 +351,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }) async {
     showLoading();
     if (page == 1) {
+      loadMorePage = 1;
       loadMoreList.clear();
     }
     final result = await _hoTroKyThuatRepository.postDanhSachSuCo(

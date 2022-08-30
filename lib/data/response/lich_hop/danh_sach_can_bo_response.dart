@@ -111,6 +111,7 @@ class ListCanBo {
         vaiTroThamGia: vaiTroThamGia,
         trangThai: trangThai,
         donViId: donViId,
+        dauMoiLienHe: dauMoiLienHe,
         canBoId: canBoId,
         parentId: parentId,
         tenCanBo: tenCanBo,

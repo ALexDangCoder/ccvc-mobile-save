@@ -126,13 +126,26 @@ class _ThanhPhanThamGiaWidgetTabletState
                       }
                       showDiaLog(
                         context,
+                        showTablet: true,
                         title: S.current.diem_danh,
                         icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                         btnLeftTxt: S.current.khong,
                         btnRightTxt: S.current.dong_y,
                         textContent: S.current.conten_diem_danh,
                         funcBtnRight: () {
-                          thanhPhanThamGiaCubit.postDiemDanh();
+                          thanhPhanThamGiaCubit.postDiemDanh().then((value) {
+                            showDiaLog(
+                              context,
+                              isOneButton: false,
+                              showTablet: true,
+                              title: S.current.diem_danh,
+                              icon: SvgPicture.asset(ImageAssets.icDiemDanh),
+                              btnLeftTxt: '',
+                              textContent: S.current.diem_danh_ho_nguoi_khac,
+                              btnRightTxt: S.current.khong,
+                              funcBtnRight: () {},
+                            );
+                          });
                         },
                       );
                     },

@@ -498,9 +498,6 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
       success: (value) async {
         diemDanhIds.clear();
         await getDanhSachCuocHopTPTH();
-        MessageConfig.show(
-          title: S.current.diem_danh_thanh_cong,
-        );
         showLoading(isShow: false);
       },
       error: (error) {

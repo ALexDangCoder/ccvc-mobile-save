@@ -75,39 +75,36 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
         S.current.error,
       ),
       stream: cubit.stateStream,
-      child: Scaffold(
-        appBar: appbarChiTietHop(
-          cubit,
-          context,
-          _cubitThanhPhan,
-          themCanBoCubit,
-          themDonViCubit,
-        ),
-        body: WillPopScope(
-          onWillPop: () async {
-            Navigator.pop(context, cubit.needRefreshMainMeeting);
-            return true;
-          },
-          child: ProviderWidget<DetailMeetCalenderCubit>(
-            cubit: cubit,
-            child: ExpandGroup(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  await cubit.initDataChiTiet();
-                },
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: StreamBuilder<ChiTietLichHopModel>(
-                          stream: cubit.chiTietLichHopSubject.stream,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const SizedBox();
-                            }
-                            final data = snapshot.data ?? ChiTietLichHopModel();
-                            return Column(
+      child: StreamBuilder<ChiTietLichHopModel>(
+        stream: cubit.chiTietLichHopSubject.stream,
+        builder: (context, snapshotDetail) {
+          final detailModel = snapshotDetail.data ?? ChiTietLichHopModel();
+          return Scaffold(
+            appBar: appbarChiTietHop(
+              cubit,
+              context,
+              _cubitThanhPhan,
+              themCanBoCubit,
+              themDonViCubit,
+            ),
+            body: WillPopScope(
+              onWillPop: () async {
+                Navigator.pop(context, cubit.needRefreshMainMeeting);
+                return true;
+              },
+              child: ProviderWidget<DetailMeetCalenderCubit>(
+                cubit: cubit,
+                child: ExpandGroup(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      await cubit.initDataChiTiet();
+                    },
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
@@ -122,7 +119,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        data.title,
+                                        detailModel.title,
                                         style: textNormalCustom(
                                           color: titleCalenderWork,
                                           fontSize: 20,
@@ -134,8 +131,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   ],
                                 ),
                                 Column(
-                                  children: data.valueData().map(
-                                    (element) {
+                                  children: detailModel.valueData().map(
+                                        (element) {
                                       if (element is HopTrucTuyenRow) {
                                         return ThamGiaCuocHopWidget(
                                           link: element.link,
@@ -153,142 +150,142 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                 ),
                                 spaceH16,
                                 StatusWidget(
-                                  status: data.getStatus,
+                                  status: detailModel.getStatus,
                                 ),
                                 spaceH16,
                                 ThongTinLienHeWidget(
-                                  thongTinTxt: data.chuTriModel.dauMoiLienHe,
-                                  sdtTxt: data.chuTriModel.soDienThoai,
-                                  dsDiemCau: data.dsDiemCau ?? [],
-                                  thuMoiFiles: data.fileDinhKemWithDecode ?? [],
+                                  thongTinTxt: detailModel.chuTriModel.dauMoiLienHe,
+                                  sdtTxt: detailModel.chuTriModel.soDienThoai,
+                                  dsDiemCau: detailModel.dsDiemCau ?? [],
+                                  thuMoiFiles: detailModel.fileDinhKemWithDecode ?? [],
                                 )
                               ],
-                            );
-                          },
-                        ),
-                      ),
+                            ),
+                          ),
 
-                      /// list item drop down
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: cubit.getListWidgetDetailSubject.length,
-                        itemBuilder: (context, index) {
-                          return cubit.getListWidgetDetailSubject[index]
-                              .getWidget(cubit);
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: StreamBuilder<List<PERMISSION_DETAIL>>(
-                          stream: cubit.listButtonSubject.stream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? [];
-                            if (data.contains(
-                                  PERMISSION_DETAIL.XAC_NHAN_THAM_GIA,
-                                ) &&
-                                data.contains(
-                                  PERMISSION_DETAIL.TU_CHOI_THAM_GIA,
-                                ) &&
-                                !cubit.trangThaiHuy() &&
-                                !cubit.trangThaiThuHoi()) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 16),
-                                child: DoubleButtonBottom(
-                                  title1: S.current.tu_choi,
-                                  title2: S.current.tham_du,
-                                  onClickRight: () {
-                                    showDiaLog(
-                                      context,
-                                      btnLeftTxt: S.current.khong,
-                                      funcBtnRight: () {
-                                        cubit
-                                            .confirmThamGiaHop(
-                                          lichHopId:
-                                              cubit.getChiTietLichHopModel.id,
-                                          isThamGia: true,
-                                        )
-                                            .then((value) {
-                                          if (value) {
-                                            MessageConfig.show(
-                                              title:
-                                                  '${S.current.xac_nhan_tham_gia}'
-                                                  ' ${S.current.thanh_cong.toLowerCase()}',
-                                            );
-                                            cubit.initDataChiTiet(
-                                              needCheckPermission: true,
-                                            );
-                                          } else {
-                                            MessageConfig.show(
-                                              messState: MessState.error,
-                                              title:
-                                                  '${S.current.xac_nhan_tham_gia}'
-                                                  ' ${S.current.that_bai.toLowerCase()}',
-                                            );
-                                          }
-                                        });
+                          /// list item drop down
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: cubit.getListWidgetDetailSubject.length,
+                            itemBuilder: (context, index) {
+                              return cubit.getListWidgetDetailSubject[index]
+                                  .getWidget(cubit);
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: StreamBuilder<List<PERMISSION_DETAIL>>(
+                              stream: cubit.listButtonSubject.stream,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? [];
+                                if (data.contains(
+                                      PERMISSION_DETAIL.XAC_NHAN_THAM_GIA,
+                                    ) &&
+                                    data.contains(
+                                      PERMISSION_DETAIL.TU_CHOI_THAM_GIA,
+                                    ) &&
+                                    !cubit.trangThaiHuy() &&
+                                    !cubit.trangThaiThuHoi()) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: DoubleButtonBottom(
+                                      title1: S.current.tu_choi,
+                                      title2: S.current.tham_du,
+                                      onClickRight: () {
+                                        showDiaLog(
+                                          context,
+                                          btnLeftTxt: S.current.khong,
+                                          funcBtnRight: () {
+                                            cubit
+                                                .confirmThamGiaHop(
+                                              lichHopId:
+                                                  cubit.getChiTietLichHopModel.id,
+                                              isThamGia: true,
+                                            )
+                                                .then((value) {
+                                              if (value) {
+                                                MessageConfig.show(
+                                                  title:
+                                                      '${S.current.xac_nhan_tham_gia}'
+                                                      ' ${S.current.thanh_cong.toLowerCase()}',
+                                                );
+                                                cubit.initDataChiTiet(
+                                                  needCheckPermission: true,
+                                                );
+                                              } else {
+                                                MessageConfig.show(
+                                                  messState: MessState.error,
+                                                  title:
+                                                      '${S.current.xac_nhan_tham_gia}'
+                                                      ' ${S.current.that_bai.toLowerCase()}',
+                                                );
+                                              }
+                                            });
+                                          },
+                                          title: S.current.xac_nhan_tham_gia,
+                                          btnRightTxt: S.current.dong_y,
+                                          icon: SvgPicture.asset(
+                                            ImageAssets.img_tham_gia,
+                                          ),
+                                          textContent: S.current.confirm_tham_gia,
+                                        );
                                       },
-                                      title: S.current.xac_nhan_tham_gia,
-                                      btnRightTxt: S.current.dong_y,
-                                      icon: SvgPicture.asset(
-                                        ImageAssets.img_tham_gia,
-                                      ),
-                                      textContent: S.current.confirm_tham_gia,
-                                    );
-                                  },
-                                  onClickLeft: () {
-                                    showDiaLog(
-                                      context,
-                                      btnLeftTxt: S.current.khong,
-                                      funcBtnRight: () {
-                                        cubit
-                                            .confirmThamGiaHop(
-                                          lichHopId:
-                                              cubit.getChiTietLichHopModel.id,
-                                          isThamGia: false,
-                                        )
-                                            .then((value) {
-                                          if (value) {
-                                            MessageConfig.show(
-                                              title:
-                                                  '${S.current.tu_choi_tham_gia} '
-                                                  '${S.current.thanh_cong.toLowerCase()}',
-                                            );
-                                            cubit.initDataChiTiet(
-                                              needCheckPermission: true,
-                                            );
-                                          } else {
-                                            MessageConfig.show(
-                                              messState: MessState.error,
-                                              title:
-                                                  '${S.current.tu_choi_tham_gia}'
-                                                  ' ${S.current.that_bai.toLowerCase()}',
-                                            );
-                                          }
-                                        });
+                                      onClickLeft: () {
+                                        showDiaLog(
+                                          context,
+                                          btnLeftTxt: S.current.khong,
+                                          funcBtnRight: () {
+                                            cubit
+                                                .confirmThamGiaHop(
+                                              lichHopId:
+                                                  cubit.getChiTietLichHopModel.id,
+                                              isThamGia: false,
+                                            )
+                                                .then((value) {
+                                              if (value) {
+                                                MessageConfig.show(
+                                                  title:
+                                                      '${S.current.tu_choi_tham_gia} '
+                                                      '${S.current.thanh_cong.toLowerCase()}',
+                                                );
+                                                cubit.initDataChiTiet(
+                                                  needCheckPermission: true,
+                                                );
+                                              } else {
+                                                MessageConfig.show(
+                                                  messState: MessState.error,
+                                                  title:
+                                                      '${S.current.tu_choi_tham_gia}'
+                                                      ' ${S.current.that_bai.toLowerCase()}',
+                                                );
+                                              }
+                                            });
+                                          },
+                                          title: S.current.tu_choi_tham_gia,
+                                          btnRightTxt: S.current.dong_y,
+                                          icon: SvgPicture.asset(
+                                              ImageAssets.img_tu_choi_tham_gia),
+                                          textContent:
+                                              S.current.confirm_tu_choi_tham_gia,
+                                        );
                                       },
-                                      title: S.current.tu_choi_tham_gia,
-                                      btnRightTxt: S.current.dong_y,
-                                      icon: SvgPicture.asset(
-                                          ImageAssets.img_tu_choi_tham_gia),
-                                      textContent:
-                                          S.current.confirm_tu_choi_tham_gia,
-                                    );
-                                  },
-                                ),
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          },
-                        ),
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        }
       ),
     );
   }

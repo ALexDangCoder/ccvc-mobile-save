@@ -142,14 +142,14 @@ class ThongTinLienHeWidget extends StatelessWidget {
               width: double.maxFinite,
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               decoration: BoxDecoration(
-                color: color7966FF.withOpacity(0.1),
+                color: AppTheme.getInstance().colorField().withOpacity(0.1),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Center(
                 child: Text(
                   S.current.dong,
                   style: textNormalCustom(
-                    color: color7966FF,
+                    color: AppTheme.getInstance().colorField(),
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0.textScale(),
                   ),

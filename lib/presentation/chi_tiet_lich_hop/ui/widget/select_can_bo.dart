@@ -46,11 +46,8 @@ class SelectCanBo extends StatefulWidget {
 }
 
 class _SelectCanBoState extends State<SelectCanBo> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+
+  final controllerSearch = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +97,7 @@ class _SelectCanBoState extends State<SelectCanBo> {
                             children: [
                               spaceH16,
                               BaseSearchBar(
+                                controller: controllerSearch,
                                 hintText: S.current.tim_kiem_can_bo,
                                 onChange: (value) {
                                   widget.themCanBoCubit.search(value);
@@ -128,7 +126,7 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                 child: itemCanBo(
                                                   onCheckBox: (value) async {
                                                     widget.themCanBoCubit
-                                                        .addDataList(index);
+                                                        .addDataListByModel(result);
                                                   },
                                                   canBoModel: result,
                                                   themCanBoCubit:

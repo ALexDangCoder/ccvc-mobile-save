@@ -415,10 +415,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.88,
                         child: CuCanBoWidget(
-                          themCanBoCubit: themCanBoCubit,
                           cubit: cubit,
                           cubitThanhPhanTG: cubitThanhPhanTG,
-                          themDonViCubit: themDonViCubit,
                         ),
                       );
                     },
@@ -427,10 +425,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
                     context,
                     title: S.current.cu_can_bo,
                     child: CuCanBoWidget(
-                      themCanBoCubit: themCanBoCubit,
                       cubit: cubit,
                       cubitThanhPhanTG: cubitThanhPhanTG,
-                      themDonViCubit: themDonViCubit,
                       isMobile: false,
                     ),
                     isBottomShow: false,

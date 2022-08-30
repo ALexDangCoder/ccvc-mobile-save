@@ -25,17 +25,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CuCanBoWidget extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubitThanhPhanTG;
-  final ThemCanBoCubit themCanBoCubit;
   final DetailMeetCalenderCubit cubit;
-  final ThemDonViCubit themDonViCubit;
   final bool isMobile;
 
   const CuCanBoWidget({
     Key? key,
-    required this.themCanBoCubit,
     required this.cubitThanhPhanTG,
     required this.cubit,
-    required this.themDonViCubit,
     this.isMobile = true,
   }) : super(key: key);
 
@@ -47,6 +43,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
   GlobalKey<FormState> formKeyNoiDung = GlobalKey<FormState>();
   TextEditingController noiDungController = TextEditingController();
   final List<DonViModel> dataInit = [];
+  final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
+  final ThemDonViCubit themDonViCubit = ThemDonViCubit();
 
   @override
   void initState() {
@@ -54,13 +52,13 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
     widget.cubitThanhPhanTG.isDuplicateCanBo.add(false);
     widget.cubitThanhPhanTG.listCanBoThamGia.add([]);
     widget.cubit.initDanhSachCuCanBo(widget.cubitThanhPhanTG);
-    widget.themCanBoCubit.titleCanBo.sink.add('');
-    widget.themDonViCubit.validateDonVi.sink.add(false);
-    widget.themDonViCubit.themDonViSubject.sink.add(true);
+    themCanBoCubit.titleCanBo.sink.add('');
+    themDonViCubit.validateDonVi.sink.add(false);
+    themDonViCubit.themDonViSubject.sink.add(true);
     widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
-    widget.themDonViCubit.sinkSelectOnlyDonVi.add(null);
+    themDonViCubit.sinkSelectOnlyDonVi.add(null);
     widget.cubitThanhPhanTG.listCanBo.clear();
-    widget.themDonViCubit.listDonVi.clear();
+    themDonViCubit.listDonVi.clear();
   }
 
   @override
@@ -87,7 +85,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                 Navigator.pop(context);
               },
               onClickRight: () async {
-                widget.themDonViCubit.validateDonVi.sink.add(false);
+                themDonViCubit.validateDonVi.sink.add(false);
 
                 await widget.cubit
                     .luuCanBoDiThay(
@@ -96,7 +94,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                     .then((value) {
                   if (value) {
                     widget.cubit.initDataChiTiet(needCheckPermission: true);
-                    widget.themCanBoCubit.getCanbo.add([]);
+                    themCanBoCubit.getCanbo.add([]);
                     Navigator.pop(context);
                   }
                 });
@@ -134,12 +132,12 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                         cubit: widget.cubitThanhPhanTG,
                         needCheckTrung: false,
                         removeButton: true,
-                        themCanBoCubit: widget.themCanBoCubit,
+                        themCanBoCubit: themCanBoCubit,
                         titleCanBo: S.current.can_bo,
                         hindSearch: S.current.tim_kiem_can_bo,
                         checkStyle: false,
                         checkUiCuCanBo: true,
-                        themDonViCubit: widget.themDonViCubit,
+                        themDonViCubit: themDonViCubit,
                         hindText: S.current.chon_don_vi,
                       ),
                       spaceH20,
@@ -154,18 +152,18 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                         padding: const EdgeInsets.only(top: 22, bottom: 14),
                         child: GestureDetector(
                           onTap: () {
-                            if (widget.themDonViCubit.listDonVi.isEmpty) {
-                              widget.themDonViCubit.validateDonVi.sink
+                            if (themDonViCubit.listDonVi.isEmpty) {
+                              themDonViCubit.validateDonVi.sink
                                   .add(true);
                             } else {
-                              widget.themDonViCubit.validateDonVi.sink
+                              themDonViCubit.validateDonVi.sink
                                   .add(false);
 
-                              if ((widget.themCanBoCubit.titleCanBo
+                              if ((themCanBoCubit.titleCanBo
                                           .valueOrNull ??
                                       '')
                                   .isEmpty) {
-                                widget.themDonViCubit.listDonVi.last.noidung =
+                                themDonViCubit.listDonVi.last.noidung =
                                     noiDungController.text.trim();
                               } else {
                                 widget.cubitThanhPhanTG.newCanBo.noidung =
@@ -173,8 +171,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                               }
 
                               widget.cubitThanhPhanTG.addCuCanBo(
-                                widget.themCanBoCubit,
-                                widget.themDonViCubit,
+                                themCanBoCubit,
+                                themDonViCubit,
                               );
                             }
                           },
@@ -236,16 +234,16 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                       data[index],
                                       widget.cubitThanhPhanTG.listCanBoDuocChon,
                                     );
-                                    widget.themCanBoCubit.titleCanBo.sink
+                                    themCanBoCubit.titleCanBo.sink
                                         .add('');
-                                    widget.themDonViCubit.selectNodeOnlyValue =
+                                    themDonViCubit.selectNodeOnlyValue =
                                         null;
-                                    widget.themDonViCubit.themDonViSubject.sink
+                                    themDonViCubit.themDonViSubject.sink
                                         .add(true);
                                     noiDungController.text = '';
-                                    widget.themDonViCubit.sinkSelectOnlyDonVi
+                                    themDonViCubit.sinkSelectOnlyDonVi
                                         .add(null);
-                                    widget.themDonViCubit.listDonVi.clear();
+                                    themDonViCubit.listDonVi.clear();
                                   },
                                 ),
                               ),

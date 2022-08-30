@@ -60,30 +60,41 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
             padding: APP_DEVICE == DeviceType.MOBILE
                 ? EdgeInsets.zero
                 : const EdgeInsets.symmetric(horizontal: 100),
-            child: DoubleButtonBottom(
-              title1: S.current.dong,
-              title2: S.current.thu_hoi,
-              onClickLeft: () {
-                Navigator.pop(context);
-              },
-              onClickRight: () {
-                showDiaLog(
-                  context,
-                  icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
-                  textContent: S.current.thu_hoi_chi_tiet_lich_hop,
-                  btnLeftTxt: S.current.khong,
-                  funcBtnRight: () {
-                    widget.cubit.postThuHoiHop(
-                      widget.id,
-                    );
-                    Navigator.pop(context);
-                  },
-                  title: S.current.thu_hoi_lich_hop,
-                  btnRightTxt: S.current.dong_y,
-                  showTablet: true,
-                );
-              },
-            ),
+            child: StreamBuilder<List<NguoiChutriModel>>(
+                stream: widget.cubit.listThuHoi,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? [];
+                  final dataSN = data
+                      .where((e) => e.trangThai == CoperativeStatus.Revoked)
+                      .toList()
+                      .length;
+                  final disable = dataSN == 0;
+                  return DoubleButtonBottom(
+                    disable: disable,
+                    title1: S.current.dong,
+                    title2: S.current.thu_hoi,
+                    onClickLeft: () {
+                      Navigator.pop(context);
+                    },
+                    onClickRight: () {
+                      showDiaLog(
+                        context,
+                        icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
+                        textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                        btnLeftTxt: S.current.khong,
+                        funcBtnRight: () {
+                          widget.cubit.postThuHoiHop(
+                            widget.id,
+                          );
+                          Navigator.pop(context);
+                        },
+                        title: S.current.thu_hoi_lich_hop,
+                        btnRightTxt: S.current.dong_y,
+                        showTablet: true,
+                      );
+                    },
+                  );
+                }),
           ),
           const SizedBox(
             height: 16,
@@ -107,7 +118,7 @@ class SelectThuHoiWidget extends StatefulWidget {
 }
 
 class _SelectThuHoiWidgetState extends State<SelectThuHoiWidget> {
-  final TextEditingController controller = TextEditingController();
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

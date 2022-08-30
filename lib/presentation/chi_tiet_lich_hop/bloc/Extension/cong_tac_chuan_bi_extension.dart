@@ -238,13 +238,15 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     required String trangThai,
   }) async {
     bool isSuccess = false;
+    showLoading();
     final CapNhatTrangThaiRequest capNhatTrangThaiRequest =
         CapNhatTrangThaiRequest(
       id: id,
-      ghiChu: ghiChu,
-      trangThaiChuanBiId: trangThai,
+      ghiChu: ghiChu.trim(),
+      trangThaiChuanBiId: trangThai.trim(),
     );
     final rs = await hopRp.capNhatTrangThai(capNhatTrangThaiRequest);
+    showContent();
     rs.when(
       success: (res) {
         MessageConfig.show(

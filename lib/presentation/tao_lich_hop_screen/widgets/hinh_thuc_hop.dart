@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
@@ -20,10 +21,10 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class HinhThucHop extends StatefulWidget {
   const HinhThucHop({
@@ -264,102 +265,108 @@ class _HinhThucHopState extends State<HinhThucHop> {
   }
 
   Widget themDiemCau(DsDiemCau diemCau){
-    return FollowKeyBoardWidget(
-      child: SingleChildScrollView(
-        child: Form(
-          key: _key,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spaceH20,
-              textField(
-                onChange: (value) {
-                  diemCau.tenDiemCau = value;
-                  _key.currentState?.validate();
-                },
-                validator: (value) {
-                  return value.pleaseEnter(S.current.ten_don_vi);
-                },
-                isRequired: true,
-                title: S.current.ten_don_vi,
-                hint: S.current.ten_don_vi,
-              ),
-              spaceH20,
-              textField(
-                onChange: (value) {
-                  diemCau.canBoDauMoiHoTen = value;
-                },
-                validator: (value) {},
-                title: S.current.can_bo_dau_moi,
-                hint: S.current.can_bo_dau_moi,
-              ),
-              spaceH20,
-              textField(
-                onChange: (value) {
-                  diemCau.canBoDauMoiChucVu = value;
-                },
-                validator: (value) {},
-                title: S.current.chuc_vu,
-                hint: S.current.chuc_vu,
-              ),
-              spaceH20,
-              textField(
-                onChange: (value) {
-                  diemCau.canBoDauMoiSDT = value;
-                },
-                maxLength: 255,
-                validator: (value) {
-                  if (value.trim().isEmpty) {
-                    return null;
-                  }
-                  return value.trim().checkSdtRequire(
-                        messageError: S.current.dinh_dang_sdt,
-                      );
-                },
-                inputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                keyboardType: TextInputType.number,
-                title: S.current.so_dien_thoai,
-                hint: S.current.so_dien_thoai,
-              ),
-              spaceH20,
-              CoolDropDown(
-                onChange: (index) {
-                  /// điểm chính = 1
-                  /// điểm phụ = 2
-                  /// => điểm cầu = index +1
-                  diemCau.loaiDiemCau = index + 1;
-                },
-                listData: [
-                  S.current.diem_chinh,
-                  S.current.diem_phu,
-                ],
-                initData: S.current.diem_chinh,
-              ),
-              spaceH20,
-              DoubleButtonBottom(
-                title1: S.current.dong,
-                title2: S.current.xac_nhan,
-                onClickLeft: () {
-                  Navigator.pop(context);
-                },
-                onClickRight: () {
-                  if (_key.currentState?.validate() ?? false) {
-                    final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
-                    diemCau.loaiDiemCau ??= 1;
-                    dsDiemCau.add(diemCau);
-                    widget.cubit.dsDiemCauSubject.add(dsDiemCau);
-                    MessageConfig.show(
-                      title: S.current.thay_doi_thanh_cong,
-                    );
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height *0.8,
+      ),
+      child: FollowKeyBoardEdt(
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Form(
+            key: _key,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                spaceH20,
+                textField(
+                  onChange: (value) {
+                    diemCau.tenDiemCau = value;
+                    _key.currentState?.validate();
+                  },
+                  validator: (value) {
+                    return value.pleaseEnter(S.current.ten_don_vi);
+                  },
+                  isRequired: true,
+                  title: S.current.ten_don_vi,
+                  hint: S.current.ten_don_vi,
+                ),
+                spaceH20,
+                textField(
+                  onChange: (value) {
+                    diemCau.canBoDauMoiHoTen = value;
+                  },
+                  validator: (value) {},
+                  title: S.current.can_bo_dau_moi,
+                  hint: S.current.can_bo_dau_moi,
+                ),
+                spaceH20,
+                textField(
+                  onChange: (value) {
+                    diemCau.canBoDauMoiChucVu = value;
+                  },
+                  validator: (value) {},
+                  title: S.current.chuc_vu,
+                  hint: S.current.chuc_vu,
+                ),
+                spaceH20,
+                textField(
+                  onChange: (value) {
+                    diemCau.canBoDauMoiSDT = value;
+                  },
+                  maxLength: 255,
+                  validator: (value) {
+                    if (value.trim().isEmpty) {
+                      return null;
+                    }
+                    return value.trim().checkSdtRequire(
+                          messageError: S.current.dinh_dang_sdt,
+                        );
+                  },
+                  inputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  keyboardType: TextInputType.number,
+                  title: S.current.so_dien_thoai,
+                  hint: S.current.so_dien_thoai,
+                ),
+                spaceH20,
+                CoolDropDown(
+                  onChange: (index) {
+                    /// điểm chính = 1
+                    /// điểm phụ = 2
+                    /// => điểm cầu = index +1
+                    diemCau.loaiDiemCau = index + 1;
+                  },
+                  listData: [
+                    S.current.diem_chinh,
+                    S.current.diem_phu,
+                  ],
+                  initData: S.current.diem_chinh,
+                ),
+                spaceH20,
+                DoubleButtonBottom(
+                  title1: S.current.dong,
+                  title2: S.current.xac_nhan,
+                  onClickLeft: () {
                     Navigator.pop(context);
-                  }
-                },
-              ),
-              spaceH30,
-            ],
+                  },
+                  onClickRight: () {
+                    if (_key.currentState?.validate() ?? false) {
+                      final dsDiemCau = widget.cubit.dsDiemCauSubject.value;
+                      diemCau.loaiDiemCau ??= 1;
+                      dsDiemCau.add(diemCau);
+                      widget.cubit.dsDiemCauSubject.add(dsDiemCau);
+                      MessageConfig.show(
+                        title: S.current.thay_doi_thanh_cong,
+                      );
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+                spaceH30,
+              ],
+            ),
           ),
         ),
       ),

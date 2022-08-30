@@ -504,6 +504,7 @@ class _ThemDonViPhoiHopKhacScreenState
                     children: [
                       InputInfoUserWidget(
                         title: S.current.ten_don_vi,
+                        isObligatory: true,
                         child: TextFieldValidator(
                           controller: _tenDonViController,
                           hintText: S.current.ten_don_vi,
@@ -516,6 +517,7 @@ class _ThemDonViPhoiHopKhacScreenState
                       ),
                       InputInfoUserWidget(
                         title: S.current.dau_moi_lam_viec,
+                        isObligatory: true,
                         child: TextFieldValidator(
                           controller: _dauMoiLamViecController,
                           hintText: S.current.dau_moi_lam_viec,

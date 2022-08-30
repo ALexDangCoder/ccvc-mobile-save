@@ -46,6 +46,7 @@ class _TableCalendarTabletWidgetState extends State<TableCalendarTabletWidget> {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       widget.controller.selectDate.addListener(() {
         selectDay = widget.controller.selectDate.value;
+        pageDateTime.value = selectDay;
         if (mounted) setState(() {});
       });
       widget.controller.calendarType.addListener(() {

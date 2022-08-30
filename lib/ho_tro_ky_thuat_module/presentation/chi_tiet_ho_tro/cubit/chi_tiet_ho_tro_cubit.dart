@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:ccvc_mobile/domain/locals/hive_local.dart' as hive_lc;
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/config/base/base_cubit.dart';
@@ -179,6 +180,11 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     }
     if (!isNguoiYeuCau && !isNguoiXuLy && !isTruongPhong) {
       onlyButton = true;
+    }
+    if (!checkTitleButton() && supportDetail.nhanXet.isNotEmpty) {
+      onlyButton = true;
+    } else {
+      onlyButton = false;
     }
     return onlyButton;
   }

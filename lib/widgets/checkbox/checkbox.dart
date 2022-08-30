@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CusCheckBox extends StatefulWidget {
@@ -54,7 +55,7 @@ class _CusCheckBoxState extends State<CusCheckBox> {
               });
               widget.onChange(value);
             },
-            activeColor: textDefault,
+            activeColor: AppTheme.getInstance().colorField(),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
             ),

@@ -502,7 +502,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                   }
                 });
               },
-              title: S.current.khong,
+              title: S.current.duyet_lich,
               btnRightTxt: S.current.dong_y,
               icon: SvgPicture.asset(ImageAssets.img_tham_gia),
             );

@@ -45,13 +45,12 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         child: DoubleButtonBottom(
           title1: S.current.dong,
-          title2: S.current.luu,
+          title2: S.current.cap_nhat,
           onPressed1: () {
             Navigator.pop(context);
           },
-          onPressed2: () async {
-            final nav = Navigator.of(context);
-            await widget.cubit
+          onPressed2: ()  {
+            widget.cubit
                 .capNhatTrangThai(
               id: widget.model.lichHopPhongHopId ?? '',
               ghiChu: noiDungController.text,
@@ -62,7 +61,7 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
                 widget.cubit.callApiCongTacChuanBi();
               }
             });
-            nav.pop();
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -74,8 +73,9 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
             InputInfoUserWidget(
               title: S.current.cap_nhat_trang_thai,
               child: CoolDropDown(
-                initData: '',
-                placeHoder: S.current.noi_dung,
+                useCustomHintColors: true,
+                initData: widget.model.trangThaiChuanBi ?? '',
+                placeHoder: S.current.chon_trang_thai,
                 onChange: (index) {
                   widget.cubit.idCapNhatTrangThai =
                       widget.cubit.listStatusRom[index].id ?? '';

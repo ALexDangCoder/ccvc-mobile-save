@@ -467,7 +467,7 @@ Widget tag({required String title, required Function onDelete}) {
         children: [
           Container(
             constraints: const BoxConstraints(
-              maxWidth: 200,
+              maxWidth: 300,
             ),
             child: Text(
               title,

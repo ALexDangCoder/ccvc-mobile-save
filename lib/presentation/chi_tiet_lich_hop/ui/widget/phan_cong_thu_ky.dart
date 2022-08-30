@@ -48,58 +48,60 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
     return FollowKeyBoardWidget(
       child: Padding(
         padding: const EdgeInsets.only(top: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (isMobile())
-              Text(
-                S.current.chon_thu_ky_cuoc_hop,
-                style: textNormalCustom(color: infoColor),
-              ),
-            spaceH8,
-            SelectThuKyWidget(cubit: widget.cubit),
-            spaceH30,
-            Padding(
-              padding: APP_DEVICE == DeviceType.MOBILE
-                  ? EdgeInsets.zero
-                  : const EdgeInsets.symmetric(horizontal: 100),
-              child: StreamBuilder<int>(
-                  stream: widget.cubit.initThuKyNumber.stream,
-                  builder: (context, snapshot) {
-                    final initThuKyNumber = snapshot.data ?? 0;
-                    return StreamBuilder<List<NguoiChutriModel>>(
-                        stream: widget.cubit.listNguoiCHuTriModel,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          final currentThukyNumber = data
-                              .where((e) => e.isThuKy == true)
-                              .toList()
-                              .length;
-                          final disable =
-                              initThuKyNumber == 0 && currentThukyNumber == 0;
-                          return DoubleButtonBottom(
-                            title1: S.current.dong,
-                            title2: S.current.xac_nhan,
-                            onClickLeft: () {
-                              Navigator.pop(context);
-                            },
-                            disable: disable,
-                            onClickRight: () {
-                              if (!disable) {
-                                widget.cubit.postPhanCongThuKy(
-                                  widget.id,
-                                  isShowLoading: false,
-                                );
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (isMobile())
+                Text(
+                  S.current.chon_thu_ky_cuoc_hop,
+                  style: textNormalCustom(color: infoColor),
+                ),
+              spaceH8,
+              SelectThuKyWidget(cubit: widget.cubit),
+              spaceH30,
+              Padding(
+                padding: APP_DEVICE == DeviceType.MOBILE
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.symmetric(horizontal: 100),
+                child: StreamBuilder<int>(
+                    stream: widget.cubit.initThuKyNumber.stream,
+                    builder: (context, snapshot) {
+                      final initThuKyNumber = snapshot.data ?? 0;
+                      return StreamBuilder<List<NguoiChutriModel>>(
+                          stream: widget.cubit.listNguoiCHuTriModel,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            final currentThukyNumber = data
+                                .where((e) => e.isThuKy == true)
+                                .toList()
+                                .length;
+                            final disable =
+                                initThuKyNumber == 0 && currentThukyNumber == 0;
+                            return DoubleButtonBottom(
+                              title1: S.current.dong,
+                              title2: S.current.xac_nhan,
+                              onClickLeft: () {
                                 Navigator.pop(context);
-                              }
-                            },
-                          );
-                        });
-                  }),
-            ),
-            spaceH16,
-          ],
+                              },
+                              disable: disable,
+                              onClickRight: () {
+                                if (!disable) {
+                                  widget.cubit.postPhanCongThuKy(
+                                    widget.id,
+                                    isShowLoading: false,
+                                  );
+                                  Navigator.pop(context);
+                                }
+                              },
+                            );
+                          });
+                    }),
+              ),
+              spaceH16,
+            ],
+          ),
         ),
       ),
     );
@@ -339,6 +341,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
         isCenterTitle: true,
         title: widget.title,
         child: dialogCell(),
+        isBottomShow: false,
         funcBtnOk: () {},
       );
     }

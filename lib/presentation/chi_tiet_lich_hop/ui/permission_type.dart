@@ -203,7 +203,6 @@ extension GetDataPermission on PERMISSION_DETAIL {
                   )
                 : showDiaLogTablet(
                     context,
-                    maxHeight: 280,
                     title: S.current.thu_hoi_lich,
                     child: ThuHoiLichWidget(
                       cubit: cubit,
@@ -524,7 +523,6 @@ extension GetDataPermission on PERMISSION_DETAIL {
                   )
                 : showDiaLogTablet(
                     context,
-                    maxHeight: 280,
                     title: S.current.phan_cong_thu_ky,
                     child: PhanCongThuKyWidget(
                       cubit: cubit,

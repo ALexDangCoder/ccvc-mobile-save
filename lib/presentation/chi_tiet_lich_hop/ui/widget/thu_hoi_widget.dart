@@ -46,60 +46,62 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SelectThuHoiWidget(
-            cubit: widget.cubit,
-          ),
-          const SizedBox(
-            height: 36,
-          ),
-          Padding(
-            padding: APP_DEVICE == DeviceType.MOBILE
-                ? EdgeInsets.zero
-                : const EdgeInsets.symmetric(horizontal: 100),
-            child: StreamBuilder<List<NguoiChutriModel>>(
-                stream: widget.cubit.listThuHoi,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  final dataSN = data
-                      .where((e) => e.trangThai == CoperativeStatus.Revoked)
-                      .toList()
-                      .length;
-                  final disable = dataSN == 0;
-                  return DoubleButtonBottom(
-                    disable: disable,
-                    title1: S.current.dong,
-                    title2: S.current.thu_hoi,
-                    onClickLeft: () {
-                      Navigator.pop(context);
-                    },
-                    onClickRight: () {
-                      showDiaLog(
-                        context,
-                        icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
-                        textContent: S.current.thu_hoi_chi_tiet_lich_hop,
-                        btnLeftTxt: S.current.khong,
-                        funcBtnRight: () {
-                          widget.cubit.postThuHoiHop(
-                            widget.id,
-                          );
-                          Navigator.pop(context);
-                        },
-                        title: S.current.thu_hoi_lich_hop,
-                        btnRightTxt: S.current.dong_y,
-                        showTablet: true,
-                      );
-                    },
-                  );
-                }),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SelectThuHoiWidget(
+              cubit: widget.cubit,
+            ),
+            const SizedBox(
+              height: 36,
+            ),
+            Padding(
+              padding: APP_DEVICE == DeviceType.MOBILE
+                  ? EdgeInsets.zero
+                  : const EdgeInsets.symmetric(horizontal: 100),
+              child: StreamBuilder<List<NguoiChutriModel>>(
+                  stream: widget.cubit.listThuHoi,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? [];
+                    final dataSN = data
+                        .where((e) => e.trangThai == CoperativeStatus.Revoked)
+                        .toList()
+                        .length;
+                    final disable = dataSN == 0;
+                    return DoubleButtonBottom(
+                      disable: disable,
+                      title1: S.current.dong,
+                      title2: S.current.thu_hoi,
+                      onClickLeft: () {
+                        Navigator.pop(context);
+                      },
+                      onClickRight: () {
+                        showDiaLog(
+                          context,
+                          icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
+                          textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                          btnLeftTxt: S.current.khong,
+                          funcBtnRight: () {
+                            widget.cubit.postThuHoiHop(
+                              widget.id,
+                            );
+                            Navigator.pop(context);
+                          },
+                          title: S.current.thu_hoi_lich_hop,
+                          btnRightTxt: S.current.dong_y,
+                          showTablet: true,
+                        );
+                      },
+                    );
+                  }),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -354,6 +356,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
         isCenterTitle: true,
         title: widget.title,
         child: dialogCell(),
+        isBottomShow: false,
         funcBtnOk: () {},
       );
     }

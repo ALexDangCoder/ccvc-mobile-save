@@ -124,6 +124,8 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                     onDelete: () {
                       widget.onDelete?.call();
                       _cubit.thongTinPhongHopSubject.addError('');
+                      thongTinPhong?.listThietBi.clear();
+                      _cubit.clearDataChonPhongHop();
                     },
                   ),
                 ],
@@ -381,7 +383,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                                       },
                                     );
                                   },
-                          )
+                                )
                               : const NodataWidget();
                         },
                       ),

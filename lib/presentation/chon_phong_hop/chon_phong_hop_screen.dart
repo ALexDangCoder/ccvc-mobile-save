@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/radio/radio_button.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/bloc/chon_phong_hoc_cubit.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/loai_phong_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/yeu_cau_them_thiet_bi_widget.dart';
@@ -231,31 +232,30 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
         retry: () {},
         error: AppException('', S.current.something_went_wrong),
         stream: widget.chonPhongHopCubit.stateStream,
-        child: FollowKeyBoardWidget(
-          bottomInset: 120,
-          bottomWidget: Padding(
-            padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
-            child: DoubleButtonBottom(
-              isTablet: isMobile() == false,
-              title1: S.current.dong,
-              title2: S.current.xac_nhan,
-              onClickLeft: () {
-                Navigator.pop(context);
-              },
-              onClickRight: () {
-                Navigator.pop(
-                  context,
-                  ChonPhongHopModel(
-                    loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
-                    listThietBi: widget.chonPhongHopCubit.listThietBi,
-                    yeuCauKhac: controller.text.trim(),
-                    phongHop: widget.chonPhongHopCubit.phongHop,
-                  ),
-                );
-              },
+        child: SingleChildScrollView(
+          child: FollowKeyBoardEdt(
+            bottomWidget: Padding(
+              padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
+              child: DoubleButtonBottom(
+                isTablet: isMobile() == false,
+                title1: S.current.dong,
+                title2: S.current.xac_nhan,
+                onClickLeft: () {
+                  Navigator.pop(context);
+                },
+                onClickRight: () {
+                  Navigator.pop(
+                    context,
+                    ChonPhongHopModel(
+                      loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
+                      listThietBi: widget.chonPhongHopCubit.listThietBi,
+                      yeuCauKhac: controller.text.trim(),
+                      phongHop: widget.chonPhongHopCubit.phongHop,
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,6 +402,30 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   title: S.current.yeu_cau_de_chuan_bi_phong,
                   contentController: controller,
                 ),
+                // spaceH20,
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: DoubleButtonBottom(
+                //     isTablet: isMobile() == false,
+                //     title1: S.current.dong,
+                //     title2: S.current.xac_nhan,
+                //     onClickLeft: () {
+                //       Navigator.pop(context);
+                //     },
+                //     onClickRight: () {
+                //       Navigator.pop(
+                //         context,
+                //         ChonPhongHopModel(
+                //           loaiPhongHopEnum:
+                //           widget.chonPhongHopCubit.loaiPhongHopEnum,
+                //           listThietBi: widget.chonPhongHopCubit.listThietBi,
+                //           yeuCauKhac: controller.text.trim(),
+                //           phongHop: widget.chonPhongHopCubit.phongHop,
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ),

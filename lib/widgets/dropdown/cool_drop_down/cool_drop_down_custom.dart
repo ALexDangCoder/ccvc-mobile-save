@@ -13,7 +13,7 @@ class CoolDropdown extends StatefulWidget {
   late Map<dynamic, dynamic> defaultValue;
   bool isTriangle;
   bool isAnimation;
-  int  maxLines;
+  int maxLines;
   bool isResultIconLabel;
   bool isResultLabel;
   bool isDropdownLabel; // late
@@ -216,7 +216,7 @@ class CoolDropdownState extends State<CoolDropdown>
   AnimationUtil au = AnimationUtil();
   late bool isOpen = false;
 
-  void initData(String value){
+  void initData(String value) {
     setState(() {
       selectedItem = {
         'label': value,
@@ -250,7 +250,7 @@ class CoolDropdownState extends State<CoolDropdown>
         key: dropdownBodyChild,
         inputKey: inputKey,
         onChange: widget.onChange,
-        maxLines:  widget.maxLines,
+        maxLines: widget.maxLines,
         dropdownList: widget.dropdownList,
         dropdownItemReverse: widget.dropdownItemReverse,
         isTriangle: widget.isTriangle,
@@ -398,10 +398,11 @@ class CoolDropdownState extends State<CoolDropdown>
                                 if (widget.isResultLabel)
                                   Flexible(
                                     child: Text(
-                                      selectedItem['label'] ??
-                                          widget.placeholder,
+                                      !labelIsEmpty()
+                                          ? selectedItem['label']
+                                          : widget.placeholder,
                                       overflow: TextOverflow.ellipsis,
-                                      style: selectedItem['label'] != null
+                                      style: !labelIsEmpty()
                                           ? widget.resultTS
                                           : widget.placeholderTS,
                                     ),
@@ -431,6 +432,14 @@ class CoolDropdownState extends State<CoolDropdown>
         ),
       ),
     );
+  }
+
+  bool labelIsEmpty() {
+    var tmp = '';
+    if (selectedItem['label'] != null) {
+      tmp = selectedItem['label'];
+    }
+    return tmp.isEmpty;
   }
 }
 

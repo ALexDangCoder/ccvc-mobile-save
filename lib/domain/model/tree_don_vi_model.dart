@@ -198,7 +198,7 @@ class DonViModel {
       email: email,
       GhiChu: '',
       soDienThoai: sdt,
-      TenCoQuan: tenCoQuan.isEmpty ? tenDonVi : tenCoQuan,
+      TenCoQuan:  tenCoQuan,
       vaiTroThamGia: vaiTroThamGia,
       dauMoi: dauMoiLienHe,
       Email: email,

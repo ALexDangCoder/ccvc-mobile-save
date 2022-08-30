@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/checkbox/custom_checkbox.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,34 +53,7 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    // if (widget.dataLoaiBaiViet.isNotEmpty) {
-    //   final index = widget.dataLoaiBaiViet
-    //       .indexWhere((element) => element.title == widget.value);
-    //   if (index != -1) {
-    //     valueSelect.add(widget.dataLoaiBaiViet[index]);
-    //     widget.onChange(valueSelect);
-    //     addIndex.add(index);
-    //     selectBloc.sink.add(addIndex);
-    //   }
-    // }
   }
-
-  @override
-  // void didUpdateWidget(covariant CustomSelectMutil oldWidget) {
-  //   // TODO: implement didUpdateWidget
-  //   super.didUpdateWidget(oldWidget);
-  //   if (widget.dataLoaiBaiViet.isNotEmpty) {
-  //     final index = widget.dataLoaiBaiViet
-  //         .indexWhere((element) => element.title == widget.value);
-  //     if (index != -1) {
-  //       valueSelect.add(widget.dataLoaiBaiViet[index]);
-  //       widget.onChange(valueSelect);
-  //       addIndex.add(index);
-  //       selectBloc.sink.add(addIndex);
-  //     }
-  //   }
-  //   setState(() {});
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +146,13 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                               Flexible(
                                 child: Text(
                                   plusString(
-                                    widget.dataNguoiThamGia[index].tenCanBo,
+                                    (widget.dataNguoiThamGia[index].tenCanBo ??
+                                                '')
+                                            .isNotEmpty
+                                        ? widget
+                                            .dataNguoiThamGia[index].tenCanBo
+                                        : widget.dataNguoiThamGia[index]
+                                            .dauMoiLienHe,
                                     widget.dataNguoiThamGia[index].tenChucVu,
                                     widget.dataNguoiThamGia[index].tenCoQuan,
                                   ),

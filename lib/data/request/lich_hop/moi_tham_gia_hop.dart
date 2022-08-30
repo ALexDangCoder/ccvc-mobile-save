@@ -68,10 +68,12 @@ class MoiThamGiaHopRequest {
     this.email,
     this.noiDungLamViec,
     this.tenCanBo,
-    this.SoDienThoai,});
+    this.SoDienThoai,
+  });
 
-
-  MoiThamGiaHopRequest.fromJson(Map<String, dynamic> json,) {
+  MoiThamGiaHopRequest.fromJson(
+    Map<String, dynamic> json,
+  ) {
     id = json['id'];
     donViId = json['donViId'];
     tenDonVi = json['tenDonVi'];
@@ -96,73 +98,76 @@ class MoiThamGiaHopRequest {
     id = json['id'];
   }
 
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if(id != null) {
+    if (id != null) {
       data['id'] = id;
     }
-    if(donViId != null) {
+    if (donViId != null) {
       data['donViId'] = donViId;
     }
-    if(tenDonVi != null) {
+    if (tenDonVi != null) {
       data['tenDonVi'] = tenDonVi;
     }
-    if(userId != null) {
+    if (userId != null) {
       data['userId'] = userId;
     }
-    if(hoTen != null) {
+    if (hoTen != null) {
       data['hoTen'] = hoTen;
     }
-    if(chucVu != null) {
+    if (chucVu != null) {
       data['chucVu'] = chucVu;
     }
-    if(type != null) {
+    if (type != null) {
       data['type'] = type;
     }
-    if(status != null) {
+    if (status != null) {
       data['status'] = status;
     }
-    if(donViId != null) {
+    if (donViId != null) {
       data['DonViId'] = donViId;
     }
-    if(canBoId != null) {
+    if (canBoId != null) {
       data['CanBoId'] = canBoId;
     }
-    if(vaiTroThamGia != null) {
+    if (vaiTroThamGia != null) {
       data['VaiTroThamGia'] = vaiTroThamGia;
     }
-    if(tenDonVi != null) {
+    if (tenDonVi != null) {
       data['tenDonVi'] = tenDonVi;
     }
-    if(dauMoi != null) {
+    if (dauMoi != null) {
       data['dauMoi'] = dauMoi;
     }
-    if(noiDungLamViec != null) {
+    if (noiDungLamViec != null) {
       data['noiDungLamViec'] = noiDungLamViec;
     }
-    if(email != null) {
+    if (email != null) {
       data['email'] = email;
     }
-    if(soDienThoai != null) {
+    if (soDienThoai != null) {
       data['soDienThoai'] = soDienThoai;
     }
-    if(tenCanBo != null) {
+    if (tenCanBo != null) {
       data['tenCanBo'] = tenCanBo;
     }
-    if(dauMoiLienHe != null) {
+    if (dauMoiLienHe != null) {
       data['DauMoiLienHe'] = dauMoiLienHe;
     }
-    if(email != null) {
+    if (email != null) {
       data['Email'] = email;
     }
-    if(soDienThoai != null) {
+    if (soDienThoai != null) {
       data['SoDienThoai'] = soDienThoai;
     }
-    if(vaiTroThamGia != null) {
+    if (vaiTroThamGia != null) {
       data['VaiTroThamGia'] = vaiTroThamGia;
     }
-    if(id != null) {
+    if (id != null) {
       data['id'] = id;
+    }
+    if (TenCoQuan != null) {
+      data['TenCoQuan'] = TenCoQuan;
     }
     return data;
   }

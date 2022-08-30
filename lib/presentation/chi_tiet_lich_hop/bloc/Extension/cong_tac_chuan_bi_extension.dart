@@ -238,6 +238,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     required String trangThai,
   }) async {
     bool isSuccess = false;
+    showLoading();
     final CapNhatTrangThaiRequest capNhatTrangThaiRequest =
         CapNhatTrangThaiRequest(
       id: id,
@@ -245,6 +246,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       trangThaiChuanBiId: trangThai,
     );
     final rs = await hopRp.capNhatTrangThai(capNhatTrangThaiRequest);
+    showContent();
     rs.when(
       success: (res) {
         MessageConfig.show(

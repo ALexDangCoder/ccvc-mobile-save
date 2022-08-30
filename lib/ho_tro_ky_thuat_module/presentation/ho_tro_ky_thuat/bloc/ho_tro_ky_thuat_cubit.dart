@@ -351,6 +351,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
   }) async {
     showLoading();
     if (page == 1) {
+      loadMorePage = 1;
       loadMoreList.clear();
     }
     final result = await _hoTroKyThuatRepository.postDanhSachSuCo(
@@ -377,6 +378,7 @@ class HoTroKyThuatCubit extends BaseCubit<BaseState> {
       success: (res) {
         if (res.isEmpty && loadMorePage == 1) {
           emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
+          print('------------------- list lenght ${loadMoreList.length}');
           showContent();
         } else {
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res));

@@ -228,29 +228,27 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textContent: S.current.xoa_chi_tiet_lich_hop,
                 btnLeftTxt: S.current.khong,
                 funcBtnRight: () {
-                  cubit.deleteChiTietLichHop().then(
-                        (value) {
-                          if(value){
-                            MessageConfig.show(
-                              title: S.current.xoa_thanh_cong,
-                            );
-                            Navigator.pop(
-                              context,
-                              cubit.needRefreshMainMeeting,
-                            );
-                          }else{
-                            MessageConfig.show(
-                              title: S.current.xoa_that_bai,
-                              messState: MessState.error,
-                            );
-                          }
-                        }
+                  cubit.deleteChiTietLichHop().then((value) {
+                    if (value) {
+                      MessageConfig.show(
+                        title: S.current.xoa_thanh_cong,
                       );
+                      Navigator.pop(
+                        context,
+                        cubit.needRefreshMainMeeting,
+                      );
+                    } else {
+                      MessageConfig.show(
+                        title: S.current.xoa_that_bai,
+                        messState: MessState.error,
+                      );
+                    }
+                  });
                 },
                 title: S.current.xoa_lich_hop,
                 btnRightTxt: S.current.dong_y,
                 icon: SvgPicture.asset(ImageAssets.icXoaHopPoppup),
-                showTablet: true,
+                showTablet: !isMobile(),
                 isThisPopAfter: true,
               );
               return;
@@ -264,24 +262,22 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textRadioAbove: S.current.chi_lich_hien_tai,
                 imageUrl: ImageAssets.icXoaHopPoppup,
                 onChange: (value) {
-                  cubit.deleteChiTietLichHop(isMulti: !value).then(
-                        (value) {
-                          if(value){
-                            MessageConfig.show(
-                              title: S.current.xoa_thanh_cong,
-                            );
-                            Navigator.pop(
-                              context,
-                              cubit.needRefreshMainMeeting,
-                            );
-                          }else{
-                            MessageConfig.show(
-                              title: S.current.xoa_that_bai,
-                              messState: MessState.error,
-                            );
-                          }
-                        }
+                  cubit.deleteChiTietLichHop(isMulti: !value).then((value) {
+                    if (value) {
+                      MessageConfig.show(
+                        title: S.current.xoa_thanh_cong,
                       );
+                      Navigator.pop(
+                        context,
+                        cubit.needRefreshMainMeeting,
+                      );
+                    } else {
+                      MessageConfig.show(
+                        title: S.current.xoa_that_bai,
+                        messState: MessState.error,
+                      );
+                    }
+                  });
                 },
               ),
             );
@@ -451,6 +447,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {
             showDiaLog(
               context,
+              showTablet: !isMobile(),
               btnLeftTxt: S.current.khong,
               funcBtnRight: () {
                 cubit
@@ -488,6 +485,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {
             showDiaLog(
               context,
+              showTablet: !isMobile(),
               textContent: S.current.duyet_lich_content,
               btnLeftTxt: S.current.khong,
               funcBtnRight: () async {
@@ -643,6 +641,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {
             showDiaLog(
               context,
+              showTablet: !isMobile(),
               btnLeftTxt: S.current.khong,
               funcBtnRight: () {
                 cubit
@@ -680,6 +679,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {
             showDiaLog(
               context,
+              showTablet: !isMobile(),
               btnLeftTxt: S.current.khong,
               funcBtnRight: () {
                 cubit
@@ -720,6 +720,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {
             showDiaLog(
               context,
+              showTablet: !isMobile(),
               btnLeftTxt: S.current.khong,
               funcBtnRight: () {
                 cubit
@@ -758,6 +759,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {
             showDiaLog(
               context,
+              showTablet: !isMobile(),
               textContent: S.current.huy_duyet_lich,
               btnLeftTxt: S.current.khong,
               funcBtnRight: () async {

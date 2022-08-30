@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
@@ -202,17 +202,18 @@ class _SelectTHuHoiCellState extends State<SelectTHuHoiCell> {
                 },
               ),
               wrapThis(
-                  listData: dataSN,
-                  cubit: widget.cubit,
-                  isPhanCongThuKy: false,
-                  onRemove: () {
-                    if ((dataSN.length - 1) == 0) {
-                      keyDropDown.currentState?.isSelect = false;
-                    } else {
-                      keyDropDown.currentState?.isSelect = true;
-                    }
-                    setState(() {});
-                  })
+                listData: dataSN,
+                cubit: widget.cubit,
+                isPhanCongThuKy: false,
+                onRemove: () {
+                  if ((dataSN.length - 1) == 0) {
+                    keyDropDown.currentState?.isSelect = false;
+                  } else {
+                    keyDropDown.currentState?.isSelect = true;
+                  }
+                  setState(() {});
+                },
+              )
             ],
           );
         },
@@ -290,65 +291,71 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
     searchItemSubject = BehaviorSubject.seeded(widget.listSelect);
     if (isMobile()) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.symmetric(
+              vertical:
+                  MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
+                      ? 100
+                      : 20,
+              horizontal: 20,
+            ),
+            child: Scaffold(
+              resizeToAvoidBottomInset: true,
               backgroundColor: Colors.transparent,
-              insetPadding: EdgeInsets.symmetric(
-                vertical:
-                    MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
-                        ? 100
-                        : 20,
-                horizontal: 20,
-              ),
-              child: Scaffold(
-                resizeToAvoidBottomInset: true,
-                backgroundColor: Colors.transparent,
-                body: Container(
-                  decoration: const BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Align(
-                                child: Text(
-                                  widget.title,
-                                  style: titleAppbar(
-                                    fontSize: 18.0.textScale(space: 6.0),
-                                  ),
+              body: Container(
+                decoration: const BoxDecoration(
+                    color: backgroundColorApp,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 56,
+                        child: Stack(
+                          children: [
+                            Align(
+                              child: Text(
+                                widget.title,
+                                style: titleAppbar(
+                                  fontSize: 18.0.textScale(space: 6.0),
                                 ),
                               ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: SvgPicture.asset(ImageAssets.icClose),
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: SvgPicture.asset(ImageAssets.icClose),
+                              ),
+                            )
+                          ],
                         ),
-                        Flexible(child: dialogCell()),
-                      ],
-                    ),
+                      ),
+                      Flexible(child: dialogCell()),
+                    ],
                   ),
                 ),
               ),
-            );
-          });
+            ),
+          );
+        },
+      );
     } else {
-      showDiaLogTablet(context,
-          title: widget.title, child: dialogCell(), funcBtnOk: () {});
+      showDiaLogTablet(
+        context,
+        isCenterTitle: true,
+        title: widget.title,
+        child: dialogCell(),
+        funcBtnOk: () {},
+      );
     }
   }
 
@@ -362,6 +369,10 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (!isMobile())
+          const SizedBox(
+            height: 16.0,
+          ),
         BaseSearchBar(
           onChange: (keySearch) {
             bool isListThuKy(NguoiChutriModel thuKy) {
@@ -421,7 +432,8 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                                     itemTitle.title(),
                                     style: textNormalCustom(
                                       color: titleItemEdit,
-                                      fontWeight: itemTitle == select
+                                      fontWeight: itemTitle.trangThai ==
+                                              ThanhPhanThamGiaStatus.THU_HOI
                                           ? FontWeight.w600
                                           : FontWeight.w400,
                                     ),

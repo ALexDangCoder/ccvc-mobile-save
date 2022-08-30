@@ -36,7 +36,7 @@ class NguoiChutriModel {
   String title() {
     String title = '';
     if (hoTen != '') {
-      title = ' ${hoTen!} - $tenDonVi';
+      title = '${hoTen!} - $tenDonVi';
     } else {
       title = tenCoQuan ?? '';
     }

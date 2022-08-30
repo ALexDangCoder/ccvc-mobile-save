@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -336,6 +336,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
     } else {
       showDiaLogTablet(
         context,
+        isCenterTitle: true,
         title: widget.title,
         child: dialogCell(),
         funcBtnOk: () {},
@@ -353,6 +354,10 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (!isMobile())
+          const SizedBox(
+            height: 16.0,
+          ),
         BaseSearchBar(
           colorIcon: AppTheme.getInstance().colorField(),
           onChange: (keySearch) {
@@ -411,9 +416,10 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                                     itemTitle.title(),
                                     style: textNormalCustom(
                                       color: titleItemEdit,
-                                      fontWeight: itemTitle == select
-                                          ? FontWeight.w600
-                                          : FontWeight.w400,
+                                      fontWeight:
+                                          (itemTitle.isThuKy ?? false) == true
+                                              ? FontWeight.w600
+                                              : FontWeight.w400,
                                     ),
                                   ),
                                 ),

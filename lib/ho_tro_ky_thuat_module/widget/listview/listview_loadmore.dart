@@ -77,6 +77,7 @@ class _ListViewLoadMoreState extends State<ListViewLoadMore> {
           if (state.completeType == CompleteType.SUCCESS) {
             if (widget.cubit.loadMoreRefresh ||
                 widget.cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
+              widget.cubit.loadMoreList.clear();
               widget.cubit.showContent();
             }
           } else {

@@ -147,7 +147,7 @@ class _ThanhPhanThamGiaWidgetTabletState
             },
           ),
           StreamBuilder<List<CanBoModel>>(
-            stream: widget.cubit.thanhPhanThamGia.stream,
+            stream: widget.cubit.thanhPhanThamGiaSubject.stream,
             builder: (context, snapshot) {
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {
@@ -189,7 +189,7 @@ class _ThanhPhanThamGiaWidgetTabletState
           ),
           spaceH16,
           StreamBuilder<List<CanBoModel>>(
-            stream: thanhPhanThamGiaCubit.thanhPhanThamGia,
+            stream: thanhPhanThamGiaCubit.thanhPhanThamGiaSubject,
             builder: (context, snapshot) {
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {

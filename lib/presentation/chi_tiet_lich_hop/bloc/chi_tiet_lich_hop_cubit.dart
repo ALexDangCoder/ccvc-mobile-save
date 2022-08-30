@@ -82,7 +82,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String? dateBieuQuyet;
   String phienHopId = '';
   String tenPhienHop = '';
-  List<CanBoModel> dataThanhPhanThamGia = [];
+  List<CanBoModel> listThanhPhanThamGia = [];
   List<String?> data = [];
   List<String> selectPhatBieu = [];
   String idCapNhatTrangThai = '';
@@ -359,7 +359,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<DanhSachNguoiThamGiaModel> listDanhSach = [];
   List<String> danhSachLuaChon = [];
 
-  BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
+  BehaviorSubject<List<CanBoModel>> thanhPhanThamGiaSubject =
       BehaviorSubject<List<CanBoModel>>();
   List<CanBoModel> listCanBo = [];
   BehaviorSubject<bool> checkBoxCheckAllTPTG = BehaviorSubject();
@@ -437,8 +437,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
 
     result.when(
       success: (success) {
-        thanhPhanThamGia.add(success.listCanBo ?? []);
-        // dataThaGiaDefault = success.listCanBo ?? [];
+        thanhPhanThamGiaSubject.sink.add(success.listCanBo ?? []);
+        listThanhPhanThamGia = success.listCanBo ?? [];
       },
       error: (error) {},
     );
@@ -483,8 +483,8 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     final result = await hopRp.getDanhSachCanBoTPTG(id);
     result.when(
       success: (value) {
-        dataThanhPhanThamGia = value.listCanBo ?? [];
-        thanhPhanThamGia.sink.add(value.listCanBo ?? []);
+        listThanhPhanThamGia = value.listCanBo ?? [];
+        thanhPhanThamGiaSubject.sink.add(value.listCanBo ?? []);
       },
       error: (error) {},
     );
@@ -527,17 +527,22 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   }
 
   void search(String text) {
-    final searchTxt = text.trim().toLowerCase().vietNameseParse();
-    bool isListCanBo(CanBoModel canBo) {
-      return canBo.tenCanBo!
-          .toLowerCase()
-          .vietNameseParse()
-          .contains(searchTxt);
-    }
+    if (text.isEmpty) {
+      thanhPhanThamGiaSubject.sink.add(listThanhPhanThamGia);
+    } else {
+      final searchTxt = text.trim().toLowerCase().vietNameseParse();
+      bool isListCanBo(CanBoModel canBo) {
+        return canBo.tenCanBo!
+            .toLowerCase()
+            .vietNameseParse()
+            .contains(searchTxt);
+      }
 
-    final value =
-        dataThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
-    thanhPhanThamGia.sink.add(value);
+      final value = listThanhPhanThamGia
+          .where((element) => isListCanBo(element))
+          .toList();
+      thanhPhanThamGiaSubject.sink.add(value);
+    }
   }
 
   void checkBoxButton() {
@@ -567,18 +572,18 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   void checkAll() {
     selectedIds.clear();
     if (check) {
-      selectedIds = dataThanhPhanThamGia
+      selectedIds = listThanhPhanThamGia
           .where((element) => element.showCheckBox())
           .map((e) => e.id ?? '')
           .toList();
     }
     List<CanBoModel> _tempList = [];
-    if (thanhPhanThamGia.hasValue) {
-      _tempList = thanhPhanThamGia.value;
+    if (thanhPhanThamGiaSubject.hasValue) {
+      _tempList = thanhPhanThamGiaSubject.value;
     } else {
-      _tempList = dataThanhPhanThamGia;
+      _tempList = listThanhPhanThamGia;
     }
-    thanhPhanThamGia.sink.add(_tempList);
+    thanhPhanThamGiaSubject.sink.add(_tempList);
   }
 
   Future<void> callApiThanhPhanThamGia({

@@ -53,7 +53,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   height: 0.0.textScale(space: 10),
                 ),
                 StreamBuilder<List<CanBoModel>>(
-                    stream: widget.cubit.thanhPhanThamGia,
+                    stream: widget.cubit.thanhPhanThamGiaSubject,
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? [];
                       return ThanhPhanThamGiaWidget(

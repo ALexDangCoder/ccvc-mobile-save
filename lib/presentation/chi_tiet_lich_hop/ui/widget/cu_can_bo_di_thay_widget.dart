@@ -3,10 +3,10 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -58,7 +58,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
+    return FollowKeyBoardEdt(
       bottomWidget: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         child: DoubleButtonBottom(
@@ -67,30 +67,46 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
           onClickLeft: () {
             Navigator.pop(context);
           },
-          onClickRight: () async {
+          onClickRight: () {
             if (widget.themDonViCubit.listDonVi.isEmpty) {
               widget.themDonViCubit.validateDonVi.sink.add(true);
             } else {
               widget.themDonViCubit.validateDonVi.sink.add(false);
-              await widget.cubit
-                  .cuCanBoDiThay(
-                canBoDiThay: widget.cubitThanhPhanTG.listCanBo
+              final data = [
+                CanBoDiThay(
+                  id: widget.cubit.donViModel.id,
+                  donViId: widget.cubit.donViModel.donViId,
+                  canBoId: widget.cubit.donViModel.canBoId,
+                  taskContent: widget.cubit.donViModel.noidung,
+                ),
+                ...(widget.cubit.listDonViModel.valueOrNull ?? []).map(
+                  (element) => CanBoDiThay(
+                    id: element.id,
+                    donViId: element.donViId,
+                    canBoId: element.canBoId,
+                    taskContent: element.noidung,
+                  ),
+                ),
+                ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
                     .map(
-                      (element) => CanBoDiThay(
-                        id: element.id,
-                        donViId: element.donViId,
-                        canBoId: element.canBoId,
-                        taskContent: element.noidung,
-                      ),
-                    )
-                    .toList(),
+                  (element) => CanBoDiThay(
+                    id: null,
+                    donViId: element.donViId,
+                    canBoId: element.userId,
+                    taskContent: element.noidung,
+                  ),
+                ),
+              ];
+              widget.cubit
+                  .cuCanBoDiThay(
+                canBoDiThay: data,
               )
                   .then((value) {
                 if (value) {
                   widget.cubit.initDataChiTiet();
-                  Navigator.pop(context);
                 }
               });
+              Navigator.pop(context);
             }
           },
         ),

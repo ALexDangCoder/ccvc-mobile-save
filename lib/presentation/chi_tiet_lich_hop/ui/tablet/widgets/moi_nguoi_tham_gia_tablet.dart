@@ -15,7 +15,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -136,13 +136,14 @@ class _ThanhPhanThamGiaWidgetTabletState
                           thanhPhanThamGiaCubit.postDiemDanh().then((value) {
                             showDiaLog(
                               context,
+                              widthOnlyButton: 200,
                               isOneButton: false,
                               showTablet: true,
                               title: S.current.diem_danh,
                               icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                               btnLeftTxt: '',
                               textContent: S.current.diem_danh_ho_nguoi_khac,
-                              btnRightTxt: S.current.khong,
+                              btnRightTxt: S.current.dong,
                               funcBtnRight: () {},
                             );
                           });

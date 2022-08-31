@@ -26,11 +26,6 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
   final TextEditingController yKien = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    widget.cubit.phienHopId = '';
-  }
-  @override
   Widget build(BuildContext context) {
     return FollowKeyBoardWidget(
       bottomWidget: Padding(
@@ -68,8 +63,8 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
             ),
           ),
           StreamBuilder<List<ListPhienHopModel>>(
-              stream: widget.cubit.danhSachChuongTrinhHop.stream,
-              builder: (context, snapshot) {
+            stream: widget.cubit.danhSachChuongTrinhHop.stream,
+            builder: (context, snapshot) {
               final data = snapshot.data ?? [];
               final listCuocHop = data.map((e) => e.tieuDe ?? '').toList();
               return CustomDropDown(
@@ -79,10 +74,10 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
                   ..toSet().toList(),
                 onSelectItem: (index) {
                   //index - 1 do listCuocHop insert(0, S.current.cuoc_hop)
-                  if(index > 0) {
+                  if (index > 0) {
                     widget.cubit.phienHopId = data[index - 1].id ?? '';
                     widget.cubit.tenPhienHop = data[index - 1].tieuDe ?? '';
-                  }else{
+                  } else {
                     widget.cubit.phienHopId = '';
                   }
                 },

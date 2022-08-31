@@ -55,6 +55,9 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
             if (danhSachChuongTrinhHop.hasValue) {
               danhSachChuongTrinhHop.sink.add(danhSachChuongTrinhHop.value);
             }
+            if (phienHopId.isEmpty){
+              phienHopId = phienHopIdTmp;
+            }
           },
         );
       },

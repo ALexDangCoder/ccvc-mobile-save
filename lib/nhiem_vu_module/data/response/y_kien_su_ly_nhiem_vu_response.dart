@@ -117,7 +117,7 @@ class YKienSuLyNhiemVuModelResponse extends Equatable {
         phanXuLy: phanXuLy,
         yKienXuLyFileDinhKem:
             yKienXuLyFileDinhKem?.map((e) => e.toModel()).toList(),
-        avatarCommon: avatarCommon,
+        avatarCommon: avatarCommon ?? '',
         avatar: avatar,
       );
 

@@ -150,7 +150,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
               children: [
                 /// them phien hop
                 InputInfoUserWidget(
-                  title: S.current.them_phien_hop,
+                  title: S.current.ten_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
                     hintText: S.current.nhap_ten_phien_hop,
@@ -229,6 +229,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     return InputInfoUserWidget(
                       title: S.current.nguoi_chu_tri,
                       child: DropDownSearch(
+                        isShowIconDropdown: true,
                         title: S.current.nguoi_chu_tri,
                         hintText: S.current.chon_nguoi_chu_tri,
                         onChange: (value) {

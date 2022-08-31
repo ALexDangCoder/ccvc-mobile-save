@@ -373,6 +373,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                         ),
                         Column(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: listPhienHopModel.files.map((e) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 8),

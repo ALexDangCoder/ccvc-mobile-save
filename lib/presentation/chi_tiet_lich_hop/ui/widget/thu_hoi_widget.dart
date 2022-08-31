@@ -203,18 +203,23 @@ class _SelectTHuHoiCellState extends State<SelectTHuHoiCell> {
                       .add(widget.cubit.dataThuKyOrThuHoiDeFault);
                 },
               ),
-              wrapThis(
-                listData: dataSN,
-                cubit: widget.cubit,
-                isPhanCongThuKy: false,
-                onRemove: () {
-                  if ((dataSN.length - 1) == 0) {
-                    keyDropDown.currentState?.isSelect = false;
-                  } else {
-                    keyDropDown.currentState?.isSelect = true;
-                  }
-                  setState(() {});
-                },
+              Padding(
+                padding: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 0.08,
+                ),
+                child: wrapThis(
+                  listData: dataSN,
+                  cubit: widget.cubit,
+                  isPhanCongThuKy: false,
+                  onRemove: () {
+                    if ((dataSN.length - 1) == 0) {
+                      keyDropDown.currentState?.isSelect = false;
+                    } else {
+                      keyDropDown.currentState?.isSelect = true;
+                    }
+                    setState(() {});
+                  },
+                ),
               )
             ],
           );

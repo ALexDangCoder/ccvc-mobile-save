@@ -55,9 +55,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
     ngGiaoNvId = '';
     themNhiemVuRequest = ThemNhiemVuRequest(
       idCuocHop: widget.cubit.idCuocHop,
-      hanXuLy: DateTime
-          .now()
-          .toStringWithListFormat,
+      hanXuLy: DateTime.now().toStringWithListFormat,
     );
 
     widget.cubit.clearData();
@@ -75,10 +73,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery
-            .of(context)
-            .size
-            .height * 0.8,
+        maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
       child: FormGroup(
         key: keyGroup,
@@ -131,7 +126,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                           final data = snapshot.data ?? false;
                           return ShowRequied(
                             textShow:
-                            S.current.vui_long_chon_truong_loai_nhiem_vu,
+                                S.current.vui_long_chon_truong_loai_nhiem_vu,
                             isShow: data,
                             child: DropDownWidget(
                               listData: widget
@@ -188,8 +183,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         maxLine: 8,
                         validator: (String? value) {
                           return value?.checkNull(
-                            showText: S
-                                .current.vui_long_nhap_truong_noi_dung,
+                            showText: S.current.vui_long_nhap_truong_noi_dung,
                           );
                         },
                         onChange: (String value) {
@@ -208,6 +202,15 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         },
                       ),
                       sb20,
+                      Text(
+                        S.current.nguoi_giao_nhiem_vu,
+                        style: textNormalCustom(
+                          color: titleItemEdit,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
+                        ),
+                      ),
+                      spaceH8,
 
                       /// người giao nhiem vu
                       CustomSelectMultiItems(
@@ -215,9 +218,8 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                           ngGiaoNvId = value.id;
                         },
                         isShowIconRight: true,
-                        items: widget.cubit.dataThuKyOrThuHoiDeFault
-                            .map(
-                              (element) {
+                        items: widget.cubit.dataThuKyOrThuHoiDeFault.map(
+                          (element) {
                             final name = (element.hoTen ?? '').isNotEmpty
                                 ? element.hoTen
                                 : element.dauMoiLienHe ?? '';
@@ -228,8 +230,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                               id: element.id ?? '',
                             );
                           },
-                        )
-                            .toList(),
+                        ).toList(),
                         context: context,
                         hintText: S.current.nguoi_giao_nhiem_vu,
                         title: S.current.nguoi_giao_nhiem_vu,
@@ -242,7 +243,6 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.van_ban_giao_nhiem_vu,
                         context: context,
                       ),
-                      sb20,
 
                       /// van ban khac
                       buttonThemVb(
@@ -250,7 +250,6 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                         title: S.current.van_ban_khac,
                         context: context,
                       ),
-                      sb20,
                     ],
                   ),
                 ),
@@ -288,12 +287,15 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
             stream: widget.cubit.listVBGiaoNhiemVu.stream,
             builder: (context, snapshot) {
               final data = snapshot.data
-                  ?.where((element) => element.hinhThucVanBan == loaiVbThem)
-                  .toList() ??
+                      ?.where((element) => element.hinhThucVanBan == loaiVbThem)
+                      .toList() ??
                   [];
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
+                padding: EdgeInsets.only(
+                  bottom: 20,
+                ),
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   final fileName = data[index].file.isNotEmpty
@@ -302,11 +304,9 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                   return ItemVbGIaoNhiemVuWidget(
                     cubit: widget.cubit,
                     soKyHieu: data[index].soVanBan ?? '',
-                    ngayVB: DateTime
-                        .parse(
+                    ngayVB: DateTime.parse(
                       data[index].ngayVanBan ?? DateTime.now().toString(),
-                    )
-                        .toStringWithListFormat,
+                    ).toStringWithListFormat,
                     trichYeu: data[index].trichYeu ?? '',
                     file: fileName,
                     onTap: () {

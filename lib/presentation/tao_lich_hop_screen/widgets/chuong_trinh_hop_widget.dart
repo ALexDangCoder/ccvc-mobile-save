@@ -31,6 +31,7 @@ import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class ChuongTrinhHopWidget extends StatelessWidget {
   final TaoLichHopCubit cubit;
@@ -438,7 +439,11 @@ class ItemPhienHop extends StatelessWidget {
                 height: 10.0.textScale(space: 10),
               ),
               rowInfo(
-                value: '${phienHop.thoiGian_BatDau}'
+                value: '${timeFormat(
+                  phienHop.thoiGian_BatDau,
+                  DateTimeFormat.DATE_TIME_PUT_EDIT,
+                  DateTimeFormat.DATE_TIME_PICKER,
+                )}'
                     '${phienHop.timeEnd?.isNotEmpty ?? false ? ''
                         ' - ${phienHop.timeEnd}' : ''}',
                 key: S.current.thoi_gian,
@@ -519,5 +524,10 @@ class ItemPhienHop extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String timeFormat(String time, String oldPattern, String newPattern) {
+    if (time == '') return '';
+    return DateFormat(newPattern).format(DateFormat(oldPattern).parse(time));
   }
 }

@@ -213,7 +213,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: dtLowCase,
+                                              hintText: dtFormatUpperCase,
                                               value: DateTime.tryParse(
                                                 cubit.createOn ?? '',
                                               ),
@@ -233,7 +233,7 @@ class _TimKiemYcHoTroTabletState extends State<TimKiemYcHoTroTablet> {
                                               leadingIcon: SvgPicture.asset(
                                                 ImageAssets.icCalenders,
                                               ),
-                                              hintText: dtLowCase,
+                                              hintText: dtFormatUpperCase,
                                               value: DateTime.tryParse(
                                                 cubit.finishDay ?? '',
                                               ),

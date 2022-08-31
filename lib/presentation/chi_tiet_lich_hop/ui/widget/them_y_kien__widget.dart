@@ -33,6 +33,7 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
   @override
   Widget build(BuildContext context) {
     return FollowKeyBoardWidget(
+      bottomInset: 130,
       bottomWidget: Padding(
         padding: const EdgeInsets.only(bottom: 35),
         child: DoubleButtonBottom(

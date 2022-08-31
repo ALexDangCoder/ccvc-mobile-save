@@ -103,8 +103,8 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
               child: Text(
                 S.current.phien_hop,
                 style: tokenDetailAmount(
-                  color: dateColor,
-                  fontSize: 14.0,
+                  color: titleItemEdit,
+                  fontSize: 14.0.textScale(),
                 ),
               ),
             ),
@@ -160,7 +160,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                 spaceW16,
                 Expanded(
                   child: InputInfoUserWidget(
-                    title: S.current.phut,
+                    title: S.current.phut.toLowerCase(),
                     child: const SizedBox(),
                   ),
                 ),

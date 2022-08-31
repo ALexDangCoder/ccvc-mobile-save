@@ -468,17 +468,19 @@ Widget tag({required String title, required Function onDelete}) {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 300,
-            ),
-            child: Text(
-              title,
-              style: textNormal(
-                backgroundColorApp,
-                12.0.textScale(),
+          Flexible(
+            child: Container(
+              constraints: const BoxConstraints(
+                maxWidth: 300,
               ),
-              overflow: TextOverflow.ellipsis,
+              child: Text(
+                title,
+                style: textNormal(
+                  backgroundColorApp,
+                  12.0.textScale(),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           Container(

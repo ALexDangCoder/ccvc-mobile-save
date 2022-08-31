@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_lay
 import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
@@ -45,6 +47,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
   final List<DonViModel> dataInit = [];
   final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
   final ThemDonViCubit themDonViCubit = ThemDonViCubit();
+  final ThanhPhanThamGiaHopCubit _cubit = ThanhPhanThamGiaHopCubit();
 
   @override
   void initState() {
@@ -95,6 +98,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                   if (value) {
                     widget.cubit.initDataChiTiet(needCheckPermission: true);
                     themCanBoCubit.getCanbo.add([]);
+                    eventBus.fire(ReloadTPTG());
                     Navigator.pop(context);
                   }
                 });
@@ -153,15 +157,11 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                         child: GestureDetector(
                           onTap: () {
                             if (themDonViCubit.listDonVi.isEmpty) {
-                              themDonViCubit.validateDonVi.sink
-                                  .add(true);
+                              themDonViCubit.validateDonVi.sink.add(true);
                             } else {
-                              themDonViCubit.validateDonVi.sink
-                                  .add(false);
+                              themDonViCubit.validateDonVi.sink.add(false);
 
-                              if ((themCanBoCubit.titleCanBo
-                                          .valueOrNull ??
-                                      '')
+                              if ((themCanBoCubit.titleCanBo.valueOrNull ?? '')
                                   .isEmpty) {
                                 themDonViCubit.listDonVi.last.noidung =
                                     noiDungController.text.trim();
@@ -234,10 +234,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                       data[index],
                                       widget.cubitThanhPhanTG.listCanBoDuocChon,
                                     );
-                                    themCanBoCubit.titleCanBo.sink
-                                        .add('');
-                                    themDonViCubit.selectNodeOnlyValue =
-                                        null;
+                                    themCanBoCubit.titleCanBo.sink.add('');
+                                    themDonViCubit.selectNodeOnlyValue = null;
                                     themDonViCubit.themDonViSubject.sink
                                         .add(true);
                                     noiDungController.text = '';

@@ -41,6 +41,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     _handleEventBus();
     thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
     _refreshPhanCongThuKy();
+    _handleTPTG();
   }
 
   void _refreshPhanCongThuKy() {
@@ -58,6 +59,15 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         thanhPhanThamGiaHopCubit.detailMeetCalenderCubit = widget.cubit;
         thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
       }
+    });
+  }
+
+  void _handleTPTG() {
+    eventBus.on<ReloadTPTG>().listen((event) {
+        thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
+        thanhPhanThamGiaHopCubit.detailMeetCalenderCubit = widget.cubit;
+        thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
+
     });
   }
 

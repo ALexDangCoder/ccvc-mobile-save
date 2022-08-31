@@ -291,6 +291,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
               if (isMobile()) {
                 showBottomSheetCustom(
                   context,
+                  paddingHorizontal: 0,
                   title: S.current.sua_lich_hop,
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
@@ -312,6 +313,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 showDiaLogTablet(
                   context,
                   title: S.current.sua_lich_hop,
+                  paddingHorizontal: 8,
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: SuaLichHopWidget(

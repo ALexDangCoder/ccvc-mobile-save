@@ -42,20 +42,3 @@ class YKienSuLyNhiemVuModel {
   });
 }
 
-// class YKienXuLyFileDinhKem {
-//   String? id;
-//   String? yKienXuLyId;
-//   String? fileDinhKemId;
-//   String? dataKySo;
-//   String? keyKySo;
-//   FileDinhKems? fileDinhKem;
-//
-//   YKienXuLyFileDinhKem({
-//     this.id,
-//     this.yKienXuLyId,
-//     this.fileDinhKemId,
-//     this.dataKySo,
-//     this.keyKySo,
-//     this.fileDinhKem,
-//   });
-// }

@@ -126,7 +126,20 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                 child: itemCanBo(
                                                   onCheckBox: (value) async {
                                                     widget.themCanBoCubit
-                                                        .addDataListByModel(result);
+                                                        .addDataListByModel(
+                                                      result,
+                                                    );
+                                                    if (!value) {
+                                                      widget.themCanBoCubit
+                                                          .addDataListByModel(
+                                                        result,
+                                                      );
+                                                    } else {
+                                                      widget.themCanBoCubit
+                                                          .removeByModel(
+                                                        result,
+                                                      );
+                                                    }
                                                   },
                                                   canBoModel: result,
                                                   themCanBoCubit:

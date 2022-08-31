@@ -192,11 +192,16 @@ class SelectThuKyCell extends StatelessWidget {
                   log(cubit.listNguoiCHuTriModel.value.toString());
                 },
               ),
-              wrapThis(
-                listData: dataSN,
-                cubit: cubit,
-                isPhanCongThuKy: true,
-                onRemove: () {},
+              Padding(
+                padding: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 0.08,
+                ),
+                child: wrapThis(
+                  listData: dataSN,
+                  cubit: cubit,
+                  isPhanCongThuKy: true,
+                  onRemove: () {},
+                ),
               )
             ],
           );

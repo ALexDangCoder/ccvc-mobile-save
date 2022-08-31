@@ -69,11 +69,8 @@ extension TabWidgetDetail on TabWidgetDetailMeet {
           ),
         );
       case TabWidgetDetailMeet.TAI_LIEU:
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: TaiLieuWidget(
-            cubit: cubit,
-          ),
+        return TaiLieuWidget(
+          cubit: cubit,
         );
       case TabWidgetDetailMeet.PHAT_BIEU:
         return Padding(

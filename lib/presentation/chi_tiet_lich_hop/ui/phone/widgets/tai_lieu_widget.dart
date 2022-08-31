@@ -49,12 +49,13 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         ),
       ),
       tabletScreen: Padding(
-        padding: const EdgeInsets.only(top: 16.0, left: 13.5),
+        padding: const EdgeInsets.only(top: 16.0, left: 13.5,right: 16),
         child: StreamBuilder<ChiTietLichHopModel>(
           stream: widget.cubit.chiTietLichHopSubject,
           builder: (context, snapshot) {
             return SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (widget.cubit.addFilePermission()) selectFile(),
                   listFileFromApi(),

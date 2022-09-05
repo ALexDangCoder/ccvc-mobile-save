@@ -10,12 +10,16 @@ class IconWithTiltleWidget extends StatefulWidget {
   Function onPress;
   String icon;
   bool type2;
+  double? paddingTop;
+  double? paddingBottom;
 
   IconWithTiltleWidget({
     Key? key,
     required this.icon,
     required this.title,
     required this.onPress,
+    this.paddingBottom,
+    this.paddingTop,
     this.type2 = false,
   }) : super(key: key);
 
@@ -30,8 +34,12 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding:
-              const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 18),
+          padding: EdgeInsets.only(
+            top: widget.paddingBottom ?? 8,
+            bottom: widget.paddingBottom ?? 8,
+            left: 12,
+            right: 18,
+          ),
           decoration: BoxDecoration(
             color: widget.type2
                 ? statusCalenderRed.withOpacity(0.1)

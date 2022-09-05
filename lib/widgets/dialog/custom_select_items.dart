@@ -1,17 +1,13 @@
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_close.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:rxdart/subjects.dart';
 
 class CustomSelectMultiItems extends StatefulWidget {
@@ -211,6 +207,7 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                 child: Text(S.current.danh_sach_rong),
                               )
                             : ListView.separated(
+                                padding: const EdgeInsets.only(top: 12),
                                 itemBuilder: (context, index) {
                                   final itemTitle = listData[index];
                                   return GestureDetector(
@@ -227,14 +224,25 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 8,
                                       ),
-                                      child: Text(
-                                        itemTitle.title,
-                                        style: textNormalCustom(
-                                          color: color586B8B,
-                                          fontWeight: selectedItems == itemTitle
-                                              ? FontWeight.w600
-                                              : FontWeight.normal,
-                                        ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            itemTitle.title,
+                                            style: textNormalCustom(
+                                              color: color586B8B,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          if (selectedItems == itemTitle) ...[
+                                            Icon(
+                                              Icons.check,
+                                              color: AppTheme.getInstance()
+                                                  .colorField(),
+                                            ),
+                                          ],
+                                        ],
                                       ),
                                     ),
                                   );

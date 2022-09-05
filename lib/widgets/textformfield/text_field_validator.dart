@@ -161,6 +161,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         enabled: widget.isEnabled,
         decoration: widget.decoration ??
             InputDecoration(
+              errorStyle: textDetailHDSD(color: canceledColor, fontSize: 12),
               counterText: '',
               hintText: widget.hintText,
               hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),

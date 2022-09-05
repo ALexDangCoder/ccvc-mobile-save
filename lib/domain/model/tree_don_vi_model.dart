@@ -189,6 +189,7 @@ class DonViModel {
       tenDonVi: tenDonVi,
       type: type,
       userId: userId,
+      GhiChu: noidung,
     );
   }
 
@@ -196,9 +197,9 @@ class DonViModel {
     return MoiThamGiaHopRequest(
       dauMoiLienHe: dauMoiLienHe,
       email: email,
-      GhiChu: '',
+      GhiChu: noidung,
       soDienThoai: sdt,
-      TenCoQuan:  tenCoQuan,
+      TenCoQuan: tenCoQuan,
       vaiTroThamGia: vaiTroThamGia,
       dauMoi: dauMoiLienHe,
       Email: email,

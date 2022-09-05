@@ -137,6 +137,25 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         );
         donViModel = parentCanBo;
 
+        /// danh sach can bo di thay
+        final canboDiThay = res.where(
+          (canBo) => canBo.canBoId == canBoId || canBo.vaiTroThamGia != 2,
+        );
+
+        final listCanBoDiThay = canboDiThay
+            .map(
+              (canBo) => DonViModel(
+                id: canBo.id ?? '',
+                name: canBo.hoTen ?? '',
+                tenCanBo: canBo.tenCanBo ?? '',
+                chucVu: canBo.chucVu ?? '',
+                canBoId: canBo.canBoId ?? '',
+                donViId: canBo.donViId ?? '',
+                tenCoQuan: canBo.tenCoQuan ?? '',
+              ),
+            )
+            .toList();
+
         /// lay con cua can bo
         final canBoDiThay = res.where(
           (element) => element.parentId == idCanBo.id,
@@ -154,7 +173,9 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
               ),
             )
             .toList();
-        listDataCanBo = listCanBoMoi;
+        listDataCanBo = listCanBoDiThay;
+        print('---------------- danh sach can bo di thay ${listCanBoDiThay.length}');
+        print('---------------- danh sach sach res ${res.length}');
         listDonViModel.sink.add(listDataCanBo);
         idCanBoDiThay = idCanBo.id ?? '';
       },

@@ -12,7 +12,8 @@ class BaseMenuTablet extends StatefulWidget {
   final String image;
 
   // const ModelMenuCCVC({Key? key}) : super(key: key);
-  const BaseMenuTablet(this.offsetAnimation, this.title, this.image);
+  const BaseMenuTablet(this.offsetAnimation, this.title, this.image, {Key? key})
+      : super(key: key);
 
   @override
   _BaseMenuPhoneState createState() => _BaseMenuPhoneState();

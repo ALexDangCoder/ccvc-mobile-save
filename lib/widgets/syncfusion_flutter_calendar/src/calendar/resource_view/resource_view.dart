@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:syncfusion_flutter_core/theme.dart';
 
 import '../common/calendar_view_helper.dart';
@@ -11,19 +10,21 @@ class ResourceViewWidget extends StatefulWidget {
   /// Constructor to create the resource view widget to holds resource view on
   /// all timeline views.
   const ResourceViewWidget(
-      this.resources,
-      this.resourceViewSettings,
-      this.resourceItemHeight,
-      this.cellBorderColor,
-      this.calendarTheme,
-      this.notifier,
-      this.isRTL,
-      this.textScaleFactor,
-      this.mouseHoverPosition,
-      this.imagePainterCollection,
-      this.width,
-      this.panelHeight,
-      this.resourceViewHeaderBuilder);
+    this.resources,
+    this.resourceViewSettings,
+    this.resourceItemHeight,
+    this.cellBorderColor,
+    this.calendarTheme,
+    this.notifier,
+    this.isRTL,
+    this.textScaleFactor,
+    this.mouseHoverPosition,
+    this.imagePainterCollection,
+    this.width,
+    this.panelHeight,
+    this.resourceViewHeaderBuilder, {
+    Key? key,
+  }) : super(key: key);
 
   /// Holds the resources of the calendar.
   final List<CalendarResource>? resources;

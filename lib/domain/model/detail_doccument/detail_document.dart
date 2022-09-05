@@ -11,7 +11,7 @@ enum TrangThaiMission {
   TRA_LAI
 }
 
-extension trangThaiMission on TrangThaiMission {
+extension StatusMission on TrangThaiMission {
   String getName() {
     switch (this) {
       case TrangThaiMission.THU_HOI:

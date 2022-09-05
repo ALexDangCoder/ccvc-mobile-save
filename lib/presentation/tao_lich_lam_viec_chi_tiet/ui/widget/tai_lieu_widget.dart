@@ -100,9 +100,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             onChange: (List<File> files, bool validate) {
               widget.onChange(files, validate);
             },
-            getIndexFunc: (index) {
-              (widget.getIndex != null) ? widget.getIndex!(index) : null;
-            },
+            getIndexFunc: widget.getIndex,
             allowedExtensions: const [
               FileExtensions.DOC,
               FileExtensions.DOCX,

@@ -90,7 +90,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      funcBtnPop;
+                      funcBtnPop.call();
                       Navigator.pop(context);
                     },
                     child: SvgPicture.asset(ImageAssets.icClose),
@@ -112,7 +112,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                   children: [
                     button(
                       onTap: () {
-                        funcBtnPop;
+                        funcBtnPop.call();
                         Navigator.pop(context);
                       },
                       title: btnLeftTxt,

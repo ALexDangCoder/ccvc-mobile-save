@@ -89,13 +89,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             borderSide: BorderSide(color: bgDropDown),
           ),
         ),
-        onChanged: (text) {
-          widget.onChange != null ? widget.onChange!(text) : null;
-        },
+        onChanged: widget.onChange,
         validator: widget.validate,
-        onFieldSubmitted: (text) {
-          widget.onSubmit != null ? widget.onSubmit!(text) : null;
-        },
+        onFieldSubmitted: widget.onSubmit,
       ),
     );
   }

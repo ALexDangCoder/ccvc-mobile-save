@@ -374,11 +374,6 @@ class FixBugCupertinoDatePicker extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // ignore: no_logic_in_create_state, https://github.com/flutter/flutter/issues/70499
-    // The `time` mode and `dateAndTime` mode of the picker share the time
-    // columns, so they are placed together to one state.
-    // The `date` mode has different children and is implemented in a different
-    // state.
     switch (mode) {
       case CupertinoDatePickerMode.time:
       case CupertinoDatePickerMode.dateAndTime:

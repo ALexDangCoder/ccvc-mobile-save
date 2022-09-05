@@ -49,7 +49,7 @@ extension trangThai on TrangThai {
   }
 }
 
-extension tinhTrang on TinhTrang {
+extension TinhTrangExt on TinhTrang {
   Widget getWidget() {
     switch (this) {
       case TinhTrang.TRUNG_BINH:

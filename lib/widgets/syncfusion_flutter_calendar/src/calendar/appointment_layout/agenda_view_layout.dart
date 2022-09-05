@@ -14,23 +14,25 @@ class AgendaViewLayout extends StatefulWidget {
   /// Constructor to create the agenda appointment layout that holds the agenda
   /// appointment views in calendar widget.
   const AgendaViewLayout(
-      this.monthViewSettings,
-      this.scheduleViewSettings,
-      this.selectedDate,
-      this.appointments,
-      this.isRTL,
-      this.locale,
-      this.localizations,
-      this.calendarTheme,
-      this.agendaViewNotifier,
-      this.appointmentTimeTextFormat,
-      this.timeLabelWidth,
-      this.textScaleFactor,
-      this.isMobilePlatform,
-      this.appointmentBuilder,
-      this.width,
-      this.height,
-      this.calendar);
+    this.monthViewSettings,
+    this.scheduleViewSettings,
+    this.selectedDate,
+    this.appointments,
+    this.isRTL,
+    this.locale,
+    this.localizations,
+    this.calendarTheme,
+    this.agendaViewNotifier,
+    this.appointmentTimeTextFormat,
+    this.timeLabelWidth,
+    this.textScaleFactor,
+    this.isMobilePlatform,
+    this.appointmentBuilder,
+    this.width,
+    this.height,
+    this.calendar, {
+    Key? key,
+  }) : super(key: key);
 
   /// Defines the month view customization details.
   final MonthViewSettings? monthViewSettings;

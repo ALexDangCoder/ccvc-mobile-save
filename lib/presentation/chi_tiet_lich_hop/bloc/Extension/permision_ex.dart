@@ -226,7 +226,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     return false;
   }
 
-  bool trangThaiHuy() => getChiTietLichHopModel.status == STATUS_SCHEDULE.HUY;
+  bool trangThaiHuy() => getChiTietLichHopModel.status == StatusSchedule.HUY;
 
   bool trangThaiThuHoi() {
     final bool chuTri = isChuTri();
@@ -414,18 +414,18 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   //1 = da duyet
   //2 = huy duyet
   bool checkDuyetPhong() {
-    return trangThaiPhong() == STATUS_ROOM_MEETING.CHO_DUYET ||
-        trangThaiPhong() == STATUS_ROOM_MEETING.HUY_DUYET;
+    return trangThaiPhong() == StatusRoomMeeting.CHO_DUYET ||
+        trangThaiPhong() == StatusRoomMeeting.HUY_DUYET;
   }
 
   bool checkHuyDuyet() {
-    return trangThaiPhong() == STATUS_ROOM_MEETING.CHO_DUYET ||
-        trangThaiPhong() == STATUS_ROOM_MEETING.DA_DUYET;
+    return trangThaiPhong() == StatusRoomMeeting.CHO_DUYET ||
+        trangThaiPhong() == StatusRoomMeeting.DA_DUYET;
   }
 
   bool checkThayDoiPhong() {
-    return trangThaiPhong() == STATUS_ROOM_MEETING.CHO_DUYET ||
-        trangThaiPhong() == STATUS_ROOM_MEETING.HUY_DUYET;
+    return trangThaiPhong() == StatusRoomMeeting.CHO_DUYET ||
+        trangThaiPhong() == StatusRoomMeeting.HUY_DUYET;
   }
 
   bool checkPermissionQuyenDuyetPhong({bool? isCheckHideButton}) {
@@ -434,7 +434,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
             permissionType: PermissionType.VPDT,
             permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
           ) &&
-          trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
+          trangThaiPhong() != StatusRoomMeeting.HUY_DUYET;
     }
     return HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -483,7 +483,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
             permissionType: PermissionType.VPDT,
             permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
           ) &&
-          trangThaiPhong() != STATUS_ROOM_MEETING.HUY_DUYET;
+          trangThaiPhong() != StatusRoomMeeting.HUY_DUYET;
     }
     return HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
@@ -495,13 +495,13 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   bool checkDuyetKyThuat() {
     return (getChiTietLichHopModel.isDuyetKyThuat ?? false) &&
         getChiTietLichHopModel.trangThaiDuyetKyThuat !=
-            TRANG_THAI_DUYET_KY_THUAT.DA_DUYET;
+            TrangThaiDuyetKyThuat.DA_DUYET;
   }
 
   bool checkTuChoiKyThuat() {
     return (getChiTietLichHopModel.isDuyetKyThuat ?? false) &&
         getChiTietLichHopModel.trangThaiDuyetKyThuat !=
-            TRANG_THAI_DUYET_KY_THUAT.KHONG_DUYET;
+            TrangThaiDuyetKyThuat.KHONG_DUYET;
   }
 
   /// check quyen chọn phong hop
@@ -692,7 +692,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   ///btn soan ket luan hop
   bool isSoanKetLuanHop() {
     return (isThuKy() || isChuTri()) &&
-        getChiTietLichHopModel.status == STATUS_DETAIL.DA_DUYET;
+        getChiTietLichHopModel.status == StatusDetail.DA_DUYET;
   }
 
   //check cuoc hop da ket thuc hay chua

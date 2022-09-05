@@ -3,13 +3,12 @@ import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/nguoi_gan_row_widget.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
-
-import 'nguoi_gan_row_widget.dart';
 
 class BottomSheetThemCongViec extends StatefulWidget {
   final DanhSachCongViecCubit danhSachCVCubit;
@@ -142,50 +141,50 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                   },
                 ),
                 StreamBuilder<bool>(
-                    stream: widget.danhSachCVCubit.isShowListCanBo,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? false;
-                      return Visibility(
-                        visible: data,
-                        child: SizedBox(
-                          height: 200,
-                          child: StreamBuilder<List<ItemRowData>>(
-                            stream: widget.danhSachCVCubit.getDanhSachNguoiGan,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ?? [];
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  controller: scrollController,
-                                  shrinkWrap: true,
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
-                                    return widget.danhSachCVCubit
-                                        .setIconLoadMore(
-                                      index,
-                                      NguoiGanRowWidget(
-                                        ontapItem: (String value) {
-                                          controller.text = value;
-                                          nguoiGanID = data[index].id ?? '';
-                                          isSelected = true;
-                                          widget.danhSachCVCubit
-                                              .setDisplayListCanBo(false);
-                                          widget.danhSachCVCubit.setDisplayIcon(
-                                            IconListCanBo.CLOSE,
-                                          );
-                                        },
-                                        inforNguoiGan: data[index].infor,
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                return const NodataWidget();
-                              }
-                            },
-                          ),
+                  stream: widget.danhSachCVCubit.isShowListCanBo,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? false;
+                    return Visibility(
+                      visible: data,
+                      child: SizedBox(
+                        height: 200,
+                        child: StreamBuilder<List<ItemRowData>>(
+                          stream: widget.danhSachCVCubit.getDanhSachNguoiGan,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                controller: scrollController,
+                                shrinkWrap: true,
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return widget.danhSachCVCubit.setIconLoadMore(
+                                    index,
+                                    NguoiGanRowWidget(
+                                      ontapItem: (String value) {
+                                        controller.text = value;
+                                        nguoiGanID = data[index].id ?? '';
+                                        isSelected = true;
+                                        widget.danhSachCVCubit
+                                            .setDisplayListCanBo(false);
+                                        widget.danhSachCVCubit.setDisplayIcon(
+                                          IconListCanBo.CLOSE,
+                                        );
+                                      },
+                                      inforNguoiGan: data[index].infor,
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return const NodataWidget();
+                            }
+                          },
                         ),
-                      );
-                    }),
+                      ),
+                    );
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Row(
@@ -242,12 +241,8 @@ Widget customTextField({
   return TextFormField(
     controller: controller,
     style: textNormal(titleColor, 14),
-    onChanged: (value) {
-      onChange != null ? onChange(value) : null;
-    },
-    onTap: () {
-      onTap != null ? onTap() : null;
-    },
+    onChanged: onChange,
+    onTap: onTap,
     validator: (value) {
       if (validator != null) {
         return validator(value);

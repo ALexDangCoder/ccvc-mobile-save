@@ -179,7 +179,9 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                       widget.cubit.taoPhienHopRepuest.tieuDe = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_ten_phien_hop,
+                      );
                     },
                   ),
                 ),
@@ -267,7 +269,9 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                       widget.cubit.taoPhienHopRepuest.noiDung = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_noi_dung_phien_hop,
+                      );
                     },
                   ),
                 ),

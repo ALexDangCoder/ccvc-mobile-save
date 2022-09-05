@@ -170,7 +170,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 InputInfoUserWidget(
-                  title: S.current.them_phien_hop,
+                  title: S.current.ten_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
                     controller: tenPhienHop,
@@ -245,6 +245,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                     return InputInfoUserWidget(
                       title: S.current.nguoi_chu_tri,
                       child: DropDownSearch(
+                        isShowIconDropdown: true,
                         initSelected: widget.phienHopModel.hoTen ?? '',
                         title: S.current.nguoi_chu_tri,
                         hintText: S.current.chon_nguoi_chu_tri,

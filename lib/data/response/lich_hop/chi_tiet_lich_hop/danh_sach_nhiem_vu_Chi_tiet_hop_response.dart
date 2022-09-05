@@ -81,7 +81,7 @@ class PageData {
         hanXuLy: hanXuLy ?? '',
         maTrangThai: maTrangThai ?? '',
         id: id ?? '',
-        noiDungTheoDoi: noiDungTheoDoi?.parseHtml() ?? '',
+        noiDungTheoDoi: noiDungTheoDoi ?? '',
         soNhiemVu: soNhiemVu ?? '',
         tinhHinhThucHienNoiBo: tinhHinhThucHienNoiBo ?? '',
         trangThaiThucHien: listTrangThaiThucHien

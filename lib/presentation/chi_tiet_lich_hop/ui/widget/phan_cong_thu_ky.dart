@@ -192,11 +192,16 @@ class SelectThuKyCell extends StatelessWidget {
                   log(cubit.listNguoiCHuTriModel.value.toString());
                 },
               ),
-              wrapThis(
-                listData: dataSN,
-                cubit: cubit,
-                isPhanCongThuKy: true,
-                onRemove: () {},
+              Padding(
+                padding: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 0.08,
+                ),
+                child: wrapThis(
+                  listData: dataSN,
+                  cubit: cubit,
+                  isPhanCongThuKy: true,
+                  onRemove: () {},
+                ),
               )
             ],
           );
@@ -468,17 +473,19 @@ Widget tag({required String title, required Function onDelete}) {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 300,
-            ),
-            child: Text(
-              title,
-              style: textNormal(
-                backgroundColorApp,
-                12.0.textScale(),
+          Flexible(
+            child: Container(
+              constraints: const BoxConstraints(
+                maxWidth: 300,
               ),
-              overflow: TextOverflow.ellipsis,
+              child: Text(
+                title,
+                style: textNormal(
+                  backgroundColorApp,
+                  12.0.textScale(),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           Container(

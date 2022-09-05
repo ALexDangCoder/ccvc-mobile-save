@@ -127,7 +127,7 @@ Future<T?> showDiaLog<T>(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 86,
+                      width: 140,
                       child: ButtonCustomBottom(
                         isColorBlue: true,
                         title: btnRightTxt,

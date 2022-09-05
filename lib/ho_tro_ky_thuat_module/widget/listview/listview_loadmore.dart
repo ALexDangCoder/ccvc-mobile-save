@@ -13,6 +13,7 @@ class ListViewLoadMore extends StatefulWidget {
   final BaseCubit<dynamic> cubit;
   final Function(int page) callApi;
   final Widget Function(dynamic, int?) viewItem;
+  final Widget? emptyView;
   final bool isListView;
   final double? checkRatio;
   final double? crossAxisSpacing;
@@ -29,6 +30,7 @@ class ListViewLoadMore extends StatefulWidget {
     this.crossAxisSpacing,
     this.sinkWap,
     this.physics,
+    this.emptyView,
   }) : super(key: key);
 
   @override
@@ -120,36 +122,40 @@ class _ListViewLoadMoreState extends State<ListViewLoadMore> {
                   BuildContext context,
                   AsyncSnapshot<List<dynamic>> snapshot,
                 ) {
-                  return widget.isListView == true
-                      ? ListView.builder(
-                          physics: widget.physics,
-                          shrinkWrap: widget.sinkWap ?? false,
-                          itemCount: snapshot.data?.length ?? 0,
-                          itemBuilder: (ctx, index) {
-                            return widget.viewItem(
-                                snapshot.data![index], index);
-                          },
-                        )
-                      : GridView.builder(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 16,
-                            bottom: 32,
-                          ),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: widget.crossAxisSpacing ?? 28,
-                            childAspectRatio: widget.checkRatio ?? 2 / 3,
-                          ),
-                          itemCount: snapshot.data?.length ?? 0,
-                          itemBuilder: (_, index) {
-                            return widget.viewItem(
-                                snapshot.data![index], index);
-                          },
-                        );
+                  if ((snapshot.data?.isEmpty ?? false) && widget.emptyView != null) {
+                    return widget.emptyView!;
+                  } else {
+                    return widget.isListView == true
+                        ? ListView.builder(
+                            physics: widget.physics,
+                            shrinkWrap: widget.sinkWap ?? false,
+                            itemCount: snapshot.data?.length ?? 0,
+                            itemBuilder: (ctx, index) {
+                              return widget.viewItem(
+                                  snapshot.data![index], index);
+                            },
+                          )
+                        : GridView.builder(
+                            padding: const EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              top: 16,
+                              bottom: 32,
+                            ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 16,
+                              crossAxisSpacing: widget.crossAxisSpacing ?? 28,
+                              childAspectRatio: widget.checkRatio ?? 2 / 3,
+                            ),
+                            itemCount: snapshot.data?.length ?? 0,
+                            itemBuilder: (_, index) {
+                              return widget.viewItem(
+                                  snapshot.data![index], index);
+                            },
+                          );
+                  }
                 },
               ),
             ),

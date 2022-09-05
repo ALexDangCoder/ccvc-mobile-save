@@ -38,7 +38,16 @@ class ModalProgressHUD extends StatelessWidget {
       final modal = [
         Opacity(
           opacity: opacity,
-          child: ModalBarrier(dismissible: dismissible, color: color),
+          child: GestureDetector(
+            onTap: (){
+              if(dismissible){
+                Navigator.maybePop(context);
+              }
+            },
+            child: Container(
+              color:  color,
+            ),
+          ),
         ),
         layOutProgressIndicator
       ];

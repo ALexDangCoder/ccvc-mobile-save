@@ -256,19 +256,20 @@ class PhatBieuChildWidget extends StatelessWidget {
 
             /// item Center
             itemCenter,
-            StreamBuilder<List<PhatBieuModel>>(
-              stream: cubit.streamPhatBieu,
-              builder: (_, snapshot) {
-                final dataListPhatBieu = snapshot.data ?? [];
-                if (dataListPhatBieu.isNotEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: buttonDuyet(data, cubit, context),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+            if (cubit.isChuTri() || cubit.isThuKy())
+              StreamBuilder<List<PhatBieuModel>>(
+                stream: cubit.streamPhatBieu,
+                builder: (_, snapshot) {
+                  final dataListPhatBieu = snapshot.data ?? [];
+                  if (dataListPhatBieu.isNotEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: buttonDuyet(data, cubit, context),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
           ],
         );
       },

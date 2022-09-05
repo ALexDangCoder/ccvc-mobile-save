@@ -211,13 +211,14 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                       ),
                                     );
                                   } else {
-                                    final status = await Permission.storage.request();
+                                    final status =
+                                        await Permission.storage.request();
                                     if (!(status.isGranted ||
                                         status.isLimited)) {
                                       await MessageConfig.showDialogSetting();
                                     } else {
                                       final Map<String, dynamic> mediaMapImage =
-                                      await pickImage(fromCamera: true);
+                                          await pickImage(fromCamera: true);
                                       addDataListPick(
                                         mediaMapImage,
                                         isMain
@@ -225,7 +226,6 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                             : PickImage.PICK_Y_KIEN,
                                       );
                                     }
-
                                   }
                                 },
                                 child: SvgPicture.asset(
@@ -271,13 +271,14 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                       ),
                                     );
                                   } else {
-                                    final status = await Permission.storage.request();
+                                    final status =
+                                        await Permission.storage.request();
                                     if (!(status.isGranted ||
                                         status.isLimited)) {
                                       await MessageConfig.showDialogSetting();
                                     } else {
                                       final Map<String, dynamic> mediaMapImage =
-                                      await pickFile();
+                                          await pickFile();
                                       addDataListPick(
                                         mediaMapImage,
                                         isMain
@@ -353,6 +354,10 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                     widget.cubit.validateNhapYkien
                         .add(S.current.ban_chua_nhap_y_kien);
                   }
+                }
+                if (list.isEmpty) {
+                  widget.cubit.validateNhapYkien
+                      .add(S.current.ban_chua_nhap_y_kien);
                 }
               },
               child: SvgPicture.asset(
@@ -434,9 +439,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                               .indexWhere((element) => element == objPick),
                         );
                         widget.cubit.listPickFileMain.remove(objPick);
-                      } else {
-                        
-                      }
+                      } else {}
                     });
                   },
                   child: Padding(
@@ -476,9 +479,8 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
               size: _size,
             ),
           );
-        } else {
-
-        }
+          widget.cubit.validateNhapYkien.add('');
+        } else {}
       } else {
         toast.init(context);
         toast.showToast(

@@ -45,7 +45,7 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         child: DoubleButtonBottom(
           title1: S.current.dong,
-          title2: S.current.cap_nhat,
+          title2: S.current.xac_nhan,
           onPressed1: () {
             Navigator.pop(context);
           },

@@ -150,7 +150,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                         hintText: S.current.chi_tiet_cong_viec_can_phoi_hop,
                         formKey: formKeyNoiDung,
                         contentController: noiDungController,
-                        title: S.current.noi_dung,
+                        title: S.current.noidung,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 22, bottom: 14),
@@ -234,6 +234,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                       data[index],
                                       widget.cubitThanhPhanTG.listCanBoDuocChon,
                                     );
+                                    widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
                                     themCanBoCubit.titleCanBo.sink.add('');
                                     themDonViCubit.selectNodeOnlyValue = null;
                                     themDonViCubit.themDonViSubject.sink
@@ -242,6 +243,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                     themDonViCubit.sinkSelectOnlyDonVi
                                         .add(null);
                                     themDonViCubit.listDonVi.clear();
+                                    themCanBoCubit.getCanbo.add([]);
+
                                   },
                                 ),
                               ),

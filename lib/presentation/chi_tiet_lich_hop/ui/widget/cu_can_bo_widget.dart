@@ -146,22 +146,18 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                         hintText: S.current.chi_tiet_cong_viec_can_phoi_hop,
                         formKey: formKeyNoiDung,
                         contentController: noiDungController,
-                        title: S.current.noi_dung,
+                        title: S.current.noidung,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 22, bottom: 14),
                         child: GestureDetector(
                           onTap: () {
                             if (themDonViCubit.listDonVi.isEmpty) {
-                              themDonViCubit.validateDonVi.sink
-                                  .add(true);
+                              themDonViCubit.validateDonVi.sink.add(true);
                             } else {
-                              themDonViCubit.validateDonVi.sink
-                                  .add(false);
+                              themDonViCubit.validateDonVi.sink.add(false);
 
-                              if ((themCanBoCubit.titleCanBo
-                                          .valueOrNull ??
-                                      '')
+                              if ((themCanBoCubit.titleCanBo.valueOrNull ?? '')
                                   .isEmpty) {
                                 themDonViCubit.listDonVi.last.noidung =
                                     noiDungController.text.trim();
@@ -234,16 +230,17 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                       data[index],
                                       widget.cubitThanhPhanTG.listCanBoDuocChon,
                                     );
-                                    themCanBoCubit.titleCanBo.sink
-                                        .add('');
-                                    themDonViCubit.selectNodeOnlyValue =
-                                        null;
+                                    widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
+                                    themCanBoCubit.titleCanBo.sink.add('');
+                                    themDonViCubit.selectNodeOnlyValue = null;
                                     themDonViCubit.themDonViSubject.sink
                                         .add(true);
                                     noiDungController.text = '';
                                     themDonViCubit.sinkSelectOnlyDonVi
                                         .add(null);
                                     themDonViCubit.listDonVi.clear();
+                                    themCanBoCubit.getCanbo.add([]);
+
                                   },
                                 ),
                               ),

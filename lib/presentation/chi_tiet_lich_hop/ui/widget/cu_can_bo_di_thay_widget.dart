@@ -149,14 +149,22 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                         .isEmpty) {
                       widget.themDonViCubit.listDonVi.last.noidung =
                           noiDungController.text.trim();
+                      widget.cubitThanhPhanTG.newCanBo.canBoId = '';
+                      widget.cubitThanhPhanTG.newCanBo.userId = '';
                     } else {
                       widget.cubitThanhPhanTG.newCanBo.noidung =
                           noiDungController.text.trim();
                     }
-
-                    widget.cubitThanhPhanTG.addCanBoThamGiaCuCanBo(
+                    final currentList = <DonViModel>[
+                      widget.cubit.donViModel,
+                      ...widget.cubit.listDonViModel.valueOrNull ?? [],
+                      ...widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ??
+                          [],
+                    ];
+                    widget.cubitThanhPhanTG.addCuCaBo(
                       widget.themCanBoCubit,
                       widget.themDonViCubit,
+                      currentList,
                     );
                   }
                 },

@@ -131,6 +131,27 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
     }
   }
 
+  void addCuCaBo(
+    ThemCanBoCubit themCanBoCubit,
+    ThemDonViCubit themDonViCubit,
+    List<DonViModel> currentList,
+  ) {
+    if (isDuplicateItemNoId(currentList, newCanBo)) {
+      isDuplicateCanBo.add(true);
+    } else {
+      isDuplicateCanBo.add(false);
+      if ((themCanBoCubit.titleCanBo.valueOrNull ?? '').isEmpty) {
+        final DonViModel donVi = themDonViCubit.listDonVi.last;
+        (listCanBoThamGia.valueOrNull ?? []).add(donVi.toCuCanBoTreeDonVi);
+        listCanBo.add(donVi.toCuCanBoTreeDonVi);
+      } else {
+        (listCanBoThamGia.valueOrNull ?? []).add(newCanBo.toCuCanBoTreeDonVi);
+        listCanBo.add(newCanBo.toCuCanBoTreeDonVi);
+      }
+      listCanBoThamGia.sink.add(listCanBoThamGia.valueOrNull ?? []);
+    }
+  }
+
   void addCuCanBo(
     ThemCanBoCubit themCanBoCubit,
     ThemDonViCubit themDonViCubit,
@@ -156,6 +177,21 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
       if (canBo.id == newCanBo.id) {
         return true;
       } else if (newCanBo.userId.isNotEmpty &&
+          (canBo.userId == newCanBo.userId ||
+              canBo.canBoId == newCanBo.userId)) {
+        return true;
+      } else if (canBo.canBoId.isEmpty &&
+          newCanBo.canBoId.isEmpty &&
+          canBo.donViId == newCanBo.donViId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool isDuplicateItemNoId(List<DonViModel> listRoot, DonViModel newCanBo) {
+    for (final DonViModel canBo in listRoot) {
+      if (newCanBo.userId.isNotEmpty &&
           (canBo.userId == newCanBo.userId ||
               canBo.canBoId == newCanBo.userId)) {
         return true;

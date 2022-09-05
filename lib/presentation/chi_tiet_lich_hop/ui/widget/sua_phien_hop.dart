@@ -254,7 +254,14 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                         onChange: (value) {
                           widget.cubit.idPerson = data[value].hoTen ?? '';
                         },
-                        listSelect: data.map((e) => e.hoTen ?? '').toList(),
+                        listSelect: data.map((value) {
+                          final name = (value.hoTen ?? '').isNotEmpty
+                              ? value.hoTen
+                              : value.dauMoiLienHe ?? '';
+                          return name?.isNotEmpty ?? false
+                              ? name ?? ''
+                              : value.tenCoQuan ?? '';
+                        }).toList(),
                       ),
                     );
                   },

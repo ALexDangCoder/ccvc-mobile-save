@@ -46,6 +46,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
     super.initState();
     select = widget.initSelected;
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -95,64 +96,70 @@ class _DropDownSearchState extends State<DropDownSearch> {
     searchItemSubject = BehaviorSubject.seeded(widget.listSelect);
     if (isMobile()) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.symmetric(
+              vertical:
+                  MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
+                      ? 100
+                      : 20,
+              horizontal: 20,
+            ),
+            child: Scaffold(
+              resizeToAvoidBottomInset: true,
               backgroundColor: Colors.transparent,
-              insetPadding: EdgeInsets.symmetric(
-                vertical:
-                    MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
-                        ? 100
-                        : 20,
-                horizontal: 20,
-              ),
-              child: Scaffold(
-                resizeToAvoidBottomInset: true,
-                backgroundColor: Colors.transparent,
-                body: Container(
-                  decoration: const BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Align(
-                                child: Text(
-                                  widget.title,
-                                  style: titleAppbar(
-                                      fontSize: 18.0.textScale(space: 6.0)),
-                                ),
+              body: Container(
+                decoration: const BoxDecoration(
+                    color: backgroundColorApp,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 56,
+                        child: Stack(
+                          children: [
+                            Align(
+                              child: Text(
+                                widget.title,
+                                style: titleAppbar(
+                                    fontSize: 18.0.textScale(space: 6.0)),
                               ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: SvgPicture.asset(ImageAssets.icClose),
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: SvgPicture.asset(ImageAssets.icClose),
+                              ),
+                            )
+                          ],
                         ),
-                        Flexible(child: dialogCell()),
-                      ],
-                    ),
+                      ),
+                      Flexible(child: dialogCell()),
+                    ],
                   ),
                 ),
               ),
-            );
-          });
+            ),
+          );
+        },
+      );
     } else {
-      showDiaLogTablet(context,
-          title: widget.title, child: dialogCell(), funcBtnOk: () {});
+      showDiaLogTablet(
+        context,
+        title: widget.title,
+        isBottomShow: false,
+        child: dialogCell(),
+        funcBtnOk: () {},
+      );
     }
   }
 
@@ -225,10 +232,11 @@ class _DropDownSearchState extends State<DropDownSearch> {
                                     ),
                                   ),
                                 ),
-                                if(itemTitle == select)Icon(
-                                  Icons.done_sharp,
-                                  color: AppTheme.getInstance().colorField(),
-                                ),
+                                if (itemTitle == select)
+                                  Icon(
+                                    Icons.done_sharp,
+                                    color: AppTheme.getInstance().colorField(),
+                                  ),
                               ],
                             ),
                           ),

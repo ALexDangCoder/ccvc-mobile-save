@@ -40,7 +40,6 @@ class _ThanhPhanThamGiaWidgetTabletState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (!isMobile()) {
       thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
@@ -50,6 +49,7 @@ class _ThanhPhanThamGiaWidgetTabletState
       fetchData();
     }
     _handleEventBus();
+    _handleTPTG();
   }
 
   void _handleEventBus() {
@@ -70,6 +70,12 @@ class _ThanhPhanThamGiaWidgetTabletState
     thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
     thanhPhanThamGiaCubit.detailMeetCalenderCubit = widget.cubit;
     thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
+  }
+
+  void _handleTPTG() {
+    eventBus.on<ReloadTPTG>().listen((event) {
+      fetchData();
+    });
   }
 
   @override

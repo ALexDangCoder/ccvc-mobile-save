@@ -209,6 +209,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                       return ShowRequied(
                         isShow: snapshot.data ?? true,
                         textShow: S.current.validata_phien_hop,
+                        paddingLeft: 0,
                         child: BaseChooseTimerWidget(
                           key: _keyBaseTime,
                           timeBatDau: timeStart.getTimeData(

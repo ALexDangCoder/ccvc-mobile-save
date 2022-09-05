@@ -17,7 +17,7 @@ class YKienSuLyNhiemVuModel {
   String? chucVu;
   String? phanXuLy;
   List<YKienXuLyFileDinhKem>? yKienXuLyFileDinhKem;
-  String? avatarCommon;
+  String avatarCommon;
   String? avatar;
 
   YKienSuLyNhiemVuModel({
@@ -37,25 +37,8 @@ class YKienSuLyNhiemVuModel {
     this.chucVu,
     this.phanXuLy,
     this.yKienXuLyFileDinhKem,
-    this.avatarCommon,
+    this.avatarCommon = '',
     this.avatar,
   });
 }
 
-// class YKienXuLyFileDinhKem {
-//   String? id;
-//   String? yKienXuLyId;
-//   String? fileDinhKemId;
-//   String? dataKySo;
-//   String? keyKySo;
-//   FileDinhKems? fileDinhKem;
-//
-//   YKienXuLyFileDinhKem({
-//     this.id,
-//     this.yKienXuLyId,
-//     this.fileDinhKemId,
-//     this.dataKySo,
-//     this.keyKySo,
-//     this.fileDinhKem,
-//   });
-// }

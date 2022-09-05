@@ -102,7 +102,7 @@ class YKienSuLyNhiemVuModelResponse extends Equatable {
   YKienSuLyNhiemVuModel toModel() => YKienSuLyNhiemVuModel(
         id: id,
         nhiemVuId: nhiemVuId,
-        noiDung: noiDung?.parseHtml(),
+        noiDung: noiDung ?? '',
         nguoiTaoId: nguoiTaoId,
         ngayTao: ngayTao,
         ngaySua: ngaySua,
@@ -117,7 +117,7 @@ class YKienSuLyNhiemVuModelResponse extends Equatable {
         phanXuLy: phanXuLy,
         yKienXuLyFileDinhKem:
             yKienXuLyFileDinhKem?.map((e) => e.toModel()).toList(),
-        avatarCommon: avatarCommon,
+        avatarCommon: avatarCommon ?? '',
         avatar: avatar,
       );
 

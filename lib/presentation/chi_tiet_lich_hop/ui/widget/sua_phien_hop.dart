@@ -163,14 +163,13 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
           ),
         ),
         child: SingleChildScrollView(
-          reverse: true,
           child: FormGroup(
             key: _key,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 InputInfoUserWidget(
-                  title: S.current.them_phien_hop,
+                  title: S.current.ten_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
                     controller: tenPhienHop,
@@ -179,7 +178,9 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                       widget.cubit.taoPhienHopRepuest.tieuDe = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_ten_phien_hop,
+                      );
                     },
                   ),
                 ),
@@ -209,6 +210,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                       return ShowRequied(
                         isShow: snapshot.data ?? true,
                         textShow: S.current.validata_phien_hop,
+                        paddingLeft: 0,
                         child: BaseChooseTimerWidget(
                           key: _keyBaseTime,
                           timeBatDau: timeStart.getTimeData(
@@ -244,13 +246,21 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                     return InputInfoUserWidget(
                       title: S.current.nguoi_chu_tri,
                       child: DropDownSearch(
+                        isShowIconDropdown: true,
                         initSelected: widget.phienHopModel.hoTen ?? '',
                         title: S.current.nguoi_chu_tri,
                         hintText: S.current.chon_nguoi_chu_tri,
                         onChange: (value) {
                           widget.cubit.idPerson = data[value].hoTen ?? '';
                         },
-                        listSelect: data.map((e) => e.hoTen ?? '').toList(),
+                        listSelect: data.map((value) {
+                          final name = (value.hoTen ?? '').isNotEmpty
+                              ? value.hoTen
+                              : value.dauMoiLienHe ?? '';
+                          return name?.isNotEmpty ?? false
+                              ? name ?? ''
+                              : value.tenCoQuan ?? '';
+                        }).toList(),
                       ),
                     );
                   },
@@ -265,7 +275,9 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                       widget.cubit.taoPhienHopRepuest.noiDung = value;
                     },
                     validator: (value) {
-                      return value?.checkNull();
+                      return value?.checkNull(
+                        showText: S.current.vui_long_nhap_noi_dung_phien_hop,
+                      );
                     },
                   ),
                 ),

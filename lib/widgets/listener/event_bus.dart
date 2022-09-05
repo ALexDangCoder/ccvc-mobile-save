@@ -57,3 +57,6 @@ class ReloadMeetingDetail {
   final List<TabWidgetDetailMeet> tabReload;
   const ReloadMeetingDetail(this.tabReload);
 }
+class ReloadTPTG {
+  ReloadTPTG();
+}

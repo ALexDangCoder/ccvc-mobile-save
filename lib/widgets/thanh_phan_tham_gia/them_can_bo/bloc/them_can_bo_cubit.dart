@@ -75,6 +75,14 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     titleCanBo.sink.add(currentList[index].tenCanBo);
     getCanbo.sink.add(currentList);
   }
+  void removeByModel(DonViModel data) {
+    final currentList = getCanbo.valueOrNull ?? [];
+    for (final value in currentList) {
+      value.isCheck = false;
+      titleCanBo.sink.add('');
+    }
+    getCanbo.sink.add(currentList);
+  }
 
   HopRepository get hopRepo => Get.find();
 

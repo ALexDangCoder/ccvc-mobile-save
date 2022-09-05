@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -68,7 +69,7 @@ class _SelectCanBoState extends State<SelectCanBo> {
                     context,
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
-                      child: FollowKeyBoardWidget(
+                      child: FollowKeyBoardEdt(
                         bottomWidget: Padding(
                           padding: const EdgeInsets.only(
                             top: 16,
@@ -126,7 +127,20 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                 child: itemCanBo(
                                                   onCheckBox: (value) async {
                                                     widget.themCanBoCubit
-                                                        .addDataListByModel(result);
+                                                        .addDataListByModel(
+                                                      result,
+                                                    );
+                                                    if (!value) {
+                                                      widget.themCanBoCubit
+                                                          .addDataListByModel(
+                                                        result,
+                                                      );
+                                                    } else {
+                                                      widget.themCanBoCubit
+                                                          .removeByModel(
+                                                        result,
+                                                      );
+                                                    }
                                                   },
                                                   canBoModel: result,
                                                   themCanBoCubit:

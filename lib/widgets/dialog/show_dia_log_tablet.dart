@@ -13,6 +13,7 @@ Future<T?> showDiaLogTablet<T>(
   String? btnRightTxt,
   String? btnLeftTxt,
   bool isBottomShow = true,
+  bool centerTitle = false,
   required Function() funcBtnOk,
   double maxHeight = 878,
   double width = 592,
@@ -36,6 +37,7 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: setHeight ?? maxHeight,
           width: width,
+          centerTitle: centerTitle,
           showButtonTapLet: showButtomTablet,
           child: child,
         ),
@@ -51,6 +53,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final String btnLeftTxt;
   final Function() funcBtnOk;
   final bool isBottomShow;
+  final bool centerTitle;
   final double maxHeight;
   final double width;
   final bool showButtonTapLet;
@@ -62,6 +65,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.btnLeftTxt,
     required this.btnRightTxt,
     required this.funcBtnOk,
+    required this.centerTitle,
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
@@ -83,9 +87,12 @@ class _DiaLogFeatureWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: textNormalCustom(fontSize: 20, color: textTitle),
+                  Expanded (
+                    child: Text(
+                      title,
+                      textAlign: centerTitle ? TextAlign.center : TextAlign.start,
+                      style: textNormalCustom(fontSize: 20, color: textTitle),
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {

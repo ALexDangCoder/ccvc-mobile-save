@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kien_su_ly_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -8,6 +9,7 @@ import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class YKienSuLyNhiemVuWidget extends StatefulWidget {
@@ -44,7 +46,10 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                   CircleAvatar(
                     radius: 20,
                     backgroundImage: CachedNetworkImageProvider(
-                      widget.object.avatar ?? AVATAR_DEFAULT,
+                      widget.object.avatarCommon.isNotEmpty
+                          ? Get.find<AppConstants>().baseImageUrl +
+                              widget.object.avatarCommon
+                          : AVATAR_DEFAULT,
                     ),
                   ),
                   SizedBox(
@@ -67,8 +72,7 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        DateTime
-                            .parse(widget.object.ngayTao ?? '')
+                        DateTime.parse(widget.object.ngayTao ?? '')
                             .formatApiListBieuQuyetMobile,
                         softWrap: true,
                         style: textNormalCustom(
@@ -120,7 +124,6 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-
                                 final status = await Permission.storage.status;
                                 if (!status.isGranted) {
                                   await Permission.storage.request();
@@ -129,35 +132,43 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                 }
 
                                 if (widget.object.yKienXuLyFileDinhKem?[index]
-                                    .fileDinhKem?.pathIOC ==
+                                        .fileDinhKem?.pathIOC ==
                                     null) {
                                   await saveFile(
-                                    fileName:
-                                      widget.object.yKienXuLyFileDinhKem?[index]
-                                          .fileDinhKem?.ten ??
+                                      fileName: widget
+                                              .object
+                                              .yKienXuLyFileDinhKem?[index]
+                                              .fileDinhKem
+                                              ?.ten ??
                                           '',
-                                    url:
-                                    widget.object
-                                          .yKienXuLyFileDinhKem?[index]
-                                          .fileDinhKem?.duongDan ?? '',
-                                    downloadType: DomainDownloadType.QLNV
-                                  );
+                                      url: widget
+                                              .object
+                                              .yKienXuLyFileDinhKem?[index]
+                                              .fileDinhKem
+                                              ?.duongDan ??
+                                          '',
+                                      downloadType: DomainDownloadType.QLNV);
                                 } else {
                                   await saveFile(
-                                    fileName:
-                                    widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.ten ??
+                                    fileName: widget
+                                            .object
+                                            .yKienXuLyFileDinhKem?[index]
+                                            .fileDinhKem
+                                            ?.ten ??
                                         '',
-                                    url:
-                                    widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.pathIOC ?? '',
+                                    url: widget
+                                            .object
+                                            .yKienXuLyFileDinhKem?[index]
+                                            .fileDinhKem
+                                            ?.pathIOC ??
+                                        '',
                                     // http: true,
                                   );
                                 }
                               },
                               child: Text(
                                 widget.object.yKienXuLyFileDinhKem?[index]
-                                    .fileDinhKem?.ten ??
+                                        .fileDinhKem?.ten ??
                                     '',
                                 style: textNormalCustom(
                                   color: textColorMangXaHoi,

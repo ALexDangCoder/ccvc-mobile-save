@@ -80,6 +80,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DonViModel donViModel = DonViModel();
   String? dateBieuQuyet;
   String phienHopId = '';
+  String phienHopIdTmp = '';
   String tenPhienHop = '';
   List<CanBoModel> listThanhPhanThamGia = [];
   List<String?> data = [];
@@ -488,6 +489,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
       },
       error: (error) {},
     );
+    showContent();
   }
 
   Future<void> postDiemDanh() async {
@@ -545,10 +547,11 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
 
   Future<void> callApiThanhPhanThamGia({
     bool isShowMessage = false,
+    String? id
   }) async {
     showLoading();
     diemDanhIds = [];
-    await danhSachCanBoTPTG(id: idCuocHop);
+    await danhSachCanBoTPTG(id: id ?? idCuocHop);
     showLoading(isShow: false);
     if (isShowMessage) {
       MessageConfig.show(title: S.current.thanh_cong);

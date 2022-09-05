@@ -310,6 +310,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 textField(
                   onChange: (value) {
                     diemCau.canBoDauMoiSDT = value;
+                    _key.currentState?.validate();
                   },
                   maxLength: 255,
                   validator: (value) {

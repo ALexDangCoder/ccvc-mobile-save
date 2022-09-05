@@ -257,7 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () async {
                               if (keyGroup.currentState!.validator()) {
                                 await loginCubit.loginAndSaveinfo(
-                                  passWord: textPasswordController.text.trim(),
+                                  passWord: textPasswordController.text,
                                   userName: textTaiKhoanController.text.trim(),
                                   appCode: APP_CODE,
                                 );

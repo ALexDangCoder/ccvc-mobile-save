@@ -41,6 +41,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     _handleEventBus();
     thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
     _refreshPhanCongThuKy();
+    _handleTPTG();
   }
 
   void _refreshPhanCongThuKy() {
@@ -58,6 +59,15 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         thanhPhanThamGiaHopCubit.detailMeetCalenderCubit = widget.cubit;
         thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
       }
+    });
+  }
+
+  void _handleTPTG() {
+    eventBus.on<ReloadTPTG>().listen((event) {
+        thanhPhanThamGiaHopCubit.idCuocHop = widget.cubit.idCuocHop;
+        thanhPhanThamGiaHopCubit.detailMeetCalenderCubit = widget.cubit;
+        thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia();
+
     });
   }
 
@@ -116,12 +126,13 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                       thanhPhanThamGiaHopCubit.postDiemDanh().then((value) {
                         showDiaLog(
                           context,
+                          widthOnlyButton: 150,
                           isOneButton: false,
                           title: S.current.diem_danh,
                           icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                           btnLeftTxt: '',
                           textContent: S.current.diem_danh_ho_nguoi_khac,
-                          btnRightTxt: S.current.khong,
+                          btnRightTxt: S.current.dong,
                           funcBtnRight: () {},
                         );
                       });

@@ -15,7 +15,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -40,7 +40,6 @@ class _ThanhPhanThamGiaWidgetTabletState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (!isMobile()) {
       thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
@@ -50,6 +49,7 @@ class _ThanhPhanThamGiaWidgetTabletState
       fetchData();
     }
     _handleEventBus();
+    _handleTPTG();
   }
 
   void _handleEventBus() {
@@ -70,6 +70,12 @@ class _ThanhPhanThamGiaWidgetTabletState
     thanhPhanThamGiaCubit.idCuocHop = widget.cubit.idCuocHop;
     thanhPhanThamGiaCubit.detailMeetCalenderCubit = widget.cubit;
     thanhPhanThamGiaCubit.callApiThanhPhanThamGia();
+  }
+
+  void _handleTPTG() {
+    eventBus.on<ReloadTPTG>().listen((event) {
+      fetchData();
+    });
   }
 
   @override
@@ -136,13 +142,14 @@ class _ThanhPhanThamGiaWidgetTabletState
                           thanhPhanThamGiaCubit.postDiemDanh().then((value) {
                             showDiaLog(
                               context,
+                              widthOnlyButton: 200,
                               isOneButton: false,
                               showTablet: true,
                               title: S.current.diem_danh,
                               icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                               btnLeftTxt: '',
                               textContent: S.current.diem_danh_ho_nguoi_khac,
-                              btnRightTxt: S.current.khong,
+                              btnRightTxt: S.current.dong,
                               funcBtnRight: () {},
                             );
                           });
@@ -161,57 +168,59 @@ class _ThanhPhanThamGiaWidgetTabletState
               thanhPhanThamGiaCubit.search(value);
             },
           ),
-          StreamBuilder<List<CanBoModel>>(
-            stream: thanhPhanThamGiaCubit.thanhPhanThamGiaSubject,
-            builder: (context, snapshot) {
-              final _list = (snapshot.data ?? []).where(
-                (element) =>
-                    (element.isVangMat ?? true) || !(element.diemDanh ?? false),
-              );
-              if (_list.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 13.5, top: 18),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      StreamBuilder<bool>(
-                        stream: thanhPhanThamGiaCubit.checkBoxCheckAllTPTG,
-                        builder: (context, snapshot) {
-                          return CustomCheckBox(
-                            isOnlyCheckbox: true,
-                            isCheck: snapshot.data ?? false,
-                            onChange: (_) {
-                              thanhPhanThamGiaCubit.check =
-                                  !thanhPhanThamGiaCubit.check;
-                              thanhPhanThamGiaCubit.checkBoxCheckAllTPTG.sink
-                                  .add(thanhPhanThamGiaCubit.check);
-                              if (thanhPhanThamGiaCubit.check) {
-                                thanhPhanThamGiaCubit.checkAll();
-                              } else {
-                                thanhPhanThamGiaCubit.removeCheckAll();
-                              }
-                            },
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 14,
-                      ),
-                      AutoSizeText(
-                        S.current.chon_tat_ca,
-                        style: textNormalCustom(
-                          fontSize: 16,
-                          color: infoColor,
-                        ),
-                      ),
-                    ],
-                  ),
+          if (widget.cubit.isChuTri() || widget.cubit.isThuKy())
+            StreamBuilder<List<CanBoModel>>(
+              stream: thanhPhanThamGiaCubit.thanhPhanThamGiaSubject,
+              builder: (context, snapshot) {
+                final _list = (snapshot.data ?? []).where(
+                  (element) =>
+                      (element.isVangMat ?? true) ||
+                      !(element.diemDanh ?? false),
                 );
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
+                if (_list.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 13.5, top: 18),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        StreamBuilder<bool>(
+                          stream: thanhPhanThamGiaCubit.checkBoxCheckAllTPTG,
+                          builder: (context, snapshot) {
+                            return CustomCheckBox(
+                              isOnlyCheckbox: true,
+                              isCheck: snapshot.data ?? false,
+                              onChange: (_) {
+                                thanhPhanThamGiaCubit.check =
+                                    !thanhPhanThamGiaCubit.check;
+                                thanhPhanThamGiaCubit.checkBoxCheckAllTPTG.sink
+                                    .add(thanhPhanThamGiaCubit.check);
+                                if (thanhPhanThamGiaCubit.check) {
+                                  thanhPhanThamGiaCubit.checkAll();
+                                } else {
+                                  thanhPhanThamGiaCubit.removeCheckAll();
+                                }
+                              },
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          width: 14,
+                        ),
+                        AutoSizeText(
+                          S.current.chon_tat_ca,
+                          style: textNormalCustom(
+                            fontSize: 16,
+                            color: infoColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
           spaceH16,
           StreamBuilder<List<CanBoModel>>(
             stream: thanhPhanThamGiaCubit.thanhPhanThamGiaSubject,

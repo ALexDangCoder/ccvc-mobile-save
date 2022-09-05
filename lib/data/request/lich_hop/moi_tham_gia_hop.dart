@@ -89,6 +89,7 @@ class MoiThamGiaHopRequest {
     dauMoi = json['dauMoi'];
     noiDungLamViec = json['noiDungLamViec'];
     email = json['email'];
+    GhiChu = json['GhiChu'];
     soDienThoai = json['soDienThoai'];
     tenCanBo = json['tenCanBo'];
     dauMoiLienHe = json['DauMoiLienHe'];
@@ -106,10 +107,10 @@ class MoiThamGiaHopRequest {
     if (donViId != null) {
       data['donViId'] = donViId;
     }
-    if(TenCoQuan != null) {
+    if (TenCoQuan != null) {
       data['TenCoQuan'] = TenCoQuan;
     }
-    if(tenDonVi != null) {
+    if (tenDonVi != null) {
       data['tenDonVi'] = tenDonVi;
     }
     if (userId != null) {
@@ -147,6 +148,9 @@ class MoiThamGiaHopRequest {
     }
     if (email != null) {
       data['email'] = email;
+    }
+    if (GhiChu != null) {
+      data['GhiChu'] = GhiChu;
     }
     if (soDienThoai != null) {
       data['soDienThoai'] = soDienThoai;

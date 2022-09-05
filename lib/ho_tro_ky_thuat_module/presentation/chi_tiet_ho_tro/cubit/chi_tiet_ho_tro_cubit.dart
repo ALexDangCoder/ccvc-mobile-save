@@ -171,15 +171,14 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
     if (isNguoiYeuCau &&
         !isNguoiXuLy &&
         supportDetail.codeTrangThai != DA_HOAN_THANH &&
-        supportDetail.codeTrangThai != TU_CHOI_XU_LY
-        ) {
+        supportDetail.codeTrangThai != TU_CHOI_XU_LY) {
       if (isTruongPhong) {
         onlyButton = false;
       } else {
         onlyButton = true;
       }
     }
-    if(!checkTitleButton() && supportDetail.nhanXet.isNotEmpty){
+    if (!checkTitleButton() && supportDetail.nhanXet.isNotEmpty) {
       onlyButton = true;
     }
     if (!isNguoiYeuCau && !isNguoiXuLy && !isTruongPhong) {
@@ -237,14 +236,28 @@ class ChiTietHoTroCubit extends BaseCubit<ChiTietHoTroState> {
                 .parse(supportDetail.ngayHoanThanh!)
             : DateTime.now();
     final DateTime date = DateTime.now();
-    final finishDayRequest = DateTime(
-      finishDayRequestParse.year,
-      finishDayRequestParse.month,
-      finishDayRequestParse.day,
-      date.hour,
-      date.minute,
-      date.second,
-    );
+    late final DateTime finishDayRequest;
+    if (DateTime(finishDayRequestParse.year, finishDayRequestParse.month,
+                finishDayRequestParse.day)
+            .difference(DateTime(date.year, date.month, date.day))
+            .inDays ==
+        0) {
+      finishDayRequest = DateTime(
+        finishDayRequestParse.year,
+        finishDayRequestParse.month,
+        finishDayRequestParse.day,
+        date.hour,
+        date.minute,
+        date.second,
+      );
+    } else {
+      finishDayRequest = DateTime(
+        finishDayRequestParse.year,
+        finishDayRequestParse.month,
+        finishDayRequestParse.day,
+      );
+    }
+
     final TaskProcessing model = TaskProcessing(
       id: id,
       taskId: taskId,

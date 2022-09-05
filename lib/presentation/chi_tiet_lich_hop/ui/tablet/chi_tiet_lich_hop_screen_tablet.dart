@@ -45,10 +45,6 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
     cubit.getListPhienHop(cubit.idCuocHop);
     cubitThanhPhan.getTree();
     _refreshThanhPhanThamGia();
-    _controller = TabController(
-      vsync: this,
-      length: cubit.getListWidgetDetailSubject.length,
-    );
   }
 
   void _refreshThanhPhanThamGia() {
@@ -92,7 +88,11 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                       final data = snapshot.data ?? [];
 
                       if (data.isNotEmpty) {
-
+                        _controller = TabController(
+                          vsync: this,
+                          initialIndex: cubit.currentIndexTablet,
+                          length: cubit.getListWidgetDetailSubject.length,
+                        );
                         _controller.addListener(() {
                           cubit.currentIndexTablet = _controller.index;
                         });

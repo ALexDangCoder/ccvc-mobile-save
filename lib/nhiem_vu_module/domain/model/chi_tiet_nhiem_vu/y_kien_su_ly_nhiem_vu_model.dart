@@ -17,7 +17,7 @@ class YKienSuLyNhiemVuModel {
   String? chucVu;
   String? phanXuLy;
   List<YKienXuLyFileDinhKem>? yKienXuLyFileDinhKem;
-  String? avatarCommon;
+  String avatarCommon;
   String? avatar;
 
   YKienSuLyNhiemVuModel({
@@ -37,7 +37,7 @@ class YKienSuLyNhiemVuModel {
     this.chucVu,
     this.phanXuLy,
     this.yKienXuLyFileDinhKem,
-    this.avatarCommon,
+    this.avatarCommon = '',
     this.avatar,
   });
 }

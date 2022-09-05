@@ -15,6 +15,7 @@ Future<T?> showDiaLogTablet<T>(
   required Function funcBtnOk,
   double maxHeight = 878,
   double width = 592,
+  double paddingHorizontal = 24,
 }) {
   return showDialog(
     context: context,
@@ -33,6 +34,7 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: maxHeight,
           width: width,
+          paddingHorizontal: paddingHorizontal,
           child: child,
         ),
       );
@@ -49,6 +51,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final bool isBottomShow;
   final double maxHeight;
   final double width;
+  final double paddingHorizontal;
 
   const _DiaLogFeatureWidget({
     Key? key,
@@ -60,6 +63,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
+    this.paddingHorizontal = 24,
   }) : super(key: key);
 
   @override
@@ -92,7 +96,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
             ),
             Flexible(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
                 child: child,
               ),
             ),

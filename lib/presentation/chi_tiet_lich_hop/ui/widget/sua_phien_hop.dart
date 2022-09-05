@@ -163,7 +163,6 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
           ),
         ),
         child: SingleChildScrollView(
-          reverse: true,
           child: FormGroup(
             key: _key,
             child: Column(

@@ -155,6 +155,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
     } else {
       showDiaLogTablet(
         context,
+        centerTitle: true,
         title: widget.title,
         isBottomShow: false,
         child: dialogCell(),

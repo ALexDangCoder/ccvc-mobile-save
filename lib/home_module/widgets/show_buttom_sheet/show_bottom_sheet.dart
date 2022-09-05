@@ -7,6 +7,7 @@ Future<T?> showBottomSheetCustom<T>(
   BuildContext context, {
   required Widget child,
   required String title,
+   double paddingHorizontal = 16,
 }) {
   return showModalBottomSheet(
     backgroundColor: Colors.white,
@@ -30,19 +31,22 @@ Future<T?> showBottomSheetCustom<T>(
           const SizedBox(
             height: 22,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const  EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
                   title,
                   style: textNormalCustom(fontSize: 18, color: textTitle),
                 ),
-                child
-              ],
-            ),
-          )
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
+                child: child,
+              )
+            ],
+          ),
         ],
       );
     },

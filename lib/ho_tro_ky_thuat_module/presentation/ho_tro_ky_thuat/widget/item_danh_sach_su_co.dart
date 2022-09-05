@@ -159,7 +159,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                 spaceH10,
                 textRow(
                   textTitle: S.current.mo_ta_su_co,
-                  textContent: (widget.objDSSC.moTaSuCo ?? '').parseHtml(),
+                  textContent: widget.objDSSC.moTaSuCo ?? '',
                 ),
                 spaceH10,
                 textRow(
@@ -212,7 +212,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
               idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
               codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
               idNguoiXuLy: widget.objDSSC.idNguoiXuLy ?? '',
-              rated : widget.objDSSC.nhanXet,
+              rated: widget.objDSSC.nhanXet,
             ))
                 ? InkWell(
                     onTap: () =>
@@ -326,7 +326,7 @@ class _ItemDanhSachSuCoState extends State<ItemDanhSachSuCo> {
                         if (widget.cubit.checkDanhGia(
                           idNguoiYeuCau: widget.objDSSC.idNguoiYeuCau ?? '',
                           codeTrangThai: widget.objDSSC.codeTrangThai ?? '',
-                            rated: widget.objDSSC.nhanXet,
+                          rated: widget.objDSSC.nhanXet,
                         )) ...[
                           itemMenu(
                             title: S.current.danh_gia,

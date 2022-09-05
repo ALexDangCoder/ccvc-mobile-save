@@ -50,6 +50,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
         final String phienHopID =
             widget.cubit.danhSachChuongTrinhHop.valueOrNull?.first.id ?? '';
         if (phienHopID.isNotEmpty) {
+          widget.cubit.phienHopId = phienHopID;
           widget.cubit.getDanhSachYKien(
             id: widget.cubit.idCuocHop,
             phienHopId: phienHopID,
@@ -134,6 +135,10 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
             icon: ImageAssets.Comment_ic,
             title: S.current.them_y_kien,
             onPress: () {
+              if (_tabController.index == CUOC_HOP){
+                widget.cubit.phienHopIdTmp = widget.cubit.phienHopId;
+                widget.cubit.phienHopId ='';
+              }
               if (isMobile()) {
                 showBottomSheetCustom(
                   context,

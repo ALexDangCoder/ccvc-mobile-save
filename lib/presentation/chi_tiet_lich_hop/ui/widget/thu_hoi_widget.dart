@@ -78,21 +78,23 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                         Navigator.pop(context);
                       },
                       onClickRight: () {
-                        showDiaLog(
-                          context,
-                          icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
-                          textContent: S.current.thu_hoi_chi_tiet_lich_hop,
-                          btnLeftTxt: S.current.khong,
-                          funcBtnRight: () {
-                            widget.cubit.postThuHoiHop(
-                              widget.id,
-                            );
-                            Navigator.pop(context);
-                          },
-                          title: S.current.thu_hoi_lich_hop,
-                          btnRightTxt: S.current.dong_y,
-                          showTablet: true,
-                        );
+                        if(!disable){
+                          showDiaLog(
+                            context,
+                            icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
+                            textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                            btnLeftTxt: S.current.khong,
+                            funcBtnRight: () {
+                              widget.cubit.postThuHoiHop(
+                                widget.id,
+                              );
+                              Navigator.pop(context);
+                            },
+                            title: S.current.thu_hoi_lich_hop,
+                            btnRightTxt: S.current.dong_y,
+                            showTablet: true,
+                          );
+                        }
                       },
                     );
                   }),
@@ -203,18 +205,23 @@ class _SelectTHuHoiCellState extends State<SelectTHuHoiCell> {
                       .add(widget.cubit.dataThuKyOrThuHoiDeFault);
                 },
               ),
-              wrapThis(
-                listData: dataSN,
-                cubit: widget.cubit,
-                isPhanCongThuKy: false,
-                onRemove: () {
-                  if ((dataSN.length - 1) == 0) {
-                    keyDropDown.currentState?.isSelect = false;
-                  } else {
-                    keyDropDown.currentState?.isSelect = true;
-                  }
-                  setState(() {});
-                },
+              Padding(
+                padding: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 0.08,
+                ),
+                child: wrapThis(
+                  listData: dataSN,
+                  cubit: widget.cubit,
+                  isPhanCongThuKy: false,
+                  onRemove: () {
+                    if ((dataSN.length - 1) == 0) {
+                      keyDropDown.currentState?.isSelect = false;
+                    } else {
+                      keyDropDown.currentState?.isSelect = true;
+                    }
+                    setState(() {});
+                  },
+                ),
               )
             ],
           );

@@ -292,14 +292,17 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                   data.length,
                                   (index) {
                                     final result = data[index];
-                                    final listIdUser = (widget.cubit.listPeople).map(
-                                      (officer) => officer.userId,
-                                    ).toList();
+                                    final listIdUser = (widget.cubit.listPeople)
+                                        .map(
+                                          (officer) => officer.userId,
+                                        )
+                                        .toList();
                                     final containCanBo = listIdUser.contains(
                                       result.userId,
                                     );
-                                    if (widget.isEditCalendarWork  && containCanBo){
-                                      return const  SizedBox.shrink();
+                                    if (widget.isEditCalendarWork &&
+                                        containCanBo) {
+                                      return const SizedBox.shrink();
                                     }
                                     return itemListDonVi(
                                       index: index,

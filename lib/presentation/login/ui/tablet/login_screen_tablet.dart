@@ -273,7 +273,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 if (keyGroup.currentState!.validator()) {
                                   await loginCubit.loginAndSaveinfo(
                                     passWord:
-                                        textPasswordController.text.trim(),
+                                        textPasswordController.text,
                                     userName:
                                         textTaiKhoanController.text.trim(),
                                     appCode: APP_CODE,

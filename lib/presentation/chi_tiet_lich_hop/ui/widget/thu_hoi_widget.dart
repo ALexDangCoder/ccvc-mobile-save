@@ -78,21 +78,23 @@ class _ThuHoiLichWidgetState extends State<ThuHoiLichWidget> {
                         Navigator.pop(context);
                       },
                       onClickRight: () {
-                        showDiaLog(
-                          context,
-                          icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
-                          textContent: S.current.thu_hoi_chi_tiet_lich_hop,
-                          btnLeftTxt: S.current.khong,
-                          funcBtnRight: () {
-                            widget.cubit.postThuHoiHop(
-                              widget.id,
-                            );
-                            Navigator.pop(context);
-                          },
-                          title: S.current.thu_hoi_lich_hop,
-                          btnRightTxt: S.current.dong_y,
-                          showTablet: true,
-                        );
+                        if(!disable){
+                          showDiaLog(
+                            context,
+                            icon: SvgPicture.asset(ImageAssets.icXacNhanThuHoi),
+                            textContent: S.current.thu_hoi_chi_tiet_lich_hop,
+                            btnLeftTxt: S.current.khong,
+                            funcBtnRight: () {
+                              widget.cubit.postThuHoiHop(
+                                widget.id,
+                              );
+                              Navigator.pop(context);
+                            },
+                            title: S.current.thu_hoi_lich_hop,
+                            btnRightTxt: S.current.dong_y,
+                            showTablet: true,
+                          );
+                        }
                       },
                     );
                   }),

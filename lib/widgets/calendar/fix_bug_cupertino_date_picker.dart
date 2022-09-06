@@ -48,8 +48,6 @@ const double _kTimerPickerLabelFontSize = 17.0;
 // The width of each column of the countdown time picker.
 const double _kTimerPickerColumnIntrinsicWidth = 106;
 
-
-
 void _animateColumnControllerToItem(
     FixedExtentScrollController controller, int targetItem) {
   controller.animateToItem(
@@ -189,7 +187,6 @@ enum _PickerColumnType {
 ///  * [CupertinoTimerPicker], the class that implements the iOS-style timer picker.
 ///  * [CupertinoPicker], the class that implements a content agnostic spinner UI.
 class FixBugCupertinoDatePicker extends StatefulWidget {
-
   final TextStyle? textStyleDate;
 
   /// Constructs an iOS style date picker.
@@ -235,7 +232,7 @@ class FixBugCupertinoDatePicker extends StatefulWidget {
   /// Defaults to the locale's default date format/order.
   FixBugCupertinoDatePicker({
     Key? key,
-    this.mode = CupertinoDatePickerMode.date ,
+    this.mode = CupertinoDatePickerMode.date,
     required this.onDateTimeChanged,
     DateTime? initialDateTime,
     this.minimumDate,
@@ -373,15 +370,7 @@ class FixBugCupertinoDatePicker extends StatefulWidget {
   final Color? backgroundColor;
 
   @override
-  State<StatefulWidget> createState() {
-    switch (mode) {
-      case CupertinoDatePickerMode.time:
-      case CupertinoDatePickerMode.dateAndTime:
-        return _CustomCupertinoDatePickerDateTimeState();
-      case CupertinoDatePickerMode.date:
-        return _CustomCupertinoDatePickerDateState(dateOrder: dateOrder);
-    }
-  }
+  State<StatefulWidget> createState() => _FixBugCupertinoDatePickerState();
 
   // Estimate the minimum width that each column needs to layout its content.
   static double _getColumnWidth(
@@ -454,14 +443,433 @@ class FixBugCupertinoDatePicker extends StatefulWidget {
 
     return painter.maxIntrinsicWidth;
   }
-  static TextStyle _themeTextStyle(BuildContext context, {bool isValid = true}) {
+
+  static TextStyle _themeTextStyle(BuildContext context,
+      {bool isValid = true}) {
     final TextStyle style = titleAppbar();
     return isValid
         ? style
         : style.copyWith(
-      color: style.color?.withOpacity(0.3),
+            color: style.color?.withOpacity(0.3),
+          );
+  }
+}
+
+class _FixBugCupertinoDatePickerState extends State<FixBugCupertinoDatePicker> {
+  @override
+  Widget build(BuildContext context) {
+    switch (widget.mode) {
+      case CupertinoDatePickerMode.time:
+      case CupertinoDatePickerMode.dateAndTime:
+        return CupertinoDateTimePicker(
+          mode: widget.mode,
+          onDateTimeChanged: widget.onDateTimeChanged,
+          initialDateTime: widget.initialDateTime,
+          minimumDate: widget.minimumDate,
+          maximumDate: widget.maximumDate,
+          minimumYear: widget.minimumYear,
+          maximumYear: widget.maximumYear,
+          minuteInterval: widget.minuteInterval,
+          use24hFormat: widget.use24hFormat,
+          dateOrder: widget.dateOrder,
+          textStyleDate: widget.textStyleDate,
+          backgroundColor: widget.backgroundColor,
+        );
+      case CupertinoDatePickerMode.date:
+        return CupertinoDatePicker(
+          mode: widget.mode,
+          onDateTimeChanged: widget.onDateTimeChanged,
+          initialDateTime: widget.initialDateTime,
+          minimumDate: widget.minimumDate,
+          maximumDate: widget.maximumDate,
+          minimumYear: widget.minimumYear,
+          maximumYear: widget.maximumYear,
+          minuteInterval: widget.minuteInterval,
+          use24hFormat: widget.use24hFormat,
+          dateOrder: widget.dateOrder,
+          textStyleDate: widget.textStyleDate,
+          backgroundColor: widget.backgroundColor,
+        );
+    }
+  }
+}
+
+class CupertinoDatePicker extends StatefulWidget {
+  final TextStyle? textStyleDate;
+
+  /// Constructs an iOS style date picker.
+  ///
+  /// [mode] is one of the mode listed in [CupertinoDatePickerMode] and defaults
+  /// to [CupertinoDatePickerMode.dateAndTime].
+  ///
+  /// [onDateTimeChanged] is the callback called when the selected date or time
+  /// changes and must not be null. When in [CupertinoDatePickerMode.time] mode,
+  /// the year, month and day will be the same as [initialDateTime]. When in
+  /// [CupertinoDatePickerMode.date] mode, this callback will always report the
+  /// start time of the currently selected day.
+  ///
+  /// [initialDateTime] is the initial date time of the picker. Defaults to the
+  /// present date and time and must not be null. The present must conform to
+  /// the intervals set in [minimumDate], [maximumDate], [minimumYear], and
+  /// [maximumYear].
+  ///
+  /// [minimumDate] is the minimum selectable [DateTime] of the picker. When set
+  /// to null, the picker does not limit the minimum [DateTime] the user can pick.
+  /// In [CupertinoDatePickerMode.time] mode, [minimumDate] should typically be
+  /// on the same date as [initialDateTime], as the picker will not limit the
+  /// minimum time the user can pick if it's set to a date earlier than that.
+  ///
+  /// [maximumDate] is the maximum selectable [DateTime] of the picker. When set
+  /// to null, the picker does not limit the maximum [DateTime] the user can pick.
+  /// In [CupertinoDatePickerMode.time] mode, [maximumDate] should typically be
+  /// on the same date as [initialDateTime], as the picker will not limit the
+  /// maximum time the user can pick if it's set to a date later than that.
+  ///
+  /// [minimumYear] is the minimum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Defaults to 1 and must not be null.
+  ///
+  /// [maximumYear] is the maximum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Null if there's no limit.
+  ///
+  /// [minuteInterval] is the granularity of the minute spinner. Must be a
+  /// positive integer factor of 60.
+  ///
+  /// [use24hFormat] decides whether 24 hour format is used. Defaults to false.
+  ///
+  /// [dateOrder] determines the order of the columns inside [CupertinoDatePicker] in date mode.
+  /// Defaults to the locale's default date format/order.
+  CupertinoDatePicker({
+    Key? key,
+    this.mode = CupertinoDatePickerMode.date,
+    required this.onDateTimeChanged,
+    DateTime? initialDateTime,
+    this.minimumDate,
+    this.maximumDate,
+    this.minimumYear = 1,
+    this.maximumYear,
+    this.minuteInterval = 1,
+    this.use24hFormat = false,
+    this.dateOrder,
+    this.textStyleDate,
+    this.backgroundColor,
+  })  : initialDateTime = initialDateTime ?? DateTime.now(),
+        assert(mode != null),
+        assert(onDateTimeChanged != null),
+        assert(minimumYear != null),
+        assert(
+          minuteInterval > 0 && 60 % minuteInterval == 0,
+          'minute interval is not a positive integer factor of 60',
+        ),
+        super(key: key) {
+    assert(this.initialDateTime != null);
+    assert(
+      mode != CupertinoDatePickerMode.dateAndTime ||
+          minimumDate == null ||
+          !this.initialDateTime.isBefore(minimumDate!),
+      'initial date is before minimum date',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.dateAndTime ||
+          maximumDate == null ||
+          !this.initialDateTime.isAfter(maximumDate!),
+      'initial date is after maximum date',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          (minimumYear >= 1 && this.initialDateTime.year >= minimumYear),
+      'initial year is not greater than minimum year, or minimum year is not positive',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          maximumYear == null ||
+          this.initialDateTime.year <= maximumYear!,
+      'initial year is not smaller than maximum year',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          minimumDate == null ||
+          !minimumDate!.isAfter(this.initialDateTime),
+      'initial date ${this.initialDateTime} is not greater than or equal to minimumDate $minimumDate',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          maximumDate == null ||
+          !maximumDate!.isBefore(this.initialDateTime),
+      'initial date ${this.initialDateTime} is not less than or equal to maximumDate $maximumDate',
+    );
+    assert(
+      this.initialDateTime.minute % minuteInterval == 0,
+      'initial minute is not divisible by minute interval',
     );
   }
+
+  /// The mode of the date picker as one of [CupertinoDatePickerMode].
+  /// Defaults to [CupertinoDatePickerMode.dateAndTime]. Cannot be null and
+  /// value cannot change after initial build.
+  final CupertinoDatePickerMode mode;
+
+  /// The initial date and/or time of the picker. Defaults to the present date
+  /// and time and must not be null. The present must conform to the intervals
+  /// set in [minimumDate], [maximumDate], [minimumYear], and [maximumYear].
+  ///
+  /// Changing this value after the initial build will not affect the currently
+  /// selected date time.
+  final DateTime initialDateTime;
+
+  /// The minimum selectable date that the picker can settle on.
+  ///
+  /// When non-null, the user can still scroll the picker to [DateTime]s earlier
+  /// than [minimumDate], but the [onDateTimeChanged] will not be called on
+  /// these [DateTime]s. Once let go, the picker will scroll back to [minimumDate].
+  ///
+  /// In [CupertinoDatePickerMode.time] mode, a time becomes unselectable if the
+  /// [DateTime] produced by combining that particular time and the date part of
+  /// [initialDateTime] is earlier than [minimumDate]. So typically [minimumDate]
+  /// needs to be set to a [DateTime] that is on the same date as [initialDateTime].
+  ///
+  /// Defaults to null. When set to null, the picker does not impose a limit on
+  /// the earliest [DateTime] the user can select.
+  final DateTime? minimumDate;
+
+  /// The maximum selectable date that the picker can settle on.
+  ///
+  /// When non-null, the user can still scroll the picker to [DateTime]s later
+  /// than [maximumDate], but the [onDateTimeChanged] will not be called on
+  /// these [DateTime]s. Once let go, the picker will scroll back to [maximumDate].
+  ///
+  /// In [CupertinoDatePickerMode.time] mode, a time becomes unselectable if the
+  /// [DateTime] produced by combining that particular time and the date part of
+  /// [initialDateTime] is later than [maximumDate]. So typically [maximumDate]
+  /// needs to be set to a [DateTime] that is on the same date as [initialDateTime].
+  ///
+  /// Defaults to null. When set to null, the picker does not impose a limit on
+  /// the latest [DateTime] the user can select.
+  final DateTime? maximumDate;
+
+  /// Minimum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Defaults to 1 and must not be null.
+  final int minimumYear;
+
+  /// Maximum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Null if there's no limit.
+  final int? maximumYear;
+
+  /// The granularity of the minutes spinner, if it is shown in the current mode.
+  /// Must be an integer factor of 60.
+  final int minuteInterval;
+
+  /// Whether to use 24 hour format. Defaults to false.
+  final bool use24hFormat;
+
+  /// Determines the order of the columns inside [CupertinoDatePicker] in date mode.
+  /// Defaults to the locale's default date format/order.
+  final DatePickerDateOrder? dateOrder;
+
+  /// Callback called when the selected date and/or time changes. If the new
+  /// selected [DateTime] is not valid, or is not in the [minimumDate] through
+  /// [maximumDate] range, this callback will not be called.
+  ///
+  /// Must not be null.
+  final ValueChanged<DateTime> onDateTimeChanged;
+
+  /// Background color of date picker.
+  ///
+  /// Defaults to null, which disables background painting entirely.
+  final Color? backgroundColor;
+
+  @override
+  State<StatefulWidget> createState() => _CustomCupertinoDatePickerDateState();
+
+}
+
+class CupertinoDateTimePicker extends StatefulWidget {
+  final TextStyle? textStyleDate;
+
+  /// Constructs an iOS style date picker.
+  ///
+  /// [mode] is one of the mode listed in [CupertinoDatePickerMode] and defaults
+  /// to [CupertinoDatePickerMode.dateAndTime].
+  ///
+  /// [onDateTimeChanged] is the callback called when the selected date or time
+  /// changes and must not be null. When in [CupertinoDatePickerMode.time] mode,
+  /// the year, month and day will be the same as [initialDateTime]. When in
+  /// [CupertinoDatePickerMode.date] mode, this callback will always report the
+  /// start time of the currently selected day.
+  ///
+  /// [initialDateTime] is the initial date time of the picker. Defaults to the
+  /// present date and time and must not be null. The present must conform to
+  /// the intervals set in [minimumDate], [maximumDate], [minimumYear], and
+  /// [maximumYear].
+  ///
+  /// [minimumDate] is the minimum selectable [DateTime] of the picker. When set
+  /// to null, the picker does not limit the minimum [DateTime] the user can pick.
+  /// In [CupertinoDatePickerMode.time] mode, [minimumDate] should typically be
+  /// on the same date as [initialDateTime], as the picker will not limit the
+  /// minimum time the user can pick if it's set to a date earlier than that.
+  ///
+  /// [maximumDate] is the maximum selectable [DateTime] of the picker. When set
+  /// to null, the picker does not limit the maximum [DateTime] the user can pick.
+  /// In [CupertinoDatePickerMode.time] mode, [maximumDate] should typically be
+  /// on the same date as [initialDateTime], as the picker will not limit the
+  /// maximum time the user can pick if it's set to a date later than that.
+  ///
+  /// [minimumYear] is the minimum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Defaults to 1 and must not be null.
+  ///
+  /// [maximumYear] is the maximum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Null if there's no limit.
+  ///
+  /// [minuteInterval] is the granularity of the minute spinner. Must be a
+  /// positive integer factor of 60.
+  ///
+  /// [use24hFormat] decides whether 24 hour format is used. Defaults to false.
+  ///
+  /// [dateOrder] determines the order of the columns inside [CupertinoDatePicker] in date mode.
+  /// Defaults to the locale's default date format/order.
+  CupertinoDateTimePicker({
+    Key? key,
+    this.mode = CupertinoDatePickerMode.date,
+    required this.onDateTimeChanged,
+    DateTime? initialDateTime,
+    this.minimumDate,
+    this.maximumDate,
+    this.minimumYear = 1,
+    this.maximumYear,
+    this.minuteInterval = 1,
+    this.use24hFormat = false,
+    this.dateOrder,
+    this.textStyleDate,
+    this.backgroundColor,
+  })  : initialDateTime = initialDateTime ?? DateTime.now(),
+        assert(mode != null),
+        assert(onDateTimeChanged != null),
+        assert(minimumYear != null),
+        assert(
+          minuteInterval > 0 && 60 % minuteInterval == 0,
+          'minute interval is not a positive integer factor of 60',
+        ),
+        super(key: key) {
+    assert(this.initialDateTime != null);
+    assert(
+      mode != CupertinoDatePickerMode.dateAndTime ||
+          minimumDate == null ||
+          !this.initialDateTime.isBefore(minimumDate!),
+      'initial date is before minimum date',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.dateAndTime ||
+          maximumDate == null ||
+          !this.initialDateTime.isAfter(maximumDate!),
+      'initial date is after maximum date',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          (minimumYear >= 1 && this.initialDateTime.year >= minimumYear),
+      'initial year is not greater than minimum year, or minimum year is not positive',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          maximumYear == null ||
+          this.initialDateTime.year <= maximumYear!,
+      'initial year is not smaller than maximum year',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          minimumDate == null ||
+          !minimumDate!.isAfter(this.initialDateTime),
+      'initial date ${this.initialDateTime} is not greater than or equal to minimumDate $minimumDate',
+    );
+    assert(
+      mode != CupertinoDatePickerMode.date ||
+          maximumDate == null ||
+          !maximumDate!.isBefore(this.initialDateTime),
+      'initial date ${this.initialDateTime} is not less than or equal to maximumDate $maximumDate',
+    );
+    assert(
+      this.initialDateTime.minute % minuteInterval == 0,
+      'initial minute is not divisible by minute interval',
+    );
+  }
+
+  /// The mode of the date picker as one of [CupertinoDatePickerMode].
+  /// Defaults to [CupertinoDatePickerMode.dateAndTime]. Cannot be null and
+  /// value cannot change after initial build.
+  final CupertinoDatePickerMode mode;
+
+  /// The initial date and/or time of the picker. Defaults to the present date
+  /// and time and must not be null. The present must conform to the intervals
+  /// set in [minimumDate], [maximumDate], [minimumYear], and [maximumYear].
+  ///
+  /// Changing this value after the initial build will not affect the currently
+  /// selected date time.
+  final DateTime initialDateTime;
+
+  /// The minimum selectable date that the picker can settle on.
+  ///
+  /// When non-null, the user can still scroll the picker to [DateTime]s earlier
+  /// than [minimumDate], but the [onDateTimeChanged] will not be called on
+  /// these [DateTime]s. Once let go, the picker will scroll back to [minimumDate].
+  ///
+  /// In [CupertinoDatePickerMode.time] mode, a time becomes unselectable if the
+  /// [DateTime] produced by combining that particular time and the date part of
+  /// [initialDateTime] is earlier than [minimumDate]. So typically [minimumDate]
+  /// needs to be set to a [DateTime] that is on the same date as [initialDateTime].
+  ///
+  /// Defaults to null. When set to null, the picker does not impose a limit on
+  /// the earliest [DateTime] the user can select.
+  final DateTime? minimumDate;
+
+  /// The maximum selectable date that the picker can settle on.
+  ///
+  /// When non-null, the user can still scroll the picker to [DateTime]s later
+  /// than [maximumDate], but the [onDateTimeChanged] will not be called on
+  /// these [DateTime]s. Once let go, the picker will scroll back to [maximumDate].
+  ///
+  /// In [CupertinoDatePickerMode.time] mode, a time becomes unselectable if the
+  /// [DateTime] produced by combining that particular time and the date part of
+  /// [initialDateTime] is later than [maximumDate]. So typically [maximumDate]
+  /// needs to be set to a [DateTime] that is on the same date as [initialDateTime].
+  ///
+  /// Defaults to null. When set to null, the picker does not impose a limit on
+  /// the latest [DateTime] the user can select.
+  final DateTime? maximumDate;
+
+  /// Minimum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Defaults to 1 and must not be null.
+  final int minimumYear;
+
+  /// Maximum year that the picker can be scrolled to in
+  /// [CupertinoDatePickerMode.date] mode. Null if there's no limit.
+  final int? maximumYear;
+
+  /// The granularity of the minutes spinner, if it is shown in the current mode.
+  /// Must be an integer factor of 60.
+  final int minuteInterval;
+
+  /// Whether to use 24 hour format. Defaults to false.
+  final bool use24hFormat;
+
+  /// Determines the order of the columns inside [CupertinoDatePicker] in date mode.
+  /// Defaults to the locale's default date format/order.
+  final DatePickerDateOrder? dateOrder;
+
+  /// Callback called when the selected date and/or time changes. If the new
+  /// selected [DateTime] is not valid, or is not in the [minimumDate] through
+  /// [maximumDate] range, this callback will not be called.
+  ///
+  /// Must not be null.
+  final ValueChanged<DateTime> onDateTimeChanged;
+
+  /// Background color of date picker.
+  ///
+  /// Defaults to null, which disables background painting entirely.
+  final Color? backgroundColor;
+
+  @override
+  State<StatefulWidget> createState() =>
+      _CustomCupertinoDatePickerDateTimeState();
+
+  // Estimate the minimum width that each column needs to layout its content.
 
 }
 
@@ -469,7 +877,7 @@ typedef _ColumnBuilder = Widget Function(double offAxisFraction,
     TransitionBuilder itemPositioningBuilder, Widget selectionOverlay);
 
 class _CustomCupertinoDatePickerDateTimeState
-    extends State<FixBugCupertinoDatePicker> {
+    extends State<CupertinoDateTimePicker> {
   // Fraction of the farthest column's vanishing point vs its width. Eyeballed
   // vs iOS.
   static const double _kMaximumOffAxisFraction = 0.45;
@@ -624,7 +1032,7 @@ class _CustomCupertinoDatePickerDateTimeState
   }
 
   @override
-  void didUpdateWidget(FixBugCupertinoDatePicker oldWidget) {
+  void didUpdateWidget(CupertinoDateTimePicker oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     assert(
@@ -690,13 +1098,14 @@ class _CustomCupertinoDatePickerDateTimeState
 
     widget.onDateTimeChanged(selected);
   }
+
   TextStyle _themeTextStyle(BuildContext context, {bool isValid = true}) {
-    final TextStyle style = widget.textStyleDate ??  titleAppbar();
+    final TextStyle style = widget.textStyleDate ?? titleAppbar();
     return isValid
         ? style
         : style.copyWith(
-      color: style.color?.withOpacity(0.3),
-    );
+            color: style.color?.withOpacity(0.3),
+          );
   }
 
   // Builds the date column. The date is displayed in medium date format (e.g. Fri Aug 31).
@@ -1104,13 +1513,10 @@ class _CustomCupertinoDatePickerDateTimeState
   }
 }
 
-class _CustomCupertinoDatePickerDateState
-    extends State<FixBugCupertinoDatePicker> {
-  _CustomCupertinoDatePickerDateState({
-    required this.dateOrder,
-  });
+class _CustomCupertinoDatePickerDateState extends State<CupertinoDatePicker> {
+  _CustomCupertinoDatePickerDateState();
 
-  final DatePickerDateOrder? dateOrder;
+  DatePickerDateOrder? dateOrder;
 
   late int textDirectionFactor;
   late CupertinoLocalizations localizations;
@@ -1148,7 +1554,6 @@ class _CustomCupertinoDatePickerDateState
     selectedDay = widget.initialDateTime.day;
     selectedMonth = widget.initialDateTime.month;
     selectedYear = widget.initialDateTime.year;
-
     dayController = FixedExtentScrollController(initialItem: selectedDay - 1);
     monthController =
         FixedExtentScrollController(initialItem: selectedMonth - 1);
@@ -1311,13 +1716,14 @@ class _CustomCupertinoDatePickerDateState
       ),
     );
   }
+
   TextStyle _themeTextStyle(BuildContext context, {bool isValid = true}) {
-    final TextStyle style = widget.textStyleDate ??  titleAppbar();
+    final TextStyle style = widget.textStyleDate ?? titleAppbar();
     return isValid
         ? style
         : style.copyWith(
-      color: style.color?.withOpacity(0.3),
-    );
+            color: style.color?.withOpacity(0.3),
+          );
   }
 
   Widget _buildYearPicker(double offAxisFraction,
@@ -1436,14 +1842,13 @@ class _CustomCupertinoDatePickerDateState
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     List<_ColumnBuilder> pickerBuilders = <_ColumnBuilder>[];
     List<double> columnWidths = <double>[];
 
     final DatePickerDateOrder datePickerDateOrder =
-        dateOrder ?? localizations.datePickerDateOrder;
+        widget.dateOrder ?? localizations.datePickerDateOrder;
 
     switch (datePickerDateOrder) {
       case DatePickerDateOrder.mdy:

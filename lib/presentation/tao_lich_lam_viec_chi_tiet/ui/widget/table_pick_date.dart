@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -64,7 +63,7 @@ class _DateTimeCusState extends State<DateTimeCus>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
+              InkWell(
                 onTap: () {
                   if (month == 1) {
                     month = 12;
@@ -75,9 +74,12 @@ class _DateTimeCusState extends State<DateTimeCus>
                   cubit.getDaysOfCurrentMonth(year: year, month: month);
                   setState(() {});
                 },
-                behavior: HitTestBehavior.opaque,
-                child: ImageAssets.svgAssets(
-                  ImageAssets.icBack,
+                child: SizedBox(
+                  height: 24,
+                  width: 30,
+                  child: ImageAssets.svgAssets(
+                    ImageAssets.icBack,
+                  ),
                 ),
               ),
               GestureDetector(
@@ -116,7 +118,7 @@ class _DateTimeCusState extends State<DateTimeCus>
                   ],
                 ),
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () {
                   if (month == 12) {
                     month = 1;
@@ -127,20 +129,21 @@ class _DateTimeCusState extends State<DateTimeCus>
                   cubit.getDaysOfCurrentMonth(year: year, month: month);
                   setState(() {});
                 },
-                behavior: HitTestBehavior.opaque,
-                child: RotatedBox(
-                  quarterTurns: 2,
-                  child: ImageAssets.svgAssets(
-                    ImageAssets.icBack,
+                child: SizedBox(
+                  height: 24,
+                  width: 30,
+                  child: RotatedBox(
+                    quarterTurns: 2,
+                    child: ImageAssets.svgAssets(
+                      ImageAssets.icBack,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(
-          height: 16,
-        ),
+        spaceH8,
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 45,

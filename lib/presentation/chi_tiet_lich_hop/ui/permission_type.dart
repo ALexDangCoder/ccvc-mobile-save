@@ -790,7 +790,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
   }
 }
 
-class STATUS_SCHEDULE {
+class StatusSchedule {
   static const int NHAP = 1;
   static const int CHO_DUYET = 2;
   static const int DA_DUYET = 3;
@@ -801,26 +801,26 @@ class STATUS_SCHEDULE {
   static const int HUY = 8;
 }
 
-class TRANG_THAI_DUYET_KY_THUAT {
+class TrangThaiDuyetKyThuat {
   static const int CHO_DUYET = 0;
   static const int DA_DUYET = 1;
   static const int KHONG_DUYET = 2;
 }
 
-class ACTIVE_PHAT_BIEU {
+class ActivePhatBieu {
   static const int DANH_SACH_PHAT_BIEU = 0;
   static const int CHO_DUYET = 1;
   static const int DA_DUYET = 2;
   static const int HUY_DUYET = 3;
 }
 
-class STATUS_ROOM_MEETING {
+class StatusRoomMeeting {
   static const int CHO_DUYET = 0;
   static const int DA_DUYET = 1;
   static const int HUY_DUYET = 2;
 }
 
-class STATUS_DETAIL {
+class StatusDetail {
   static const int NHAP = 0;
   static const int CHO_DUYET = 1;
   static const int DA_DUYET = 2;

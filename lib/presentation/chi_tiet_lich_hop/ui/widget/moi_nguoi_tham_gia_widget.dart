@@ -48,6 +48,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     eventBus.on<RefreshPhanCongThuKi>().listen((event) {
       thanhPhanThamGiaHopCubit.callApiThanhPhanThamGia(
         isShowMessage: true,
+        message: S.current.phan_cong_thu_ky_thanh_cong,
       );
     });
   }

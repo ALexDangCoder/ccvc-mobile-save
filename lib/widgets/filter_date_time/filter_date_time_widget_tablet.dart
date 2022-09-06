@@ -3,10 +3,10 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/fix_bug_cupertino_date_picker.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -219,12 +219,8 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
             flex: 4,
             child: TextField(
               controller: widget.controller,
-              onChanged: (searchText) {
-                widget.onChange != null ? widget.onChange!(searchText) : null;
-              },
-              onSubmitted: (searchText) {
-                widget.onSubmit != null ? widget.onSubmit!(searchText) : null;
-              },
+              onChanged: widget.onChange,
+              onSubmitted: widget.onSubmit,
               decoration: InputDecoration(
                 prefixIcon: SizedBox(
                   width: 36,
@@ -246,26 +242,24 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                 ),
                 suffixIcon: widget.isBtnClose
                     ? widget.controller?.text != ''
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  widget.controller?.text == '';
-                                  widget.onClose != null
-                                      ? widget.onClose!(
-                                          widget.controller?.text ?? '')!
-                                      : null;
-                                },
-                                child: const Icon(
-                                  Icons.clear,
-                                  color: coloriCon,
-                                ),
-                              ),
-                            ),
-                          )
-                        : const SizedBox()
+                    ? SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        widget.onClose?.call(
+                          widget.controller?.text ?? '',
+                        );
+                      },
+                      child: const Icon(
+                        Icons.clear,
+                        color: coloriCon,
+                      ),
+                    ),
+                  ),
+                )
+                    : const SizedBox()
                     : const SizedBox(),
                 contentPadding: const EdgeInsets.only(left: 20, top: 4),
                 isCollapsed: true,

@@ -136,7 +136,7 @@ class PageData {
   });
 }
 
-extension checkColorTitle on int {
+extension CheckColorTitle on int {
   Color trangThaiHanXuLy() {
     switch (this) {
       case 1:

@@ -15,22 +15,24 @@ class TimeSlotWidget extends StatefulWidget {
   /// Constructor to create the time slot widget to holds time slots view for
   /// day, week, workweek views.
   const TimeSlotWidget(
-      this.visibleDates,
-      this.horizontalLinesCount,
-      this.timeIntervalHeight,
-      this.timeLabelWidth,
-      this.cellBorderColor,
-      this.calendarTheme,
-      this.timeSlotViewSettings,
-      this.isRTL,
-      this.specialRegion,
-      this.calendarCellNotifier,
-      this.textScaleFactor,
-      this.timeRegionBuilder,
-      this.width,
-      this.height,
-      this.minDate,
-      this.maxDate);
+    this.visibleDates,
+    this.horizontalLinesCount,
+    this.timeIntervalHeight,
+    this.timeLabelWidth,
+    this.cellBorderColor,
+    this.calendarTheme,
+    this.timeSlotViewSettings,
+    this.isRTL,
+    this.specialRegion,
+    this.calendarCellNotifier,
+    this.textScaleFactor,
+    this.timeRegionBuilder,
+    this.width,
+    this.height,
+    this.minDate,
+    this.maxDate, {
+    Key? key,
+  }) : super(key: key);
 
   /// Holds the visible dates collection for current time slot view.
   final List<DateTime> visibleDates;

@@ -86,6 +86,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                     stream: cubit.listWidgetDetailSubject.stream,
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? [];
+
                       if (data.isNotEmpty) {
                         _controller = TabController(
                           vsync: this,
@@ -98,6 +99,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet>
                         return DefaultTabController(
                           length: cubit.getListWidgetDetailSubject.length,
                           child: NestedScrollView(
+
                             headerSliverBuilder:
                                 (BuildContext context, bool innerBoxIsScrolled) {
                               return <Widget>[

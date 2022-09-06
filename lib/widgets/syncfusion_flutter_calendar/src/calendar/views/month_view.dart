@@ -17,28 +17,30 @@ class MonthViewWidget extends StatefulWidget {
   /// Constructor to create the month view widget to holds month cells for
   /// calendar month view.
   const MonthViewWidget(
-      this.visibleDates,
-      this.rowCount,
-      this.monthCellStyle,
-      this.isRTL,
-      this.todayHighlightColor,
-      this.todayTextStyle,
-      this.cellBorderColor,
-      this.calendarTheme,
-      this.calendarCellNotifier,
-      this.showTrailingAndLeadingDates,
-      this.minDate,
-      this.maxDate,
-      this.calendar,
-      this.blackoutDates,
-      this.blackoutDatesTextStyle,
-      this.textScaleFactor,
-      this.builder,
-      this.width,
-      this.height,
-      this.weekNumberStyle,
-      this.isMobilePlatform,
-      this.visibleAppointmentNotifier);
+    this.visibleDates,
+    this.rowCount,
+    this.monthCellStyle,
+    this.isRTL,
+    this.todayHighlightColor,
+    this.todayTextStyle,
+    this.cellBorderColor,
+    this.calendarTheme,
+    this.calendarCellNotifier,
+    this.showTrailingAndLeadingDates,
+    this.minDate,
+    this.maxDate,
+    this.calendar,
+    this.blackoutDates,
+    this.blackoutDatesTextStyle,
+    this.textScaleFactor,
+    this.builder,
+    this.width,
+    this.height,
+    this.weekNumberStyle,
+    this.isMobilePlatform,
+    this.visibleAppointmentNotifier, {
+    Key? key,
+  }) : super(key: key);
 
   /// Defines the row count for the month view.
   final int rowCount;

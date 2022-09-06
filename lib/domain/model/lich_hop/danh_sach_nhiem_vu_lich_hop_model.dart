@@ -27,7 +27,7 @@ class DanhSachNhiemVuLichHopModel {
   });
 }
 
-extension trangThai on TrangThaiNhiemVu {
+extension StatusNhiemVu on TrangThaiNhiemVu {
   Widget getWidgetTTNhiemVu() {
     switch (this) {
       case TrangThaiNhiemVu.ChoPhanXuLy:

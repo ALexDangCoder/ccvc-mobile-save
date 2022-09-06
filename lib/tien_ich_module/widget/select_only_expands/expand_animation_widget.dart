@@ -4,7 +4,8 @@ class ExpandedSection extends StatefulWidget {
   final Widget child;
   final bool expand;
 
-  const ExpandedSection({this.expand = false, required this.child});
+  const ExpandedSection({Key? key, this.expand = false, required this.child})
+      : super(key: key);
 
   @override
   _ExpandedSectionState createState() => _ExpandedSectionState();
@@ -24,8 +25,10 @@ class _ExpandedSectionState extends State<ExpandedSection>
 
   ///Setting up the animation
   void prepareAnimations() {
-    expandController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    expandController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
     animation = CurvedAnimation(
       parent: expandController,
       curve: Curves.fastOutSlowIn,
@@ -55,6 +58,9 @@ class _ExpandedSectionState extends State<ExpandedSection>
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-        axisAlignment: 1.0, sizeFactor: animation, child: widget.child);
+      axisAlignment: 1.0,
+      sizeFactor: animation,
+      child: widget.child,
+    );
   }
 }

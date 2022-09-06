@@ -15,24 +15,26 @@ class AllDayAppointmentLayout extends StatefulWidget {
   /// Constructor to create the all day appointment layout that holds the
   /// all day appointment views in calendar widget.
   const AllDayAppointmentLayout(
-      this.calendar,
-      this.view,
-      this.visibleDates,
-      this.visibleAppointments,
-      this.timeLabelWidth,
-      this.allDayPainterHeight,
-      this.isExpandable,
-      this.isExpanding,
-      this.isRTL,
-      this.calendarTheme,
-      this.repaintNotifier,
-      this.allDayHoverPosition,
-      this.textScaleFactor,
-      this.isMobilePlatform,
-      this.width,
-      this.height,
-      this.localizations,
-      this.updateCalendarState);
+    this.calendar,
+    this.view,
+    this.visibleDates,
+    this.visibleAppointments,
+    this.timeLabelWidth,
+    this.allDayPainterHeight,
+    this.isExpandable,
+    this.isExpanding,
+    this.isRTL,
+    this.calendarTheme,
+    this.repaintNotifier,
+    this.allDayHoverPosition,
+    this.textScaleFactor,
+    this.isMobilePlatform,
+    this.width,
+    this.height,
+    this.localizations,
+    this.updateCalendarState, {
+    Key? key,
+  }) : super(key: key);
 
   /// Holds the calendar instance used the get the properties of calendar.
   final SfCalendar calendar;
@@ -224,8 +226,7 @@ class _AllDayAppointmentLayoutState extends State<AllDayAppointmentLayout> {
                     maxAppointmentWidth,
                     kAllDayAppointmentHeight - 1),
                 isMoreAppointmentRegion: true,
-            more: _moreAppointmentIndex[i] ?? 0
-            ));
+                more: _moreAppointmentIndex[i] ?? 0));
 
         _children.add(RepaintBoundary(child: child));
       }
@@ -238,7 +239,7 @@ class _AllDayAppointmentLayoutState extends State<AllDayAppointmentLayout> {
       widget.visibleAppointments,
       widget.timeLabelWidth,
       widget.allDayPainterHeight,
-    true,
+      true,
       widget.isExpanding,
       widget.isRTL,
       widget.calendarTheme,
@@ -1301,7 +1302,8 @@ class _AllDayAppointmentRenderObject extends CustomCalendarRenderObject {
     final TextSpan icon = TextSpan(
         text: String.fromCharCode(iconCodePoint),
         style: TextStyle(
-          color: calendar.viewHeaderStyle.colorsIcon ?? calendarTheme.viewHeaderDayTextStyle!.color,
+          color: calendar.viewHeaderStyle.colorsIcon ??
+              calendarTheme.viewHeaderDayTextStyle!.color,
           fontSize: calendar.viewHeaderStyle.dayTextStyle != null &&
                   calendar.viewHeaderStyle.dayTextStyle!.fontSize != null
               ? calendar.viewHeaderStyle.dayTextStyle!.fontSize! * 2

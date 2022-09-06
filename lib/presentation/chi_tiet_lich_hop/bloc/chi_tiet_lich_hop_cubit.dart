@@ -547,6 +547,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
 
   Future<void> callApiThanhPhanThamGia({
     bool isShowMessage = false,
+    String? message,
     String? id
   }) async {
     showLoading();
@@ -554,7 +555,7 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
     await danhSachCanBoTPTG(id: id ?? idCuocHop);
     showLoading(isShow: false);
     if (isShowMessage) {
-      MessageConfig.show(title: S.current.thanh_cong);
+      MessageConfig.show(title: message ??  S.current.thanh_cong);
     }
   }
 

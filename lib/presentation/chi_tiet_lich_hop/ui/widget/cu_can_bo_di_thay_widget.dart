@@ -73,20 +73,6 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             } else {
               widget.themDonViCubit.validateDonVi.sink.add(false);
               final data = [
-                CanBoDiThay(
-                  id: widget.cubit.donViModel.id,
-                  donViId: widget.cubit.donViModel.donViId,
-                  canBoId: widget.cubit.donViModel.canBoId,
-                  taskContent: widget.cubit.donViModel.noidung,
-                ),
-                ...(widget.cubit.listDonViModel.valueOrNull ?? []).map(
-                  (element) => CanBoDiThay(
-                    id: element.id,
-                    donViId: element.donViId,
-                    canBoId: element.canBoId,
-                    taskContent: element.noidung,
-                  ),
-                ),
                 ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
                     .map(
                   (element) => CanBoDiThay(

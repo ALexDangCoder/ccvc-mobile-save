@@ -30,26 +30,31 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   @override
   Widget build(BuildContext context) {
     return screenDevice(
-      mobileScreen: SelectOnlyWidget(
-        title: S.current.tai_lieu,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: StreamBuilder<ChiTietLichHopModel>(
-            stream: widget.cubit.chiTietLichHopSubject,
-            builder: (context, snapshot) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (widget.cubit.addFilePermission()) selectFile(),
-                  listFileFromApi(),
-                ],
-              );
-            },
+      mobileScreen: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
+        child: SelectOnlyWidget(
+          title: S.current.tai_lieu,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: StreamBuilder<ChiTietLichHopModel>(
+              stream: widget.cubit.chiTietLichHopSubject,
+              builder: (context, snapshot) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (widget.cubit.addFilePermission()) selectFile(),
+                    listFileFromApi(),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
       tabletScreen: Padding(
-        padding: const EdgeInsets.only(top: 16.0, left: 13.5,right: 16),
+        padding: const EdgeInsets.only(top: 16.0, left: 13.5, right: 16),
         child: StreamBuilder<ChiTietLichHopModel>(
           stream: widget.cubit.chiTietLichHopSubject,
           builder: (context, snapshot) {
@@ -96,7 +101,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         stream: widget.cubit.chiTietLichHopSubject,
         builder: (context, snapshot) {
           final data = snapshot.data?.fileData ?? [];
-          if (data.isEmpty){
+          if (data.isEmpty) {
             return const NodataWidget(
               height: 50.0,
             );
@@ -177,11 +182,10 @@ class FileFromAPIWidget extends StatelessWidget {
                       fontSize: 14.0.textScale(),
                     ),
                   ),
-                  onTap: (){
-                    if(url != null){
+                  onTap: () {
+                    if (url != null) {
                       saveFile(fileName: data, url: url ?? '');
                     }
-
                   },
                 ),
                 Visibility(

@@ -9,8 +9,11 @@ class LichLapWidget extends StatefulWidget {
   final CreateWorkCalCubit cubit;
   final bool isEdit;
 
-  LichLapWidget({Key? key, required this.cubit, this.isEdit = false})
-      : super(key: key);
+  const LichLapWidget({
+    Key? key,
+    required this.cubit,
+    this.isEdit = false,
+  }) : super(key: key);
 
   @override
   _LichLapWidgetState createState() => _LichLapWidgetState();

@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/widgets/switch/custom_switch.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class ContainerToggleWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 9),
       margin: const EdgeInsets.only(left: 29),
-      decoration:  BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: colorECEEF7),
         ),

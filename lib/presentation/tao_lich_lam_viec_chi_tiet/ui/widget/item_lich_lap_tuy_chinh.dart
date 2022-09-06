@@ -69,17 +69,20 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
                     final b = widget.taoLichLamViecCubit.lichLapItem.toList();
                     b.sort();
                     widget.taoLichLamViecCubit.lichLapItem1 = b;
-                    listDayOffWeek.forEach((element) {
+                    for (final element in listDayOffWeek) {
                       if (element.isChoose ?? false) {
                         flag = false;
                       }
-                    });
+                    }
                     if (flag) {
                       widget.taoLichLamViecCubit.selectLichLap.id = 1;
                       widget.taoLichLamViecCubit.lichLapItem1 = [];
                     }
                   },
-                  child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+                  child: itemLichLapTuyChinh(
+                    e.name ?? '',
+                    isCheck: e.isChoose ?? false,
+                  ),
                 ),
               )
               .toList(),
@@ -93,11 +96,11 @@ class SuaLichLapTuyChinh extends StatefulWidget {
   final CreateWorkCalCubit taoLichLamViecCubit;
   final List<int> initDataTuyChinh;
 
-  SuaLichLapTuyChinh(
-      {Key? key,
-      required this.taoLichLamViecCubit,
-      required this.initDataTuyChinh})
-      : super(key: key);
+  const SuaLichLapTuyChinh({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    required this.initDataTuyChinh,
+  }) : super(key: key);
 
   @override
   _SuaLichLapTuyChinhState createState() => _SuaLichLapTuyChinhState();
@@ -185,11 +188,11 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
                         widget.taoLichLamViecCubit.lichLapItem.toList();
                     lichLapItemLast.sort();
                     widget.taoLichLamViecCubit.lichLapItem1 = lichLapItemLast;
-                    listDayOffWeekEmpty.forEach((element) {
+                    for (final element in listDayOffWeekEmpty) {
                       if (element.isChoose ?? false) {
                         flag = false;
                       }
-                    });
+                    }
                     if (flag) {
                       widget.taoLichLamViecCubit.selectLichLap.id =
                           LichLapModel.KHONG_LAP_LAI;
@@ -197,8 +200,8 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
                     }
                   },
                   child: itemLichLapTuyChinh(
-                    itemDayOffWeek.isChoose ?? false,
                     itemDayOffWeek.name ?? '',
+                    isCheck: itemDayOffWeek.isChoose ?? false,
                   ),
                 ),
               )
@@ -209,7 +212,10 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
   }
 }
 
-Widget itemLichLapTuyChinh(bool isCheck, String title) {
+Widget itemLichLapTuyChinh(
+  String title, {
+  required bool isCheck,
+}) {
   return Container(
     height: 32.0,
     width: 32.0,

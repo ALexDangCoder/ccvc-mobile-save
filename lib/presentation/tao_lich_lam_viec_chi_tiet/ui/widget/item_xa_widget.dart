@@ -10,7 +10,7 @@ class ItemXaWidget extends StatefulWidget {
   final bool isEdit;
   final String name;
 
-  ItemXaWidget({
+  const ItemXaWidget({
     Key? key,
     required this.taoLichLamViecCubit,
     this.isEdit = false,
@@ -42,6 +42,5 @@ class _ItemXaWidgetState extends State<ItemXaWidget> {
         );
       },
     );
-    return Container();
   }
 }

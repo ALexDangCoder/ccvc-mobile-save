@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class ItemListBangTinTablet extends StatelessWidget {
-  String tin;
-  bool isCheck;
-  Function() onclick;
+  final String tin;
+  final bool isCheck;
+  final Function() onclick;
 
-  ItemListBangTinTablet({
+  const ItemListBangTinTablet({
     Key? key,
     required this.tin,
     required this.isCheck,
@@ -55,7 +55,7 @@ class ItemListBangTinTablet extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
                   tin,
                   style: textNormalCustom(

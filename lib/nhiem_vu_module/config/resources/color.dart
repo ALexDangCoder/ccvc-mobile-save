@@ -131,8 +131,8 @@ const numberColorTablet = Color(0xff7966FF);
 const numberColorTabletbg = Color(0xffECEAFF);
 const iconColorDown = Color(0xffA2AEBD);
 const bgCalenderColor = Color(0xffF9FAFF);
-Color cellColorborder = Color(0xffDBDFEF).withOpacity(0.5);
-Color cellColor = Color(0xffDBDFEF).withOpacity(0.1);
+Color cellColorborder = const Color(0xffDBDFEF).withOpacity(0.5);
+Color cellColor = const Color(0xffDBDFEF).withOpacity(0.1);
 
 const dateColor = Color(0xFF667793);
 
@@ -192,6 +192,7 @@ abstract class AppColor {
   Color buttonUnfocus();
 
   Color colorField();
+
   Color radioUnfocusColor();
 }
 
@@ -283,7 +284,7 @@ class LightApp extends AppColor {
 
   @override
   Color radioUnfocusColor() {
-   return colorE2E8F0;
+    return colorE2E8F0;
   }
 }
 

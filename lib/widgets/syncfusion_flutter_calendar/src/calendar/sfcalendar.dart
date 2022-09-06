@@ -4963,6 +4963,7 @@ class _SfCalendarState extends State<SfCalendar>
       return;
     }
 
+    DateTime? newCurrentDate = currentDate;
     // ignore: avoid_as
     final RenderBox box = context.findRenderObject()! as RenderBox;
     final Offset localPosition = box.globalToLocal(globalPosition);
@@ -5011,7 +5012,7 @@ class _SfCalendarState extends State<SfCalendar>
       double dateViewWidth = _getAgendaViewDayLabelWidth(
           widget.scheduleViewSettings, _useMobilePlatformUI);
       if (_view == CalendarView.month) {
-        currentDate = _selectedDate;
+        newCurrentDate = _selectedDate;
         final double agendaHeight = _getMonthAgendaHeight();
         yPosition -= _minHeight - agendaHeight;
         dateViewWidth = _agendaDateViewWidth;
@@ -5051,7 +5052,7 @@ class _SfCalendarState extends State<SfCalendar>
 
         xPosition = isRTL ? _minWidth - xPosition : xPosition;
         _agendaDateNotifier.value = ScheduleViewHoveringDetails(
-            currentDate!, Offset(xPosition, yPosition));
+            newCurrentDate!, Offset(xPosition, yPosition));
       } else {
         /// padding value used to specify the view top padding on agenda view.
         /// padding value is assigned when the agenda view has top padding
@@ -5081,7 +5082,7 @@ class _SfCalendarState extends State<SfCalendar>
           return;
         }
         _agendaViewNotifier.value = ScheduleViewHoveringDetails(
-            currentDate!, Offset(xPosition, yPosition));
+            newCurrentDate!, Offset(xPosition, yPosition));
       }
     }
   }
@@ -5262,8 +5263,10 @@ class _SfCalendarState extends State<SfCalendar>
   /// the start and end date.
   bool _isAppointmentBetweenDates(List<CalendarAppointment> appointments,
       DateTime startDate, DateTime endDate, String? timeZone) {
-    startDate = AppointmentHelper.convertToStartTime(startDate);
-    endDate = AppointmentHelper.convertToEndTime(endDate);
+    DateTime newStartDate =  startDate;
+    DateTime newEndDate =  endDate;
+    newStartDate = AppointmentHelper.convertToStartTime(newStartDate);
+    newEndDate = AppointmentHelper.convertToEndTime(newEndDate);
     if (appointments.isEmpty) {
       return false;
     }
@@ -5280,21 +5283,21 @@ class _SfCalendarState extends State<SfCalendar>
       if (appointment.recurrenceRule == null ||
           appointment.recurrenceRule == '') {
         if (AppointmentHelper.isAppointmentWithinVisibleDateRange(
-            appointment, startDate, endDate)) {
+            appointment, newStartDate, newEndDate)) {
           return true;
         }
 
         continue;
       }
 
-      if (appointment.startTime.isAfter(endDate)) {
+      if (appointment.startTime.isAfter(newEndDate)) {
         continue;
       }
 
       String rule = appointment.recurrenceRule!;
       if (!rule.contains('COUNT') && !rule.contains('UNTIL')) {
         final DateFormat formatter = DateFormat('yyyyMMdd');
-        final String newSubString = ';UNTIL=${formatter.format(endDate)}';
+        final String newSubString = ';UNTIL=${formatter.format(newEndDate)}';
         rule = rule + newSubString;
       }
 
@@ -5306,7 +5309,7 @@ class _SfCalendarState extends State<SfCalendar>
         DateTime recurrenceEndDate = DateTime.parse(untilValue);
         recurrenceEndDate = DateTime(recurrenceEndDate.year,
             recurrenceEndDate.month, recurrenceEndDate.day, 23, 59, 59);
-        if (recurrenceEndDate.isBefore(startDate)) {
+        if (recurrenceEndDate.isBefore(newStartDate)) {
           continue;
         }
       }
@@ -5316,8 +5319,8 @@ class _SfCalendarState extends State<SfCalendar>
               rule, appointment.actualStartTime,
               recurrenceDuration: AppointmentHelper.getDifference(
                   appointment.actualStartTime, appointment.actualEndTime),
-              specificStartDate: startDate,
-              specificEndDate: endDate);
+              specificStartDate: newStartDate,
+              specificEndDate: newEndDate);
 
       if (recursiveDates.isEmpty) {
         continue;
@@ -5371,14 +5374,15 @@ class _SfCalendarState extends State<SfCalendar>
       List<CalendarAppointment> appointmentCollection,
       DateTime startDate,
       DateTime endDate) {
+    DateTime newStartDate = startDate;
     final Map<DateTime, List<CalendarAppointment>> dateAppointments =
         <DateTime, List<CalendarAppointment>>{};
-    while (startDate.isBefore(endDate) || isSameDate(endDate, startDate)) {
+    while (newStartDate.isBefore(endDate) || isSameDate(endDate, newStartDate)) {
       final List<CalendarAppointment> appointmentList = <CalendarAppointment>[];
       for (int i = 0; i < appointmentCollection.length; i++) {
         final CalendarAppointment appointment = appointmentCollection[i];
         if (!isDateWithInDateRange(appointment.actualStartTime,
-            appointment.actualEndTime, startDate)) {
+            appointment.actualEndTime, newStartDate)) {
           continue;
         }
 
@@ -5386,10 +5390,10 @@ class _SfCalendarState extends State<SfCalendar>
       }
 
       if (appointmentList.isNotEmpty) {
-        dateAppointments[startDate] = appointmentList;
+        dateAppointments[newStartDate] = appointmentList;
       }
 
-      startDate = DateTimeHelper.getDateTimeValue(addDays(startDate, 1));
+      newStartDate = DateTimeHelper.getDateTimeValue(addDays(newStartDate, 1));
     }
 
     return dateAppointments;

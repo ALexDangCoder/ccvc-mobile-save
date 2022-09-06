@@ -28,8 +28,7 @@ class _ThongTinXuLyPhanAnhState extends State<ThongTinXuLyPhanAnh> {
         shrinkWrap: true,
         itemCount: widget.listRow.length,
         itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.only(),
+          return SizedBox(
             child: ItemRow(
               title: widget.listRow[index].title,
               content: widget.listRow[index].content,

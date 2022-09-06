@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart' as HiveLc;
+import 'package:ccvc_mobile/domain/locals/hive_local.dart' as hive_lc;
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
@@ -53,7 +53,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   HomeRepository get homeRep => Get.find();
 
   AccountRepository get accountRp => Get.find();
-  DataUser? dataUser = HiveLc.HiveLocal.getDataUser();
+  DataUser? dataUser = hive_lc.HiveLocal.getDataUser();
   String id = '';
 
   final String code = 'ha-noi';
@@ -156,7 +156,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     final result = await accountRp.getInfo(id);
     result.when(
       success: (res) {
-        final dataUser = HiveLc.HiveLocal.getDataUser();
+        final dataUser = hive_lc.HiveLocal.getDataUser();
 
         _getInforUser.sink.add(
           UserInformationModel(
@@ -248,7 +248,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
 
   BaoChiMangXaHoiCubit() {
     startDate = DateTime(startDate.year, startDate.month, startDate.day - 1);
-    final dataUser = HiveLc.HiveLocal.getDataUser();
+    final dataUser = hive_lc.HiveLocal.getDataUser();
     if (dataUser != null) {
       nameUser = dataUser.userInformation?.hoTen ?? '';
     }
@@ -285,7 +285,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
     }
   }
 
-  void getPress() async {
+  Future<void> getPress() async {
     List<String> listTag = HiveLocalHome.getTag();
     if (listTag.isEmpty) {
       final listDataDefault = [nameUser];
@@ -386,7 +386,7 @@ class DanhSachCongViecCubit extends HomeCubit {
   bool isSearching = false;
 
   DanhSachCongViecCubit() {
-    id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
+    id = hive_lc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
   }
 
   HomeRepository get homeRepCongViec => Get.find();
@@ -410,7 +410,7 @@ class DanhSachCongViecCubit extends HomeCubit {
 
   List<ItemNguoiGanModel> listNguoiGan = [];
 
-  void setDisplayListCanBo(bool isShow) {
+  void setDisplayListCanBo({required bool isShow}) {
     _isShowListCanBo.sink.add(isShow);
   }
 
@@ -423,7 +423,10 @@ class DanhSachCongViecCubit extends HomeCubit {
     final queue = Queue(parallel: 2);
     unawaited(
       queue.add(
-        () => getListNguoiGan(true, 5),
+        () => getListNguoiGan(
+          5,
+          isGetAll: true,
+        ),
       ),
     );
     await queue.add(
@@ -488,7 +491,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     );
   }
 
-  void _removeInsertImportant(TodoListModel data, TodoModel todo) async {
+  void _removeInsertImportant(TodoListModel data, TodoModel todo) {
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
@@ -661,7 +664,9 @@ class DanhSachCongViecCubit extends HomeCubit {
   }
 
   IconModdel getIconListCanBo(
-      IconListCanBo iconListCanBo, TextEditingController controller) {
+    IconListCanBo iconListCanBo,
+    TextEditingController controller,
+  ) {
     switch (iconListCanBo) {
       case IconListCanBo.UP:
         return IconModdel(
@@ -695,20 +700,23 @@ class DanhSachCongViecCubit extends HomeCubit {
       pageIndex = pageIndex + 1;
       if (isSearching) {
         await getListNguoiGan(
-          true,
           5,
+          isGetAll: true,
           keySearch: keySearch,
         );
       }
-      await getListNguoiGan(true, 5);
+      await getListNguoiGan(
+        5,
+        isGetAll: true,
+      );
     }
   }
 
   Future<void> getListNguoiGan(
-    bool isGetAll,
     int pageSize, {
     String? keySearch,
     bool notLoadMore = false,
+    required bool isGetAll,
   }) async {
     showLoading();
     final result = await homeRep.listNguoiGanCongViec(
@@ -833,7 +841,7 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   String mangTrangThai = '';
 
   TongHopNhiemVuCubit() {
-    dataUser = HiveLc.HiveLocal.getDataUser();
+    dataUser = hive_lc.HiveLocal.getDataUser();
     if (dataUser != null) {
       canBoId = dataUser?.userInformation?.id ?? '';
     }
@@ -949,7 +957,7 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
   String canBoId = '';
 
   VanBanDonViCubit() {
-    dataUser = HiveLc.HiveLocal.getDataUser();
+    dataUser = hive_lc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
       canBoId = dataUser?.userInformation?.canBoDepartmentId ?? '';
@@ -1114,20 +1122,20 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
   void selectTrangThaiVBDen(SelectKey selectKey) {
     switch (selectKey) {
       case SelectKey.CHO_XU_LY:
-        maTrangThaiVBDen = ["CHO_XU_LY", "CHO_PHAN_XU_LY"];
+        maTrangThaiVBDen = ['CHO_XU_LY', 'CHO_PHAN_XU_LY'];
         isDanhSachDaXuLy = true;
         break;
       case SelectKey.DANG_XU_LY:
         isDanhSachDaXuLy = false;
-        maTrangThaiVBDen = ["DANG_XU_LY"];
+        maTrangThaiVBDen = ['DANG_XU_LY'];
         break;
       case SelectKey.DA_XU_LY:
         isDanhSachDaXuLy = false;
-        maTrangThaiVBDen = ["DA_XU_LY"];
+        maTrangThaiVBDen = ['DA_XU_LY'];
         break;
       case SelectKey.CHO_VAO_SO:
         isDanhSachDaXuLy = false;
-        maTrangThaiVBDen = ["CHO_VAO_SO"];
+        maTrangThaiVBDen = ['CHO_VAO_SO'];
         break;
       default:
         {}
@@ -1386,9 +1394,10 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
 
   List<SelectKey> listSelectKey() {
     final List<SelectKey> list = [];
-    if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN,
-        permissionType: HiveLc.PermissionType.QLVB)) {
+    if (hive_lc.HiveLocal.checkPermissionApp(
+      permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN,
+      permissionType: hive_lc.PermissionType.QLVB,
+    )) {
       list.add(SelectKey.CHO_VAO_SO);
     }
     list.addAll([
@@ -1416,7 +1425,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
   List<SelectKey> selectKeyPermission = [];
 
   YKienNguoiDanCubit() {
-    dataUser = HiveLc.HiveLocal.getDataUser();
+    dataUser = hive_lc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
       userId = dataUser?.userId ?? '';
@@ -1517,31 +1526,37 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
 
   List<SelectKey> _permissionKeyCheck() {
     final listSelect = <SelectKey>[];
-    if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: 'TiepNhanPAKNChoTiepNhanXem')) {
+    if (hive_lc.HiveLocal.checkPermissionApp(
+      permissionTxt: 'TiepNhanPAKNChoTiepNhanXem',
+    )) {
       listSelect.add(SelectKey.CHO_TIEP_NHAN);
     }
-    if (HiveLc.HiveLocal.checkPermissionApp(permissionTxt: 'PhanXuLyXem')) {
+    if (hive_lc.HiveLocal.checkPermissionApp(permissionTxt: 'PhanXuLyXem')) {
       listSelect.add(SelectKey.CHO_PHAN_XU_LY);
     }
-    if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: 'TiepNhanPAKNChoDuyetxem')) {
+    if (hive_lc.HiveLocal.checkPermissionApp(
+      permissionTxt: 'TiepNhanPAKNChoDuyetxem',
+    )) {
       listSelect.add(SelectKey.CHO_DUYET_XU_LY);
     }
-    if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: 'XuLyPAKNChoTiepNhanXuLyCapNhat')) {
+    if (hive_lc.HiveLocal.checkPermissionApp(
+      permissionTxt: 'XuLyPAKNChoTiepNhanXuLyCapNhat',
+    )) {
       listSelect.add(SelectKey.CHO_DUYET_TIEP_NHAN);
     }
-    if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: 'XuLyPAKNChoTiepNhanXuLyXem')) {
+    if (hive_lc.HiveLocal.checkPermissionApp(
+      permissionTxt: 'XuLyPAKNChoTiepNhanXuLyXem',
+    )) {
       listSelect.add(SelectKey.CHO_TIEP_NHAN_XU_LY);
     }
-    if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: 'XuLyPAKNChoPhanCongXuLyCapNhat')) {
+    if (hive_lc.HiveLocal.checkPermissionApp(
+      permissionTxt: 'XuLyPAKNChoPhanCongXuLyCapNhat',
+    )) {
       listSelect.add(SelectKey.CHO_PHAN_CONG_XU_LY);
     }
-    if (HiveLc.HiveLocal.checkPermissionApp(
-        permissionTxt: 'XuLyPAKNCanXuLyXem')) {
+    if (hive_lc.HiveLocal.checkPermissionApp(
+      permissionTxt: 'XuLyPAKNCanXuLyXem',
+    )) {
       listSelect.add(SelectKey.CHO_XU_LY);
       listSelect.add(SelectKey.DANG_XU_LY);
     }
@@ -1559,7 +1574,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
 
   Stream<List<CalendarMeetingModel>> get getListLichLamViec =>
       _getListLichLamViec.stream;
-  final userId = HiveLc.HiveLocal.getDataUser()?.userId ?? '';
+  final userId = hive_lc.HiveLocal.getDataUser()?.userId ?? '';
   SelectKey selectKey = SelectKey.LICH_CUA_TOI;
 
   void setChangeKey(SelectKey key) {
@@ -1637,7 +1652,7 @@ class LichHopCubit extends HomeCubit with SelectKeyDialog {
   bool isLichDuocMoi = false;
   bool isDuyetLich = false;
   bool isChoXacNhan = false;
-  final userId = HiveLc.HiveLocal.getDataUser()?.userId ?? '';
+  final userId = hive_lc.HiveLocal.getDataUser()?.userId ?? '';
 
   Future<void> callApi() async {
     showLoading();
@@ -1653,23 +1668,24 @@ class LichHopCubit extends HomeCubit with SelectKeyDialog {
     );
     showContent();
     result.when(
-        success: (res) {
-          if (isMobile()) {
-            int index = 0;
-            final listResult = <CalendarMeetingModel>[];
-            for (final vl in res) {
-              listResult.add(vl);
-              index++;
-              if (index >= 20) {
-                break;
-              }
+      success: (res) {
+        if (isMobile()) {
+          int index = 0;
+          final listResult = <CalendarMeetingModel>[];
+          for (final vl in res) {
+            listResult.add(vl);
+            index++;
+            if (index >= 20) {
+              break;
             }
-            _getLichHop.sink.add(listResult);
-          } else {
-            _getLichHop.sink.add(res);
           }
-        },
-        error: (err) {});
+          _getLichHop.sink.add(listResult);
+        } else {
+          _getLichHop.sink.add(res);
+        }
+      },
+      error: (err) {},
+    );
   }
 
   void selectTrangThaiHop(SelectKey selectKey) {
@@ -1731,7 +1747,9 @@ class SinhNhatCubit extends HomeCubit with SelectKeyDialog {
   Future<void> callApi() async {
     showLoading();
     final result = await homeRep.getSinhNhat(
-        startDate.formatApiDDMMYYYY, endDate.formatApiDDMMYYYY);
+      startDate.formatApiDDMMYYYY,
+      endDate.formatApiDDMMYYYY,
+    );
     showContent();
     result.when(
       success: (res) {
@@ -1825,13 +1843,13 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
   Stream<DocumentDashboardModel> get getTinhHinhXuLy => _getTinhHinhXuLy.stream;
 
   TinhHinhXuLyPAKNCubit() {
-    final dataUser = HiveLc.HiveLocal.getDataUser();
+    final dataUser = hive_lc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser.userInformation?.donViTrucThuoc?.id ?? '';
     }
   }
 
-  Future<void> callApi(bool isDonVi) async {
+  Future<void> callApi({required bool isDonVi}) async {
     if (!isDonVi) {
       showLoading();
       final result = await homeRep.getDashboardTinhHinhXuLyPAKNCaNhan();
@@ -1936,8 +1954,9 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
     );
   }
 
-  Future<Result<List<CalendarMeetingModel>>> getDataApi(
-      {bool isCaNhan = false}) {
+  Future<Result<List<CalendarMeetingModel>>> getDataApi({
+    bool isCaNhan = false,
+  }) {
     if (isCongViec) {
       return homeRep.getDanhSachCongViec(
         DanhSachCongViecRequest(
@@ -1945,8 +1964,8 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
           isCaNhan: isCaNhan,
           size: 20,
           index: 1,
-          mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
-          trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
+          mangTrangThai: ['CHUA_THUC_HIEN', 'DANG_THUC_HIEN'],
+          trangThaiFilter: ['DANH_SACH_CONG_VIEC'],
         ),
       );
     }

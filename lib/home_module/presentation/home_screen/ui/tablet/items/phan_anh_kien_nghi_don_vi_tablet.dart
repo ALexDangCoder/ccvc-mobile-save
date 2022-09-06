@@ -34,14 +34,10 @@ class _PhanAnhKienNghiDonViTabletState
   void initState() {
     // TODO: implement initState
     super.initState();
-    _phanAnhKienNghiCubit.callApi(true);
+    _phanAnhKienNghiCubit.callApi(isDonVi: true);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      HomeProvider
-          .of(context)
-          .homeCubit
-          .refreshListen
-          .listen((value) {
-        _phanAnhKienNghiCubit.callApi(true);
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        _phanAnhKienNghiCubit.callApi(isDonVi: true);
       });
     });
   }
@@ -50,9 +46,7 @@ class _PhanAnhKienNghiDonViTabletState
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    cubit = HomeProvider
-        .of(context)
-        .homeCubit;
+    cubit = HomeProvider.of(context).homeCubit;
   }
 
   @override
@@ -98,7 +92,8 @@ class _PhanAnhKienNghiDonViTabletState
                   )
                 ],
               );
-            },),
+            },
+          ),
         ),
       ),
     );
@@ -124,20 +119,20 @@ class _PhanAnhKienNghiDonViTabletState
                 return data.value == 0
                     ? const SizedBox()
                     : Expanded(
-                  flex: data.value.toInt(),
-                  child: Container(
-                    color: data.color,
-                    child: Center(
-                      child: Text(
-                        data.value.toInt().toString(),
-                        style: textNormal(
-                          backgroundColorApp,
-                          14.0.textScale(),
+                        flex: data.value.toInt(),
+                        child: Container(
+                          color: data.color,
+                          child: Center(
+                            child: Text(
+                              data.value.toInt().toString(),
+                              style: textNormal(
+                                backgroundColorApp,
+                                14.0.textScale(),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                );
+                      );
               }),
               Expanded(
                 flex: (total - (listData[0].value + listData[1].value)).toInt(),

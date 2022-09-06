@@ -123,7 +123,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                   ),
                   onTap: () {
                     if (controller.text.isEmpty || isSelected) {
-                      widget.danhSachCVCubit.setDisplayListCanBo(true);
+                      widget.danhSachCVCubit.setDisplayListCanBo(isShow: true);
                       widget.danhSachCVCubit
                           .getIconListCanBo(IconListCanBo.DOWN, controller);
                     }
@@ -132,8 +132,8 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                     keySearch = value;
                     Future.delayed(const Duration(seconds: 1), () {
                       widget.danhSachCVCubit.getListNguoiGan(
-                        true,
                         5,
+                        isGetAll : true,
                         keySearch: keySearch,
                         notLoadMore: true,
                       );
@@ -166,7 +166,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                                         nguoiGanID = data[index].id ?? '';
                                         isSelected = true;
                                         widget.danhSachCVCubit
-                                            .setDisplayListCanBo(false);
+                                            .setDisplayListCanBo(isShow: false);
                                         widget.danhSachCVCubit.setDisplayIcon(
                                           IconListCanBo.CLOSE,
                                         );

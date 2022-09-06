@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/src/calendar/common/date_time_engine.dart';
 import 'package:intl/intl.dart' show DateFormat;
-
 import 'package:syncfusion_flutter_core/core.dart';
 
 import '../common/enums.dart' show RecurrenceType, RecurrenceRange, WeekDays;
@@ -25,22 +24,31 @@ class RecurrenceHelper {
   }
 
   static List<DateTime> _getDailyRecurrenceDateTimeCollection(
-      String rRule, DateTime recurrenceStartDate,
-      {Duration? recurrenceDuration,
-      DateTime? specificStartDate,
-      DateTime? specificEndDate}) {
+    String rRule,
+    DateTime recurrenceStartDate, {
+    Duration? recurrenceDuration,
+    DateTime? specificStartDate,
+    DateTime? specificEndDate,
+  }) {
     final List<DateTime> recDateCollection = <DateTime>[];
-
+    DateTime? newSpecificEndDate;
     if (specificEndDate != null) {
-      specificEndDate = DateTime(specificEndDate.year, specificEndDate.month,
-          specificEndDate.day, 23, 59, 59);
+      newSpecificEndDate = DateTime(
+        specificEndDate.year,
+        specificEndDate.month,
+        specificEndDate.day,
+        23,
+        59,
+        59,
+      );
     }
 
     recurrenceDuration ??= Duration.zero;
     final bool isSpecificDateRange =
-        specificStartDate != null && specificEndDate != null;
+        specificStartDate != null && newSpecificEndDate != null;
 
-    if (isSpecificDateRange && recurrenceStartDate.isAfter(specificEndDate)) {
+    if (isSpecificDateRange &&
+        recurrenceStartDate.isAfter(newSpecificEndDate)) {
       return recDateCollection;
     }
 
@@ -113,8 +121,8 @@ class RecurrenceHelper {
 
     /// NoEndDate specified rule returns empty collection issue fix.
     if (isSpecificDateRange) {
-      endDate = endDate == null || endDate.isAfter(specificEndDate)
-          ? specificEndDate
+      endDate = endDate == null || endDate.isAfter(newSpecificEndDate)
+          ? newSpecificEndDate
           : endDate;
     }
 
@@ -195,12 +203,12 @@ class RecurrenceHelper {
         (endDate != null &&
             (addDate.isBefore(endDate) || isSameDate(addDate, endDate)))) {
       if (isSpecificDateRange) {
-        if (_isRecurrenceInBetweenSpecificRange(
-            addDate, recurrenceDuration, specificStartDate, specificEndDate)) {
+        if (_isRecurrenceInBetweenSpecificRange(addDate, recurrenceDuration,
+            specificStartDate, newSpecificEndDate)) {
           recDateCollection.add(addDate);
         }
 
-        if (addDate.isAfter(specificEndDate)) {
+        if (addDate.isAfter(newSpecificEndDate)) {
           break;
         }
       } else {
@@ -216,22 +224,31 @@ class RecurrenceHelper {
   }
 
   static List<DateTime> _getWeeklyRecurrenceDateTimeCollection(
-      String rRule, DateTime recurrenceStartDate,
-      {Duration? recurrenceDuration,
-      DateTime? specificStartDate,
-      DateTime? specificEndDate}) {
+    String rRule,
+    DateTime recurrenceStartDate, {
+    Duration? recurrenceDuration,
+    DateTime? specificStartDate,
+    DateTime? specificEndDate,
+  }) {
     final List<DateTime> recDateCollection = <DateTime>[];
-
+    DateTime? newSpecificEndDate;
     if (specificEndDate != null) {
-      specificEndDate = DateTime(specificEndDate.year, specificEndDate.month,
-          specificEndDate.day, 23, 59, 59);
+      newSpecificEndDate = DateTime(
+        specificEndDate.year,
+        specificEndDate.month,
+        specificEndDate.day,
+        23,
+        59,
+        59,
+      );
     }
 
     recurrenceDuration ??= Duration.zero;
     final bool isSpecificDateRange =
-        specificStartDate != null && specificEndDate != null;
+        specificStartDate != null && newSpecificEndDate != null;
 
-    if (isSpecificDateRange && recurrenceStartDate.isAfter(specificEndDate)) {
+    if (isSpecificDateRange &&
+        recurrenceStartDate.isAfter(newSpecificEndDate)) {
       return recDateCollection;
     }
 
@@ -431,8 +448,8 @@ class RecurrenceHelper {
 
     /// NoEndDate specified rule returns empty collection issue fix.
     if (isSpecificDateRange) {
-      endDate = endDate == null || endDate.isAfter(specificEndDate)
-          ? specificEndDate
+      endDate = endDate == null || endDate.isAfter(newSpecificEndDate)
+          ? newSpecificEndDate
           : endDate;
     }
 
@@ -529,12 +546,12 @@ class RecurrenceHelper {
           weekDays.contains(addDate.weekday % DateTime.daysPerWeek);
       if (isSpecificDateRange) {
         if (_isRecurrenceInBetweenSpecificRange(addDate, recurrenceDuration,
-                specificStartDate, specificEndDate) &&
+                specificStartDate, newSpecificEndDate) &&
             isRecurrenceDate) {
           recDateCollection.add(addDate);
         }
 
-        if (addDate.isAfter(specificEndDate)) {
+        if (addDate.isAfter(newSpecificEndDate)) {
           break;
         }
       } else if (isRecurrenceDate) {
@@ -560,22 +577,31 @@ class RecurrenceHelper {
   }
 
   static List<DateTime> _getMonthlyRecurrenceDateTimeCollection(
-      String rRule, DateTime recurrenceStartDate,
-      {Duration? recurrenceDuration,
-      DateTime? specificStartDate,
-      DateTime? specificEndDate}) {
+    String rRule,
+    DateTime recurrenceStartDate, {
+    Duration? recurrenceDuration,
+    DateTime? specificStartDate,
+    DateTime? specificEndDate,
+  }) {
     final List<DateTime> recDateCollection = <DateTime>[];
-
+    DateTime? newSpecificEndDate;
     if (specificEndDate != null) {
-      specificEndDate = DateTime(specificEndDate.year, specificEndDate.month,
-          specificEndDate.day, 23, 59, 59);
+      newSpecificEndDate = DateTime(
+        specificEndDate.year,
+        specificEndDate.month,
+        specificEndDate.day,
+        23,
+        59,
+        59,
+      );
     }
 
     recurrenceDuration ??= Duration.zero;
     final bool isSpecificDateRange =
-        specificStartDate != null && specificEndDate != null;
+        specificStartDate != null && newSpecificEndDate != null;
 
-    if (isSpecificDateRange && recurrenceStartDate.isAfter(specificEndDate)) {
+    if (isSpecificDateRange &&
+        recurrenceStartDate.isAfter(newSpecificEndDate)) {
       return recDateCollection;
     }
 
@@ -632,8 +658,8 @@ class RecurrenceHelper {
 
     /// NoEndDate specified rule returns empty collection issue fix.
     if (isSpecificDateRange && !rRule.contains('COUNT')) {
-      endDate = endDate == null || endDate.isAfter(specificEndDate)
-          ? specificEndDate
+      endDate = endDate == null || endDate.isAfter(newSpecificEndDate)
+          ? newSpecificEndDate
           : endDate;
 
       final int addedDateMonth = addDate.month;
@@ -716,11 +742,11 @@ class RecurrenceHelper {
 
         if (isSpecificDateRange) {
           if (_isRecurrenceInBetweenSpecificRange(addDate, recurrenceDuration,
-              specificStartDate, specificEndDate)) {
+              specificStartDate, newSpecificEndDate)) {
             recDateCollection.add(addDate);
           }
 
-          if (addDate.isAfter(specificEndDate)) {
+          if (addDate.isAfter(newSpecificEndDate)) {
             break;
           }
         } else {
@@ -778,11 +804,11 @@ class RecurrenceHelper {
               (addDate.isBefore(endDate) || addDate == endDate))) {
         if (isSpecificDateRange) {
           if (_isRecurrenceInBetweenSpecificRange(addDate, recurrenceDuration,
-              specificStartDate, specificEndDate)) {
+              specificStartDate, newSpecificEndDate)) {
             recDateCollection.add(addDate);
           }
 
-          if (addDate.isAfter(specificEndDate)) {
+          if (addDate.isAfter(newSpecificEndDate)) {
             break;
           }
         } else {
@@ -805,17 +831,24 @@ class RecurrenceHelper {
       DateTime? specificStartDate,
       DateTime? specificEndDate}) {
     final List<DateTime> recDateCollection = <DateTime>[];
-
+    DateTime? newSpecificEndDate;
     if (specificEndDate != null) {
-      specificEndDate = DateTime(specificEndDate.year, specificEndDate.month,
-          specificEndDate.day, 23, 59, 59);
+      newSpecificEndDate = DateTime(
+        specificEndDate.year,
+        specificEndDate.month,
+        specificEndDate.day,
+        23,
+        59,
+        59,
+      );
     }
 
     recurrenceDuration ??= Duration.zero;
     final bool isSpecificDateRange =
-        specificStartDate != null && specificEndDate != null;
+        specificStartDate != null && newSpecificEndDate != null;
 
-    if (isSpecificDateRange && recurrenceStartDate.isAfter(specificEndDate)) {
+    if (isSpecificDateRange &&
+        recurrenceStartDate.isAfter(newSpecificEndDate)) {
       return recDateCollection;
     }
 
@@ -874,8 +907,8 @@ class RecurrenceHelper {
 
     /// NoEndDate specified rule returns empty collection issue fix.
     if (isSpecificDateRange && !rRule.contains('COUNT')) {
-      endDate = endDate == null || endDate.isAfter(specificEndDate)
-          ? specificEndDate
+      endDate = endDate == null || endDate.isAfter(newSpecificEndDate)
+          ? newSpecificEndDate
           : endDate;
 
       final int addedDateYear = addDate.year;
@@ -926,11 +959,11 @@ class RecurrenceHelper {
               (addDate.isBefore(endDate) || addDate == endDate))) {
         if (isSpecificDateRange) {
           if (_isRecurrenceInBetweenSpecificRange(addDate, recurrenceDuration,
-              specificStartDate, specificEndDate)) {
+              specificStartDate, newSpecificEndDate)) {
             recDateCollection.add(addDate);
           }
 
-          if (addDate.isAfter(specificEndDate)) {
+          if (addDate.isAfter(newSpecificEndDate)) {
             break;
           }
         } else {
@@ -1009,11 +1042,11 @@ class RecurrenceHelper {
               (addDate.isBefore(endDate) || addDate == endDate))) {
         if (isSpecificDateRange) {
           if (_isRecurrenceInBetweenSpecificRange(addDate, recurrenceDuration,
-              specificStartDate, specificEndDate)) {
+              specificStartDate, newSpecificEndDate)) {
             recDateCollection.add(addDate);
           }
 
-          if (addDate.isAfter(specificEndDate)) {
+          if (addDate.isAfter(newSpecificEndDate)) {
             break;
           }
         } else {
@@ -1038,10 +1071,12 @@ class RecurrenceHelper {
 
   /// Returns the date time collection of recurring appointment.
   static List<DateTime> getRecurrenceDateTimeCollection(
-      String rRule, DateTime recurrenceStartDate,
-      {Duration? recurrenceDuration,
-      DateTime? specificStartDate,
-      DateTime? specificEndDate}) {
+    String rRule,
+    DateTime recurrenceStartDate, {
+    Duration? recurrenceDuration,
+    DateTime? specificStartDate,
+    DateTime? specificEndDate,
+  }) {
     /// Return empty collection when recurrence rule is empty.
     if (rRule.isEmpty) {
       return <DateTime>[];
@@ -1191,6 +1226,7 @@ class RecurrenceHelper {
       DateTime? endDate,
       bool isValidRecurrence,
       Duration diffTimeSpan) {
+    bool newIsValidRecurrence = isValidRecurrence;
     String rRule = '';
     if ((recCount > 0 &&
             recurrenceProperties.recurrenceRange == RecurrenceRange.count) ||
@@ -1198,9 +1234,8 @@ class RecurrenceHelper {
         (recurrenceProperties.recurrenceRange == RecurrenceRange.endDate &&
             (startDate.isBefore(endDate!) || startDate == endDate))) {
       rRule = 'FREQ=DAILY';
-
       if (diffTimeSpan.inHours >= recurrenceProperties.interval * 24) {
-        isValidRecurrence = false;
+        newIsValidRecurrence = false;
       }
 
       if (recurrenceProperties.interval > 0) {
@@ -1216,7 +1251,7 @@ class RecurrenceHelper {
       }
     }
 
-    if (!isValidRecurrence) {
+    if (!newIsValidRecurrence) {
       rRule = '';
     }
 
@@ -1233,6 +1268,9 @@ class RecurrenceHelper {
       DateTime prevDate) {
     String rRule = '';
     DateTime addDate = startDate;
+    bool newIsValidRecurrence = isValidRecurrence;
+    DateTime newPrevDate = prevDate;
+    int newRecCount = recCount;
     if ((recCount > 0 &&
             recurrenceProperties.recurrenceRange == RecurrenceRange.count) ||
         recurrenceProperties.recurrenceRange == RecurrenceRange.noEndDate ||
@@ -1324,15 +1362,14 @@ class RecurrenceHelper {
               break;
             }
         }
-
         if (dayKey.isNotEmpty) {
           if (count != 0) {
             final Duration tempTimeSpan =
                 AppointmentHelper.getDifference(prevDate, addDate);
             if (tempTimeSpan <= diffTimeSpan) {
-              isValidRecurrence = false;
+              newIsValidRecurrence = false;
             } else {
-              prevDate = addDate;
+              newPrevDate = addDate;
               if (dayCount == 1) {
                 break;
               }
@@ -1349,7 +1386,7 @@ class RecurrenceHelper {
               dayCount++;
             }
           } else {
-            prevDate = addDate;
+            newPrevDate = addDate;
             count++;
             byDay = byDay.isNotEmpty && byDay.substring(byDay.length - 1) == 'A'
                 ? '$byDay,$dayKey'
@@ -1359,7 +1396,7 @@ class RecurrenceHelper {
 
           if (recurrenceProperties.recurrenceRange ==
               RecurrenceRange.noEndDate) {
-            recCount++;
+            newRecCount++;
           }
 
           switch (addDate.weekday) {
@@ -1431,7 +1468,7 @@ class RecurrenceHelper {
       }
 
       if (recurrenceProperties.recurrenceRange == RecurrenceRange.count) {
-        rRule = '$rRule;COUNT=$recCount';
+        rRule = '$rRule;COUNT=$newRecCount';
       } else if (recurrenceProperties.recurrenceRange ==
           RecurrenceRange.endDate) {
         final DateFormat format = DateFormat('yyyyMMdd');
@@ -1439,7 +1476,7 @@ class RecurrenceHelper {
       }
     }
 
-    if (!isValidRecurrence) {
+    if (!newIsValidRecurrence) {
       rRule = '';
     }
 
@@ -1455,6 +1492,7 @@ class RecurrenceHelper {
     bool isValidRecurrence,
   ) {
     String rRule = '';
+    bool newIsValidRecurrence = isValidRecurrence;
     if ((recCount > 0 &&
             recurrenceProperties.recurrenceRange == RecurrenceRange.count) ||
         recurrenceProperties.recurrenceRange == RecurrenceRange.noEndDate ||
@@ -1504,11 +1542,11 @@ class RecurrenceHelper {
                   startDate.minute,
                   startDate.second)) <
           diffTimeSpan) {
-        isValidRecurrence = false;
+        newIsValidRecurrence = false;
       }
     }
 
-    if (!isValidRecurrence) {
+    if (!newIsValidRecurrence) {
       rRule = '';
     }
 
@@ -1523,6 +1561,7 @@ class RecurrenceHelper {
       Duration diffTimeSpan,
       bool isValidRecurrence) {
     String rRule = '';
+    bool newIsValidRecurrence = isValidRecurrence;
     if ((recCount > 0 &&
             recurrenceProperties.recurrenceRange == RecurrenceRange.count) ||
         recurrenceProperties.recurrenceRange == RecurrenceRange.noEndDate ||
@@ -1574,11 +1613,11 @@ class RecurrenceHelper {
                   startDate.minute,
                   startDate.second)) <
           diffTimeSpan) {
-        isValidRecurrence = false;
+        newIsValidRecurrence = false;
       }
     }
 
-    if (!isValidRecurrence) {
+    if (!newIsValidRecurrence) {
       rRule = '';
     }
 

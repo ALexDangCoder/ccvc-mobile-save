@@ -75,7 +75,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
           danhSachCVCubit.setDisplayIcon(
             IconListCanBo.DOWN,
           );
-          danhSachCVCubit.setDisplayListCanBo(false);
+          danhSachCVCubit.setDisplayListCanBo(isShow: false);
         });
       },
       isCustomDialog: true,

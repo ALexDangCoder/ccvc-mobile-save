@@ -17,8 +17,8 @@ class Loading extends MenuState {
 class ChuyenPhamViSucsess extends MenuState {
   final String token;
 
-  ChuyenPhamViSucsess(this.token);
+  const ChuyenPhamViSucsess(this.token);
 
   @override
-  List<Object> get props => [this.token];
+  List<Object> get props => [token];
 }

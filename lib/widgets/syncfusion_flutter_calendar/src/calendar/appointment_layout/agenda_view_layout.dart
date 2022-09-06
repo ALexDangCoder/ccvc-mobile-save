@@ -1070,12 +1070,13 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
     final double subjectHeight = _textPainter.height;
     final double topPadding =
         (appointmentHeight - (subjectHeight + lineHeight)) / 2;
+    double newXPosition = xPosition;
     if (isRTL) {
-      xPosition = size.width - _textPainter.width - (3 * padding) - timeWidth;
+      newXPosition = size.width - _textPainter.width - (3 * padding) - timeWidth;
     }
 
     _textPainter.paint(
-        canvas, Offset(xPosition + padding, yPosition + topPadding));
+        canvas, Offset(newXPosition + padding, yPosition + topPadding));
 
     final String format = appointmentTimeTextFormat ??
         (isSameDate(appointment.actualStartTime, appointment.actualEndTime)
@@ -1092,10 +1093,10 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
     _textPainter.layout(
         minWidth: 0, maxWidth: size.width - (2 * padding) - padding - iconSize);
     if (isRTL) {
-      xPosition = size.width - _textPainter.width - (3 * padding);
+      newXPosition = size.width - _textPainter.width - (3 * padding);
     }
     _textPainter.paint(canvas,
-        Offset(xPosition + padding, yPosition + topPadding + subjectHeight));
+        Offset(newXPosition + padding, yPosition + topPadding + subjectHeight));
 
     return topPadding;
   }
@@ -1131,13 +1132,14 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
     double maxTextWidth = size.width - 10 - padding - iconSize;
     maxTextWidth = maxTextWidth > 0 ? maxTextWidth : 0;
     _textPainter.layout(minWidth: 0, maxWidth: maxTextWidth);
+    double newXPosition = xPosition;
     if (isRTL) {
-      xPosition = size.width - _textPainter.width - (padding * 3);
+      newXPosition = size.width - _textPainter.width - (padding * 3);
     }
 
     final double topPadding = (appointmentHeight - _textPainter.height) / 2;
     _textPainter.paint(
-        canvas, Offset(xPosition + padding, yPosition + topPadding));
+        canvas, Offset(newXPosition + padding, yPosition + topPadding));
 
     if (!isNeedSpanIcon) {
       return topPadding;
@@ -1154,6 +1156,7 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
 
   void _drawDefaultView(Canvas canvas, Size size, double xPosition,
       double yPosition, double padding) {
+    double newXPosition = xPosition;
     final TextSpan span = TextSpan(
       text: selectedDate == null
           ? localizations.noSelectedDateCalendarLabel
@@ -1165,9 +1168,9 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
     _updateTextPainterProperties(span);
     _textPainter.layout(minWidth: 0, maxWidth: size.width - 10);
     if (isRTL) {
-      xPosition = size.width - _textPainter.width;
+      newXPosition = size.width - _textPainter.width;
     }
-    _textPainter.paint(canvas, Offset(xPosition, yPosition + padding));
+    _textPainter.paint(canvas, Offset(newXPosition, yPosition + padding));
   }
 
   void _updateTextPainterProperties(TextSpan span) {
@@ -1194,6 +1197,7 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
       Offset offset) {
     _textPainter.textScaleFactor = textScaleFactor;
     final double centerYPosition = appointmentHeight / 2;
+    double newXPosition = xPosition;
     final double circleRadius =
         centerYPosition > padding ? padding : centerYPosition - 2;
     final double circleStartPosition = offset.dx + (3 * circleRadius);
@@ -1203,7 +1207,7 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
         circleRadius,
         _rectPainter);
     final double circleWidth = 5 * circleRadius;
-    xPosition += circleWidth;
+    newXPosition += circleWidth;
 
     _updatePainterLinesCount(appointmentHeight,
         isAllDay: true, isSpanned: true);
@@ -1213,10 +1217,10 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
 
     _textPainter.layout(
         minWidth: 0,
-        maxWidth: size.width - (2 * padding) - xPosition - iconSize);
+        maxWidth: size.width - (2 * padding) - newXPosition - iconSize);
 
     if (isRTL) {
-      xPosition = size.width -
+      newXPosition = size.width -
           _textPainter.width -
           (3 * padding) -
           timeWidth -
@@ -1225,7 +1229,7 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
 
     final double topPadding = (appointmentHeight - _textPainter.height) / 2;
     _textPainter.paint(
-        canvas, Offset(xPosition + padding, yPosition + topPadding));
+        canvas, Offset(newXPosition + padding, yPosition + topPadding));
     final DateFormat format =
         DateFormat(appointmentTimeTextFormat ?? 'hh:mm a', locale);
     final TextSpan span = TextSpan(
@@ -1237,14 +1241,14 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
     _textPainter.text = span;
 
     _textPainter.layout(minWidth: 0, maxWidth: timeWidth - padding);
-    xPosition = offset.dx + padding + circleWidth;
+    newXPosition = offset.dx + padding + circleWidth;
     if (isRTL) {
-      xPosition = size.width - _textPainter.width - (3 * padding) - circleWidth;
+      newXPosition = size.width - _textPainter.width - (3 * padding) - circleWidth;
     }
 
     _textPainter.paint(
         canvas,
-        Offset(xPosition + padding,
+        Offset(newXPosition + padding,
             yPosition + ((appointmentHeight - _textPainter.height) / 2)));
     return topPadding;
   }

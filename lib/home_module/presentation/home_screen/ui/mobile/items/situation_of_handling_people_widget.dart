@@ -4,18 +4,14 @@ import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_mod
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_column_chart.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/domain/model/home/WidgetType.dart';
-
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
-
 import '/home_module/widgets/chart/base_pie_chart.dart';
-
 import '/home_module/widgets/text/views/loading_only.dart';
 
 class TinhHinhPAKNCuaCaNhanMobileWidget extends StatefulWidget {
@@ -38,11 +34,11 @@ class _SituationOfHandlingPeopleWidgetState
   void initState() {
     // TODO: implement initState
     super.initState();
-    _yKienCubit.callApi(false);
+    _yKienCubit.callApi(isDonVi: false);
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        _yKienCubit.callApi(false);
+        _yKienCubit.callApi(isDonVi: false);
       });
     });
   }
@@ -203,8 +199,6 @@ class _SituationOfHandlingPeopleWidgetState
     );
   }
 }
-
-
 
 class MySeparator extends StatelessWidget {
   const MySeparator({Key? key, this.height = 1, this.color = Colors.black})

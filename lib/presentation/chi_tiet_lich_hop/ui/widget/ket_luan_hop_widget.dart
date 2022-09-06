@@ -31,7 +31,7 @@ import 'icon_with_title_widget.dart';
 class KetLuanHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
-  KetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
+  const KetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _KetLuanHopWidgetState createState() => _KetLuanHopWidgetState();

@@ -67,11 +67,7 @@ class _ContainerBackgroudWidgetState
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-          // minHeight: widget.minHeight ?? 0,
-
-          // maxHeight: widget.maxHeight ?? double.infinity,
-          ),
+      constraints: const BoxConstraints(),
       padding: const EdgeInsets.only(top: 24),
       decoration: BoxDecoration(
         color: backgroundColorApp,
@@ -122,9 +118,7 @@ class _ContainerBackgroudWidgetState
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        if (widget.onTapTitle != null) {
-                                          widget.onTapTitle!();
-                                        }
+                                        widget.onTapTitle?.call();
                                       },
                                       child: Text(
                                         widget.title,
@@ -146,10 +140,13 @@ class _ContainerBackgroudWidgetState
                                           return widget.isShowSubtitle
                                               ? Text(
                                                   subTitle(
-                                                      isShowCaNhan:
-                                                          widget.isShowCaNhan),
+                                                    isShowCaNhan:
+                                                        widget.isShowCaNhan,
+                                                  ),
                                                   style: textNormal(
-                                                      titleColumn, 16),
+                                                    titleColumn,
+                                                    16,
+                                                  ),
                                                 )
                                               : const SizedBox();
                                         },
@@ -196,9 +193,7 @@ class _ContainerBackgroudWidgetState
                       child: SelectKeyRow(
                         onChange: (value) {
                           HomeProvider.of(context).homeCubit.closeDialog();
-                          if (widget.onChangeKey != null) {
-                            widget.onChangeKey!(value);
-                          }
+                          widget.onChangeKey?.call(value);
                         },
                         listSelect: widget.listSelect!,
                       ),
@@ -224,13 +219,10 @@ class _ContainerBackgroudWidgetState
   String subTitle({bool isShowCaNhan = false}) {
     final data = widget.selectKeyDialog;
     if (widget.isUnit) {
-      // if (data?.selectKeyTime == SelectKey.TUY_CHON) {
-      //   return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
-      // }
-      return '${data!.selectKeyDonVi.getText()}';
+      return data!.selectKeyDonVi.getText();
     }
     return isShowCaNhan
         ? '${S.current.ca_nhan} - ${data!.selectKeyTime.getText()}'
-        : '${data!.selectKeyTime.getText()}';
+        : data!.selectKeyTime.getText();
   }
 }

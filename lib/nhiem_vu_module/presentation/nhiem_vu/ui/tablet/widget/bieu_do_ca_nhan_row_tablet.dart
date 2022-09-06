@@ -40,7 +40,6 @@ class _BieuDoNhiemVuCaNhanRowTabletState
     return Container(
       color: Colors.transparent,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: StreamBuilder<List<ChartData>>(
@@ -52,17 +51,19 @@ class _BieuDoNhiemVuCaNhanRowTabletState
                   isSubjectInfo: false,
                   chartData: data,
                   onTap: (int value) {
-                    widget.ontap(widget.chartData[value].title
-                        .split(' ')
-                        .join('_')
-                        .toUpperCase()
-                        .vietNameseParse());
+                    widget.ontap(
+                      widget.chartData[value].title
+                          .split(' ')
+                          .join('_')
+                          .toUpperCase()
+                          .vietNameseParse(),
+                    );
                   },
                 );
               },
             ),
           ),
-          SizedBox(height: 20),
+          spaceH20,
           Expanded(
             child: Column(
               children: [
@@ -81,7 +82,8 @@ class _BieuDoNhiemVuCaNhanRowTabletState
                                   value: e.value ?? 0,
                                   onTap: () {
                                     widget.onTapStatusBox(
-                                        (e.giaTri ?? '').statusBox());
+                                      (e.giaTri ?? '').statusBox(),
+                                    );
                                   },
                                   color: (e.giaTri ?? '').status(),
                                   statusName: e.text ?? '',
@@ -93,7 +95,7 @@ class _BieuDoNhiemVuCaNhanRowTabletState
                     );
                   },
                 ),
-                SizedBox(height: 28),
+                spaceH28,
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -105,11 +107,13 @@ class _BieuDoNhiemVuCaNhanRowTabletState
                     final result = widget.chartData[index];
                     return GestureDetector(
                       onTap: () {
-                        widget.ontap(widget.chartData[index].title
-                            .split(' ')
-                            .join('_')
-                            .toUpperCase()
-                            .vietNameseParse());
+                        widget.ontap(
+                          widget.chartData[index].title
+                              .split(' ')
+                              .join('_')
+                              .toUpperCase()
+                              .vietNameseParse(),
+                        );
                       },
                       child: Row(
                         children: [

@@ -344,12 +344,12 @@ class CalendarViewHelper {
   }
 
   static int _getNearestValue(int timeInterval, double totalMinutes) {
-    timeInterval++;
-    if (totalMinutes.round() % timeInterval == 0) {
-      return timeInterval;
+    final newTimeInterval = timeInterval + 1;
+    if (totalMinutes.round() % newTimeInterval == 0) {
+      return newTimeInterval;
     }
 
-    return _getNearestValue(timeInterval, totalMinutes);
+    return _getNearestValue(newTimeInterval, totalMinutes);
   }
 
   /// Check both the time slot date values are same or not.
@@ -609,21 +609,24 @@ class CalendarViewHelper {
   /// Check the date in between first and last date
   static bool isDateTimeWithInDateTimeRange(
       DateTime startDate, DateTime endDate, DateTime date, int timeInterval) {
+    DateTime newStartTime = startDate;
+    DateTime newEndTime = endDate;
+    DateTime newDate = date;
     if (startDate.isAfter(endDate)) {
       final dynamic temp = startDate;
-      startDate = endDate;
-      endDate = DateTimeHelper.getDateTimeValue(temp);
+      newStartTime = endDate;
+      newEndTime = DateTimeHelper.getDateTimeValue(temp);
     }
 
-    if (isSameOrBeforeDateTime(endDate, date) &&
-        isSameOrAfterDateTime(startDate, date)) {
+    if (isSameOrBeforeDateTime(newEndTime, date) &&
+        isSameOrAfterDateTime(newStartTime, date)) {
       return true;
     }
 
     if (startDate.minute != 0) {
-      date = date.add(Duration(minutes: timeInterval));
-      if (isSameOrBeforeDateTime(endDate, date) &&
-          isSameOrAfterDateTime(startDate, date)) {
+      newDate = date.add(Duration(minutes: timeInterval));
+      if (isSameOrBeforeDateTime(newEndTime, newDate) &&
+          isSameOrAfterDateTime(newStartTime, newDate)) {
         return true;
       }
     }

@@ -10,9 +10,12 @@ class ItemDatNuocWidget extends StatefulWidget {
   final bool isEdit;
   final String name;
 
-  ItemDatNuocWidget(
-      {Key? key, required this.cubit, this.isEdit = false, this.name = ''})
-      : super(key: key);
+  const ItemDatNuocWidget({
+    Key? key,
+    required this.cubit,
+    this.isEdit = false,
+    this.name = '',
+  }) : super(key: key);
 
   @override
   _ItemDatNuocWidgetState createState() => _ItemDatNuocWidgetState();

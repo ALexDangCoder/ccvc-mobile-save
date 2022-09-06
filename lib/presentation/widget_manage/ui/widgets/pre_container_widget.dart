@@ -47,7 +47,7 @@ class PreContainerWidget extends StatelessWidget {
             const SizedBox()
           else
             Container(
-              margin: EdgeInsets.only(top: 6, bottom: 20),
+              margin: const EdgeInsets.only(top: 6, bottom: 20),
             ),
           child,
         ],

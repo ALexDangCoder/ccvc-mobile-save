@@ -128,46 +128,50 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                               },
                             ),
                             StreamBuilder<Map<String, String>>(
-                                stream: _cubit.timeConfigSubject.stream,
-                                builder: (context, snapshot) {
-                                  final timeConfig = snapshot.data ?? {};
-                                  return CupertinoMaterialPicker(
-                                    key: _timerPickerKey,
-                                    timeEndConfigSystem: timeConfig['timeEnd'],
-                                    timeStartConfigSystem:
-                                        timeConfig['timeStart'],
-                                    initTimeEnd: DateTime.now()
-                                        .add(const Duration(hours: 1)),
-                                    onDateTimeChanged: (
-                                      String timeStart,
-                                      String timeEnd,
-                                      String dateStart,
-                                      String dateEnd,
-                                    ) {
-                                      _cubit.taoLichHopRequest.timeStart =
-                                          timeStart;
-                                      _cubit.taoLichHopRequest.timeTo = timeEnd;
-                                      _cubit.taoLichHopRequest.ngayBatDau =
-                                          dateStart
-                                              .convertStringToDate(
-                                                formatPattern:
-                                                    DateFormatApp.date,
-                                              )
-                                              .formatApi;
-                                      _cubit.taoLichHopRequest.ngayKetThuc =
-                                          dateEnd
-                                              .convertStringToDate(
-                                                formatPattern:
-                                                    DateFormatApp.date,
-                                              )
-                                              .formatApi;
-                                    },
-                                    onSwitchPressed: (value) {
-                                      _cubit.taoLichHopRequest.isAllDay = value;
-                                    },
-                                    validateTime: (String value) {},
-                                  );
-                                },
+                              stream: _cubit.timeConfigSubject.stream,
+                              builder: (context, snapshot) {
+                                final timeConfig = snapshot.data ?? {};
+                                return CupertinoMaterialPicker(
+                                  key: _timerPickerKey,
+                                  timeEndConfigSystem: timeConfig['timeEnd'],
+                                  timeStartConfigSystem:
+                                      timeConfig['timeStart'],
+                                  initTimeEnd: DateTime.now()
+                                      .add(const Duration(hours: 1)),
+                                  onDateTimeChanged: (
+                                    String timeStart,
+                                    String timeEnd,
+                                    String dateStart,
+                                    String dateEnd,
+                                  ) {
+                                    _cubit.taoLichHopRequest.timeStart =
+                                        timeStart;
+                                    _cubit.taoLichHopRequest.timeTo = timeEnd;
+                                    _cubit.taoLichHopRequest.ngayBatDau =
+                                        dateStart
+                                            .convertStringToDate(
+                                              formatPattern: DateFormatApp.date,
+                                            )
+                                            .formatApi;
+                                    _cubit.taoLichHopRequest.ngayKetThuc =
+                                        dateEnd
+                                            .convertStringToDate(
+                                              formatPattern: DateFormatApp.date,
+                                            )
+                                            .formatApi;
+                                    _cubit.requestSubject.sink.add(
+                                      _cubit.taoLichHopRequest,
+                                    );
+                                  },
+                                  onSwitchPressed: (value) {
+                                    _cubit.taoLichHopRequest.isAllDay = value;
+                                    _cubit.requestSubject.sink.add(
+                                      _cubit.taoLichHopRequest,
+                                    );
+                                  },
+                                  validateTime: (String value) {},
+                                );
+                              },
                             ),
                             spaceH5,
                             SelectOnlyExpand(
@@ -195,41 +199,43 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                             ),
                             spaceH5,
                             StreamBuilder<bool>(
-                              stream: _cubit.needRebuildLichLap,
-                              builder: (context, snapshot) {
-                                return LichLapWidget(
-                                  urlIcon: ImageAssets.icNhacLai,
-                                  title: S.current.lich_lap,
-                                  value: danhSachLichLap.first.label,
-                                  listSelect:
-                                      danhSachLichLap.map((e) => e.label).toList(),
-                                  onChange: (index) {
-                                    _cubit.taoLichHopRequest.typeRepeat =
-                                        danhSachLichLap[index].id;
-                                    if (index == 0) {
-                                      _cubit.taoLichHopRequest.isLichLap = false;
-                                    } else {
-                                      _cubit.taoLichHopRequest.isLichLap = true;
-                                    }
-                                  },
-                                  onDayPicked: (listId) {
-                                    _cubit.taoLichHopRequest.days =
-                                        listId.join(',');
-                                    if (listId.isEmpty) {
+                                stream: _cubit.needRebuildLichLap,
+                                builder: (context, snapshot) {
+                                  return LichLapWidget(
+                                    urlIcon: ImageAssets.icNhacLai,
+                                    title: S.current.lich_lap,
+                                    value: danhSachLichLap.first.label,
+                                    listSelect: danhSachLichLap
+                                        .map((e) => e.label)
+                                        .toList(),
+                                    onChange: (index) {
                                       _cubit.taoLichHopRequest.typeRepeat =
-                                          danhSachLichLap.first.id;
-                                    }
-                                  },
-                                  onDateChange: (value) {
-                                    _cubit.taoLichHopRequest.dateRepeat =
-                                        value.changeToNewPatternDate(
-                                      DateFormatApp.date,
-                                      DateFormatApp.dateTimeBackEnd,
-                                    );
-                                  },
-                                );
-                              }
-                            ),
+                                          danhSachLichLap[index].id;
+                                      if (index == 0) {
+                                        _cubit.taoLichHopRequest.isLichLap =
+                                            false;
+                                      } else {
+                                        _cubit.taoLichHopRequest.isLichLap =
+                                            true;
+                                      }
+                                    },
+                                    onDayPicked: (listId) {
+                                      _cubit.taoLichHopRequest.days =
+                                          listId.join(',');
+                                      if (listId.isEmpty) {
+                                        _cubit.taoLichHopRequest.typeRepeat =
+                                            danhSachLichLap.first.id;
+                                      }
+                                    },
+                                    onDateChange: (value) {
+                                      _cubit.taoLichHopRequest.dateRepeat =
+                                          value.changeToNewPatternDate(
+                                        DateFormatApp.date,
+                                        DateFormatApp.dateTimeBackEnd,
+                                      );
+                                    },
+                                  );
+                                }),
                             spaceH5,
                             SelectOnlyExpand(
                               urlIcon: ImageAssets.icMucDoHop,
@@ -300,14 +306,19 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                       spaceH24,
                       HinhThucHop(cubit: _cubit),
                       spaceH24,
-                      ChonPhongHopScreen(
-                        dateFrom: _cubit.getTime(),
-                        dateTo: _cubit.getTime(isGetDateStart: false),
-                        id: _cubit.donViId,
-                        onChange: (value) {
-                          _cubit.handleChonPhongHop(value);
+                      StreamBuilder(
+                        stream: _cubit.requestSubject,
+                        builder: (_, __) {
+                          return ChonPhongHopScreen(
+                            dateFrom: _cubit.getTime(),
+                            dateTo: _cubit.getTime(isGetDateStart: false),
+                            id: _cubit.donViId,
+                            onChange: (value) {
+                              _cubit.handleChonPhongHop(value);
+                            },
+                            needShowSelectedRoom: true,
+                          );
                         },
-                        needShowSelectedRoom: true,
                       ),
                       spaceH15,
                     ],

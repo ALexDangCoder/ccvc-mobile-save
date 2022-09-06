@@ -135,43 +135,47 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           },
                         ),
                         StreamBuilder<Map<String, String>>(
-                            stream: _cubit.timeConfigSubject.stream,
-                            builder: (context, snapshot) {
-                              final timeConfig = snapshot.data ?? {};
-                              return CupertinoMaterialPicker(
-                                key: _timerPickerKey,
-                                timeEndConfigSystem: timeConfig['timeEnd'],
-                                timeStartConfigSystem: timeConfig['timeStart'],
-                                initTimeEnd: DateTime.now()
-                                    .add(const Duration(hours: 1)),
-                                onDateTimeChanged: (
-                                  String timeStart,
-                                  String timeEnd,
-                                  String dateStart,
-                                  String dateEnd,
-                                ) {
-                                  _cubit.taoLichHopRequest.timeStart =
-                                      timeStart;
-                                  _cubit.taoLichHopRequest.timeTo = timeEnd;
-                                  _cubit.taoLichHopRequest.ngayBatDau =
-                                      dateStart
-                                          .convertStringToDate(
-                                            formatPattern: DateFormatApp.date,
-                                          )
-                                          .formatApi;
-                                  _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
-                                      .convertStringToDate(
-                                        formatPattern: DateFormatApp.date,
-                                      )
-                                      .formatApi;
-                                  _cubit.needRebuildLichLap.add(true);
-                                },
-                                onSwitchPressed: (value) {
-                                  _cubit.taoLichHopRequest.isAllDay = value;
-                                },
-                                validateTime: (String value) {},
-                              );
-                            },
+                          stream: _cubit.timeConfigSubject.stream,
+                          builder: (context, snapshot) {
+                            final timeConfig = snapshot.data ?? {};
+                            return CupertinoMaterialPicker(
+                              key: _timerPickerKey,
+                              timeEndConfigSystem: timeConfig['timeEnd'],
+                              timeStartConfigSystem: timeConfig['timeStart'],
+                              initTimeEnd:
+                                  DateTime.now().add(const Duration(hours: 1)),
+                              onDateTimeChanged: (
+                                String timeStart,
+                                String timeEnd,
+                                String dateStart,
+                                String dateEnd,
+                              ) {
+                                _cubit.taoLichHopRequest.timeStart = timeStart;
+                                _cubit.taoLichHopRequest.timeTo = timeEnd;
+                                _cubit.taoLichHopRequest.ngayBatDau = dateStart
+                                    .convertStringToDate(
+                                      formatPattern: DateFormatApp.date,
+                                    )
+                                    .formatApi;
+                                _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
+                                    .convertStringToDate(
+                                      formatPattern: DateFormatApp.date,
+                                    )
+                                    .formatApi;
+                                _cubit.needRebuildLichLap.add(true);
+                                _cubit.requestSubject.sink.add(
+                                  _cubit.taoLichHopRequest,
+                                );
+                              },
+                              onSwitchPressed: (value) {
+                                _cubit.taoLichHopRequest.isAllDay = value;
+                                _cubit.requestSubject.sink.add(
+                                  _cubit.taoLichHopRequest,
+                                );
+                              },
+                              validateTime: (String value) {},
+                            );
+                          },
                         ),
                         spaceH5,
                         SelectOnlyExpand(
@@ -217,7 +221,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                                 }
                               },
                               onDayPicked: (listId) {
-                                _cubit.taoLichHopRequest.days = listId.join(',');
+                                _cubit.taoLichHopRequest.days =
+                                    listId.join(',');
                                 if (listId.isEmpty) {
                                   _cubit.taoLichHopRequest.typeRepeat =
                                       danhSachLichLap.first.id;
@@ -302,15 +307,19 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                   spaceH24,
                   HinhThucHop(cubit: _cubit),
                   spaceH24,
-                  ChonPhongHopScreen(
-                    dateFrom: _cubit.getTime(),
-                    dateTo: _cubit.getTime(isGetDateStart: false),
-                    id: _cubit.donViId,
-                    onChange: (value) {
-                      _cubit.handleChonPhongHop(value);
-                    },
-                    needShowSelectedRoom: true,
-                  ),
+                  StreamBuilder(
+                      stream: _cubit.requestSubject,
+                      builder: (_, __) {
+                        return ChonPhongHopScreen(
+                          dateFrom: _cubit.getTime(),
+                          dateTo: _cubit.getTime(isGetDateStart: false),
+                          id: _cubit.donViId,
+                          onChange: (value) {
+                            _cubit.handleChonPhongHop(value);
+                          },
+                          needShowSelectedRoom: true,
+                        );
+                      }),
                   spaceH15,
                   ExpandGroup(
                     child: Column(

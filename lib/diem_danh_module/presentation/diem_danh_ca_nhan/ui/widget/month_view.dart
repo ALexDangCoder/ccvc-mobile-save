@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -48,7 +49,7 @@ class _MonthViewState extends State<MonthView> {
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: isMatchDay(e, widget.changeDay)
-                        ? color7966FF.withOpacity(0.1)
+                        ? AppTheme.getInstance().colorField().withOpacity(0.1)
                         : Colors.white,
                     borderRadius: BorderRadius.circular(4),
                   ),
@@ -58,7 +59,7 @@ class _MonthViewState extends State<MonthView> {
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       color: isMatchDay(e, widget.changeDay)
-                          ? color7966FF
+                          ? AppTheme.getInstance().colorField()
                           : color667793,
                     ),
                   ),

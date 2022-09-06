@@ -304,7 +304,7 @@ Widget buttonDuyet(
             ),
             Expanded(
               child: buttomHuyPb(
-                text: S.current.huy_duyet,
+                text: S.current.tu_choi,
                 context: context,
                 cubit: cubit,
                 isTablet: isTablet,
@@ -382,7 +382,7 @@ void showXacNhan({
       child: ShowToast(
         text: isDuyet
             ? S.current.ban_phai_tick_chon_bieu_quyet_muon_duyet
-            : S.current.ban_phai_tick_chon_bieu_quyet_muon_huy_duyet,
+            : S.current.ban_phai_tick_chon_bieu_quyet_muon_tu_choi,
       ),
       gravity: ToastGravity.TOP_RIGHT,
     );
@@ -390,12 +390,12 @@ void showXacNhan({
     showDiaLog(
       context,
       showTablet: isTablet,
-      title: isDuyet ? S.current.duyet : S.current.huy_duyet,
+      title: isDuyet ? S.current.duyet : S.current.tu_choi,
       icon: isDuyet
           ? SvgPicture.asset(ImageAssets.icDiemDanh)
           : SvgPicture.asset(ImageAssets.icHuyDiemDanh),
       textContent:
-          isDuyet ? S.current.duyet_phat_bieu : S.current.huy_duyet_phat_bieu,
+          isDuyet ? S.current.duyet_phat_bieu : S.current.tu_choi_phat_bieu,
       btnRightTxt: S.current.dong_y,
       btnLeftTxt: S.current.khong,
       funcBtnRight: () {

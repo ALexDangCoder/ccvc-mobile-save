@@ -70,13 +70,17 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
           needRefreshMainMeeting = true;
           callApiCongTacChuanBi();
           MessageConfig.show(
-            title: S.current.tao_thanh_cong,
+            title: isDuyet
+                ? S.current.duyet_phong_thanh_cong
+                : S.current.tu_choi_duyet_phong_thanh_cong,
           );
         }
       },
       error: (err) {
         MessageConfig.show(
-          title: S.current.tao_that_bai,
+          title: isDuyet
+              ? S.current.duyet_phong_that_bai
+              : S.current.tu_choi_duyet_phong_that_bai,
         );
       },
     );
@@ -178,13 +182,17 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
           needRefreshMainMeeting = true;
           getChiTietLichHop(idCuocHop);
           MessageConfig.show(
-            title: S.current.tao_thanh_cong,
+            title: isDuyet
+                ? S.current.duyet_ky_thuat_thanh_cong
+                : S.current.tu_choi_thuat_thanh_cong,
           );
         }
       },
       error: (err) {
         MessageConfig.show(
-          title: S.current.tao_that_bai,
+          title: isDuyet
+              ? S.current.duyet_ky_thuat_that_bai
+              : S.current.tu_choi_thuat_that_bai,
         );
       },
     );

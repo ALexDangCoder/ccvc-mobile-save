@@ -21,7 +21,7 @@ enum Type_Choose_Option_List {
   DANG_THONG_KE,
 }
 
-extension type_Choose_Option_List on Type_Choose_Option_List {
+extension TypeChooseOptionList on Type_Choose_Option_List {
   String getTitle() {
     switch (this) {
       case Type_Choose_Option_List.DANH_SACH:
@@ -39,7 +39,7 @@ extension type_Choose_Option_List on Type_Choose_Option_List {
   }
 }
 
-extension lichHopOptionDayCubit on Type_Choose_Option_Day {
+extension LichHopOptionDayCubit on Type_Choose_Option_Day {
 
 
   Widget getTextWidget({

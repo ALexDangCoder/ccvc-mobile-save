@@ -19,26 +19,28 @@ class TimelineWidget extends StatefulWidget {
   /// Constructor to create the timeline widget to holds time slots view for
   /// timeline views.
   const TimelineWidget(
-      this.horizontalLinesCountPerView,
-      this.visibleDates,
-      this.timeSlotViewSettings,
-      this.timeIntervalWidth,
-      this.cellBorderColor,
-      this.isRTL,
-      this.calendarTheme,
-      this.calendarCellNotifier,
-      this.scrollController,
-      this.specialRegion,
-      this.resourceItemHeight,
-      this.resourceCollection,
-      this.textScaleFactor,
-      this.isMobilePlatform,
-      this.timeRegionBuilder,
-      this.width,
-      this.height,
-      this.minDate,
-      this.maxDate,
-      this.blackoutDates);
+    this.horizontalLinesCountPerView,
+    this.visibleDates,
+    this.timeSlotViewSettings,
+    this.timeIntervalWidth,
+    this.cellBorderColor,
+    this.isRTL,
+    this.calendarTheme,
+    this.calendarCellNotifier,
+    this.scrollController,
+    this.specialRegion,
+    this.resourceItemHeight,
+    this.resourceCollection,
+    this.textScaleFactor,
+    this.isMobilePlatform,
+    this.timeRegionBuilder,
+    this.width,
+    this.height,
+    this.minDate,
+    this.maxDate,
+    this.blackoutDates, {
+    Key? key,
+  }) : super(key: key);
 
   /// Defines the total number of time slots needed in the view.
   final double horizontalLinesCountPerView;

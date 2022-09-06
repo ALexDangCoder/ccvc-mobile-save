@@ -131,7 +131,7 @@ extension OnChangeSearch on HoTroKyThuatCubit {
   }
 }
 
-extension getItemsSearch on HoTroKyThuatCubit {
+extension GetItemsSearch on HoTroKyThuatCubit {
   List<String> getItemsNguoiTiepNhanYeuCau() {
     return listNguoiTiepNhanYeuCau.value
         .map(

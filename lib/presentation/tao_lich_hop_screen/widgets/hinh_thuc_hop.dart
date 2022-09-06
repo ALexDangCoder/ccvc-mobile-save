@@ -361,7 +361,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                       dsDiemCau.add(diemCau);
                       widget.cubit.dsDiemCauSubject.add(dsDiemCau);
                       MessageConfig.show(
-                        title: S.current.thay_doi_thanh_cong,
+                        title: S.current.them_diem_cau_thanh_cong,
                       );
                       Navigator.pop(context);
                     }

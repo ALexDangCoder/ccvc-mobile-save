@@ -52,12 +52,8 @@ class BaseSearchBar extends StatelessWidget {
             fontSize: 14,
           ),
         ),
-        onChanged: (searchText) {
-          onChange != null ? onChange!(searchText) : null;
-        },
-        onSubmitted: (searchText) {
-          onSubmit != null ? onSubmit!(searchText) : null;
-        },
+        onChanged: onChange,
+        onSubmitted: onSubmit,
       ),
     );
   }

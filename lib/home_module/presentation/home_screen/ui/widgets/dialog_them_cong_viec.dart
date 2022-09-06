@@ -214,12 +214,8 @@ Widget customTextField({
   return TextFormField(
     controller: controller,
     style: textNormal(titleColor, 14),
-    onChanged: (value) {
-      onChange != null ? onChange(value) : null;
-    },
-    onTap: () {
-      onTap != null ? onTap() : null;
-    },
+    onChanged: onChange,
+    onTap: onTap,
     validator: (value) {
       if (validator != null) {
         return validator(value);

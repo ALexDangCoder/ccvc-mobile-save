@@ -18,7 +18,7 @@ extension StateLichHop on stateBieuDo {
   }
 }
 
-extension statusColor on int {
+extension StatusColor on int {
   Color trangThaiColor() {
     switch (this) {
       case 0:

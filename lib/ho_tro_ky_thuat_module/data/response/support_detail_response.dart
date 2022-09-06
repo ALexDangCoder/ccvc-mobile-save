@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/model/support_detail.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'support_detail_response.g.dart';
@@ -102,7 +101,7 @@ class GroupResponse {
   SupportDetail toDomain() => SupportDetail(
         id: id,
         room: room,
-        moTaSuCo: (moTaSuCo ?? '').parseHtml(),
+        moTaSuCo: moTaSuCo ?? '',
         tenThietBi: tenThietBi,
         soDienThoai: soDienThoai,
         diaChi: diaChi,
@@ -118,7 +117,7 @@ class GroupResponse {
         districId: districtId,
         buildingId: buildingId,
         ngayHoanThanh: ngayHoanThanh,
-        ketQuaXuLy: (ketQuaXuLy ?? '').parseHtml(),
+        ketQuaXuLy: ketQuaXuLy ?? '',
         nguoiXuLy: nguoiXuLy,
         danhSachSuCo: danhSachSuCo?.map((e) => e.toModel()).toList(),
         filesDinhKem: listFilesDinhKem?.map((e) => e.toModel()).toList(),

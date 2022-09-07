@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
@@ -54,6 +55,8 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
     widget.themCanBoCubit.getCanbo.add([]);
     widget.cubitThanhPhanTG.listCanBoDuocChon = [];
     widget.cubitThanhPhanTG.listCanBo = [];
+    widget.cubitThanhPhanTG.listCanBoThamGia.sink.add([]);
+    widget.cubit.getDanhSachCanBoHop(widget.cubit.idCuocHop);
   }
 
   @override

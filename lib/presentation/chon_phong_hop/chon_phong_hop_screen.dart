@@ -213,6 +213,9 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
     controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
     if (widget.initPhongHop != null) {
       controller.text = widget.initPhongHop?.noiDungYeuCau ?? '';
+      if ((widget.initPhongHop?.noiDungYeuCau ?? '').isEmpty) {
+        controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
+      }
       widget.chonPhongHopCubit.loaiPhongHopEnum =
           widget.initPhongHop?.bitTTDH ?? false
               ? LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH

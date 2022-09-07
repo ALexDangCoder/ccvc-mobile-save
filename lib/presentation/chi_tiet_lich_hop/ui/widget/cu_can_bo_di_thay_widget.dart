@@ -74,7 +74,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             final data = [
               ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
                   .map(
-                (element) => CanBoDiThay(
+                    (element) => CanBoDiThay(
                   id: null,
                   donViId: element.donViId,
                   canBoId: element.userId,

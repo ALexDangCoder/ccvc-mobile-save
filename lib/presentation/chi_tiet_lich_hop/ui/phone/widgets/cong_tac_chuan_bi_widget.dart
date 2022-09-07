@@ -22,6 +22,7 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +31,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 class CongTacChuanBiWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -231,7 +231,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                               return const SizedBox();
                             }
                             if (widget.cubit.checkPermissionQuyenDuyetPhong(
-                                isCheckHideButton: true)) {
+                              isCheckHideButton: true,
+                            )) {
                               return Row(
                                 children: [
                                   ButtonOtherWidget(
@@ -245,7 +246,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                           messState: MessState.error,
                                         );
                                       } else {
-                                        duyetOrhuyDuyetThietBi(true);
+                                        duyetOrhuyDuyetThietBi(isDuyet: true,);
                                       }
                                     },
                                   ),
@@ -262,7 +263,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                             messState: MessState.error,
                                           );
                                         } else {
-                                          duyetOrhuyDuyetThietBi(false);
+                                          duyetOrhuyDuyetThietBi(
+                                            isDuyet: false,
+                                          );
                                         }
                                       },
                                     ),
@@ -485,7 +488,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     );
   }
 
-  void duyetOrhuyDuyetThietBi(bool isDuyet) {
+  void duyetOrhuyDuyetThietBi({required bool isDuyet}) {
     if (listTHietBiDuocChon.isNotEmpty) {
       widget.cubit
           .forToduyetOrHuyDuyetThietBi(
@@ -493,7 +496,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
             isDuyet: isDuyet,
           )
           .then(
-            (value) => emtyThietBiDuocChon(value),
+            (value) => emtyThietBiDuocChon(value: value),
           );
     }
   }
@@ -512,7 +515,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     );
   }
 
-  void emtyThietBiDuocChon(bool value) {
+  void emtyThietBiDuocChon({required bool value}) {
     if (value) {
       listTHietBiDuocChon = [];
     }

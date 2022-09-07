@@ -71,32 +71,27 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             Navigator.pop(context);
           },
           onClickRight: () {
-            if (widget.themDonViCubit.listDonVi.isEmpty) {
-              widget.themDonViCubit.validateDonVi.sink.add(true);
-            } else {
-              widget.themDonViCubit.validateDonVi.sink.add(false);
-              final data = [
-                ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
-                    .map(
-                  (element) => CanBoDiThay(
-                    id: null,
-                    donViId: element.donViId,
-                    canBoId: element.userId,
-                    taskContent: element.noidung,
-                  ),
+            final data = [
+              ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
+                  .map(
+                    (element) => CanBoDiThay(
+                  id: null,
+                  donViId: element.donViId,
+                  canBoId: element.userId,
+                  taskContent: element.noidung,
                 ),
-              ];
-              widget.cubit
-                  .cuCanBoDiThay(
-                canBoDiThay: data,
-              )
-                  .then((value) {
-                if (value) {
-                  widget.cubit.initDataChiTiet();
-                }
-              });
-              Navigator.pop(context);
-            }
+              ),
+            ];
+            widget.cubit
+                .cuCanBoDiThay(
+              canBoDiThay: data,
+            )
+                .then((value) {
+              if (value) {
+                widget.cubit.initDataChiTiet();
+              }
+            });
+            Navigator.pop(context);
           },
         ),
       ),

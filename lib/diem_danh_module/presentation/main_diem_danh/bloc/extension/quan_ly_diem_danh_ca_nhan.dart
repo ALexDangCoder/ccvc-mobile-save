@@ -23,9 +23,9 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     showContent();
   }
 
-  int get endYear => DateTime.now().year + 5;
+  int get endYear => DateTime.now().year + 1000;
 
-  int get startYear => DateTime.now().year - 5;
+  int get startYear => 1900;
 
   bool isMatchDay(
     DateTime dateNew,

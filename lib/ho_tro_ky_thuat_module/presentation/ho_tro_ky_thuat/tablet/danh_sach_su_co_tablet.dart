@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/constants/image_asset.d
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/utils/extensions/event_bus.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/listview/listview_loadmore.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,6 +69,7 @@ class _DanhSachSuCoTabletState extends State<DanhSachSuCoTablet> {
               callApi: (page) => widget.cubit.getListHoTroKyThuat(
                 page: page,
               ),
+              emptyView: const NodataWidget(),
               viewItem: (value, index) => Container(
                 margin: EdgeInsets.only(
                   top: index == 0 ? 14 : 0,

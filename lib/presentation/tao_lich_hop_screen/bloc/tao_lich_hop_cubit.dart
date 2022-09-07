@@ -73,6 +73,7 @@ List<DropDownModel> mucDoHop = [
 class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   TaoLichHopCubit() : super(MainStateInitial()) {
     showContent();
+    requestSubject.sink.add(taoLichHopRequest);
   }
 
   HopRepository get hopRp => Get.find();
@@ -102,8 +103,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   BehaviorSubject<List<TaoPhienHopRequest>> listPhienHop =
       BehaviorSubject.seeded([]);
 
-  BehaviorSubject<bool> needRebuildLichLap =
-  BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> needRebuildLichLap = BehaviorSubject.seeded(false);
+  BehaviorSubject<TaoLichHopRequest> requestSubject = BehaviorSubject();
 
   bool isOverFileLength = false;
 
@@ -490,11 +491,21 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   }
 
   String getTime({bool isGetDateStart = true}) {
+    final allDayTimeData = timeConfigSubject.valueOrNull;
+    late final String? startTime;
+    late final String? endTime;
+    if (taoLichHopRequest.isAllDay ?? false) {
+      startTime = allDayTimeData?['timeStart'] ?? '00:00';
+      endTime = allDayTimeData?['timeEnd'] ?? '00:00';
+    } else {
+      startTime = taoLichHopRequest.timeStart;
+      endTime = taoLichHopRequest.timeTo;
+    }
     return isGetDateStart
         ? '${taoLichHopRequest.ngayBatDau} '
-            '${taoLichHopRequest.timeStart}'
+            '$startTime'
         : '${taoLichHopRequest.ngayKetThuc} '
-            '${taoLichHopRequest.timeTo}';
+            '$endTime';
   }
 
   /// chon phong hop api of tung

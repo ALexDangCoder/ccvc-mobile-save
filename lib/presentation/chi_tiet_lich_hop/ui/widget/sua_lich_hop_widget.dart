@@ -182,10 +182,15 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                                       )
                                       .formatApi;
                               _cubitTaoLichHop.needRebuildLichLap.add(true);
+                              _cubitTaoLichHop.requestSubject.sink
+                                  .add(_cubitTaoLichHop.taoLichHopRequest);
                             },
                             onSwitchPressed: (value) {
                               _cubitTaoLichHop.taoLichHopRequest.isAllDay =
                                   value;
+                              _cubitTaoLichHop.requestSubject.sink.add(
+                                _cubitTaoLichHop.taoLichHopRequest,
+                              );
                             },
                             validateTime: (String value) {},
                           );
@@ -337,23 +342,29 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                   chiTietHop: widget.chiTietHop,
                 ),
                 spaceH24,
-                ChonPhongHopScreen(
-                  dateFrom: _cubitTaoLichHop.getTime(),
-                  dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
-                  id: _cubitTaoLichHop.donViId,
-                  onChange: (value) {
-                    _cubitTaoLichHop.handleChonPhongHop(value);
-                  },
-                  initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
-                  initThietBi:
-                      _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
-                  needShowSelectedRoom: true,
-                  idHop: _cubitTaoLichHop.taoLichHopRequest.id,
-                  onDelete: () {
-                    _cubitTaoLichHop.taoLichHopRequest.phongHop = null;
-                    _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi = null;
-                  },
-                ),
+                StreamBuilder(
+                    stream: _cubitTaoLichHop.requestSubject,
+                    builder: (_, __) {
+                      return ChonPhongHopScreen(
+                        dateFrom: _cubitTaoLichHop.getTime(),
+                        dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
+                        id: _cubitTaoLichHop.donViId,
+                        onChange: (value) {
+                          _cubitTaoLichHop.handleChonPhongHop(value);
+                        },
+                        initPhongHop:
+                            _cubitTaoLichHop.taoLichHopRequest.phongHop,
+                        initThietBi:
+                            _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
+                        needShowSelectedRoom: true,
+                        idHop: _cubitTaoLichHop.taoLichHopRequest.id,
+                        onDelete: () {
+                          _cubitTaoLichHop.taoLichHopRequest.phongHop = null;
+                          _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi =
+                              null;
+                        },
+                      );
+                    }),
                 spaceH15,
                 DoubleButtonBottom(
                   title1: S.current.dong,
@@ -374,7 +385,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
   }
 
   void handleButtonEditPressed() {
-    widget.chiTietHop.dsDiemCau=_cubitTaoLichHop.dsDiemCauSubject.value;
+    widget.chiTietHop.dsDiemCau = _cubitTaoLichHop.dsDiemCauSubject.value;
     final bool validateTime =
         _timerPickerKey.currentState?.validator() ?? false;
     final bool validateTextField = _formKey.currentState?.validator() ?? false;

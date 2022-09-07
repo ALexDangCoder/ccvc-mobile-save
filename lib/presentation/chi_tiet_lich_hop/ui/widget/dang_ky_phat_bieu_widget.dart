@@ -54,7 +54,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
     });
   }
 
-  void validateForm (String value){
+  void validateForm(String value) {
     validatePhienHop();
     validate(value);
   }
@@ -100,23 +100,30 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 8),
-              child: Text(
-                S.current.phien_hop,
-                style: tokenDetailAmount(
-                  color: titleItemEdit,
-                  fontSize: 14.0.textScale(),
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    S.current.phien_hop,
+                    style: tokenDetailAmount(
+                      color: titleItemEdit,
+                      fontSize: 14.0.textScale(),
+                    ),
+                  ),
+                  const Text(
+                    ' *',
+                    style: TextStyle(color: canceledColor),
+                  )
+                ],
               ),
             ),
             StreamBuilder<List<ListPhienHopModel>>(
               stream: widget.cubit.danhSachChuongTrinhHop,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
-                final newListSelect =
-                data.map((e) => e.tieuDe ?? '').toList();
+                final newListSelect = data.map((e) => e.tieuDe ?? '').toList();
                 return CoolDropDown(
                   key: UniqueKey(),
-                  maxLines:  2,
+                  maxLines: 2,
                   useCustomHintColors: true,
                   placeHoder: S.current.chon_phien_hop,
                   listData: newListSelect,
@@ -124,7 +131,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                   onChange: (value) {
                     taoBieuQuyetRequest.phienHopId = data[value].id;
                     validatePhienHop();
-                    valueDropDownSelected  = data[value].tieuDe ?? '';
+                    valueDropDownSelected = data[value].tieuDe ?? '';
                   },
                 );
               },

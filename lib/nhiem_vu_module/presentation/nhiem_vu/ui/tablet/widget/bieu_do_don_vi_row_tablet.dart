@@ -1,5 +1,5 @@
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
@@ -49,13 +49,12 @@ class _BieuDoNhiemVuDonViRowTabletState
                 return PieChart(
                   isSubjectInfo: false,
                   chartData: widget.chartData,
-                  onTap: (int value) {
-                  },
+                  onTap: (int value) {},
                 );
               },
             ),
           ),
-          SizedBox(height: 20),
+          spaceH20,
           Expanded(
             child: Column(
               children: [
@@ -74,7 +73,8 @@ class _BieuDoNhiemVuDonViRowTabletState
                                   value: e.value ?? 0,
                                   onTap: () {
                                     widget.onTapStatusBox(
-                                        (e.giaTri ?? '').statusBox());
+                                      (e.giaTri ?? '').statusBox(),
+                                    );
                                   },
                                   color: (e.giaTri ?? '').status(),
                                   statusName: e.text ?? '',
@@ -86,7 +86,7 @@ class _BieuDoNhiemVuDonViRowTabletState
                     );
                   },
                 ),
-                SizedBox(height: 28),
+                spaceH28,
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -98,11 +98,13 @@ class _BieuDoNhiemVuDonViRowTabletState
                     final result = widget.chartData[index];
                     return GestureDetector(
                       onTap: () {
-                        widget.ontap(widget.cubit.chartData[index].title
-                            .split(' ')
-                            .join('_')
-                            .toUpperCase()
-                            .vietNameseParse());
+                        widget.ontap(
+                          widget.cubit.chartData[index].title
+                              .split(' ')
+                              .join('_')
+                              .toUpperCase()
+                              .vietNameseParse(),
+                        );
                       },
                       child: Row(
                         children: [

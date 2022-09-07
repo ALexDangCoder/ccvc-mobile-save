@@ -10,9 +10,12 @@ class ItemHuyenWidget extends StatefulWidget {
   final bool isEdit;
   final String name;
 
-  ItemHuyenWidget(
-      {Key? key, required this.taoLichLamViecCubit, this.isEdit = false, this.name = ''})
-      : super(key: key);
+  const ItemHuyenWidget({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    this.isEdit = false,
+    this.name = '',
+  }) : super(key: key);
 
   @override
   _ItemHuyenWidgetState createState() => _ItemHuyenWidgetState();
@@ -35,13 +38,10 @@ class _ItemHuyenWidgetState extends State<ItemHuyenWidget> {
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenQuanHuyen ?? '').toList(),
           hintText: widget.isEdit ? '' : S.current.chon_huyen,
-          value: widget.isEdit
-              ? widget.name
-              : '',
+          value: widget.isEdit ? widget.name : '',
           title: S.current.quan_huyen,
         );
       },
     );
-    return Container();
   }
 }

@@ -35,7 +35,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
     )..addStatusListener((status) async {
         if (status == AnimationStatus.completed) {
           await Future.delayed(const Duration(seconds: 2));
-          animationController.reverse();
+          unawaited(animationController.reverse());
         }
         if (status == AnimationStatus.dismissed) {
           widget.onDismiss();

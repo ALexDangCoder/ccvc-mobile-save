@@ -10,9 +10,12 @@ class ItemTinhWidget extends StatefulWidget {
   final bool isEdit;
   final String name;
 
-  ItemTinhWidget(
-      {Key? key, required this.taoLichLamViecCubit, this.isEdit = false, this.name = ''})
-      : super(key: key);
+  const ItemTinhWidget({
+    Key? key,
+    required this.taoLichLamViecCubit,
+    this.isEdit = false,
+    this.name = '',
+  }) : super(key: key);
 
   @override
   _ItemTinhWidgetState createState() => _ItemTinhWidgetState();
@@ -35,13 +38,10 @@ class _ItemTinhWidgetState extends State<ItemTinhWidget> {
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenTinhThanh ?? '').toList(),
           hintText: widget.isEdit ? '' : S.current.chon_tinh,
-          value: widget.isEdit
-              ? widget.name
-              : '',
+          value: widget.isEdit ? widget.name : '',
           title: S.current.tinh,
         );
       },
     );
-    return Container();
   }
 }

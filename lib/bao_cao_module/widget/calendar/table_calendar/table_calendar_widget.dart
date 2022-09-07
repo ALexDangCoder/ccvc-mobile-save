@@ -17,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// ignore: must_be_immutable
 class TableCalendarWidget extends StatefulWidget {
   final bool isCalendar;
   late bool? tablet;
@@ -116,7 +117,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         DateTime(
           cubit.moveTimeSubject.value.year,
           cubit.moveTimeSubject.value.month,
-          1,
         ),
         DateTime(
           cubit.moveTimeSubject.value.year,
@@ -148,7 +148,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     bottomRight: Radius.circular(20),
                   ),
                 )
-              : BoxDecoration(
+              : const BoxDecoration(
                   color: Colors.white,
                 ),
           child: Column(
@@ -300,7 +300,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     ),
                     titleTextFormatter: (date, locale) =>
                         date.toStringMonth_Year,
-                    formatButtonShowsNext: true,
                   ),
                   calendarFormat: widget.isFomatMonth == true
                       ? _calendarFormatWeek

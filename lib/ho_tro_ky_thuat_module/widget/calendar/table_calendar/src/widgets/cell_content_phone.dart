@@ -1,11 +1,10 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/calendar/table_calendar/src/customization/calendar_builders_phone.dart';
+import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/calendar/table_calendar/src/customization/calendar_style_phone.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-
-import '../customization/calendar_builders_phone.dart';
-import '../customization/calendar_style_phone.dart';
 
 class CellContent extends StatelessWidget {
   final DateTime day;
@@ -64,7 +63,7 @@ class CellContent extends StatelessWidget {
     final margin = calendarStyle.cellMargin;
     final padding = calendarStyle.cellPadding;
     final alignment = calendarStyle.cellAlignment;
-    final duration = const Duration(milliseconds: 250);
+    const duration = Duration(milliseconds: 250);
 
     if (isDisabled) {
       cell = calendarBuilders.disabledBuilder?.call(context, day, focusedDay) ??

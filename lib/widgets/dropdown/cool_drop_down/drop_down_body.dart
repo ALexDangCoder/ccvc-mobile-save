@@ -609,7 +609,8 @@ class DropdownBodyState extends State<DropdownBody>
                                                                 widget.dropdownList[
                                                                         index]
                                                                     ['label'],
-                                                                maxLines: widget.maxLines,
+                                                                maxLines: widget
+                                                                    .maxLines,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
@@ -679,7 +680,8 @@ class DropdownBodyState extends State<DropdownBody>
                                                           )
                                                         : Container(),
                                                 ].isReverse(
-                                                  widget.dropdownItemReverse,
+                                                  isReverse: widget
+                                                      .dropdownItemReverse,
                                                 ),
                                               ),
                                             ),

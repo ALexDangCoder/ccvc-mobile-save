@@ -413,7 +413,7 @@ class CoolDropdownState extends State<CoolDropdown>
                                   ),
                                 if (selectedItem['icon'] != null)
                                   selectedItem['icon'] as Widget,
-                              ].isReverse(widget.dropdownItemReverse),
+                              ].isReverse(isReverse :widget.dropdownItemReverse),
                             ),
                           ),
                         ),
@@ -424,7 +424,7 @@ class CoolDropdownState extends State<CoolDropdown>
                           rotationIcon()
                         else
                           widget.resultIcon
-                      ].isReverse(widget.resultReverse),
+                      ].isReverse(isReverse :widget.resultReverse),
                     )
                   : rotationIcon(),
             ),

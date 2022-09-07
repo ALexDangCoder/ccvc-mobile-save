@@ -10,9 +10,12 @@ class LinhVucWidget extends StatefulWidget {
   final bool isEdit;
   final String name;
 
-  LinhVucWidget(
-      {Key? key, required this.cubit, this.isEdit = false, this.name = ''})
-      : super(key: key);
+  const LinhVucWidget({
+    Key? key,
+    required this.cubit,
+    this.isEdit = false,
+    this.name = '',
+  }) : super(key: key);
 
   @override
   _LinhVucWidgetState createState() => _LinhVucWidgetState();

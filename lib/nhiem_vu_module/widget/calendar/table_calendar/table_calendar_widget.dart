@@ -116,7 +116,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         DateTime(
           cubit.moveTimeSubject.value.year,
           cubit.moveTimeSubject.value.month,
-          1,
         ),
         DateTime(
           cubit.moveTimeSubject.value.year,
@@ -148,7 +147,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       bottomRight: Radius.circular(20),
                     ),
                   )
-                : BoxDecoration(
+                : const BoxDecoration(
                     color: Colors.white,
                   ),
             child: Column(
@@ -278,7 +277,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         color: buttonColor,
                       ),
                     ),
-                    headerVisible: widget.tablet == true ? true : false,
+                    headerVisible: widget.tablet ?? false,
                     headerStyle: HeaderStyle(
                       formatButtonVisible: false,
                       titleCentered: true,
@@ -300,7 +299,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       ),
                       titleTextFormatter: (date, locale) =>
                           date.toStringMonth_Year,
-                      formatButtonShowsNext: true,
                     ),
                     calendarFormat: widget.isFomatMonth == true
                         ? _calendarFormatWeek

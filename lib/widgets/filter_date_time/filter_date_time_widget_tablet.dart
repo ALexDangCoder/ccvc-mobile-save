@@ -25,7 +25,7 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
   final TextEditingController? controller;
   final Function(String)? onSubmit;
 
-  FilterDateTimeWidgetTablet({
+  const FilterDateTimeWidgetTablet({
     Key? key,
     required this.onChooseDateFilter,
     required this.context,
@@ -136,7 +136,9 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                           }
                           currentStartDate = chooseTime;
                           widget.onChooseDateFilter(
-                              currentStartDate, DateTime.now());
+                            currentStartDate,
+                            DateTime.now(),
+                          );
                           Navigator.pop(context);
                         },
                         setHeight: 400,
@@ -242,24 +244,24 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                 ),
                 suffixIcon: widget.isBtnClose
                     ? widget.controller?.text != ''
-                    ? SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        widget.onClose?.call(
-                          widget.controller?.text ?? '',
-                        );
-                      },
-                      child: const Icon(
-                        Icons.clear,
-                        color: coloriCon,
-                      ),
-                    ),
-                  ),
-                )
-                    : const SizedBox()
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  widget.onClose?.call(
+                                    widget.controller?.text ?? '',
+                                  );
+                                },
+                                child: const Icon(
+                                  Icons.clear,
+                                  color: coloriCon,
+                                ),
+                              ),
+                            ),
+                          )
+                        : const SizedBox()
                     : const SizedBox(),
                 contentPadding: const EdgeInsets.only(left: 20, top: 4),
                 isCollapsed: true,

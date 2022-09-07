@@ -17,7 +17,7 @@ class ItemTinRadioTrongNuocTablet extends StatelessWidget {
   final String? url;
   final Function() clickItem;
 
-  ItemTinRadioTrongNuocTablet(
+  const ItemTinRadioTrongNuocTablet(
     this.image,
     this.title,
     this.date, {

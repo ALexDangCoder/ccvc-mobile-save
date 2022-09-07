@@ -62,94 +62,97 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               StreamBuilder<ChiTietYKienNguoiDanRow>(
-                  stream: cubit.rowDataChiTietYKienNguoiDan,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data;
-                    return Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 14.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                    color: backgroundColorApp,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: cellColorborder),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: shadowContainerColor
-                                            .withOpacity(0.05),
-                                        blurRadius: 10,
-                                      )
-                                    ]),
-                                // child: ChiTietYKNDHeaderTablet(
-                                //   listRow: data?.dataHeaderRow ?? [],
-                                // ),
+                stream: cubit.rowDataChiTietYKienNguoiDan,
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 14.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: backgroundColorApp,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: cellColorborder),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        shadowContainerColor.withOpacity(0.05),
+                                    blurRadius: 10,
+                                  )
+                                ],
                               ),
-                              const SizedBox(
-                                height: 28,
-                              ),
-                              ExpandOnlyNhiemVu(
-                                name: S.current.thong_tin_nguoi_phan_anh,
-                                child: Container(
-                                  color: backgroundColorApp,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 16,
-                                  ),
-                                  child: NguoiPhanAnhTablet(
-                                    indexCheck: cubit.checkIndex,
-                                    listRow: data?.thongTinPhanAnhRow ?? [],
-                                  ),
+                            ),
+                            const SizedBox(
+                              height: 28,
+                            ),
+                            ExpandOnlyNhiemVu(
+                              name: S.current.thong_tin_nguoi_phan_anh,
+                              child: Container(
+                                color: backgroundColorApp,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
+                                child: NguoiPhanAnhTablet(
+                                  indexCheck: cubit.checkIndex,
+                                  listRow: data?.thongTinPhanAnhRow ?? [],
                                 ),
                               ),
-                              ExpandOnlyNhiemVu(
-                                name: S.current.ket_qua_xu_ly,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 16),
-                                  child: Column(
-                                    children: [
-                                      ItemRow(
-                                        title: S.current.y_kien_xu_ly,
-                                        content: cubit.yKienXuLy,
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                    ],
-                                  ),
+                            ),
+                            ExpandOnlyNhiemVu(
+                              name: S.current.ket_qua_xu_ly,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
+                                child: Column(
+                                  children: [
+                                    ItemRow(
+                                      title: S.current.y_kien_xu_ly,
+                                      content: cubit.yKienXuLy,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              ExpandOnlyNhiemVu(
-                                name: S.current.tien_trinh_xu_ly,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 16),
-                                  child: Column(
-                                    children: [
-                                      ItemRow(
-                                        title: S.current.y_kien_xu_ly,
-                                        content: cubit.yKienXuLy,
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                    ],
-                                  ),
+                            ),
+                            ExpandOnlyNhiemVu(
+                              name: S.current.tien_trinh_xu_ly,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
+                                child: Column(
+                                  children: [
+                                    ItemRow(
+                                      title: S.current.y_kien_xu_ly,
+                                      content: cubit.yKienXuLy,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(left: 14.0),
+                  margin: const EdgeInsets.only(left: 14.0),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: borderButtomColor,

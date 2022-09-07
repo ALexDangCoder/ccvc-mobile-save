@@ -679,7 +679,6 @@ class CupertinoDatePicker extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _CustomCupertinoDatePickerDateState();
-
 }
 
 class CupertinoDateTimePicker extends StatefulWidget {
@@ -869,7 +868,7 @@ class CupertinoDateTimePicker extends StatefulWidget {
   State<StatefulWidget> createState() =>
       _CustomCupertinoDatePickerDateTimeState();
 
-  // Estimate the minimum width that each column needs to layout its content.
+// Estimate the minimum width that each column needs to layout its content.
 
 }
 
@@ -2321,11 +2320,10 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
 
   Widget _buildHourColumn(
       EdgeInsetsDirectional additionalPadding, Widget selectionOverlay) {
-    additionalPadding = EdgeInsetsDirectional.only(
+    final newAdditionalPadding = EdgeInsetsDirectional.only(
       start: math.max(additionalPadding.start, 0),
       end: math.max(additionalPadding.end, 0),
     );
-
     return Stack(
       children: <Widget>[
         NotificationListener<ScrollEndNotification>(
@@ -2335,13 +2333,13 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
             });
             return false;
           },
-          child: _buildHourPicker(additionalPadding, selectionOverlay),
+          child: _buildHourPicker(newAdditionalPadding, selectionOverlay),
         ),
         _buildLabel(
           localizations
                   .timerPickerHourLabel(lastSelectedHour ?? selectedHour!) ??
               '',
-          additionalPadding,
+          newAdditionalPadding,
         ),
       ],
     );
@@ -2374,6 +2372,7 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
           );
         });
       },
+      selectionOverlay: selectionOverlay,
       children: List<Widget>.generate(60 ~/ widget.minuteInterval, (int index) {
         final int minute = index * widget.minuteInterval;
         final String label = localizations.timerPickerMinuteLabel(minute) ?? '';
@@ -2388,13 +2387,12 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
               localizations.timerPickerMinute(minute), additionalPadding),
         );
       }),
-      selectionOverlay: selectionOverlay,
     );
   }
 
   Widget _buildMinuteColumn(
       EdgeInsetsDirectional additionalPadding, Widget selectionOverlay) {
-    additionalPadding = EdgeInsetsDirectional.only(
+    final newAdditionalPadding = EdgeInsetsDirectional.only(
       start: math.max(additionalPadding.start, 0),
       end: math.max(additionalPadding.end, 0),
     );
@@ -2408,13 +2406,13 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
             });
             return false;
           },
-          child: _buildMinutePicker(additionalPadding, selectionOverlay),
+          child: _buildMinutePicker(newAdditionalPadding, selectionOverlay),
         ),
         _buildLabel(
           localizations.timerPickerMinuteLabel(
                   lastSelectedMinute ?? selectedMinute) ??
               '',
-          additionalPadding,
+          newAdditionalPadding,
         ),
       ],
     );
@@ -2467,7 +2465,7 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
 
   Widget _buildSecondColumn(
       EdgeInsetsDirectional additionalPadding, Widget selectionOverlay) {
-    additionalPadding = EdgeInsetsDirectional.only(
+    final newAdditionalPadding = EdgeInsetsDirectional.only(
       start: math.max(additionalPadding.start, 0),
       end: math.max(additionalPadding.end, 0),
     );
@@ -2481,13 +2479,13 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
             });
             return false;
           },
-          child: _buildSecondPicker(additionalPadding, selectionOverlay),
+          child: _buildSecondPicker(newAdditionalPadding, selectionOverlay),
         ),
         _buildLabel(
           localizations.timerPickerSecondLabel(
                   lastSelectedSecond ?? selectedSecond!) ??
               '',
-          additionalPadding,
+          newAdditionalPadding,
         ),
       ],
     );

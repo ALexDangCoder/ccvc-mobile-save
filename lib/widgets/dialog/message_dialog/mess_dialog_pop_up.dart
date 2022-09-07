@@ -10,11 +10,11 @@ class MessageDialogPopup extends StatefulWidget {
   final String urlIcon;
   final String title;
   final String? title2;
-  bool? showTitle2;
-  FontWeight? fontWeight;
-  double? fontSize;
+  final bool? showTitle2;
+  final FontWeight? fontWeight;
+  final double? fontSize;
 
-  MessageDialogPopup({
+  const MessageDialogPopup({
     Key? key,
     required this.onDismiss,
     this.urlIcon = '',
@@ -43,7 +43,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
     )..addStatusListener((status) async {
         if (status == AnimationStatus.completed) {
           await Future.delayed(const Duration(seconds: 2));
-          animationController.reverse();
+          unawaited(animationController.reverse());
         }
         if (status == AnimationStatus.dismissed) {
           widget.onDismiss();
@@ -105,9 +105,10 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                         widget.title,
                         textAlign: TextAlign.center,
                         style: textNormalCustom(
-                            fontSize: widget.fontSize,
-                            color: color3D5586,
-                            fontWeight: widget.fontWeight),
+                          fontSize: widget.fontSize,
+                          color: color3D5586,
+                          fontWeight: widget.fontWeight,
+                        ),
                       ),
                       if (widget.showTitle2 ?? false)
                         Padding(
@@ -116,7 +117,9 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                             widget.title2 ?? '',
                             textAlign: TextAlign.center,
                             style: textNormalCustom(
-                                fontSize: 18, color: labelColor),
+                              fontSize: 18,
+                              color: labelColor,
+                            ),
                           ),
                         )
                       else

@@ -35,11 +35,11 @@ class _SituationOfHandlingPeopleWidgetState
   void initState() {
     // TODO: implement initState
     super.initState();
-    _yKienCubit.callApi(false);
+    _yKienCubit.callApi(isDonVi: false);
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        _yKienCubit.callApi(false);
+        _yKienCubit.callApi(isDonVi: false);
       });
     });
   }

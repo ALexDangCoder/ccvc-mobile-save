@@ -35,7 +35,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
-  CalendarMeetingCubit() : super( CalendarViewState()) {
+  CalendarMeetingCubit() : super(const CalendarViewState()) {
     showContent();
   }
 
@@ -158,7 +158,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     getCountDashboard();
     if (typeCalender != StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
       getDanhSachLichHop();
-    }else{
+    } else {
       getDanhSachLichCanKLCH();
     }
     getMenuLichLanhDao();
@@ -185,7 +185,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   /// Lấy danh sách menu theo trạng thaí lịch:
   List<ChildMenu> getMenuLichTheoTrangThai(DashBoardLichHopModel countData) {
-     listMenuTheoTrangThai = [
+    listMenuTheoTrangThai = [
       ChildMenu(
         title: StatusWorkCalendar.LICH_DUOC_MOI.getTitleMeeting(),
         value: StatusDataItem(
@@ -229,7 +229,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
       permissionTxt: PermissionAppTxt.QUYEN_DUYET_PHONG,
-    )){
+    )) {
       listMenuTheoTrangThai.add(
         ChildMenu(
           title: StatusWorkCalendar.LICH_DUYET_PHONG.getTitleMeeting(),
@@ -256,22 +256,24 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           count: (countData.soLichDuyetThietBiXacNhan ?? 0) +
               (countData.soLichDuyetThietBiTuChoi ?? 0) +
               (countData.soLichDuyetThietBiCho ?? 0),
-        ),);
+        ),
+      );
     }
-     if (HiveLocal.checkPermissionApp(
-       permissionType: PermissionType.VPDT,
-       permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
-     )) {
-       listMenuTheoTrangThai.add(
-         ChildMenu(
-           title: StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI.getTitleMeeting(),
-           value: StatusDataItem(
-             StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
-           ),
-           count: (countData.soLichDaThucHienYC ?? 0) +
-               (countData.soLichChuaThucHienYC ?? 0),
-         ),);
-     }
+    if (HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.VPDT,
+      permissionTxt: PermissionAppTxt.YEU_CAU_CHUAN_BI,
+    )) {
+      listMenuTheoTrangThai.add(
+        ChildMenu(
+          title: StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI.getTitleMeeting(),
+          value: StatusDataItem(
+            StatusWorkCalendar.LICH_YEU_CAU_CHUAN_BI,
+          ),
+          count: (countData.soLichDaThucHienYC ?? 0) +
+              (countData.soLichChuaThucHienYC ?? 0),
+        ),
+      );
+    }
     if (HiveLocal.checkPermissionApp(
       permissionType: PermissionType.VPDT,
       permissionTxt: 'duyet-ky-thuat',
@@ -344,7 +346,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     required DateTime startDate,
     required DateTime endDate,
   }) async {
-    if(state is ChartViewState){
+    if (state is ChartViewState) {
       _listNgayCoLich.sink.add([]);
       return;
     }
@@ -356,7 +358,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         DonViId: isLichLanhDao
             ? idDonViLanhDao
             : HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id ??
-            '',
+                '',
         month: startDate.month,
         PageIndex: ApiConstants.PAGE_BEGIN,
         UserId: HiveLocal.getDataUser()?.userId ?? '',
@@ -392,7 +394,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
     result.when(
       success: (value) {
-        if(state is ChartViewState){
+        if (state is ChartViewState) {
           _listNgayCoLich.sink.add([]);
           return;
         }
@@ -479,11 +481,11 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     );
     result.when(
       success: (value) {
-          checkDuplicate(value.items ?? []);
-          _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
-          _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
-          _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
-          _danhSachLichHopSubject.sink.add(value);
+        checkDuplicate(value.items ?? []);
+        _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
+        _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
+        _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
+        _danhSachLichHopSubject.sink.add(value);
       },
       error: (error) {},
     );
@@ -515,7 +517,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
           listStartEndTime.sort();
           final subTimeCompare = endTimeCompare - startTimeCompare;
           if ((listStartEndTime[0] - listStartEndTime[3]).abs() <
-              (subTimeCompare + subTimeCurrent) &&
+                  (subTimeCompare + subTimeCurrent) &&
               item.id != element.id) {
             element.isTrung = true;
             item.isTrung = true;
@@ -548,12 +550,13 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     fCalendarControllerWeek.displayDate = this.startDate;
     fCalendarControllerMonth.selectedDate = this.startDate;
     fCalendarControllerMonth.displayDate = this.startDate;
-    if(keySearch.isNotEmpty && state is! ChartViewState){
+    if (keySearch.isNotEmpty && state is! ChartViewState) {
       emitListViewState();
     }
   }
 
   String oldTitle = S.current.lich_cua_toi;
+
   /// handle menu clicked
   void handleMenuSelect({
     DataItemMenu? itemMenu,
@@ -564,7 +567,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
       _initDefault();
       emitListViewState();
       _titleSubject.sink.add(oldTitle);
-    } else if (state is CalendarViewState)  {
+    } else if (state is CalendarViewState) {
       _initDefault();
       emitCalendarViewState();
       _titleSubject.sink.add(oldTitle);
@@ -577,7 +580,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
     if (itemMenu != null) {
       idDonViLanhDao = null;
-      if(this.state is ChartViewState){
+      if (this.state is ChartViewState) {
         emitCalendarViewState();
       }
       if (itemMenu is StatusDataItem) {
@@ -595,23 +598,24 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         idDonViLanhDao = itemMenu.id;
         refreshDataDangLich();
       }
-    }else{
-      if(state is! ChartViewState){
+    } else {
+      if (state is! ChartViewState) {
         refreshDataDangLich();
       }
     }
-    if(state is! ChartViewState){
+    if (state is! ChartViewState) {
       oldTitle = _titleSubject.valueOrNull ?? S.current.lich_cua_toi;
     }
   }
 
-void _initDefault(){
-  if(controller.calendarType.value == CalendarType.YEAR){
-    final now = controller.selectDate.value;
-    startDate = now;
-    endDate = now;
+  void _initDefault() {
+    if (controller.calendarType.value == CalendarType.YEAR) {
+      final now = controller.selectDate.value;
+      startDate = now;
+      endDate = now;
+    }
   }
-}
+
   /// Handle chartview
   void getDataDangChart() {
     getStatisticByMonth();
@@ -669,6 +673,7 @@ void _initDefault(){
 
   /// get cơ cấu lịch họp
   String idThongKe = '';
+
   Future<void> getCoCauLichHop() async {
     final result = await hopRepo.postCoCauLichHop(
       startDate.formatApiDDMMYYYYSlash,
@@ -677,13 +682,13 @@ void _initDefault(){
     final List<ChartData> dataCoCauLichHop = [];
     result.when(
       success: (value) {
-        for (var i in value) {
+        for (final element in value) {
           dataCoCauLichHop.add(
             ChartData(
-              i.name ?? '',
-              i.quantities?.toDouble() ?? 0,
-              i.color ?? Colors.white,
-              id: i.id ?? '',
+              element.name ?? '',
+              element.quantities?.toDouble() ?? 0,
+              element.color ?? Colors.white,
+              id: element.id ?? '',
             ),
           );
         }
@@ -708,15 +713,16 @@ void _initDefault(){
     result.when(
       success: (value) {
         checkDuplicate(value.items ?? []);
-        _danhSachLichHopSubject.sink.add(value);      },
+        _danhSachLichHopSubject.sink.add(value);
+      },
       error: (error) {},
     );
     showContent();
   }
 
   bool checkDataList(List<dynamic> data) {
-    for (var i in data) {
-      if (i.quantities != 0) return true;
+    for (final element in data) {
+      if (element.quantities != 0) return true;
     }
     return false;
   }
@@ -760,5 +766,4 @@ void _initDefault(){
       }
     }
   }
-
 }

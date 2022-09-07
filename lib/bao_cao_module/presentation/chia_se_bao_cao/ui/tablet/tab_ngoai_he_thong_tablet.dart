@@ -76,7 +76,9 @@ class _TabNgoaiHeThongTabletState extends State<TabNgoaiHeThongTablet> {
           child: RefreshIndicator(
             onRefresh: () async {
               widget.cubit.refreshData();
-              widget.cubit.getUsersNgoaiHeThongDuocTruyCap(isSearch: true);
+              await widget.cubit.getUsersNgoaiHeThongDuocTruyCap(
+                isSearch: true,
+              );
             },
             child: Stack(
               children: [

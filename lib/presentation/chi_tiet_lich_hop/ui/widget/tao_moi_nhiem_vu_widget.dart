@@ -293,7 +293,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   bottom: 20,
                 ),
                 itemCount: data.length,

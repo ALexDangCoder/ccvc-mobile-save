@@ -30,6 +30,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 class CongTacChuanBiWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -237,7 +238,15 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                     text: S.current.duyet,
                                     color: itemWidgetUsing,
                                     ontap: () {
-                                      duyetOrhuyDuyetThietBi(true);
+                                      if (listTHietBiDuocChon.isEmpty) {
+                                        MessageConfig.show(
+                                          title: S.current
+                                              .ban_chua_chon_loai_thiet_bi,
+                                          messState: MessState.error,
+                                        );
+                                      } else {
+                                        duyetOrhuyDuyetThietBi(true);
+                                      }
                                     },
                                   ),
                                   Padding(
@@ -246,7 +255,15 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                       text: S.current.tu_choi,
                                       color: statusCalenderRed,
                                       ontap: () {
-                                        duyetOrhuyDuyetThietBi(false);
+                                        if (listTHietBiDuocChon.isEmpty) {
+                                          MessageConfig.show(
+                                            title: S.current
+                                                .ban_chua_chon_loai_thiet_bi,
+                                            messState: MessState.error,
+                                          );
+                                        } else {
+                                          duyetOrhuyDuyetThietBi(false);
+                                        }
                                       },
                                     ),
                                   ),

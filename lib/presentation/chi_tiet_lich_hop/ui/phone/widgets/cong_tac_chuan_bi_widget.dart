@@ -22,6 +22,7 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -93,9 +94,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
                   id: HiveLocal.getDataUser()
-                          ?.userInformation
-                          ?.donViTrucThuoc
-                          ?.id ??
+                      ?.userInformation
+                      ?.donViTrucThuoc
+                      ?.id ??
                       '',
                   onChange: (value) {
                     _cubitTaoLichHop
@@ -114,7 +115,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   },
                   initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
                   initThietBi:
-                      _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
+                  _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
                 );
               }
               if (widget.cubit.isHasPhong()) {
@@ -188,12 +189,12 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   title: S.current.thong_tin_yeu_cau_chuan_bi,
                   child: ((data.noiDungYeuCau ?? '').isNotEmpty)
                       ? itemThongTinYeuCauChuanBi(
-                          model: data,
-                          cubit: widget.cubit,
-                        )
+                    model: data,
+                    cubit: widget.cubit,
+                  )
                       : const NodataWidget(
-                          height: 50.0,
-                        ),
+                    height: 50.0,
+                  ),
                 ),
               );
             }
@@ -230,14 +231,23 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                               return const SizedBox();
                             }
                             if (widget.cubit.checkPermissionQuyenDuyetPhong(
-                                isCheckHideButton: true)) {
+                              isCheckHideButton: true,
+                            )) {
                               return Row(
                                 children: [
                                   ButtonOtherWidget(
                                     text: S.current.duyet,
                                     color: itemWidgetUsing,
                                     ontap: () {
-                                      duyetOrhuyDuyetThietBi(true);
+                                      if (listTHietBiDuocChon.isEmpty) {
+                                        MessageConfig.show(
+                                          title: S.current
+                                              .ban_chua_chon_loai_thiet_bi,
+                                          messState: MessState.error,
+                                        );
+                                      } else {
+                                        duyetOrhuyDuyetThietBi(isDuyet: true,);
+                                      }
                                     },
                                   ),
                                   Padding(
@@ -246,7 +256,17 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                       text: S.current.tu_choi,
                                       color: statusCalenderRed,
                                       ontap: () {
-                                        duyetOrhuyDuyetThietBi(false);
+                                        if (listTHietBiDuocChon.isEmpty) {
+                                          MessageConfig.show(
+                                            title: S.current
+                                                .ban_chua_chon_loai_thiet_bi,
+                                            messState: MessState.error,
+                                          );
+                                        } else {
+                                          duyetOrhuyDuyetThietBi(
+                                            isDuyet: false,
+                                          );
+                                        }
                                       },
                                     ),
                                   ),
@@ -260,7 +280,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       Column(
                         children: List.generate(
                           data.length,
-                          (index) => Padding(
+                              (index) => Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: ThongTinYeuCauThietBiWidget(
                               model: data[index],
@@ -468,16 +488,16 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     );
   }
 
-  void duyetOrhuyDuyetThietBi(bool isDuyet) {
+  void duyetOrhuyDuyetThietBi({required bool isDuyet}) {
     if (listTHietBiDuocChon.isNotEmpty) {
       widget.cubit
           .forToduyetOrHuyDuyetThietBi(
-            listTHietBiDuocChon: listTHietBiDuocChon,
-            isDuyet: isDuyet,
-          )
+        listTHietBiDuocChon: listTHietBiDuocChon,
+        isDuyet: isDuyet,
+      )
           .then(
-            (value) => emtyThietBiDuocChon(value),
-          );
+            (value) => emtyThietBiDuocChon(value: value),
+      );
     }
   }
 
@@ -495,7 +515,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     );
   }
 
-  void emtyThietBiDuocChon(bool value) {
+  void emtyThietBiDuocChon({required bool value}) {
     if (value) {
       listTHietBiDuocChon = [];
     }
@@ -698,9 +718,9 @@ class _ChonPhongHopScreenOnlyState extends State<_ChonPhongHopScreenOnly> {
   Widget build(BuildContext context) {
     return Container(
       constraints:
-          BoxConstraints(maxHeight: MediaQuery.of(context).size.height) * 0.8,
+      BoxConstraints(maxHeight: MediaQuery.of(context).size.height) * 0.8,
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: FollowKeyBoardEdt(
         bottomWidget: Padding(
           padding: const EdgeInsets.only(bottom: 16),

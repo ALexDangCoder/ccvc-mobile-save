@@ -146,12 +146,14 @@ class FileFromAPIWidget extends StatelessWidget {
   final String? url;
   final String? lengthFile;
   final bool canDelete;
+  final DomainDownloadType downloadType;
 
   const FileFromAPIWidget({
     Key? key,
     required this.onTapDelete,
     required this.data,
     this.lengthFile,
+    this.downloadType = DomainDownloadType.GATEWAY,
     this.url,
     this.canDelete = true,
   }) : super(key: key);
@@ -184,7 +186,11 @@ class FileFromAPIWidget extends StatelessWidget {
                   ),
                   onTap: () {
                     if (url != null) {
-                      saveFile(fileName: data, url: url ?? '');
+                      saveFile(
+                        fileName: data,
+                        url: url ?? '',
+                        downloadType: downloadType,
+                      );
                     }
                   },
                 ),

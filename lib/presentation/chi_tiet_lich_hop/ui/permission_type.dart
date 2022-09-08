@@ -604,8 +604,11 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textContent: S.current.ban_chan_chan_huy_lich_nay,
                 btnLeftTxt: S.current.khong,
                 funcBtnRight: () {
-                  cubit.huyChiTietLichHop();
-                  Navigator.pop(context, true);
+                  cubit.huyChiTietLichHop().then((value) {
+                    if (value) {
+                      Navigator.pop(context, true);
+                    }
+                  });
                 },
                 title: S.current.huy_lich,
                 btnRightTxt: S.current.dong_y,

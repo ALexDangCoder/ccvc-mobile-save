@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.dart';
@@ -360,7 +361,17 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
             },
             title: res.code ?? '',
             btnRightTxt: S.current.dong_y,
-            icon: SvgPicture.asset(ImageAssets.icUserMeeting),
+            icon:  Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: AppTheme.getInstance().colorField().withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: SvgPicture.asset(
+                ImageAssets.icUserMeeting,
+                color: AppTheme.getInstance().colorField(),
+              ),
+            ),
           );
         } else {
           if (!isEdit) {

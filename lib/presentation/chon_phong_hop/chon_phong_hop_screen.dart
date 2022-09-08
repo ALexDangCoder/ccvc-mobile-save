@@ -23,7 +23,6 @@ import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +72,15 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
       _cubit.thongTinPhongHopSubject.sink.add(
         ChonPhongHopModel(
           loaiPhongHopEnum: LoaiPhongHopEnum.PHONG_HOP_THUONG,
-          listThietBi: [],
+          listThietBi: widget.initThietBi
+                  ?.map(
+                    (e) => ThietBiValue(
+                      tenThietBi: e.tenThietBi ?? '',
+                      soLuong: int.tryParse(e.soLuong ?? '') ?? 0,
+                    ),
+                  )
+                  .toList() ??
+              [],
           yeuCauKhac: widget.initPhongHop?.noiDungYeuCau ?? '',
           phongHop: widget.initPhongHop,
         ),
@@ -205,10 +212,11 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   final _key = GlobalKey<FormState>();
   late bool isFirstTime;
   final _dropDownKey = GlobalKey<CoolDropDownState>();
-
+  late var data;
   @override
   void initState() {
     super.initState();
+
     isFirstTime = false;
     controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
     if (widget.initPhongHop != null) {
@@ -220,7 +228,23 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
           widget.initPhongHop?.bitTTDH ?? false
               ? LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH
               : LoaiPhongHopEnum.PHONG_HOP_THUONG;
+      widget.chonPhongHopCubit.initListThietBi(widget.initThietBi ?? []);
     }
+    data = ChonPhongHopModel(
+      loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
+      listThietBi: widget.chonPhongHopCubit.listThietBi,
+      yeuCauKhac: controller.text.trim(),
+      phongHop: widget.chonPhongHopCubit.phongHop,
+    );
+    widget.chonPhongHopCubit.phongHop
+      ..donViId = widget.initPhongHop
+          ?.phongHopId
+      ..ten = widget.initPhongHop
+          ?.ten
+      ..bitTTDH = widget.initPhongHop
+          ?.bitTTDH
+      ..phongHopId = widget.initPhongHop
+          ?.phongHopId;
   }
 
   @override
@@ -247,15 +271,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   Navigator.pop(context);
                 },
                 onClickRight: () {
-                  Navigator.pop(
-                    context,
-                    ChonPhongHopModel(
-                      loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
-                      listThietBi: widget.chonPhongHopCubit.listThietBi,
-                      yeuCauKhac: controller.text.trim(),
-                      phongHop: widget.chonPhongHopCubit.phongHop,
-                    ),
-                  );
+                  Navigator.pop(context, data);
                 },
               ),
             ),
@@ -376,6 +392,8 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                                           ? index
                                           : -1,
                                       onChange: (index) {
+                                        widget.initPhongHop
+                                            ?.phongHopId = '';
                                         widget.chonPhongHopCubit.phongHop
                                           ..donViId = phongHop.donViDuyetId
                                           ..ten = phongHop.ten
@@ -405,30 +423,6 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   title: S.current.yeu_cau_de_chuan_bi_phong,
                   contentController: controller,
                 ),
-                // spaceH20,
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: DoubleButtonBottom(
-                //     isTablet: isMobile() == false,
-                //     title1: S.current.dong,
-                //     title2: S.current.xac_nhan,
-                //     onClickLeft: () {
-                //       Navigator.pop(context);
-                //     },
-                //     onClickRight: () {
-                //       Navigator.pop(
-                //         context,
-                //         ChonPhongHopModel(
-                //           loaiPhongHopEnum:
-                //           widget.chonPhongHopCubit.loaiPhongHopEnum,
-                //           listThietBi: widget.chonPhongHopCubit.listThietBi,
-                //           yeuCauKhac: controller.text.trim(),
-                //           phongHop: widget.chonPhongHopCubit.phongHop,
-                //         ),
-                //       );
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),

@@ -214,7 +214,10 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(ImageAssets.icImage),
+                              SvgPicture.asset(
+                                ImageAssets.icImage,
+                                color: AppTheme.getInstance().colorField(),
+                              ),
                               spaceH12,
                               Text(
                                 S.current.them_anh,

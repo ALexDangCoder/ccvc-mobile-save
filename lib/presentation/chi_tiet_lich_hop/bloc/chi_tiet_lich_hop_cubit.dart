@@ -62,12 +62,16 @@ import 'package:rxdart/rxdart.dart';
 
 import 'Extension/tab_widget_extension.dart';
 
+const CUOC_HOP = 0;
+const PHIEN_HOP = 1;
+
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
   /// hạn chế khởi tạo biến mới ở trong cubit, nếu biến đó không dung trong cubit thì khởi tao ngoài view
   /// đã có các file extension riêng, các hàm get và api để đúng mục extension
   HopRepository get hopRp => Get.find();
+  int indexYKien = CUOC_HOP;
   KetLuanHopState ketLuanHopState = KetLuanHopState();
   String ngayBatDaus = '';
   String ngayKetThucs = '';

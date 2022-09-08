@@ -42,6 +42,7 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
             await widget.cubit.themYKien(
               yKien: yKien.text,
               idLichHop: widget.id,
+              phienHopId: '',
               scheduleOpinionId: widget.scheduleOpinionId,
             );
           },

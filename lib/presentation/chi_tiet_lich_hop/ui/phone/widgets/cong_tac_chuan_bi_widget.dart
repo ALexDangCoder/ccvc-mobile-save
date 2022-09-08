@@ -230,7 +230,8 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                               return const SizedBox();
                             }
                             if (widget.cubit.checkPermissionQuyenDuyetPhong(
-                                isCheckHideButton: true)) {
+                              isCheckHideButton: true,
+                            )) {
                               return Row(
                                 children: [
                                   ButtonOtherWidget(
@@ -454,7 +455,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                     color: titleCalenderWork,
                     fontWeight: FontWeight.w400,
                   ),
-                  maxLines: 1,
+                  maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -537,7 +538,9 @@ class ThongTinPhongWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: borderItemCalender.withOpacity(0.1),
         border: Border.all(color: borderItemCalender),
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(6),
+        ),
       ),
       child: Column(
         children: [
@@ -592,7 +595,9 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: borderItemCalender.withOpacity(0.1),
         border: Border.all(color: borderItemCalender),
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(6),
+        ),
       ),
       child: Column(
         children: [

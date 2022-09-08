@@ -52,7 +52,9 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
               builder: (context, snapshot) {
                 final data = snapshot.data ?? 0;
                 final showButton = widget.cubit.isChuTriOrThamGia();
-                if (data == StatePhatBieu.danh_Sach_phat_bieu && showButton) {
+                if ((data == StatePhatBieu.danh_Sach_phat_bieu ||
+                        data == StatePhatBieu.cho_duyet) &&
+                    showButton) {
                   return IconWithTiltleWidget(
                     icon: ImageAssets.icMic,
                     title: S.current.dang_ky_phat_bieu,
@@ -236,7 +238,9 @@ class PhatBieuChildWidget extends StatelessWidget {
         final showButton = cubit.isChuTriOrThamGia();
         return Column(
           children: [
-            if (data == StatePhatBieu.danh_Sach_phat_bieu && showButton)
+            if ((data == StatePhatBieu.danh_Sach_phat_bieu ||
+                    data == StatePhatBieu.cho_duyet) &&
+                showButton)
               IconWithTiltleWidget(
                 icon: ImageAssets.icMic,
                 title: S.current.dang_ky_phat_bieu,

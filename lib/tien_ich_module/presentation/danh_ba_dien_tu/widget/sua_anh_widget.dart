@@ -136,7 +136,10 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
                               padding: const EdgeInsets.only(top: 16),
                               child: Column(
                                 children: [
-                                  SvgPicture.asset(ImageAssets.icImage),
+                                  SvgPicture.asset(
+                                    ImageAssets.icImage,
+                                    color: AppTheme.getInstance().colorField(),
+                                  ),
                                   spaceH6,
                                   Text(
                                     S.current.them,

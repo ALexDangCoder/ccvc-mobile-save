@@ -5,12 +5,11 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/home_module/widgets/text_filed/follow_keyboard.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/tab_widget_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -47,7 +46,6 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
   final List<DonViModel> dataInit = [];
   final ThemCanBoCubit themCanBoCubit = ThemCanBoCubit();
   final ThemDonViCubit themDonViCubit = ThemDonViCubit();
-  final ThanhPhanThamGiaHopCubit _cubit = ThanhPhanThamGiaHopCubit();
 
   @override
   void initState() {
@@ -74,7 +72,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
         S.current.error,
       ),
       stream: widget.cubit.stateStream,
-      child: FollowKeyBoardWidget(
+      child: FollowKeyBoardEdt(
         bottomWidget: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 24.0,

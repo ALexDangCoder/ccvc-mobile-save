@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,7 @@ class _CustomRadioSuaBieuQuyetState extends State<CustomRadioSuaBieuQuyet> {
           children: [
             Radio(
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              activeColor: textDefault,
+              activeColor: AppTheme.getInstance().colorSelect(),
               value: S.current.bo_khieu_kin,
               onChanged: (String? value) {
                 setState(() {});
@@ -90,6 +91,6 @@ class _CustomRadioSuaBieuQuyetState extends State<CustomRadioSuaBieuQuyet> {
   }
 
   Color getColor(Set<MaterialState> states) {
-    return textDefault;
+    return AppTheme.getInstance().colorSelect();
   }
 }

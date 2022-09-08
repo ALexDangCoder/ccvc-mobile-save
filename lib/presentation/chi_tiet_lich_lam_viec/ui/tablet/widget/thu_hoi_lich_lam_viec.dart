@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
@@ -334,6 +334,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
     } else {
       showDiaLogTablet(
         context,
+        isCenterTitle: true,
         title: widget.title,
         child: dialogCell(),
         isBottomShow: false,
@@ -353,6 +354,10 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (!isMobile())
+          const SizedBox(
+            height: 16.0,
+          ),
         BaseSearchBar(
           onChange: (keySearch) {
             widget.cubit.keySearchThuHoi.sink.add(keySearch);

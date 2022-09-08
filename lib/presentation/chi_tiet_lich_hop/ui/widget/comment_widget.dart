@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_hoi_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
@@ -55,6 +56,7 @@ class _CommentWidgetState extends State<CommentWidget> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             yKienWidget(
+              showIcReply: widget.cubit.isChuTriOrThamGia(),
               nguoiTao: widget.yKienCuocHop.nguoiTao ?? '',
               ngayTao: widget.yKienCuocHop.ngayTao ?? '',
               content: widget.yKienCuocHop.content ?? '',

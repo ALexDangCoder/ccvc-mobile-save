@@ -300,7 +300,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
             id: canBo.id,
             donViId: canBo.donViId,
             canBoId: canBo.canBoId,
-            taskContent: '',
+            taskContent: canBo.noidung,
           ),
         )
         .toSet();

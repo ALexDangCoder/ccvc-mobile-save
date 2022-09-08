@@ -74,7 +74,7 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             final data = [
               ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
                   .map(
-                (element) => CanBoDiThay(
+                    (element) => CanBoDiThay(
                   id: null,
                   donViId: element.donViId,
                   canBoId: element.userId,
@@ -128,7 +128,6 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                     widget.themDonViCubit.validateDonVi.sink.add(true);
                   } else {
                     widget.themDonViCubit.validateDonVi.sink.add(false);
-
                     if ((widget.themCanBoCubit.titleCanBo.valueOrNull ?? '')
                         .isEmpty) {
                       widget.themDonViCubit.listDonVi.last.noidung =
@@ -208,21 +207,23 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                             ),
                             ...List.generate(
                               datas.length,
-                              (index) => Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20.0.textScale(space: -2),
-                                ),
-                                child: itemListCanBoFirst(
-                                  noiDungCV: '',
-                                  onDelete: () {
-                                    widget.cubit.xoaKhachMoiThamGia(
-                                      datas[index],
-                                    );
-                                  },
-                                  tenCanBo: datas[index].name,
-                                  tenDonvi: datas[index].tenCoQuan,
-                                ),
-                              ),
+                              (index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 20.0.textScale(space: -2),
+                                  ),
+                                  child: itemListCanBoFirst(
+                                    noiDungCV: datas[index].noidung,
+                                    onDelete: () {
+                                      widget.cubit.xoaKhachMoiThamGia(
+                                        datas[index],
+                                      );
+                                    },
+                                    tenCanBo: datas[index].name,
+                                    tenDonvi: datas[index].tenCoQuan,
+                                  ),
+                                );
+                              }
                             )
                           ],
                         );

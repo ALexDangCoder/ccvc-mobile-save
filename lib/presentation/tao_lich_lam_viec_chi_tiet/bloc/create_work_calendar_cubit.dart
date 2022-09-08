@@ -29,6 +29,7 @@ import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -361,9 +362,16 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
             },
             title: res.code ?? '',
             btnRightTxt: S.current.dong_y,
-            icon: SvgPicture.asset(
-              ImageAssets.icUserMeeting,
-              color: AppTheme.getInstance().colorField(),
+            icon: Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: AppTheme.getInstance().colorField().withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: SvgPicture.asset(
+                ImageAssets.icUserMeeting,
+                color: AppTheme.getInstance().colorField(),
+              ),
             ),
           );
         } else {

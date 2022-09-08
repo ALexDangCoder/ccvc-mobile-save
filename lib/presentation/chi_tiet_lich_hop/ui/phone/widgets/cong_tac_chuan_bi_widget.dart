@@ -618,49 +618,47 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
           Radius.circular(6),
         ),
       ),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 20),
-                child: RowDataWidget(
-                  keyTxt: S.current.loai_thiet_bi,
-                  value: model.loaiThietBi ?? '',
-                ),
-              ),
-              Row(
-                children: [
-                  const Expanded(child: SizedBox()),
-                  StreamBuilder<bool>(
-                    stream: _check,
-                    builder: (context, snapshot) {
-                      return CustomCheckBox(
-                        isOnlyCheckbox: true,
-                        isCheck: _check.value,
-                        onChange: (value) {
-                          onChange(_check.value);
-                          _check.sink.add(!_check.value);
-                        },
-                      );
-                    },
+          Expanded(
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 20),
+                  child: RowDataWidget(
+                    keyTxt: S.current.loai_thiet_bi,
+                    value: model.loaiThietBi ?? '',
                   ),
-                ],
-              )
-            ],
+                ),
+                spaceH10,
+                RowDataWidget(
+                  keyTxt: S.current.so_luong,
+                  value: model.soLuong ?? '0',
+                ),
+                spaceH10,
+                RowDataWidget(
+                  keyTxt: S.current.trang_thai,
+                  value: model.trangThaiPhongHop.getText(),
+                  color: model.trangThaiPhongHop.getColor(),
+                  isStatus: true,
+                ),
+              ],
+            ),
           ),
-          spaceH10,
-          RowDataWidget(
-            keyTxt: S.current.so_luong,
-            value: model.soLuong ?? '0',
-          ),
-          spaceH10,
-          RowDataWidget(
-            keyTxt: S.current.trang_thai,
-            value: model.trangThaiPhongHop.getText(),
-            color: model.trangThaiPhongHop.getColor(),
-            isStatus: true,
-          ),
+          StreamBuilder<bool>(
+            stream: _check,
+            builder: (context, snapshot) {
+              return CustomCheckBox(
+                isOnlyCheckbox: true,
+                isCheck: _check.value,
+                onChange: (value) {
+                  onChange(_check.value);
+                  _check.sink.add(!_check.value);
+                },
+              );
+            },
+          )
         ],
       ),
     );

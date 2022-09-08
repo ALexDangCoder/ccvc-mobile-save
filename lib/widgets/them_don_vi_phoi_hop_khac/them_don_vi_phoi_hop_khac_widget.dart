@@ -314,6 +314,7 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
               rowInfo(
                 value: widget.data.tenDonVi,
                 key: S.current.dv_phoi_hop,
+                needShowPadding: true,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),

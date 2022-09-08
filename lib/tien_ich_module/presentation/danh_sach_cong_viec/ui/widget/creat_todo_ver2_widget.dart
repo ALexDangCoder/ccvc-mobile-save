@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/select_date_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/customTextFieldVersion2.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -235,7 +236,8 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   final data = snapshot.data;
                   if (snapshot.hasData && data != '') {
                     return FileFromAPIWidget(
-                      url: data,
+                      downloadType: DomainDownloadType.CCVC,
+                      url: '/$data',
                       data: data?.split('/').toList().last ?? '',
                       onTapDelete: () {
                         nameFileSelect = '';

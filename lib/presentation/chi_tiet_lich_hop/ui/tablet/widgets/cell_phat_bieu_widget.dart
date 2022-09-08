@@ -15,6 +15,7 @@ class CellPhatBieu extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
   final int index;
   final bool isthePhatBieu;
+  final bool showCheckBox;
 
   const CellPhatBieu({
     Key? key,
@@ -23,6 +24,7 @@ class CellPhatBieu extends StatefulWidget {
     required this.index,
     this.isthePhatBieu = true,
     this.onChangeCheckBox,
+    this.showCheckBox = true,
   }) : super(key: key);
 
   @override
@@ -66,6 +68,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                     ),
                   ),
                 ),
+                if(widget.showCheckBox)
                 StreamBuilder<int>(
                   stream: widget.cubit.typeStatus,
                   builder: (context, snapshot) {

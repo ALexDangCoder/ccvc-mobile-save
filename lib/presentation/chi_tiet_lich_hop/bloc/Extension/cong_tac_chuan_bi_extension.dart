@@ -37,6 +37,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   Future<void> getDanhSachPhongHop() async {
     showLoading();
     final ChiTietLichHopModel chiTietLichHopModel = chiTietLichHopSubject.value;
+    if (chiTietLichHopModel.phongHopMode.donViId?.isEmpty ?? true) return;
     final result = await hopRp.getDanhSachPhongHop(
       chiTietLichHopModel.phongHopMode.donViId ?? '',
       chiTietLichHopModel.ngayBatDau,

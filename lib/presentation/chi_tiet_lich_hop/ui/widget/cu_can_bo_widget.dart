@@ -91,7 +91,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                 themDonViCubit.validateDonVi.sink.add(false);
 
                 await widget.cubit
-                    .luuCanBoDiThay(
+                    .luuCanBo(
                   cubitThanhPhanTG: widget.cubitThanhPhanTG,
                 )
                     .then((value) {

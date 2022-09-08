@@ -106,7 +106,8 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     );
   }
 
-  Future<void> getDanhSachCanBoHop(String id) async {
+  Future<void> getDanhSachCanBoHop(String id,
+      {ThanhPhanThamGiaCubit? cubitThanhPhanTG}) async {
     final result = await hopRp.getDanhSachNguoiChuTriPhienHop(id: id);
     result.when(
       success: (res) {
@@ -128,12 +129,15 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         );
         final parentCanBo = DonViModel(
           id: idCanBo.id ?? '',
-          name: idCanBo.hoTen ?? '',
-          tenCanBo: idCanBo.tenCanBo ?? '',
+          name: idCanBo.tenCoQuan ?? '',
+          tenCanBo: idCanBo.hoTen ?? '',
           chucVu: idCanBo.chucVu ?? '',
           canBoId: idCanBo.canBoId ?? '',
           donViId: idCanBo.donViId ?? '',
           tenCoQuan: idCanBo.tenCoQuan ?? '',
+          tenDonVi: idCanBo.tenDonVi ?? '',
+          userId: idCanBo.userId ?? '',
+          noidung: idCanBo.ghiChu ?? '',
         );
         donViModel = parentCanBo;
 
@@ -145,18 +149,35 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
             .map(
               (canBo) => DonViModel(
                 id: canBo.id ?? '',
-                name: canBo.hoTen ?? '',
+                name: canBo.tenCoQuan ?? '',
                 tenCanBo: canBo.tenCanBo ?? '',
                 chucVu: canBo.chucVu ?? '',
                 canBoId: canBo.canBoId ?? '',
                 donViId: canBo.donViId ?? '',
                 tenCoQuan: canBo.tenCoQuan ?? '',
-                noidung: canBo.ghiChu??'',
+                tenDonVi: canBo.tenDonVi ?? '',
+                noidung: canBo.ghiChu ?? '',
+                userId: canBo.userId ?? '',
               ),
             )
             .toList();
+        listCanBoMoi.insert(0, parentCanBo);
         listDataCanBo = listCanBoMoi;
-        listDonViModel.sink.add(listDataCanBo);
+        cubitThanhPhanTG?.listCanBoDuocChon = canBoDiThay
+            .map(
+              (element) => DonViModel(
+                id: element.id ?? '',
+                name: element.tenDonVi ?? '',
+                tenCanBo: element.tenCanBo ?? '',
+                canBoId: element.canBoId ?? '',
+                donViId: element.donViId ?? '',
+                tenDonVi: element.tenDonVi ?? '',
+                noidung: element.ghiChu ?? '',
+                userId: element.canBoId ?? '',
+              ),
+            )
+            .toList();
+        cubitThanhPhanTG?.listCanBoThamGia.add(listDataCanBo);
         idCanBoDiThay = idCanBo.id ?? '';
       },
       error: (error) {},

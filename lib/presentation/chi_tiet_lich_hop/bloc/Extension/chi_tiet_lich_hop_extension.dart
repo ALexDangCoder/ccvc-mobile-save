@@ -388,6 +388,39 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     );
     return isCheck;
   }
+  List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBoDiThay(
+      List<DonViModel> canBoDuocChon,
+      List<DonViModel> cuCanBo,
+      ) {
+    final List<CanBoDiThay> data = [];
+    data.addAll(
+      canBoDuocChon
+          .map(
+            (canBo) => CanBoDiThay(
+          id: canBo.id.isEmpty ? null : canBo.id,
+          donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+          canBoId: canBo.userId.isEmpty ? null : canBo.userId,
+          taskContent: canBo.noidung,
+          isXoa: canBo.isXoa,
+        ),
+      )
+          .toList(),
+    );
+    data.addAll(
+      cuCanBo
+          .map(
+            (canBo) => CanBoDiThay(
+          id: null,
+          donViId: canBo.donViId.isEmpty ? null : canBo.donViId,
+          canBoId: canBo.userId.isEmpty ? null : canBo.userId,
+          taskContent: canBo.noidung,
+          isXoa: false,
+        ),
+      )
+          .toList(),
+    );
+    return data;
+  }
 
   List<CanBoDiThay> mergeCanBoDuocChonVaCuCanBo(
     List<DonViModel> canBoDuocChon,
@@ -466,6 +499,18 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
   }
 
   Future<bool> luuCanBoDiThay({
+    required ThanhPhanThamGiaCubit cubitThanhPhanTG,
+  }) async {
+    final bool isCheckCallApiCuCanBo = await cuCanBoDiThay(
+      canBoDiThay: mergeCanBoDuocChonVaCuCanBoDiThay(
+        cubitThanhPhanTG.listCanBoDuocChon,
+        cubitThanhPhanTG.listCanBo,
+      ),
+    );
+    return isCheckCallApiCuCanBo;
+  }
+
+  Future<bool> luuCanBo({
     required ThanhPhanThamGiaCubit cubitThanhPhanTG,
   }) async {
     final String idChuTri =

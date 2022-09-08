@@ -399,6 +399,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<String> addLuaChon = [];
   List<SuaDanhSachLuaChonModel> danhSachLuaChonNew = [];
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
+  final currentUserId = HiveLocal.getDataUser()?.userId ?? '';
 
   /// funtion delay
   Future<void> waitToDelay({
@@ -534,10 +535,9 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
   }
 
   void search(String text) {
-    if(text.isEmpty){
+    if (text.isEmpty) {
       thanhPhanThamGiaSubject.sink.add(listThanhPhanThamGia);
-    }
-    else {
+    } else {
       final searchTxt = text.trim().toLowerCase().vietNameseParse();
       bool isListCanBo(CanBoModel canBo) {
         return canBo.tenCanBo!
@@ -546,24 +546,21 @@ class ThanhPhanThamGiaHopCubit extends DetailMeetCalenderCubit {
             .contains(searchTxt);
       }
 
-      final value =
-      listThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
+      final value = listThanhPhanThamGia
+          .where((element) => isListCanBo(element))
+          .toList();
       thanhPhanThamGiaSubject.sink.add(value);
     }
-    
   }
 
-  Future<void> callApiThanhPhanThamGia({
-    bool isShowMessage = false,
-    String? message,
-    String? id
-  }) async {
+  Future<void> callApiThanhPhanThamGia(
+      {bool isShowMessage = false, String? message, String? id}) async {
     showLoading();
     diemDanhIds = [];
     await danhSachCanBoTPTG(id: id ?? idCuocHop);
     showLoading(isShow: false);
     if (isShowMessage) {
-      MessageConfig.show(title: message ??  S.current.thanh_cong);
+      MessageConfig.show(title: message ?? S.current.thanh_cong);
     }
   }
 

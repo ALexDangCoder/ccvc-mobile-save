@@ -299,8 +299,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.thoi_gian_hop,
                   isObligatory: true,
                   child: CustomSelectDate(
-                    value: taoPhienHopRequest.date?.convertStringToDate() ??
-                        DateTime.now(),
+                    value: thoiGianHop.convertStringToDate(),
                     onSelectDate: (value) {
                       thoiGianHop = value.formatApi;
                     },

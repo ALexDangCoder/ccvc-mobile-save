@@ -24,7 +24,6 @@ import 'package:flutter/material.dart';
 const CUOC_HOP = 0;
 const PHIEN_HOP = 1;
 
-
 class YKienCuocHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
@@ -45,7 +44,10 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
     _tabController = TabController(length: 2, vsync: this);
     _pageController = PageController();
     if (!isMobile()) {
-      widget.cubit.callApiYkienCuocHop();
+      widget.cubit.getDanhSachYKien(
+        id: widget.cubit.idCuocHop,
+        phienHopId: '',
+      );
       try {
         final String phienHopID =
             widget.cubit.danhSachChuongTrinhHop.valueOrNull?.first.id ?? '';
@@ -74,11 +76,15 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
         paddingTitle: const EdgeInsets.symmetric(horizontal: 16),
         onchange: (value) {
           if (value && !widget.cubit.listYKienCuocHop.hasValue) {
-            widget.cubit.callApiYkienCuocHop();
+            widget.cubit.getDanhSachYKien(
+              id: widget.cubit.idCuocHop,
+              phienHopId: '',
+            );
             try {
               final String phienHopID =
                   widget.cubit.danhSachChuongTrinhHop.valueOrNull?.first.id ??
                       '';
+              widget.cubit.phienHopId = phienHopID;
               if (phienHopID.isNotEmpty) {
                 widget.cubit.getDanhSachYKien(
                   id: widget.cubit.idCuocHop,
@@ -105,10 +111,9 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
     );
   }
 
-  void changeCurrentIndexOfTabbar({required bool isPhienHop}) {
-    if (isPhienHop) {
-      if (_tabController.previousIndex == PHIEN_HOP ||
-          widget.cubit.phienHopId.isNotEmpty) {
+  void changeCurrentIndexOfTabbar({required String idPhienHop}) {
+    if (idPhienHop.isNotEmpty) {
+      if (_tabController.previousIndex == PHIEN_HOP || idPhienHop.isNotEmpty) {
         _pageController.animateToPage(
           PHIEN_HOP,
           duration: const Duration(milliseconds: 300),
@@ -129,47 +134,49 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
   Widget themYKienWidgetForPhoneAndTab() {
     return Column(
       children: [
-        if(widget.cubit.isChuTriOrThamGia())Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: IconWithTiltleWidget(
-            icon: ImageAssets.Comment_ic,
-            title: S.current.them_y_kien,
-            onPress: () {
-              if (_tabController.index == CUOC_HOP){
-                widget.cubit.phienHopIdTmp = widget.cubit.phienHopId;
-                widget.cubit.phienHopId ='';
-              }
-              if (isMobile()) {
-                showBottomSheetCustom(
-                  context,
-                  title: S.current.y_kien,
-                  child: ThemYKienWidget(
-                    cubit: widget.cubit,
-                    id: widget.cubit.idCuocHop,
-                  ),
-                ).then((value) {
-                  if(value is! bool){
-                    return;
-                  }
-                  changeCurrentIndexOfTabbar(isPhienHop: value);
-                });
-              } else {
-                showDiaLogTablet(
-                  context,
-                  title: S.current.them_y_kien,
-                  child: ThemYKienWidget(
-                    cubit: widget.cubit,
-                    id: widget.cubit.idCuocHop,
-                  ),
-                  funcBtnOk: () {},
-                  isBottomShow: false,
-                ).then((value) {
-                  changeCurrentIndexOfTabbar(isPhienHop: value);
-                });
-              }
-            },
+        if (widget.cubit.isChuTriOrThamGia())
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: IconWithTiltleWidget(
+              icon: ImageAssets.Comment_ic,
+              title: S.current.them_y_kien,
+              onPress: () {
+                if (isMobile()) {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.y_kien,
+                    child: ThemYKienWidget(
+                      cubit: widget.cubit,
+                      id: widget.cubit.idCuocHop,
+                    ),
+                  ).then((phienHopId) {
+                    if (phienHopId is String) {
+                      changeCurrentIndexOfTabbar(
+                        idPhienHop: phienHopId,
+                      );
+                    }
+                  });
+                } else {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.them_y_kien,
+                    child: ThemYKienWidget(
+                      cubit: widget.cubit,
+                      id: widget.cubit.idCuocHop,
+                    ),
+                    funcBtnOk: () {},
+                    isBottomShow: false,
+                  ).then((phienHopId) {
+                    if (phienHopId is String) {
+                      changeCurrentIndexOfTabbar(
+                        idPhienHop: phienHopId,
+                      );
+                    }
+                  });
+                }
+              },
+            ),
           ),
-        ),
         DefaultTabController(
           length: 2,
           child: Column(
@@ -186,6 +193,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: TabBar(
                   onTap: (index) {
+                    widget.cubit.indexYKien = index;
                     _pageController.animateToPage(
                       index,
                       duration: const Duration(milliseconds: 300),
@@ -215,6 +223,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
               ExpandablePageView(
                 controller: _pageController,
                 onPageChanged: (value) {
+                  widget.cubit.indexYKien = value;
                   _tabController.animateTo(
                     value,
                   );
@@ -255,8 +264,10 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                           stream: widget.cubit.danhSachChuongTrinhHop.stream,
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? [];
-                            final listCuocHop =
-                                data.map((e) => e.tieuDe ?? '').toSet().toList();
+                            final listCuocHop = data
+                                .map((e) => e.tieuDe ?? '')
+                                .toSet()
+                                .toList();
                             if (listCuocHop.isEmpty) {
                               return CoolDropDown(
                                 onChange: (_) {},
@@ -270,8 +281,8 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget>
                               value: widget.cubit.tenPhienHop.isNotEmpty
                                   ? widget.cubit.tenPhienHop
                                   : listCuocHop.isNotEmpty
-                                  ? listCuocHop.first
-                                  : '',
+                                      ? listCuocHop.first
+                                      : '',
                               items: listCuocHop,
                               onSelectItem: (value) {
                                 widget.cubit.tenPhienHop = listCuocHop[value];

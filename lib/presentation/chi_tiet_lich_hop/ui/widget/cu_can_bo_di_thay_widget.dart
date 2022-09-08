@@ -125,7 +125,6 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                     widget.themDonViCubit.validateDonVi.sink.add(true);
                   } else {
                     widget.themDonViCubit.validateDonVi.sink.add(false);
-
                     if ((widget.themCanBoCubit.titleCanBo.valueOrNull ?? '')
                         .isEmpty) {
                       widget.themDonViCubit.listDonVi.last.noidung =

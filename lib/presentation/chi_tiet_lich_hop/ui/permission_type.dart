@@ -343,8 +343,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textRadioAbove: S.current.chi_lich_hien_tai,
                 imageUrl: ImageAssets.img_sua_lich,
               ),
-            ).then((value) {
-              if (value == null) {
+            ).then((isMulti) {
+              if (isMulti == null) {
                 return;
               }
               if (isMobile()) {
@@ -355,7 +355,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: SuaLichHopWidget(
                       chiTietHop: cubit.getChiTietLichHopModel,
-                      isMulti: value,
+                      isMulti: !isMulti,
                     ),
                   ),
                 ).then((value) {
@@ -376,7 +376,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: SuaLichHopWidget(
                       chiTietHop: cubit.getChiTietLichHopModel,
-                      isMulti: value,
+                      isMulti: !isMulti,
                     ),
                   ),
                   funcBtnOk: () {},
@@ -604,8 +604,11 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 textContent: S.current.ban_chan_chan_huy_lich_nay,
                 btnLeftTxt: S.current.khong,
                 funcBtnRight: () {
-                  cubit.huyChiTietLichHop();
-                  Navigator.pop(context, true);
+                  cubit.huyChiTietLichHop().then((value) {
+                    if (value) {
+                      Navigator.pop(context, true);
+                    }
+                  });
                 },
                 title: S.current.huy_lich,
                 btnRightTxt: S.current.dong_y,

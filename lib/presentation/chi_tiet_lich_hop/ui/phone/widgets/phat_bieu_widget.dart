@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_phat_bieu_widget.dart';
@@ -62,6 +63,8 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                                       infoModel: list[index],
                                       cubit: widget.cubit,
                                       index: index,
+                                      showCheckBox: widget.cubit.isChuTri() ||
+                                          widget.cubit.isThuKy(),
                                       onChangeCheckBox: (value) {
                                         if (value != true) {
                                           widget.cubit.selectPhatBieu

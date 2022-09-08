@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/radio/radio_button.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _RadioOptionDialogState extends State<RadioOptionDialog> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: isMobile() ? MediaQuery.of(context).size.width * 0.8 : 592,
           decoration: BoxDecoration(
             color: AppTheme.getInstance().dfBtnTxtColor(),
             borderRadius: BorderRadius.circular(20),

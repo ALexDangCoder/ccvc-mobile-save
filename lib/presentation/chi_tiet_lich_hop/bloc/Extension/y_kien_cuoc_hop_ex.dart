@@ -8,15 +8,16 @@ import '../chi_tiet_lich_hop_cubit.dart';
 
 ///Y kien cuoc hop
 extension YKienCuocHop on DetailMeetCalenderCubit {
-  Future<void> getDanhSachYKien({required String id, required String phienHopId}) async {
+  Future<void> getDanhSachYKien(
+      {required String id, required String phienHopId}) async {
     showLoading();
     final result = await hopRp.getDanhSachYKien(id, phienHopId);
     result.when(
       success: (res) {
         showContent();
-        if(phienHopId.trim().isEmpty) {
+        if (phienHopId.trim().isEmpty) {
           listYKienCuocHop.sink.add(res);
-        }else{
+        } else {
           listYKienPhienHop.sink.add(res);
         }
       },
@@ -30,15 +31,15 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
   Future<void> themYKien({
     required String yKien,
     required String idLichHop,
+    required String phienHopId,
     String? scheduleOpinionId,
   }) async {
     showLoading();
     final ThemYKienRequest themYKienRequest = ThemYKienRequest(
       content: yKien,
       scheduleId: idLichHop,
-      scheduleOpinionId:
-          scheduleOpinionId,
-      phienHopId: phienHopId.isEmpty  ? null : phienHopId,
+      phienHopId: phienHopId.isNotEmpty ? phienHopId : null,
+      scheduleOpinionId: scheduleOpinionId,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
     result.when(
@@ -46,18 +47,9 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
         MessageConfig.show(
           title: '${S.current.them_y_kien} ${S.current.thanh_cong}',
         );
-        getDanhSachYKien(
-          id: idLichHop,
+        reloadYKien(
+          idLichHop: idLichHop,
           phienHopId: phienHopId,
-        ).then(
-          (value) {
-            if (danhSachChuongTrinhHop.hasValue) {
-              danhSachChuongTrinhHop.sink.add(danhSachChuongTrinhHop.value);
-            }
-            if (phienHopId.isEmpty){
-              phienHopId = phienHopIdTmp;
-            }
-          },
         );
       },
       error: (err) {
@@ -68,6 +60,22 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
       },
     );
     showContent();
+  }
+
+  void reloadYKien({
+    required String idLichHop,
+    required String phienHopId,
+  }) {
+    getDanhSachYKien(
+      id: idLichHop,
+      phienHopId: indexYKien == CUOC_HOP ? '' : phienHopId,
+    ).then(
+      (value) {
+        if (danhSachChuongTrinhHop.hasValue) {
+          danhSachChuongTrinhHop.sink.add(danhSachChuongTrinhHop.value);
+        }
+      },
+    );
   }
 
   String coverDateFormat(String date) {
@@ -93,10 +101,8 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
     );
   }
 
-
-
-  void callApiYkienCuocHop()  {
+  void callApiYkienCuocHop() {
     getDanhSachPhienHop(idCuocHop);
-     getDanhSachYKien(id: idCuocHop, phienHopId: ' ');
+    getDanhSachYKien(id: idCuocHop, phienHopId: ' ');
   }
 }

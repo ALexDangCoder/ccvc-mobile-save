@@ -24,6 +24,7 @@ class ThemYKienWidget extends StatefulWidget {
 
 class _ThemYKienWidgetState extends State<ThemYKienWidget> {
   final TextEditingController yKien = TextEditingController();
+  String phienHopId= '';
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +41,12 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
           onClickRight: () async {
             Navigator.pop(
               context,
-              widget.cubit.phienHopId.isNotEmpty,
+              phienHopId,
             );
             await widget.cubit.themYKien(
               yKien: yKien.value.text,
               idLichHop: widget.id,
+              phienHopId: phienHopId,
             );
           },
         ),
@@ -76,10 +78,10 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
                 onSelectItem: (index) {
                   //index - 1 do listCuocHop insert(0, S.current.cuoc_hop)
                   if (index > 0) {
-                    widget.cubit.phienHopId = data[index - 1].id ?? '';
+                    phienHopId = data[index - 1].id ?? '';
                     widget.cubit.tenPhienHop = data[index - 1].tieuDe ?? '';
                   } else {
-                    widget.cubit.phienHopId = '';
+                    phienHopId = '';
                   }
                 },
               );

@@ -71,32 +71,27 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             Navigator.pop(context);
           },
           onClickRight: () {
-            if (widget.themDonViCubit.listDonVi.isEmpty) {
-              widget.themDonViCubit.validateDonVi.sink.add(true);
-            } else {
-              widget.themDonViCubit.validateDonVi.sink.add(false);
-              final data = [
-                ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
-                    .map(
-                  (element) => CanBoDiThay(
-                    id: null,
-                    donViId: element.donViId,
-                    canBoId: element.userId,
-                    taskContent: element.noidung,
-                  ),
+            final data = [
+              ...(widget.cubitThanhPhanTG.listCanBoThamGia.valueOrNull ?? [])
+                  .map(
+                    (element) => CanBoDiThay(
+                  id: null,
+                  donViId: element.donViId,
+                  canBoId: element.userId,
+                  taskContent: element.noidung,
                 ),
-              ];
-              widget.cubit
-                  .cuCanBoDiThay(
-                canBoDiThay: data,
-              )
-                  .then((value) {
-                if (value) {
-                  widget.cubit.initDataChiTiet();
-                }
-              });
-              Navigator.pop(context);
-            }
+              ),
+            ];
+            widget.cubit
+                .cuCanBoDiThay(
+              canBoDiThay: data,
+            )
+                .then((value) {
+              if (value) {
+                widget.cubit.initDataChiTiet();
+              }
+            });
+            Navigator.pop(context);
           },
         ),
       ),
@@ -133,7 +128,6 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                     widget.themDonViCubit.validateDonVi.sink.add(true);
                   } else {
                     widget.themDonViCubit.validateDonVi.sink.add(false);
-
                     if ((widget.themCanBoCubit.titleCanBo.valueOrNull ?? '')
                         .isEmpty) {
                       widget.themDonViCubit.listDonVi.last.noidung =
@@ -213,21 +207,23 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
                             ),
                             ...List.generate(
                               datas.length,
-                              (index) => Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20.0.textScale(space: -2),
-                                ),
-                                child: itemListCanBoFirst(
-                                  noiDungCV: '',
-                                  onDelete: () {
-                                    widget.cubit.xoaKhachMoiThamGia(
-                                      datas[index],
-                                    );
-                                  },
-                                  tenCanBo: datas[index].name,
-                                  tenDonvi: datas[index].tenCoQuan,
-                                ),
-                              ),
+                              (index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 20.0.textScale(space: -2),
+                                  ),
+                                  child: itemListCanBoFirst(
+                                    noiDungCV: datas[index].noidung,
+                                    onDelete: () {
+                                      widget.cubit.xoaKhachMoiThamGia(
+                                        datas[index],
+                                      );
+                                    },
+                                    tenCanBo: datas[index].name,
+                                    tenDonvi: datas[index].tenCoQuan,
+                                  ),
+                                );
+                              }
                             )
                           ],
                         );

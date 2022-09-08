@@ -98,6 +98,8 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                             infoModel: list[index],
                             cubit: widget.cubit,
                             index: index,
+                            showCheckBox: widget.cubit.isChuTri() ||
+                                widget.cubit.isThuKy(),
                             onChangeCheckBox: (vl) {
                               if (vl != true) {
                                 widget.cubit.selectPhatBieu
@@ -119,30 +121,31 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                 }
               },
             ),
-            StreamBuilder<int>(
-              stream: widget.cubit.typeStatus,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? 0;
-                return StreamBuilder<List<PhatBieuModel>>(
-                  stream: widget.cubit.streamPhatBieu,
-                  builder: (_, snapshot) {
-                    final dataListPhatBieu = snapshot.data ?? [];
-                    if (dataListPhatBieu.isNotEmpty) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: buttonDuyet(
-                          data,
-                          widget.cubit,
-                          context,
-                          isTablet: true,
-                        ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                );
-              },
-            ),
+            if (widget.cubit.isChuTri() || widget.cubit.isThuKy())
+              StreamBuilder<int>(
+                stream: widget.cubit.typeStatus,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? 0;
+                  return StreamBuilder<List<PhatBieuModel>>(
+                    stream: widget.cubit.streamPhatBieu,
+                    builder: (_, snapshot) {
+                      final dataListPhatBieu = snapshot.data ?? [];
+                      if (dataListPhatBieu.isNotEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: buttonDuyet(
+                            data,
+                            widget.cubit,
+                            context,
+                            isTablet: true,
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  );
+                },
+              ),
           ],
         ),
       ),

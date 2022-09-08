@@ -253,7 +253,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                 ? Text(
                     widget.hintText,
                     style: textNormal(
-                      titleItemEdit,
+                      titleItemEdit.withOpacity(0.5),
                       14.0.textScale(),
                     ),
                   )

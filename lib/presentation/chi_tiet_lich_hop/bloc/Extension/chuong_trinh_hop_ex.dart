@@ -151,6 +151,7 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
                 canBoId: canBo.canBoId ?? '',
                 donViId: canBo.donViId ?? '',
                 tenCoQuan: canBo.tenCoQuan ?? '',
+                noidung: canBo.ghiChu??'',
               ),
             )
             .toList();

@@ -62,7 +62,8 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
         final currentIsCanBo = currentItem.canBoId.isNotEmpty;
         if (newIsCanBo == currentIsCanBo) {
           if (newIsCanBo) {
-            isDuplicate = newItem.canBoId == currentItem.canBoId;
+            isDuplicate = newItem.canBoId == currentItem.canBoId &&
+                newItem.userId == currentItem.userId;
           } else {
             isDuplicate = newItem.donViId == currentItem.donViId;
             if (!isDuplicate) {

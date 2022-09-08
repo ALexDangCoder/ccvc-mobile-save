@@ -334,6 +334,10 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   /// init widget in detail meet
   void initWidgetDetail() {
     final isHuyOrThuHoi = trangThaiHuy() || trangThaiThuHoi();
+    if (isHuyOrThuHoi){
+      listWidgetDetailSubject.sink.add([]);
+      return;
+    }
     final isCongKhai = getChiTietLichHopModel.isCongKhai ?? false;
     final List<TabWidgetDetailMeet> listWidgetDetail = [];
     if (!isHuyOrThuHoi || isCongKhai) {
@@ -348,7 +352,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     if (!isHuyOrThuHoi || isCongKhai) {
       listWidgetDetail.add(TabWidgetDetailMeet.TAI_LIEU);
     }
-    if (!isTaoHo() && !isHuyOrThuHoi || isCongKhai) {
+    if (!isTaoHo() &&( !isHuyOrThuHoi || isCongKhai)) {
       listWidgetDetail.add(TabWidgetDetailMeet.PHAT_BIEU);
       listWidgetDetail.add(TabWidgetDetailMeet.BIEU_QUYET);
       listWidgetDetail.add(TabWidgetDetailMeet.KET_LUAN_HOP);

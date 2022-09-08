@@ -259,7 +259,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
           ],
         ),
       ),
-      tabletScreen: Container(
+      tabletScreen : Container(
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -374,14 +374,22 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: listPhienHopModel.files.map((e) {
+                          children: listPhienHopModel.files.map((element) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 8),
-                              child: Text(
-                                e.name.toString(),
-                                style: textDetailHDSD(
-                                  fontSize: 14.0.textScale(),
-                                  color: color5A8DEE,
+                              child: GestureDetector(
+                                onTap: () {
+                                  saveFile(
+                                    fileName:element.name ?? '',
+                                    url: element.path ?? '',
+                                  );
+                                },
+                                child: Text(
+                                  element.name.toString(),
+                                  style: textDetailHDSD(
+                                    fontSize: 14.0.textScale(),
+                                    color: color5A8DEE,
+                                  ),
                                 ),
                               ),
                             );
@@ -391,46 +399,6 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     )
                   ],
                 ),
-
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       '${S.current.file_dinh_kem}                      ',
-                //       style: textDetailHDSD(
-                //         fontSize: 14.0.textScale(),
-                //         color: infoColor,
-                //       ),
-                //     ),
-                //     const SizedBox(
-                //       width: 14,
-                //     ),
-                //     Expanded(
-                //       child: ListView.builder(
-                //         physics: const NeverScrollableScrollPhysics(),
-                //         itemCount: listPhienHopModel.files.length,
-                //         shrinkWrap: true,
-                //         itemBuilder: (context, index) {
-                //           final data = listPhienHopModel.files.toList();
-                //           return GestureDetector(
-                //             onTap: () {
-                //               saveFile(
-                //                   fileName: data[index].name ?? '',
-                //                   url: data[index].path ?? '');
-                //             },
-                //             child: Text(
-                //               data[index].name ?? S.current.khong_co_tep_nao,
-                //               style: textDetailHDSD(
-                //                 fontSize: 14.0.textScale(),
-                //                 color: color5A8DEE,
-                //               ),
-                //             ),
-                //           );
-                //         },
-                //       ),
-                //     )
-                //   ],
-                // )
               ],
             ),
             if (widget.cubit.isBtnThemSuaXoaPhienHop())

@@ -47,8 +47,16 @@ class SelectCanBo extends StatefulWidget {
 }
 
 class _SelectCanBoState extends State<SelectCanBo> {
-
   final controllerSearch = TextEditingController();
+  String tenCanBo = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.themCanBoCubit.listCanBoTemp = [...widget.themCanBoCubit.listCanBo];
+    widget.themCanBoCubit.getCanbo.sink.add(widget.themCanBoCubit.listCanBo);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +92,8 @@ class _SelectCanBoState extends State<SelectCanBo> {
                               Navigator.pop(context);
                             },
                             onClickRight: () {
+                              widget.themCanBoCubit.titleCanBo.sink
+                                  .add(tenCanBo);
                               Navigator.pop(
                                 context,
                                 widget.onChangeCheckbox(
@@ -129,11 +139,13 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                     widget.themCanBoCubit
                                                         .addDataListByModel(
                                                       result,
+                                                      sinkData: false,
                                                     );
                                                     if (!value) {
                                                       widget.themCanBoCubit
                                                           .addDataListByModel(
                                                         result,
+                                                        sinkData: false,
                                                       );
                                                     } else {
                                                       widget.themCanBoCubit
@@ -146,6 +158,7 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                   themCanBoCubit:
                                                       widget.themCanBoCubit,
                                                   onChange: (value) {
+                                                    tenCanBo = value.tenCanBo;
                                                     widget.themCanBoCubit
                                                         .donViModel = value;
                                                   },
@@ -195,6 +208,8 @@ class _SelectCanBoState extends State<SelectCanBo> {
                               Navigator.pop(context);
                             },
                             onClickRight: () {
+                              widget.themCanBoCubit.titleCanBo.sink
+                                  .add(tenCanBo);
                               Navigator.pop(
                                 context,
                                 widget.onChangeCheckbox(
@@ -252,12 +267,16 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                       onCheckBox:
                                                           (value) async {
                                                         widget.themCanBoCubit
-                                                            .addDataList(index);
+                                                            .addDataListCanBoDiThay(
+                                                          index,
+                                                        );
                                                       },
                                                       canBoModel: result,
                                                       themCanBoCubit:
                                                           widget.themCanBoCubit,
                                                       onChange: (value) {
+                                                        tenCanBo =
+                                                            value.tenCanBo;
                                                         widget.themCanBoCubit
                                                             .donViModel = value;
                                                       },

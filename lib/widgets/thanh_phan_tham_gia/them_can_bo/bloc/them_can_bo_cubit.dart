@@ -14,6 +14,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   final List<RemoveItemTree> listCaNhanRemove = [];
   DonViModel donViModel = DonViModel();
   List<DonViModel> listCanBo = [];
+  List<DonViModel> listCanBoTemp = [];
   BehaviorSubject<String> titleCanBo = BehaviorSubject();
 
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
@@ -39,9 +40,9 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
             final a = listCaNhanRemove
                 .where(
                   (e) =>
-              (e.canBoId ?? '').toLowerCase() ==
-                  element.userId.toLowerCase(),
-            )
+                      (e.canBoId ?? '').toLowerCase() ==
+                      element.userId.toLowerCase(),
+                )
                 .isNotEmpty;
             return a;
           },
@@ -62,19 +63,30 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     getCanbo.sink.add(listCanBo);
   }
 
-  void addDataListByModel(DonViModel data) {
+  void addDataListCanBoDiThay(int index) {
+    for (final value in listCanBoTemp) {
+      value.isCheck = false;
+    }
+    listCanBoTemp[index].isCheck = true;
+    getCanbo.sink.add(listCanBoTemp);
+  }
+
+  void addDataListByModel(DonViModel data, {bool sinkData = true}) {
     final currentList = getCanbo.valueOrNull ?? [];
     for (final value in listCanBo) {
       value.isCheck = false;
       titleCanBo.sink.add('');
     }
     final index = currentList.indexOf(data);
-    if (index != -1 ){
+    if (index != -1) {
       currentList[index].isCheck = true;
     }
-    titleCanBo.sink.add(currentList[index].tenCanBo);
+    if (sinkData) {
+      titleCanBo.sink.add(currentList[index].tenCanBo);
+    }
     getCanbo.sink.add(currentList);
   }
+
   void removeByModel(DonViModel data) {
     final currentList = getCanbo.valueOrNull ?? [];
     for (final value in currentList) {

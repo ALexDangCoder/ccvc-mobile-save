@@ -242,8 +242,20 @@ class _ThanhPhanThamGiaWidgetTabletState
                       diemDanh:
                           widget.cubit.isChuTri() || widget.cubit.isThuKy(),
                       ontap: () {
-                        thanhPhanThamGiaCubit
-                            .postHuyDiemDanh(_list[index].id ?? '');
+                        showDiaLog(
+                          context,
+                          title: S.current.huy_diem_danh,
+                          icon: SvgPicture.asset(ImageAssets.icHuyDiemDanh),
+                          btnLeftTxt: S.current.khong,
+                          btnRightTxt: S.current.dong_y,
+                          funcBtnRight: () {
+                            thanhPhanThamGiaCubit
+                                .postHuyDiemDanh(_list[index].id ?? '');
+                          },
+                          showTablet: true,
+                          textContent: S.current.conten_huy_diem_danh,
+                        );
+
                       },
                     );
                   },

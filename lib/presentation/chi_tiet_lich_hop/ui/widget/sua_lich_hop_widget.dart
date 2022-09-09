@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
@@ -28,6 +29,7 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SuaLichHopWidget extends StatefulWidget {
   final ChiTietLichHopModel chiTietHop;
@@ -418,8 +420,16 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
             context,
             title: S.current.lich_trung,
             textContent: S.current.ban_co_muon_tiep_tuc_khong,
-            icon: ImageAssets.svgAssets(
-              ImageAssets.ic_trung_hop,
+            icon: Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: AppTheme.getInstance().colorField().withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: SvgPicture.asset(
+                ImageAssets.icUserMeeting,
+                color: AppTheme.getInstance().colorField(),
+              ),
             ),
             btnRightTxt: S.current.dong_y,
             btnLeftTxt: S.current.khong,

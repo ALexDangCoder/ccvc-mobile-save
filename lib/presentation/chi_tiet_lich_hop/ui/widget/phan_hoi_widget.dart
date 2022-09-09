@@ -43,6 +43,7 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
               yKien: yKien.text,
               idLichHop: widget.id,
               phienHopId: '',
+              isRelay: true,
               scheduleOpinionId: widget.scheduleOpinionId,
             );
           },

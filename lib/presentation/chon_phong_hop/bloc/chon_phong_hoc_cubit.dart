@@ -79,6 +79,7 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
         tenThietBi: e.tenThietBi ?? '',
       ),
     );
+    listThietBi.clear();
     listThietBi.addAll(listParsed);
     _listThietBi.sink.add(listThietBi);
   }

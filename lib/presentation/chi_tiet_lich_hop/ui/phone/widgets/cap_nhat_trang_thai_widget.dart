@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/list_status_room_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/button/double_button_bottom.dart';
@@ -6,9 +7,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_t
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
-
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
-
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +34,20 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
     // TODO: implement initState
     super.initState();
     noiDungController.text = widget.model.ghiChu ?? '';
-    widget.cubit.idCapNhatTrangThai = widget.model.trangThaiChuanBiId ?? '';
+    widget.cubit.idCapNhatTrangThai = getIdStatus;
+  }
+
+  String get getIdStatus {
+    return widget.model.trangThaiChuanBiId == ''
+        ? ((widget.cubit.listStatusRom)
+                .firstWhere(
+                  (element) =>
+                      widget.model.trangThaiChuanBi == element.displayName,
+                  orElse: () => Data(),
+                )
+                .id ??
+            '')
+        : widget.model.trangThaiChuanBiId ?? '';
   }
 
   @override
@@ -49,7 +61,7 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
           onPressed1: () {
             Navigator.pop(context);
           },
-          onPressed2: ()  {
+          onPressed2: () {
             widget.cubit
                 .capNhatTrangThai(
               id: widget.model.lichHopPhongHopId ?? '',

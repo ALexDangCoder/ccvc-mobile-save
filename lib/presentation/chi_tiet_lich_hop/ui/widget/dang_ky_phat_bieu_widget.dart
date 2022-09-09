@@ -16,6 +16,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'follow_key_broash.dart';
+
 class DangKyPhatBieuWidget extends StatefulWidget {
   final String id;
   final DetailMeetCalenderCubit cubit;
@@ -74,7 +76,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
+    return FollowKeyBoardEdt(
       bottomWidget: Padding(
         padding: const EdgeInsets.only(bottom: 32),
         child: DoubleButtonBottom(

@@ -344,7 +344,7 @@ Widget buttomHuyPb({
     ButtonBottomCustom(
       textColor: statusCalenderRed,
       customColor: statusCalenderRed.withOpacity(0.15),
-      text: text ?? S.current.huy_duyet,
+      text: text ?? S.current.tu_choi,
       onPressed: () {
         showXacNhan(
           isDuyet: false,

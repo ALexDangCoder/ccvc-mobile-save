@@ -33,6 +33,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
     required String idLichHop,
     required String phienHopId,
     String? scheduleOpinionId,
+    bool isRelay = false,
   }) async {
     showLoading();
     final ThemYKienRequest themYKienRequest = ThemYKienRequest(
@@ -49,7 +50,7 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
         );
         reloadYKien(
           idLichHop: idLichHop,
-          phienHopId: phienHopId,
+          phienHopId: isRelay ? this.phienHopId : phienHopId,
         );
       },
       error: (err) {

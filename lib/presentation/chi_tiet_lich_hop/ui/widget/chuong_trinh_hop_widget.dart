@@ -274,7 +274,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 Padding(
                   padding: const EdgeInsets.only(right: 50),
                   child: Text(
-                    listPhienHopModel.tieuDe ?? '',
+                    (listPhienHopModel.tieuDe ?? '').removeSpace,
                     style: titleAppbar(
                       fontSize: 16.0.textScale(),
                     ),
@@ -283,154 +283,25 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              S.current.thoi_gian,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              S.current.nguoi_phu_trach,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              S.current.noidung,
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '${S.current.file_dinh_kem}                      ',
-                              style: textDetailHDSD(
-                                fontSize: 14.0.textScale(),
-                                color: infoColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.dateTimeView(),
-                            style: textDetailHDSD(
-                              fontSize: 14.0.textScale(),
-                              color: textTitle,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.hoTen ?? '',
-                            style: textDetailHDSD(
-                              fontSize: 14.0.textScale(),
-                              color: textTitle,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            listPhienHopModel.noiDung ?? '',
-                            style: textDetailHDSD(
-                              fontSize: 14.0.textScale(),
-                              color: textTitle,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: listPhienHopModel.files.map((e) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: Text(
-                                e.name.toString(),
-                                style: textDetailHDSD(
-                                  fontSize: 14.0.textScale(),
-                                  color: color5A8DEE,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    )
-                  ],
+                RowDataWidget(
+                  keyTxt: S.current.thoi_gian,
+                  value: listPhienHopModel.dateTimeView(),
                 ),
-
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       '${S.current.file_dinh_kem}                      ',
-                //       style: textDetailHDSD(
-                //         fontSize: 14.0.textScale(),
-                //         color: infoColor,
-                //       ),
-                //     ),
-                //     const SizedBox(
-                //       width: 14,
-                //     ),
-                //     Expanded(
-                //       child: ListView.builder(
-                //         physics: const NeverScrollableScrollPhysics(),
-                //         itemCount: listPhienHopModel.files.length,
-                //         shrinkWrap: true,
-                //         itemBuilder: (context, index) {
-                //           final data = listPhienHopModel.files.toList();
-                //           return GestureDetector(
-                //             onTap: () {
-                //               saveFile(
-                //                   fileName: data[index].name ?? '',
-                //                   url: data[index].path ?? '');
-                //             },
-                //             child: Text(
-                //               data[index].name ?? S.current.khong_co_tep_nao,
-                //               style: textDetailHDSD(
-                //                 fontSize: 14.0.textScale(),
-                //                 color: color5A8DEE,
-                //               ),
-                //             ),
-                //           );
-                //         },
-                //       ),
-                //     )
-                //   ],
-                // )
+                const SizedBox(height: 8),
+                RowDataWidget(
+                  keyTxt: S.current.nguoi_phu_trach,
+                  value: listPhienHopModel.hoTen ?? '',
+                ),
+                const SizedBox(height: 8),
+                RowDataWidget(
+                  keyTxt: S.current.noidung,
+                  value: listPhienHopModel.noiDung ?? '',
+                ),
+                const SizedBox(height: 8),
+                listFileDinhKem(
+                  keyTxt: S.current.file_dinh_kem,
+                  listPhienHopModel: listPhienHopModel,
+                ),
               ],
             ),
             if (widget.cubit.isBtnThemSuaXoaPhienHop())
@@ -509,18 +380,19 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Text(
               keyTxt,
               style: textNormal(infoColor, 14.0.textScale()),
             ),
           ),
-          spaceW30,
+          spaceW14,
           Expanded(
-            flex: 6,
+            flex: 7,
             child: ListView.builder(
               itemCount: listPhienHopModel.files.length,
               shrinkWrap: true,
+              padding: EdgeInsets.zero,
               itemBuilder: (context, index) {
                 final data = listPhienHopModel.files;
                 return GestureDetector(
@@ -530,12 +402,13 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                       url: data[index].path ?? '',
                     );
                   },
-                  child: SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
                     child: Text(
                       data[index].name ?? S.current.khong_co_tep_nao,
-                      style: textDetailHDSD(
-                        fontSize: 14.0.textScale(),
-                        color: color5A8DEE,
+                      style: textNormal(
+                          color5A8DEE,
+                          14.0.textScale(),
                       ),
                     ),
                   ),

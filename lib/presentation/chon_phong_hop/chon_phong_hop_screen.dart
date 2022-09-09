@@ -23,7 +23,6 @@ import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +72,16 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
       _cubit.thongTinPhongHopSubject.sink.add(
         ChonPhongHopModel(
           loaiPhongHopEnum: LoaiPhongHopEnum.PHONG_HOP_THUONG,
-          listThietBi: [],
+          listThietBi: widget.initThietBi
+              ?.map(
+                (e) =>
+                ThietBiValue(
+                  tenThietBi: e.tenThietBi ?? '',
+                  soLuong: int.tryParse(e.soLuong ?? '') ?? 0,
+                ),
+          )
+              .toList() ??
+              [],
           yeuCauKhac: widget.initPhongHop?.noiDungYeuCau ?? '',
           phongHop: widget.initPhongHop,
         ),
@@ -116,12 +124,12 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                   phongHopSelected(
                     phongHop: thongTinPhong?.phongHop?.ten ?? '',
                     yeuCauKhac: thongTinPhong?.listThietBi
-                            .map((e) => e.convertToString)
-                            .toList()
-                            .join(', ') ??
+                        .map((e) => e.convertToString)
+                        .toList()
+                        .join(', ') ??
                         '',
                     yeuCauPhongHop:
-                        thongTinPhong?.phongHop?.noiDungYeuCau ?? '',
+                    thongTinPhong?.phongHop?.noiDungYeuCau ?? '',
                     onDelete: () {
                       widget.onDelete?.call();
                       _cubit.thongTinPhongHopSubject.addError('');
@@ -211,23 +219,34 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
     super.initState();
     isFirstTime = false;
     controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
+
     if (widget.initPhongHop != null) {
       controller.text = widget.initPhongHop?.noiDungYeuCau ?? '';
       if ((widget.initPhongHop?.noiDungYeuCau ?? '').isEmpty) {
         controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
       }
       widget.chonPhongHopCubit.loaiPhongHopEnum =
-          widget.initPhongHop?.bitTTDH ?? false
-              ? LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH
-              : LoaiPhongHopEnum.PHONG_HOP_THUONG;
+      widget.initPhongHop?.bitTTDH ?? false
+          ? LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH
+          : LoaiPhongHopEnum.PHONG_HOP_THUONG;
+      widget.chonPhongHopCubit.initListThietBi(widget.initThietBi ?? []);
+      widget.chonPhongHopCubit.phongHop
+        ..donViId = widget.initPhongHop?.phongHopId
+        ..ten = widget.initPhongHop?.ten
+        ..bitTTDH = widget.initPhongHop?.bitTTDH
+        ..phongHopId = widget.initPhongHop?.phongHopId;
     }
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.8,
+        maxHeight: MediaQuery
+            .of(context)
+            .size
+            .height * 0.8,
       ),
       width: double.infinity,
       child: StateStreamLayout(
@@ -250,7 +269,8 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   Navigator.pop(
                     context,
                     ChonPhongHopModel(
-                      loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
+                      loaiPhongHopEnum:
+                      widget.chonPhongHopCubit.loaiPhongHopEnum,
                       listThietBi: widget.chonPhongHopCubit.listThietBi,
                       yeuCauKhac: controller.text.trim(),
                       phongHop: widget.chonPhongHopCubit.phongHop,
@@ -290,7 +310,8 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                     final listData = snapshot.data ?? [];
                     if (widget.initPhongHop != null) {
                       final int index = listData.indexWhere(
-                        (element) => element.id == widget.initPhongHop!.donViId,
+                            (element) =>
+                        element.id == widget.initPhongHop!.donViId,
                       );
                       if (index >= 0) {
                         widget.chonPhongHopCubit.donViSelected =
@@ -359,34 +380,34 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                           final listData = snapshot.data ?? [];
                           return listData.isNotEmpty
                               ? ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: listData.length,
-                                  itemBuilder: (_, index) {
-                                    final phongHop = listData[index];
-                                    return itemPhongHop(
-                                      phongHop: phongHop,
-                                      index: index,
-                                      groupValue: phongHop.id ==
-                                                  widget.initPhongHop
-                                                      ?.phongHopId ||
-                                              phongHop.id ==
-                                                  widget.chonPhongHopCubit
-                                                      .phongHop.phongHopId
-                                          ? index
-                                          : -1,
-                                      onChange: (index) {
-                                        widget.chonPhongHopCubit.phongHop
-                                          ..donViId = phongHop.donViDuyetId
-                                          ..ten = phongHop.ten
-                                          ..bitTTDH = phongHop.bit_TTDH
-                                          ..phongHopId = phongHop.id;
-
-                                        setState(() {});
-                                      },
-                                    );
-                                  },
-                                )
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: listData.length,
+                            itemBuilder: (_, index) {
+                              final phongHop = listData[index];
+                              return itemPhongHop(
+                                phongHop: phongHop,
+                                index: index,
+                                groupValue: phongHop.id ==
+                                    widget.initPhongHop
+                                        ?.phongHopId ||
+                                    phongHop.id ==
+                                        widget.chonPhongHopCubit
+                                            .phongHop.phongHopId
+                                    ? index
+                                    : -1,
+                                onChange: (index) {
+                                  widget.initPhongHop?.phongHopId = '';
+                                  widget.chonPhongHopCubit.phongHop
+                                    ..donViId = phongHop.donViDuyetId
+                                    ..ten = phongHop.ten
+                                    ..bitTTDH = phongHop.bit_TTDH
+                                    ..phongHopId = phongHop.id;
+                                  setState(() {});
+                                },
+                              );
+                            },
+                          )
                               : const NodataWidget();
                         },
                       ),
@@ -405,30 +426,6 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   title: S.current.yeu_cau_de_chuan_bi_phong,
                   contentController: controller,
                 ),
-                // spaceH20,
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: DoubleButtonBottom(
-                //     isTablet: isMobile() == false,
-                //     title1: S.current.dong,
-                //     title2: S.current.xac_nhan,
-                //     onClickLeft: () {
-                //       Navigator.pop(context);
-                //     },
-                //     onClickRight: () {
-                //       Navigator.pop(
-                //         context,
-                //         ChonPhongHopModel(
-                //           loaiPhongHopEnum:
-                //           widget.chonPhongHopCubit.loaiPhongHopEnum,
-                //           listThietBi: widget.chonPhongHopCubit.listThietBi,
-                //           yeuCauKhac: controller.text.trim(),
-                //           phongHop: widget.chonPhongHopCubit.phongHop,
-                //         ),
-                //       );
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -495,29 +492,30 @@ Widget itemPhongHop({
                     flex: 7,
                     child: phongHop.listThietBi.isEmpty
                         ? Text(
-                            S.current.khong,
-                            style: textNormal(
-                              color3D5586,
-                              14.0.textScale(),
-                            ),
-                          )
+                      S.current.khong,
+                      style: textNormal(
+                        color3D5586,
+                        14.0.textScale(),
+                      ),
+                    )
                         : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(
-                              phongHop.listThietBi.length,
-                              (index) => Padding(
-                                padding: const EdgeInsets.only(bottom: 4.0),
-                                child: Text(
-                                  '${phongHop.listThietBi[index].tenThietBi} '
-                                  '(${phongHop.listThietBi[index].soLuong})',
-                                  style: textNormal(
-                                    titleItemEdit,
-                                    14,
-                                  ),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        phongHop.listThietBi.length,
+                            (index) =>
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4.0),
+                              child: Text(
+                                '${phongHop.listThietBi[index].tenThietBi} '
+                                    '(${phongHop.listThietBi[index].soLuong})',
+                                style: textNormal(
+                                  titleItemEdit,
+                                  14,
                                 ),
                               ),
                             ),
-                          ),
+                      ),
+                    ),
                   )
                 ],
               ),

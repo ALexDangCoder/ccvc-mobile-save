@@ -259,7 +259,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
           ],
         ),
       ),
-      tabletScreen: Container(
+      tabletScreen : Container(
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(

@@ -47,7 +47,6 @@ class SelectCanBo extends StatefulWidget {
 }
 
 class _SelectCanBoState extends State<SelectCanBo> {
-
   final controllerSearch = TextEditingController();
 
   @override
@@ -252,7 +251,20 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                       onCheckBox:
                                                           (value) async {
                                                         widget.themCanBoCubit
-                                                            .addDataList(index);
+                                                            .addDataListByModel(
+                                                          result,
+                                                        );
+                                                        if (!value) {
+                                                          widget.themCanBoCubit
+                                                              .addDataListByModel(
+                                                            result,
+                                                          );
+                                                        } else {
+                                                          widget.themCanBoCubit
+                                                              .removeByModel(
+                                                            result,
+                                                          );
+                                                        }
                                                       },
                                                       canBoModel: result,
                                                       themCanBoCubit:

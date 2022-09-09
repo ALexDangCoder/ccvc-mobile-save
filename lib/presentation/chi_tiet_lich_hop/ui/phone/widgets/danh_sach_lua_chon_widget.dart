@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lua_chon_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
@@ -168,7 +169,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        color: AppTheme.getInstance().colorField().withOpacity(0.1),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(
@@ -181,9 +182,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
             child: Text(
               title,
               style: textNormal(
-                APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
+                AppTheme.getInstance().colorField(),
                 12.0.textScale(),
               ),
               overflow: TextOverflow.ellipsis,
@@ -200,9 +199,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
                 ImageAssets.icClose,
                 width: 7.5,
                 height: 7.5,
-                color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
-                    : backgroundColorApp,
+                color: AppTheme.getInstance().colorField(),
               ),
             ),
           )

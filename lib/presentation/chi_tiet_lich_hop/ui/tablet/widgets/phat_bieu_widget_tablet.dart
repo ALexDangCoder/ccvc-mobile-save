@@ -322,12 +322,12 @@ Widget buttonDuyet(
       );
     case StatePhatBieu.da_duyet:
       return SizedBox(
-        width: 120,
+        width:isMobile() ?100: 120,
         child: buttomHuyPb(context: context, cubit: cubit, isTablet: isTablet),
       );
     case StatePhatBieu.huy_duyet:
       return SizedBox(
-        width: 120,
+        width: isMobile() ?100:120,
         child:
             buttomDuyetPb(context: context, cubit: cubit, isTablet: isTablet),
       );

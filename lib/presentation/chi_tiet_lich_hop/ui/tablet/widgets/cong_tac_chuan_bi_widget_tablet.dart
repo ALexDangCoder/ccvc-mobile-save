@@ -462,7 +462,7 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
               children: [
                 RowDataWidget(
                   keyTxt: S.current.loai_thiet_bi,
-                  value: 'sjafuashgf awrwe9 ru8iweu iweriuwe riweur iu',
+                  value: model.loaiThietBi ?? '',
                 ),
                 spaceH10,
                 RowDataWidget(

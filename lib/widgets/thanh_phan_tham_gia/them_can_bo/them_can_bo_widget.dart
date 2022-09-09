@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart' as APPTHEME;
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_can_bo.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -26,6 +27,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
@@ -400,8 +402,18 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                     context,
                     title: S.current.lich_trung,
                     textContent: S.current.ban_co_muon_tiep_tuc_khong,
-                    icon: ImageAssets.svgAssets(
-                      ImageAssets.ic_trung_hop,
+                    icon: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: APPTHEME.AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: SvgPicture.asset(
+                        ImageAssets.icUserMeeting,
+                        color: APPTHEME.AppTheme.getInstance().colorField(),
+                      ),
                     ),
                     btnRightTxt: S.current.dong_y,
                     btnLeftTxt: S.current.khong,

@@ -144,7 +144,17 @@ class MenuWidget extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          SvgPicture.asset(ImageAssets.icHeaderLVVV.svgToTheme()),
+          if (isLichHop)
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.getInstance().colorField(),
+              ),
+              child: SvgPicture.asset(ImageAssets.icChonPhongHop, color: backgroundColorApp,),
+            )
+          else
+            SvgPicture.asset(ImageAssets.icHeaderLVVV.svgToTheme()),
           const SizedBox(
             width: 12,
           ),

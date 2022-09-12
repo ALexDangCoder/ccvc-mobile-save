@@ -11,6 +11,8 @@ import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'follow_key_broash.dart';
+
 class ThemYKienWidget extends StatefulWidget {
   final String id;
   final DetailMeetCalenderCubit cubit;
@@ -28,8 +30,7 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
-      bottomInset: 130,
+    return FollowKeyBoardEdt(
       bottomWidget: Padding(
         padding: const EdgeInsets.only(bottom: 35),
         child: DoubleButtonBottom(

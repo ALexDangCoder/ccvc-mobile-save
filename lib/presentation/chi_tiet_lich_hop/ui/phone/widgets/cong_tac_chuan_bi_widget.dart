@@ -474,8 +474,6 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                     color: titleCalenderWork,
                     fontWeight: FontWeight.w400,
                   ),
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               Expanded(

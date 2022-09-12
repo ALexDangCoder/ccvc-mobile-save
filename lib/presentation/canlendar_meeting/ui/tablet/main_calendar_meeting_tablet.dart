@@ -232,7 +232,7 @@ class _MainCalendarMeetingTabletState extends State<MainCalendarMeetingTablet> {
                     state: ListViewState(typeView: cubit.state.typeView),
                   ),
                   StateMenu(
-                    icon: ImageAssets.icTheoDangLich,
+                    icon: ImageAssets.icBaoCaoThongKeLH,
                     title: S.current.bao_cao_thong_ke,
                     state: ChartViewState(typeView: cubit.state.typeView),
                   ),

@@ -139,6 +139,8 @@ class _ItemThongTinYCCBState extends State<ItemThongTinYCCB> {
                     color: titleCalenderWork,
                     fontWeight: FontWeight.w400,
                   ),
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               Expanded(

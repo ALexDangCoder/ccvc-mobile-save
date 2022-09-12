@@ -94,9 +94,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   dateFrom: _cubitTaoLichHop.getTime(),
                   dateTo: _cubitTaoLichHop.getTime(isGetDateStart: false),
                   id: HiveLocal.getDataUser()
-                      ?.userInformation
-                      ?.donViTrucThuoc
-                      ?.id ??
+                          ?.userInformation
+                          ?.donViTrucThuoc
+                          ?.id ??
                       '',
                   onChange: (value) {
                     _cubitTaoLichHop
@@ -115,7 +115,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   },
                   initPhongHop: _cubitTaoLichHop.taoLichHopRequest.phongHop,
                   initThietBi:
-                  _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
+                      _cubitTaoLichHop.taoLichHopRequest.phongHopThietBi,
                 );
               }
               if (widget.cubit.isHasPhong()) {
@@ -189,12 +189,12 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   title: S.current.thong_tin_yeu_cau_chuan_bi,
                   child: ((data.noiDungYeuCau ?? '').isNotEmpty)
                       ? itemThongTinYeuCauChuanBi(
-                    model: data,
-                    cubit: widget.cubit,
-                  )
+                          model: data,
+                          cubit: widget.cubit,
+                        )
                       : const NodataWidget(
-                    height: 50.0,
-                  ),
+                          height: 50.0,
+                        ),
                 ),
               );
             }
@@ -246,7 +246,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                                           messState: MessState.error,
                                         );
                                       } else {
-                                        duyetOrhuyDuyetThietBi(isDuyet: true,);
+                                        duyetOrhuyDuyetThietBi(
+                                          isDuyet: true,
+                                        );
                                       }
                                     },
                                   ),
@@ -280,9 +282,10 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       Column(
                         children: List.generate(
                           data.length,
-                              (index) => Padding(
+                          (index) => Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: ThongTinYeuCauThietBiWidget(
+                              cubit: widget.cubit,
                               model: data[index],
                               onChange: (value) {
                                 if (!value) {
@@ -490,12 +493,12 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     if (listTHietBiDuocChon.isNotEmpty) {
       widget.cubit
           .forToduyetOrHuyDuyetThietBi(
-        listTHietBiDuocChon: listTHietBiDuocChon,
-        isDuyet: isDuyet,
-      )
+            listTHietBiDuocChon: listTHietBiDuocChon,
+            isDuyet: isDuyet,
+          )
           .then(
             (value) => emtyThietBiDuocChon(value: value),
-      );
+          );
     }
   }
 
@@ -596,11 +599,13 @@ class ThongTinPhongWidget extends StatelessWidget {
 class ThongTinYeuCauThietBiWidget extends StatelessWidget {
   final Function(bool) onChange;
   final ThietBiPhongHopModel model;
+  final DetailMeetCalenderCubit cubit;
 
   const ThongTinYeuCauThietBiWidget({
     Key? key,
     required this.model,
     required this.onChange,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -644,19 +649,20 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
               ],
             ),
           ),
-          StreamBuilder<bool>(
-            stream: _check,
-            builder: (context, snapshot) {
-              return CustomCheckBox(
-                isOnlyCheckbox: true,
-                isCheck: _check.value,
-                onChange: (value) {
-                  onChange(_check.value);
-                  _check.sink.add(!_check.value);
-                },
-              );
-            },
-          )
+          if (cubit.checkPermissionQuyenDuyetPhong())
+            StreamBuilder<bool>(
+              stream: _check,
+              builder: (context, snapshot) {
+                return CustomCheckBox(
+                  isOnlyCheckbox: true,
+                  isCheck: _check.value,
+                  onChange: (value) {
+                    onChange(_check.value);
+                    _check.sink.add(!_check.value);
+                  },
+                );
+              },
+            )
         ],
       ),
     );
@@ -718,9 +724,9 @@ class _ChonPhongHopScreenOnlyState extends State<_ChonPhongHopScreenOnly> {
   Widget build(BuildContext context) {
     return Container(
       constraints:
-      BoxConstraints(maxHeight: MediaQuery.of(context).size.height) * 0.8,
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height) * 0.8,
       padding:
-      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: FollowKeyBoardEdt(
         bottomWidget: Padding(
           padding: const EdgeInsets.only(bottom: 16),

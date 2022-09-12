@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/ho_tro_ky_thuat_module/widget/views/state_stream_lay
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/selecdate_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -19,7 +20,6 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
@@ -125,7 +125,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
         S.current.error,
       ),
       stream: widget.cubit.stateStream,
-      child: FollowKeyBoardWidget(
+      child: FollowKeyBoardEdt(
         bottomWidget: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
           child: DoubleButtonBottom(

@@ -150,6 +150,7 @@ class ImageAssets {
   static const String icMessItemMenu = '$baseImg/ic_messsage_y_kien.svg';
   static const String icPersonItemMenu = '$baseImg/ic_person_y_kien_menu.svg';
   static const String icBaoCaoItemNenu = '$baseImg/ic_baocao_y_kien_menu.svg';
+  static const String icBaoCaoThongKeLH = '$baseImg/ic_bao_cao_thong_ke_lich_hop.svg';
   static const String icChoDuyetYKND = '$baseImg/cho_duyen_yknd.svg';
   static const String icDongHoYKND = '$baseImg/dong_ho_yknd.svg';
   static const String ic_Calendar_tui = '$baseImg/ic_calendar_tui.svg';

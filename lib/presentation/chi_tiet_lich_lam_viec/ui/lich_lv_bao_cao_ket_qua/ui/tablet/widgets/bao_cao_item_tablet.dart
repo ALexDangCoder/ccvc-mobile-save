@@ -102,7 +102,7 @@ class BaoCaoItemTablet extends StatelessWidget {
                 SizedBox(
                   width: 108,
                   child: Text(
-                    S.current.noi_dung,
+                    S.current.just_noi_dung,
                     style: textNormalCustom(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,

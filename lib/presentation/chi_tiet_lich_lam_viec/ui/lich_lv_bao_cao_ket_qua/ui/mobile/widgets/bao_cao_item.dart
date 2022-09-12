@@ -107,7 +107,7 @@ class BaoCaoItem extends StatelessWidget {
                 SizedBox(
                   width: 77,
                   child: Text(
-                    S.current.noi_dung,
+                    S.current.just_noi_dung,
                     style: textNormalCustom(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,

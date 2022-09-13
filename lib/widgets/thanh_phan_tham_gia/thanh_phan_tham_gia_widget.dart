@@ -53,14 +53,21 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     _cubit.listPeopleThamGia.listen((event) {
       widget.onChange(event);
     });
+    initDate();
+    _cubit.phuongThucNhanStream.listen((event) {
+      widget.phuongThucNhan(event);
+    });
+    widget.cubit?.requestSubject.stream.listen((event) {
+      initDate();
+    });
+    _cubit.addPeopleThamGia(widget.listPeopleInit ?? []);
+  }
+
+  void initDate() {
     _cubit.timeStart = widget.cubit?.taoLichHopRequest.timeStart ?? '';
     _cubit.timeEnd = widget.cubit?.taoLichHopRequest.timeTo ?? '';
     _cubit.dateStart = widget.cubit?.taoLichHopRequest.ngayBatDau ?? '';
     _cubit.dateEnd = widget.cubit?.taoLichHopRequest.ngayKetThuc ?? '';
-    _cubit.phuongThucNhanStream.listen((event) {
-      widget.phuongThucNhan(event);
-    });
-    _cubit.addPeopleThamGia(widget.listPeopleInit ?? []);
   }
 
   @override

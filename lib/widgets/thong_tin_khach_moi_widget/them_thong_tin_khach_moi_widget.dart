@@ -90,28 +90,20 @@ class _ThemDonViPhoiHopKhacWidgetState
                           cubit: cubit,
                           showType: [
                             ItemTypeThanhPhan(
-                              type: TypeFileShowDonVi.HO_VA_TEN,
-                              title: S.current.ho_va_ten,
-                            ),
-                            ItemTypeThanhPhan(
                               type: TypeFileShowDonVi.TEN_DON_VI,
                               title: S.current.ten_don_vi,
                             ),
                             ItemTypeThanhPhan(
-                              type: TypeFileShowDonVi.NOI_DUNG,
-                              title: S.current.noidung,
-                            ),
-                            ItemTypeThanhPhan(
-                              type: TypeFileShowDonVi.EMAIL,
-                              title: S.current.email,
-                            ),
-                            ItemTypeThanhPhan(
-                              type: TypeFileShowDonVi.SDT,
-                              title: S.current.so_dien_thoai,
+                              type: TypeFileShowDonVi.HO_VA_TEN,
+                              title: S.current.ho_va_ten,
                             ),
                             ItemTypeThanhPhan(
                               type: TypeFileShowDonVi.SO_LUONG,
-                              title: S.current.tong_so_luong_khach,
+                              title: S.current.so_luong,
+                            ),
+                            ItemTypeThanhPhan(
+                              type: TypeFileShowDonVi.NOI_DUNG,
+                              title: S.current.noidung,
                             ),
                           ],
                         ),

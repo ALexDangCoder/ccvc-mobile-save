@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/cu_can_bo_di_thay_request.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
@@ -74,21 +73,16 @@ class _CuCanBoDiThayWidgetState extends State<CuCanBoDiThayWidget> {
             Navigator.pop(context);
           },
           onClickRight: () {
-            if (widget.themDonViCubit.listDonVi.isEmpty) {
-              widget.themDonViCubit.validateDonVi.sink.add(true);
-            } else {
-              widget.themDonViCubit.validateDonVi.sink.add(false);
-              widget.cubit
-                  .luuCanBoDiThay(
-                cubitThanhPhanTG: widget.cubitThanhPhanTG,
-              )
-                  .then((value) {
-                if (value) {
-                  widget.cubit.initDataChiTiet();
-                }
-              });
-              Navigator.pop(context);
-            }
+            widget.cubit
+                .luuCanBoDiThay(
+              cubitThanhPhanTG: widget.cubitThanhPhanTG,
+            )
+                .then((value) {
+              if (value) {
+                widget.cubit.initDataChiTiet();
+              }
+            });
+            Navigator.pop(context);
           },
         ),
       ),

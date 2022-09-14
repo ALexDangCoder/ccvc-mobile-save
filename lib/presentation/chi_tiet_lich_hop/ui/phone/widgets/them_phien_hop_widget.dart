@@ -249,7 +249,6 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     );
                   },
                 ),
-
                 /// nội dung phiên họp
                 InputInfoUserWidget(
                   title: S.current.noi_dung_phien_hop,

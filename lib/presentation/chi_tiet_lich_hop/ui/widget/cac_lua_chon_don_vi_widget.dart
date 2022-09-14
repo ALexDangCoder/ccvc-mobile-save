@@ -172,10 +172,7 @@ class _SelectDonViCellState extends State<SelectDonViCell> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 200,
-            ),
+          Flexible(
             child: Text(
               title,
               style: textNormal(

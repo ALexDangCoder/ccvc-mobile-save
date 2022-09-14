@@ -104,7 +104,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<bool> isValidateThoiGianBatDauKetThuc = BehaviorSubject();
   BehaviorSubject<List<DonViModel>> listDonViModel = BehaviorSubject();
   BehaviorSubject<bool> checkValidateLoaiNV = BehaviorSubject();
-  List<int> dataLoaiNhiemVu = [];
   List<Data> listStatusRom = [];
   List<DonViModel> listDataCanBo = [];
   List<DanhSachThanhPhanThamGiaModel> listThanhPhanThamGiaOld = [];

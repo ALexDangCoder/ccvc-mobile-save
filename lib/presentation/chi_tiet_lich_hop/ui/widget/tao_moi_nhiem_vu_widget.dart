@@ -89,8 +89,10 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                     Navigator.pop(context);
                   },
                   onClickRight: () {
-                    if (keyGroup.currentState!.validator() &&
-                        widget.cubit.dataLoaiNhiemVu.isNotEmpty) {
+                    final validateProcess =
+                        themNhiemVuRequest.processTypeId?.isEmpty ?? true;
+                    widget.cubit.checkValidateLoaiNV.sink.add(validateProcess);
+                    if (keyGroup.currentState!.validator() && !validateProcess) {
                       widget.cubit.checkValidateLoaiNV.sink.add(false);
                       themNhiemVuRequest.metaData = [
                         MeTaDaTaRequest(
@@ -108,8 +110,6 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       ];
                       widget.cubit.themNhiemVu(themNhiemVuRequest);
                       Navigator.pop(context);
-                    } else {
-                      widget.cubit.checkValidateLoaiNV.sink.add(true);
                     }
                   },
                 ),
@@ -139,8 +139,8 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                               onChange: (value) {
                                 themNhiemVuRequest.processTypeId = widget.cubit
                                     .danhSachLoaiNhiemVuLichHopModel[value].id;
-                                widget.cubit.dataLoaiNhiemVu.add(value);
-                                if (widget.cubit.dataLoaiNhiemVu.isEmpty) {
+                                if (themNhiemVuRequest.processTypeId?.isEmpty ??
+                                    true) {
                                   widget.cubit.checkValidateLoaiNV.sink
                                       .add(true);
                                 } else {

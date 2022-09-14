@@ -149,6 +149,7 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                         formKey: formKeyNoiDung,
                         contentController: noiDungController,
                         title: S.current.noidung,
+                        maxLenght: 255,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 22, bottom: 14),

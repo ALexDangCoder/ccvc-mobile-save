@@ -95,8 +95,9 @@ Future<T?> showDiaLog<T>(
               SizedBox(
                 height: showTablet ? 24.0.textScale(space: 8) : 24,
               ),
-              if (isOneButton)
-                Row(
+              SizedBox(
+                width: showTablet ? 285 : null,
+                child: isOneButton ? Row(
                   children: [
                     Expanded(
                       child: ButtonCustomBottom(
@@ -107,9 +108,7 @@ Future<T?> showDiaLog<T>(
                         },
                       ),
                     ),
-                    SizedBox(
-                      width: showTablet ? 16.0.textScale(space: 20) : 16,
-                    ),
+                    const SizedBox(width: 20,),
                     Expanded(
                       child: ButtonCustomBottom(
                         isColorBlue: true,
@@ -126,9 +125,7 @@ Future<T?> showDiaLog<T>(
                       ),
                     ),
                   ],
-                )
-              else
-                Row(
+                ) : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
@@ -143,7 +140,8 @@ Future<T?> showDiaLog<T>(
                       ),
                     ),
                   ],
-                )
+                ),
+              )
             ],
           ),
         ),

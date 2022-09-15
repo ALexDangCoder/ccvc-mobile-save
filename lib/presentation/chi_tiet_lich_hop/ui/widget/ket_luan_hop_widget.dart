@@ -552,7 +552,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          flex: 3,
+                          flex: 2,
                           child: Text(
                             S.current.so_nhiem_vu,
                             style: textNormalCustom(
@@ -563,25 +563,32 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          flex: 4,
-                          child: Text(
-                            soNhiemVu,
-                            style: textNormalCustom(
-                              color: textTitle,
-                              fontSize: 14.0.textScale(),
-                              fontWeight: FontWeight.w400,
-                            ),
+                          flex: 3,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  soNhiemVu,
+                                  style: textNormalCustom(
+                                    color: textTitle,
+                                    fontSize: 14.0.textScale(),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  ontap();
+                                },
+                                child: SvgPicture.asset(ImageAssets.ic_luong),
+                              )
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      ontap();
-                    },
-                    child: SvgPicture.asset(ImageAssets.ic_luong),
-                  )
                 ],
               ),
               widgetRow(

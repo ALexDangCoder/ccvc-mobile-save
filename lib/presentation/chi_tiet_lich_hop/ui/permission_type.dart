@@ -613,7 +613,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
                 title: S.current.huy_lich,
                 btnRightTxt: S.current.dong_y,
                 icon: SvgPicture.asset(ImageAssets.icHuyLich),
-                showTablet: true,
+                showTablet: !isMobile(),
               );
               return;
             }

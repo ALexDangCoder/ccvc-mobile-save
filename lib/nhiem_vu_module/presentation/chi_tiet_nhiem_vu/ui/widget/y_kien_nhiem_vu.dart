@@ -129,10 +129,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                         left: 8,
                       ),
                       child: TextFormField(
-                        controller:
-                            //isMain
-                            //?
-                            _nhapYMainController,
+                        controller: _nhapYMainController,
                         onChanged: (value) {
                           if (value.trim().isNotEmpty) {
                             widget.cubit.validateNhapYkien.add('');
@@ -145,16 +142,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                         maxLines: 999,
                         minLines: 1,
                         keyboardType: TextInputType.multiline,
-                        onTap: () {
-                          // if (isMain) {
-                          //   for (final ChiTietYKienXuLyModel value in _list){
-                          //     value.isInput = false;
-                          //   }
-                          //_nhapYkienController.text = '';
-                          //_listYkien.clear();
-                          // setState(() {});
-                          //  }
-                        },
+                        onTap: () {},
                         decoration: InputDecoration(
                           suffixIcon: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -340,6 +328,11 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                   widget.cubit.listPickFileMain.clear();
                   setState(() {});
                 } else {
+                  if (list.isEmpty)
+                  {
+                    widget.cubit.validateNhapYkien
+                        .add(S.current.ban_chua_nhap_y_kien);
+                  }
                   if (widget.cubit.listPickFileMain.isNotEmpty) {
                     await widget.cubit.postYKienXuLy(
                       noiDung: _nhapYMainController.text,
@@ -355,10 +348,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                         .add(S.current.ban_chua_nhap_y_kien);
                   }
                 }
-                if (list.isEmpty) {
-                  widget.cubit.validateNhapYkien
-                      .add(S.current.ban_chua_nhap_y_kien);
-                }
+
               },
               child: SvgPicture.asset(
                 ImageAssets.ic_send,
@@ -375,6 +365,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
             return snapshot.data?.isNotEmpty ?? false
                 ? Padding(
                     padding: EdgeInsets.only(
+                      top: isMain ? 16.0 : 0,
                       left: isMain ? 16.0 : 0,
                       bottom: isMain ? 12.0 : 0,
                     ),

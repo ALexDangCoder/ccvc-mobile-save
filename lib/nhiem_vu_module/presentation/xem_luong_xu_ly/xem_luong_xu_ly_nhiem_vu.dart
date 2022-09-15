@@ -286,9 +286,10 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                             title: S.current.chu_tri,
                           ),
                           rowChuThich(
-                              boxShape: BoxShape.rectangle,
-                              color: phoiHopColor,
-                              title: S.current.phoi_hop),
+                            boxShape: BoxShape.rectangle,
+                            color: phoiHopColor,
+                            title: S.current.phoi_hop,
+                          ),
                         ],
                       )
                     ],

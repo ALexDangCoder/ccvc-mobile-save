@@ -6,7 +6,7 @@ part 'ds_vbdi_response.g.dart';
 @JsonSerializable()
 class DanhSachVBDiResponse {
   @JsonKey(name: 'Data')
-  DataResponseVBDi danhSachVB;
+  DataResponseVBDi? danhSachVB;
 
   DanhSachVBDiResponse(this.danhSachVB);
 
@@ -19,7 +19,7 @@ class DanhSachVBDiResponse {
 @JsonSerializable()
 class DataResponseVBDi {
   @JsonKey(name: 'PageData')
-  List<PageDataResponseVBDi> pageData;
+  List<PageDataResponseVBDi>? pageData;
 
   DataResponseVBDi(
     this.pageData,
@@ -32,7 +32,7 @@ class DataResponseVBDi {
 
   DanhSachVanBanModel toDomain() => DanhSachVanBanModel(
         pageData: pageData
-            .map(
+            ?.map(
               (e) => e.toDomain(),
             )
             .toList(),

@@ -71,11 +71,13 @@ class _DropDownSearchState extends State<DropDownSearch> {
                 ),
               )
             else
-              Text(
-                select,
-                style: tokenDetailAmount(
-                  fontSize: 14.0.textScale(),
-                  color: color3D5586,
+              Expanded(
+                child: Text(
+                  select,
+                  style: tokenDetailAmount(
+                    fontSize: 14.0.textScale(),
+                    color: color3D5586,
+                  ),
                 ),
               ),
             if (widget.isShowIconDropdown)

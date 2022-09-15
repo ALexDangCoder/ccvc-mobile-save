@@ -127,7 +127,7 @@ class QLVBImlp implements QLVBRepository {
                 trangThaiFilter: trangThaiFilter,
               ),
             ), (response) {
-      return response.danhSachVB.toDomain();
+      return response.danhSachVB?.toDomain() ?? DanhSachVanBanModel();
     });
   }
 
@@ -158,7 +158,7 @@ class QLVBImlp implements QLVBRepository {
                 isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
               ),
             ), (response) {
-      return response.danhSachVB.toDomain();
+      return response.danhSachVB?.toDomain() ?? DanhSachVanBanModel();
     });
   }
 

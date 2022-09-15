@@ -264,24 +264,34 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                       top: index == 0 ? 0 : 16,
                                                     ),
                                                     child: itemCanBo(
-                                                      onCheckBox:
-                                                          (value) async {
+                                                      onCheckBox: (value) async {
                                                         widget.themCanBoCubit
-                                                            .addDataListCanBoDiThay(
-                                                          index,
+                                                            .addDataListByModel(
+                                                          result,
+                                                          sinkData: false,
                                                         );
+                                                        if (!value) {
+                                                          widget.themCanBoCubit
+                                                              .addDataListByModel(
+                                                            result,
+                                                            sinkData: false,
+                                                          );
+                                                        } else {
+                                                          widget.themCanBoCubit
+                                                              .removeByModel(
+                                                            result,
+                                                          );
+                                                        }
                                                       },
                                                       canBoModel: result,
                                                       themCanBoCubit:
-                                                          widget.themCanBoCubit,
+                                                      widget.themCanBoCubit,
                                                       onChange: (value) {
-                                                        tenCanBo =
-                                                            value.tenCanBo;
+                                                        tenCanBo = value.tenCanBo;
                                                         widget.themCanBoCubit
                                                             .donViModel = value;
                                                       },
-                                                      isCheck:
-                                                          data[index].isCheck,
+                                                      isCheck: data[index].isCheck,
                                                     ),
                                                   );
                                                 },

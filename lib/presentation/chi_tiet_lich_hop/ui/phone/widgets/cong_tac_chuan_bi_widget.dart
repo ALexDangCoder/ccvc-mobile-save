@@ -198,8 +198,14 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                 ),
               );
             }
-            return const NodataWidget(
-              height: 50.0,
+            return Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: titleType(
+                title: S.current.thong_tin_yeu_cau_chuan_bi,
+                child: const NodataWidget(
+                  height: 50.0,
+                ),
+              ),
             );
           },
         ),

@@ -97,14 +97,32 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                     color: Colors.transparent,
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(
-                                      itemTitle.title,
-                                      style: textNormalCustom(
-                                        color: titleItemEdit,
-                                        fontWeight: selectedItems == itemTitle
-                                            ? FontWeight.w600
-                                            : FontWeight.normal,
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            itemTitle.title,
+                                            style: textNormalCustom(
+                                              color: color586B8B,
+                                              fontWeight:
+                                                  selectedItems == itemTitle
+                                                      ? FontWeight.bold
+                                                      : FontWeight.normal,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        if (selectedItems == itemTitle) ...[
+                                          Icon(
+                                            Icons.check,
+                                            color: AppTheme.getInstance()
+                                                .colorField(),
+                                          ),
+                                        ],
+                                      ],
                                     ),
                                   ),
                                 );
@@ -228,14 +246,18 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            itemTitle.title,
-                                            style: textNormalCustom(
-                                              color: color586B8B,
-                                              fontWeight:
-                                                  selectedItems == itemTitle
-                                                      ? FontWeight.bold
-                                                      : FontWeight.normal,
+                                          Expanded(
+                                            child: Text(
+                                              itemTitle.title,
+                                              style: textNormalCustom(
+                                                color: color586B8B,
+                                                fontWeight:
+                                                    selectedItems == itemTitle
+                                                        ? FontWeight.bold
+                                                        : FontWeight.normal,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                           if (selectedItems == itemTitle) ...[
@@ -303,11 +325,15 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (selectedItems != null)
-                Text(
-                  selectedItems?.title ?? '',
-                  style: tokenDetailAmount(
-                    fontSize: 14.0.textScale(),
-                    color: titleCalenderWork,
+                Expanded(
+                  child: Text(
+                    selectedItems?.title ?? '',
+                    style: tokenDetailAmount(
+                      fontSize: 14.0.textScale(),
+                      color: titleCalenderWork,
+                    ),
+                    maxLines : 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 )
               else

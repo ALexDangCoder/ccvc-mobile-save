@@ -176,7 +176,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   }
 
   void clearData() {
-    dataLoaiNhiemVu.clear();
     checkValidateLoaiNV.sink.add(false);
   }
 

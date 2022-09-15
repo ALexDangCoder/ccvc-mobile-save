@@ -232,7 +232,10 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                             itemTitle.title,
                                             style: textNormalCustom(
                                               color: color586B8B,
-                                              fontWeight: FontWeight.normal,
+                                              fontWeight:
+                                                  selectedItems == itemTitle
+                                                      ? FontWeight.bold
+                                                      : FontWeight.normal,
                                             ),
                                           ),
                                           if (selectedItems == itemTitle) ...[

@@ -26,10 +26,7 @@ enum MenuTypeTienIch {
   chuyenVanBanThanhGiongNoi,
   phienDichTuDong,
   lichAmDuong,
-  traCuuVanBanPhapLuat,
   danhBaDienTu,
-  huongDanSuDung,
-  mangXaHoiNoiBo,
   danhSachCongViec,
 }
 
@@ -38,10 +35,7 @@ final listFeatureTienIch = [
   MenuTypeTienIch.chuyenVanBanThanhGiongNoi,
   MenuTypeTienIch.phienDichTuDong,
   MenuTypeTienIch.lichAmDuong,
-  // MenuTypeTienIch.traCuuVanBanPhapLuat,
   MenuTypeTienIch.danhBaDienTu,
-  // MenuTypeTienIch.huongDanSuDung,
-  MenuTypeTienIch.mangXaHoiNoiBo,
   MenuTypeTienIch.danhSachCongViec,
 ];
 
@@ -80,14 +74,6 @@ extension MenuTypeItem on MenuTypeTienIch {
           ),
           title: S.current.lich_am_duong,
         );
-      case MenuTypeTienIch.traCuuVanBanPhapLuat:
-        return MenuCellTypeTienIch(
-          url: urlIconScreenTienIch(
-            iconTablet: ImageAssets.icTraCuuVanBanPhapLuat,
-            iconMobile: ImageAssets.icTraCuuVanBanPhapLuat,
-          ),
-          title: S.current.tra_cuu_van_ban_phap_luat,
-        );
       case MenuTypeTienIch.danhBaDienTu:
         return MenuCellTypeTienIch(
           url: urlIconScreenTienIch(
@@ -95,22 +81,6 @@ extension MenuTypeItem on MenuTypeTienIch {
             iconMobile: ImageAssets.icDanhBaDienTu,
           ),
           title: S.current.danh_ba_dien_tu,
-        );
-      case MenuTypeTienIch.huongDanSuDung:
-        return MenuCellTypeTienIch(
-          url: urlIconScreenTienIch(
-            iconTablet: ImageAssets.icHuongDanSuDung,
-            iconMobile: ImageAssets.icHuongDanSuDung,
-          ),
-          title: S.current.huong_dan_su_dung,
-        );
-      case MenuTypeTienIch.mangXaHoiNoiBo:
-        return MenuCellTypeTienIch(
-          url: urlIconScreenTienIch(
-            iconTablet: ImageAssets.icMangXaHoi,
-            iconMobile: ImageAssets.icMangXaHoi,
-          ),
-          title: S.current.mang_xa_hoi_noi_bo,
         );
       case MenuTypeTienIch.danhSachCongViec:
         return MenuCellTypeTienIch(
@@ -154,25 +124,10 @@ extension GetScreen on MenuTypeTienIch {
           mobileScreen: const LichAmDuongMobile(),
           tabletScreen: const LichAmDuongTablet(),
         );
-      case MenuTypeTienIch.traCuuVanBanPhapLuat:
-        return screenDevice(
-          mobileScreen: const TraCuuVanBanPhapLuatMobile(),
-          tabletScreen: const TraCuuVanBanPhapLuatTablet(),
-        );
       case MenuTypeTienIch.danhBaDienTu:
         return screenDevice(
           mobileScreen: const DanhBaDienTuMobile(),
           tabletScreen: const DanhBaDienTuTablet(),
-        );
-      case MenuTypeTienIch.huongDanSuDung:
-        return screenDevice(
-          mobileScreen: const HuongDanSuDungMobile(),
-          tabletScreen: const HuongDanSuDungTablet(),
-        );
-      case MenuTypeTienIch.mangXaHoiNoiBo:
-        return screenDevice(
-          mobileScreen: const MangXaHoiNoiBoMobile(),
-          tabletScreen: const MangXaHoiNoiBoTablet(),
         );
       case MenuTypeTienIch.danhSachCongViec:
         return screenDevice(

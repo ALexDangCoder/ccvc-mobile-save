@@ -52,7 +52,6 @@ final listFeature = [
 final listFeatureAccount = [
   MenuType.chuyenPhamVi,
   MenuType.caiDatGiaoDien,
-  MenuType.hoiDap,
   MenuType.doiMatKhau
 ];
 enum MenuType {
@@ -66,7 +65,6 @@ enum MenuType {
   tienIch,
   chuyenPhamVi,
   caiDatGiaoDien,
-  hoiDap,
   doiMatKhau,
   tuongTacNoiBo,
   lichLamViec,
@@ -184,11 +182,6 @@ extension MenuTypeItem on MenuType {
           url: ImageAssets.icCaiDatGiaoDien,
           title: S.current.cai_dat_giao_dien,
         );
-      case MenuType.hoiDap:
-        return MenuCellType(
-          url: ImageAssets.icHoiDap,
-          title: S.current.hoi_dap,
-        );
       case MenuType.doiMatKhau:
         return MenuCellType(
           url: ImageAssets.icDoiMatKhau,
@@ -200,7 +193,6 @@ extension MenuTypeItem on MenuType {
             iconTablet: ImageAssets.icHTKTTablet,
             iconMobile: ImageAssets.ic_ho_tro_ky_thuat,
           ),
-
           title: S.current.ho_tro_ky_thuat,
         );
     }
@@ -229,8 +221,7 @@ extension GetScreen on MenuType {
           tabletScreen: const MainNhiemVuTablet(),
         );
       case MenuType.hanhChinhCong:
-        return ComingSoonScreen(
-          title: S.current.hanh_chinh_cong);
+        return ComingSoonScreen(title: S.current.hanh_chinh_cong);
       case MenuType.yKienNguoiDan:
         return screenDevice(
           mobileScreen: const YKienNguoiDanScreen(),
@@ -271,20 +262,13 @@ extension GetScreen on MenuType {
         );
       case MenuType.caiDatGiaoDien:
         return const CaiDatGiaoDienScreen();
-      case MenuType.hoiDap:
-        return screenDevice(
-          mobileScreen: const HoiDapScreen(),
-          tabletScreen: const HoiDapScreenTablet(),
-        );
       case MenuType.doiMatKhau:
         return screenDevice(
           mobileScreen: const ChangePassWordScreen(),
           tabletScreen: const ChangePassWordScreenTablet(),
         );
       case MenuType.tuongTacNoiBo:
-        return ComingSoonScreen(
-          title: S.current.tuong_tac_noi_bo
-        );
+        return ComingSoonScreen(title: S.current.tuong_tac_noi_bo);
       case MenuType.lichLamViec:
         return screenDevice(
           mobileScreen: const MainCanlendanMobileRefactor(

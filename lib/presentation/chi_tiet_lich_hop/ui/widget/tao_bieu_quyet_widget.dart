@@ -132,8 +132,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                     builder: (context, snapshot) {
                       return SelectDateWidget(
                         paddings: 10,
-                        leadingIcon:
-                        SvgPicture.asset(ImageAssets.icCalenders),
+                        leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                         value: widget.cubit.paserDateTime(
                           widget.cubit.getChiTietLichHopModel.ngayBatDau,
                         ),
@@ -196,7 +195,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                   maxLenght: 255,
                   title: S.current.ten_bieu_quyet,
                   validator: (value) {
-                    if ((value ?? '').isEmpty) {
+                    if ((value ?? '').trim().isEmpty) {
                       return '${S.current.vui_long_nhap}'
                           ' ${S.current.ten_bieu_quyet}';
                     }

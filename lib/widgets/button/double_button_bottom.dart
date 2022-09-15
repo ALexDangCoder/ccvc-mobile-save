@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -10,7 +11,7 @@ class DoubleButtonBottom extends StatelessWidget {
   final bool disable;
   final Function onClickLeft;
   final Function onClickRight;
-  final bool isTablet;
+  final bool? isTablet;
   final bool noPadding;
 
   const DoubleButtonBottom({
@@ -19,16 +20,16 @@ class DoubleButtonBottom extends StatelessWidget {
     required this.title2,
     required this.onClickLeft,
     required this.onClickRight,
-    this.isTablet = false,
+    this.isTablet ,
     this.disable = false,
     this.noPadding = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return isTablet
+    return isTablet ?? !isMobile()
         ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

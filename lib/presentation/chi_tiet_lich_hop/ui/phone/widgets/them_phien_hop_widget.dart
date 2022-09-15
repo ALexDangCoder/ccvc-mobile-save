@@ -233,7 +233,10 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                         title: S.current.nguoi_chu_tri,
                         hintText: S.current.chon_nguoi_chu_tri,
                         onChange: (value) {
-                          taoPhienHopRequest.hoTen = data[value].hoTen ?? '';
+                          taoPhienHopRequest.hoTen =
+                              (data[value].hoTen ?? '').isNotEmpty
+                                  ? data[value].hoTen ?? ''
+                                  : data[value].dauMoiLienHe ?? '';
                         },
                         listSelect: data.map(
                           (value) {

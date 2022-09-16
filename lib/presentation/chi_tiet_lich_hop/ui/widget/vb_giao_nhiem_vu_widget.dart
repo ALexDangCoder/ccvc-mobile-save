@@ -118,6 +118,9 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
             hasMultiFile: false,
             replaceFile: true,
             onChange: (List<File> fileSelected) {
+              if(fileSelected.isEmpty){
+                vBGiaoNhiemVuModel.file=[];
+              }
               if (fileSelected.isNotEmpty) {
                 widget.cubit.uploadFile(fileSelected).then((value) {
                   value.when(

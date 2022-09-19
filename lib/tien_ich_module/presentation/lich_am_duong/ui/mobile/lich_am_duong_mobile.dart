@@ -77,6 +77,8 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                       stream: cubit.changeDateTimeSubject.stream,
                       builder: (context, snapshot) {
                         return FlutterRoundedCupertinoDatePickerWidgetAmDuong(
+                          minimumYear: 1900,
+                          maximumYear: 2099,
                           onDateTimeChanged: (value) {
                             //cubit.time = value;
                           },

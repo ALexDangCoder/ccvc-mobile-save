@@ -67,6 +67,7 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
                 listSelect: [
                   CellPopPupMenu(
                     urlImage: ImageAssets.icEditBlue,
+                    colorIcon: AppTheme.getInstance().colorField(),
                     text: S.current.doi_lai_ten,
                     onTap: () {
                       if (isMobile()) {

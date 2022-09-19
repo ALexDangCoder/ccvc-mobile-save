@@ -126,7 +126,7 @@ class CountTodoModel {
       case DSCVScreen.DBX:
         return ImageAssets.icXoa;
       case DSCVScreen.DG:
-        return ImageAssets.icGanChoToi;
+        return ImageAssets.daGanSvg;
       case DSCVScreen.GCT:
         return ImageAssets.icGanChoToi;
       case DSCVScreen.NCVM:

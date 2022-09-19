@@ -176,7 +176,10 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
   Widget selectCell(CellPopPupMenu qData, {bool isShowBorder = true}) {
     return Row(
       children: [
-        SvgPicture.asset(qData.urlImage),
+        SvgPicture.asset(
+          qData.urlImage,
+          color: qData.colorIcon,
+        ),
         spaceW13,
         Expanded(
           child: Container(
@@ -205,8 +208,13 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
 class CellPopPupMenu {
   final String urlImage;
   final String text;
+  final Color? colorIcon;
   final Function() onTap;
 
-  CellPopPupMenu(
-      {required this.urlImage, required this.text, required this.onTap});
+  CellPopPupMenu({
+    required this.urlImage,
+    required this.text,
+    required this.onTap,
+    this.colorIcon,
+  });
 }

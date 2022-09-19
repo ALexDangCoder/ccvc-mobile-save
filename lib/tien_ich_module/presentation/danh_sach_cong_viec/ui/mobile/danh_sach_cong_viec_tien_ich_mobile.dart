@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
@@ -11,7 +10,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/dialog/loading_loadmore.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,6 +97,7 @@ class _DanhSachCongViecTienIchMobileState
                             searchWidgetDscv(
                               cubit: cubit,
                             ),
+                            spaceH12,
 
                             /// list up
                             if (dataType == DSCVScreen.CVCB ||
@@ -116,18 +116,32 @@ class _DanhSachCongViecTienIchMobileState
                                           )
                                           .toList() ??
                                       [];
+                                  final currentUserCreate =
+                                      cubit.currentCreate(data);
+                                  final ganChoToi = cubit.listCVGanChoToi(data);
                                   if (data.isNotEmpty) {
-                                    if (dataType == DSCVScreen.DBX) {
-                                      return expandMobile(
-                                        child: ListUpDSCV(
-                                          data: data,
-                                          cubit: cubit,
-                                          dataType: dataType,
-                                        ),
-                                        header: textTitle(
-                                          S.current.gan_cho_toi,
-                                          data.length,
-                                        ),
+                                    if (dataType == DSCVScreen.CVCB) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListUpDSCV(
+                                            data: currentUserCreate,
+                                            cubit: cubit,
+                                            dataType: dataType,
+                                          ),
+                                          if (currentUserCreate.isNotEmpty)
+                                            spaceH12,
+                                          expandMobile(
+                                            child: ListUpDSCV(
+                                              data: ganChoToi,
+                                              cubit: cubit,
+                                              dataType: dataType,
+                                            ),
+                                            header: textTitle(
+                                              S.current.gan_cho_toi,
+                                            ),
+                                          ),
+                                        ],
                                       );
                                     }
                                     return ListUpDSCV(
@@ -144,10 +158,10 @@ class _DanhSachCongViecTienIchMobileState
                                       children: [
                                         if (dataType == DSCVScreen.DBX)
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 16),
+                                            padding:
+                                                const EdgeInsets.only(top: 16),
                                             child: textTitle(
                                               S.current.gan_cho_toi,
-                                              data.length,
                                             ),
                                           ),
                                         const NodataWidget(),
@@ -156,6 +170,7 @@ class _DanhSachCongViecTienIchMobileState
                                   );
                                 },
                               ),
+                            if (dataType == DSCVScreen.DBX) spaceH18,
 
                             /// list down
                             if (dataType == DSCVScreen.DBX ||
@@ -180,7 +195,6 @@ class _DanhSachCongViecTienIchMobileState
                                         ),
                                         header: textTitle(
                                           S.current.da_hoan_thanh,
-                                          data.length,
                                         ),
                                       );
                                     }
@@ -198,10 +212,10 @@ class _DanhSachCongViecTienIchMobileState
                                       children: [
                                         if (dataType == DSCVScreen.DBX)
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 16),
+                                            padding:
+                                                const EdgeInsets.only(top: 16),
                                             child: textTitle(
                                               S.current.da_hoan_thanh,
-                                              data.length,
                                             ),
                                           ),
                                         const NodataWidget(),
@@ -217,7 +231,7 @@ class _DanhSachCongViecTienIchMobileState
                           stream: cubit.inLoadmore,
                           builder: (context, snapshot) {
                             if (snapshot.data ?? false) {
-                              return LoadingItem();
+                              return const LoadingItem();
                             }
                             return const SizedBox();
                           },
@@ -234,56 +248,32 @@ class _DanhSachCongViecTienIchMobileState
     );
   }
 
-  Widget textTitle(String text, int count) => Row(
-    children: [
-      Text(
-        text,
-        style: textNormalCustom(
-          fontSize: 14,
-          color: infoColor,
-        ),
-      ),
-      const Expanded(
-        child: SizedBox(),
-      ),
-      Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 4,
-          horizontal: 5,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: AppTheme.getInstance().colorField(),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          count.toString(),
-          style: textNormalCustom(
-            fontWeight: FontWeight.w500,
-            fontSize: 12.0.textScale(),
+  Widget textTitle(String text) => Row(
+        children: [
+          Text(
+            text,
+            style: textNormalCustom(
+              fontSize: 14,
+              color: infoColor,
+            ),
           ),
-        ),
-      ),
-    ],
-  );
+          const Expanded(
+            child: SizedBox(),
+          ),
+        ],
+      );
 
   Widget expandMobile({
     required Widget child,
     required Widget header,
-  }) =>
-      Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          tilePadding: EdgeInsets.zero,
-          childrenPadding: EdgeInsets.zero,
-          iconColor: AppTheme.getInstance().colorField(),
-          initiallyExpanded: true,
-          controlAffinity: ListTileControlAffinity.leading,
-          title: header,
-          collapsedIconColor: AppTheme.getInstance().colorField(),
-          children: [
-            child,
-          ],
-        ),
-      );
+  }) {
+    return ExpandOnlyWidget(
+      header: header,
+      paddingHeader: EdgeInsets.zero,
+      onTap: () {},
+      showDecoration: false,
+      initExpand: true,
+      child: child,
+    );
+  }
 }

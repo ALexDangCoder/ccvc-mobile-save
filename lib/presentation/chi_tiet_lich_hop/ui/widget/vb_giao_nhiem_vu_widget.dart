@@ -82,6 +82,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           sb20(),
           ItemTextFieldWidget(

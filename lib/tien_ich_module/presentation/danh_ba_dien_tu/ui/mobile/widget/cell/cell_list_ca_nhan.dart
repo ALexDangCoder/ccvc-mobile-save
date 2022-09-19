@@ -121,7 +121,10 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                     spaceH12,
                     Row(
                       children: [
-                        SvgPicture.asset(ImageAssets.icPhone),
+                        SvgPicture.asset(
+                          ImageAssets.icPhone,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                         spaceW16,
                         Flexible(
                           child: Text(
@@ -183,7 +186,6 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                       },
                       child: SvgPicture.asset(
                         ImageAssets.icEdit,
-                        color: AppTheme.getInstance().colorField(),
                       ),
                     ),
                     const SizedBox(

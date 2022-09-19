@@ -149,7 +149,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                       child: ButtonCustomBottomDSCV(
                                         title: S.current.them_nhom_cong_viec,
                                         isColorBlue: true,
-                                        size: 12,
+                                        size: 14.0,
                                         onPressed: () {
                                           buttonThemNhomCongViec();
                                         },

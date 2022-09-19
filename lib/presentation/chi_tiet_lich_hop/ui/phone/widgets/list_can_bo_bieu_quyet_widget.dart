@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danhSachCanBoBieuQuyetModel.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/bieu_quyet_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -62,22 +63,30 @@ class _DanhSachCanBoBieuQuyetState extends State<DanhSachCanBoBieuQuyet> {
           builder: (context, snapshot) {
             final data = snapshot.data ?? DanhSachCanBoBieuQuyetModel();
             if (data.data?.danhSachCanBoBieuQuyet?.isNotEmpty ?? false) {
-              return ListView.builder(
-                itemCount: data.data?.danhSachCanBoBieuQuyet?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return itemListCanBo(
-                    model: data.data?.danhSachCanBoBieuQuyet?[index] ??
-                        DanhSachCanBoBieuQuyetMd(),
-                  );
-                },
+              return Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: ListView.builder(
+                  shrinkWrap: isMobile(),
+                  itemCount: data.data?.danhSachCanBoBieuQuyet?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return itemListCanBo(
+                      model: data.data?.danhSachCanBoBieuQuyet?[index] ??
+                          DanhSachCanBoBieuQuyetMd(),
+                    );
+                  },
+                ),
               );
             } else {
-              return Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.8,
-                ),
-                child: const NodataWidget(),
-              );
+              return isMobile()
+                  ? const NodataWidget(
+                      height: 50.0,
+                    )
+                  : Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                      ),
+                      child: const NodataWidget(),
+                    );
             }
           },
         ),
@@ -87,7 +96,7 @@ class _DanhSachCanBoBieuQuyetState extends State<DanhSachCanBoBieuQuyet> {
 
   Widget itemListCanBo({required DanhSachCanBoBieuQuyetMd model}) {
     return Container(
-      margin: const EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         border: Border.all(color: borderItemCalender),

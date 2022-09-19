@@ -77,9 +77,11 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                     builder: (context, snapshot) {
                       final listData = snapshot.data ?? <ListItemType>[];
                       return listData.isEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(S.current.danh_sach_rong),
+                          ? Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Text(S.current.khong_co_du_lieu),
+                              ),
                             )
                           : ListView.separated(
                               itemBuilder: (context, index) {
@@ -106,16 +108,17 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                             itemTitle.title,
                                             style: textNormalCustom(
                                               color: color586B8B,
-                                              fontWeight:
-                                                  selectedItems == itemTitle
-                                                      ? FontWeight.bold
-                                                      : FontWeight.normal,
+                                              fontWeight: selectedItems?.id ==
+                                                      itemTitle.id
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal,
                                             ),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
-                                        if (selectedItems == itemTitle) ...[
+                                        if (selectedItems?.id ==
+                                            itemTitle.id) ...[
                                           Icon(
                                             Icons.check,
                                             color: AppTheme.getInstance()
@@ -220,9 +223,11 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                       builder: (context, snapshot) {
                         final listData = snapshot.data ?? [];
                         return listData.isEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Text(S.current.danh_sach_rong),
+                            ? Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Text(S.current.khong_co_du_lieu),
+                                ),
                               )
                             : ListView.separated(
                                 padding: const EdgeInsets.only(top: 12),
@@ -251,16 +256,17 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                                               itemTitle.title,
                                               style: textNormalCustom(
                                                 color: color586B8B,
-                                                fontWeight:
-                                                    selectedItems == itemTitle
-                                                        ? FontWeight.bold
-                                                        : FontWeight.normal,
+                                                fontWeight: selectedItems?.id ==
+                                                        itemTitle.id
+                                                    ? FontWeight.bold
+                                                    : FontWeight.normal,
                                               ),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                          if (selectedItems == itemTitle) ...[
+                                          if (selectedItems?.id ==
+                                              itemTitle.id) ...[
                                             Icon(
                                               Icons.check,
                                               color: AppTheme.getInstance()
@@ -332,7 +338,7 @@ class _CustomSelectMultiItemsState extends State<CustomSelectMultiItems> {
                       fontSize: 14.0.textScale(),
                       color: titleCalenderWork,
                     ),
-                    maxLines : 1,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 )

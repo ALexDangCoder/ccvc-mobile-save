@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
@@ -171,7 +172,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
             S.current.error,
           ),
           stream: createCubit.stateStream,
-          child: FollowKeyBoardWidget(
+          child: FollowKeyBoardEdt(
             child: CreateWorkCalendarProvide(
               taoLichLamViecCubit: createCubit,
               child: ExpandGroup(

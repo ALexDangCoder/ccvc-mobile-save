@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/phat_bieu_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -122,18 +121,26 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
               stream: widget.cubit.danhSachChuongTrinhHop,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
-                final newListSelect = data.map((e) => e.tieuDe ?? '').toList();
+                final newListSelect = data
+                    .map(
+                      (e) => CoolDropDownItem(
+                        label: e.tieuDe ?? '',
+                        value: e.id ?? '',
+                      ),
+                    )
+                    .toList();
                 return CoolDropDown(
-                  key: UniqueKey(),
                   maxLines: 2,
                   useCustomHintColors: true,
                   placeHoder: S.current.chon_phien_hop,
-                  listData: newListSelect,
+                  needReInitData: true,
+                  listData: const [],
+                  listDataWithValue: newListSelect,
                   initData: valueDropDownSelected,
                   onChange: (value) {
                     taoBieuQuyetRequest.phienHopId = data[value].id;
                     validatePhienHop();
-                    valueDropDownSelected = data[value].tieuDe ?? '';
+                    valueDropDownSelected = newListSelect[value].value;
                   },
                 );
               },

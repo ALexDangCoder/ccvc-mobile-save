@@ -1,14 +1,25 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart' ;
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart';
 import 'package:flutter/material.dart';
+
+class CoolDropDownItem {
+  String label;
+  String value;
+
+  CoolDropDownItem({
+    required this.label,
+    required this.value,
+  });
+}
 
 class CoolDropDown extends StatefulWidget {
   final String placeHoder;
   final String initData;
   final Function(int) onChange;
   final List<String> listData;
+  final List<CoolDropDownItem>? listDataWithValue;
   final double? setWidth;
   final int maxLines;
   final bool showSelectedDecoration;
@@ -22,6 +33,7 @@ class CoolDropDown extends StatefulWidget {
     this.placeHoder = '',
     required this.onChange,
     required this.listData,
+    this.listDataWithValue,
     required this.initData,
     this.setWidth,
     this.maxLines = 1,
@@ -29,7 +41,7 @@ class CoolDropDown extends StatefulWidget {
     this.selectedIcon,
     this.useCustomHintColors = false,
     this.needReInitData = false,
-    this.fontSize
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -43,20 +55,38 @@ class CoolDropDownState extends State<CoolDropDown> {
 
   @override
   void initState() {
-    for (var i = 0; i < widget.listData.length; i++) {
-      listSelect.add({
-        'label': widget.listData[i],
-        'value': widget.listData[i],
-        'icon': const SizedBox(),
-      });
-    }
-    initIndex = widget.listData.indexOf(widget.initData);
+    initListSelect();
+    getCurrentIndex();
     super.initState();
+  }
+
+  void getCurrentIndex() {
+    if (widget.listDataWithValue != null) {
+      initIndex = widget.listDataWithValue!.indexWhere(
+        (element) => element.value == widget.initData,
+      );
+    } else {
+      initIndex = widget.listData.indexOf(widget.initData);
+    }
   }
 
   @override
   void didUpdateWidget(covariant CoolDropDown oldWidget) {
     if (widget.needReInitData && listSelect.isEmpty) {
+      initListSelect();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+  void initListSelect() {
+    if (widget.listDataWithValue != null) {
+      for (var i = 0; i < widget.listDataWithValue!.length; i++) {
+        listSelect.add({
+          'label': widget.listDataWithValue![i].label,
+          'value': widget.listDataWithValue![i].value,
+          'icon': const SizedBox(),
+        });
+      }
+    } else {
       for (var i = 0; i < widget.listData.length; i++) {
         listSelect.add({
           'label': widget.listData[i],
@@ -65,10 +95,10 @@ class CoolDropDownState extends State<CoolDropDown> {
         });
       }
     }
-    super.didUpdateWidget(oldWidget);
   }
 
-  void initData({required List<String> data, required String value}){
+
+  void initData({required List<String> data, required String value}) {
     listSelect.clear();
     for (var i = 0; i < widget.listData.length; i++) {
       listSelect.add({
@@ -79,10 +109,9 @@ class CoolDropDownState extends State<CoolDropDown> {
     }
     initIndex = widget.listData.indexOf(widget.initData);
     _dropKey.currentState?.initData(value);
-    setState(() {
-
-    });
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return CoolDropdown(

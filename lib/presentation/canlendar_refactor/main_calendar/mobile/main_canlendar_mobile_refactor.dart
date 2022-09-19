@@ -121,6 +121,9 @@ class _MainCanlendanRefactorState extends State<MainCanlendanMobileRefactor> {
                           cubit.emitList(type: type);
                         }
                       }
+                      if (keySearch != cubit.keySearch) {
+                        cubit.emitList(type: type);
+                      }
                       cubit.callApiByNewFilter(
                         startDate: startDate,
                         endDate: endDate,

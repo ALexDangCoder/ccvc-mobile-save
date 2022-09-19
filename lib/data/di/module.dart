@@ -31,6 +31,7 @@ import 'package:ccvc_mobile/diem_danh_module/data/repository_impl/diem_danh_repo
 import 'package:ccvc_mobile/diem_danh_module/data/service/diem_danh_service.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
@@ -41,12 +42,14 @@ import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_resp
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/repository_impl/ho_tro_ky_thuat_impl.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/services/ho_tro_ky_thuat_service.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/domain/repository/ho_tro_ky_thuat_repository.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/repository_impl/ket_noi_repo.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/service/ket_noi_service.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/repository/ket_noi_repository.dart';
+import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/repository_impl/nhiem_vu_repository_impl.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/service/nhiem_vu_service.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
@@ -58,7 +61,9 @@ import 'package:ccvc_mobile/tien_ich_module/data/service/tien_ich_service.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/danh_ba_dien_tu_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' as Foundation;
 import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -215,7 +220,6 @@ void configureDependencies() {
   );
   Get.put<ReportRepository>(ReportImpl(Get.find(), Get.find()));
 
-
   Get.put(
     HTCSService(
       provideDio(baseOption: BaseURLOption.HTCS),
@@ -281,27 +285,46 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
   }
   final options = BaseOptions(
     baseUrl: baseUrl,
-    receiveTimeout:_connectTimeOut,
-    connectTimeout:_connectTimeOut,
+    receiveTimeout: _connectTimeOut,
+    connectTimeout: _connectTimeOut,
     followRedirects: false,
   );
   final dio = Dio(options);
   void _onReFreshToken(DioError e, ErrorInterceptorHandler handler) {
-    HandleUnauthorized.resignRefreshToken(onRefreshToken: (token) async {
-      if (token.isNotEmpty) {
-        options.headers['Authorization'] = 'Bearer $token';
-      }
-      final opts = Options(
-          method: e.requestOptions.method, headers: e.requestOptions.headers);
-      final cloneReq = await dio.request(e.requestOptions.path,
+    HandleUnauthorized.resignRefreshToken(
+      onRefreshToken: (token) async {
+        if (token.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        final opts = Options(
+          method: e.requestOptions.method,
+          headers: e.requestOptions.headers,
+        );
+        final cloneReq = await dio.request(
+          e.requestOptions.path,
           options: opts,
           data: e.requestOptions.data,
-          queryParameters: e.requestOptions.queryParameters);
+          queryParameters: e.requestOptions.queryParameters,
+        );
 
-      return handler.resolve(cloneReq);
-    }, onError: (error) {
-      return handler.next(e);
-    });
+        return handler.resolve(cloneReq);
+      },
+      onError: (error) {
+        MessageConfig.show(
+          title: S.current.het_han_token,
+          messState: MessState.error,
+          onDismiss: () {
+            if (MessageConfig.contextConfig != null) {
+              AppStateCt.of(MessageConfig.contextConfig!).appState.setToken('');
+            }
+            FirebaseMessaging.instance.deleteToken();
+            HiveLocal.clearData();
+            PrefsService.saveLoginUserName('');
+          },
+        );
+        return handler.next(e);
+      },
+    );
   }
 
   dio.transformer = FlutterTransformer();

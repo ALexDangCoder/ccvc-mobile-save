@@ -126,7 +126,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                         return '${S.current.ban_phai_nhap_truong} '
                             '${S.current.sdt_s}!';
                       }
-                      return (value ?? '').checkSdtRequire2(S.current.sdt_s);
+                      return (value ?? '').checkSdtRequire();
                     },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validatorPaste: (value) {

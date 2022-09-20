@@ -45,7 +45,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
   TextEditingController sdtController = TextEditingController();
   TextEditingController sdtRiengController = TextEditingController();
   TextEditingController sdtCoquanController = TextEditingController();
-  bool gioiTinh = false;
+  bool gioiTinh = true;
   String ngaySinh = '';
   final toast = FToast();
 

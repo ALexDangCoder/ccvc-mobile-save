@@ -80,7 +80,7 @@ class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
   ) async {
     final _path = await widget.cubit.pickAvatar();
     if (_path.path.isNotEmpty) {
-      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
+      if (_path.size > MaxSizeFile.MAX_SIZE_15MB) {
         toast.showToast(
           child: ShowToast(
             text: S.current.dung_luong_toi_da,

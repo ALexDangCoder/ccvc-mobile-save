@@ -156,6 +156,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                             )
                           : SvgPicture.asset(
                               ImageAssets.icStarUnfocus,
+                              color: AppTheme.getInstance().colorField(),
                             ),
                     ),
                   ),

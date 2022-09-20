@@ -94,7 +94,7 @@ class ListViewLoadMore extends StatelessWidget {
             S.current.error,
             S.current.something_went_wrong,
           ),
-          textEmpty: S.current.list_empty,
+          textEmpty: S.current.khong_co_du_lieu,
           stream: cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {

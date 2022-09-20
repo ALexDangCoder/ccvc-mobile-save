@@ -58,10 +58,8 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   String phoneNhaRieng = '';
   String email = '';
   bool gioiTinh = true;
-  String ngaySinh = '';
   String dateDanhSach = '';
   String cmtnd = '';
-  String anhDaiDienFilePath = '';
   String anhChuKyFilePath = '';
   String anhChuKyNhayFilePath = '';
   String diaChi = '';
@@ -118,30 +116,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     );
   }
 
-  void suaDanhSachApi(String id) {
-    suaDanhSach(
-      groups: '',
-      hoTen: hoTen,
-      phoneDiDong: phoneDiDong,
-      phoneCoQuan: phoneCoQuan,
-      phoneNhaRieng: phoneNhaRieng,
-      email: email,
-      gioiTinh: gioiTinh,
-      ngaySinh: ngaySinh,
-      cmtnd: cmtnd,
-      anhDaiDienFilePath: anhDaiDienFilePath,
-      anhChuKyFilePath: anhChuKyFilePath,
-      anhChuKyNhayFilePath: anhChuKyNhayFilePath,
-      diaChi: diaChi,
-      isDeleted: isDeleted,
-      thuTu: thuTu ?? 0,
-      createdAt: createdAt,
-      createdBy: id,
-      updatedAt: updatedAt,
-      updatedBy: id,
-      id: id,
-    );
-  }
+
 
   Future<void> searchListDanhBaCaNhan({
     required int pageIndex,

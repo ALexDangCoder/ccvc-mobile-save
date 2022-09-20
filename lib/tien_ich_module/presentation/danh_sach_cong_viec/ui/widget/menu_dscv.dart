@@ -158,52 +158,59 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                   ],
                                 ),
                               ),
-                              tabletScreen: ContainerMenuDSCVWidget(
-                                name: S.current.nhom_cong_viec_moi,
-                                icon: ImageAssets.ic_nhomCVMoi,
-                                type: TypeContainer.expand,
-                                childExpand: Column(
-                                  children: [
-                                    ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      itemCount: valueChildren?.length ?? 0,
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, indexChildren) {
-                                        final valueChild =
-                                            valueChildren?[indexChildren];
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,),
-                                          child: CellMenuCustom(
-                                            margin: false,
-                                            icon: '',
-                                            name: valueChild?.name ?? '',
-                                            onTap: () {
-                                              onTopInMenuChildren(
-                                                valueChild ?? CountTodoModel(),
-                                              );
-                                            },
-                                            isSelect: true,
-                                            number: valueChild?.count ?? 0,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 200, right: 8, top: 20),
-                                      child: ButtonCustomBottomDSCV(
-                                        size: 14,
-                                        title: S.current.them_nhom_cong_viec,
-                                        isColorBlue: true,
-                                        onPressed: () {
-                                          buttonThemNhomCongViec();
+                              tabletScreen: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: ContainerMenuDSCVWidget(
+                                  name: S.current.nhom_cong_viec_moi,
+                                  icon: ImageAssets.ic_nhomCVMoi,
+                                  type: TypeContainer.expand,
+                                  childExpand: Column(
+                                    children: [
+                                      ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        itemCount: valueChildren?.length ?? 0,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, indexChildren) {
+                                          final valueChild =
+                                              valueChildren?[indexChildren];
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                            ),
+                                            child: CellMenuCustom(
+                                              margin: false,
+                                              icon: '',
+                                              name: valueChild?.name ?? '',
+                                              onTap: () {
+                                                onTopInMenuChildren(
+                                                  valueChild ??
+                                                      CountTodoModel(),
+                                                );
+                                              },
+                                              isSelect: true,
+                                              number: valueChild?.count ?? 0,
+                                            ),
+                                          );
                                         },
                                       ),
-                                    )
-                                  ],
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 200, right: 8, top: 20),
+                                        child: ButtonCustomBottomDSCV(
+                                          size: 14,
+                                          title: S.current.them_nhom_cong_viec,
+                                          isColorBlue: true,
+                                          onPressed: () {
+                                            buttonThemNhomCongViec();
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             );

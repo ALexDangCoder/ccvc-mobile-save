@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
@@ -120,7 +121,10 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                     spaceH12,
                     Row(
                       children: [
-                        SvgPicture.asset(ImageAssets.icPhone),
+                        SvgPicture.asset(
+                          ImageAssets.icPhone,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                         spaceW16,
                         Flexible(
                           child: Text(
@@ -139,7 +143,10 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                     spaceH12,
                     Row(
                       children: [
-                        SvgPicture.asset(ImageAssets.icMail),
+                        SvgPicture.asset(
+                          ImageAssets.icMail,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                         spaceW16,
                         Flexible(
                           child: Text(
@@ -177,7 +184,9 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                           ),
                         );
                       },
-                      child: SvgPicture.asset(ImageAssets.icEdit),
+                      child: SvgPicture.asset(
+                        ImageAssets.icEdit,
+                      ),
                     ),
                     const SizedBox(
                       width: 20.0,

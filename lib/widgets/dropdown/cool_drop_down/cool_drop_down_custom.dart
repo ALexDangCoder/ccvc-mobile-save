@@ -126,13 +126,13 @@ class CoolDropdown extends StatefulWidget {
     }
     // label unique 체크
     for (var i = 0; i < dropdownList.length; i++) {
-      if (dropdownList[i]['label'] == null) {
-        throw '"label" must be initialized.';
+      if (dropdownList[i]['value'] == null) {
+        throw '"value" must be initialized.';
       }
       for (var j = 0; j < dropdownList.length; j++) {
         if (i != j) {
-          if (dropdownList[i]['label'] == dropdownList[j]['label']) {
-            throw 'label is duplicated. Labels have to be unique.';
+          if (dropdownList[i]['value'] == dropdownList[j]['value']) {
+            throw 'value is duplicated. Values have to be unique. ${dropdownList[i]['value']} , ${dropdownList[j]['value']}';
           }
         }
       }

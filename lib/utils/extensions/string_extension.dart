@@ -354,7 +354,7 @@ extension CheckValidate on String {
   }
 
   String? checkSdtRequire2(String text) {
-    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
+    final isCheckSdt = RegExp(PHONE_REGEX_NO_LENGTH).hasMatch(this);
     if (isCheckSdt) {
       return null;
     } else {

@@ -117,6 +117,9 @@ class _MainCalendarRefactorTabletState
                           cubit.emitList(type: type);
                         }
                       }
+                      if (keySearch != cubit.keySearch) {
+                        cubit.emitList(type: type);
+                      }
                       cubit.callApiByNewFilter(
                         startDate: startDate,
                         endDate: endDate,

@@ -171,7 +171,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   ],
                 );
               }
-              return const SizedBox();
+              return const NodataWidget(
+                height: 50.0,
+              );
             },
           ),
         ),

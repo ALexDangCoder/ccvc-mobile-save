@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/select_only_expands/expand_group.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class ExpandOnlyWidget extends StatefulWidget {
@@ -11,6 +10,8 @@ class ExpandOnlyWidget extends StatefulWidget {
   final AnimationController? initController;
   final Function onTap;
   bool? isTablet;
+  bool showDecoration;
+  EdgeInsets? paddingHeader;
 
   ExpandOnlyWidget({
     Key? key,
@@ -21,6 +22,8 @@ class ExpandOnlyWidget extends StatefulWidget {
     this.initController,
     required this.onTap,
     this.isTablet,
+    this.showDecoration = true,
+    this.paddingHeader ,
   }) : super(key: key);
 
   @override
@@ -38,6 +41,7 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
   @override
   void initState() {
     super.initState();
+    isExpanded = widget.initExpand;
     prepareAnimations();
   }
 
@@ -114,17 +118,19 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
               }
             },
             child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.0.textScale(space: 4),
-                vertical: 7.5.textScale(space: 4),
+              padding: widget.paddingHeader ??const  EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 7.5,
               ),
-              decoration: BoxDecoration(
-                color: widget.isTablet ?? false
-                    ? backgroundColorApp
-                    : borderColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(color: borderColor.withOpacity(0.5)),
-              ),
+              decoration: widget.showDecoration
+                  ? BoxDecoration(
+                      color: widget.isTablet ?? false
+                          ? backgroundColorApp
+                          : borderColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: borderColor.withOpacity(0.5)),
+                    )
+                  : null,
               child: Column(
                 children: [
                   Row(

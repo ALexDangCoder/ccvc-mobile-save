@@ -357,7 +357,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               }
                             });
                           },
-                          showTablet: false,
+                          showTablet: true,
                           textContent: S.current.conten_xoa_chuong_trinh,
                         );
                       },

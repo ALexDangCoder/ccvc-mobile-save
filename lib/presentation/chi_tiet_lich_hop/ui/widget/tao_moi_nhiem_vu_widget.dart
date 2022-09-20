@@ -17,6 +17,8 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_lua
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -92,7 +94,8 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                     final validateProcess =
                         themNhiemVuRequest.processTypeId?.isEmpty ?? true;
                     widget.cubit.checkValidateLoaiNV.sink.add(validateProcess);
-                    if (keyGroup.currentState!.validator() && !validateProcess) {
+                    if (keyGroup.currentState!.validator() &&
+                        !validateProcess) {
                       widget.cubit.checkValidateLoaiNV.sink.add(false);
                       themNhiemVuRequest.metaData = [
                         MeTaDaTaRequest(
@@ -273,14 +276,25 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
             title: title,
             icon: ImageAssets.icDocument2,
             onPress: () {
-              showBottomSheetCustom(
-                context,
-                title: title,
-                child: VBGiaoNhiemVu(
-                  cubit: widget.cubit,
-                  typeVB: loaiVbThem,
-                ),
-              );
+              isMobile()
+                  ? showBottomSheetCustom(
+                      context,
+                      title: title,
+                      child: VBGiaoNhiemVu(
+                        cubit: widget.cubit,
+                        typeVB: loaiVbThem,
+                      ),
+                    )
+                  : showDiaLogTablet(
+                      context,
+                      title: title,
+                      child: VBGiaoNhiemVu(
+                        cubit: widget.cubit,
+                        typeVB: loaiVbThem,
+                      ),
+                      isBottomShow: false,
+                      funcBtnOk: () {},
+                    );
             },
           ),
           StreamBuilder<List<VBGiaoNhiemVuModel>>(

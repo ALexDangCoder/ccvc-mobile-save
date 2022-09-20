@@ -118,12 +118,10 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       urlIcon: ImageAssets.icMessage,
                       hintText: S.current.email,
                       validator: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return '${S.current.ban_phai_nhap_truong} '
-                              '${S.current.email}!';
+                        if ((value ?? '').isNotEmpty) {
+                          return (value ?? '')
+                              .checkEmailBoolean2(S.current.email);
                         }
-                        return (value ?? '')
-                            .checkEmailBoolean2(S.current.email);
                       },
                     ),
                     TextFieldStyle(
@@ -324,12 +322,10 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       urlIcon: ImageAssets.icMessage,
                       hintText: S.current.email,
                       validator: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return '${S.current.ban_phai_nhap_truong} '
-                              '${S.current.email}!';
+                        if ((value ?? '').isNotEmpty) {
+                          return (value ?? '')
+                              .checkEmailBoolean2(S.current.email);
                         }
-                        return (value ?? '')
-                            .checkEmailBoolean2(S.current.email);
                       },
                     ),
                     TextFieldStyle(

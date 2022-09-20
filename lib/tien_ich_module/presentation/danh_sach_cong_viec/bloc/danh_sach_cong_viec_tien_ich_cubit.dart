@@ -187,8 +187,6 @@ class DanhSachCongViecTienIchCubit
     showContent();
   }
 
-
-
   ///các danh sach api
   Future<void> listNguoiThucHien(String keySearch) async {
     showLoadNguoiThucHien.sink.add(true);
@@ -199,12 +197,13 @@ class DanhSachCongViecTienIchCubit
     );
     result.when(
       success: (res) {
-        canLoadMoreNguoiThucHien = res.items.length >= ApiConstants.MAX_PAGE_SIZE;
-        if (indexNguoiThucHien == ApiConstants.PAGE_BEGIN){
+        canLoadMoreNguoiThucHien =
+            res.items.length >= ApiConstants.MAX_PAGE_SIZE;
+        if (indexNguoiThucHien == ApiConstants.PAGE_BEGIN) {
           listNguoiThucHienSubject.sink.add(res.items);
-        }else{
+        } else {
           final currentData = listNguoiThucHienSubject.valueOrNull ?? [];
-          listNguoiThucHienSubject.sink.add([...currentData,...res.items]);
+          listNguoiThucHienSubject.sink.add([...currentData, ...res.items]);
         }
       },
       error: (_) {},
@@ -271,6 +270,26 @@ class DanhSachCongViecTienIchCubit
 
   void closeDialog() {
     _showDialogSetting.add(null);
+  }
+
+  List<TodoDSCVModel> currentCreate(List<TodoDSCVModel> data) {
+    final userLogin =
+        (HiveLocal.getDataUser()?.userInformation?.id ?? '').toLowerCase();
+    return data
+        .where(
+          (element) => element.createdBy?.toLowerCase() == userLogin,
+        )
+        .toList();
+  }
+
+  List<TodoDSCVModel> listCVGanChoToi(List<TodoDSCVModel> data) {
+    final userLogin =
+        (HiveLocal.getDataUser()?.userInformation?.id ?? '').toLowerCase();
+    return data
+        .where(
+          (element) => element.createdBy?.toLowerCase() != userLogin,
+        )
+        .toList();
   }
 
   /// them moi cong viec
@@ -417,6 +436,7 @@ class DanhSachCongViecTienIchCubit
           ((defaultData ?? '').isNotEmpty) &&
           changeData != null;
     }
+
     showLoading();
     date ??= DateTime.now().toString();
     final result = await tienIchRep.upDateTodo(
@@ -495,11 +515,9 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
-
-
   ///init data nguoi thuc hien
   Future<void> initDataNguoiTHucHienTextFild(TodoDSCVModel? todo) async {
-    if ((todo?.performer ??  '').isEmpty) {
+    if ((todo?.performer ?? '').isEmpty) {
       addNguoiThucHienNull();
     } else {
       final result = await tienIchRep.getCanBo(
@@ -507,7 +525,7 @@ class DanhSachCongViecTienIchCubit
       );
       result.when(
         success: (res) {
-          if(res.items.isNotEmpty){
+          if (res.items.isNotEmpty) {
             nguoiThucHienSubject.sink.add(
               NguoiThucHienModel(
                 id: todo?.performer ?? '',
@@ -516,8 +534,7 @@ class DanhSachCongViecTienIchCubit
                 chucVu: res.items.first.chucVu,
               ),
             );
-          }
-          else{
+          } else {
             addNguoiThucHienNull();
           }
         },
@@ -525,7 +542,8 @@ class DanhSachCongViecTienIchCubit
       );
     }
   }
-  void addNguoiThucHienNull(){
+
+  void addNguoiThucHienNull() {
     nguoiThucHienSubject.sink.add(
       NguoiThucHienModel(
         id: '',

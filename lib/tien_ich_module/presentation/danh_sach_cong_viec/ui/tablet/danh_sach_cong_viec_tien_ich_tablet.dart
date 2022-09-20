@@ -85,8 +85,8 @@ class _DanhSachCongViecTienIchTabletState
               },
               child: StreamBuilder<String>(
                 stream: cubit.statusDSCV.stream,
-                builder: (context, snapshotbool) {
-                  final dataType = snapshotbool.data ?? '';
+                builder: (_, snapshotBool) {
+                  final dataType = snapshotBool.data ?? '';
                   return SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(
@@ -121,29 +121,61 @@ class _DanhSachCongViecTienIchTabletState
                                             )
                                             .toList() ??
                                         [];
-                                    return expanTablet(
-                                      isOtherType: dataType == DSCVScreen.DBX,
-                                      isCheck: isOpenWhenInitListUp,
-                                      title: S.current.gan_cho_toi,
-                                      count: data.length,
-                                      child: data.isNotEmpty
-                                          ? ListUpDSCV(
-                                              data: data,
-                                              dataType: dataType,
-                                              cubit: cubit,
-                                            )
-                                          : const Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 20,
+                                    final currentUserCreate =
+                                        cubit.currentCreate(data);
+                                    final ganChoToi =
+                                        cubit.listCVGanChoToi(data);
+                                    if (data.isNotEmpty) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(12)),
+                                          border: Border.all(
+                                              color:
+                                                  toDayColor.withOpacity(0.5)),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16),
+                                              child: ListUpDSCV(
+                                                data: currentUserCreate,
+                                                dataType: dataType,
+                                                cubit: cubit,
                                               ),
-                                              child: NodataWidget(),
                                             ),
+                                            if (currentUserCreate.isNotEmpty)
+                                              spaceH12,
+                                            expanTablet(
+                                              isOtherType:
+                                                  dataType == DSCVScreen.CVCB,
+                                              isCheck: isOpenWhenInitListUp,
+                                              title: S.current.gan_cho_toi,
+                                              count: ganChoToi.length,
+                                              child: ListUpDSCV(
+                                                data: ganChoToi,
+                                                dataType: dataType,
+                                                cubit: cubit,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                    return const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 20,
+                                      ),
+                                      child: NodataWidget(),
                                     );
                                   },
                                 ),
                               ),
                             if (dataType == DSCVScreen.DBX ||
-                                dataType == DSCVScreen.DHT )
+                                dataType == DSCVScreen.DHT)
                               StreamBuilder<List<TodoDSCVModel>>(
                                 stream: cubit.listDSCVStream.stream,
                                 builder: (context, snapshot) {
@@ -154,23 +186,32 @@ class _DanhSachCongViecTienIchTabletState
                                           )
                                           .toList() ??
                                       [];
-                                  return expanTablet(
-                                    isOtherType: dataType == DSCVScreen.DBX,
-                                    isCheck: isOpenWhenInitListDown,
-                                    title: S.current.da_hoan_thanh,
-                                    count: data.length,
-                                    child: data.isNotEmpty
-                                        ? ListDownDSCV(
-                                            data: data,
-                                            dataType: dataType,
-                                            cubit: cubit,
-                                          )
-                                        : const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 20,
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(12)),
+                                      border: Border.all(
+                                          color: toDayColor.withOpacity(0.5)),
+                                    ),
+                                    child: expanTablet(
+                                      isOtherType: dataType == DSCVScreen.DBX,
+                                      isCheck: isOpenWhenInitListDown,
+                                      title: S.current.da_hoan_thanh,
+                                      count: data.length,
+                                      child: data.isNotEmpty
+                                          ? ListDownDSCV(
+                                              data: data,
+                                              dataType: dataType,
+                                              cubit: cubit,
+                                            )
+                                          : const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 20,
+                                              ),
+                                              child: NodataWidget(),
                                             ),
-                                            child: NodataWidget(),
-                                          ),
+                                    ),
                                   );
                                 },
                               ),
@@ -205,56 +246,49 @@ class _DanhSachCongViecTienIchTabletState
     required bool isCheck,
     bool isOtherType = false,
   }) =>
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          border: Border.all(color: toDayColor.withOpacity(0.5)),
+      Theme(
+        data: Theme.of(context).copyWith(
+          dividerColor: Colors.transparent,
         ),
-        child: Theme(
-          data: Theme.of(context).copyWith(
-            dividerColor: Colors.transparent,
-          ),
-          child: isOtherType
-              ? ExpansionTile(
-                  initiallyExpanded: isCheck,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: Row(
-                    children: [
-                      Text(
-                        title,
-                        style: textNormalCustom(
-                          color: textTitle,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        '$count ${S.current.cong_viec}',
-                        style: tokenDetailAmount(
-                          color: infoColor,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
+        child: isOtherType
+            ? ExpansionTile(
+                initiallyExpanded: isCheck,
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 22,
-                        right: 26,
-                        bottom: 28,
+                    Text(
+                      title,
+                      style: textNormalCustom(
+                        color: textTitle,
+                        fontSize: 18,
                       ),
-                      child: child,
-                    )
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      '$count ${S.current.cong_viec}',
+                      style: tokenDetailAmount(
+                        color: infoColor,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
-                )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: child,
                 ),
-        ),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 22,
+                      right: 26,
+                      bottom: 28,
+                    ),
+                    child: child,
+                  )
+                ],
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: child,
+              ),
       );
 }

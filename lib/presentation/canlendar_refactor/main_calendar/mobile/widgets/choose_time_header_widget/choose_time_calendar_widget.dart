@@ -14,6 +14,7 @@ class ChooseTimeCalendarWidget extends StatefulWidget {
   final ChooseTimeController? controller;
   final Function(DateTime, DateTime, String)? onChangeYear;
   final bool isSelectYear;
+
   const ChooseTimeCalendarWidget({
     Key? key,
     this.calendarDays = const [],
@@ -81,7 +82,8 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                 controller: controller,
                 onChange: (value) {
                   controller.calendarType.value = value;
-                  final times = controller.dateTimeRange(controller.selectDate.value);
+                  final times =
+                      controller.dateTimeRange(controller.selectDate.value);
                   widget.onChange(
                     times.first,
                     times.last,
@@ -119,8 +121,8 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
                     builder: (context, value, _) {
                       return HeaderTabletCalendarWidget(
                         onSearch: (value) {
-                          final times =
-                          controller.dateTimeRange(controller.selectDate.value);
+                          final times = controller
+                              .dateTimeRange(controller.selectDate.value);
                           widget.onChange(
                             times.first,
                             times.last,
@@ -170,5 +172,4 @@ class _ChooseTimeCalendarWidgetState extends State<ChooseTimeCalendarWidget> {
       ),
     );
   }
-
 }

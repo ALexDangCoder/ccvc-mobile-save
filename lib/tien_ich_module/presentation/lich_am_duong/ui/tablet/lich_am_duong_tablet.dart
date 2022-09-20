@@ -105,8 +105,8 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                               CupertinoRoundedDatePickerWidgetDialogAmDuong
                                                   .show(
                                                 context,
-                                                minimumYear: 1990,
-                                                maximumYear: 2060,
+                                                minimumYear: 1900,
+                                                maximumYear: 2099,
                                                 initialDate: snapshot.data ??
                                                     DateTime.now(),
                                                 onTap: (dateTime) async {

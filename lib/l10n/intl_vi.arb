@@ -10,6 +10,7 @@
   "unauthorized": "Your session has expired. Please sign in.",
   "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cấp",
   "them_moi_doi_tuong": "Thêm mới đối tượng",
+  "het_han_token" : "Phiên làm việc hết hạn. Vui lòng đăng nhập lại!",
   "search": "Search...",
   "nguoi_thao_tac": "Người thao tác",
   "vui_long_chon_file_hoac_nhap_y_kien": "Vui lòng chọn file hoặc nhập ý kiến!",

@@ -165,7 +165,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                           return '${S.current.ban_phai_nhap_truong} '
                               '${S.current.sdt_s}!';
                         }
-                        return (value ?? '').checkSdtRequire();
+                        return (value ?? '').checkSdtRequire3(S.current.sdt_s);
                       },
                       validatorPaste: (value) {
                         if (value.trim().validateCopyPaste() != null) {

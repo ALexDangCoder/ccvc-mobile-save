@@ -204,6 +204,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtRiengController,
                       urlIcon: ImageAssets.icCallDb,
                       hintText: S.current.sdt_nha_rieng_require,
+                      textInputType: TextInputType.number,
                       onChange: (value) {
                         widget.cubit.phoneNhaRieng = value;
                       },

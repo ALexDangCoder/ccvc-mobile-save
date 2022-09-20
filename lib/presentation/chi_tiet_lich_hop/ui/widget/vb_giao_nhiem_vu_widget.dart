@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -64,8 +65,10 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
     vBGiaoNhiemVuModel.hinhThucVanBan = widget.typeVB;
     return FollowKeyBoardWidget(
       bottomWidget: Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: isMobile()? EdgeInsets.only(bottom: 16):EdgeInsets.zero,
         child: DoubleButtonBottom(
+          isTablet:!isMobile() ,
+          noPadding: true,
           title1: S.current.dong,
           title2: S.current.luu,
           onPressed1: () {
@@ -140,9 +143,10 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
               }
             },
           ),
+          isMobile()?
           SizedBox(
             height: 20.0.textScale(),
-          )
+          ):SizedBox(),
         ],
       ),
     );

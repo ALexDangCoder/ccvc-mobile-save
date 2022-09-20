@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_t
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/block_text_view_lich.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +55,11 @@ class _CapNhapTrangThaiWidgetState extends State<CapNhapTrangThaiWidget> {
   Widget build(BuildContext context) {
     return FollowKeyBoardEdt(
       bottomWidget: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0),
+        padding: isMobile()
+            ? const EdgeInsets.symmetric(vertical: 24.0)
+            : EdgeInsets.zero,
         child: DoubleButtonBottom(
+          isTablet: !isMobile(),
           title1: S.current.dong,
           title2: S.current.xac_nhan,
           onPressed1: () {

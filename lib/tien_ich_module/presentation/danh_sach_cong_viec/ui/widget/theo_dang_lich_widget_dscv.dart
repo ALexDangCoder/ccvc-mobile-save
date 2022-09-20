@@ -54,7 +54,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               child: Text(
                 name,
                 style: textNormalCustom(
-                  color: backgroundColorApp,
+                  color:icon.isEmpty ? colorB9C4D0:  backgroundColorApp,
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0.textScale(space: 4),
                 ),
@@ -68,7 +68,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
                 horizontal: 5,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(2),
                 color: AppTheme.getInstance().colorField(),
               ),
               alignment: Alignment.center,

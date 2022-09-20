@@ -165,8 +165,9 @@ class QLVBImlp implements QLVBRepository {
   @override
   Future<Result<ChiTietVanBanDiModel>> getDataChiTietVanBanDi(String id) {
     return runCatchingAsync<ChiTietVanBanDiDataResponse, ChiTietVanBanDiModel>(
-        () => _quanLyVanBanClient.getDataChiTietVanBanDi(id),
-        (response) => response.data.toModel());
+      () => _quanLyVanBanClient.getDataChiTietVanBanDi(id),
+      (response) => response.data?.toModel() ?? ChiTietVanBanDiModel(),
+    );
   }
 
   @override
@@ -185,7 +186,8 @@ class QLVBImlp implements QLVBRepository {
             ChiTietVanBanDenModel>(
         () => _quanLyVanBanClient.getDataChiTietVanBanDen(
             processId, taskId, isYKien),
-        (response) => response.data?.toModel() ?? ChiTietVanBanDenModel.empty());
+        (response) =>
+            response.data?.toModel() ?? ChiTietVanBanDenModel.empty());
   }
 
   @override

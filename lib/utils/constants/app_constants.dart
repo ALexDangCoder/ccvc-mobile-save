@@ -210,6 +210,7 @@ const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
 const PHONE_REGEX = r'^0+([0-9]{9})$';
+const PHONE_REGEX_NO_LENGTH = r'^0+([0-9])';
 const REGEX_EMAIL =
     r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$';
 
@@ -492,6 +493,7 @@ class EnumScheduleStatus {
 class MaxSizeFile {
   static const MAX_SIZE_30MB = 30000000;
   static const MAX_SIZE_20MB = 20000000.0;
+  static const MAX_SIZE_15MB = 15000000.0;
 }
 
 class TypeTaskYKien {

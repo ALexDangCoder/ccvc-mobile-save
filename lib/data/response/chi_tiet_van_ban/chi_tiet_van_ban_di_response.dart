@@ -12,7 +12,7 @@ part 'chi_tiet_van_ban_di_response.g.dart';
 @JsonSerializable()
 class ChiTietVanBanDiDataResponse {
   @JsonKey(name: 'Data')
-  ChiTietVanBanDiResponse data;
+  ChiTietVanBanDiResponse? data;
 
   ChiTietVanBanDiDataResponse(this.data);
 

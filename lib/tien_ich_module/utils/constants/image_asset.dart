@@ -85,6 +85,7 @@ class ImageAssets {
   static const String icDanhBa = '$baseImg/ic_danh_bas.png';
   static const String icThemMoi = '$baseImg/ic_them_moiz.png';
   static const String icEdit = '$baseImg/ic_edits.svg';
+  static const String icEditCV = '$baseImg/ic_edit_cv.svg';
   static const String icDelete = '$baseImg/ic_delete.svg';
   static const String icPhone = '$baseImg/ic_phone.svg';
   static const String icMail = '$baseImg/ic_mail.svg';
@@ -94,6 +95,7 @@ class ImageAssets {
   static const String icCalenderDb = '$baseImg/ic_calender_db.svg';
   static const String icCallDb = '$baseImg/ic_call_db.svg';
   static const String icCalling = '$baseImg/ic_calling_db.svg';
+  static const String daGanSvg = '$baseImg/da_gan_svg.svg';
   static const String icCmt = '$baseImg/ic_cmtn_db.svg';
   static const String icEditDb = '$baseImg/ic_edit_db.svg';
   static const String icLocation = '$baseImg/ic_location_db.svg';

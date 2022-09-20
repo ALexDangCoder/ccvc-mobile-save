@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import '/home_module/config/resources/color.dart';
 import '/home_module/config/resources/styles.dart';
 import '/home_module/utils/constants/image_asset.dart';
+import '/tien_ich_module/utils/constants/image_asset.dart' as tien_ich_icon;
 
 class CongViecCellTienIch extends StatefulWidget {
   final String text;
@@ -54,6 +55,10 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
 
   @override
   Widget build(BuildContext context) {
+    final quaHan = widget.todoModel.isTicked == false &&
+        (DateTime.tryParse(widget.todoModel.finishDay ?? '')
+                ?.isBefore(DateTime.now()) ??
+            false);
     final double padingIcon = MediaQuery.of(context).size.width * 0.03;
     return Container(
       decoration: const BoxDecoration(
@@ -93,12 +98,17 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   child: !widget.enabled
                       ? Align(
                           alignment: Alignment.centerLeft,
-                          child: GestureDetector (
-                            onTap: widget.isEnableIcon ? widget.onEdit : onTapNull,
+                          child: GestureDetector(
+                            onTap: widget.isEnableIcon &&
+                                    (widget.showIcon
+                                            ?.contains(IconDSCV.icEdit) ??
+                                        false)
+                                ? widget.onEdit
+                                : onTapNull,
                             child: Text(
                               widget.text,
                               style: textNormal(
-                                infoColor,
+                                quaHan ? Colors.red : infoColor,
                                 14,
                               ),
                             ),
@@ -129,7 +139,9 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                     padding: EdgeInsets.only(right: padingIcon),
                     child: GestureDetector(
                       onTap: widget.isEnableIcon ? widget.onEdit : onTapNull,
-                      child: SvgPicture.asset(ImageAssets.icEditBlue),
+                      child: SvgPicture.asset(
+                        tien_ich_icon.ImageAssets.icEditCV,
+                      ),
                     ),
                   ),
                 if (widget.showIcon?.contains(IconDSCV.icImportant) ?? false)

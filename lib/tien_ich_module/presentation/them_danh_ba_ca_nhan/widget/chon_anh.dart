@@ -74,7 +74,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
   ) async {
     final _path = await widget.cubit.pickAvatar();
     if (_path.path.isNotEmpty) {
-      if (_path.size > MaxSizeFile.MAX_SIZE_20MB) {
+      if (_path.size > MaxSizeFile.MAX_SIZE_15MB) {
         toast.showToast(
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
@@ -194,8 +194,9 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(ImageAssets.icImage,
-                            color:AppTheme.getInstance().colorField(),
+                            SvgPicture.asset(
+                              ImageAssets.icImage,
+                              color: AppTheme.getInstance().colorField(),
                             ),
                             spaceH12,
                             Text(

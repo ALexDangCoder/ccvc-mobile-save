@@ -45,7 +45,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
   TextEditingController sdtController = TextEditingController();
   TextEditingController sdtRiengController = TextEditingController();
   TextEditingController sdtCoquanController = TextEditingController();
-  bool gioiTinh = false;
+  bool gioiTinh = true;
   String ngaySinh = '';
   final toast = FToast();
 
@@ -93,12 +93,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: hoTenController,
                       urlIcon: ImageAssets.icEditDb,
                       hintText: S.current.ho_ten_cb,
-                      onChange: (value) {
-                        if (value.isEmpty) {
-                          widget.cubit.hoTen = value;
-                        }
-                        return widget.cubit.hoTen = hoTenController.text;
-                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '
@@ -111,24 +105,19 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: diaDiemController,
                       urlIcon: ImageAssets.icLocation,
                       hintText: S.current.dia_diem,
-                      onChange: (value) {
-                        widget.cubit.diaChi = value;
-                      },
                     ),
                     SelectDateSua(
                       leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
-                      value: widget.item.ngaySinh ?? '',
+                      value: ngaySinh,
                       onSelectDate: (dateTime) {
                         ngaySinh = dateTime;
+                        setState(() {});
                       },
                     ),
                     TextFieldStyle(
                       controller: emailController,
                       urlIcon: ImageAssets.icMessage,
                       hintText: S.current.email,
-                      onChange: (value) {
-                        widget.cubit.email = value;
-                      },
                       validator: (value) {
                         if ((value ?? '').isNotEmpty) {
                           return (value ?? '')
@@ -140,9 +129,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: cmtndController,
                       urlIcon: ImageAssets.icCmt,
                       hintText: S.current.so_cmt,
-                      onChange: (value) {
-                        widget.cubit.cmtnd = value;
-                      },
                       maxLenght: 255,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       textInputType: TextInputType.number,
@@ -157,9 +143,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtController,
                       urlIcon: ImageAssets.icCalling,
                       hintText: S.current.sdt_s,
-                      onChange: (value) {
-                        widget.cubit.phoneDiDong = value;
-                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '
@@ -180,9 +163,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtCoquanController,
                       urlIcon: ImageAssets.icPhoneCp,
                       hintText: S.current.sdt_co_quan_require,
-                      onChange: (value) {
-                        widget.cubit.phoneCoQuan = value;
-                      },
                       textInputType: TextInputType.number,
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
@@ -312,9 +292,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: hoTenController,
                       urlIcon: ImageAssets.icEditDb,
                       hintText: S.current.ho_ten_cb,
-                      onChange: (value) {
-                        widget.cubit.hoTen = value;
-                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '
@@ -326,9 +303,10 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     SelectDateSua(
                       isTablet: true,
                       leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                      value: widget.item.ngaySinh,
+                      value: ngaySinh,
                       onSelectDate: (dateTime) {
                         ngaySinh = dateTime;
+                        setState(() {});
                       },
                     ),
                     spaceH16,
@@ -349,9 +327,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: emailController,
                       urlIcon: ImageAssets.icMessage,
                       hintText: S.current.email,
-                      onChange: (value) {
-                        widget.cubit.email = value;
-                      },
                       validator: (value) {
                         if ((value ?? '').isNotEmpty) {
                           return (value ?? '')
@@ -363,9 +338,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: cmtndController,
                       urlIcon: ImageAssets.icCmt,
                       hintText: S.current.so_cmt,
-                      onChange: (value) {
-                        widget.cubit.cmtnd = value;
-                      },
                       maxLenght: 255,
                       textInputType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -380,9 +352,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtController,
                       urlIcon: ImageAssets.icCalling,
                       hintText: S.current.sdt_s,
-                      onChange: (value) {
-                        widget.cubit.phoneDiDong = value;
-                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '
@@ -403,9 +372,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtCoquanController,
                       urlIcon: ImageAssets.icPhoneCp,
                       hintText: S.current.sdt_co_quan_require,
-                      onChange: (value) {
-                        widget.cubit.phoneCoQuan = value;
-                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '
@@ -427,9 +393,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtRiengController,
                       urlIcon: ImageAssets.icCallDb,
                       hintText: S.current.sdt_nha_rieng_require,
-                      onChange: (value) {
-                        widget.cubit.phoneNhaRieng = value;
-                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '
@@ -451,9 +414,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: diaDiemController,
                       urlIcon: ImageAssets.icLocation,
                       hintText: S.current.dia_diem,
-                      onChange: (value) {
-                        widget.cubit.diaChi = value;
-                      },
                     ),
                     DoubleButtonBottom(
                       isTablet: true,

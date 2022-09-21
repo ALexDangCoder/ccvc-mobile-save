@@ -28,6 +28,7 @@ class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
   final bool isTaoHop;
   final bool isCheckedEmail;
   final List<ItemTypeThanhPhan>? showType;
+
   const ThemDonViPhoiHopKhacWidget({
     Key? key,
     required this.onChange,
@@ -111,6 +112,7 @@ class _ThemDonViPhoiHopKhacWidgetState
                               title: S.current.so_dien_thoai,
                             ),
                           ],
+                          isSendEmail: widget.isCheckedEmail,
                         ),
                 ),
               ),
@@ -155,11 +157,14 @@ class ItemThanhPhanWidget extends StatelessWidget {
   final DonViModel data;
   final ThanhPhanThamGiaCubit cubit;
   final List<ItemTypeThanhPhan>? showType;
+  final bool isSendEmail;
+
   const ItemThanhPhanWidget({
     Key? key,
     required this.data,
     required this.cubit,
     this.showType,
+    this.isSendEmail = false,
   }) : super(key: key);
 
   @override
@@ -228,11 +233,20 @@ class ItemThanhPhanWidget extends StatelessWidget {
           Positioned(
             top: 0,
             right: 0,
-            child: GestureDetector(
-              onTap: () {
-                cubit.removeDonViPhoiHop(data);
-              },
-              child: SvgPicture.asset(ImageAssets.icDeleteRed),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    cubit.removeDonViPhoiHop(data);
+                  },
+                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                ),
+                spaceW12,
+                CusCheckBox(
+                  isChecked: isSendEmail,
+                  onChange: (value) {},
+                )
+              ],
             ),
           )
         ],

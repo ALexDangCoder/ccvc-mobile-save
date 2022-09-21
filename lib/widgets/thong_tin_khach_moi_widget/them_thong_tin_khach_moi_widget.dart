@@ -106,6 +106,7 @@ class _ThemDonViPhoiHopKhacWidgetState
                               title: S.current.noidung,
                             ),
                           ],
+                    isSendEmail:widget.isCheckedEmail,
                         ),
                 ),
               ),

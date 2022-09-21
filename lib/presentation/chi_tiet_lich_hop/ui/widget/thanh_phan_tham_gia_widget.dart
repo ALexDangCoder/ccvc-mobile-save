@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -69,6 +70,8 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                         },
                         phuongThucNhan: (value) {
                           widget.cubit.phuongThucNhan = value;
+                          setState(() {
+                          });
                         },
                       );
                     }),
@@ -77,7 +80,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   title: S.current.don_vi_phoi_hop_khac,
                   sizeTitle: 14,
                   child: ThemDonViPhoiHopKhacWidget(
-                    isTaoHop: true,
+                    isCheckedEmail: widget.cubit.phuongThucNhan,
                     onChange: (List<DonViModel> value) {
                       widget.cubit.addDonViPhoiHopKhac(value);
                     },
@@ -88,6 +91,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   title: S.current.khach_moi,
                   sizeTitle: 14,
                   child: ThemThongTinKhachMoiWidget(
+                    isCheckedEmail: widget.cubit.phuongThucNhan,
                     onChange: (List<DonViModel> value) {
                       widget.cubit.addKhacMoi(value);
                     },

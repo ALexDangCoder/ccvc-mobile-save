@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/checkbox/checkbox.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,12 +14,16 @@ class PeopleThamGiaWidget extends StatelessWidget {
   final DonViModel donVi;
   final ThanhPhanThamGiaCubit cubit;
   final Function(DonViModel donViModel) onDelete;
+  final bool isSendEmail;
+  final bool isShowEmail;
 
   const PeopleThamGiaWidget({
     Key? key,
     required this.donVi,
     required this.cubit,
     required this.onDelete,
+    this.isSendEmail = false,
+    this.isShowEmail = false,
   }) : super(key: key);
 
   @override
@@ -79,12 +84,22 @@ class PeopleThamGiaWidget extends StatelessWidget {
           Positioned(
             top: 0,
             right: 0,
-            child: GestureDetector(
-              onTap: () {
-                onDelete(donVi);
-                cubit.deletePeopleThamGia(donVi);
-              },
-              child: SvgPicture.asset(ImageAssets.icDeleteRed),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    onDelete(donVi);
+                    cubit.deletePeopleThamGia(donVi);
+                  },
+                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                ),
+                if (isShowEmail) spaceW12,
+                if (isShowEmail)
+                  CusCheckBox(
+                    isChecked: isSendEmail,
+                    onChange: (value) {},
+                  )
+              ],
             ),
           )
         ],

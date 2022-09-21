@@ -67,104 +67,55 @@ class _MenuDSCVState extends State<MenuDSCV> {
         children: [
           Expanded(
             flex: 8,
-            child: Column(
-              children: [
-                StreamBuilder<String>(
-                  stream: widget.cubit.statusDSCV.stream,
-                  builder: (context, snapshot) {
-                    final dataStatusScreen = snapshot.data;
-                    return StreamBuilder<List<CountTodoModel>>(
-                      stream: widget.cubit.countTodoModelSubject,
-                      builder: (context, snapshotCountTodoModel) {
-                        final dataCountTodoModel =
-                            snapshotCountTodoModel.data ?? [];
-                        if (dataCountTodoModel.isEmpty) {
-                          return const SizedBox();
-                        }
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: dataCountTodoModel.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final value = dataCountTodoModel[index];
-                            final valueChildren = value.childrenTodoViewModel;
-                            if (value.code != DSCVScreen.NCVM) {
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  StreamBuilder<String>(
+                    stream: widget.cubit.statusDSCV.stream,
+                    builder: (context, snapshot) {
+                      final dataStatusScreen = snapshot.data;
+                      return StreamBuilder<List<CountTodoModel>>(
+                        stream: widget.cubit.countTodoModelSubject,
+                        builder: (context, snapshotCountTodoModel) {
+                          final dataCountTodoModel =
+                              snapshotCountTodoModel.data ?? [];
+                          if (dataCountTodoModel.isEmpty) {
+                            return const SizedBox();
+                          }
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: dataCountTodoModel.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final value = dataCountTodoModel[index];
+                              final valueChildren = value.childrenTodoViewModel;
+                              if (value.code != DSCVScreen.NCVM) {
+                                return screenDevice(
+                                  mobileScreen: TheoDangLichWidgetDSCV(
+                                    icon: value.icon(),
+                                    name: value.name ?? '',
+                                    onTap: () {
+                                      onTapInMenu(value);
+                                    },
+                                    isSelect: value.code == dataStatusScreen,
+                                    number: value.count ?? 0,
+                                  ),
+                                  tabletScreen: CellMenuCustom(
+                                    icon: value.icon(),
+                                    name: value.name ?? '',
+                                    onTap: () {
+                                      onTapInMenu(value);
+                                    },
+                                    isSelect: value.code == dataStatusScreen,
+                                    number: value.count ?? 0,
+                                  ),
+                                );
+                              }
                               return screenDevice(
-                                mobileScreen: TheoDangLichWidgetDSCV(
-                                  icon: value.icon(),
+                                mobileScreen: ContainerMenuDSCVWidget(
                                   name: value.name ?? '',
-                                  onTap: () {
-                                    onTapInMenu(value);
-                                  },
-                                  isSelect: value.code == dataStatusScreen,
-                                  number: value.count ?? 0,
-                                ),
-                                tabletScreen: CellMenuCustom(
                                   icon: value.icon(),
-                                  name: value.name ?? '',
-                                  onTap: () {
-                                    onTapInMenu(value);
-                                  },
-                                  isSelect: value.code == dataStatusScreen,
-                                  number: value.count ?? 0,
-                                ),
-                              );
-                            }
-                            return screenDevice(
-                              mobileScreen: ContainerMenuDSCVWidget(
-                                name: value.name ?? '',
-                                icon: value.icon(),
-                                type: TypeContainer.expand,
-                                childExpand: Column(
-                                  children: [
-                                    ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      itemCount: valueChildren?.length ?? 0,
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, indexChildren) {
-                                        final valueChil =
-                                            valueChildren?[indexChildren];
-                                        return TheoDangLichWidgetDSCV(
-                                          icon: '',
-                                          name: valueChil?.name ?? '',
-                                          onTap: () {
-                                            onTopInMenuChildren(
-                                              valueChil ?? CountTodoModel(),
-                                            );
-                                          },
-                                          isSelect: false,
-                                          number: valueChil?.count ?? 0,
-                                        );
-                                      },
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 40,
-                                        right: 17,
-                                        top: 4,
-                                      ),
-                                      child: ButtonCustomBottomDSCV(
-                                        title: S.current.them_nhom_cong_viec,
-                                        isColorBlue: true,
-                                        size: 14.0,
-                                        onPressed: () {
-                                          buttonThemNhomCongViec();
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              tabletScreen: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                ),
-                                child: ContainerMenuDSCVWidget(
-                                  name: S.current.nhom_cong_viec_moi,
-                                  icon: ImageAssets.ic_nhomCVMoi,
                                   type: TypeContainer.expand,
                                   childExpand: Column(
                                     children: [
@@ -175,35 +126,31 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                         physics:
                                             const NeverScrollableScrollPhysics(),
                                         itemBuilder: (context, indexChildren) {
-                                          final valueChild =
+                                          final valueChil =
                                               valueChildren?[indexChildren];
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                            ),
-                                            child: CellMenuCustom(
-                                              margin: false,
-                                              icon: '',
-                                              name: valueChild?.name ?? '',
-                                              onTap: () {
-                                                onTopInMenuChildren(
-                                                  valueChild ??
-                                                      CountTodoModel(),
-                                                );
-                                              },
-                                              isSelect: true,
-                                              number: valueChild?.count ?? 0,
-                                            ),
+                                          return TheoDangLichWidgetDSCV(
+                                            icon: '',
+                                            name: valueChil?.name ?? '',
+                                            onTap: () {
+                                              onTopInMenuChildren(
+                                                valueChil ?? CountTodoModel(),
+                                              );
+                                            },
+                                            isSelect: false,
+                                            number: valueChil?.count ?? 0,
                                           );
                                         },
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 200, right: 8, top: 20),
+                                          left: 40,
+                                          right: 17,
+                                          top: 4,
+                                        ),
                                         child: ButtonCustomBottomDSCV(
-                                          size: 14,
                                           title: S.current.them_nhom_cong_viec,
                                           isColorBlue: true,
+                                          size: 14.0,
                                           onPressed: () {
                                             buttonThemNhomCongViec();
                                           },
@@ -212,15 +159,77 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                     ],
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+                                tabletScreen: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: ContainerMenuDSCVWidget(
+                                    name: value.name ?? '',
+                                    icon: value.icon(),
+                                    type: TypeContainer.expand,
+                                    childExpand: Column(
+                                      children: [
+                                        ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          itemCount: valueChildren?.length ?? 0,
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemBuilder:
+                                              (context, indexChildren) {
+                                            final valueChild =
+                                                valueChildren?[indexChildren];
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                              ),
+                                              child: CellMenuCustom(
+                                                margin: false,
+                                                icon: '',
+                                                name: valueChild?.name ?? '',
+                                                onTap: () {
+                                                  onTopInMenuChildren(
+                                                    valueChild ??
+                                                        CountTodoModel(),
+                                                  );
+                                                },
+                                                isSelect: true,
+                                                number: valueChild?.count ?? 0,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 200,
+                                            right: 8,
+                                            top: 20,
+                                            bottom: 20.0,
+                                          ),
+                                          child: ButtonCustomBottomDSCV(
+                                            size: 18,
+                                            title:
+                                                S.current.them_nhom_cong_viec,
+                                            isColorBlue: true,
+                                            onPressed: () {
+                                              buttonThemNhomCongViec();
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],

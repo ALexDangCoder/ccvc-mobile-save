@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
@@ -68,7 +69,8 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
           onTap: () {
             showBottomSheetCustom(
               context,
-              title: S.current.chon_ngay,
+              title: S.current.today,
+              colorTitle: AppTheme.getInstance().colorField(),
               child: Column(
                 children: [
                   SizedBox(

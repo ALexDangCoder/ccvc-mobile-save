@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/tablet/widget/button_bottom.dart';
@@ -69,7 +70,10 @@ class CupertinoRoundedDatePickerWidgetDialogAmDuong {
                     },
                     child: Text(
                       S.current.today,
-                      style: textNormalCustom(color: buttonColor, fontSize: 18),
+                      style: textNormalCustom(
+                        color: AppTheme.getInstance().colorField(),
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),

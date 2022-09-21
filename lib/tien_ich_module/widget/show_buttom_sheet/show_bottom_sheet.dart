@@ -2,8 +2,12 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:flutter/material.dart';
 
-Future<T?> showBottomSheetCustom<T>(BuildContext context,
-    {required Widget child, required String title}) {
+Future<T?> showBottomSheetCustom<T>(
+  BuildContext context, {
+  required Widget child,
+  required String title,
+  Color? colorTitle,
+}) {
   return showModalBottomSheet(
     backgroundColor: Colors.white,
     context: context,
@@ -33,7 +37,8 @@ Future<T?> showBottomSheetCustom<T>(BuildContext context,
               children: [
                 Text(
                   title,
-                  style: textNormalCustom(fontSize: 18, color: textTitle),
+                  style: textNormalCustom(
+                      fontSize: 18, color: colorTitle ?? textTitle),
                 ),
                 child
               ],

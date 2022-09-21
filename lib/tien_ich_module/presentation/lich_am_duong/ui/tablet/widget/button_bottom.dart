@@ -22,7 +22,7 @@ class ButtonBottomTablet extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: Material(
-        color: AppTheme.getInstance().statusColor(),
+        color: AppTheme.getInstance().colorField(),
         child: InkWell(
           onTap: () {
             onPressed();

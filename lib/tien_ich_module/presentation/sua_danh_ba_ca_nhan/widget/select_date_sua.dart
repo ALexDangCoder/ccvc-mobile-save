@@ -71,11 +71,10 @@ class _CustomDropDownState extends State<SelectDateSua> {
                               'yyyy-MM-dd HH:mm:ss',
                             ).parse(dateSelect).formatApiDanhBa;
                             dateSelect = dateFormat;
-
-                            widget.onSelectDate(dateSelect);
                           },
                           textStyleDate: titleAppbar(),
-                          initialDateTime: DateTime.parse(dateSelect),
+                          initialDateTime:
+                              DateTime.parse(widget.value.toString()),
                         ),
                       ),
                     ],
@@ -169,14 +168,10 @@ class _CustomDropDownState extends State<SelectDateSua> {
                                 )
                                 .formatApiDanhBa;
                             dateSelect = dateFormat;
-
-                            widget.onSelectDate(
-                              dateSelect,
-                            );
                           },
                           textStyleDate: titleAppbar(),
                           initialDateTime: DateTime.parse(
-                            dateSelect,
+                            widget.value.toString(),
                           ),
                         ),
                       ),

@@ -108,9 +108,10 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     ),
                     SelectDateSua(
                       leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
-                      value: widget.item.ngaySinh ?? '',
+                      value: ngaySinh,
                       onSelectDate: (dateTime) {
                         ngaySinh = dateTime;
+                        setState(() {});
                       },
                     ),
                     TextFieldStyle(
@@ -298,9 +299,10 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     SelectDateSua(
                       isTablet: true,
                       leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                      value: widget.item.ngaySinh,
+                      value: ngaySinh,
                       onSelectDate: (dateTime) {
                         ngaySinh = dateTime;
+                        setState(() {});
                       },
                     ),
                     spaceH16,

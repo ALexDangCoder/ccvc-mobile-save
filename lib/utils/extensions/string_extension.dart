@@ -361,6 +361,14 @@ extension CheckValidate on String {
       return '${S.current.sai_dinh_dang_truong}' ' $text!';
     }
   }
+  String? checkSdtRequire3(String text) {
+    final isCheckSdt = RegExp(PHONE_REGEX).hasMatch(this);
+    if (isCheckSdt) {
+      return null;
+    } else {
+      return '${S.current.sai_dinh_dang_truong}' ' $text!';
+    }
+  }
 
   String? validateCopyPaste() {
     final isCheck = RegExp('[^0-9]').hasMatch(this);

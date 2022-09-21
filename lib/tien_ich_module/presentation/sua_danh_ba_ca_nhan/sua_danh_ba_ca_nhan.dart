@@ -60,6 +60,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
     sdtCoquanController.text = widget.item.phoneCoQuan ?? '';
     sdtRiengController.text = widget.item.phoneNhaRieng ?? '';
     ngaySinh = widget.item.ngaySinh ?? '';
+    gioiTinh = widget.item.gioiTinh ?? true;
     widget.cubit.pathAnh = widget.item.anhDaiDienFilePath ?? '';
 
     toast.init(context);

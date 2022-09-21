@@ -177,7 +177,10 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                             child: Text(
                               snapshot.data?.dataAll() ?? '',
                               style: textNormalCustom(
-                                color: titleItemEdit,
+                                color: snapshot.data?.dataAll() ==
+                                        S.current.tim_theo_nguoi
+                                    ? textBodyTime
+                                    : titleItemEdit,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14.0.textScale(),
                               ),

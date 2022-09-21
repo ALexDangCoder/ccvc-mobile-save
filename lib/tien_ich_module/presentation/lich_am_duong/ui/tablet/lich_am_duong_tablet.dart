@@ -217,11 +217,10 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                                 color: backgroundColorApp,
                                                 fontSize: 16.0,
                                                 title:
-                                                    '${S.current.am_lich_hom_nay_ngay} ${DateTime.parse(
-                                                  snapshot.data?.ngayAmLich
-                                                          ?.solarDate ??
-                                                      DateTime.now().toString(),
-                                                ).toStringWithListFormat}',
+                                                    '${S.current.am_lich_hom_nay_ngay} '
+                                                    '${snapshot.data?.ngayAmLich?.day}/'
+                                                    '${snapshot.data?.ngayAmLich?.month.toString().padLeft(2, '0')}/'
+                                                    '${snapshot.data?.ngayAmLich?.year}',
                                               ),
                                             ),
                                             Row(
@@ -345,9 +344,9 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                                               unselectedLabelColor,
                                                           title:
                                                               '${S.current.thang} '
-                                                              '${snapshot.data?.ngayAmLich?.month ?? ''}'
+                                                              '${(snapshot.data?.ngayAmLich?.month ?? '').toString().padLeft(2, '0')}'
                                                               ' ${S.current.nam}'
-                                                              ' ${snapshot.data?.ngayAmLich?.year ?? ''}',
+                                                              ' ${snapshot.data?.ngayAmLich?.yearName ?? ''}',
                                                           fontWeight:
                                                               FontWeight.w400,
                                                         ),
@@ -443,7 +442,7 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                               child: Text(
                                 '${S.current.tong_quan_ngay_am_lich}'
                                 ' ${snapshot.data?.ngayAmLich?.day}/'
-                                ' ${snapshot.data?.ngayAmLich?.month}/'
+                                ' ${snapshot.data?.ngayAmLich?.month.toString().padLeft(2, '0')}/'
                                 ' ${snapshot.data?.ngayAmLich?.year}',
                                 style: textNormalCustom(
                                   color: titleColor,

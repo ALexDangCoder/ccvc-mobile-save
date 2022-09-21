@@ -104,9 +104,7 @@ class _DropdownWidgetTabletState extends State<DropdownWidgetTablet>
             child: Row(
               children: [
                 Expanded(
-                  child: Row(
-                    children: [widget.title],
-                  ),
+                  child: widget.title,
                 ),
                 Padding(
                   padding: widget.paddingRightIcon ?? EdgeInsets.zero,

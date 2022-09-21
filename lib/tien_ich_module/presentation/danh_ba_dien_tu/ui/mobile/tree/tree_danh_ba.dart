@@ -41,7 +41,12 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
               ),
               child: Text(
                 snapshot.data ?? '',
-                style: textNormal(color3D5586, 14),
+                softWrap: true,
+                maxLines: 3,
+                style: textNormal(
+                  color3D5586,
+                  14,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             );
@@ -80,7 +85,6 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                               .tree
                               .isNotEmpty) {
                         return Container(
-
                           constraints: const BoxConstraints(
                             maxHeight: 300,
                           ),
@@ -133,7 +137,7 @@ class NodeWidget extends StatefulWidget {
 
 class _NodeWidgetState extends State<NodeWidget> {
   late NodeCubit nodeCubit;
-  bool isExpand = true ;
+  bool isExpand = true;
 
   @override
   void initState() {

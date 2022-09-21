@@ -323,7 +323,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       todayTextStyle: textNormalCustom(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w400,
-                        color: buttonColor,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                     ),
                     headerVisible: widget.tablet == true ? true : false,

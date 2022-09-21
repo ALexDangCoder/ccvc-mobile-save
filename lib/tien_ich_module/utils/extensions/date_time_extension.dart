@@ -16,13 +16,13 @@ extension DateFormatString on DateTime {
 
   String get toStringMonthYear {
     final dateString =
-        'Tháng ${DateFormat('M').format(this)} Năm ${DateFormat('yyyy').format(this)}';
+        'Tháng ${DateFormat('MM').format(this)} Năm ${DateFormat('yyyy').format(this)}';
     return dateString;
   }
 
   String get toStringMonth_Year {
     final dateString =
-        'Tháng ${DateFormat('M').format(this)} - ${DateFormat('yyyy').format(this)}';
+        'Tháng ${DateFormat('MM').format(this)} - ${DateFormat('yyyy').format(this)}';
     return dateString;
   }
 

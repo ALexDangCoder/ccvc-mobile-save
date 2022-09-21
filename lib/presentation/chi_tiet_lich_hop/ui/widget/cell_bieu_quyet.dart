@@ -346,17 +346,27 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                                   context,
                                                   title: S.current
                                                       .danh_sach_lua_chon,
-                                                  child: DanhSachCanBoBieuQuyet(
-                                                    cubit: widget.cubit,
-                                                    luaChonId: widget
-                                                            .infoModel
-                                                            .danhSachKetQuaBieuQuyet?[
-                                                                index]
-                                                            .luaChonId ??
-                                                        '',
-                                                    bieuQuyetId:
-                                                        widget.infoModel.id ??
-                                                            '',
+                                                  child: Container(
+                                                    constraints: BoxConstraints(
+                                                      maxHeight:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.8,
+                                                    ),
+                                                    child:
+                                                        DanhSachCanBoBieuQuyet(
+                                                      cubit: widget.cubit,
+                                                      luaChonId: widget
+                                                              .infoModel
+                                                              .danhSachKetQuaBieuQuyet?[
+                                                                  index]
+                                                              .luaChonId ??
+                                                          '',
+                                                      bieuQuyetId:
+                                                          widget.infoModel.id ??
+                                                              '',
+                                                    ),
                                                   ),
                                                 )
                                               : Container();

@@ -60,6 +60,7 @@ class _YKienBottomSheetState extends State<YKienBottomSheet> {
                 height: 44,
                 width: widget.isTablet ? 300 : double.infinity,
                 child: DoubleButtonBottom(
+                  isTablet: false,
                   onClickRight: () async {
                     await chiTietLichLamViecCubit
                         .themYKien(

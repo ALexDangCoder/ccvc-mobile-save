@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/choose_time_calendar_tablet.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/widget/menu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/create_calendar_work_mobile.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/create_calendar_work_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
@@ -138,7 +139,7 @@ class _MainCalendarRefactorTabletState
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              const CreateCalendarWorkMobile(),
+                              const CreateCalendarWorkTablet(),
                         ),
                       );
                     },

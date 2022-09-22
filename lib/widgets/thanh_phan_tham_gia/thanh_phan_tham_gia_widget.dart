@@ -184,10 +184,25 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                           },
                         )
                       : !widget.isEditCalendarWord
-                          ? itemListThamGia(data[index])
+                          ? StreamBuilder<bool>(
+                              stream: _cubit.phuongThucNhanStream,
+                              builder: (context, snapshot) {
+                                return itemListThamGia(
+                                    data[index],
+                                    snapshot.data ?? false,
+                                    widget.isPhuongThucNhan);
+                              })
                           : data[index].status !=
                                   StatusOfficersConst.STATUS_THU_HOI
-                              ? itemListThamGia(data[index])
+                              ? StreamBuilder<bool>(
+                                  stream: _cubit.phuongThucNhanStream,
+                                  builder: (context, snapshot) {
+                                    return itemListThamGia(
+                                        data[index],
+                                        snapshot.data ?? false,
+                                        widget.isPhuongThucNhan);
+                                  },
+                                )
                               : const SizedBox.shrink(),
                 ),
               ),
@@ -198,9 +213,13 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     );
   }
 
-  Widget itemListThamGia(DonViModel donViModel) => PeopleThamGiaWidget(
+  Widget itemListThamGia(
+          DonViModel donViModel, bool? isSendEmail, bool? isShowEmail) =>
+      PeopleThamGiaWidget(
         donVi: donViModel,
         cubit: _cubit,
+        isSendEmail: isSendEmail ?? false,
+        isShowEmail: isShowEmail ?? false,
         onDelete: (DonViModel donViModel) {
           if (widget.isEditCalendarWord) {
             _cubit.listPeople.removeWhere(

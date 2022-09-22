@@ -358,7 +358,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                           return '${S.current.ban_phai_nhap_truong} '
                               '${S.current.sdt_s}!';
                         }
-                        return (value ?? '').checkSdtRequire2(S.current.sdt_s);
+                        return (value ?? '').checkSdtRequire3(S.current.sdt_s);
                       },
                       textInputType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -394,6 +394,9 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtRiengController,
                       urlIcon: ImageAssets.icCallDb,
                       hintText: S.current.sdt_nha_rieng_require,
+                      onChange: (value) {
+                        widget.cubit.phoneNhaRieng = value;
+                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '

@@ -40,6 +40,7 @@ class _ItemDatNuocWidgetState extends State<ItemDatNuocWidget> {
           listSelect: data.map((e) => e.name ?? '').toList(),
           hintText: widget.isEdit ? '' : 'Chọn nước',
           title: S.current.quoc_gia,
+          onChangeCollapse: true,
         );
       },
     );

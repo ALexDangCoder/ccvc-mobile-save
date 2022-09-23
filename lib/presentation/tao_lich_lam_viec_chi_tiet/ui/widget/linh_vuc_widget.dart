@@ -39,6 +39,7 @@ class _LinhVucWidgetState extends State<LinhVucWidget> {
           hintText: widget.isEdit ? '' : S.current.chon_linh_vuc,
           title: S.current.linh_vuc,
           value: widget.isEdit ? widget.name : _cubit.selectLinhVuc?.name ?? '',
+          onChangeCollapse: true,
         );
       },
     );

@@ -46,6 +46,7 @@ class _NguoiChuTriWidgetState extends State<NguoiChuTriWidget> {
               : _cubit.selectNguoiChuTri?.position() ?? '',
           title: S.current.nguoi_chu_tri,
           maxLine: 1,
+          onChangeCollapse: true,
         );
       },
     );

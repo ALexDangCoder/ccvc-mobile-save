@@ -39,6 +39,7 @@ class _ItemXaWidgetState extends State<ItemXaWidget> {
           hintText: widget.isEdit ? '' : S.current.chon_xa,
           value: widget.isEdit ? widget.name : '',
           title: S.current.xa,
+          onChangeCollapse: true,
         );
       },
     );

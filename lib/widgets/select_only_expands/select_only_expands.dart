@@ -21,6 +21,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final Function(int)? onChange;
   final String hintText;
   final int? maxLine;
+  final bool onChangeCollapse;
 
   const SelectOnlyExpand({
     Key? key,
@@ -32,7 +33,9 @@ class SelectOnlyExpand extends StatefulWidget {
     required this.urlIcon,
     this.customValue,
     this.onChange,
-    this.hintText = '', this.maxLine,
+    this.hintText = '',
+    this.maxLine,
+    this.onChangeCollapse = false,
   }) : super(key: key);
 
   @override
@@ -114,6 +117,9 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                   child: GestureDetector(
                     onTap: () {
                       valueSelect = widget.listSelect[index];
+                      if(widget.onChangeCollapse){
+                        expandController?.reverse();
+                      }
                       if (widget.onChange != null) {
                         widget.onChange!(index);
                       }

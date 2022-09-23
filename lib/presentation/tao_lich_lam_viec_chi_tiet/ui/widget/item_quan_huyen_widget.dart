@@ -40,6 +40,7 @@ class _ItemHuyenWidgetState extends State<ItemHuyenWidget> {
           hintText: widget.isEdit ? '' : S.current.chon_huyen,
           value: widget.isEdit ? widget.name : '',
           title: S.current.quan_huyen,
+          onChangeCollapse: true,
         );
       },
     );

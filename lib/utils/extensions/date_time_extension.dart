@@ -25,6 +25,15 @@ extension DateFormatString on DateTime {
     }
     return dateString;
   }
+  String get toFormat12h {
+    var dateString = '';
+    try {
+      dateString = DateFormat.jm('en').format(this);
+    } catch (e) {
+      return '';
+    }
+    return dateString;
+  }
 
   String get formatDdMMYYYY {
     final dateString =

@@ -41,6 +41,7 @@ class _NhacLaiWidgetState extends State<NhacLaiWidget> {
                 _cubit.scheduleReminder?.typeReminder = data[value].value;
               }
             },
+            onChangeCollapse: true,
           );
         });
   }

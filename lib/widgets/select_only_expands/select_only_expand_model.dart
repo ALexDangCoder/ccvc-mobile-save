@@ -23,6 +23,7 @@ class SelectOnlyExpandModel extends StatefulWidget {
   final Function(int)? onChange;
   final String hintText;
   final int? maxLine;
+  final bool onChangeCollapse;
 
   const SelectOnlyExpandModel({
     Key? key,
@@ -37,6 +38,7 @@ class SelectOnlyExpandModel extends StatefulWidget {
     this.hintText = '',
     this.maxLine,
     required this.userId,
+    this.onChangeCollapse = false,
   }) : super(key: key);
 
   @override
@@ -58,7 +60,8 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
     );
     if (widget.listSelect.isNotEmpty) {
       final index =
-          widget.listSelect.indexWhere((element) => element.userId == widget.userId);
+      widget.listSelect.indexWhere((element) =>
+      element.userId == widget.userId);
       if (index != -1) {
         valueSelect = widget.listSelect[index].position();
         if (widget.onChange != null) {
@@ -75,7 +78,8 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
     super.didUpdateWidget(oldWidget);
     if (widget.listSelect.isNotEmpty) {
       final index =
-          widget.listSelect.indexWhere((element) => element.userId == widget.userId);
+      widget.listSelect.indexWhere((element) =>
+      element.userId == widget.userId);
       if (index != -1) {
         valueSelect = widget.listSelect[index].position();
         if (widget.onChange != null) {
@@ -107,63 +111,67 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
       child: widget.listSelect.isEmpty
           ? const NodataWidget()
           : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
-                widget.listSelect.length,
-                (index) => Padding(
-                  padding: EdgeInsets.only(
-                    left: 30,
-                    top: index == 0 ? 0 : 8,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      valueSelect = widget.listSelect[index].position();
-                      if (widget.onChange != null) {
-                        widget.onChange!(index);
-                      }
-                      selectBloc.sink.add(index);
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.listSelect[index].position(),
-                              style: textNormal(color3D5586, 16),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: widget.maxLine,
-                            ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: List.generate(
+          widget.listSelect.length,
+              (index) =>
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 30,
+                  top: index == 0 ? 0 : 8,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    valueSelect = widget.listSelect[index].position();
+                    if(widget.onChangeCollapse){
+                      expandController?.reverse();
+                    }
+                    if (widget.onChange != null) {
+                      widget.onChange!(index);
+                    }
+                    selectBloc.sink.add(index);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            widget.listSelect[index].position(),
+                            style: textNormal(color3D5586, 16),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: widget.maxLine,
                           ),
-                          if (widget.isShowValue)
-                            StreamBuilder<int>(
-                              stream: selectBloc.stream,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data;
-                                return data == index && data != null
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 4),
-                                        child: SvgPicture.asset(
-                                          ImageAssets.icCheck,
-                                          color: AppTheme.getInstance()
-                                              .colorField(),
-                                        ),
-                                      )
-                                    : const SizedBox();
-                              },
-                            )
-                          else
-                            const SizedBox()
-                        ],
-                      ),
+                        ),
+                        if (widget.isShowValue)
+                          StreamBuilder<int>(
+                            stream: selectBloc.stream,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data;
+                              return data == index && data != null
+                                  ? Padding(
+                                padding:
+                                const EdgeInsets.only(right: 4),
+                                child: SvgPicture.asset(
+                                  ImageAssets.icCheck,
+                                  color: AppTheme.getInstance()
+                                      .colorField(),
+                                ),
+                              )
+                                  : const SizedBox();
+                            },
+                          )
+                        else
+                          const SizedBox()
+                      ],
                     ),
                   ),
                 ),
               ),
-            ),
+        ),
+      ),
     );
   }
 
@@ -184,41 +192,42 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
         Expanded(
           child: AnimatedBuilder(
             animation: expandController!,
-            builder: (context, _) => Container(
-              padding: const EdgeInsets.symmetric(vertical: 9),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border(
-                  bottom: BorderSide(
-                    color: expandController!.value == 0
-                        ? colorECEEF7
-                        : Colors.transparent,
-                  ),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.title,
-                      style: textNormal(titleColumn, 16),
+            builder: (context, _) =>
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 9),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border(
+                      bottom: BorderSide(
+                        color: expandController!.value == 0
+                            ? colorECEEF7
+                            : Colors.transparent,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: widget.customValue ??
-                        StreamBuilder<int>(
-                          stream: selectBloc.stream,
-                          builder: (context, snapshot) {
-                            return valueSelect.isEmpty
-                                ? Text(
-                                    widget.hintText,
-                                    style: textNormalCustom(
-                                      color: colorA2AEBD,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16.0.textScale(),
-                                    ),
-                                  )
-                                : screenDevice(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.title,
+                          style: textNormal(titleColumn, 16),
+                        ),
+                      ),
+                      Expanded(
+                        child: widget.customValue ??
+                            StreamBuilder<int>(
+                              stream: selectBloc.stream,
+                              builder: (context, snapshot) {
+                                return valueSelect.isEmpty
+                                    ? Text(
+                                  widget.hintText,
+                                  style: textNormalCustom(
+                                    color: colorA2AEBD,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16.0.textScale(),
+                                  ),
+                                )
+                                    : screenDevice(
                                     mobileScreen: Text(
                                       valueSelect,
                                       style: textNormal(color3D5586, 16),
@@ -228,29 +237,29 @@ class _ExpandedSectionState extends State<SelectOnlyExpandModel>
                                         alignment: Alignment.centerRight,
                                         child: Padding(
                                           padding:
-                                              const EdgeInsets.only(right: 26),
+                                          const EdgeInsets.only(right: 26),
                                           child: Text(
                                             valueSelect,
                                             style: textNormal(color3D5586, 16),
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         )));
-                          },
-                        ),
+                              },
+                            ),
+                      ),
+                      if (expandController!.value == 0)
+                        const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: AqiColor,
+                        )
+                      else
+                        const Icon(
+                          Icons.keyboard_arrow_up_rounded,
+                          color: AqiColor,
+                        )
+                    ],
                   ),
-                  if (expandController!.value == 0)
-                    const Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
-                    )
-                  else
-                    const Icon(
-                      Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
-                    )
-                ],
-              ),
-            ),
+                ),
           ),
         ),
       ],

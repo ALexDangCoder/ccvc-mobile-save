@@ -60,6 +60,7 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
               urlIcon: ImageAssets.icCalendarUnFocus,
               listSelect: data.map((e) => e.name).toList(),
               title: S.current.loai_lich,
+              onChangeCollapse: true,
             ),
             spaceH12,
             StreamBuilder<bool>(

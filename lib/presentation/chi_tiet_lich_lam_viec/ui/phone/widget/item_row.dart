@@ -110,8 +110,8 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
   String getDateTime(String timeFrom, String timeTo) {
     String time = '';
     try {
-      time = '${DateTime.parse(timeFrom).toFormat24h} - '
-          '${DateTime.parse(timeTo).toFormat24h}';
+      time = '${DateTime.parse(timeFrom).toFormat12h} - '
+          '${DateTime.parse(timeTo).toFormat12h}';
     } on FormatException catch (_) {
       return '';
     }
@@ -121,8 +121,13 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
   String getDate(String dateFrom, String dateTo) {
     String time = '';
     try {
-      time = '${widget.cubit.parseDate(dateFrom)} - '
-          '${widget.cubit.parseDate(dateTo)}';
+      if(DateTime.parse(dateFrom).difference(DateTime.parse(dateTo)).inDays != 0){
+        time = '${widget.cubit.parseDate(dateFrom)} - '
+            '${widget.cubit.parseDate(dateTo)}';
+      }
+      else {
+        time = widget.cubit.parseDate(dateFrom);
+      }
     } on FormatException catch (_) {
       return '';
     }

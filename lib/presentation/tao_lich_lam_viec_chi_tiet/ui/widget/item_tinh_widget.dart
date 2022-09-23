@@ -40,6 +40,7 @@ class _ItemTinhWidgetState extends State<ItemTinhWidget> {
           hintText: widget.isEdit ? '' : S.current.chon_tinh,
           value: widget.isEdit ? widget.name : '',
           title: S.current.tinh,
+          onChangeCollapse: true,
         );
       },
     );

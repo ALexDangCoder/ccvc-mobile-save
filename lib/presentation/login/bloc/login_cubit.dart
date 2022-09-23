@@ -13,12 +13,14 @@ import 'package:ccvc_mobile/domain/model/account/login_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -157,15 +159,16 @@ class LoginCubit extends BaseCubit<LoginState> {
   }
 
   var localAuth = LocalAuthentication();
-  BehaviorSubject<bool>canCheckIsDeviceSupportedSubject=BehaviorSubject<bool>.seeded(false);
-  bool canCheckIsDeviceSupported=false;
+  BehaviorSubject<bool> canCheckIsDeviceSupportedSubject =
+      BehaviorSubject<bool>.seeded(false);
+  bool canCheckIsDeviceSupported = false;
 
   Future<void> canCheckIsDevice() async {
     canCheckIsDeviceSupported = await localAuth.isDeviceSupported();
     canCheckIsDeviceSupportedSubject.sink.add(canCheckIsDeviceSupported);
   }
 
-  Future<void> checkBiometrics() async {
+  Future<void> checkBiometrics(BuildContext context) async {
     final bool canCheckBiometrics = await localAuth.canCheckBiometrics;
     if (canCheckBiometrics) {
       List<BiometricType> availableBiometrics =
@@ -173,22 +176,40 @@ class LoginCubit extends BaseCubit<LoginState> {
       if (availableBiometrics.contains(BiometricType.face) ||
           availableBiometrics.contains(BiometricType.fingerprint)) {
         try {
-          final authenticated = await localAuth.authenticate(
-              localizedReason: 'Please authenticate to show account balance',
-              useErrorDialogs: false,
-              biometricOnly: true);
-          if (authenticated) {
-            await loginAndSaveinfo(
-              userName: PrefsService.getLoginUserName(),
-              passWord: PrefsService.getLoginPassWord(),
-              appCode: APP_CODE,
+          if (PrefsService.getOpenFaceId() != '') {
+            final authenticated = await localAuth.authenticate(
+                localizedReason: 'Please authenticate to show account balance',
+                useErrorDialogs: false,
+                biometricOnly: true);
+            if (authenticated) {
+              await loginAndSaveinfo(
+                userName: PrefsService.getLoginUserName(),
+                passWord: PrefsService.getLoginPassWord(),
+                appCode: APP_CODE,
+              );
+            }
+          } else {
+            showDiaLog(
+              context,
+              title: S.current.dang_nhap_khong_thanh_cong,
+              textContent: S.current.chuc_nang_dang_nhap_bang,
+              icon: Container(),
+              btnRightTxt: S.current.dong,
+              isOneButton: false,
+              btnLeftTxt: S.current.dong,
+              funcBtnRight: () {},
             );
           }
-        }catch(e) {
-          MessageConfig.show(
-            messState: MessState.customIcon,
-            title: S.current.vui_long_cai_dat_va_dang_nhap,
-            urlIcon: ImageAssets.icWarningPopUp,
+        } catch (e) {
+          showDiaLog(
+            context,
+            title: S.current.dang_nhap_khong_thanh_cong,
+            textContent: S.current.chuc_nang_dang_nhap_bang,
+            icon: Container(),
+            btnRightTxt: S.current.dong,
+            isOneButton: false,
+            btnLeftTxt: S.current.dong,
+            funcBtnRight: () {},
           );
         }
       }

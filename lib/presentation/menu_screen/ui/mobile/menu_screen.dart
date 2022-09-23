@@ -42,11 +42,15 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   MenuCubit menuCubit = MenuCubit();
   String version = '';
+  bool checkShowFaceId=false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     menuCubit.getUser();
+    (PrefsService.getOpenFaceId() != '')
+        ? checkShowFaceId = true
+        : checkShowFaceId = false;
     PackageInfo.fromPlatform().then((packageInfo) {
       setState(() {
         version = 'v${packageInfo.version}#${packageInfo.buildNumber}';
@@ -174,7 +178,8 @@ class _MenuScreenState extends State<MenuScreen> {
                               onTap: () {
                                 if (type == MenuType.chuyenPhamVi) {
                                   showChuyenPhamVi();
-                                } else {
+                                } else if(type == MenuType.faceId) {
+                                }else{
                                   if (Platform.isIOS) {
                                     Navigator.push(
                                       context,
@@ -198,6 +203,11 @@ class _MenuScreenState extends State<MenuScreen> {
                                 urlIcon: type.getItem().url,
                                 isBorder:
                                     index != listFeatureAccount.length - 1,
+                                initSwitchButton: checkShowFaceId,
+                                switchFunction: (value){
+                                   menuCubit. faceIdTap(value);
+                                },
+                                isSwitchButton: type == MenuType.faceId,
                               ),
                             );
                           }),

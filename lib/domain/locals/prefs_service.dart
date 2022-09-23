@@ -14,6 +14,7 @@ class PrefsService {
   static const _PREF_LOGIN_USERNAME = 'pref_login_username';
   static const _PREF_LOGIN_PASSWORD = 'pref_login_password';
   static const _PREF_LOGIN_APPCODE = 'pref_login_appcode';
+  static const _PREF_CHECK_OPEN_FACEID = 'pref_check_open_faceid';
   static SharedPreferences? _prefsInstance;
 
   static Future<SharedPreferences> get _instance async =>
@@ -41,6 +42,10 @@ class PrefsService {
     return _prefsInstance?.getString(_PREF_LOGIN_PASSWORD) ?? '';
   }
 
+  static String getOpenFaceId() {
+    return _prefsInstance?.getString(_PREF_CHECK_OPEN_FACEID) ?? '';
+  }
+
   static Future<bool> saveLoginUserName(String userName) async {
     final prefs = await _instance;
     return prefs.setString(_PREF_LOGIN_USERNAME, userName);
@@ -49,6 +54,10 @@ class PrefsService {
   static Future<bool> saveLoginPassWord(String passWord) async {
     final prefs = await _instance;
     return prefs.setString(_PREF_LOGIN_PASSWORD, passWord);
+  }
+  static Future<bool> saveOpenFaceId(String faceid) async {
+    final prefs = await _instance;
+    return prefs.setString(_PREF_CHECK_OPEN_FACEID, faceid);
   }
 
   static Future<bool> saveToken(String token) async {

@@ -108,7 +108,7 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
   }
 
   String getDateTime(String timeFrom, String timeTo) {
-    String time = '';
+    String time = '' ;
     try {
       time = '${DateTime.parse(timeFrom).toFormat12h} - '
           '${DateTime.parse(timeTo).toFormat12h}';

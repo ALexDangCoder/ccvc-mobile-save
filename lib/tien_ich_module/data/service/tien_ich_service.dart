@@ -183,11 +183,7 @@ abstract class TienIchServiceCommon {
       );
 
   @GET(ApiConstants.TREE_DANH_BA)
-  @FormUrlEncoded()
-  Future<TreeDanhBaResponse> treeDanhBa(
-    @Query('soCap') int soCap,
-    @Query('idDonViCha') String idDonViCha,
-  );
+  Future<TreeDanhBaResponse> treeDanhBa();
 }
 
 @RestApi()

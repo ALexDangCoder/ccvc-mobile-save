@@ -394,6 +394,9 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       controller: sdtRiengController,
                       urlIcon: ImageAssets.icCallDb,
                       hintText: S.current.sdt_nha_rieng_require,
+                      onChange: (value) {
+                        widget.cubit.phoneNhaRieng = value;
+                      },
                       validator: (value) {
                         if ((value ?? '').isEmpty) {
                           return '${S.current.ban_phai_nhap_truong} '

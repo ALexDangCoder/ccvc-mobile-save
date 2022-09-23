@@ -138,10 +138,9 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<List<TreeDonViDanhBA>>> treeDanhBa(
-      int soCap, String idDonViCha) {
+  Future<Result<List<TreeDonViDanhBA>>> treeDanhBa() {
     return runCatchingAsync<TreeDanhBaResponse, List<TreeDonViDanhBA>>(
-      () => _tienIchServiceCommon.treeDanhBa(soCap, idDonViCha),
+      () => _tienIchServiceCommon.treeDanhBa(),
       (response) => response.toModel(),
     );
   }

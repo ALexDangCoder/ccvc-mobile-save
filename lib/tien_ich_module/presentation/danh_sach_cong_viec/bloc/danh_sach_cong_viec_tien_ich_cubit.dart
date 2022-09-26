@@ -438,7 +438,7 @@ class DanhSachCongViecTienIchCubit
     }
 
     showLoading();
-    date ??= DateTime.now().toString();
+    date ??= todo.finishDay ?? DateTime.now().toString();
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,

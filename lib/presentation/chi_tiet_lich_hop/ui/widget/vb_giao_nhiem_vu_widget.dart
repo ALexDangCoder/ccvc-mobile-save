@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/bao_cao_module/widget/button/double_button_bottom.da
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -16,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'chon_ngay_widget.dart';
+import 'follow_key_broash.dart';
 
 const List<String> FILE_ALLOW = [
   'xlsx',
@@ -63,7 +63,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
   @override
   Widget build(BuildContext context) {
     vBGiaoNhiemVuModel.hinhThucVanBan = widget.typeVB;
-    return FollowKeyBoardWidget(
+    return FollowKeyBoardEdt(
       bottomWidget: Padding(
         padding: isMobile()? EdgeInsets.only(bottom: 16):EdgeInsets.zero,
         child: DoubleButtonBottom(

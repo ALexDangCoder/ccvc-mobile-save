@@ -60,16 +60,26 @@ class _RecallCalendarState extends State<RecallCalendar> {
               padding: APP_DEVICE == DeviceType.MOBILE
                   ? EdgeInsets.zero
                   : const EdgeInsets.symmetric(horizontal: 100),
-              child: DoubleButtonBottom(
-                title1: S.current.dong,
-                title2: S.current.thu_hoi,
-                onClickLeft: () {
-                  Navigator.pop(context);
-                },
-                onClickRight: () {
-                  widget.callback();
-                },
-              ),
+              child: StreamBuilder<List<Officer>>(
+                  stream: widget.cubit.listRecall.stream,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? [];
+                    final dataSN = data
+                        .where((element) => element.status == 4)
+                        .map((e) => e.getTitle())
+                        .toList();
+                    return DoubleButtonBottom(
+                      disable: dataSN.isEmpty,
+                      title1: S.current.dong,
+                      title2: S.current.thu_hoi,
+                      onClickLeft: () {
+                        Navigator.pop(context);
+                      },
+                      onClickRight: () {
+                        widget.callback();
+                      },
+                    );
+                  }),
             ),
             const SizedBox(
               height: 16,

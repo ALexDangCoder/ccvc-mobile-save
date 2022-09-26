@@ -65,7 +65,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
                   Expanded(
                     flex: 3.0.textScale().toInt(),
                     child: Text(
-                      S.current.noi_dung,
+                      S.current.noidung,
                       style: textNormal(infoColor, 14.0.textScale()),
                     ),
                   ),

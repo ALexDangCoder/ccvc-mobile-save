@@ -460,6 +460,7 @@ class ImageAssets {
   static const String icClearLogin = '$baseImg/ic_clear_login.svg';
   static const String icFaceId = '$baseImg/ic_face_id.svg';
   static const String icFingerprint = '$baseImg/ic_fingerprint.svg';
+  static const String icFaceIdTounchId = '$baseImg/ic_faceid_tounchid.svg';
   static const String icDonViNhiemVu = '$baseImg/ic_don_vi_nhiem_vu.svg';
   static const String icTaoLichLamViecThanhCong =
       '$baseImg/tao_lich_lam_viec_thanh_cong.svg';

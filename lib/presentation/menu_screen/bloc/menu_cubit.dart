@@ -11,11 +11,13 @@ import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_state.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -36,6 +38,20 @@ class MenuCubit extends BaseCubit<MenuState> {
   PhamViModel? currentPhamVi;
   bool isRefresh = false;
 
+  void faceIdTap(bool value) {
+    if (value) {
+      PrefsService.saveOpenFaceId(value.toString());
+      MessageConfig.show(
+        title: S.current.cai_dat_touch_faceid_thanh_cong,
+      );
+    } else {
+      PrefsService.saveOpenFaceId('');
+      MessageConfig.show(
+        title: S.current.da_vo_hieu_hoa_face_id,
+      );
+    }
+  }
+
   Future<void> getUser() async {
     final queue = Queue();
     if (dataUser != null) {
@@ -48,10 +64,11 @@ class MenuCubit extends BaseCubit<MenuState> {
     await queue.onComplete;
     showContent();
   }
-  void logout(){
+
+  void logout() {
     FirebaseMessaging.instance.deleteToken();
     HiveLocal.clearData();
-    PrefsService.saveLoginUserName('');
+    //PrefsService.saveLoginUserName('');
   }
 
   Future<void> refeshMenu() async {

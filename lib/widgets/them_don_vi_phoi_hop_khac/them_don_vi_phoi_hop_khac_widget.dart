@@ -174,14 +174,34 @@ class ItemThanhPhanWidget extends StatelessWidget {
         border: Border.all(color: borderButtomColor),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
-      child: Stack(
-        children: [
-          if (showType == null)
-            Column(
+      child: showType == null
+          ? Column(
               children: [
-                rowInfo(
-                  value: data.name,
-                  key: S.current.ten_don_vi,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: rowInfo(
+                        value: data.name,
+                        key: S.current.ten_don_vi,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            cubit.removeDonViPhoiHop(data);
+                          },
+                          child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                        ),
+                        spaceW12,
+                        CusCheckBox(
+                          isChecked: isSendEmail,
+                          onChange: (value) {},
+                        )
+                      ],
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 10.0.textScale(space: 10),
@@ -213,42 +233,49 @@ class ItemThanhPhanWidget extends StatelessWidget {
                 )
               ],
             )
-          else
-            Column(
+          : Column(
               children: List.generate(
                 showType!.length,
                 (index) {
                   final result = showType![index];
                   return Padding(
                     padding: EdgeInsets.only(top: 10.0.textScale(space: 10)),
-                    child: rowInfo(
-                        key: result.title,
-                        value: result.type.valueDonViModel(data)),
+                    child: index == 0
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: rowInfo(
+                                  key: result.title,
+                                  value: result.type.valueDonViModel(data),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      cubit.removeDonViPhoiHop(data);
+                                    },
+                                    child: SvgPicture.asset(
+                                        ImageAssets.icDeleteRed),
+                                  ),
+                                  spaceW12,
+                                  CusCheckBox(
+                                    isChecked: isSendEmail,
+                                    onChange: (value) {},
+                                  )
+                                ],
+                              )
+                            ],
+                          )
+                        : rowInfo(
+                            key: result.title,
+                            value: result.type.valueDonViModel(data),
+                          ),
                   );
                 },
               ),
             ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    cubit.removeDonViPhoiHop(data);
-                  },
-                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
-                ),
-                spaceW12,
-                CusCheckBox(
-                  isChecked: isSendEmail,
-                  onChange: (value) {},
-                )
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 

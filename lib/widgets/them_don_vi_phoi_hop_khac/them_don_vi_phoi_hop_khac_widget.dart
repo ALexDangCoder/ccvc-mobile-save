@@ -64,9 +64,7 @@ class _ThemDonViPhoiHopKhacWidgetState
           onTap: () {
             showDialog(context);
           },
-          text: widget.isTaoHop
-              ? S.current.them_don_vi_phoi_hop_khac
-              : S.current.them_thanh_phan_tham_gia,
+          text: S.current.them_don_vi_phoi_hop_khac,
           urlIcon: ImageAssets.icAddButtonCalenderTablet,
         ),
         StreamBuilder<List<DonViModel>>(

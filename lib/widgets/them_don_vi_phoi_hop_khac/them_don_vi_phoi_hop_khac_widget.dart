@@ -182,25 +182,25 @@ class ItemThanhPhanWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: rowInfo(
-                        value: data.name,
-                        key: S.current.ten_don_vi,
-                      ),
+                          value: data.name,
+                          key: S.current.ten_don_vi,
+                          rightIcon: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  cubit.removeDonViPhoiHop(data);
+                                },
+                                child:
+                                    SvgPicture.asset(ImageAssets.icDeleteRed),
+                              ),
+                              spaceW12,
+                              CusCheckBox(
+                                isChecked: isSendEmail,
+                                onChange: (value) {},
+                              )
+                            ],
+                          )),
                     ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            cubit.removeDonViPhoiHop(data);
-                          },
-                          child: SvgPicture.asset(ImageAssets.icDeleteRed),
-                        ),
-                        spaceW12,
-                        CusCheckBox(
-                          isChecked: isSendEmail,
-                          onChange: (value) {},
-                        )
-                      ],
-                    )
                   ],
                 ),
                 SizedBox(
@@ -246,26 +246,25 @@ class ItemThanhPhanWidget extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: rowInfo(
-                                  key: result.title,
-                                  value: result.type.valueDonViModel(data),
-                                ),
+                                    key: result.title,
+                                    value: result.type.valueDonViModel(data),
+                                    rightIcon: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            cubit.removeDonViPhoiHop(data);
+                                          },
+                                          child: SvgPicture.asset(
+                                              ImageAssets.icDeleteRed),
+                                        ),
+                                        spaceW12,
+                                        CusCheckBox(
+                                          isChecked: isSendEmail,
+                                          onChange: (value) {},
+                                        )
+                                      ],
+                                    )),
                               ),
-                              Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      cubit.removeDonViPhoiHop(data);
-                                    },
-                                    child: SvgPicture.asset(
-                                        ImageAssets.icDeleteRed),
-                                  ),
-                                  spaceW12,
-                                  CusCheckBox(
-                                    isChecked: isSendEmail,
-                                    onChange: (value) {},
-                                  )
-                                ],
-                              )
                             ],
                           )
                         : rowInfo(
@@ -279,7 +278,8 @@ class ItemThanhPhanWidget extends StatelessWidget {
     );
   }
 
-  Widget rowInfo({required String key, required String value}) {
+  Widget rowInfo(
+      {required String key, required String value, Widget? rightIcon}) {
     return Row(
       children: [
         Expanded(
@@ -294,9 +294,16 @@ class ItemThanhPhanWidget extends StatelessWidget {
         ),
         Expanded(
           flex: 6,
-          child: Text(
-            value,
-            style: textNormal(color3D5586, 14.0.textScale()),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  value,
+                  style: textNormal(color3D5586, 14.0.textScale()),
+                ),
+              ),
+              if (rightIcon != null) rightIcon
+            ],
           ),
         )
       ],

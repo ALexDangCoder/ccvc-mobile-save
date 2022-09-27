@@ -400,9 +400,12 @@ extension CheckValidate on String {
     return null;
   }
 
-  String? checkTruongNull(String name) {
+  String? checkTruongNull(String name,{bool?isCheckLength=false}) {
     if (trim().isEmpty) {
       return '${S.current.ban_phai_nhap_truong} $name';
+    }
+    if(length>20&&isCheckLength==true){
+      return S.current.nhap_toi_da_20_ky_tu;
     }
     return null;
   }

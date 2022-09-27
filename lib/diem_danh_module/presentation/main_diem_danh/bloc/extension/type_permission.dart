@@ -34,7 +34,6 @@ Future<ModelAnh> pickAvatarOnAndroid() async {
     FileExtensions.JPEG,
     FileExtensions.JPG,
     FileExtensions.PNG,
-    FileExtensions.HEIC,
   ];
   try {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(

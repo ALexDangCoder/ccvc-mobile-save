@@ -46,13 +46,13 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
     super.initState();
   }
 
-  Future<void> pickImage() async {
+  Future<void> pickImage(bool isImage) async {
     final permission = await handlePhotosPermission();
     if (permission) {
       late dynamic results;
       late int fileSize;
       results = Platform.isIOS
-          ? await picker.pickImage(source: ImageSource.gallery)
+          ? await picker.pickImage(source: isImage ? ImageSource.gallery : ImageSource.camera)
           : await pickAvatarOnAndroid();
       if (results != null) {
         final File fileImage = File(results.path);
@@ -65,7 +65,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
           toast.init(context);
           toast.showToast(
             child: ShowToast(
-              text: S.current.dung_luong_toi_da_5mb,
+              text: S.current.chi_nhan_anh_5MB,
               withOpacity: 0.6,
             ),
             gravity: ToastGravity.BOTTOM,
@@ -73,7 +73,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
         }
       }
     } else {
-       await MessageConfig.showDialogSetting();
+      await MessageConfig.showDialogSetting();
     }
   }
 
@@ -153,47 +153,80 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
                 ],
               )
             : emptyImage(
-                onTap: () {
-                  pickImage();
+                onTapPickImage: () {
+                  pickImage(true);
+                },
+                onTapPickCamera: () {
+                  pickImage(false);
                 },
               );
   }
 
-  Widget emptyImage({required Function onTap}) {
-    return GestureDetector(
-      onTap: () {
-        onTap();
-      },
-      child: Container(
-        height: 164.0.textScale(space: 56.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: colorE2E8F0),
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.05),
-              blurRadius: 2,
-              spreadRadius: 2,
+  Widget emptyImage({
+    required Function onTapPickImage,
+    required Function onTapPickCamera,
+  }) {
+    return Container(
+      height: 164.0.textScale(space: 56.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: colorE2E8F0),
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            blurRadius: 2,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () {
+              onTapPickImage();
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  ImageAssets.icUpAnh,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+                spaceH14,
+                Text(
+                  S.current.tai_anh,
+                  style: textNormal(
+                    color667793,
+                    14.0.textScale(),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              ImageAssets.icUpAnh,
-              color: AppTheme.getInstance().colorField(),
+          ),
+          GestureDetector(
+            onTap: () {
+              onTapPickCamera();
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  ImageAssets.icUpCamera,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+                spaceH14,
+                Text(
+                  S.current.chup_anh,
+                  style: textNormal(
+                    color667793,
+                    14.0.textScale(),
+                  ),
+                ),
+              ],
             ),
-            spaceH14,
-            Text(
-              S.current.tai_anh_len,
-              style: textNormal(
-                color667793,
-                14.0.textScale(),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

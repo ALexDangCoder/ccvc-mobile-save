@@ -394,7 +394,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     final result = await tienIchRep.xoaDanhBa(id);
     result.when(
       success: (res) {
-        searchListDanhSach(searchValue);
+        // searchListDanhSach(searchValue);
         MessageConfig.show(
           title: S.current.xoa_thanh_cong,
         );

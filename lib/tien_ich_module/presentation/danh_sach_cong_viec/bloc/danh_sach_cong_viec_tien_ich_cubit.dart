@@ -40,6 +40,7 @@ class DanhSachCongViecTienIchCubit
 
   ///Stream
   BehaviorSubject<List<TodoDSCVModel>> listDSCVStream = BehaviorSubject();
+  BehaviorSubject<bool> editPop = BehaviorSubject();
 
   BehaviorSubject<String> titleAppBar = BehaviorSubject();
 
@@ -406,8 +407,12 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         showContent();
+        groupId = '';
+        searchControler.text = '';
+        countLoadMore = 1;
         titleAppBar.sink.add(S.current.cong_viec_cua_ban);
         statusDSCV.sink.add(DSCVScreen.CVCB);
+        callAPITheoFilter();
       },
       error: (err) {
         showError();
@@ -543,6 +548,29 @@ class DanhSachCongViecTienIchCubit
     }
   }
 
+  Future<NguoiThucHienModel?> getNguoiThucHien(String idPerformer) async {
+    final result = await tienIchRep.getCanBo(
+      idPerformer,
+    );
+    final nguoiThucHien = NguoiThucHienModel(
+      id: idPerformer,
+      hoten: '',
+      donVi: [],
+      chucVu: [],
+    );
+    result.when(
+      success: (res) {
+        if (res.items.isNotEmpty) {
+          nguoiThucHien.hoten = res.items.first.hoten;
+          nguoiThucHien.donVi = res.items.first.donVi;
+          nguoiThucHien.chucVu = res.items.first.chucVu;
+        }
+      },
+      error: (_) {},
+    );
+    return nguoiThucHien;
+  }
+
   void addNguoiThucHienNull() {
     nguoiThucHienSubject.sink.add(
       NguoiThucHienModel(
@@ -612,6 +640,7 @@ class DanhSachCongViecTienIchCubit
             IconDSCV.icCheckBox,
             IconDSCV.icImportant,
             IconDSCV.icClose,
+            IconDSCV.icEdit,
           ];
         case DSCVScreen.DHT:
           return [

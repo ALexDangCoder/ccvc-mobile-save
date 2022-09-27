@@ -105,35 +105,35 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              if (expandController.value == 0) {
-                widget.onTap();
-              }
-              if (groupProvider != null) {
-                groupProvider!.expand(key);
-              } else {
-                isExpanded = !isExpanded;
-                _runExpandCheck();
-              }
-            },
-            child: Container(
-              padding: widget.paddingHeader ??const  EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 7.5,
-              ),
-              decoration: widget.showDecoration
-                  ? BoxDecoration(
-                      color: widget.isTablet ?? false
-                          ? backgroundColorApp
-                          : borderColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: borderColor.withOpacity(0.5)),
-                    )
-                  : null,
-              child: Column(
-                children: [
-                  Row(
+          Container(
+            padding: widget.paddingHeader ??const  EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 7.5,
+            ),
+            decoration: widget.showDecoration
+                ? BoxDecoration(
+                    color: widget.isTablet ?? false
+                        ? backgroundColorApp
+                        : borderColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: borderColor.withOpacity(0.5)),
+                  )
+                : null,
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (expandController.value == 0) {
+                      widget.onTap();
+                    }
+                    if (groupProvider != null) {
+                      groupProvider!.expand(key);
+                    } else {
+                      isExpanded = !isExpanded;
+                      _runExpandCheck();
+                    }
+                  },
+                  child: Row(
                     children: [
                       Flexible(child: widget.header),
                       if (widget.isShowIcon)
@@ -155,13 +155,13 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
                         const SizedBox()
                     ],
                   ),
-                  SizeTransition(
-                    axisAlignment: 1.0,
-                    sizeFactor: animation,
-                    child: widget.child,
-                  ),
-                ],
-              ),
+                ) ,
+                SizeTransition(
+                  axisAlignment: 1.0,
+                  sizeFactor: animation,
+                  child: widget.child,
+                ),
+              ],
             ),
           ),
         ],

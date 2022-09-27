@@ -76,7 +76,9 @@ class _RecallCalendarState extends State<RecallCalendar> {
                         Navigator.pop(context);
                       },
                       onClickRight: () {
-                        widget.callback();
+                        if (dataSN.isNotEmpty) {
+                          widget.callback();
+                        }
                       },
                     );
                   }),

@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -28,7 +29,7 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
+    return FollowKeyBoardEdt(
       bottomWidget: Padding(
         padding: const EdgeInsets.only(bottom: 35),
         child: DoubleButtonBottom(

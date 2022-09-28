@@ -1273,7 +1273,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         isSortByDoKhan: true,
         thoiGianStartFilter: '',
         thoiGianEndFilter: '',
-        size: 10,
+        size: 5,
       ),
     );
     showContent();
@@ -1454,7 +1454,13 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
     showContent();
     result.when(
       success: (res) {
-        _getYKien.sink.add(res);
+        List<YKienNguoiDanModel> listYKienNguoiDan = [];
+        if (res.length <= 5) {
+          listYKienNguoiDan = res;
+        } else {
+          listYKienNguoiDan = res.take(5).toList();
+        }
+        _getYKien.sink.add(listYKienNguoiDan);
       },
       error: (err) {},
     );
@@ -1614,7 +1620,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
         for (final vl in res) {
           listResult.add(vl);
           index++;
-          if (index >= 20) {
+          if (index >= 5) {
             break;
           }
         }
@@ -1675,7 +1681,7 @@ class LichHopCubit extends HomeCubit with SelectKeyDialog {
           for (final vl in res) {
             listResult.add(vl);
             index++;
-            if (index >= 20) {
+            if (index >= 5) {
               break;
             }
           }
@@ -1948,7 +1954,13 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
     showContent();
     result.when(
       success: (res) {
-        _getNhiemVu.sink.add(res);
+        List<CalendarMeetingModel> listNhiemVu = [];
+        if (res.length <= 5) {
+          listNhiemVu = res;
+        } else {
+          listNhiemVu = res.take(5).toList();
+        }
+        _getNhiemVu.sink.add(listNhiemVu);
       },
       error: (err) {},
     );

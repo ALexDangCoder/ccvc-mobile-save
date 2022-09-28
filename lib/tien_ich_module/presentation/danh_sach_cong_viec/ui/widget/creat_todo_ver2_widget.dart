@@ -70,7 +70,6 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -301,8 +300,8 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                         performer: widget.cubit.getDataNguoiThucHienModel.id,
                       );
                     }
-
                     Navigator.pop(context);
+                    widget.cubit.editPop.sink.add(true);
                   },
                 ),
               ),

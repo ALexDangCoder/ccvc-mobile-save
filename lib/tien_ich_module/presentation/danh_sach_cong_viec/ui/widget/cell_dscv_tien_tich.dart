@@ -1,14 +1,20 @@
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/view_todo_detail.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '/home_module/config/resources/color.dart';
-import '/home_module/config/resources/styles.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/tien_ich_module/utils/constants/image_asset.dart' as tien_ich_icon;
 
@@ -60,6 +66,13 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                 ?.isBefore(DateTime.now()) ??
             false);
     final double padingIcon = MediaQuery.of(context).size.width * 0.03;
+    final userId =
+        HiveLocal.getDataUser()?.userInformation?.id?.toLowerCase() ?? '';
+    final createByMe =
+        userId == (widget.todoModel.createdBy?.toLowerCase() ?? '');
+    final canEdit = widget.isEnableIcon &&
+        (widget.showIcon?.contains(IconDSCV.icEdit) ?? false) &&
+        createByMe;
     return Container(
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: borderButtomColor)),
@@ -99,12 +112,12 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                       ? Align(
                           alignment: Alignment.centerLeft,
                           child: GestureDetector(
-                            onTap: widget.isEnableIcon &&
-                                    (widget.showIcon
-                                            ?.contains(IconDSCV.icEdit) ??
-                                        false)
-                                ? widget.onEdit
-                                : onTapNull,
+                            onTap: () {
+                              showDetail(
+                                widget.todoModel,
+                                canEdit: canEdit,
+                              );
+                            },
                             child: Text(
                               widget.text,
                               style: textNormal(
@@ -134,7 +147,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                           ),
                         ),
                 ),
-                if (widget.showIcon?.contains(IconDSCV.icEdit) ?? false)
+                if (canEdit)
                   Padding(
                     padding: EdgeInsets.only(right: padingIcon),
                     child: GestureDetector(
@@ -257,4 +270,28 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
           shape: BoxShape.circle,
         ),
       );
+
+  void showDetail(TodoDSCVModel todo, {required bool canEdit}) {
+    final child = ViewTodoDetail(
+      todoModel: widget.todoModel,
+      canEdit: canEdit,
+      cubit: widget.cubit,
+      onEdit: widget.onEdit,
+    );
+    if (isMobile()) {
+      showBottomSheetCustom(
+        context,
+        title: S.current.chi_tiet_cong_viec,
+        child: child,
+      );
+    } else {
+      showDiaLogTablet(
+        context,
+        title: S.current.sua_lich_hop,
+        child: child,
+        funcBtnOk: () {},
+        isBottomShow: false,
+      );
+    }
+  }
 }

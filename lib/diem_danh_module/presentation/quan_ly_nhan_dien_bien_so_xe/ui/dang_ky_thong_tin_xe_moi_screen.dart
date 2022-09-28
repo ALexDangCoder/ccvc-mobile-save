@@ -188,10 +188,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               ),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                '${S.current.ban_phai_chon_truong} '
-                                '${S.current.loai_xe}',
+                                S.current.truong_bat_buoc,
                                 style: textNormalCustom(
-                                  color: colord32f2f,
+                                  color: Colors.red,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12.0,
                                 ),
@@ -208,8 +207,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         onChange: (value) {},
                         validator: (value) {
                           return (value ?? '').checkTruongNull(
-                            S.current.bien_kiem_soat,
+                            '',
                             isCheckLength: true,
+                            isTruongBatBuoc: true,
                           );
                         },
                       ),
@@ -359,10 +359,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                     ),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      '${S.current.ban_phai_chon_truong} '
-                                      '${S.current.loai_xe}',
+                                      S.current.truong_bat_buoc,
                                       style: textNormalCustom(
-                                        color: colord32f2f,
+                                        color: Colors.red,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12.0,
                                       ),
@@ -380,8 +379,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               onChange: (value) {},
                               validator: (value) {
                                 return (value ?? '').checkTruongNull(
-                                  S.current.bien_kiem_soat,
+                                  '',
                                   isCheckLength: true,
+                                  isTruongBatBuoc: true,
                                 );
                               },
                             ),

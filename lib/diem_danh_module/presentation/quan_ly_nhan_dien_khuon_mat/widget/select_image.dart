@@ -52,8 +52,12 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
       late dynamic results;
       late int fileSize;
       results = Platform.isIOS
-          ? await picker.pickImage(source: isImage ? ImageSource.gallery : ImageSource.camera)
-          : await pickAvatarOnAndroid();
+          ? await picker.pickImage(
+              source: isImage ? ImageSource.gallery : ImageSource.camera)
+          : isImage
+              ? await pickAvatarOnAndroid()
+              : await picker.pickImage(
+                  source: isImage ? ImageSource.gallery : ImageSource.camera);
       if (results != null) {
         final File fileImage = File(results.path);
         fileSize = fileImage.lengthSync();

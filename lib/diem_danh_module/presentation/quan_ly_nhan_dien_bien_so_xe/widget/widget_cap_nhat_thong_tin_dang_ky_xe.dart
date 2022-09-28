@@ -183,8 +183,9 @@ class _WidgetCapNhatThongTinDangKyXeState
                         onChange: (value) {},
                         validator: (value) {
                           return (value ?? '').checkTruongNull(
-                            S.current.bien_kiem_soat,
+                            '',
                             isCheckLength: true,
+                            isTruongBatBuoc: true,
                           );
                         },
                       ),

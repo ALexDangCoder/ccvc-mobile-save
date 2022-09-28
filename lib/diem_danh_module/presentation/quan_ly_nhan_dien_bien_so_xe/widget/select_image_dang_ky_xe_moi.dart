@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/widget/view_pick_camera.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -63,8 +64,24 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
           gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
-        widget.onTapImage(File(pickImg.path));
-        imageChoosse = File(pickImg.path);
+        if (isImage) {
+          widget.onTapImage(File(pickImg.path));
+          imageChoosse = File(pickImg.path);
+        } else {
+           await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ViewPickCamera(
+                imagePath:
+                  File(pickImg.path),
+                title: S.current.tai_anh_giay_dang_ky_xe,
+              ),
+            ),
+          ).then((value) {
+            widget.onTapImage(value);
+            imageChoosse = value;
+          });
+        }
       }
     }
     setState(() {});

@@ -34,4 +34,8 @@ class NguoiThucHienModel {
   String dataWithChucVu() {
     return '${hoten.isNotEmpty ? hoten : ''}${donVi.isNotEmpty ? ' - ${chucVu.join(', ')}' : ''}';
   }
+
+  String tenChucVuDonVi() {
+    return '${hoten.isNotEmpty ? hoten : ''}${chucVu.isNotEmpty ? ' - ${chucVu.join(', ')}' : ''}${donVi.isNotEmpty ? ' - ${donVi.join(', ')}' : ''}';
+  }
 }

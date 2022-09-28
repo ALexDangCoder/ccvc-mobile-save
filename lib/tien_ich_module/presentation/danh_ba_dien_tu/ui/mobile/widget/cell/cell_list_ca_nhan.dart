@@ -203,6 +203,16 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                             widget.cubit
                                 .xoaDanhBa(id: widget.item.id ?? '')
                                 .then((value) {
+                              if (value == true) {
+                                if (widget.cubit.loadMoreListController.hasValue) {
+                                  final data =
+                                      widget.cubit.loadMoreListController.value;
+                                  data.removeWhere((element) =>
+                                      element.id == widget.item.id);
+                                  widget.cubit.loadMoreListController.sink
+                                      .add(data);
+                                }
+                              }
                               Navigator.pop(context, true);
                             });
                           },

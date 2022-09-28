@@ -64,9 +64,7 @@ class _ThemDonViPhoiHopKhacWidgetState
           onTap: () {
             showDialog(context);
           },
-          text: widget.isTaoHop
-              ? S.current.them_don_vi_phoi_hop_khac
-              : S.current.them_thanh_phan_tham_gia,
+          text: S.current.them_don_vi_phoi_hop_khac,
           urlIcon: ImageAssets.icAddButtonCalenderTablet,
         ),
         StreamBuilder<List<DonViModel>>(
@@ -176,14 +174,34 @@ class ItemThanhPhanWidget extends StatelessWidget {
         border: Border.all(color: borderButtomColor),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
-      child: Stack(
-        children: [
-          if (showType == null)
-            Column(
+      child: showType == null
+          ? Column(
               children: [
-                rowInfo(
-                  value: data.name,
-                  key: S.current.ten_don_vi,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: rowInfo(
+                          value: data.name,
+                          key: S.current.ten_don_vi,
+                          rightIcon: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  cubit.removeDonViPhoiHop(data);
+                                },
+                                child:
+                                    SvgPicture.asset(ImageAssets.icDeleteRed),
+                              ),
+                              spaceW12,
+                              CusCheckBox(
+                                isChecked: isSendEmail,
+                                onChange: (value) {},
+                              )
+                            ],
+                          )),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 10.0.textScale(space: 10),
@@ -215,46 +233,53 @@ class ItemThanhPhanWidget extends StatelessWidget {
                 )
               ],
             )
-          else
-            Column(
+          : Column(
               children: List.generate(
                 showType!.length,
                 (index) {
                   final result = showType![index];
                   return Padding(
                     padding: EdgeInsets.only(top: 10.0.textScale(space: 10)),
-                    child: rowInfo(
-                        key: result.title,
-                        value: result.type.valueDonViModel(data)),
+                    child: index == 0
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: rowInfo(
+                                    key: result.title,
+                                    value: result.type.valueDonViModel(data),
+                                    rightIcon: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            cubit.removeDonViPhoiHop(data);
+                                          },
+                                          child: SvgPicture.asset(
+                                              ImageAssets.icDeleteRed),
+                                        ),
+                                        spaceW12,
+                                        CusCheckBox(
+                                          isChecked: isSendEmail,
+                                          onChange: (value) {},
+                                        )
+                                      ],
+                                    )),
+                              ),
+                            ],
+                          )
+                        : rowInfo(
+                            key: result.title,
+                            value: result.type.valueDonViModel(data),
+                          ),
                   );
                 },
               ),
             ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    cubit.removeDonViPhoiHop(data);
-                  },
-                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
-                ),
-                spaceW12,
-                CusCheckBox(
-                  isChecked: isSendEmail,
-                  onChange: (value) {},
-                )
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 
-  Widget rowInfo({required String key, required String value}) {
+  Widget rowInfo(
+      {required String key, required String value, Widget? rightIcon}) {
     return Row(
       children: [
         Expanded(
@@ -269,9 +294,16 @@ class ItemThanhPhanWidget extends StatelessWidget {
         ),
         Expanded(
           flex: 6,
-          child: Text(
-            value,
-            style: textNormal(color3D5586, 14.0.textScale()),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  value,
+                  style: textNormal(color3D5586, 14.0.textScale()),
+                ),
+              ),
+              if (rightIcon != null) rightIcon
+            ],
           ),
         )
       ],

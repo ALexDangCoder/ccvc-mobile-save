@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
@@ -31,6 +32,7 @@ class _DiemDanhMenuMobileState extends State<DiemDanhMenuMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundDrawerMenu,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -58,7 +60,7 @@ class _DiemDanhMenuMobileState extends State<DiemDanhMenuMobile> {
                               menuType,
                             );
                             Navigator.pop(context);
-                            if(widget.isThemBienSo){
+                            if (widget.isThemBienSo) {
                               widget.cubit.isMenuClickedSubject.add(true);
                             }
                           },
@@ -87,7 +89,7 @@ class _DiemDanhMenuMobileState extends State<DiemDanhMenuMobile> {
         Text(
           menu,
           style: textNormalCustom(
-            color: AppTheme.getInstance().titleColor(),
+            color: AppTheme.getInstance().backGroundColor(),
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

@@ -52,6 +52,7 @@ final listFeature = [
 final listFeatureAccount = [
   MenuType.chuyenPhamVi,
   MenuType.caiDatGiaoDien,
+  MenuType.faceId,
   MenuType.doiMatKhau
 ];
 enum MenuType {
@@ -70,7 +71,8 @@ enum MenuType {
   lichLamViec,
   baoCao,
   diemDanh,
-  hoTroKyThuat
+  hoTroKyThuat,
+  faceId
 }
 
 extension MenuTypeItem on MenuType {
@@ -182,6 +184,11 @@ extension MenuTypeItem on MenuType {
           url: ImageAssets.icCaiDatGiaoDien,
           title: S.current.cai_dat_giao_dien,
         );
+      case MenuType.faceId:
+        return MenuCellType(
+          url: ImageAssets.icFaceIdTounchId,
+          title: S.current.dang_nhap_voi_touch_faceid,
+        );
       case MenuType.doiMatKhau:
         return MenuCellType(
           url: ImageAssets.icDoiMatKhau,
@@ -262,6 +269,8 @@ extension GetScreen on MenuType {
         );
       case MenuType.caiDatGiaoDien:
         return const CaiDatGiaoDienScreen();
+        case MenuType.faceId:
+        return const SizedBox.shrink();
       case MenuType.doiMatKhau:
         return screenDevice(
           mobileScreen: const ChangePassWordScreen(),

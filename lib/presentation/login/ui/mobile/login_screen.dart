@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
@@ -99,75 +100,104 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           children: [
                             Text(
-                              '${S.current.hello}!',
+                              (PrefsService.getLoginUserName() != '')
+                                  ? '${S.current.hello},'
+                                  : '${S.current.hello}!',
                               style: titleAppbar(),
                             ),
                             const SizedBox(
                               height: 12,
                             ),
                             Text(
-                              S.current.wellcom_login,
+                              (PrefsService.getLoginUserName() != '')
+                                  ? PrefsService.getLoginUserName()
+                                  : S.current.wellcom_login,
                               style: textNormal(
-                                  textBodyTime,
-                                  14),
-                            )
+                                  (PrefsService.getLoginUserName() != '')
+                                      ? color667793
+                                      : textBodyTime,
+                                  (PrefsService.getLoginUserName() != '')
+                                      ? 16.0
+                                      : 14.0),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            if (PrefsService.getLoginUserName() != '')
+                              GestureDetector(
+                                onTap: () {
+                                  PrefsService.saveLoginUserName('');
+                                  PrefsService.saveOpenFaceId('');
+                                  setState(() {});
+                                },
+                                child: Text(
+                                  S.current.khong_phai_toi,
+                                  style: textNormalCustom(
+                                    color: AppTheme.getInstance().colorField(),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              )
                           ],
                         ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      TextFieldValidator(
-                        controller: textTaiKhoanController,
-                        suffixIcon: loginCubit.isHideClearData
-                            ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {});
-                                      textTaiKhoanController.clear();
-                                      loginCubit.isHideClearData = false;
-                                    },
-                                    child: SvgPicture.asset(
-                                      ImageAssets.icClearLogin,
+                      if (PrefsService.getLoginUserName() == '')
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TextFieldValidator(
+                            controller: textTaiKhoanController,
+                            suffixIcon: loginCubit.isHideClearData
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {});
+                                          textTaiKhoanController.clear();
+                                          loginCubit.isHideClearData = false;
+                                        },
+                                        child: SvgPicture.asset(
+                                          ImageAssets.icClearLogin,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                        hintText: S.current.account,
-                        prefixIcon: SizedBox(
-                          width: 20.0,
-                          height: 20.0,
-                          child: Center(
-                            child: SvgPicture.asset(ImageAssets.imgAcount),
+                                  )
+                                : const SizedBox(),
+                            hintText: S.current.account,
+                            prefixIcon: SizedBox(
+                              width: 20.0,
+                              height: 20.0,
+                              child: Center(
+                                child: SvgPicture.asset(ImageAssets.imgAcount),
+                              ),
+                            ),
+                            onChange: (text) {
+                              if (text.isEmpty) {
+                                setState(() {});
+                                return loginCubit.isHideClearData = false;
+                              }
+                              setState(() {});
+                              return loginCubit.isHideClearData = true;
+                            },
+                            validator: (value) {
+                              if ((value ?? '').contains('@')) {
+                                if ((value ?? '')
+                                    .contains('@', value!.indexOf('@') + 1)) {
+                                } else {
+                                  return value.checkEmailBoolean();
+                                }
+                              } else {
+                                return (value ?? '')
+                                    .checkTruongNull('Tài khoản!');
+                              }
+                            },
                           ),
                         ),
-                        onChange: (text) {
-                          if (text.isEmpty) {
-                            setState(() {});
-                            return loginCubit.isHideClearData = false;
-                          }
-                          setState(() {});
-                          return loginCubit.isHideClearData = true;
-                        },
-                        validator: (value) {
-                          if ((value ?? '').contains('@')) {
-                            if ((value ?? '')
-                                .contains('@', value!.indexOf('@') + 1)) {
-                            } else {
-                              return value.checkEmailBoolean();
-                            }
-                          } else {
-                            return (value ?? '').checkTruongNull('Tài khoản!');
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
                       TextFieldValidator(
                         maxLength: 32,
                         controller: textPasswordController,
@@ -234,7 +264,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const ForgotPasswordScreen(),
+                              builder: (context) =>
+                                  const ForgotPasswordScreen(),
                             ),
                           );
                         },
@@ -258,7 +289,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (keyGroup.currentState!.validator()) {
                                 await loginCubit.loginAndSaveinfo(
                                   passWord: textPasswordController.text,
-                                  userName: textTaiKhoanController.text.trim(),
+                                  userName:
+                                      (PrefsService.getLoginUserName() != '')
+                                          ? PrefsService.getLoginUserName()
+                                              .toString()
+                                          : textTaiKhoanController.text.trim(),
                                   appCode: APP_CODE,
                                 );
                               }
@@ -269,15 +304,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 32,
                       ),
-                      if (PrefsService.getLoginUserName() != '')
-                        Column(
-                          children: [
-                            StreamBuilder<bool>(
-                              stream: loginCubit.canCheckIsDeviceSupportedSubject,
+                      Column(
+                        children: [
+                          StreamBuilder<bool>(
+                              stream:
+                                  loginCubit.canCheckIsDeviceSupportedSubject,
                               builder: (context, snapshot) {
-                                final data=snapshot.data;
+                                final data = snapshot.data;
                                 return Visibility(
-                                  visible:data??false,
+                                  visible: data ?? false,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -286,7 +321,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              loginCubit.checkBiometrics();
+                                              loginCubit
+                                                  .checkBiometrics(context);
                                             });
                                           },
                                           child: Container(
@@ -314,7 +350,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              loginCubit.checkBiometrics();
+                                              loginCubit
+                                                  .checkBiometrics(context);
                                             });
                                           },
                                           child: Container(
@@ -340,15 +377,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ],
                                   ),
                                 );
-                              }
-                            ),
-                            const SizedBox(
-                              height: 16.0,
-                            ),
-                          ],
-                        )
-                      else
-                        const SizedBox()
+                              }),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),

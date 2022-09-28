@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
@@ -124,10 +125,16 @@ class _DanhSachCongViecTienIchMobileState
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          ListUpDSCV(
-                                            data: currentUserCreate,
-                                            cubit: cubit,
-                                            dataType: dataType,
+                                          expandMobile(
+                                            child: ListUpDSCV(
+                                              data: currentUserCreate,
+                                              cubit: cubit,
+                                              dataType: dataType,
+                                            ),
+                                            header: textTitle(
+                                              S.current.cong_viec_cua_toi,
+                                              number: currentUserCreate.length,
+                                            ),
                                           ),
                                           if (currentUserCreate.isNotEmpty)
                                             spaceH12,
@@ -139,6 +146,7 @@ class _DanhSachCongViecTienIchMobileState
                                             ),
                                             header: textTitle(
                                               S.current.gan_cho_toi,
+                                              number: ganChoToi.length,
                                             ),
                                           ),
                                         ],
@@ -248,7 +256,7 @@ class _DanhSachCongViecTienIchMobileState
     );
   }
 
-  Widget textTitle(String text) => Row(
+  Widget textTitle(String text, {int? number}) => Row(
         children: [
           Text(
             text,
@@ -257,6 +265,26 @@ class _DanhSachCongViecTienIchMobileState
               color: infoColor,
             ),
           ),
+          if (number != null) spaceW12,
+          if (number != null)
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 4,
+                horizontal: 5,
+              ),
+              decoration: BoxDecoration(
+                color: AppTheme.getInstance().colorField(),
+                borderRadius: BorderRadius.circular(2),
+              ),
+              child: Text(
+                number.toString(),
+                style: textNormalCustom(
+                  color: bgDropDown,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+              ),
+            ),
           const Expanded(
             child: SizedBox(),
           ),

@@ -35,72 +35,68 @@ class PeopleThamGiaWidget extends StatelessWidget {
         border: Border.all(color: borderButtomColor),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
-      child: Stack(
+      child: Column(
         children: [
-          Column(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 25),
+              Expanded(
                 child: rowInfo(
                   value: donVi.name,
                   key: S.current.don_vi_phoi_hop,
                 ),
               ),
-              SizedBox(
-                height: 10.0.textScale(space: 10),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 25),
-                child: rowInfo(
-                    value: donVi.tenCanBo, key: S.current.nguoi_phoi_hop),
-              ),
-              SizedBox(
-                height: 10.0.textScale(space: 10),
-              ),
               Row(
-                crossAxisAlignment: isMobile()
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 3.0.textScale().toInt(),
-                    child: Text(
-                      S.current.noi_dung,
-                      style: textNormal(infoColor, 14.0.textScale()),
-                    ),
+                  GestureDetector(
+                    onTap: () {
+                      onDelete(donVi);
+                      cubit.deletePeopleThamGia(donVi);
+                    },
+                    child: SvgPicture.asset(ImageAssets.icDeleteRed),
                   ),
-                  Expanded(
-                    flex: 6,
-                    child: textField(
-                      onChange: (value) {
-                        cubit.nhapNoiDungDonVi(value, donVi);
-                      },
-                    ),
-                  )
+                  if (isShowEmail) spaceW12,
+                  if (isShowEmail)
+                    CusCheckBox(
+                      isChecked: isSendEmail,
+                      onChange: (value) {},
+                    )
                 ],
               )
             ],
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    onDelete(donVi);
-                    cubit.deletePeopleThamGia(donVi);
-                  },
-                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
+          SizedBox(
+            height: 10.0.textScale(space: 10),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 25),
+            child:
+                rowInfo(value: donVi.tenCanBo, key: S.current.nguoi_phoi_hop),
+          ),
+          SizedBox(
+            height: 10.0.textScale(space: 10),
+          ),
+          Row(
+            crossAxisAlignment: isMobile()
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 3.0.textScale().toInt(),
+                child: Text(
+                  S.current.noidung,
+                  style: textNormal(infoColor, 14.0.textScale()),
                 ),
-                if (isShowEmail) spaceW12,
-                if (isShowEmail)
-                  CusCheckBox(
-                    isChecked: isSendEmail,
-                    onChange: (value) {},
-                  )
-              ],
-            ),
+              ),
+              Expanded(
+                flex: 6,
+                child: textField(
+                  onChange: (value) {
+                    cubit.nhapNoiDungDonVi(value, donVi);
+                  },
+                ),
+              )
+            ],
           )
         ],
       ),

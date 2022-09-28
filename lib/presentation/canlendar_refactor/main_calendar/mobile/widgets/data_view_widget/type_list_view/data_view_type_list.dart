@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
 
@@ -262,6 +263,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
 
   Widget rowData({required String icon, dynamic value}) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           height: 15,
@@ -269,7 +271,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
           child: SvgPicture.asset(icon),
         ),
         spaceW12,
-        SizedBox(
+        Expanded(
           child: Text(
             value,
             style: textNormalCustom(
@@ -277,7 +279,7 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
               fontWeight: FontWeight.w400,
               fontSize: 16.0,
             ),
-            maxLines: 1,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
         ),

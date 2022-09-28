@@ -301,7 +301,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                               child: GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    loginCubit.checkBiometrics();
+                                                    loginCubit.checkBiometrics(context);
                                                   });
                                                 },
                                                 child: Container(
@@ -329,7 +329,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                               child: GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    loginCubit.checkBiometrics();
+                                                    loginCubit.checkBiometrics(context);
                                                   });
                                                 },
                                                 child: Container(

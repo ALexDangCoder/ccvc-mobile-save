@@ -1,5 +1,5 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/ui/type_diem_danh/type_diem_danh.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -28,17 +28,15 @@ class ItemMenuDiemDanhWidgetMobile extends StatelessWidget {
           horizontal: 17.0.textScale(space: 13),
           vertical: 10.0.textScale(space: 4),
         ),
-        color: isSelect ? AppTheme.getInstance().colorField() : Colors.white,
+        color: isSelect ? color_464646 : null,
         child: Row(
           children: [
             SizedBox(
-              height: 15.0.textScale(space: 8),
-              width: 15.0.textScale(space: 8),
+              height: 18.0.textScale(space: 8),
+              width: 18.0.textScale(space: 8),
               child: SvgPicture.asset(
                 type.getIconMenu,
-                color: isSelect
-                    ? Colors.white
-                    : AppTheme.getInstance().colorField(),
+                color: isSelect ? Colors.white : Colors.grey,
               ),
             ),
             SizedBox(
@@ -50,9 +48,7 @@ class ItemMenuDiemDanhWidgetMobile extends StatelessWidget {
                 softWrap: true,
                 maxLines: 2,
                 style: textNormalCustom(
-                  color: isSelect
-                      ? Colors.white
-                      : AppTheme.getInstance().titleColor(),
+                  color: backgroundColorApp,
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0.textScale(space: 4),
                 ),

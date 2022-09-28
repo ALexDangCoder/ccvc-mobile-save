@@ -70,7 +70,6 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
     widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -216,11 +215,19 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                 },
               ),
               spaceH20,
-
+              Text(
+                S.current.file_dinh_kem,
+                style: textNormalCustom(
+                  color: titleItemEdit,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0.textScale(),
+                ),
+              ),
+              spaceH8,
               /// chọn file
               ButtonSelectFile(
                 isShowListFile: false,
-                title: S.current.them_tai_lieu_dinh_kem,
+                title: S.current.them_file_dinh_kem,
                 onChange: (files) {
                   if (files.first.lengthSync() > widget.cubit.maxSizeFile) {
                     showToast();
@@ -301,8 +308,8 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                         performer: widget.cubit.getDataNguoiThucHienModel.id,
                       );
                     }
-
                     Navigator.pop(context);
+                    widget.cubit.editPop.sink.add(true);
                   },
                 ),
               ),

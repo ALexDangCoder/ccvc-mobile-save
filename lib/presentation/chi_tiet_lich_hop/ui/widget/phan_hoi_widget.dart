@@ -7,6 +7,8 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'follow_key_broash.dart';
+
 class PhanHoiWidget extends StatefulWidget {
   final String id;
   final String scheduleOpinionId;
@@ -28,7 +30,7 @@ class _PhanHoiWidgetState extends State<PhanHoiWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FollowKeyBoardWidget(
+    return FollowKeyBoardEdt(
       bottomWidget: Padding(
         padding: const EdgeInsets.only(bottom: 35),
         child: DoubleButtonBottom(

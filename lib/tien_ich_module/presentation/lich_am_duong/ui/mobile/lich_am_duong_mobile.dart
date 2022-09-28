@@ -226,14 +226,12 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                 stream: cubit.changeDateTimeSubject.stream,
                 builder: (context, snapshot) {
                   return TableCalendarWidget(
-                    key: UniqueKey(),
                     isFomatMonth: isCheckOnTap,
                     onChange: (DateTime start, DateTime end, selectDay) {
                       cubit.startDate = start.formatApiDDMMYYYY;
                       cubit.getLichAmDuong(cubit.startDate);
                       cubit.selectTime = selectDay;
                     },
-                    // dateTimeHeader: snapshot.data ?? DateTime.now(),
                     onChangeRange: (
                       DateTime? start,
                       DateTime? end,

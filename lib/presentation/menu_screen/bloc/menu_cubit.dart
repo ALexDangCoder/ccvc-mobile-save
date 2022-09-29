@@ -18,7 +18,10 @@ import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -37,14 +40,34 @@ class MenuCubit extends BaseCubit<MenuState> {
   PhamViModel? selectedPhamVi;
   PhamViModel? currentPhamVi;
   bool isRefresh = false;
+  var localAuth = LocalAuthentication();
+  bool isShowPopup = false;
 
-  void faceIdTap(bool value) {
+  Future faceIdTap(bool value, BuildContext context) async {
     if (value) {
-      PrefsService.saveOpenFaceId(value.toString());
-      MessageConfig.show(
-        title: S.current.cai_dat_touch_faceid_thanh_cong,
-      );
+      List<BiometricType> availableBiometrics =
+          await localAuth.getAvailableBiometrics();
+      if (availableBiometrics.isEmpty) {
+        isShowPopup = false;
+        showDiaLog(
+          context,
+          title: S.current.thong_bao,
+          textContent: S.current.thiet_bi_cua_ban_chua_bat,
+          icon: Container(),
+          btnRightTxt: S.current.dong,
+          isOneButton: false,
+          btnLeftTxt: S.current.dong,
+          funcBtnRight: () {},
+        );
+      } else {
+        isShowPopup = true;
+        PrefsService.saveOpenFaceId(value.toString());
+        MessageConfig.show(
+          title: S.current.cai_dat_touch_faceid_thanh_cong,
+        );
+      }
     } else {
+      isShowPopup = false;
       PrefsService.saveOpenFaceId('');
       MessageConfig.show(
         title: S.current.da_vo_hieu_hoa_face_id,

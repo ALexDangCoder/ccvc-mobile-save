@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/widget/view_pick_camera.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -47,9 +48,9 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
     imageInit = widget.image;
   }
 
-  Future<void> pickImage() async {
+  Future<void> pickImage(bool isImage) async {
     final XFile? pickImg = await picker.pickImage(
-      source: ImageSource.gallery,
+      source: isImage ? ImageSource.gallery : ImageSource.camera,
     );
     if (pickImg != null) {
       sizeFile = File(pickImg.path).lengthSync() / BYTE_TO_MB;
@@ -58,13 +59,29 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
         toast.init(context);
         toast.showToast(
           child: ShowToast(
-            text: S.current.dung_luong_toi_da_5mb,
+            text: S.current.chi_nhan_anh_5MB,
           ),
           gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
-        widget.onTapImage(File(pickImg.path));
-        imageChoosse = File(pickImg.path);
+        if (isImage) {
+          widget.onTapImage(File(pickImg.path));
+          imageChoosse = File(pickImg.path);
+        } else {
+           await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ViewPickCamera(
+                imagePath:
+                  File(pickImg.path),
+                title: S.current.tai_anh_giay_dang_ky_xe,
+              ),
+            ),
+          ).then((value) {
+            widget.onTapImage(value);
+            imageChoosse = value;
+          });
+        }
       }
     }
     setState(() {});
@@ -159,28 +176,45 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                     ),
                   ],
                 )
-              : emptyImage(
-                  onTap: () {
-                    widget.imagePermission.checkFilePermission();
-                    switch (widget.imagePermission.perrmission) {
-                      case ImageSelection.PICK_IMAGE:
-                        {
-                          pickImage();
-                          break;
-                        }
-                      case ImageSelection.NO_STORAGE_PERMISSION:
-                        {
-                          widget.imagePermission.requestFilePermission();
-                          break;
-                        }
-                      case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
-                        {
-                          widget.imagePermission.openSettingApp();
-                          break;
-                        }
-                    }
-                  },
-                );
+              : emptyImage(onTapPickImage: () {
+                  widget.imagePermission.checkFilePermission();
+                  switch (widget.imagePermission.perrmission) {
+                    case ImageSelection.PICK_IMAGE:
+                      {
+                        pickImage(true);
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION:
+                      {
+                        widget.imagePermission.requestFilePermission();
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
+                      {
+                        widget.imagePermission.openSettingApp();
+                        break;
+                      }
+                  }
+                }, onTapPickCamera: () {
+                  widget.imagePermission.checkFilePermission();
+                  switch (widget.imagePermission.perrmission) {
+                    case ImageSelection.PICK_IMAGE:
+                      {
+                        pickImage(false);
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION:
+                      {
+                        widget.imagePermission.requestFilePermission();
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
+                      {
+                        widget.imagePermission.openSettingApp();
+                        break;
+                      }
+                  }
+                });
     } else {
       return imageChoosse != null
           ? Stack(
@@ -222,13 +256,137 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
               ],
             )
           : imageInit != null
-              ? GestureDetector(
-                  onTap: () {
+              ? Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Container(
+                      height: widget.isPhone
+                          ? 200
+                          : MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: colorE2E8F0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: shadow,
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            imageInit!,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: widget.isPhone
+                          ? 200
+                          : MediaQuery.of(context).size.height * 0.4,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: color000000.withOpacity(0.5)),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            widget.imagePermission.checkFilePermission();
+                            switch (widget.imagePermission.perrmission) {
+                              case ImageSelection.PICK_IMAGE:
+                                {
+                                  pickImage(true);
+                                  break;
+                                }
+                              case ImageSelection.NO_STORAGE_PERMISSION:
+                                {
+                                  widget.imagePermission
+                                      .requestFilePermission();
+                                  break;
+                                }
+                              case ImageSelection
+                                  .NO_STORAGE_PERMISSION_PERMANENT:
+                                {
+                                  widget.imagePermission.openSettingApp();
+                                  break;
+                                }
+                            }
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                ImageAssets.icUpAnh,
+                                color: colorFFFFFF,
+                              ),
+                              spaceH14,
+                              Text(
+                                S.current.tai_anh,
+                                style: textNormal(
+                                  colorFFFFFF,
+                                  14.0.textScale(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        spaceW40,
+                        GestureDetector(
+                          onTap: () {
+                            widget.imagePermission.checkFilePermission();
+                            switch (widget.imagePermission.perrmission) {
+                              case ImageSelection.PICK_IMAGE:
+                                {
+                                  pickImage(false);
+                                  break;
+                                }
+                              case ImageSelection.NO_STORAGE_PERMISSION:
+                                {
+                                  widget.imagePermission
+                                      .requestFilePermission();
+                                  break;
+                                }
+                              case ImageSelection
+                                  .NO_STORAGE_PERMISSION_PERMANENT:
+                                {
+                                  widget.imagePermission.openSettingApp();
+                                  break;
+                                }
+                            }
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SvgPicture.asset(
+                                ImageAssets.icUpCamera,
+                                color: colorFFFFFF,
+                              ),
+                              spaceH14,
+                              Text(
+                                S.current.chup_anh,
+                                style: textNormal(
+                                  colorFFFFFF,
+                                  14.0.textScale(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              : emptyImage(
+                  onTapPickImage: () {
                     widget.imagePermission.checkFilePermission();
                     switch (widget.imagePermission.perrmission) {
                       case ImageSelection.PICK_IMAGE:
                         {
-                          pickImage();
+                          pickImage(true);
                           break;
                         }
                       case ImageSelection.NO_STORAGE_PERMISSION:
@@ -243,67 +401,12 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                         }
                     }
                   },
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Container(
-                        height: widget.isPhone
-                            ? 200
-                            : MediaQuery.of(context).size.height * 0.4,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: colorE2E8F0),
-                          borderRadius: BorderRadius.circular(8.0),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: shadow,
-                              blurRadius: 2,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              imageInit!,
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: widget.isPhone
-                            ? 200
-                            : MediaQuery.of(context).size.height * 0.4,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: color000000.withOpacity(0.5)),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            ImageAssets.icUpAnh,
-                            color: colorFFFFFF,
-                          ),
-                          spaceH14,
-                          Text(
-                            S.current.tai_anh_len,
-                            style: textNormal(
-                              colorFFFFFF,
-                              14.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              : emptyImage(
-                  onTap: () {
+                  onTapPickCamera: () {
                     widget.imagePermission.checkFilePermission();
                     switch (widget.imagePermission.perrmission) {
                       case ImageSelection.PICK_IMAGE:
                         {
-                          pickImage();
+                          pickImage(false);
                           break;
                         }
                       case ImageSelection.NO_STORAGE_PERMISSION:
@@ -322,41 +425,70 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
     }
   }
 
-  Widget emptyImage({required Function() onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: widget.isPhone ? 200 : MediaQuery.of(context).size.height * 0.4,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          border: Border.all(color: colorE2E8F0),
-          borderRadius: BorderRadius.circular(8.0),
-          color: colorFFFFFF,
-          boxShadow: const [
-            BoxShadow(
-              color: shadow,
-              blurRadius: 2,
-              spreadRadius: 2,
+  Widget emptyImage({
+    required Function() onTapPickImage,
+    required Function() onTapPickCamera,
+  }) {
+    return Container(
+      height: widget.isPhone ? 200 : MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        border: Border.all(color: colorE2E8F0),
+        borderRadius: BorderRadius.circular(8.0),
+        color: colorFFFFFF,
+        boxShadow: const [
+          BoxShadow(
+            color: shadow,
+            blurRadius: 2,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: onTapPickImage,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  ImageAssets.icUpAnh,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+                spaceH14,
+                Text(
+                  S.current.tai_anh,
+                  style: textNormal(
+                    color667793,
+                    14.0.textScale(),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              ImageAssets.icUpAnh,
-              color: AppTheme.getInstance().colorField(),
+          ),
+          spaceW40,
+          GestureDetector(
+            onTap: onTapPickCamera,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  ImageAssets.icUpCamera,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+                spaceH14,
+                Text(
+                  S.current.chup_anh,
+                  style: textNormal(
+                    color667793,
+                    14.0.textScale(),
+                  ),
+                ),
+              ],
             ),
-            spaceH14,
-            Text(
-              S.current.tai_anh_len,
-              style: textNormal(
-                color667793,
-                14.0.textScale(),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

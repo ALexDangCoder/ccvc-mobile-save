@@ -34,6 +34,13 @@ class _MenuCellWidgetState extends State<MenuCellWidget> {
   void initState() {
     super.initState();
     isCheck = widget.initSwitchButton;
+
+  }
+  @override
+  void didUpdateWidget(covariant MenuCellWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    isCheck = widget.initSwitchButton;
   }
   @override
   Widget build(BuildContext context) {

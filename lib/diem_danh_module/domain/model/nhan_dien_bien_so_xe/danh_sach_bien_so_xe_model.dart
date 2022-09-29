@@ -42,6 +42,8 @@ extension DangKyXe on String {
     switch (this) {
       case DanhSachBienSoXeConst.XE_MAY:
         return S.current.xe_may;
+      case DanhSachBienSoXeConst.XE_DAP_DIEN:
+        return S.current.xe_dap_dien;
       case DanhSachBienSoXeConst.O_TO:
         return S.current.xe_o_to;
       default:

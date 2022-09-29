@@ -77,7 +77,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                   widget.cubit.toast.removeQueuedCustomToasts();
                   widget.cubit.toast.showToast(
                     child: ShowToast(
-                      text: S.current.vui_long_tai_anh_len,
+                      text: S.current.vui_long_them_anh_giay_dang_ky_xe,
                     ),
                     gravity: ToastGravity.TOP_RIGHT,
                   );
@@ -151,6 +151,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                       StreamBuilder<List<LoaiXeModel>>(
                         initialData: [
                           LoaiXeModel(ten: S.current.xe_may),
+                          LoaiXeModel(ten: S.current.xe_dap_dien),
                           LoaiXeModel(ten: S.current.xe_o_to),
                         ],
                         stream: widget.cubit.loaiXeSubject,
@@ -165,8 +166,11 @@ class _WidgetCapNhatThongTinDangKyXeState
                               value == 0
                                   ? widget.cubit.xeMay =
                                       DanhSachBienSoXeConst.XE_MAY
-                                  : widget.cubit.xeMay =
-                                      DanhSachBienSoXeConst.O_TO;
+                                  : value == 1
+                                      ? widget.cubit.xeMay =
+                                          DanhSachBienSoXeConst.XE_DAP_DIEN
+                                      : widget.cubit.xeMay =
+                                          DanhSachBienSoXeConst.O_TO;
                             },
                           );
                         },
@@ -174,13 +178,15 @@ class _WidgetCapNhatThongTinDangKyXeState
                       spaceH20,
                       ItemTextNote(title: S.current.bien_kiem_soat),
                       TextFieldValidator(
-                        maxLength: 20,
                         controller: bienKiemSoatController,
                         hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
-                          return (value ?? '')
-                              .checkTruongNull(S.current.bien_kiem_soat);
+                          return (value ?? '').checkTruongNull(
+                            '',
+                            isCheckLength: true,
+                            isTruongBatBuoc: true,
+                          );
                         },
                       ),
                       spaceH20,

@@ -75,6 +75,7 @@ class DiemDanhCubit extends BaseCubit<DiemDanhState> {
   BehaviorSubject<List<LoaiXeModel>> loaiXeSubject = BehaviorSubject.seeded(
     [
       LoaiXeModel(ten: S.current.xe_may),
+      LoaiXeModel(ten: S.current.xe_dap_dien),
       LoaiXeModel(ten: S.current.xe_o_to),
     ],
   );

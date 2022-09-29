@@ -32,6 +32,7 @@ import 'package:package_info/package_info.dart';
 
 import 'widgets/button_quan_ly_widget.dart';
 
+
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
 
@@ -56,6 +57,12 @@ class _MenuScreenState extends State<MenuScreen> {
         version = 'v${packageInfo.version}#${packageInfo.buildNumber}';
       });
     });
+  }
+  @override
+  void didUpdateWidget(covariant MenuScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    checkShowFaceId=menuCubit.isShowPopup;
   }
 
   @override
@@ -205,7 +212,11 @@ class _MenuScreenState extends State<MenuScreen> {
                                     index != listFeatureAccount.length - 1,
                                 initSwitchButton: checkShowFaceId,
                                 switchFunction: (value){
-                                   menuCubit. faceIdTap(value);
+                                   menuCubit.faceIdTap(value,context).then((value) {
+                                     setState(() {
+                                       checkShowFaceId=menuCubit.isShowPopup;
+                                     });
+                                   });
                                 },
                                 isSwitchButton: type == MenuType.faceId,
                               ),

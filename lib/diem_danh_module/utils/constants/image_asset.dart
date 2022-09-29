@@ -15,6 +15,7 @@ class ImageAssets {
   static const String icBack = '$baseImg/ic_back.svg';
   static const String icExit = '$baseImg/ic_exit.svg';
   static const String icUpAnh = '$baseImg/ic_up_anh.svg';
+  static const String icUpCamera = '$baseImg/ic_up_camera.svg';
   static const String imgAnhChinhDien = '$baseImg/anh_chinh_dien.jpg';
   static const String imgAnhChinhDienDeoKinh =
       '$baseImg/anh_chinh_dien_deo_kinh.jpg';

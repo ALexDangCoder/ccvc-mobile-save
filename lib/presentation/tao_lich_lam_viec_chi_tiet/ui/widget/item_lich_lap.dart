@@ -48,6 +48,7 @@ class _LichLapWidgetState extends State<LichLapWidget> {
               _cubit.lichLapKhongLapLaiSubject.add(false);
             }
           },
+          onChangeCollapse: true,
         );
       },
     );

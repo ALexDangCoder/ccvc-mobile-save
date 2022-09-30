@@ -292,7 +292,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                             if (value.isEmpty) {
                               return null;
                             }
-                            final phoneRegex = RegExp(VN_PHONE);
+                            final phoneRegex = RegExp(TEN_NUMBER);
                             final bool checkRegex = phoneRegex.hasMatch(value);
                             return checkRegex
                                 ? null

@@ -256,7 +256,6 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
         return;
       },
     );
-    showContent();
   }
 
   Future<void> _getLinhVuc() async {
@@ -686,6 +685,5 @@ class CreateWorkCalCubit extends BaseCubit<CreateWorkCalState> {
       },
       error: (error) {},
     );
-    showContent();
   }
 }

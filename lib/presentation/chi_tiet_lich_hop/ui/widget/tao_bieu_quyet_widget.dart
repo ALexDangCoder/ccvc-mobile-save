@@ -96,6 +96,10 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
         )) {
       widget.cubit.isValidateTimer.sink.add(true);
       isShowValidate = true;
+    } else if ((dateTimeStart.hour == dateTimeEnd.hour) &&
+        (dateTimeStart.minute == dateTimeEnd.minute)) {
+      widget.cubit.isValidateTimer.sink.add(true);
+      isShowValidate = true;
     } else {
       widget.cubit.isValidateTimer.sink.add(false);
       isShowValidate = false;

@@ -150,6 +150,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                       StreamBuilder<List<LoaiXeModel>>(
                         initialData: [
                           LoaiXeModel(ten: S.current.xe_may),
+                          LoaiXeModel(ten: S.current.xe_dap_dien),
                           LoaiXeModel(ten: S.current.xe_o_to),
                         ],
                         stream: widget.cubit.loaiXeSubject,
@@ -164,8 +165,11 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               vl == 0
                                   ? widget.cubit.xeMay =
                                       DanhSachBienSoXeConst.XE_MAY
-                                  : widget.cubit.xeMay =
-                                      DanhSachBienSoXeConst.O_TO;
+                                  : vl == 1
+                                      ? widget.cubit.xeMay =
+                                          DanhSachBienSoXeConst.XE_DAP_DIEN
+                                      : widget.cubit.xeMay =
+                                          DanhSachBienSoXeConst.O_TO;
                               widget.cubit.isShowErrLoaiXe.add(false);
                             },
                           );
@@ -184,10 +188,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               ),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                '${S.current.ban_phai_chon_truong} '
-                                '${S.current.loai_xe}',
+                                S.current.truong_bat_buoc,
                                 style: textNormalCustom(
-                                  color: colord32f2f,
+                                  color: Colors.red,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12.0,
                                 ),
@@ -199,13 +202,14 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                       spaceH20,
                       ItemTextNote(title: S.current.bien_kiem_soat),
                       TextFieldValidator(
-                        maxLength: 20,
                         controller: bienKiemSoatController,
                         hintText: S.current.nhap_bien_kiem_soat,
                         onChange: (value) {},
                         validator: (value) {
                           return (value ?? '').checkTruongNull(
-                            S.current.bien_kiem_soat,
+                            '',
+                            isCheckLength: true,
+                            isTruongBatBuoc: true,
                           );
                         },
                       ),
@@ -312,6 +316,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             StreamBuilder<List<LoaiXeModel>>(
                               initialData: [
                                 LoaiXeModel(ten: S.current.xe_may),
+                                LoaiXeModel(ten: S.current.xe_dap_dien),
                                 LoaiXeModel(ten: S.current.xe_o_to),
                               ],
                               stream: widget.cubit.loaiXeSubject,
@@ -326,12 +331,15 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                     useCustomHintColors: true,
                                     listData:
                                         data.map((e) => e.ten ?? '').toList(),
-                                    onChange: (vl) {
-                                      vl == 0
+                                    onChange: (value) {
+                                      value == 0
                                           ? widget.cubit.xeMay =
-                                              DanhSachBienSoXeConst.XE_MAY
+                                          DanhSachBienSoXeConst.XE_MAY
+                                          : value == 1
+                                          ? widget.cubit.xeMay =
+                                          DanhSachBienSoXeConst.XE_DAP_DIEN
                                           : widget.cubit.xeMay =
-                                              DanhSachBienSoXeConst.O_TO;
+                                          DanhSachBienSoXeConst.O_TO;
                                       widget.cubit.isShowErrLoaiXe.add(false);
                                     },
                                   ),
@@ -351,10 +359,9 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                     ),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      '${S.current.ban_phai_chon_truong} '
-                                      '${S.current.loai_xe}',
+                                      S.current.truong_bat_buoc,
                                       style: textNormalCustom(
-                                        color: colord32f2f,
+                                        color: Colors.red,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12.0,
                                       ),
@@ -367,13 +374,14 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             ItemTextNote(title: S.current.bien_kiem_soat),
                             TextFieldValidator(
                               fillColor: colorFFFFFF,
-                              maxLength: 20,
                               controller: bienKiemSoatController,
                               hintText: S.current.nhap_bien_kiem_soat,
                               onChange: (value) {},
                               validator: (value) {
                                 return (value ?? '').checkTruongNull(
-                                  S.current.bien_kiem_soat,
+                                  '',
+                                  isCheckLength: true,
+                                  isTruongBatBuoc: true,
                                 );
                               },
                             ),
@@ -432,7 +440,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
       widget.cubit.toast.removeQueuedCustomToasts();
       widget.cubit.toast.showToast(
         child: ShowToast(
-          text: S.current.vui_long_tai_anh_len,
+          text: S.current.vui_long_them_anh_giay_dang_ky_xe,
         ),
         gravity: ToastGravity.TOP_RIGHT,
       );

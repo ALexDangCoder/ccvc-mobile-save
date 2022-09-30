@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:flutter/services.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -160,7 +161,7 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   var localAuth = LocalAuthentication();
   BehaviorSubject<bool> canCheckIsDeviceSupportedSubject =
-      BehaviorSubject<bool>.seeded(false);
+      BehaviorSubject<bool>.seeded(true);
   bool canCheckIsDeviceSupported = false;
 
   Future<void> canCheckIsDevice() async {
@@ -173,14 +174,26 @@ class LoginCubit extends BaseCubit<LoginState> {
     if (canCheckBiometrics) {
       List<BiometricType> availableBiometrics =
           await localAuth.getAvailableBiometrics();
-      if (availableBiometrics.contains(BiometricType.face) ||
-          availableBiometrics.contains(BiometricType.fingerprint)) {
+      if(availableBiometrics.isEmpty){
+        showDiaLog(
+          context,
+          title: S.current.thong_bao,
+          textContent: S.current.thiet_bi_cua_ban_chua_bat,
+          icon: Container(),
+          btnRightTxt: S.current.dong,
+          isOneButton: false,
+          btnLeftTxt: S.current.dong,
+          funcBtnRight: () {},
+        );
+      }
+      if (availableBiometrics.contains(BiometricType.strong) ||
+          availableBiometrics.contains(BiometricType.weak)) {
         try {
           if (PrefsService.getOpenFaceId() != '') {
             final authenticated = await localAuth.authenticate(
                 localizedReason: 'Please authenticate to show account balance',
-                useErrorDialogs: false,
-                biometricOnly: true);
+              options: const AuthenticationOptions(useErrorDialogs: false,biometricOnly: true)
+                );
             if (authenticated) {
               await loginAndSaveinfo(
                 userName: PrefsService.getLoginUserName(),
@@ -200,17 +213,42 @@ class LoginCubit extends BaseCubit<LoginState> {
               funcBtnRight: () {},
             );
           }
-        } catch (e) {
-          showDiaLog(
-            context,
-            title: S.current.dang_nhap_khong_thanh_cong,
-            textContent: S.current.chuc_nang_dang_nhap_bang,
-            icon: Container(),
-            btnRightTxt: S.current.dong,
-            isOneButton: false,
-            btnLeftTxt: S.current.dong,
-            funcBtnRight: () {},
-          );
+        } on PlatformException catch (e) {
+         if(e.code == auth_error.lockedOut){
+            showDiaLog(
+              context,
+              title: S.current.dang_nhap_khong_thanh_cong,
+              textContent: S.current.chuc_nang_dang_nhap_bang,
+              icon: Container(),
+              btnRightTxt: S.current.dong,
+              isOneButton: false,
+              btnLeftTxt: S.current.dong,
+              funcBtnRight: () {},
+            );
+          }else if(e.code == auth_error.notEnrolled){
+            showDiaLog(
+              context,
+              title: S.current.thong_bao,
+              textContent: S.current.thiet_bi_cua_ban_chua_bat,
+              icon: Container(),
+              btnRightTxt: S.current.dong,
+              isOneButton: false,
+              btnLeftTxt: S.current.dong,
+              funcBtnRight: () {},
+            );
+          }else{
+           showDiaLog(
+             context,
+             title: S.current.thong_bao,
+             textContent: S.current.thiet_bi_cua_ban_chua_bat,
+             icon: Container(),
+             btnRightTxt: S.current.dong,
+             isOneButton: false,
+             btnLeftTxt: S.current.dong,
+             funcBtnRight: () {},
+           );
+         }
+
         }
       }
     }

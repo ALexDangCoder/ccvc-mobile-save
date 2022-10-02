@@ -161,4 +161,20 @@ class DiemDanhRepoImpl implements DiemDanhRepository {
       (res) => res.toModel,
     );
   }
+
+  @override
+  Future<Result<MessageModel>> checkAiKhuonMat(String fileId) {
+    return runCatchingAsync<MessageResponse, MessageModel>(
+      () => _diemDanhService.checkAiKhuonMat(fileId),
+      (res) => res.toModel,
+    );
+  }
+
+  @override
+  Future<Result<MessageModel>> xoaAnhAI(String fileId, String userId) {
+    return runCatchingAsync<MessageResponse, MessageModel>(
+      () => _diemDanhService.xoaAnhAi(fileId, userId),
+      (res) => res.toModel,
+    );
+  }
 }

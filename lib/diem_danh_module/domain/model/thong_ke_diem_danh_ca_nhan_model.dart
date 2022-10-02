@@ -1,7 +1,7 @@
 class ThongKeDiemDanhCaNhanModel {
   int? soLanDiMuon;
   int? soLanVeSom;
-  int? soNgayLamViec;
+  double? soNgayLamViec;
   int? soLanChamCongThuCong;
   int? soNgayVangMatKhongLyDo;
   int? soNgayNghiCoLyDo;

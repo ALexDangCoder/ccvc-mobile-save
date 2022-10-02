@@ -1141,7 +1141,6 @@
   "cho_dycph": "Chờ duyệt YCPH",
   "cho_nguoi_dan_bo_sung_thong_tin": "Chờ người dân bổ sung thông tin",
   "xe_o_to": "Ô tô",
-  "xe_dap_dien": "Xe đạp điện",
   "nhap_toi_da_20_ky_tu": "Nhập tối đa 20 ký tự",
   "vui_long_them_anh_giay_dang_ky_xe": "Vui lòng thêm ảnh giấy đăng ký xe",
   "chup_anh": "Chụp ảnh",
@@ -1449,6 +1448,7 @@
   "chuc_nang_dang_nhap_bang" : "Chức năng đăng nhập bằng TouchID/FaceID tạm thời không khả dụng! Bạn vui lòng sử dụng mật khẩu để đăng nhập.",
   "thiet_bi_cua_ban_chua_bat" : "Thiết bị của bạn chưa bật tính năng Touch/Face ID hoặc hiện tại chưa cấu hình Tounch/Face ID.",
   "khong_phai_toi": "Không phải tôi",
-  "dang_nhap_voi_touch_faceid": "Đăng nhập với Touch/Face ID"
+  "dang_nhap_voi_touch_faceid": "Đăng nhập với Touch/Face ID",
+  "anh_khong_hop_le": "Ảnh không hợp lệ"
 
 }

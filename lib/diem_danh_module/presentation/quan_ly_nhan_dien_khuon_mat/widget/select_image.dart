@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/type_permission.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/view_pick_camera_khuon_mat.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
@@ -23,6 +24,7 @@ class SelectImageWidget extends StatefulWidget {
   final Function() removeImage;
   final bool isShowLoading;
   final ImagePermission imagePermission;
+  final String loaiGocAnh;
 
   SelectImageWidget({
     Key? key,
@@ -32,6 +34,7 @@ class SelectImageWidget extends StatefulWidget {
     this.isShowLoading = false,
     this.imageLocal,
     required this.imagePermission,
+    required this.loaiGocAnh,
   }) : super(key: key);
 
   @override
@@ -62,7 +65,21 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
         final File fileImage = File(results.path);
         fileSize = fileImage.lengthSync();
         if (fileSize < FileSize.MB5) {
-          widget.onTapImage(File(results.path));
+          if (isImage) {
+            widget.onTapImage(File(results.path));
+          } else {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewPickCameraKhuonMat(
+                  imagePath: File(results.path),
+                  title: widget.loaiGocAnh,
+                ),
+              ),
+            ).then((value) {
+              widget.onTapImage(value);
+            });
+          }
         } else {
           widget.onTapImage(null);
           final toast = FToast();

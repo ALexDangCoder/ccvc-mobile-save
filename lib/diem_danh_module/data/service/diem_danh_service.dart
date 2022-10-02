@@ -91,4 +91,14 @@ abstract class DiemDanhService {
 
   @PUT(ApiConstants.DELETE_IMAGE)
   Future<MessageResponse> deleteImage(@Query('id') String id);
+
+  @GET(ApiConstants.CHECK_AI_KHUON_MAT)
+  Future<MessageResponse> checkAiKhuonMat(
+      @Query('fileId') String fileId,
+      );
+  @GET(ApiConstants.XOA_ANH_AI)
+  Future<MessageResponse> xoaAnhAi(
+      @Query('fileId') String fileId,
+      @Query('userId') String userId,
+      );
 }

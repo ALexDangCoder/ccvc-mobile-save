@@ -34,6 +34,8 @@ class ApiConstants {
   static const DELETE_IMAGE = '/ddth/api/SYSKhuonMat/Delete';
   static const HIEN_THI_ANH = '/ddth/api/Files/HienThiFile';
   static const CREATE_IMAGE = '/ddth/api/SYSKhuonMat/Create';
+  static const CHECK_AI_KHUON_MAT = '/ddth/api/SYSKhuonMat/CheckImage';
+  static const XOA_ANH_AI = '/api/SYSKhuonMat/XoaAnhAI';
 }
 
 class ImageConstants {

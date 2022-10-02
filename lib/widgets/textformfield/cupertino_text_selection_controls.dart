@@ -47,7 +47,7 @@ class AppCupertinoTextSelectionControls extends TextSelectionControls {
             offset: value.selection.start + text.length,
           ),
         ),
-        SelectionChangedCause.toolBar,
+        SelectionChangedCause.toolbar,
       );
     }
     delegate.bringIntoView(delegate.textEditingValue.selection.extent);
@@ -80,7 +80,7 @@ class AppCupertinoTextSelectionControls extends TextSelectionControls {
       clipboardStatus: clipboardStatus,
       endpoints: endpoints,
       globalEditableRegion: globalEditableRegion,
-      handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
+      handleCut: canCut(delegate) ? () => handleCut(delegate,clipboardStatus) : null,
       handleCopy: canCopy(delegate)
           ? () => handleCopy(delegate, clipboardStatus)
           : null,

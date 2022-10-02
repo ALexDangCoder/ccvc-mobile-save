@@ -63,4 +63,8 @@ mixin DiemDanhRepository {
   Future<Result<CreateImageModel>> createImage(CreateImageRequest body);
 
   Future<Result<MessageModel>> deleteImage(String id);
+
+  Future<Result<MessageModel>> checkAiKhuonMat(String fileId);
+
+  Future<Result<MessageModel>> xoaAnhAI(String fileId, String userId);
 }

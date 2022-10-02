@@ -150,7 +150,6 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                       StreamBuilder<List<LoaiXeModel>>(
                         initialData: [
                           LoaiXeModel(ten: S.current.xe_may),
-                          LoaiXeModel(ten: S.current.xe_dap_dien),
                           LoaiXeModel(ten: S.current.xe_o_to),
                         ],
                         stream: widget.cubit.loaiXeSubject,
@@ -316,7 +315,6 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                             StreamBuilder<List<LoaiXeModel>>(
                               initialData: [
                                 LoaiXeModel(ten: S.current.xe_may),
-                                LoaiXeModel(ten: S.current.xe_dap_dien),
                                 LoaiXeModel(ten: S.current.xe_o_to),
                               ],
                               stream: widget.cubit.loaiXeSubject,

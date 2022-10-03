@@ -103,6 +103,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               initValue: widget.chiTietHop?.diaDiemHop,
               urlIcon: ImageAssets.icLocation,
               hintText: S.current.dia_diem_hop,
+              maxLength: 200,
               onChange: (value) {
                 widget.cubit.taoLichHopRequest.diaDiemHop = value;
               },
@@ -187,9 +188,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 ),
                 child: Text(
                   widget.cubit.taoLichHopRequest.linkTrucTuyen ?? '',
-                  style: textNormal(textDefault, 14).copyWith(
-                    color: AppTheme.getInstance().colorField()
-                  ),
+                  style: textNormal(textDefault, 14)
+                      .copyWith(color: AppTheme.getInstance().colorField()),
                 ),
               ),
             spaceH16,

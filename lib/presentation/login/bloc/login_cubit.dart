@@ -186,8 +186,7 @@ class LoginCubit extends BaseCubit<LoginState> {
           funcBtnRight: () {},
         );
       }
-      if (availableBiometrics.contains(BiometricType.strong) ||
-          availableBiometrics.contains(BiometricType.weak)) {
+      if (availableBiometrics.isNotEmpty) {
         try {
           if (PrefsService.getOpenFaceId() != '') {
             final authenticated = await localAuth.authenticate(

@@ -27,7 +27,7 @@ class ThongKeDiemDanhCaNhanModelResponse {
   @JsonKey(name: 'soLanVeSom')
   int? soLanVeSom;
   @JsonKey(name: 'soNgayLamViec')
-  int? soNgayLamViec;
+  double? soNgayLamViec;
   @JsonKey(name: 'soLanChamCongThuCong')
   int? soLanChamCongThuCong;
   @JsonKey(name: 'soNgayVangMatKhongLyDo')

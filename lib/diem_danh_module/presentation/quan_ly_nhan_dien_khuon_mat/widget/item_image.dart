@@ -125,37 +125,46 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                 ),
                 spaceW16,
                 Expanded(
-                  child: SelectImageWidget(
-                    imagePermission: widget.imagePermission,
-                    image: imageRepo == null
-                        ? widget.initImage
-                        : widget.cubit.getUrlImage(
-                            fileTypeUpload: widget.dataUI.fileTypeUpload,
-                            entityName: widget.dataUI.entityName,
-                            id: idImage,
-                          ),
-                    imageLocal: imageRepo,
-                    removeImage: () {
-                      widget.cubit.deleteImageCallApi(widget.id ?? '');
-
-                      idImage = '';
-                    },
-                    onTapImage: (image) async {
-                      imageRepo = image;
-                      if (image != null) {
-                        idImage = await widget.cubit.postImage(
-                          widget.dataUI.entityName,
-                          image,
-                        );
-                        setState(() {});
-
-                        widget.id = await widget.cubit.createImage(
-                          fileId: idImage,
-                          loaiGocAnh: widget.dataUI.entityName,
-                          loaiAnh: widget.dataUI.fileTypeUpload,
-                        );
+                  child: StreamBuilder<int>(
+                    stream: widget.cubit.codeCheckAi.stream,
+                    builder: (context, snapshot) {
+                      final codeCheckAi = snapshot.data ?? 0;
+                      if(codeCheckAi==400){
+                        imageRepo=null;
                       }
-                    },
+                      return SelectImageWidget(
+                        imagePermission: widget.imagePermission,
+                        image: imageRepo == null
+                            ? widget.initImage
+                            : widget.cubit.getUrlImage(
+                                fileTypeUpload: widget.dataUI.fileTypeUpload,
+                                entityName: widget.dataUI.entityName,
+                                id: idImage,
+                              ),
+                        imageLocal: imageRepo,
+                        removeImage: () {
+                          widget.cubit.deleteImageCallApi(widget.id ?? '');
+                          widget.cubit.xoaAnhAI(widget.id ?? '');
+                          idImage = '';
+                        },
+                        onTapImage: (image) async {
+                          imageRepo = image;
+                          if (image != null) {
+                            idImage = await widget.cubit.postImage(
+                              widget.dataUI.entityName,
+                              image,
+                            );
+                            setState(() {});
+                            widget.id = await widget.cubit.createImage(
+                              fileId: idImage,
+                              loaiGocAnh: widget.dataUI.entityName,
+                              loaiAnh: widget.dataUI.fileTypeUpload,
+                            );
+                          }
+                        },
+                        loaiGocAnh: widget.dataUI.entityName,
+                      );
+                    }
                   ),
                 )
               ],

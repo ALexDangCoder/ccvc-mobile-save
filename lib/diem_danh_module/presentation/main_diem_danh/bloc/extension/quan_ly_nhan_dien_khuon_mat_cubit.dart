@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/di
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/mobile/nhan_dien_khuon_mat_ui_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
@@ -184,6 +185,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     result.when(
       success: (success) {
         idImg = success.data ?? '';
+        checkAiKhuonMat(idImg);
         showContent();
       },
       error: (error) {
@@ -192,6 +194,28 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
       },
     );
     return idImg;
+  }
+  ///Check checkAiKhuonMat
+  Future checkAiKhuonMat(
+     String fileId
+      ) async {
+    showLoading();
+    final result = await diemDanhRepo.checkAiKhuonMat(
+        fileId
+    );
+
+    result.when(
+      success: (success) {
+        codeCheckAi.sink.add(success.statusCode??0);
+        if(success.statusCode==400){
+          MessageConfig.show(title: S.current.anh_khong_hop_le);
+        }
+        showContent();
+      },
+      error: (error) {
+          showContent();
+      },
+    );
   }
 
   Future<void> deleteImageCallApi(String id) async {
@@ -205,6 +229,18 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
       },
       error: (error) {
         MessageConfig.show(title: error.message);
+        showContent();
+      },
+    );
+  }
+  Future<void> xoaAnhAI(String fileId ) async{
+    showLoading();
+    final result = await diemDanhRepo.xoaAnhAI(fileId,HiveLocal.getDataUser()?.userId ?? '');
+    result.when(
+      success: (success) {
+        showContent();
+      },
+      error: (error) {
         showContent();
       },
     );

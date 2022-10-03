@@ -45,7 +45,7 @@ class CustomMaterialTextSelectionControls extends TextSelectionControls {
             offset: value.selection.start + text.length,
           ),
         ),
-        SelectionChangedCause.toolBar,
+        SelectionChangedCause.toolbar,
       );
     }
     delegate.bringIntoView(delegate.textEditingValue.selection.extent);
@@ -111,7 +111,7 @@ class CustomMaterialTextSelectionControls extends TextSelectionControls {
       endpoints: endpoints,
       delegate: delegate,
       clipboardStatus: clipboardStatus,
-      handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
+      handleCut: canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
       handleCopy: canCopy(delegate)
           ? () => handleCopy(delegate, clipboardStatus)
           : null,

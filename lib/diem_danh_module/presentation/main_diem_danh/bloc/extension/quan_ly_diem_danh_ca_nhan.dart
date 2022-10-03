@@ -41,13 +41,6 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
 
   List<TypeStateDiemDanh> getStateDiemDanh(BangDiemDanhCaNhanModel model) {
     final List<TypeStateDiemDanh> dataState = [];
-    if (model.leaveType == LeaveType.NL) {
-      dataState.add(TypeStateDiemDanh.NGHI_LAM);
-    }
-
-    if ((model.isLate ?? false) && model.type == Type.WORKING) {
-      dataState.add(TypeStateDiemDanh.MUON);
-    }
 
     if ((model.isComeBackEarly ?? false) && model.type == Type.WORKING) {
       dataState.add(TypeStateDiemDanh.VE_SOM);
@@ -56,7 +49,12 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     if ((model.leaveRequestReasonName ?? '').isNotEmpty) {
       dataState.add(TypeStateDiemDanh.NGHI_PHEP);
     }
-
+    if (model.leaveType == LeaveType.NL) {
+      dataState.add(TypeStateDiemDanh.NGHI_LAM);
+    }
+    if ((model.isLate ?? false) && model.type == Type.WORKING) {
+      dataState.add(TypeStateDiemDanh.MUON);
+    }
     return dataState;
   }
 

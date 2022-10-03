@@ -2,6 +2,8 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/tablet/report_screen_tablet.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/main_canlendar_mobile_refactor.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/main_canlendar_refactor_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
@@ -51,15 +53,14 @@ extension TabbarEnum on TabBarType {
   Widget getScreen() {
     switch (this) {
       case TabBarType.home:
-        return Container();
-      // return screenDevice(
-      //   mobileScreen: HomeScreenMobile(
-      //     key: keyHomeMobile,
-      //   ),
-      //   tabletScreen: HomeScreenTablet(
-      //     key: keyHomeTablet,
-      //   ),
-      // );
+        return screenDevice(
+          mobileScreen: HomeScreenMobile(
+            key: keyHomeMobile,
+          ),
+          tabletScreen: HomeScreenTablet(
+            key: keyHomeTablet,
+          ),
+        );
       case TabBarType.report:
         return screenDevice(
           mobileScreen: const ReportScreenMobile(),
@@ -80,9 +81,10 @@ extension TabbarEnum on TabBarType {
             tabletScreen: Navigator(
               onGenerateRoute: (setting) {
                 return MaterialPageRoute(
-                  builder: (_) => MenuTabletScreen(
-                    menuCubit: cubit,
-                  ),
+                  builder: (_) =>
+                      MenuTabletScreen(
+                        menuCubit: cubit,
+                      ),
                 );
               },
             ),

@@ -4,8 +4,6 @@ part 'create_image_request.g.dart';
 
 @JsonSerializable()
 class CreateImageRequest {
-  @JsonKey(name: 'id')
-  String? id;
   @JsonKey(name: 'userId')
   String? userId;
   @JsonKey(name: 'fileId')
@@ -16,7 +14,6 @@ class CreateImageRequest {
   String? loaiAnh;
 
   CreateImageRequest({
-    required this.id,
     required this.userId,
     required this.fileId,
     required this.loaiGocAnh,

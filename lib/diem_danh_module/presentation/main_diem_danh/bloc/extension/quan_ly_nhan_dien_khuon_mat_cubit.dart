@@ -91,7 +91,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
           final List<GetAllFilesIdModel> data = success
               .where(
                 (element) =>
-                    element.loaiGocAnh == ApiConstants.KHUON_MAT_KHONG_DEO_KINH,
+                    element.loaiAnh == ApiConstants.KHUON_MAT_KHONG_DEO_KINH,
               )
               .toList();
           allFileKhongDeokinhSubject.add(data);
@@ -125,7 +125,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   }) async {
     String idImg = '';
     showLoading();
-    idImg = await postImage(loaiGocAnh, file);
+    idImg = await postImage(file);
     await createImage(
       fileId: idImg,
       loaiGocAnh: loaiGocAnh,
@@ -146,7 +146,6 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     String id = '';
     final result = await diemDanhRepo.createImage(
       CreateImageRequest(
-        id: ApiConstants.DEFAULT_VALUE_GUID_ID,
         userId: dataUser?.userId ?? '',
         fileId: fileId,
         loaiGocAnh: loaiGocAnh,
@@ -171,13 +170,12 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
 
   ///upload file
   Future<String> postImage(
-    String entityName,
     File file,
   ) async {
     showLoading();
     final result = await diemDanhRepo.postFileKhuonMat(
       dataUser?.userId ?? '',
-      entityName,
+      ApiConstants.ANH_KHUON_MAT,
       false,
       file,
     );
@@ -278,7 +276,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
       for (final GetAllFilesIdModel element
           in allFileDeokinhSubject.valueOrNull ?? []) {
-        if (element.loaiAnh == fileTypeUpload) {
+        if (element.loaiGocAnh == fileTypeUpload) {
           return true;
         }
       }
@@ -286,7 +284,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     } else {
       for (final GetAllFilesIdModel element
           in allFileKhongDeokinhSubject.valueOrNull ?? []) {
-        if (element.loaiAnh == fileTypeUpload) {
+        if (element.loaiGocAnh == fileTypeUpload) {
           return true;
         }
       }
@@ -321,7 +319,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
       return allFileDeokinhSubject.valueOrNull
           ?.firstWhere(
-            (element) => element.loaiAnh == fileTypeUpload,
+            (element) => element.loaiGocAnh == fileTypeUpload,
             orElse: () => GetAllFilesIdModel.empty(),
           )
           .fileId;
@@ -330,7 +328,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     if (entityName == ApiConstants.KHUON_MAT_KHONG_DEO_KINH) {
       return allFileKhongDeokinhSubject.valueOrNull
           ?.firstWhere(
-            (element) => element.loaiAnh == fileTypeUpload,
+            (element) => element.loaiGocAnh == fileTypeUpload,
             orElse: () => GetAllFilesIdModel.empty(),
           )
           .fileId;

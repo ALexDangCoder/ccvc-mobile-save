@@ -39,7 +39,7 @@ class HinhThucHop extends StatefulWidget {
 }
 
 class _HinhThucHopState extends State<HinhThucHop> {
-  bool isHopTrucTiep = false;
+  bool isHopTrucTiep = true;
   bool isHopTrucTuyen = false;
   bool isDuyetKyThuat = false;
 

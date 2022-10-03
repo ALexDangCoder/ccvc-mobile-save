@@ -209,6 +209,7 @@ const int MINIMUM_YEAR = 1900;
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
+const TEN_NUMBER = r'^\d{10}$';
 const PHONE_REGEX = r'^0+([0-9]{9})$';
 const PHONE_REGEX_NO_LENGTH = r'^0+([0-9])';
 const REGEX_EMAIL =

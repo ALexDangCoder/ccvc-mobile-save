@@ -39,7 +39,9 @@ class _ViewTodoDetailState extends State<ViewTodoDetail> {
     if (slitRes.isNotEmpty) {
       fileName = slitRes.last;
     }
-    getNguoiThucHien();
+    if ((widget.todoModel.performer ?? '').isNotEmpty){
+      getNguoiThucHien();
+    }
     super.initState();
   }
 

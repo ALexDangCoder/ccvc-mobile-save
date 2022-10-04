@@ -11,10 +11,7 @@ import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dar
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ItemImageWidget extends StatefulWidget {
   final NhanDienKhuonMatUIModel dataUI;
@@ -151,20 +148,19 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                           imageRepo = image;
                           if (image != null) {
                             idImage = await widget.cubit.postImage(
-                              widget.dataUI.entityName,
                               image,
                             );
                             setState(() {});
                             widget.id = await widget.cubit.createImage(
                               fileId: idImage,
-                              loaiGocAnh: widget.dataUI.entityName,
-                              loaiAnh: widget.dataUI.fileTypeUpload,
+                              loaiGocAnh: widget.dataUI.fileTypeUpload,
+                              loaiAnh: widget.dataUI.entityName,
                             );
                           }
                         },
                         loaiGocAnh: widget.dataUI.entityName,
                       );
-                    }
+                    },
                   ),
                 )
               ],

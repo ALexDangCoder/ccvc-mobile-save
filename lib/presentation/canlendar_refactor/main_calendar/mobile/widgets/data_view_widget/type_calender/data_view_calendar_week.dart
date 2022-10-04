@@ -102,7 +102,6 @@ class _DataViewCalendarWeekState extends State<DataViewCalendarWeek> {
         ),
         headerDateFormat: 'MMMM,yyy',
         dataSource: widget.data,
-        maxDayItemShow: 2,
         viewHeaderStyle: ViewHeaderStyle(
           dayTextStyle: textNormalCustom(
             fontSize: 13,

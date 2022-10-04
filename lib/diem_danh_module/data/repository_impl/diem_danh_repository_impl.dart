@@ -107,12 +107,12 @@ class DiemDanhRepoImpl implements DiemDanhRepository {
   }
 
   @override
-  Future<Result<ChiTietBienSoXeModel>> dangKyThongTinXeMoi(
+  Future<Result<DataResponseTaoChiTietBienSoXeModel>> dangKyThongTinXeMoi(
     DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest,
   ) {
-    return runCatchingAsync<DangKyThongTinXeMoiResponse, ChiTietBienSoXeModel>(
+    return runCatchingAsync<DangKyThongTinXeMoiResponse, DataResponseTaoChiTietBienSoXeModel>(
       () => _diemDanhService.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest),
-      (response) => response.data?.toModel() ?? ChiTietBienSoXeModel(),
+      (response) => response.toDomain(),
     );
   }
 

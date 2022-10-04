@@ -52,7 +52,7 @@ mixin DiemDanhRepository {
     File file,
   );
 
-  Future<Result<ChiTietBienSoXeModel>> dangKyThongTinXeMoi(
+  Future<Result<DataResponseTaoChiTietBienSoXeModel>> dangKyThongTinXeMoi(
     DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest,
   );
 

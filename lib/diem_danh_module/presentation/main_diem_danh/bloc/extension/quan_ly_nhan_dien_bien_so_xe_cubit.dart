@@ -79,14 +79,21 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
-        toast.showToast(
-          child: ShowToast(
-            color: colorE9F9F1,
-            icon: ImageAssets.ic_tick_showToast,
-            text: S.current.luu_du_lieu_thanh_cong,
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
+        if (res.statusCode == StatusCodeConst.STATUS_OK)
+          toast.showToast(
+            child: ShowToast(
+              color: colorE9F9F1,
+              icon: ImageAssets.ic_tick_showToast,
+              text: S.current.luu_du_lieu_thanh_cong,
+            ),
+            gravity: ToastGravity.BOTTOM,
+          );
+        if (res.statusCode == StatusCodeConst.STATUS_BAD_REQUEST) {
+          MessageConfig.show(
+            title: res.message ?? S.current.bien_kiem_soat_da_ton_tai,
+            messState: MessState.error,
+          );
+        }
         Navigator.pop(context);
         eventBus.fire(ApiSuccessAttendance(false));
       },

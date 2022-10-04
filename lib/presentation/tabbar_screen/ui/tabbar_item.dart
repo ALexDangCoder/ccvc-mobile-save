@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -54,14 +53,14 @@ extension TabbarEnum on TabBarType {
   Widget getScreen() {
     switch (this) {
       case TabBarType.home:
-      return screenDevice(
-        mobileScreen: HomeScreenMobile(
-          key: keyHomeMobile,
-        ),
-        tabletScreen: HomeScreenTablet(
-          key: keyHomeTablet,
-        ),
-      );
+        return screenDevice(
+          mobileScreen: HomeScreenMobile(
+            key: keyHomeMobile,
+          ),
+          tabletScreen: HomeScreenTablet(
+            key: keyHomeTablet,
+          ),
+        );
       case TabBarType.report:
         return screenDevice(
           mobileScreen: const ReportScreenMobile(),
@@ -82,9 +81,10 @@ extension TabbarEnum on TabBarType {
             tabletScreen: Navigator(
               onGenerateRoute: (setting) {
                 return MaterialPageRoute(
-                  builder: (_) => MenuTabletScreen(
-                    menuCubit: cubit,
-                  ),
+                  builder: (_) =>
+                      MenuTabletScreen(
+                        menuCubit: cubit,
+                      ),
                 );
               },
             ),

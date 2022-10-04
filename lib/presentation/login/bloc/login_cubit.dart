@@ -236,6 +236,7 @@ class LoginCubit extends BaseCubit<LoginState> {
               funcBtnRight: () {},
             );
           }else{
+           if(e.code!='auth_in_progress')
            showDiaLog(
              context,
              title: S.current.thong_bao,

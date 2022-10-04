@@ -98,7 +98,6 @@ class _DataViewCalendarDayState extends State<DataViewCalendarDay> {
             viewHeaderStyle: const ViewHeaderStyle(
               colorsIcon: colorA2AEBD,
             ),
-            maxDayItemShow: 4,
             appointmentBuilder: (_, appointmentDetail) {
               final AppointmentWithDuplicate appointment =
                   appointmentDetail.appointments.first;

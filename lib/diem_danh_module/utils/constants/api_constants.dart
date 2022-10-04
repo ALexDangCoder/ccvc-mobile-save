@@ -5,6 +5,7 @@ class ApiConstants {
   ///entityName call api
   static const String KHUON_MAT_DEO_KINH = 'KhuonMatDeoKinh';
   static const String KHUON_MAT_KHONG_DEO_KINH = 'KhuonMatKhongDeoKinh';
+  static const String ANH_KHUON_MAT = 'AnhKhuonMat';
   static const String BIEN_SO_XE_ENTITY = 'BienSoXe';
 
   ///fileTypeUpload call api

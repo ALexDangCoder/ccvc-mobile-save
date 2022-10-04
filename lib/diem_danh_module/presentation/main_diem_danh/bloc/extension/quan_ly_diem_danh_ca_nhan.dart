@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:ccvc_mobile/diem_danh_module/data/request/bang_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/data/request/thong_ke_diem_danh_ca_nhan_request.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/bang_diem_danh_ca_nhan_model.dart';
@@ -41,13 +40,6 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
 
   List<TypeStateDiemDanh> getStateDiemDanh(BangDiemDanhCaNhanModel model) {
     final List<TypeStateDiemDanh> dataState = [];
-    if (model.leaveType == LeaveType.NL) {
-      dataState.add(TypeStateDiemDanh.NGHI_LAM);
-    }
-
-    if ((model.isLate ?? false) && model.type == Type.WORKING) {
-      dataState.add(TypeStateDiemDanh.MUON);
-    }
 
     if ((model.isComeBackEarly ?? false) && model.type == Type.WORKING) {
       dataState.add(TypeStateDiemDanh.VE_SOM);
@@ -56,7 +48,12 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
     if ((model.leaveRequestReasonName ?? '').isNotEmpty) {
       dataState.add(TypeStateDiemDanh.NGHI_PHEP);
     }
-
+    if (model.leaveType == LeaveType.NL) {
+      dataState.add(TypeStateDiemDanh.NGHI_LAM);
+    }
+    if ((model.isLate ?? false) && model.type == Type.WORKING) {
+      dataState.add(TypeStateDiemDanh.MUON);
+    }
     return dataState;
   }
 
@@ -98,7 +95,8 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
       ),
     );
 
-    ///nếu cuối tuần mà vẫn đi làm thì hiển thị còn nếu như không đi làm thì không hiển thị
+    ///nếu cuối tuần mà vẫn đi làm thì hiển thị còn nếu
+    /// như không đi làm thì không hiển thị
     if ((date.weekday == WeekDay.SATURDAY || date.weekday == WeekDay.SUNDAY) &&
         ((model.timeIn ?? '').isNotEmpty || (model.timeOut ?? '').isNotEmpty)) {
       return false;
@@ -124,7 +122,8 @@ extension QuanLyDiemDanhCaNhan on DiemDanhCubit {
         );
 
         ///chỉ được hiển thị ngày trong tháng và không hiển thị ngày cuối tuần
-        ///( trừ khi đi làm ) và chỉ hiển thị đến ngày hiện tại hoặc ngày nghỉ được xin phép
+        ///( trừ khi đi làm ) và chỉ hiển thị đến ngày hiện tại
+        ///hoặc ngày nghỉ được xin phép
         return dataTime.month == currentTime.month &&
                 !isEndWeek(element) &&
                 dataTime.isBefore(DateTime.now()) ||

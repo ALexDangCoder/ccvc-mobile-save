@@ -48,7 +48,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
       child: ExpandOnlyWidget(
         paddingTop: 5,
         header: Padding(
-          padding: const EdgeInsets.only(top: 8.0, left: 30),
+          padding: const EdgeInsets.only(top: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

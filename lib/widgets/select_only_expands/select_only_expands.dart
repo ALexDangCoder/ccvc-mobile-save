@@ -22,6 +22,8 @@ class SelectOnlyExpand extends StatefulWidget {
   final String hintText;
   final int? maxLine;
   final bool onChangeCollapse;
+  final bool appendChild;
+  final List<Widget>? child;
 
   const SelectOnlyExpand({
     Key? key,
@@ -36,6 +38,8 @@ class SelectOnlyExpand extends StatefulWidget {
     this.hintText = '',
     this.maxLine,
     this.onChangeCollapse = false,
+    this.appendChild = false,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -107,64 +111,67 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           ? const NodataWidget()
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
-                widget.listSelect.length,
-                (index) => Padding(
-                  padding: EdgeInsets.only(
-                    left: 30,
-                    top: index == 0 ? 0 : 8,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      valueSelect = widget.listSelect[index];
-                      if(widget.onChangeCollapse){
-                        expandController?.reverse();
-                      }
-                      if (widget.onChange != null) {
-                        widget.onChange!(index);
-                      }
-                      selectBloc.sink.add(index);
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.listSelect[index],
-                              style: textNormal(color3D5586, 16),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: widget.maxLine,
+              children: [
+                ...List.generate(
+                  widget.listSelect.length,
+                  (index) => Padding(
+                    padding: EdgeInsets.only(
+                      left: 30,
+                      top: index == 0 ? 0 : 8,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        valueSelect = widget.listSelect[index];
+                        if (widget.onChangeCollapse) {
+                          expandController?.reverse();
+                        }
+                        if (widget.onChange != null) {
+                          widget.onChange!(index);
+                        }
+                        selectBloc.sink.add(index);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.listSelect[index],
+                                style: textNormal(color3D5586, 16),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: widget.maxLine,
+                              ),
                             ),
-                          ),
-                          if (widget.isShowValue)
-                            StreamBuilder<int>(
-                              stream: selectBloc.stream,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data;
-                                return data == index && data != null
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 4),
-                                        child: SvgPicture.asset(
-                                          ImageAssets.icCheck,
-                                          color: AppTheme.getInstance()
-                                              .colorField(),
-                                        ),
-                                      )
-                                    : const SizedBox();
-                              },
-                            )
-                          else
-                            const SizedBox()
-                        ],
+                            if (widget.isShowValue)
+                              StreamBuilder<int>(
+                                stream: selectBloc.stream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data;
+                                  return data == index && data != null
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 4),
+                                          child: SvgPicture.asset(
+                                            ImageAssets.icCheck,
+                                            color: AppTheme.getInstance()
+                                                .colorField(),
+                                          ),
+                                        )
+                                      : const SizedBox();
+                                },
+                              )
+                            else
+                              const SizedBox()
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+                if (widget.appendChild && widget.child != null) ...widget.child!
+              ],
             ),
     );
   }

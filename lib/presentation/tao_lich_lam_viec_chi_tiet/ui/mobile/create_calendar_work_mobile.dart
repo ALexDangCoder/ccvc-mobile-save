@@ -274,42 +274,47 @@ class _CreateCalendarWorkMobileState extends State<CreateCalendarWorkMobile> {
                         ),
                         LichLapWidget(
                           cubit: createCubit,
-                        ),
-                        StreamBuilder<bool>(
-                          stream: createCubit.lichLapTuyChinhSubject.stream,
-                          builder: (context, snapshot) {
-                            final _now = DateTime.now().weekday == 7
-                                ? 0
-                                : DateTime.now().weekday;
-                            createCubit.days = _now.toString();
-                            final data = snapshot.data ?? false;
-                            return data
-                                ? LichLapTuyChinh(
-                                    taoLichLamViecCubit: createCubit,
-                                  )
-                                : Container();
-                          },
-                        ),
-                        StreamBuilder<bool>(
-                          stream: createCubit.lichLapKhongLapLaiSubject.stream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? false;
-                            return data
-                                ? StreamBuilder<DateTime>(
-                                    stream: createCubit.endDateSubject.stream,
-                                    builder: (context, snapshot) {
-                                      final initDate =
-                                          snapshot.data ?? DateTime.now();
-                                      return ItemLapDenNgayWidget(
-                                        createCubit: createCubit,
-                                        createWorkCalendar: true,
-                                        initDate: initDate,
-                                        key: UniqueKey(),
-                                      );
-                                    },
-                                  )
-                                : Container();
-                          },
+                          appendChild: [
+                            StreamBuilder<bool>(
+                              stream: createCubit.lichLapTuyChinhSubject.stream,
+                              builder: (context, snapshot) {
+                                final _now = DateTime.now().weekday == 7
+                                    ? 0
+                                    : DateTime.now().weekday;
+                                createCubit.days = _now.toString();
+                                final data = snapshot.data ?? false;
+                                return data
+                                    ? LichLapTuyChinh(
+                                        taoLichLamViecCubit: createCubit,
+                                      )
+                                    : Container();
+                              },
+                            ),
+                            spaceH8,
+                            StreamBuilder<bool>(
+                              stream:
+                                  createCubit.lichLapKhongLapLaiSubject.stream,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? false;
+                                return data
+                                    ? StreamBuilder<DateTime>(
+                                        stream:
+                                            createCubit.endDateSubject.stream,
+                                        builder: (context, snapshot) {
+                                          final initDate =
+                                              snapshot.data ?? DateTime.now();
+                                          return ItemLapDenNgayWidget(
+                                            createCubit: createCubit,
+                                            createWorkCalendar: true,
+                                            initDate: initDate,
+                                            key: UniqueKey(),
+                                          );
+                                        },
+                                      )
+                                    : Container();
+                              },
+                            ),
+                          ],
                         ),
                         TextFormWidget(
                           controller: contentController,

@@ -171,7 +171,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                   left: 28.0,
                 ),
                 child: textField(
-                  initValue: widget.chiTietHop?.linkTrucTuyen,
+                  initValue: widget.cubit.taoLichHopRequest.linkTrucTuyen,
                   title: S.current.link_ngoai_he_thong,
                   onChange: (value) {
                     widget.cubit.taoLichHopRequest.linkTrucTuyen = value;

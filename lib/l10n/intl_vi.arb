@@ -1410,10 +1410,11 @@
   "cai_dat_touch_faceid_thanh_cong" : "Cài đặt Touch/Face ID thành công",
   "da_vo_hieu_hoa_face_id" : "Đã vô hiệu hóa Touch/Face ID",
   "chuc_nang_dang_nhap_bang" : "Chức năng đăng nhập bằng TouchID/FaceID tạm thời không khả dụng! Bạn vui lòng sử dụng mật khẩu để đăng nhập.",
-  "thiet_bi_cua_ban_chua_bat" : "Thiết bị của bạn chưa bật tính năng Touch/Face ID hoặc hiện tại chưa cấu hình Tounch/Face ID.",
+  "thiet_bi_cua_ban_chua_bat" : "Thiết bị của bạn chưa bật tính năng Touch/Face ID hoặc hiện tại chưa cấu hình Touch/Face ID.",
   "khong_phai_toi": "Không phải tôi",
   "dang_nhap_voi_touch_faceid": "Đăng nhập với Touch/Face ID",
-  "anh_khong_hop_le": "Ảnh không hợp lệ"
+  "anh_khong_hop_le": "Ảnh không hợp lệ",
+  "bien_kiem_soat_da_ton_tai": "Biển kiểm soát đã tồn tại."
 }
 
 

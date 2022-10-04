@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
@@ -250,6 +251,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                             )
                                 .then((value) {
                               if (cubit.isSuccess == true) {
+                                PrefsService.saveOpenFaceId('');
                                 MessageConfig.show(
                                   messState: MessState.customIcon,
                                   title: S.current.cap_nhat_mk_thanh_cong,

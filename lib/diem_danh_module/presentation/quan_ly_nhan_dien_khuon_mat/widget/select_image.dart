@@ -86,6 +86,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
           toast.init(context);
           toast.showToast(
             child: ShowToast(
+              isEnterLine: true,
               text: S.current.chi_nhan_anh_5MB,
               withOpacity: 0.6,
             ),

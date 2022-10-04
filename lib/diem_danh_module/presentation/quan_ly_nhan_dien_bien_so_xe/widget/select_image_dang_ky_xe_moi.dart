@@ -59,6 +59,7 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
         toast.init(context);
         toast.showToast(
           child: ShowToast(
+             isEnterLine: true,
             text: S.current.chi_nhan_anh_5MB,
           ),
           gravity: ToastGravity.TOP_RIGHT,

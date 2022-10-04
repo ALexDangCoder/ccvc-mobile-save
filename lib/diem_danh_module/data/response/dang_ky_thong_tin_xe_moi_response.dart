@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/diem_danh_module/domain/model/message_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -28,6 +29,13 @@ class DangKyThongTinXeMoiResponse extends Equatable {
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
+  DataResponseTaoChiTietBienSoXeModel toDomain()=>DataResponseTaoChiTietBienSoXeModel(
+    code: code,
+    data: data?.toModel(),
+    message: message,
+    statusCode: statusCode,
+    succeeded: succeeded,
+  );
 }
 
 @JsonSerializable()

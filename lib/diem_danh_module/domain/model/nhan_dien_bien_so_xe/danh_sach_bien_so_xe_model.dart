@@ -1,6 +1,22 @@
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 
+class DataResponseTaoChiTietBienSoXeModel {
+  int? statusCode;
+  bool? succeeded;
+  String? code;
+  String? message;
+  ChiTietBienSoXeModel? data;
+
+  DataResponseTaoChiTietBienSoXeModel({
+    this.statusCode,
+    this.succeeded,
+    this.code,
+    this.message,
+    this.data,
+  });
+}
+
 class ListItemChiTietBienSoXeModel {
   List<ChiTietBienSoXeModel>? items;
   int? pageIndex;

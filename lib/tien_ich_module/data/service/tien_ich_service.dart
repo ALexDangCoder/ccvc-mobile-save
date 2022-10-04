@@ -173,6 +173,7 @@ abstract class TienIchServiceCommon {
     @Query('FilterBy') String hoTen,
     @Query('PageSize') int pageSize,
     @Query('PageIndex') int pageIndex,
+    @Query('IsGetAll') bool isGetAll,
   );
 
   @GET(ApiConstants.LIST_NGUOI_THUC_HIEN)
@@ -180,6 +181,7 @@ abstract class TienIchServiceCommon {
       @Query('FilterBy') String Id,
       @Query('PageSize') int pageSize,
       @Query('PageIndex') int pageIndex,
+      @Query('IsGetAll') bool isGetAll,
       );
 
   @GET(ApiConstants.TREE_DANH_BA)

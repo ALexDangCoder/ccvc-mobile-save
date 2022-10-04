@@ -156,11 +156,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
 
   void refreshDataDangLich() {
     getCountDashboard();
-    if (typeCalender != StatusWorkCalendar.LICH_HOP_CAN_KLCH) {
-      getDanhSachLichHop();
-    } else {
-      getDanhSachLichCanKLCH();
-    }
+    getDanhSachLichHop();
     getMenuLichLanhDao();
     getDaysHaveEvent(
       startDate: startDate,
@@ -465,32 +461,7 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
     showContent();
   }
 
-  /// lấy danh sách lịch họp cần KLCH
-  Future<void> getDanhSachLichCanKLCH() async {
-    showLoading();
-    final result = await hopRepo.getLichCanKLCH(
-      DanhSachLichHopRequest(
-        Title: keySearch,
-        DateFrom: startDate.formatApi,
-        DateTo: endDate.formatApi,
-        DonViId: HiveLocal.getDataUser()?.userInformation?.donViTrucThuoc?.id,
-        isChuaCoBaoCao: true,
-        UserId: HiveLocal.getDataUser()?.userId ?? '',
-        PageIndex: ApiConstants.PAGE_BEGIN,
-      ),
-    );
-    result.when(
-      success: (value) {
-        checkDuplicate(value.items ?? []);
-        _listCalendarWorkDaySubject.sink.add(value.toDataFCalenderSource());
-        _listCalendarWorkWeekSubject.sink.add(value.toDataFCalenderSource());
-        _listCalendarWorkMonthSubject.sink.add(value.toDataFCalenderSource());
-        _danhSachLichHopSubject.sink.add(value);
-      },
-      error: (error) {},
-    );
-    showContent();
-  }
+
 
   DateTime getDate(String time) =>
       time.convertStringToDate(formatPattern: DateTimeFormat.DATE_TIME_RECEIVE);
@@ -599,12 +570,15 @@ class CalendarMeetingCubit extends BaseCubit<CalendarMeetingState> {
         refreshDataDangLich();
       }
     } else {
-      if (state is! ChartViewState) {
-        refreshDataDangLich();
+      if (state is ChartViewState) {
+        getDataDangChart();
       }
     }
     if (state is! ChartViewState) {
       oldTitle = _titleSubject.valueOrNull ?? S.current.lich_cua_toi;
+    }
+    if (typeCalender == StatusWorkCalendar.LICH_HOP_CAN_KLCH){
+      emitListViewState();
     }
   }
 

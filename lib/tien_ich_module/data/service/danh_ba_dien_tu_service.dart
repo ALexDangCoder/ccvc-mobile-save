@@ -48,5 +48,6 @@ abstract class DanhBaDienTuService {
     @Query('pagesize') int pageSize,
     @Query('FilterBy') String filterBy,
     @Query('ID_DonVi') String idDonVi,
+    @Query('IsGetAll') bool isGetAll,
   );
 }

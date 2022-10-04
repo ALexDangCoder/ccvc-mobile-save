@@ -90,6 +90,7 @@ class DanhBaDienTuImpl implements DanhBaDienTuRepository {
               pageSize,
               filterBy,
               idDonVi,
+              true,
             ), (response) {
       return response.data?.toDomain() ?? DataDanhBaToChuc();
     });

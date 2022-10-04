@@ -83,10 +83,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
     return runCatchingAsync<ListNguoiThucHienResponse,
         ItemChonBienBanCuocHopModel>(
       () => _tienIchServiceCommon.getListNguoiThucHien(
-        hoTen,
-        pageSize,
-        pageIndex,
-      ),
+          hoTen, pageSize, pageIndex, true),
       (res) => res.data.toDomain(),
     );
   }
@@ -101,6 +98,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
         Id,
         ApiConstants.MIN_PAGE_SIZE,
         ApiConstants.PAGE_BEGIN,
+        true,
       ),
       (res) => res.data.toDomain(),
     );

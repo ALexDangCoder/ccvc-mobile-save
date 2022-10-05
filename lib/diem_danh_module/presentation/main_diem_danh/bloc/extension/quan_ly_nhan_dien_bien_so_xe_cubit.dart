@@ -79,7 +79,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
-        if (res.statusCode == StatusCodeConst.STATUS_OK)
+        if (res.statusCode == StatusCodeConst.STATUS_OK) {
           toast.showToast(
             child: ShowToast(
               color: colorE9F9F1,
@@ -88,14 +88,15 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
             ),
             gravity: ToastGravity.BOTTOM,
           );
+          Navigator.pop(context);
+          eventBus.fire(ApiSuccessAttendance(false));
+        }
         if (res.statusCode == StatusCodeConst.STATUS_BAD_REQUEST) {
           MessageConfig.show(
             title: res.message ?? S.current.bien_kiem_soat_da_ton_tai,
             messState: MessState.error,
           );
         }
-        Navigator.pop(context);
-        eventBus.fire(ApiSuccessAttendance(false));
       },
       error: (error) {
         if (error is NoNetworkException || error is TimeoutException) {

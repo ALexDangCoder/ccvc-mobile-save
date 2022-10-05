@@ -101,7 +101,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
           final List<GetAllFilesIdModel> data = success
               .where(
                 (element) =>
-                    element.loaiGocAnh == ApiConstants.KHUON_MAT_DEO_KINH,
+                    element.loaiAnh == ApiConstants.KHUON_MAT_DEO_KINH,
               )
               .toList();
           allFileDeokinhSubject.add(data);
@@ -305,7 +305,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
       return allFileDeokinhSubject.valueOrNull
           ?.firstWhere(
-            (element) => element.loaiAnh == fileTypeUpload,
+            (element) => element.loaiGocAnh == fileTypeUpload,
             orElse: () => GetAllFilesIdModel.empty(),
           )
           .id;
@@ -314,7 +314,7 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     if (entityName == ApiConstants.KHUON_MAT_KHONG_DEO_KINH) {
       return allFileKhongDeokinhSubject.valueOrNull
           ?.firstWhere(
-            (element) => element.loaiAnh == fileTypeUpload,
+            (element) => element.loaiGocAnh == fileTypeUpload,
             orElse: () => GetAllFilesIdModel.empty(),
           )
           .id;

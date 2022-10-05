@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 class LichLapWidget extends StatefulWidget {
   final CreateWorkCalCubit cubit;
   final bool isEdit;
+  final List<Widget>? appendChild;
 
   const LichLapWidget({
     Key? key,
     required this.cubit,
     this.isEdit = false,
+    this.appendChild,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class _LichLapWidgetState extends State<LichLapWidget> {
         return SelectOnlyExpand(
           urlIcon: ImageAssets.icNhacLai,
           title: S.current.lich_lap,
+          appendChild: true,
           listSelect: data.map<String>((e) => e.name ?? '').toList(),
           value: widget.isEdit
               ? _cubit.detailCalendarWorkModel.lichLap()
@@ -48,7 +51,7 @@ class _LichLapWidgetState extends State<LichLapWidget> {
               _cubit.lichLapKhongLapLaiSubject.add(false);
             }
           },
-          onChangeCollapse: true,
+          child: widget.appendChild,
         );
       },
     );

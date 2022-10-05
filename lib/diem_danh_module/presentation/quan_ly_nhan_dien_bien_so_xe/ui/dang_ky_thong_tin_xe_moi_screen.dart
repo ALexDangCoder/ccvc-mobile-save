@@ -164,10 +164,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                               vl == 0
                                   ? widget.cubit.xeMay =
                                       DanhSachBienSoXeConst.XE_MAY
-                                  : vl == 1
-                                      ? widget.cubit.xeMay =
-                                          DanhSachBienSoXeConst.XE_DAP_DIEN
-                                      : widget.cubit.xeMay =
+                                  :  widget.cubit.xeMay =
                                           DanhSachBienSoXeConst.O_TO;
                               widget.cubit.isShowErrLoaiXe.add(false);
                             },
@@ -333,10 +330,7 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                                       value == 0
                                           ? widget.cubit.xeMay =
                                           DanhSachBienSoXeConst.XE_MAY
-                                          : value == 1
-                                          ? widget.cubit.xeMay =
-                                          DanhSachBienSoXeConst.XE_DAP_DIEN
-                                          : widget.cubit.xeMay =
+                                          :  widget.cubit.xeMay =
                                           DanhSachBienSoXeConst.O_TO;
                                       widget.cubit.isShowErrLoaiXe.add(false);
                                     },

@@ -165,10 +165,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                               value == 0
                                   ? widget.cubit.xeMay =
                                       DanhSachBienSoXeConst.XE_MAY
-                                  : value == 1
-                                      ? widget.cubit.xeMay =
-                                          DanhSachBienSoXeConst.XE_DAP_DIEN
-                                      : widget.cubit.xeMay =
+                                  : widget.cubit.xeMay =
                                           DanhSachBienSoXeConst.O_TO;
                             },
                           );

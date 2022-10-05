@@ -158,7 +158,7 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                             );
                           }
                         },
-                        loaiGocAnh: widget.dataUI.entityName,
+                        loaiGocAnh: widget.dataUI.title,
                       );
                     },
                   ),

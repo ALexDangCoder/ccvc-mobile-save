@@ -156,7 +156,9 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
     result.when(
       success: (success) {
         id = success.data?.id ?? '';
-        MessageConfig.show(title: success.message ?? '');
+        if (success.statusCode == 200) {
+          MessageConfig.show(title: success.message ?? '');
+        }
         showContent();
       },
       error: (error) {
@@ -205,7 +207,10 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
       success: (success) {
         codeCheckAi.sink.add(success.statusCode ?? 0);
         if (success.statusCode == 400) {
-          MessageConfig.show(title: S.current.anh_khong_hop_le);
+          MessageConfig.show(
+            title: S.current.anh_khong_hop_le,
+            messState: MessState.error,
+          );
         }
         showContent();
       },
@@ -234,7 +239,9 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   Future<void> xoaAnhAI(String fileId) async {
     showLoading();
     final result = await diemDanhRepo.xoaAnhAI(
-        fileId, HiveLocal.getDataUser()?.userId ?? '',);
+      fileId,
+      HiveLocal.getDataUser()?.userId ?? '',
+    );
     result.when(
       success: (success) {
         showContent();
@@ -315,8 +322,10 @@ extension QuanLyNhanDienKhuonMatCubit on DiemDanhCubit {
   }
 
   ///find fileId of image
-  String? findFileId(
-      {required String entityName, required String fileTypeUpload,}) {
+  String? findFileId({
+    required String entityName,
+    required String fileTypeUpload,
+  }) {
     if (entityName == ApiConstants.KHUON_MAT_DEO_KINH) {
       return allFileDeokinhSubject.valueOrNull
           ?.firstWhere(

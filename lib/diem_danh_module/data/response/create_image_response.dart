@@ -27,6 +27,7 @@ class CreateImageResponse {
   CreateImageModel get toModel => CreateImageModel(
         data: data?.toModel ?? CreateImageDataModel.empty(),
         message: message,
+        statusCode: statusCode,
       );
 
   factory CreateImageResponse.fromJson(Map<String, dynamic> json) =>

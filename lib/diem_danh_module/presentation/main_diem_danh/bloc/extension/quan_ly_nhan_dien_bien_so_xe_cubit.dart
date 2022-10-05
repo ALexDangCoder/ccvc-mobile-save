@@ -79,7 +79,7 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
         await diemDanhRepo.dangKyThongTinXeMoi(dangKyThongTinXeMoiRequest);
     result.when(
       success: (res) {
-        if (res.statusCode == StatusCodeConst.STATUS_OK)
+        if (res.statusCode == StatusCodeConst.STATUS_OK) {
           toast.showToast(
             child: ShowToast(
               color: colorE9F9F1,
@@ -88,14 +88,15 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
             ),
             gravity: ToastGravity.BOTTOM,
           );
+          Navigator.pop(context);
+          eventBus.fire(ApiSuccessAttendance(false));
+        }
         if (res.statusCode == StatusCodeConst.STATUS_BAD_REQUEST) {
           MessageConfig.show(
             title: res.message ?? S.current.bien_kiem_soat_da_ton_tai,
             messState: MessState.error,
           );
         }
-        Navigator.pop(context);
-        eventBus.fire(ApiSuccessAttendance(false));
       },
       error: (error) {
         if (error is NoNetworkException || error is TimeoutException) {
@@ -128,15 +129,23 @@ extension QuanLyNhanDienBienSoXeCubit on DiemDanhCubit {
     final result = await diemDanhRepo.capNhatBienSoXe(capNhatBienSoXeRequest);
     result.when(
       success: (res) {
-        toast.showToast(
-          child: ShowToast(
-            color: colorE9F9F1,
-            icon: ImageAssets.ic_tick_showToast,
-            text: S.current.luu_du_lieu_thanh_cong,
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
-        eventBus.fire(ApiSuccessAttendance(true));
+        if (res.statusCode == StatusCodeConst.STATUS_OK) {
+          toast.showToast(
+            child: ShowToast(
+              color: colorE9F9F1,
+              icon: ImageAssets.ic_tick_showToast,
+              text: S.current.luu_du_lieu_thanh_cong,
+            ),
+            gravity: ToastGravity.BOTTOM,
+          ); eventBus.fire(ApiSuccessAttendance(true));
+        }
+        if (res.statusCode == StatusCodeConst.STATUS_BAD_REQUEST) {
+          MessageConfig.show(
+            title: res.message ?? S.current.bien_kiem_soat_da_ton_tai,
+            messState: MessState.error,
+          );
+        }
+
       },
       error: (error) {
         if (error is NoNetworkException || error is TimeoutException) {

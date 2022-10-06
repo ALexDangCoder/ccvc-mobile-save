@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'package:ccvc_mobile/widgets/text/ellipsis_character_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -40,10 +41,9 @@ class ItemAppointmentDay extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  child: Text(
+                  child: EllipsisDoubleLineText (
                     appointment.subject.trim(),
                     maxLines: appointment.isAllDay || lessThen30Minute ? 1 : 2,
-                    overflow: TextOverflow.ellipsis,
                     style: textNormalCustom(
                       color: Colors.white,
                       fontSize: appointment.isAllDay ? 11 : 14,

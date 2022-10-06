@@ -63,7 +63,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
       }
       widget.cubit.taoLichHopRequest.linkTrucTuyen =
           widget.chiTietHop!.linkTrucTuyen;
-      widget.cubit.taoLichHopRequest.bitHopTrucTuyen = widget.chiTietHop!.bit_HopTrucTuyen;
+      widget.cubit.taoLichHopRequest.bitHopTrucTuyen =
+          widget.chiTietHop!.bit_HopTrucTuyen;
       final List<DsDiemCau> initDanhSachDiemCau = [];
       initDanhSachDiemCau.addAll(widget.chiTietHop!.dsDiemCau ?? []);
       widget.cubit.dsDiemCauSubject.sink.add(
@@ -174,7 +175,12 @@ class _HinhThucHopState extends State<HinhThucHop> {
                   left: 28.0,
                 ),
                 child: textField(
-                  initValue: widget.cubit.taoLichHopRequest.linkTrucTuyen,
+                  initValue: ((widget.chiTietHop?.bit_LinkTrongHeThong ??
+                              false) ||
+                          (widget.cubit.taoLichHopRequest.bitLinkTrongHeThong ??
+                              false))
+                      ? null
+                      : widget.cubit.taoLichHopRequest.linkTrucTuyen,
                   title: S.current.link_ngoai_he_thong,
                   onChange: (value) {
                     widget.cubit.taoLichHopRequest.linkTrucTuyen = value;

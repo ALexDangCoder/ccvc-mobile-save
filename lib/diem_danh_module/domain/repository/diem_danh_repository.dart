@@ -56,7 +56,7 @@ mixin DiemDanhRepository {
     DangKyThongTinXeMoiRequest dangKyThongTinXeMoiRequest,
   );
 
-  Future<Result<ChiTietBienSoXeModel>> capNhatBienSoXe(
+  Future<Result<DataResponseTaoChiTietBienSoXeModel>> capNhatBienSoXe(
     CapNhatBienSoXeRequest capNhatBienSoXeRequest,
   );
 

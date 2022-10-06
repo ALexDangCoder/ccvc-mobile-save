@@ -127,12 +127,12 @@ class DiemDanhRepoImpl implements DiemDanhRepository {
   }
 
   @override
-  Future<Result<ChiTietBienSoXeModel>> capNhatBienSoXe(
+  Future<Result<DataResponseTaoChiTietBienSoXeModel>> capNhatBienSoXe(
     CapNhatBienSoXeRequest capNhatBienSoXeRequest,
   ) {
-    return runCatchingAsync<DataCapNhatBienSoXeResponse, ChiTietBienSoXeModel>(
+    return runCatchingAsync<DataCapNhatBienSoXeResponse, DataResponseTaoChiTietBienSoXeModel>(
       () => _diemDanhService.capNhatBienSoXe(capNhatBienSoXeRequest),
-      (response) => response.data?.toModel() ?? ChiTietBienSoXeModel(),
+      (response) => response.toDomain(),
     );
   }
 

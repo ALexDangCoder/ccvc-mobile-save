@@ -28,6 +28,13 @@ class DataCapNhatBienSoXeResponse extends Equatable {
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
+  DataResponseTaoChiTietBienSoXeModel toDomain()=>DataResponseTaoChiTietBienSoXeModel(
+    code: code,
+    data: data?.toModel(),
+    message: message,
+    statusCode: statusCode,
+    succeeded: succeeded,
+  );
 }
 
 @JsonSerializable()

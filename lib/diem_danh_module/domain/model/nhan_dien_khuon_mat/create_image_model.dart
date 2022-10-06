@@ -29,6 +29,7 @@ class CreateImageDataModel {
 class CreateImageModel {
   CreateImageDataModel? data;
   String? message;
+  int? statusCode;
 
-  CreateImageModel({required this.data,required this.message});
+  CreateImageModel({required this.data,required this.message,required this.statusCode,});
 }

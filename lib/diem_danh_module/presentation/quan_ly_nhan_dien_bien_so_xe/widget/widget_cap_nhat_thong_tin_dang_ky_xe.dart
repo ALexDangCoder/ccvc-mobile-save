@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/danh_sach_bien_so_xe_model.dart';
 import 'package:ccvc_mobile/diem_danh_module/domain/model/nhan_dien_bien_so_xe/loai_xe_model.dart';
@@ -19,6 +20,7 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class WidgetCapNhatThongTinDangKyXe extends StatefulWidget {
@@ -165,10 +167,7 @@ class _WidgetCapNhatThongTinDangKyXeState
                               value == 0
                                   ? widget.cubit.xeMay =
                                       DanhSachBienSoXeConst.XE_MAY
-                                  : value == 1
-                                      ? widget.cubit.xeMay =
-                                          DanhSachBienSoXeConst.XE_DAP_DIEN
-                                      : widget.cubit.xeMay =
+                                  : widget.cubit.xeMay =
                                           DanhSachBienSoXeConst.O_TO;
                             },
                           );

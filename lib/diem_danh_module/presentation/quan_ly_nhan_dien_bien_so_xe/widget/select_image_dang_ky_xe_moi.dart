@@ -7,6 +7,10 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/widget/view_pick_camer
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/pick_file.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
+import 'package:ccvc_mobile/utils/constants/file.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
@@ -49,43 +53,109 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
   }
 
   Future<void> pickImage(bool isImage) async {
-    final XFile? pickImg = await picker.pickImage(
-      source: isImage ? ImageSource.gallery : ImageSource.camera,
-    );
-    if (pickImg != null) {
-      sizeFile = File(pickImg.path).lengthSync() / BYTE_TO_MB;
-      if (sizeFile >= 5) {
-        final toast = FToast();
-        toast.init(context);
-        toast.showToast(
-          child: ShowToast(
-             isEnterLine: true,
-            text: S.current.chi_nhan_anh_5MB,
-          ),
-          gravity: ToastGravity.TOP_RIGHT,
-        );
-      } else {
-        if (isImage) {
-          widget.onTapImage(File(pickImg.path));
-          imageChoosse = File(pickImg.path);
-        } else {
-           await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ViewPickCamera(
-                imagePath:
-                  File(pickImg.path),
-                title: S.current.tai_anh_giay_dang_ky_xe,
+    if(Platform.isIOS){
+      late dynamic results;
+      late int fileSize;
+      results = Platform.isIOS
+          ? isImage
+          ? await picker.pickImage(source: ImageSource.gallery)
+          : await pickImageIos(
+        fromCamera: true,
+      )
+          : isImage
+          ? await pickAvatarOnAndroid()
+          : await picker.pickImage(
+          source: isImage ? ImageSource.gallery : ImageSource.camera);
+      if (results != null) {
+        final File fileImage = File(results.path);
+        fileSize = fileImage.lengthSync();
+        if (fileSize < FileSize.MB5) {
+          if (isImage) {
+            widget.onTapImage(File(results.path));
+            imageChoosse = File(results.path);
+          } else {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewPickCamera(
+                  imagePath: File(results.path),
+                  title: S.current.tai_anh_giay_dang_ky_xe,
+                ),
               ),
+            ).then((value) {
+              widget.onTapImage(value);
+              imageChoosse = value;
+            });
+          }
+        } else {
+          widget.onTapImage(null);
+          final toast = FToast();
+          toast.init(context);
+          toast.showToast(
+            child: ShowToast(
+              isEnterLine: true,
+              text: S.current.chi_nhan_anh_5MB,
             ),
-          ).then((value) {
-            widget.onTapImage(value);
-            imageChoosse = value;
-          });
+            gravity: ToastGravity.TOP_RIGHT,
+          );
         }
       }
+      setState(() {});
+    }else {
+      final permission = await handlePhotosPermission();
+      if (permission) {
+        late dynamic results;
+        late int fileSize;
+        results = Platform.isIOS
+            ? isImage
+            ? await picker.pickImage(source: ImageSource.gallery)
+            : await pickImageIos(
+          fromCamera: true,
+        )
+            : isImage
+            ? await pickAvatarOnAndroid()
+            : await picker.pickImage(
+            source: isImage ? ImageSource.gallery : ImageSource.camera);
+        if (results != null) {
+          final File fileImage = File(results.path);
+          fileSize = fileImage.lengthSync();
+          if (fileSize < FileSize.MB5) {
+            if (isImage) {
+              widget.onTapImage(File(results.path));
+              imageChoosse = File(results.path);
+            } else {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ViewPickCamera(
+                        imagePath: File(results.path),
+                        title: S.current.tai_anh_giay_dang_ky_xe,
+                      ),
+                ),
+              ).then((value) {
+                widget.onTapImage(value);
+                imageChoosse = value;
+              });
+            }
+          } else {
+            widget.onTapImage(null);
+            final toast = FToast();
+            toast.init(context);
+            toast.showToast(
+              child: ShowToast(
+                isEnterLine: true,
+                text: S.current.chi_nhan_anh_5MB,
+              ),
+              gravity: ToastGravity.TOP_RIGHT,
+            );
+          }
+        }
+        setState(() {});
+      } else {
+        await MessageConfig.showDialogSetting();
+      }
     }
-    setState(() {});
   }
 
   void removeImg() {
@@ -197,24 +267,7 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                       }
                   }
                 }, onTapPickCamera: () {
-                  widget.imagePermission.checkFilePermission();
-                  switch (widget.imagePermission.perrmission) {
-                    case ImageSelection.PICK_IMAGE:
-                      {
-                        pickImage(false);
-                        break;
-                      }
-                    case ImageSelection.NO_STORAGE_PERMISSION:
-                      {
-                        widget.imagePermission.requestFilePermission();
-                        break;
-                      }
-                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
-                      {
-                        widget.imagePermission.openSettingApp();
-                        break;
-                      }
-                  }
+                  pickImage(false);
                 });
     } else {
       return imageChoosse != null
@@ -338,26 +391,7 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                         spaceW40,
                         GestureDetector(
                           onTap: () {
-                            widget.imagePermission.checkFilePermission();
-                            switch (widget.imagePermission.perrmission) {
-                              case ImageSelection.PICK_IMAGE:
-                                {
-                                  pickImage(false);
-                                  break;
-                                }
-                              case ImageSelection.NO_STORAGE_PERMISSION:
-                                {
-                                  widget.imagePermission
-                                      .requestFilePermission();
-                                  break;
-                                }
-                              case ImageSelection
-                                  .NO_STORAGE_PERMISSION_PERMANENT:
-                                {
-                                  widget.imagePermission.openSettingApp();
-                                  break;
-                                }
-                            }
+                            pickImage(false);
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -381,48 +415,28 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
                     ),
                   ],
                 )
-              : emptyImage(
-                  onTapPickImage: () {
-                    widget.imagePermission.checkFilePermission();
-                    switch (widget.imagePermission.perrmission) {
-                      case ImageSelection.PICK_IMAGE:
-                        {
-                          pickImage(true);
-                          break;
-                        }
-                      case ImageSelection.NO_STORAGE_PERMISSION:
-                        {
-                          widget.imagePermission.requestFilePermission();
-                          break;
-                        }
-                      case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
-                        {
-                          widget.imagePermission.openSettingApp();
-                          break;
-                        }
-                    }
-                  },
-                  onTapPickCamera: () {
-                    widget.imagePermission.checkFilePermission();
-                    switch (widget.imagePermission.perrmission) {
-                      case ImageSelection.PICK_IMAGE:
-                        {
-                          pickImage(false);
-                          break;
-                        }
-                      case ImageSelection.NO_STORAGE_PERMISSION:
-                        {
-                          widget.imagePermission.requestFilePermission();
-                          break;
-                        }
-                      case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
-                        {
-                          widget.imagePermission.openSettingApp();
-                          break;
-                        }
-                    }
-                  },
-                );
+              : emptyImage(onTapPickImage: () {
+                  widget.imagePermission.checkFilePermission();
+                  switch (widget.imagePermission.perrmission) {
+                    case ImageSelection.PICK_IMAGE:
+                      {
+                        pickImage(true);
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION:
+                      {
+                        widget.imagePermission.requestFilePermission();
+                        break;
+                      }
+                    case ImageSelection.NO_STORAGE_PERMISSION_PERMANENT:
+                      {
+                        widget.imagePermission.openSettingApp();
+                        break;
+                      }
+                  }
+                }, onTapPickCamera: () {
+                  pickImage(false);
+                });
     }
   }
 

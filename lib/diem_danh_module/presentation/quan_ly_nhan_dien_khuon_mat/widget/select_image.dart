@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/ex
 import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/widget/view_pick_camera_khuon_mat.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/pick_file.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
 import 'package:ccvc_mobile/utils/constants/file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -50,13 +51,15 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
   }
 
   Future<void> pickImage(bool isImage) async {
-    final permission = await handlePhotosPermission();
-    if (permission) {
+    if (Platform.isIOS) {
       late dynamic results;
       late int fileSize;
       results = Platform.isIOS
-          ? await picker.pickImage(
-              source: isImage ? ImageSource.gallery : ImageSource.camera)
+          ? isImage
+              ? await picker.pickImage(source: ImageSource.gallery)
+              : await pickImageIos(
+                  fromCamera: true,
+                )
           : isImage
               ? await pickAvatarOnAndroid()
               : await picker.pickImage(
@@ -95,7 +98,56 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
         }
       }
     } else {
-      await MessageConfig.showDialogSetting();
+      final permission = await handlePhotosPermission();
+      if (permission) {
+        late dynamic results;
+        late int fileSize;
+        results = Platform.isIOS
+            ? isImage
+                ? await picker.pickImage(source: ImageSource.gallery)
+                : await pickImageIos(
+                    fromCamera: true,
+                  )
+            : isImage
+                ? await pickAvatarOnAndroid()
+                : await picker.pickImage(
+                    source: isImage ? ImageSource.gallery : ImageSource.camera);
+        if (results != null) {
+          final File fileImage = File(results.path);
+          fileSize = fileImage.lengthSync();
+          if (fileSize < FileSize.MB5) {
+            if (isImage) {
+              widget.onTapImage(File(results.path));
+            } else {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewPickCameraKhuonMat(
+                    imagePath: File(results.path),
+                    title: widget.loaiGocAnh,
+                  ),
+                ),
+              ).then((value) {
+                widget.onTapImage(value);
+              });
+            }
+          } else {
+            widget.onTapImage(null);
+            final toast = FToast();
+            toast.init(context);
+            toast.showToast(
+              child: ShowToast(
+                isEnterLine: true,
+                text: S.current.chi_nhan_anh_5MB,
+                withOpacity: 0.6,
+              ),
+              gravity: ToastGravity.BOTTOM,
+            );
+          }
+        }
+      } else {
+        await MessageConfig.showDialogSetting();
+      }
     }
   }
 

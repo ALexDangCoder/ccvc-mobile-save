@@ -20,6 +20,7 @@ import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/button/select_file/select_file.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -225,9 +226,12 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
               ),
               spaceH8,
               /// chọn file
-              ButtonSelectFile(
-                isShowListFile: false,
-                title: S.current.them_file_dinh_kem,
+              SelectFileBtn(
+                hasMultiFile: false,
+                isShowFile: false,
+                replaceFile: true,
+                allowedExtensions: [],
+                textButton: S.current.them_file_dinh_kem,
                 onChange: (files) {
                   if (files.first.lengthSync() > widget.cubit.maxSizeFile) {
                     showToast();

@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien
 import 'package:ccvc_mobile/diem_danh_module/presentation/widget/item_text_note.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/follow_key_broash.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -62,7 +63,7 @@ class _WidgetCapNhatThongTinDangKyXeState
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
-      child: FollowKeyBoardWidget(
+      child: FollowKeyBoardEdt(
         bottomWidget: Padding(
           padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 30),
           child: SizedBox(

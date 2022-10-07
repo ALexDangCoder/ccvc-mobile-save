@@ -36,6 +36,7 @@ class ItemImageWidget extends StatefulWidget {
 class _ItemImageWidgetState extends State<ItemImageWidget> {
   File? imageRepo;
   String idImage = '';
+  String id ='';
 
   @override
   void initState() {
@@ -140,8 +141,8 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                               ),
                         imageLocal: imageRepo,
                         removeImage: () {
-                          widget.cubit.deleteImageCallApi(widget.id ?? '');
-                          widget.cubit.xoaAnhAI(widget.id ?? '');
+                          widget.cubit.deleteImageCallApi(widget.id ?? id );
+                          widget.cubit.xoaAnhAI(widget.id ?? id );
                           idImage = '';
                         },
                         onTapImage: (image) async {
@@ -150,12 +151,13 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                             idImage = await widget.cubit.postImage(
                               image,
                             );
-                            setState(() {});
-                            widget.id = await widget.cubit.createImage(
+                            id = await widget.cubit.createImage(
                               fileId: idImage,
                               loaiGocAnh: widget.dataUI.fileTypeUpload,
                               loaiAnh: widget.dataUI.entityName,
                             );
+                            setState(() {
+                            });
                           }
                         },
                         loaiGocAnh: widget.dataUI.title,

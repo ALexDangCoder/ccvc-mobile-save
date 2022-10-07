@@ -57,28 +57,29 @@ class _SelectImageDangKyXeWidgetState extends State<SelectImageDangKyXe> {
       late dynamic results;
       late int fileSize;
       results = Platform.isIOS
-          ? isImage
-          ? await picker.pickImage(source: ImageSource.gallery)
-          : await pickImageIos(
-        fromCamera: true,
-      )
+          ? await pickImageIos(
+          fromCamera:
+          !isImage)
           : isImage
           ? await pickAvatarOnAndroid()
           : await picker.pickImage(
           source: isImage ? ImageSource.gallery : ImageSource.camera);
       if (results != null) {
-        final File fileImage = File(results.path);
+        if (Platform.isIOS  && !isImage  && results is Map<String, dynamic>){
+          results= results['path'];
+        }
+        final File fileImage = File((Platform.isIOS  && !isImage)?results:results.path);
         fileSize = fileImage.lengthSync();
         if (fileSize < FileSize.MB5) {
           if (isImage) {
-            widget.onTapImage(File(results.path));
-            imageChoosse = File(results.path);
+            widget.onTapImage(File((Platform.isIOS  && !isImage)?results:results.path));
+            imageChoosse = File((Platform.isIOS  && !isImage)?results:results.path);
           } else {
             await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ViewPickCamera(
-                  imagePath: File(results.path),
+                  imagePath: File((Platform.isIOS  && !isImage)?results:results.path),
                   title: S.current.tai_anh_giay_dang_ky_xe,
                 ),
               ),

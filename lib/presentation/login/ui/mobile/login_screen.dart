@@ -127,6 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onTap: () {
                                   PrefsService.saveLoginUserName('');
                                   PrefsService.saveOpenFaceId('');
+                                  textPasswordController.text='';
+                                  textTaiKhoanController.text='';
+                                  loginCubit.isHideClearData1 = false;
+                                  loginCubit.isHideEye1=false;
                                   setState(() {});
                                 },
                                 child: Text(
@@ -201,26 +205,52 @@ class _LoginScreenState extends State<LoginScreen> {
                         maxLength: 32,
                         controller: textPasswordController,
                         obscureText: loginCubit.isCheckEye1,
-                        suffixIcon: loginCubit.isHideEye1
-                            ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {});
-                                      loginCubit.isCheckEye1 =
-                                          !loginCubit.isCheckEye1;
-                                    },
-                                    child: loginCubit.isCheckEye1
-                                        ? SvgPicture.asset(ImageAssets.imgView)
-                                        : SvgPicture.asset(
-                                            ImageAssets.imgViewHide,
-                                          ),
+                        suffixIcon: Row(
+                           mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (loginCubit.isHideClearData1) SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {});
+                                    textPasswordController.clear();
+                                    loginCubit.isHideClearData1 = false;
+                                    loginCubit.isHideEye1=false;
+                                  },
+                                  child: SvgPicture.asset(
+                                    ImageAssets.icClearLogin,
                                   ),
                                 ),
-                              )
-                            : const SizedBox(),
+                              ),
+                            ) else const SizedBox(
+                              width: 20,
+                              height: 20,
+                            ),
+                            spaceW10,
+                            if (loginCubit.isHideEye1) SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {});
+                                          loginCubit.isCheckEye1 =
+                                              !loginCubit.isCheckEye1;
+                                        },
+                                        child: loginCubit.isCheckEye1
+                                            ? SvgPicture.asset(
+                                                ImageAssets.imgView)
+                                            : SvgPicture.asset(
+                                                ImageAssets.imgViewHide,
+                                              ),
+                                      ),
+                                    ),
+                                  ) else const SizedBox(),
+                            spaceW15,
+                          ],
+                        ),
                         hintText: S.current.password,
                         prefixIcon: SizedBox(
                           width: 20.0,
@@ -232,9 +262,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         onChange: (text) {
                           if (text.isEmpty) {
                             setState(() {});
+                            loginCubit.isHideClearData1 = false;
                             return loginCubit.isHideEye1 = false;
                           }
                           setState(() {});
+                          loginCubit.isHideClearData1 = true;
                           return loginCubit.isHideEye1 = true;
                         },
                         validator: (value) {

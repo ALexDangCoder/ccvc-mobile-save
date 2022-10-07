@@ -156,11 +156,17 @@ class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   void addCuCanBo(
     ThemCanBoCubit themCanBoCubit,
     ThemDonViCubit themDonViCubit,
+    String noiDung,
   ) {
     if (isDuplicateItem(listCanBoThamGia.valueOrNull ?? [], newCanBo)) {
       isDuplicateCanBo.add(true);
     } else {
       isDuplicateCanBo.add(false);
+      if ((themCanBoCubit.titleCanBo.valueOrNull ?? '').isEmpty) {
+        themDonViCubit.listDonVi.last.noidung = noiDung;
+      } else {
+        newCanBo.noidung = noiDung;
+      }
       if ((themCanBoCubit.titleCanBo.valueOrNull ?? '').isEmpty) {
         final DonViModel donVi = themDonViCubit.listDonVi.last;
         (listCanBoThamGia.valueOrNull ?? []).add(donVi);

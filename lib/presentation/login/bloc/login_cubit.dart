@@ -36,6 +36,7 @@ class LoginCubit extends BaseCubit<LoginState> {
   ThongBaoRepository get _serviceNoti => Get.find();
 
   bool isHideClearData = false;
+  bool isHideClearData1 = false;
   bool isCheckEye1 = true;
   bool isHideEye1 = false;
   bool passIsError = false;

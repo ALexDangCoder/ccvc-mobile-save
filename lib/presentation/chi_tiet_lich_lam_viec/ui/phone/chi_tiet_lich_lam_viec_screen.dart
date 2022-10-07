@@ -375,238 +375,247 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                           horizontal: 20,
                           vertical: 10,
                         ),
-                        child: SingleChildScrollView(
-                          child: ExpandGroup(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 12,
-                                      color: statusCalenderRed,
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        dataModel.title ?? '',
-                                        style: textNormalCustom(
-                                          color: textTitle,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            cubitThanhPhan.getTree();
+                            await chiTietLichLamViecCubit.loadApi(widget.id);
+                          },
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            child: ExpandGroup(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.circle,
+                                        size: 12,
+                                        color: statusCalenderRed,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                ItemRowChiTiet(
-                                  data: dataModel,
-                                  cubit: chiTietLichLamViecCubit,
-                                ),
-                                if (showDetail)
-                                  listScheduleCooperatives(),
-                                if (showDetail)
-                                  StreamBuilder<ChiTietLichLamViecModel>(
-                                    stream: chiTietLichLamViecCubit
-                                        .chiTietLichLamViecStream,
-                                    builder: (context, snapshot) {
-                                      final data = snapshot.data?.files ?? [];
-                                      return DocumentFile(
-                                        files: data,
-                                      );
-                                    },
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          dataModel.title ?? '',
+                                          style: textNormalCustom(
+                                            color: textTitle,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                if (showDetail)
-                                  BtnShowChinhSuaBaoCao(
-                                    chiTietLichLamViecCubit:
-                                        chiTietLichLamViecCubit,
-                                    dataModel: dataModel,
-                                  ),
-                                if (showDetail)
-                                  DanhSachYKienButtom(
-                                    dataModel: dataModel,
-                                    id: widget.id,
+                                  ItemRowChiTiet(
+                                    data: dataModel,
                                     cubit: chiTietLichLamViecCubit,
                                   ),
-                                spaceH12,
-                                if (dataModel.status !=
-                                        EnumScheduleStatus.Cancel &&
-                                    !chiTietLichLamViecCubit
-                                        .checkMenuLichThuHoi(dataModel))
-                                  StreamBuilder<bool>(
-                                    stream: chiTietLichLamViecCubit
-                                        .showButtonApprove,
-                                    builder: (context, snapshot) {
-                                      final data = snapshot.data ?? false;
-                                      return Visibility(
-                                        visible: data,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: bottomButtonWidget(
-                                                background:
-                                                    AppTheme.getInstance()
-                                                        .colorField()
-                                                        .withOpacity(0.1),
-                                                title: S.current.tu_choi,
-                                                onTap: () {
-                                                  chiTietLichLamViecCubit
-                                                      .confirmOfficer(
-                                                    ConfirmOfficerRequest(
-                                                      lichId: dataModel.id,
-                                                      isThamGia: false,
-                                                      lyDo: '',
-                                                    ),
-                                                  )
-                                                      .then((value) {
+                                  if (showDetail) listScheduleCooperatives(),
+                                  if (showDetail)
+                                    StreamBuilder<ChiTietLichLamViecModel>(
+                                      stream: chiTietLichLamViecCubit
+                                          .chiTietLichLamViecStream,
+                                      builder: (context, snapshot) {
+                                        final data = snapshot.data?.files ?? [];
+                                        return DocumentFile(
+                                          files: data,
+                                        );
+                                      },
+                                    ),
+                                  if (showDetail)
+                                    BtnShowChinhSuaBaoCao(
+                                      chiTietLichLamViecCubit:
+                                          chiTietLichLamViecCubit,
+                                      dataModel: dataModel,
+                                    ),
+                                  if (showDetail)
+                                    DanhSachYKienButtom(
+                                      dataModel: dataModel,
+                                      id: widget.id,
+                                      cubit: chiTietLichLamViecCubit,
+                                    ),
+                                  spaceH12,
+                                  if (dataModel.status !=
+                                          EnumScheduleStatus.Cancel &&
+                                      !chiTietLichLamViecCubit
+                                          .checkMenuLichThuHoi(dataModel))
+                                    StreamBuilder<bool>(
+                                      stream: chiTietLichLamViecCubit
+                                          .showButtonApprove,
+                                      builder: (context, snapshot) {
+                                        final data = snapshot.data ?? false;
+                                        return Visibility(
+                                          visible: data,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: bottomButtonWidget(
+                                                  background:
+                                                      AppTheme.getInstance()
+                                                          .colorField()
+                                                          .withOpacity(0.1),
+                                                  title: S.current.tu_choi,
+                                                  onTap: () {
                                                     chiTietLichLamViecCubit
-                                                        .loadApi(widget.id);
-                                                  });
-                                                },
-                                                textColor:
-                                                    AppTheme.getInstance()
-                                                        .colorField(),
+                                                        .confirmOfficer(
+                                                      ConfirmOfficerRequest(
+                                                        lichId: dataModel.id,
+                                                        isThamGia: false,
+                                                        lyDo: '',
+                                                      ),
+                                                    )
+                                                        .then((value) {
+                                                      chiTietLichLamViecCubit
+                                                          .loadApi(widget.id);
+                                                    });
+                                                  },
+                                                  textColor:
+                                                      AppTheme.getInstance()
+                                                          .colorField(),
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 16,
-                                            ),
-                                            Expanded(
-                                              child: bottomButtonWidget(
-                                                background:
-                                                    AppTheme.getInstance()
-                                                        .colorField(),
-                                                title: S.current.tham_du,
-                                                onTap: () {
-                                                  chiTietLichLamViecCubit
-                                                      .confirmOfficer(
-                                                    ConfirmOfficerRequest(
-                                                      lichId: dataModel.id,
-                                                      isThamGia: true,
-                                                      lyDo: '',
-                                                    ),
-                                                  )
-                                                      .then((value) {
+                                              const SizedBox(
+                                                width: 16,
+                                              ),
+                                              Expanded(
+                                                child: bottomButtonWidget(
+                                                  background:
+                                                      AppTheme.getInstance()
+                                                          .colorField(),
+                                                  title: S.current.tham_du,
+                                                  onTap: () {
                                                     chiTietLichLamViecCubit
-                                                        .loadApi(widget.id);
-                                                  });
-                                                },
-                                                textColor: Colors.white,
+                                                        .confirmOfficer(
+                                                      ConfirmOfficerRequest(
+                                                        lichId: dataModel.id,
+                                                        isThamGia: true,
+                                                        lyDo: '',
+                                                      ),
+                                                    )
+                                                        .then((value) {
+                                                      chiTietLichLamViecCubit
+                                                          .loadApi(widget.id);
+                                                    });
+                                                  },
+                                                  textColor: Colors.white,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                if (chiTietLichLamViecCubit
-                                        .checkChoHuyXacNhan(dataModel) &&
-                                    dataModel.status !=
-                                        EnumScheduleStatus.Cancel &&
-                                    !chiTietLichLamViecCubit
-                                        .checkMenuLichThuHoi(dataModel))
-                                  bottomButtonWidget(
-                                    background: statusCalenderRed,
-                                    title: S.current.huy_xac_nhan,
-                                    onTap: () {
-                                      showDiaLog(
-                                        context,
-                                        btnLeftTxt: S.current.khong,
-                                        funcBtnRight: () {
-                                          chiTietLichLamViecCubit
-                                              .confirmOfficerOrDismissconfirmOfficer(
-                                            ConfirmOfficerRequest(
-                                              lichId: dataModel.id,
-                                              isThamGia: false,
-                                              lyDo: '',
-                                            ),
-                                          )
-                                              .then((value) {
-                                            if (value) {
-                                              MessageConfig.show(
-                                                title: '${S.current.huy}'
-                                                    ' ${S.current.xac_nhan.toLowerCase()}'
-                                                    ' ${S.current.thanh_cong.toLowerCase()}',
-                                              );
-                                              eventBus.fire(RefreshCalendar());
-                                              Get.back(result: true);
-                                            } else {
-                                              MessageConfig.show(
-                                                messState: MessState.error,
-                                                title: '${S.current.huy}'
-                                                    ' ${S.current.xac_nhan.toLowerCase()}'
-                                                    ' ${S.current.that_bai.toLowerCase()}',
-                                              );
-                                            }
-                                          });
-                                        },
-                                        title: '${S.current.huy}'
-                                            ' ${S.current.xac_nhan.toLowerCase()}',
-                                        btnRightTxt: S.current.dong_y,
-                                        icon: SvgPicture.asset(
-                                            ImageAssets.img_tham_gia),
-                                        textContent:
-                                            S.current.confirm_huy_tham_gia,
-                                      );
-                                    },
-                                    textColor: Colors.white,
-                                  ),
-                                if (chiTietLichLamViecCubit
-                                        .checkChoXacNhanLai(dataModel) &&
-                                    dataModel.status !=
-                                        EnumScheduleStatus.Cancel &&
-                                    !chiTietLichLamViecCubit
-                                        .checkMenuLichThuHoi(dataModel))
-                                  bottomButtonWidget(
-                                    background: itemWidgetUsing,
-                                    title: S.current.xac_nhan_lai,
-                                    onTap: () {
-                                      showDiaLog(
-                                        context,
-                                        btnLeftTxt: S.current.khong,
-                                        funcBtnRight: () {
-                                          chiTietLichLamViecCubit
-                                              .confirmOfficerOrDismissconfirmOfficer(
-                                            ConfirmOfficerRequest(
-                                              lichId: dataModel.id,
-                                              isThamGia: true,
-                                              lyDo: '',
-                                            ),
-                                          )
-                                              .then((value) {
-                                            if (value) {
-                                              MessageConfig.show(
-                                                title:
-                                                    '${S.current.xac_nhan_lai}'
-                                                    ' ${S.current.thanh_cong.toLowerCase()}',
-                                              );
-                                              eventBus.fire(RefreshCalendar());
-                                              Get.back(result: true);
-                                            } else {
-                                              MessageConfig.show(
-                                                messState: MessState.error,
-                                                title:
-                                                    ' ${S.current.xac_nhan_lai}'
-                                                    ' ${S.current.that_bai.toLowerCase()}',
-                                              );
-                                            }
-                                          });
-                                        },
-                                        title: S.current.xac_nhan_lai,
-                                        btnRightTxt: S.current.dong_y,
-                                        icon: SvgPicture.asset(
-                                            ImageAssets.img_tham_gia),
-                                        textContent: S.current.confirm_tham_gia,
-                                      );
-                                    },
-                                    textColor: Colors.white,
-                                  ),
-                              ],
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  if (chiTietLichLamViecCubit
+                                          .checkChoHuyXacNhan(dataModel) &&
+                                      dataModel.status !=
+                                          EnumScheduleStatus.Cancel &&
+                                      !chiTietLichLamViecCubit
+                                          .checkMenuLichThuHoi(dataModel))
+                                    bottomButtonWidget(
+                                      background: statusCalenderRed,
+                                      title: S.current.huy_xac_nhan,
+                                      onTap: () {
+                                        showDiaLog(
+                                          context,
+                                          btnLeftTxt: S.current.khong,
+                                          funcBtnRight: () {
+                                            chiTietLichLamViecCubit
+                                                .confirmOfficerOrDismissconfirmOfficer(
+                                              ConfirmOfficerRequest(
+                                                lichId: dataModel.id,
+                                                isThamGia: false,
+                                                lyDo: '',
+                                              ),
+                                            )
+                                                .then((value) {
+                                              if (value) {
+                                                MessageConfig.show(
+                                                  title: '${S.current.huy}'
+                                                      ' ${S.current.xac_nhan.toLowerCase()}'
+                                                      ' ${S.current.thanh_cong.toLowerCase()}',
+                                                );
+                                                eventBus
+                                                    .fire(RefreshCalendar());
+                                                Get.back(result: true);
+                                              } else {
+                                                MessageConfig.show(
+                                                  messState: MessState.error,
+                                                  title: '${S.current.huy}'
+                                                      ' ${S.current.xac_nhan.toLowerCase()}'
+                                                      ' ${S.current.that_bai.toLowerCase()}',
+                                                );
+                                              }
+                                            });
+                                          },
+                                          title: '${S.current.huy}'
+                                              ' ${S.current.xac_nhan.toLowerCase()}',
+                                          btnRightTxt: S.current.dong_y,
+                                          icon: SvgPicture.asset(
+                                              ImageAssets.img_tham_gia),
+                                          textContent:
+                                              S.current.confirm_huy_tham_gia,
+                                        );
+                                      },
+                                      textColor: Colors.white,
+                                    ),
+                                  if (chiTietLichLamViecCubit
+                                          .checkChoXacNhanLai(dataModel) &&
+                                      dataModel.status !=
+                                          EnumScheduleStatus.Cancel &&
+                                      !chiTietLichLamViecCubit
+                                          .checkMenuLichThuHoi(dataModel))
+                                    bottomButtonWidget(
+                                      background: itemWidgetUsing,
+                                      title: S.current.xac_nhan_lai,
+                                      onTap: () {
+                                        showDiaLog(
+                                          context,
+                                          btnLeftTxt: S.current.khong,
+                                          funcBtnRight: () {
+                                            chiTietLichLamViecCubit
+                                                .confirmOfficerOrDismissconfirmOfficer(
+                                              ConfirmOfficerRequest(
+                                                lichId: dataModel.id,
+                                                isThamGia: true,
+                                                lyDo: '',
+                                              ),
+                                            )
+                                                .then((value) {
+                                              if (value) {
+                                                MessageConfig.show(
+                                                  title:
+                                                      '${S.current.xac_nhan_lai}'
+                                                      ' ${S.current.thanh_cong.toLowerCase()}',
+                                                );
+                                                eventBus
+                                                    .fire(RefreshCalendar());
+                                                Get.back(result: true);
+                                              } else {
+                                                MessageConfig.show(
+                                                  messState: MessState.error,
+                                                  title:
+                                                      ' ${S.current.xac_nhan_lai}'
+                                                      ' ${S.current.that_bai.toLowerCase()}',
+                                                );
+                                              }
+                                            });
+                                          },
+                                          title: S.current.xac_nhan_lai,
+                                          btnRightTxt: S.current.dong_y,
+                                          icon: SvgPicture.asset(
+                                              ImageAssets.img_tham_gia),
+                                          textContent:
+                                              S.current.confirm_tham_gia,
+                                        );
+                                      },
+                                      textColor: Colors.white,
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -625,14 +634,27 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                           ),
                         ),
                       ),
-                      body: Center(
-                        child: Text(
-                          S.current.no_data,
-                          style: textNormalCustom(
-                            fontSize: 14,
-                            color: AppTheme.getInstance().colorField(),
-                          ),
-                        ),
+                      body: CustomScrollView(
+                        slivers: [
+                          SliverFillRemaining(
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                cubitThanhPhan.getTree();
+                                await chiTietLichLamViecCubit
+                                    .loadApi(widget.id);
+                              },
+                              child: Center(
+                                child: Text(
+                                  S.current.no_data,
+                                  style: textNormalCustom(
+                                    fontSize: 14,
+                                    color: AppTheme.getInstance().colorField(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     )
               : const Scaffold();

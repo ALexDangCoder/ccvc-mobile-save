@@ -161,20 +161,22 @@ class SelectFileBtnState extends State<SelectFileBtn> {
           )
           .toList();
     }
-
-    newFiles.removeWhere(
-      (element) {
-        final result = !allowedExtensions.contains(
-          path.extension(element.path).replaceAll('.', '').toLowerCase(),
-        );
-        if (result) {
-          showToast(
-            message: S.current.file_khong_hop_le,
+    if(widget.allowedExtensions?.isNotEmpty ?? true){
+      newFiles.removeWhere(
+            (element) {
+          final result = !allowedExtensions.contains(
+            path.extension(element.path).replaceAll('.', '').toLowerCase(),
           );
-        }
-        return result;
-      },
-    );
+          if (result) {
+            showToast(
+              message: S.current.file_khong_hop_le,
+            );
+          }
+          return result;
+        },
+      );
+    }
+
     if (widget.replaceFile){
       cubit.selectedFiles.clear();
     }

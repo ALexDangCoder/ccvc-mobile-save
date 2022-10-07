@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/text/ellipsis_character_text.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
@@ -154,10 +155,9 @@ class _DataViewTypeListState extends State<DataViewTypeList> {
                     children: [
                       Expanded(
                         flex: 4,
-                        child: Text(
+                        child: EllipsisDoubleLineText(
                           item.title ?? '',
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                           style: textNormalCustom(
                             color: titleCalenderWork,
                             fontSize: 16.0,

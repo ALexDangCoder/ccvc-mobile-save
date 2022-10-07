@@ -108,7 +108,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                     showBottomSheet();
                   },
                   text: !snapshot.hasData || widget.needTextChonPhong
-                      ? S.current.chon_phong
+                      ? S.current.chon_phong_hop
                       : S.current.doi_phong,
                   urlIcon: widget.icon ?? ImageAssets.icChonPhongHop,
                 ),
@@ -135,6 +135,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
                     onDelete: () {
                       widget.onDelete?.call();
                       _cubit.thongTinPhongHopSubject.addError('');
+                      _cubit.phongHop = PhongHop() ;
                       thongTinPhong?.listThietBi.clear();
                       _cubit.clearDataChonPhongHop();
                     },

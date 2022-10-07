@@ -42,7 +42,7 @@ class EllipsisDoubleLineText extends StatelessWidget {
           textDirection: TextDirection.ltr,
           textHeightBehavior: textHeightBehavior,
           strutStyle: strutStyle,
-          maxLines: 2);
+          maxLines: 1);
 
       painter.layout(maxWidth: maxWidth - 30);
       final metrics = painter.computeLineMetrics();

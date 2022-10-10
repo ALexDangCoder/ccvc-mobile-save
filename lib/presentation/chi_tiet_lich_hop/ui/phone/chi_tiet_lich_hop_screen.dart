@@ -127,7 +127,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500,
                                           ),
-                                          maxLines: 2,
                                         ),
                                       )
                                     ],

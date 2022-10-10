@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/domain/model/calendar/officer_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
@@ -15,6 +14,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -382,7 +382,9 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
           child: listData.isEmpty
               ? const Padding(
                   padding: EdgeInsets.all(16),
-                  child: NodataWidget(),
+                  child: NodataWidget(
+                    height: 50.0,
+                  ),
                 )
               : StreamBuilder<String>(
                   stream: widget.cubit.keySearchThuHoi.stream,
@@ -395,6 +397,11 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                       )) {
                         listResult.add(item);
                       }
+                    }
+                    if (listResult.isEmpty) {
+                      return const NodataWidget(
+                        height: 50.0,
+                      );
                     }
                     return ListView.separated(
                       itemBuilder: (context, index) {

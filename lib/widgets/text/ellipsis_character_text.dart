@@ -19,7 +19,7 @@ class EllipsisDoubleLineText extends StatelessWidget {
     this.data, {
     Key? key,
     this.locale,
-    this.maxLines,
+    this.maxLines = 2,
     this.semanticsLabel,
     this.selectionColor,
     this.softWrap,
@@ -42,7 +42,7 @@ class EllipsisDoubleLineText extends StatelessWidget {
           textDirection: TextDirection.ltr,
           textHeightBehavior: textHeightBehavior,
           strutStyle: strutStyle,
-          maxLines: 1);
+          maxLines: maxLines);
 
       painter.layout(maxWidth: maxWidth - 30);
       final metrics = painter.computeLineMetrics();
@@ -67,7 +67,7 @@ class EllipsisDoubleLineText extends StatelessWidget {
         textScaleFactor: textScale ?? 1,
         textHeightBehavior: textHeightBehavior,
         strutStyle: strutStyle,
-        maxLines: 2,
+        maxLines: maxLines,
         ellipsis: '...');
 
     textPainter.layout(maxWidth: constraints.maxWidth);
@@ -117,7 +117,7 @@ class EllipsisDoubleLineText extends StatelessWidget {
             locale: locale,
             semanticsLabel: semanticsLabel,
             strutStyle: strutStyle,
-            maxLines: 2);
+            maxLines: maxLines);
       },
     );
   }

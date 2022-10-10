@@ -1414,7 +1414,23 @@
   "khong_phai_toi": "Không phải tôi",
   "dang_nhap_voi_touch_faceid": "Đăng nhập với Touch/Face ID",
   "anh_khong_hop_le": "Ảnh không hợp lệ",
-  "bien_kiem_soat_da_ton_tai": "Biển kiểm soát đã tồn tại."
+  "bien_kiem_soat_da_ton_tai": "Biển kiểm soát đã tồn tại.",
+  "cap_nhat_thong_tin_khach": "Cập nhật thông tin khách",
+  "cap_nhat_nhan_dien_cmnd_cccd": "Cập nhật nhận diện CMND/CCCD",
+  "anh_mat_truoc": "Ảnh mặt trước",
+  "anh_mat_sau": "Ảnh mặt sau",
+  "chup_anh_mat_truoc": "Chụp ảnh mặt trước",
+  "chup_anh_mat_sau": "Chụp ảnh mặt sau",
+  "chup": "Chụp",
+  "thu_lai": "Thử lại",
+  "hinh_anh_nhan_dien_khong_hop_le": "Hình ảnh nhận diện không hợp lệ",
+  "mesage_thong_tin_khach": "Có thể do các nguyên nhân sau:",
+  "mesage_thong_tin_khach1": "1. Không phải là mặt trước CMT/ CCCD",
+  "mesage_thong_tin_khach2": "2. Hình bị mờ, kém chất lượng hoặc quá nhỏ",
+  "mesage_thong_tin_khach3": "3. Hình bị mất góc",
+  "mesage_thong_tin_khach4": "Bạn vui lòng kiểm tra lại và nhấn Chụp lại.",
+  "bam_chup": "Vui lòng đặt CMND/CCCD trên mặt phẳng, đảm bảo hình ảnh không bị cắt góc, mờ, tối hoặc chói sáng rồi bấm Chụp.",
+  "bam_chon": "Nếu hình chụp đảm bảo chất lượng (không bị cắt góc, mờ, tối hoặc chói sáng), bấm Chọn"
 }
 
 

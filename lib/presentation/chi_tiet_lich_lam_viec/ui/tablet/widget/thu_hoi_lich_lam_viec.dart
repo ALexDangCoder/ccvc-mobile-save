@@ -150,22 +150,25 @@ class SelectTHuHoiCell extends StatelessWidget {
                   cubit.listRecall.sink.add(cubit.dataRecall);
                 },
               ),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: List.generate(dataSN.length, (index) {
-                  final dataSnb = dataSN[index];
-                  return tag(
-                    title: dataSnb,
-                    onDelete: () {
-                      cubit
-                          .dataRecall[cubit.dataRecall.indexWhere(
-                              (element) => element.getTitle() == dataSnb)]
-                          .status = 0;
-                      cubit.listRecall.sink.add(cubit.dataRecall);
-                    },
-                  );
-                }),
+              Container(
+                margin: const EdgeInsets.only(right: 25),
+                child: Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: List.generate(dataSN.length, (index) {
+                    final dataSnb = dataSN[index];
+                    return tag(
+                      title: dataSnb,
+                      onDelete: () {
+                        cubit
+                            .dataRecall[cubit.dataRecall.indexWhere(
+                                (element) => element.getTitle() == dataSnb)]
+                            .status = 0;
+                        cubit.listRecall.sink.add(cubit.dataRecall);
+                      },
+                    );
+                  }),
+                ),
               ),
             ],
           );

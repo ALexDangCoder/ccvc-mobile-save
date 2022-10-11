@@ -7,13 +7,13 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/create_
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ButtonSelectFile extends StatefulWidget {
   final Color? background;
@@ -50,6 +50,17 @@ class ButtonSelectFile extends StatefulWidget {
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
   final CreateWorkCalCubit _cubit = CreateWorkCalCubit();
 
+  Future<bool> handleFilePermission() async {
+    final permission =
+        Platform.isAndroid ? await Permission.storage.request() : true;
+    if (permission == PermissionStatus.denied ||
+        permission == PermissionStatus.permanentlyDenied) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,26 +68,26 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
       children: [
         GestureDetector(
           onTap: () async {
-            try{
-              final FilePickerResult? result =
-              await FilePicker.platform.pickFiles(allowMultiple: true);
+            final permission = await handleFilePermission();
+            if (permission) {
+              try {
+                final FilePickerResult? result =
+                    await FilePicker.platform.pickFiles(allowMultiple: true);
 
-              if (result != null) {
-                widget.files = result.paths.map((path) => File(path!)).toList();
-              } else {
-                // User canceled the picker
-              }
-
-              widget.onChange(widget.files);
-              setState(() {});
-            }
-            catch(e){
-              await MessageConfig.showDialogSetting();
+                if (result != null) {
+                  widget.files =
+                      result.paths.map((path) => File(path!)).toList();
+                } else {
+                  // User canceled the picker
+                }
+                widget.onChange(widget.files);
+                setState(() {});
+              } catch (e) {}
             }
           },
           child: Container(
             decoration: BoxDecoration(
-              color:AppTheme.getInstance().colorField().withOpacity(0.1),
+              color: AppTheme.getInstance().colorField().withOpacity(0.1),
               borderRadius: const BorderRadius.all(Radius.circular(4)),
             ),
             padding: EdgeInsets.symmetric(
@@ -90,9 +101,9 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 if (widget.isIcon)
                   Row(
                     children: [
-                      SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile,
+                      SvgPicture.asset(
+                        widget.icon ?? ImageAssets.icShareFile,
                         color: AppTheme.getInstance().colorField(),
-
                       ),
                       SizedBox(
                         width: 11.25.textScale(),

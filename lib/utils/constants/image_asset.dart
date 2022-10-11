@@ -557,6 +557,9 @@ class ImageAssets {
   static const String icShareWhite = '$baseImg/ic_share_white.svg';
   static const String icThongTinVanBanTablet = '$baseImg/ic_thongtinvb_tablet.svg';
   static const String icBaoCaoThongKeVanBanTablet = '$baseImg/ic_baocaothongke_vb_tablet.svg';
+  static const String icCapNhatThongTinKhach = '$baseImg/ic_cap_nhat_thong_tin_khach.svg';
+  static const String icAlertDanger = '$baseImg/ic_alert_danger.svg';
+  static const String icCameraWhite = '$baseImg/ic_camera_white.svg';
 
   static SvgPicture svgAssets(
     String name, {

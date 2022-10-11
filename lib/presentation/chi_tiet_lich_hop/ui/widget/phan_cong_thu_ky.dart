@@ -149,6 +149,9 @@ class SelectThuKyCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(
+        maxHeight:  MediaQuery.of(context).size.height * 0.6,
+      ),
       width: double.maxFinite,
       padding: EdgeInsets.all(7.0.textScale(space: 5)),
       decoration: BoxDecoration(
@@ -196,11 +199,13 @@ class SelectThuKyCell extends StatelessWidget {
                 padding: EdgeInsets.only(
                   right: MediaQuery.of(context).size.width * 0.08,
                 ),
-                child: wrapThis(
-                  listData: dataSN,
-                  cubit: cubit,
-                  isPhanCongThuKy: true,
-                  onRemove: () {},
+                child: SingleChildScrollView(
+                  child: wrapThis(
+                    listData: dataSN,
+                    cubit: cubit,
+                    isPhanCongThuKy: true,
+                    onRemove: () {},
+                  ),
                 ),
               )
             ],

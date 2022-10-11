@@ -127,36 +127,40 @@ class _CommentWidgetState extends State<CommentWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Container(
-                  width: 32,
-                  height: 32,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
+            Expanded(
+              child: Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.network(
+                      Get.find<AppConstants>().baseImageUrl + avatar,
+                      errorBuilder: (_, __, ___) => Image.asset(
+                        ImageAssets.anhDaiDienMacDinh,
+                        color: AppTheme.getInstance().dfTxtColor(),
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  child: Image.network(
-                    Get.find<AppConstants>().baseImageUrl + avatar,
-                    errorBuilder: (_, __, ___) =>
-                        Image.asset(ImageAssets.anhDaiDienMacDinh),
-                    fit: BoxFit.cover,
+                  spaceW8,
+                  Expanded(
+                    child: Text(
+                      ngayTao,
+                      style: textNormalCustom(
+                        color: color3D5586,
+                        fontSize: 14.0.textScale(),
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                spaceW8,
-                Text(
-                  nguoiTao,
-                  style: textNormalCustom(
-                    color: color3D5586,
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            // const Spacer(),
-            const SizedBox(
-              width: 6,
+                ],
+              ),
             ),
             Text(
               ngayTao,

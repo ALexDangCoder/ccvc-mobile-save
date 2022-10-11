@@ -12,11 +12,12 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ItemImageWidget extends StatefulWidget {
   final NhanDienKhuonMatUIModel dataUI;
   final DiemDanhCubit cubit;
-  final String? initImage;
+  String? initImage;
   String? id;
   final ImagePermission imagePermission;
 
@@ -36,11 +37,26 @@ class ItemImageWidget extends StatefulWidget {
 class _ItemImageWidgetState extends State<ItemImageWidget> {
   File? imageRepo;
   String idImage = '';
+  String id ='';
+
+  BehaviorSubject<bool> isShowRemoveImage = BehaviorSubject.seeded(false);
 
   @override
   void initState() {
     super.initState();
     imageRepo = null;
+    if(widget.initImage != null) {
+      isShowRemoveImage.add(true);
+    }
+  }
+
+
+  @override
+  void didUpdateWidget(ItemImageWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if(widget.initImage != null) {
+      isShowRemoveImage.add(true);
+    }
   }
 
   @override
@@ -129,36 +145,47 @@ class _ItemImageWidgetState extends State<ItemImageWidget> {
                       if(codeCheckAi==400){
                         imageRepo=null;
                       }
-                      return SelectImageWidget(
-                        imagePermission: widget.imagePermission,
-                        image: imageRepo == null
-                            ? widget.initImage
-                            : widget.cubit.getUrlImage(
-                                fileTypeUpload: widget.dataUI.fileTypeUpload,
-                                entityName: widget.dataUI.entityName,
-                                id: idImage,
-                              ),
-                        imageLocal: imageRepo,
-                        removeImage: () {
-                          widget.cubit.deleteImageCallApi(widget.id ?? '');
-                          widget.cubit.xoaAnhAI(widget.id ?? '');
-                          idImage = '';
-                        },
-                        onTapImage: (image) async {
-                          imageRepo = image;
-                          if (image != null) {
-                            idImage = await widget.cubit.postImage(
-                              image,
-                            );
-                            setState(() {});
-                            widget.id = await widget.cubit.createImage(
-                              fileId: idImage,
-                              loaiGocAnh: widget.dataUI.fileTypeUpload,
-                              loaiAnh: widget.dataUI.entityName,
-                            );
-                          }
-                        },
-                        loaiGocAnh: widget.dataUI.title,
+                      return StreamBuilder<bool>(
+                        stream: isShowRemoveImage.stream,
+                        builder: (context, snapshotRemove) {
+                          final isRemove = snapshotRemove.data ?? false;
+                          return SelectImageWidget(
+                            isShowRemove: isRemove,
+                            imagePermission: widget.imagePermission,
+                            image: imageRepo == null
+                                ? widget.initImage
+                                : widget.cubit.getUrlImage(
+                                    fileTypeUpload: widget.dataUI.fileTypeUpload,
+                                    entityName: widget.dataUI.entityName,
+                                    id: idImage,
+                                  ),
+                            imageLocal: imageRepo,
+                            removeImage: () {
+                              isShowRemoveImage.add(false);
+                              widget.cubit.deleteImageCallApi(widget.id ?? id );
+                              widget.cubit.xoaAnhAI(widget.id ?? id );
+                              idImage = '';
+                              widget.initImage = null;
+                            },
+                            onTapImage: (image) async {
+                              imageRepo = image;
+                              if (image != null) {
+                                idImage = await widget.cubit.postImage(
+                                  image,
+                                );
+                                id = await widget.cubit.createImage(
+                                  fileId: idImage,
+                                  loaiGocAnh: widget.dataUI.fileTypeUpload,
+                                  loaiAnh: widget.dataUI.entityName,
+                                );
+                                isShowRemoveImage.add(true);
+                                setState(() {
+                                });
+                              }
+                            },
+                            loaiGocAnh: widget.dataUI.title,
+                          );
+                        }
                       );
                     },
                   ),

@@ -14,12 +14,13 @@ class EllipsisDoubleLineText extends StatelessWidget {
   final TextWidthBasis? textWidthBasis;
   final TextHeightBehavior? textHeightBehavior;
   final Color? selectionColor;
-  final int? maxLines;
+  final int maxLines;
+
   const EllipsisDoubleLineText(
     this.data, {
     Key? key,
     this.locale,
-    this.maxLines,
+    this.maxLines = 2,
     this.semanticsLabel,
     this.selectionColor,
     this.softWrap,
@@ -31,53 +32,50 @@ class EllipsisDoubleLineText extends StatelessWidget {
     this.textScaleFactor,
     this.textWidthBasis,
   }) : super(key: key);
-  String _replaceString(int? maxLines, TextPainter textPainter,
-      {double maxWidth = 0}) {
-    if (maxLines == null) return data;
+
+  String _replaceString({double maxWidth = 0}) {
     final textSlip = data.split(' ');
-    String charater = '';
-    for (var element in textSlip) {
+    String character = '';
+    for (int  i = 0 ; i< textSlip.length ; i++ ) {
+      final element = textSlip[i];
       final painter = TextPainter(
-          text: TextSpan(text: '${charater.trim()}...', style: style),
-          textDirection: TextDirection.ltr,
-          textHeightBehavior: textHeightBehavior,
-          strutStyle: strutStyle,
-          maxLines: 2);
-
-      painter.layout(maxWidth: maxWidth - 30);
-      final metrics = painter.computeLineMetrics();
-      if (metrics.length > maxLines) {
-        return '${charater.trim()}...';
-      }
-      if (metrics.length > 1 && metrics[1].width >= maxWidth - 30) {
-        return '${charater.trim()}...';
-      }
-      charater = charater + element + ' ';
-    }
-
-    return data;
-  }
-
-  String _loadData(BoxConstraints constraints, TextStyle style,
-      double? textScale, int? maxLinesx) {
-    final textPainter = TextPainter(
-        text: TextSpan(text: data, style: style),
+        text: TextSpan(text: '${character.trim()} $element...', style: style),
         textDirection: TextDirection.ltr,
-        locale: locale ?? style.locale,
-        textScaleFactor: textScale ?? 1,
         textHeightBehavior: textHeightBehavior,
         strutStyle: strutStyle,
-        maxLines: 2,
-        ellipsis: '...');
+      );
+      painter.layout(maxWidth: maxWidth);
+      final metrics = painter.computeLineMetrics();
+      if (metrics.length > maxLines) {
+        return '${character.trim()}...';
+      }
+      character = '${character.trim()} $element';
+    }
+    return character;
+  }
+
+  String _loadData(
+    BoxConstraints constraints,
+    TextStyle style,
+    double? textScale,
+  ) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: data, style: style),
+      textDirection: TextDirection.ltr,
+      locale: locale ?? style.locale,
+      textScaleFactor: textScale ?? 1,
+      textHeightBehavior: textHeightBehavior,
+      strutStyle: strutStyle,
+    );
 
     textPainter.layout(maxWidth: constraints.maxWidth);
     final lineText = textPainter.computeLineMetrics();
-    if (lineText.length == 1) return data;
-
-    if (lineText[1].width < constraints.maxWidth && lineText.length <= 2)
+    if (lineText.length < maxLines ||
+        (lineText.length == maxLines &&
+            lineText[maxLines - 1].width < constraints.maxWidth - 30)) {
       return data;
-
-    String newString = _replaceString(2, textPainter, maxWidth: constraints.maxWidth);
+    }
+    final newString = _replaceString(maxWidth: constraints.maxWidth);
     return newString;
   }
 
@@ -100,10 +98,11 @@ class EllipsisDoubleLineText extends StatelessWidget {
         final textScale =
             textScaleFactor ?? MediaQuery.textScaleFactorOf(context);
 
-        int? maxLines = this.maxLines ?? defaultTextStyle.maxLines;
-
-        final replaceCharater =
-            _loadData(constraints, textStyle, textScale, maxLines);
+        final replaceCharater = _loadData(
+          constraints,
+          textStyle,
+          textScale,
+        );
 
         return Text(replaceCharater,
             style: textStyle,
@@ -117,7 +116,7 @@ class EllipsisDoubleLineText extends StatelessWidget {
             locale: locale,
             semanticsLabel: semanticsLabel,
             strutStyle: strutStyle,
-            maxLines: 2);
+            maxLines: maxLines);
       },
     );
   }

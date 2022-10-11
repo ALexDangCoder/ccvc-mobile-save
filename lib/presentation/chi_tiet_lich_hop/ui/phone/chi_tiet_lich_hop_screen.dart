@@ -23,6 +23,7 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/text/ellipsis_character_text.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
@@ -119,14 +120,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                         width: 16,
                                       ),
                                       Expanded(
-                                        child: Text(
+                                        child: EllipsisDoubleLineText(
                                           detailModel.title,
                                           style: textNormalCustom(
                                             color: titleCalenderWork,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500,
                                           ),
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       )
                                     ],

@@ -21,6 +21,7 @@ Future<T?> showDiaLog<T>(
   double? widthOnlyButton,
   required Function funcBtnRight,
   bool? isThisPopAfter,
+      TextAlign? textAlign,
 }) {
   return showDialog(
     barrierDismissible: false,
@@ -72,7 +73,7 @@ Future<T?> showDiaLog<T>(
                 Text(
                   title,
                   style: titleAppbar(),
-                  textAlign: TextAlign.center,
+                  textAlign:textAlign?? TextAlign.center,
                 ),
               if (isOneButton || textContent != '')
                 Column(
@@ -86,7 +87,7 @@ Future<T?> showDiaLog<T>(
                         dateColor,
                         showTablet ? 14.0.textScale() : 14,
                       ),
-                      textAlign: TextAlign.center,
+                      textAlign: textAlign??TextAlign.center,
                     ),
                   ],
                 )

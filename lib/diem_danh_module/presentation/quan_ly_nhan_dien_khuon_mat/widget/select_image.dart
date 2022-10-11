@@ -26,6 +26,7 @@ class SelectImageWidget extends StatefulWidget {
   final bool isShowLoading;
   final ImagePermission imagePermission;
   final String loaiGocAnh;
+  final bool isShowRemove;
 
   SelectImageWidget({
     Key? key,
@@ -36,6 +37,7 @@ class SelectImageWidget extends StatefulWidget {
     this.imageLocal,
     required this.imagePermission,
     required this.loaiGocAnh,
+    this.isShowRemove = true,
   }) : super(key: key);
 
   @override
@@ -55,27 +57,26 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
       late dynamic results;
       late int fileSize;
       results = Platform.isIOS
-          ? isImage
-              ? await picker.pickImage(source: ImageSource.gallery)
-              : await pickImageIos(
-                  fromCamera: true,
-                )
+          ? await pickImageIos(fromCamera: !isImage)
           : isImage
               ? await pickAvatarOnAndroid()
               : await picker.pickImage(
                   source: isImage ? ImageSource.gallery : ImageSource.camera);
       if (results != null) {
-        final File fileImage = File(results.path);
+        if (results is Map<String, dynamic>) {
+          results = results['path'];
+        }
+        final File fileImage = File(Platform.isIOS ? results : results.path);
         fileSize = fileImage.lengthSync();
         if (fileSize < FileSize.MB5) {
           if (isImage) {
-            widget.onTapImage(File(results.path));
+            widget.onTapImage(File(Platform.isIOS ? results : results.path));
           } else {
             await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ViewPickCameraKhuonMat(
-                  imagePath: File(results.path),
+                  imagePath: File(Platform.isIOS ? results : results.path),
                   title: widget.loaiGocAnh,
                 ),
               ),
@@ -97,6 +98,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
           );
         }
       }
+      setState(() {});
     } else {
       final permission = await handlePhotosPermission();
       if (permission) {
@@ -212,18 +214,21 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
                             ),
                     ),
                   ),
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: GestureDetector(
-                      onTap: () {
-                        removeImg();
-                      },
-                      child: SvgPicture.asset(
-                        ImageAssets.icRemoveImg,
+                  if (widget.isShowRemove)
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          removeImg();
+                        },
+                        child: SvgPicture.asset(
+                          ImageAssets.icRemoveImg,
+                        ),
                       ),
-                    ),
-                  ),
+                    )
+                  else
+                    Container(),
                 ],
               )
             : emptyImage(

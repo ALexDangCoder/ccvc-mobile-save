@@ -159,19 +159,10 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                               themDonViCubit.validateDonVi.sink.add(true);
                             } else {
                               themDonViCubit.validateDonVi.sink.add(false);
-
-                              if ((themCanBoCubit.titleCanBo.valueOrNull ?? '')
-                                  .isEmpty) {
-                                themDonViCubit.listDonVi.last.noidung =
-                                    noiDungController.text.trim();
-                              } else {
-                                widget.cubitThanhPhanTG.newCanBo.noidung =
-                                    noiDungController.text.trim();
-                              }
-
                               widget.cubitThanhPhanTG.addCuCanBo(
                                 themCanBoCubit,
                                 themDonViCubit,
+                                noiDungController.text.trim(),
                               );
                             }
                           },
@@ -233,7 +224,8 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                       data[index],
                                       widget.cubitThanhPhanTG.listCanBoDuocChon,
                                     );
-                                    widget.cubitThanhPhanTG.nodeDonViThemCanBo = null;
+                                    widget.cubitThanhPhanTG.nodeDonViThemCanBo =
+                                        null;
                                     themCanBoCubit.titleCanBo.sink.add('');
                                     themDonViCubit.selectNodeOnlyValue = null;
                                     themDonViCubit.themDonViSubject.sink
@@ -243,7 +235,6 @@ class _CuCanBoWidgetState extends State<CuCanBoWidget> {
                                         .add(null);
                                     themDonViCubit.listDonVi.clear();
                                     themCanBoCubit.getCanbo.add([]);
-
                                   },
                                 ),
                               ),

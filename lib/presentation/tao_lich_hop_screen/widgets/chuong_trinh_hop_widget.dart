@@ -362,7 +362,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                         ? donVi.tenCanBo
                         : donVi.name.isNotEmpty
                             ? donVi.name
-                            : '';
+                            : donVi.tenDonVi.isNotEmpty
+                                ? donVi.tenDonVi
+                                : donVi.tenCoQuan;
                     taoPhienHopRequest.uuid = donVi.uuid;
                   },
                   listSelect: widget.cubit.getListTenCanBo(),

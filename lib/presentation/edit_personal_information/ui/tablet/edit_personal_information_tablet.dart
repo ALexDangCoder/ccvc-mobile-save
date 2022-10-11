@@ -199,11 +199,16 @@ class _EditPersonalInformationTabletScreen
                                     isObligatory: true,
                                     title: user.keys.elementAt(2),
                                     child: TextFieldValidator(
-                                      isEnabled: false,
+                                      maxLength: 255,
                                       hintText: S.current.ma_can_bo,
                                       controller: maCanBoController,
                                       validator: (value) {
-                                        return value?.checkNulls();
+                                        if ((value ?? '').isEmpty) {
+                                          return '${S.current.ban_phai_nhap_truong} '
+                                              '${S.current.ma_can_bo}!';
+                                        }else {
+                                          return (value??'').checkKyTuVietNam();
+                                        }
                                       },
                                     ),
                                   ),

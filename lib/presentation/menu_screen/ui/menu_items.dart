@@ -17,6 +17,8 @@ import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/mobile/main_calend
 import 'package:ccvc_mobile/presentation/canlendar_meeting/ui/tablet/main_calendar_meeting_tablet.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/mobile/main_canlendar_mobile_refactor.dart';
 import 'package:ccvc_mobile/presentation/canlendar_refactor/main_calendar/tablet/main_canlendar_refactor_tablet.dart';
+import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/mobile/cap_nhat_thong_tin_khach_hang_mobile.dart';
+import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/tablet/cap_nhat_thong_tin_khach_hang_tablet.dart';
 import 'package:ccvc_mobile/presentation/change_password/ui/mobile/change_password_screen.dart';
 import 'package:ccvc_mobile/presentation/change_password/ui/tablet/change_password_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/mobile/hoi_dap_screen.dart';
@@ -47,6 +49,7 @@ final listFeature = [
   MenuType.diemDanh,
   MenuType.hoTroKyThuat,
   MenuType.ketNoi,
+  MenuType.capNhatThongTinKhach,
   MenuType.tienIch,
 ];
 final listFeatureAccount = [
@@ -72,6 +75,7 @@ enum MenuType {
   baoCao,
   diemDanh,
   hoTroKyThuat,
+  capNhatThongTinKhach,
   faceId
 }
 
@@ -166,6 +170,14 @@ extension MenuTypeItem on MenuType {
           ),
           title: S.current.ket_noi,
         );
+      case MenuType.capNhatThongTinKhach:
+        return MenuCellType(
+          url: urlIconScreen(
+            iconTablet: ImageAssets.icCapNhatThongTinKhach,
+            iconMobile: ImageAssets.icCapNhatThongTinKhach,
+          ),
+          title: S.current.cap_nhat_thong_tin_khach,
+        );
       case MenuType.tienIch:
         return MenuCellType(
           url: urlIconScreen(
@@ -257,6 +269,11 @@ extension GetScreen on MenuType {
             key: UniqueKey(),
           ),
           tabletScreen: const DanhSachChungScreenTablet(),
+        );
+      case MenuType.capNhatThongTinKhach:
+        return screenDevice(
+          mobileScreen: const CapNhatThongTinKhachHangMobile(),
+          tabletScreen: const CapNhatThongTinKhachHangTablet(),
         );
       case MenuType.tienIch:
         return screenDevice(

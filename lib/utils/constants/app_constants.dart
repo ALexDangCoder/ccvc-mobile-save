@@ -411,6 +411,7 @@ class MenuItemConst {
   static const BAO_CAO = 'bao-cao';
   static const DIEM_DANH = 'diem_danh';
   static const HO_TRO_KY_THUAT = 'ho_tro_ky_thuat';
+  static const CAP_NHAT_THONG_TIN_KHACH = 'tin_noi_bo';
 }
 
 class StatusCodeConst {

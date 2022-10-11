@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/widget/widget_frame_conner.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -30,8 +32,27 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(isAttack ? S.current.bam_chup : S.current.bam_chon)],
+          children: [
+            Container(
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.transparent,
+              child: Stack(
+                children: const [
+                  WidgetFrameConner(),
+                ],
+              ),
+            ),
+            spaceH16,
+            Text(
+              isAttack ? S.current.bam_chup : S.current.bam_chon,
+              style: textNormalCustom(
+                color: color3D5586,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.center,
+            )
+          ],
         ),
       ),
       bottomNavigationBar: Padding(

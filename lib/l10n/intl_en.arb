@@ -1466,5 +1466,17 @@
   "mesage_thong_tin_khach3": "3. Hình bị mất góc",
   "mesage_thong_tin_khach4": "Bạn vui lòng kiểm tra lại và nhấn Chụp lại.",
   "bam_chup": "Vui lòng đặt CMND/CCCD trên mặt phẳng, đảm bảo hình ảnh không bị cắt góc, mờ, tối hoặc chói sáng rồi bấm Chụp.",
-  "bam_chon": "Nếu hình chụp đảm bảo chất lượng (không bị cắt góc, mờ, tối hoặc chói sáng), bấm Chọn"
+  "bam_chon": "Nếu hình chụp đảm bảo chất lượng (không bị cắt góc, mờ, tối hoặc chói sáng), bấm Chọn",
+  "thong_tin_khach_vao_co_quan": "Thông tin khách vào cơ quan",
+  "chung_minh_nhan_dan": "Chứng minh nhân dân",
+  "can_cuoc_cong_dan": "Căn cước công dân",
+  "loai_the": "Loại thẻ",
+  "thong_tin_cmnd_cccd": "Thông tin CMND/CCCD",
+  "thong_tin_khach": "Thông tin khách",
+  "id_the_vao": "ID thẻ vào",
+  "co_quan_to_chuc": "Cơ quan/Tổ chức",
+  "nguoi_tiep_don": "Người tiếp đón",
+  "ly_do_vao_co_quan": "Lý do vào cơ quan",
+  "nhap_ten_day_du_co_quan": "Nhập tên đầy đủ cơ quan/tổ chức",
+  "nhap_ten_nguoi_don": "Nhập tên người tiếp đón"
 }

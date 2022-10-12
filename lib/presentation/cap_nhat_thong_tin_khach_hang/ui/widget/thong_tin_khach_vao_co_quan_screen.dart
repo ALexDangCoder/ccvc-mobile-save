@@ -35,8 +35,16 @@ class _ThongTinKhachVaoCoQuanScreenState
       TextEditingController();
   final TextEditingController nguoiTiepDonEditingController =
       TextEditingController();
+  final TextEditingController nhapLyDoEditingController =
+      TextEditingController();
 
   final keyGroup = GlobalKey<FormGroupState>();
+
+  @override
+  void initState() {
+    cubit.postThongTinKhach();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +102,6 @@ class _ThongTinKhachVaoCoQuanScreenState
               ),
               InputInfoUserWidget(
                 title: '${S.current.so} ${S.current.cmnd}',
-                isObligatory: true,
                 child: TextFieldValidator(
                   hintText: '${S.current.so} ${S.current.cmnd}',
                   controller: soCmndEditingController,
@@ -167,12 +174,13 @@ class _ThongTinKhachVaoCoQuanScreenState
               InputInfoUserWidget(
                 isObligatory: true,
                 title: S.current.ly_do_vao_co_quan,
-                child: CoolDropDown(
-                  key: UniqueKey(),
-                  initData: '-Chọn lý do-',
-                  placeHoder: '-Chọn lý do-',
-                  onChange: (value) {},
-                  listData: cubit.dataGioiTinh,
+                child: TextFieldValidator(
+                  hintText: 'Nhập lý do',
+                  controller: nhapLyDoEditingController,
+                  maxLength: 255,
+                  validator: (value) {
+                    return (value ?? '').checkTruongNull('Nhập lý do');
+                  },
                 ),
               ),
               Container(

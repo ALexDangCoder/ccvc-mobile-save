@@ -17,6 +17,8 @@ import 'package:ccvc_mobile/data/repository_impl/quan_ly_van_ban_impl/qlvb_respo
 import 'package:ccvc_mobile/data/repository_impl/quan_ly_widget/quan_ly_widget_imlp.dart';
 import 'package:ccvc_mobile/data/repository_impl/thanh_phan_tham_gia_impl/thanh_phan_tham_gia_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/thong_bao_impl/thong_bao_impl.dart';
+import 'package:ccvc_mobile/data/repository_impl/thong_tin_khach_impl/thong_tin_khach_impl.dart';
+import 'package:ccvc_mobile/data/services/thong_tin_khach/thong_tin_khach_service.dart';
 import 'package:ccvc_mobile/data/repository_impl/y_kien_nguoi_dan_impl/y_kien_nguoi_dan_impl.dart';
 import 'package:ccvc_mobile/data/services/account_service.dart';
 import 'package:ccvc_mobile/data/services/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_service.dart';
@@ -41,6 +43,7 @@ import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.da
 import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_respository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
+import 'package:ccvc_mobile/domain/repository/thong_tin_khach/thong_tin_khach_repository.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ho_tro_ky_thuat_module/data/repository_impl/ho_tro_ky_thuat_impl.dart';
@@ -75,7 +78,8 @@ enum BaseURLOption {
   API_AND_UAT,
   NOTI,
   HEAD_ORIGIN,
-  HTCS
+  HTCS,
+  MPIDDTH,
 }
 
 void configureDependencies() {
@@ -233,6 +237,12 @@ void configureDependencies() {
     ),
   );
   Get.put<HoTroKyThuatRepository>(HoTroKyThuatImpl(Get.find()));
+  Get.put(
+    ThongTinKhachService(
+      provideDio(baseOption: BaseURLOption.MPIDDTH),
+    ),
+  );
+  Get.put<ThongTinKhachRepository>(ThongTinKhachImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;
@@ -254,6 +264,8 @@ String getUrlDomain({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       return appConstants.headerOrigin;
     case BaseURLOption.HTCS:
       return appConstants.baseUrlHTCS;
+    case BaseURLOption.MPIDDTH:
+      return appConstants.baseUrlMpiddth;
   }
 }
 
@@ -281,6 +293,9 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       break;
     case BaseURLOption.HTCS:
       baseUrl = appConstants.baseUrlHTCS;
+      break;
+    case BaseURLOption.MPIDDTH:
+      baseUrl = appConstants.baseUrlMpiddth;
       break;
   }
   final options = BaseOptions(

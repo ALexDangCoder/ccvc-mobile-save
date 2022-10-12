@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:ccvc_mobile/utils/app_utils.dart' as util;
 import 'package:flutter/services.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:ccvc_mobile/config/app_config.dart';
@@ -169,6 +170,25 @@ class LoginCubit extends BaseCubit<LoginState> {
     canCheckIsDeviceSupported = await localAuth.isDeviceSupported();
     canCheckIsDeviceSupportedSubject.sink.add(canCheckIsDeviceSupported);
   }
+  BehaviorSubject<bool> showFingerId =BehaviorSubject.seeded(false);
+  Future<void> checkDevice() async {
+    if(Platform.isAndroid){
+      showFingerId.add(true);
+      return;
+    }
+    final listDevice = [
+      'iPhone 6',
+      'iPhone 7',
+      'iPhone 8',
+      'iPhone SE',
+    ];
+    final currentDevice = await util.getDeviceName();
+    for (final device in listDevice) {
+      if(currentDevice.contains(device)){
+        showFingerId.add(true);
+        return;
+      }
+    }}
 
   Future<void> checkBiometrics(BuildContext context) async {
     final bool canCheckBiometrics = await localAuth.canCheckBiometrics;

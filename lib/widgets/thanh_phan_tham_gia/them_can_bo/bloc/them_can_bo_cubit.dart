@@ -139,6 +139,10 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   }
 
   void search(String text) {
+    final vl = searchCanBo(text);
+    getCanbo.sink.add(vl);
+  }
+  List<DonViModel> searchCanBo (String text){
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(DonViModel canBo) {
       return canBo.name.toLowerCase().vietNameseParse().contains(searchTxt) ||
@@ -146,8 +150,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
           canBo.tenCanBo.toLowerCase().vietNameseParse().contains(searchTxt);
     }
 
-    final vl = listCanBo.where((element) => isListCanBo(element)).toList();
-    getCanbo.sink.add(vl);
+    return  listCanBo.where((element) => isListCanBo(element)).toList();
   }
 
   void dispose() {

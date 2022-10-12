@@ -316,7 +316,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         MessageConfig.show(
-          title: S.current.cu_can_bo_thanh_cong,
+          title: S.current.cu_can_bo_di_thay_thanh_cong,
         );
         needRefreshMainMeeting = true;
         isCheck = true;

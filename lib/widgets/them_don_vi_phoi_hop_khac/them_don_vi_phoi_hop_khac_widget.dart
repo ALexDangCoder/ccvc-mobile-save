@@ -438,11 +438,11 @@ class _ItemDonViPhoiHopWidgetState extends State<ItemDonViPhoiHopWidget> {
         onChange?.call(value);
       },
       initialValue: initValue,
-      style: textNormal(color3D5586, 16),
+      style: textNormal(color3D5586, 14.0.textScale()),
       maxLines: isMobile() ? 1 : 3,
       decoration: InputDecoration(
         hintText: hintText ?? S.current.nhap_noi_dung_cong_viec,
-        hintStyle: textNormal(textBodyTime, 16),
+        hintStyle: textNormal(textBodyTime, 14.0.textScale()),
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: borderButtomColor),
           borderRadius: BorderRadius.all(Radius.circular(6)),

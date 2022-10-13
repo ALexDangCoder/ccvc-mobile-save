@@ -752,3 +752,14 @@ class LichLapConst {
   static const LAP_LAI_HANG_NAM = 'Lặp lại hàng năm';
   static const TUY_CHINH = 'Tùy chỉnh';
 }
+
+class StatusMpiddth {
+  static const OK = 'OK';
+  static const MISSING_CORNERS = 'MISSING_CORNERS';
+  static const TOO_SMALL = 'TOO_SMALL';
+  static const BLUR_IMAGE = 'BLUR_IMAGE';
+  static const RECOGNITION_FAILED = 'RECOGNITION_FAILED';
+  static const IDCARD_DETECTION_FAILED = 'IDCARD_DETECTION_FAILED';
+  static const UNKNOWN_FAILURE = 'UNKNOWN_FAILURE';
+  static const IDCARD_CLASSIFICATION_FAILED = 'IDCARD_CLASSIFICATION_FAILED';
+}

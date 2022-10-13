@@ -1479,5 +1479,6 @@
   "nguoi_tiep_don": "Người tiếp đón",
   "ly_do_vao_co_quan": "Lý do vào cơ quan",
   "nhap_ten_day_du_co_quan": "Nhập tên đầy đủ cơ quan/tổ chức",
-  "nhap_ten_nguoi_don": "Nhập tên người tiếp đón"
+  "nhap_ten_nguoi_don": "Nhập tên người tiếp đón",
+  "nhap_ly_do": "Nhập lý do"
 }

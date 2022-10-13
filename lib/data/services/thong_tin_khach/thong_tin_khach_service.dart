@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:ccvc_mobile/data/request/thong_tin_khach/tao_thong_tin_khach_request.dart';
+import 'package:ccvc_mobile/data/response/thong_tin_khach/check_id_card_response.dart';
 import 'package:ccvc_mobile/data/response/thong_tin_khach/tao_thong_tin_khach_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:retrofit/retrofit.dart';
@@ -15,5 +17,22 @@ abstract class ThongTinKhachService {
 
   @POST(ApiConstants.MPIDDTH_CREATE_EVENT)
   Future<DataTaoThongTinKhachResponse> postThongTinKhach(
-     @Body() TaoThongTinKhachRequest taoThongTinKhachRequest);
+      @Body() TaoThongTinKhachRequest taoThongTinKhachRequest);
+}
+
+@RestApi()
+abstract class ThongTinKhachServiceLocal {
+  @factoryMethod
+  factory ThongTinKhachServiceLocal(Dio dio, {String baseUrl}) =
+      _ThongTinKhachServiceLocal;
+
+  @MultiPart()
+  @POST(ApiConstants.MPIDDTH_CHECK_CARD)
+  Future<CheckIdCardResponse> postCheckIdCard(
+    @Header('accept') String? accept,
+    @Header('client-id') String? clientID,
+    @Header('client-secret') String? clientSecret,
+    @Part(name: 'front_image') List<File> front_image,
+    @Part(name: 'back_image') List<File> back_image,
+  );
 }

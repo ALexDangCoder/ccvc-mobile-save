@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:ccvc_mobile/utils/app_utils.dart' as util;
+import 'package:ccvc_mobile/utils/debouncer.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:ccvc_mobile/config/app_config.dart';
@@ -41,6 +44,7 @@ class LoginCubit extends BaseCubit<LoginState> {
   bool isHideEye1 = false;
   bool passIsError = false;
   final toast = FToast();
+  bool isCheck = false;
   BehaviorSubject<String> thongBao = BehaviorSubject();
 
   bool? getEmail(String text) {
@@ -170,88 +174,120 @@ class LoginCubit extends BaseCubit<LoginState> {
     canCheckIsDeviceSupportedSubject.sink.add(canCheckIsDeviceSupported);
   }
 
-  Future<void> checkBiometrics(BuildContext context) async {
-    final bool canCheckBiometrics = await localAuth.canCheckBiometrics;
-    if (canCheckBiometrics) {
-      List<BiometricType> availableBiometrics =
-          await localAuth.getAvailableBiometrics();
-      if(availableBiometrics.isEmpty){
-        showDiaLog(
-          context,
-          title: S.current.thong_bao,
-          textContent: S.current.thiet_bi_cua_ban_chua_bat,
-          icon: Container(),
-          btnRightTxt: S.current.dong,
-          isOneButton: false,
-          btnLeftTxt: S.current.dong,
-          funcBtnRight: () {},
-        );
-      }
-      if (availableBiometrics.isNotEmpty) {
-        try {
-          if (PrefsService.getOpenFaceId() != '') {
-            final authenticated = await localAuth.authenticate(
-                localizedReason: 'Please authenticate to show account balance',
-              options: const AuthenticationOptions(useErrorDialogs: false,biometricOnly: true)
-                );
-            if (authenticated) {
-              await loginAndSaveinfo(
-                userName: PrefsService.getLoginUserName(),
-                passWord: PrefsService.getLoginPassWord(),
-                appCode: APP_CODE,
-              );
-            }
-          } else {
-            showDiaLog(
-              context,
-              title: S.current.dang_nhap_khong_thanh_cong,
-              textContent: S.current.chuc_nang_dang_nhap_bang,
-              icon: Container(),
-              btnRightTxt: S.current.dong,
-              isOneButton: false,
-              btnLeftTxt: S.current.dong,
-              funcBtnRight: () {},
-            );
-          }
-        } on PlatformException catch (e) {
-         if(e.code == auth_error.lockedOut){
-            showDiaLog(
-              context,
-              title: S.current.dang_nhap_khong_thanh_cong,
-              textContent: S.current.chuc_nang_dang_nhap_bang,
-              icon: Container(),
-              btnRightTxt: S.current.dong,
-              isOneButton: false,
-              btnLeftTxt: S.current.dong,
-              funcBtnRight: () {},
-            );
-          }else if(e.code == auth_error.notEnrolled){
-            showDiaLog(
-              context,
-              title: S.current.thong_bao,
-              textContent: S.current.thiet_bi_cua_ban_chua_bat,
-              icon: Container(),
-              btnRightTxt: S.current.dong,
-              isOneButton: false,
-              btnLeftTxt: S.current.dong,
-              funcBtnRight: () {},
-            );
-          }else{
-           if(e.code!='auth_in_progress')
-           showDiaLog(
-             context,
-             title: S.current.thong_bao,
-             textContent: S.current.thiet_bi_cua_ban_chua_bat,
-             icon: Container(),
-             btnRightTxt: S.current.dong,
-             isOneButton: false,
-             btnLeftTxt: S.current.dong,
-             funcBtnRight: () {},
-           );
-         }
+  BehaviorSubject<bool> showFingerId = BehaviorSubject.seeded(false);
 
-        }
+  Future<void> checkDevice() async {
+    if (Platform.isAndroid) {
+      showFingerId.add(true);
+      return;
+    }
+    final listDevice = [
+      'iPhone 6',
+      'iPhone 7',
+      'iPhone 8',
+      'iPhone SE',
+    ];
+    final currentDevice = await util.getDeviceName();
+    for (final device in listDevice) {
+      if (currentDevice.contains(device)) {
+        showFingerId.add(true);
+        return;
       }
     }
+  }
+
+  Future<void> checkBiometrics(BuildContext context) async {
+    if (!isCheck) {
+      isCheck = true;
+      final bool canCheckBiometrics = await localAuth.canCheckBiometrics;
+      if (canCheckBiometrics) {
+        List<BiometricType> availableBiometrics =
+            await localAuth.getAvailableBiometrics();
+        if (availableBiometrics.isEmpty) {
+          showDialogLogin(
+            content: S.current.thiet_bi_cua_ban_chua_bat,
+            context: context,
+            title: S.current.thong_bao,
+          );
+        }
+        if (availableBiometrics.isNotEmpty) {
+          try {
+            if (PrefsService.getOpenFaceId() != '' &&
+                PrefsService.getLoginUserName() != '') {
+              final authenticated = await localAuth.authenticate(
+                  localizedReason:
+                      'Please authenticate to show account balance',
+                  options: const AuthenticationOptions(
+                      useErrorDialogs: false, biometricOnly: true));
+              if (authenticated) {
+                await loginAndSaveinfo(
+                  userName: PrefsService.getLoginUserName(),
+                  passWord: PrefsService.getLoginPassWord(),
+                  appCode: APP_CODE,
+                );
+              }
+            } else {
+              showDialogLogin(
+                content: S.current.chuc_nang_dang_nhap_bang,
+                context: context,
+                title: S.current.dang_nhap_khong_thanh_cong,
+              );
+            }
+          } on PlatformException catch (e) {
+            print(e.code);
+            if (e.code == auth_error.lockedOut) {
+              showDialogLogin(
+                content: S.current.chuc_nang_dang_nhap_bang,
+                context: context,
+                title: S.current.dang_nhap_khong_thanh_cong,
+              );
+            } else if (e.code == 'auth_in_progress') {
+              showDialogLogin(
+                content: S.current.chuc_nang_dang_nhap_bang,
+                context: context,
+                title: S.current.dang_nhap_khong_thanh_cong,
+              );
+            } else if (e.code == auth_error.permanentlyLockedOut) {
+              showDialogLogin(
+                content: S.current.chuc_nang_dang_nhap_bang,
+                context: context,
+                title: S.current.dang_nhap_khong_thanh_cong,
+              );
+            } else if (e.code == auth_error.notEnrolled) {
+              showDialogLogin(
+                content: S.current.thiet_bi_cua_ban_chua_bat,
+                context: context,
+                title: S.current.thong_bao,
+              );
+            } else {
+              if (e.code != 'auth_in_progress') {
+                showDialogLogin(
+                  content: S.current.thiet_bi_cua_ban_chua_bat,
+                  context: context,
+                  title: S.current.thong_bao,
+                );
+              }
+            }
+          }
+        }
+      }
+      isCheck = false;
+    }
+  }
+
+  void showDialogLogin(
+      {required BuildContext context,
+      required String title,
+      required String content}) {
+    showDiaLog(
+      context,
+      title: title,
+      textContent: content,
+      icon: Container(),
+      btnRightTxt: S.current.dong,
+      isOneButton: false,
+      btnLeftTxt: S.current.dong,
+      funcBtnRight: () {},
+    );
   }
 }

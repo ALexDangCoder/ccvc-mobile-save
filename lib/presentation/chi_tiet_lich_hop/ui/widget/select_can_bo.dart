@@ -123,7 +123,9 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                         widget.themCanBoCubit.getCanboStream,
                                     builder: (context, snapshot) {
                                       final data =
-                                          snapshot.data ?? <DonViModel>[];
+                                          widget.themCanBoCubit.searchCanBo(
+                                        controllerSearch.text,
+                                      );
                                       if (data.isNotEmpty) {
                                         return Column(
                                           children: List.generate(
@@ -244,7 +246,9 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                         stream: widget.themCanBoCubit.getCanbo,
                                         builder: (context, snapshot) {
                                           final data =
-                                              snapshot.data ?? <DonViModel>[];
+                                              widget.themCanBoCubit.searchCanBo(
+                                            controllerSearch.text,
+                                          );
                                           if (data.isNotEmpty) {
                                             return ListView(
                                               physics:
@@ -264,7 +268,8 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                       top: index == 0 ? 0 : 16,
                                                     ),
                                                     child: itemCanBo(
-                                                      onCheckBox: (value) async {
+                                                      onCheckBox:
+                                                          (value) async {
                                                         widget.themCanBoCubit
                                                             .addDataListByModel(
                                                           result,
@@ -285,13 +290,15 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                       },
                                                       canBoModel: result,
                                                       themCanBoCubit:
-                                                      widget.themCanBoCubit,
+                                                          widget.themCanBoCubit,
                                                       onChange: (value) {
-                                                        tenCanBo = value.tenCanBo;
+                                                        tenCanBo =
+                                                            value.tenCanBo;
                                                         widget.themCanBoCubit
                                                             .donViModel = value;
                                                       },
-                                                      isCheck: data[index].isCheck,
+                                                      isCheck:
+                                                          data[index].isCheck,
                                                     ),
                                                   );
                                                 },

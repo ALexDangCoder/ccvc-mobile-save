@@ -9,5 +9,6 @@
   "header_origin": "https://mpi-ccvc-test.chinhquyendientu.vn",
   "url_HTCS": "https://htcs-test.chinhquyendientu.vn/folders/",
   "base_url_htcs": "https://api-htcs-test.chinhquyendientu.vn",
-  "base_url_image": "https://file-common-test.chinhquyendientu.vn/"
+  "base_url_image": "https://file-common-test.chinhquyendientu.vn/",
+  "base_url_mpiddth": "https://mpiddth-test-control-api.edsolabs.com/"
 }

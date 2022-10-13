@@ -128,8 +128,11 @@ class SelectTHuHoiCell extends StatelessWidget {
         stream: cubit.listRecall.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? [];
-          final dataSN = data
-              .where((element) => element.status == 4)
+          final dataSN = (snapshot.data ?? [])
+              .where(
+                (element) =>
+                    element.status == StatusOfficersConst.STATUS_THU_HOI,
+              )
               .map((e) => e.getTitle())
               .toList();
           return Stack(

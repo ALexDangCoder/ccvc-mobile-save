@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/button/button_select_file.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
@@ -290,7 +289,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                     Navigator.pop(context);
                   },
                   onClickRight: () {
-                    if (title.isEmpty) {
+                    if (title.trim().isEmpty) {
                       isShow.sink.add(true);
                       return;
                     }

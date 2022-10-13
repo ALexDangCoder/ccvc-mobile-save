@@ -545,7 +545,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
             content: contentController.value.text.removeSpace,
             location: locationController.value.text.removeSpace,
             isEdit: true,
-            isOnly: value,
+            isOnly: value ?? !createCubit.lichLapKhongLapLaiSubject.value,
             isInside: !data,
             scheduleId: widget.event.id,
           );

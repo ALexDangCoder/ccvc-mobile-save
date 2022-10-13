@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
@@ -42,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    loginCubit.checkDevice();
     loginCubit.closeDialog();
     loginCubit.toast.init(context);
   }
@@ -347,63 +347,37 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Visibility(
-                                        visible: isAndroid ?? true,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              loginCubit
-                                                  .checkBiometrics(context);
-                                            });
-                                          },
-                                          child: Container(
-                                            height: 48,
-                                            width: 48,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              color: AppTheme.getInstance()
-                                                  .colorField()
-                                                  .withOpacity(0.1),
-                                            ),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                ImageAssets.icFingerprint,
+                                      StreamBuilder<bool>(
+                                        stream: loginCubit.showFingerId,
+                                        builder: (context, snapshotShowFingerId) {
+                                          final datashowFingerId = snapshotShowFingerId.data;
+                                          return GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                loginCubit
+                                                    .checkBiometrics(context);
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 48,
+                                              width: 48,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
                                                 color: AppTheme.getInstance()
-                                                    .colorField(),
+                                                    .colorField()
+                                                    .withOpacity(0.1),
+                                              ),
+                                              child: Center(
+                                                child: SvgPicture.asset(datashowFingerId==true?
+                                                  ImageAssets.icFingerprint:ImageAssets.icFaceId,
+                                                  color: AppTheme.getInstance()
+                                                      .colorField(),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                      Visibility(
-                                        visible: isIOS ?? true,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              loginCubit
-                                                  .checkBiometrics(context);
-                                            });
-                                          },
-                                          child: Container(
-                                            height: 48,
-                                            width: 48,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              color: AppTheme.getInstance()
-                                                  .colorField()
-                                                  .withOpacity(0.1),
-                                            ),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                ImageAssets.icFaceId,
-                                                color: AppTheme.getInstance()
-                                                    .colorField(),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                          );
+                                        }
                                       ),
                                     ],
                                   ),

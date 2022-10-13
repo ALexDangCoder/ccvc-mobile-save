@@ -35,6 +35,13 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
     super.initState();
     toast.init(context);
     widget.cubit.dateDanhSach = '';
+    widget.cubit.email = '';
+    widget.cubit.hoTen = '';
+    widget.cubit.phoneCoQuan = '';
+    widget.cubit.phoneDiDong = '';
+    widget.cubit.phoneNhaRieng = '';
+    widget.cubit.cmtnd = '';
+    widget.cubit.diaChi = '';
     widget.cubit.isCheckValidate.add(' ');
     widget.cubit.pathAnh = '';
   }

@@ -41,6 +41,8 @@ class SelectDonVi extends StatefulWidget {
 }
 
 class _SelectDonViState extends State<SelectDonVi> {
+  final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -103,6 +105,7 @@ class _SelectDonViState extends State<SelectDonVi> {
         context,
         title: S.current.chon_thanh_phan_tham_gia,
         child: TreeDonVi(
+          searchController: searchController,
           themDonViCubit: widget.themDonViCubit,
         ),
       ).then((value) {
@@ -117,6 +120,7 @@ class _SelectDonViState extends State<SelectDonVi> {
         context,
         title: S.current.chon_thanh_phan_tham_gia,
         child: TreeDonVi(
+          searchController: searchController,
           themDonViCubit: widget.themDonViCubit,
         ),
         isBottomShow: true,
@@ -156,8 +160,13 @@ class _SelectDonViState extends State<SelectDonVi> {
 
 class TreeDonVi extends StatelessWidget {
   final ThemDonViCubit themDonViCubit;
+  final TextEditingController? searchController;
 
-  const TreeDonVi({Key? key, required this.themDonViCubit}) : super(key: key);
+  const TreeDonVi({
+    Key? key,
+    required this.themDonViCubit,
+    this.searchController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +179,7 @@ class TreeDonVi extends StatelessWidget {
             height: 20.0.textScale(space: 4),
           ),
           BaseSearchBar(
+            controller: searchController,
             onChange: (value) {
               themDonViCubit.onSearch(value);
             },

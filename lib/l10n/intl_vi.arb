@@ -7,6 +7,7 @@
   "error_network": "No internet!",
   "retry": "Retry",
   "chinh_sua_htkt": "Chỉnh sửa yêu cầu hỗ trợ",
+  "cu_can_bo_di_thay_thanh_cong" : "Cử cán bộ đi thay thành công",
   "unauthorized": "Your session has expired. Please sign in.",
   "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cấp",
   "them_moi_doi_tuong": "Thêm mới đối tượng",

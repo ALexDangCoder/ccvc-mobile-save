@@ -87,29 +87,29 @@ class InfoUserWidget extends StatelessWidget {
                 ],
               ),
             ),
-            // Visibility(
-            //   visible: data.isSinhNhat(),
-            //   child: Expanded(
-            //     child: GestureDetector(
-            //       onTap: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //             builder: (context) =>
-            //                 const DanhSachThiepVaLoiChucScreen(),
-            //           ),
-            //         );
-            //       },
-            //       child: Container(
-            //         color: Colors.transparent,
-            //         child: Image.asset(
-            //           ImageAssets.icHappyBirthday,
-            //           height: 40,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Visibility(
+              visible: data.isSinhNhat(),
+              child: Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const DanhSachThiepVaLoiChucScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Image.asset(
+                      ImageAssets.icHappyBirthday,
+                      height: 40,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Container(
               height: 40.0.textScale(space: 8),
               width: 40.0.textScale(space: 8),

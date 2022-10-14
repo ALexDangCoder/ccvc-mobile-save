@@ -1207,7 +1207,7 @@
   "xac_nhan_dong_pop_up": "Bạn có chắc chắn đóng thêm mới chia sẻ hay không?",
   "ban_co_chac_chan_yeu_thich": "Bạn có chắc chắn yêu thích báo cáo này không?",
   "ban_co_bo_chac_chan_yeu_thich": "Bạn có chắc chắn bỏ yêu thích báo cáo này không?",
-  "yeu_thich_thu_muc": "Yêu thích thư mục, báo cáo",
+  "yeu_thich_thu_muc": "Yêu thích báo cáo",
   "yeu_thich_thanh_cong": "Yêu thích thành công",
   "yeu_thich_that_bai": "Yêu thích thất bại",
   "huy_yeu_thich_thanh_cong": "Hủy yêu thích thành công",
@@ -1479,5 +1479,6 @@
   "nguoi_tiep_don": "Người tiếp đón",
   "ly_do_vao_co_quan": "Lý do vào cơ quan",
   "nhap_ten_day_du_co_quan": "Nhập tên đầy đủ cơ quan/tổ chức",
-  "nhap_ten_nguoi_don": "Nhập tên người tiếp đón"
+  "nhap_ten_nguoi_don": "Nhập tên người tiếp đón",
+  "nhap_ly_do": "Nhập lý do"
 }

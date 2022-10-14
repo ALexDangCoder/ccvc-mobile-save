@@ -299,9 +299,10 @@ extension CheckValidate on String {
   }
 
   String? checkEmailBoolean2(String text) {
+
     final isCheck = RegExp(
       REGEX_EMAIL,
-    ).hasMatch(this);
+    ).hasMatch(trim());
     if (isCheck) {
       if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {
         return '${S.current.sai_dinh_dang_truong} $text';

@@ -80,6 +80,7 @@ enum BaseURLOption {
   HEAD_ORIGIN,
   HTCS,
   MPIDDTH,
+  MPIDDTHLocal,
 }
 
 void configureDependencies() {
@@ -242,7 +243,12 @@ void configureDependencies() {
       provideDio(baseOption: BaseURLOption.MPIDDTH),
     ),
   );
-  Get.put<ThongTinKhachRepository>(ThongTinKhachImpl(Get.find()));
+  Get.put(
+    ThongTinKhachServiceLocal(
+      provideDio(baseOption: BaseURLOption.MPIDDTHLocal),
+    ),
+  );
+  Get.put<ThongTinKhachRepository>(ThongTinKhachImpl(Get.find(),Get.find()));
 }
 
 int _connectTimeOut = 60000;
@@ -266,6 +272,9 @@ String getUrlDomain({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       return appConstants.baseUrlHTCS;
     case BaseURLOption.MPIDDTH:
       return appConstants.baseUrlMpiddth;
+    case BaseURLOption.MPIDDTHLocal:
+      return appConstants.baseUrlMpiddthLocal;
+      break;
   }
 }
 
@@ -296,6 +305,9 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       break;
     case BaseURLOption.MPIDDTH:
       baseUrl = appConstants.baseUrlMpiddth;
+      break;
+    case BaseURLOption.MPIDDTHLocal:
+      baseUrl = appConstants.baseUrlMpiddthLocal;
       break;
   }
   final options = BaseOptions(

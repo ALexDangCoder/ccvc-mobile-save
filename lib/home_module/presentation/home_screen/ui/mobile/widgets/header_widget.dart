@@ -11,8 +11,7 @@ class HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 186,
-      width: double.infinity,
+      padding: const EdgeInsets.only(bottom:20),
       color: backgroundColorApp,
       child: Stack(
         children: [
@@ -28,10 +27,9 @@ class HeaderWidget extends StatelessWidget {
             ),
           ),
           Container(
-            height: 166,
             width: double.infinity,
-            margin: const EdgeInsets.only(left: 16, right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.only(left: 16, right: 16,),
+            padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(8)),
               color: Colors.white,
@@ -43,6 +41,7 @@ class HeaderWidget extends StatelessWidget {
               ],
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -51,11 +50,9 @@ class HeaderWidget extends StatelessWidget {
                   ),
                   child: const InfoUserWidget(),
                 ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 14),
-                    child: const DayTimeWidget(),
-                  ),
+                Container(
+                  padding: const EdgeInsets.only(top: 14,),
+                  child: const DayTimeWidget(),
                 )
               ],
             ),

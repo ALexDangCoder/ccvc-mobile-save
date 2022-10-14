@@ -24,43 +24,68 @@ class InfoUserWidget extends StatelessWidget {
       stream: HomeProvider.of(context).homeCubit.getInforUser,
       builder: (context, snapshot) {
         final data = snapshot.data ?? UserInformationModel();
-
         return Row(
           mainAxisAlignment: mainAxisAlignment,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: '${S.current.hello}, ',
-                    style: textNormal(
-                      textTitle,
-                      16.0.textScale(),
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: data.hoTen,
-                        style: titleText(
-                          color: textTitle,
-                          fontSize: 16.0.textScale(),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${S.current.hello},',
+                        style: textNormal(
+                          textTitle,
+                          16.0.textScale(),
                         ),
                       ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Expanded(
+                        child: Text(
+                          data.hoTen ?? '',
+                          style: titleText(
+                            color: textTitle,
+                            fontSize: 16.0.textScale(),
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  data.chucVu ?? '',
-                  style: textNormal(
-                    subTitle,
-                    14.0.textScale(),
+                  // RichText(
+                  //   text: TextSpan(
+                  //     text: '${S.current.hello}, ',
+                  //     style: textNormal(
+                  //       textTitle,
+                  //       16.0.textScale(),
+                  //     ),
+                  //     children: <TextSpan>[
+                  //       TextSpan(
+                  //         text: data.hoTen,
+                  //         style: titleText(
+                  //           color: textTitle,
+                  //           fontSize: 16.0.textScale(),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  const SizedBox(
+                    height: 4,
                   ),
-                )
-              ],
+                  Text(
+                    data.chucVu ?? '',
+                    style: textNormal(
+                      subTitle,
+                      14.0.textScale(),
+                    ),
+                  )
+                ],
+              ),
             ),
             Visibility(
               visible: data.isSinhNhat(),

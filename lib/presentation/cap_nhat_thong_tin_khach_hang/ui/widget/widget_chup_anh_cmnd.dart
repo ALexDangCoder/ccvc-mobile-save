@@ -11,7 +11,10 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 
@@ -27,26 +30,152 @@ class WidgetChupAnhCMND extends StatefulWidget {
   _WidgetChupAnhCMNDState createState() => _WidgetChupAnhCMNDState();
 }
 
-class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND> {
+class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
+    with WidgetsBindingObserver {
   final GlobalKey _cropKey = GlobalKey();
   final GlobalKey _previewKey = GlobalKey();
   File? _capturedImage;
   late List<CameraDescription> _cameras;
+  bool showFocusCircle = false;
+  bool isTakePhoto = false;
+  double x = 0;
+  double y = 0;
+  late final FToast toast;
 
   CameraController? _controller;
 
   @override
   void initState() {
     super.initState();
+    toast = FToast();
+    toast.init(context);
+    WidgetsBinding.instance?.addObserver(this);
+    _controller?.addListener(() {});
     _getCameras();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final CameraController? cameraController = _controller;
+    // App state changed before we got the chance to initialize.
+    if (cameraController == null || !cameraController.value.isInitialized) {
+      return;
+    }
+
+    if (state == AppLifecycleState.inactive) {
+      cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      onNewCameraSelected(cameraController.description);
+    }
+  }
+
+  Future<void> onNewCameraSelected(CameraDescription cameraDescription) async {
+    final CameraController? oldController = _controller;
+    if (oldController != null) {
+      _controller = null;
+      await oldController.dispose();
+    }
+
+    final CameraController cameraController = CameraController(
+      cameraDescription,
+      ResolutionPreset.max,
+    );
+    _controller = cameraController;
+    // If the controller is updated then update the UI.
+    await initCamera(cameraController);
+  }
+
+  Future<void> initCamera(CameraController cameraController) async {
+    cameraController.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+      if (cameraController.value.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text('Camera error ${cameraController.value.errorDescription}'),
+          ),
+        );
+      }
+    });
+    try {
+      await cameraController.initialize();
+    } on CameraException catch (e) {
+      switch (e.code) {
+        case 'CameraAccessDenied':
+          await MessageConfig.showDialogSetting(title: S.current.camera_access);
+          break;
+        case 'CameraAccessDeniedWithoutPrompt':
+          // iOS only
+          await MessageConfig.showDialogSetting(title: S.current.camera_access);
+          break;
+        case 'CameraAccessRestricted':
+          // iOS only
+          showToast(message: S.current.camera_restricted);
+          break;
+        case 'AudioAccessDenied':
+          await MessageConfig.showDialogSetting(title: S.current.audio_access);
+          break;
+        case 'AudioAccessDeniedWithoutPrompt':
+          //ios only
+          await MessageConfig.showDialogSetting(title: S.current.audio_access);
+          break;
+        case 'AudioAccessRestricted':
+          // iOS only
+          showToast(message: S.current.audio_restricted);
+          showToast(
+            message: 'Audio access is restricted.',
+          );
+          break;
+        default:
+          showToast(
+            message: S.current.something_went_wrong,
+          );
+          break;
+      }
+    }
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _getCameras() async {
     _cameras = await availableCameras();
     _controller = CameraController(_cameras[0], ResolutionPreset.max);
-    await _controller?.initialize();
+    await initCamera(_controller!);
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  void showToast({required String message}) {
+    toast.removeQueuedCustomToasts();
+    toast.showToast(
+      child: ShowToast(
+        text: message,
+        withOpacity: 0.4,
+      ),
+      gravity: ToastGravity.TOP_RIGHT,
+    );
+  }
+
+  Future<void> _tapToFocus (TapUpDetails details) async {
+    if (_controller?.value.isInitialized ?? false) {
+      showFocusCircle = true;
+      x = details.localPosition.dx;
+      y = details.localPosition.dy;
+      final double xp = x / (_previewKey.currentContext?.size?.width ?? 0);
+      final double yp = y / (_previewKey.currentContext?.size?.height ?? 0);
+      final Offset point = Offset(xp, yp);
+      await _controller?.setFocusPoint(point);
+      setState(() {
+        Future.delayed(const Duration(seconds: 2)).whenComplete(() {
+          setState(() {
+            showFocusCircle = false;
+          });
+        });
+      });
     }
   }
 
@@ -74,42 +203,48 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND> {
     return String.fromCharCodes(charCodes);
   }
 
+
+  Future<void> takePhoto() async {
+    if (!isTakePhoto) {
+      isTakePhoto = true;
+      final XFile file = await _controller!.takePicture();
+      await _controller?.pausePreview();
+      _capturedImage = File(file.path);
+      final bytes = await _capturedImage!.readAsBytes();
+      final src = img.decodeImage(bytes);
+      final tileWidth =
+          (src?.width ?? 1) / (_previewKey.currentContext?.size?.width ?? 1);
+      final tileHeight =
+          (src?.height ?? 1) / (_previewKey.currentContext?.size?.height ?? 1);
+      final box = _cropKey.currentContext!.findRenderObject() as RenderBox;
+      final previewBox =
+          _previewKey.currentContext!.findRenderObject() as RenderBox;
+      final offsetX = box.localToGlobal(Offset.zero).dx;
+      final offsetBoxY = box.localToGlobal(Offset.zero).dy;
+      final offsetPreviewY = previewBox.localToGlobal(Offset.zero).dy;
+      final width = box.size.width;
+      final height = box.size.height;
+      final destImage = img.copyCrop(
+        src!,
+        (offsetX * tileWidth).toInt(),
+        ((offsetBoxY - offsetPreviewY) * tileHeight).toInt(),
+        (width * tileWidth).toInt(),
+        (height * tileHeight).toInt(),
+      );
+      final jpg = img.encodeJpg(destImage);
+      final Directory dir = await getTemporaryDirectory();
+      final String path = '${dir.path}/${_randomNonceString()}.png';
+      _capturedImage = await File(path).writeAsBytes(jpg);
+      setState(() {});
+      isTakePhoto = false;
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     _controller?.dispose();
-  }
-
-  Future<void> takePhoto() async {
-    final XFile file = await _controller!.takePicture();
-    await _controller?.pausePreview();
-    _capturedImage = File(file.path);
-    final bytes = await _capturedImage!.readAsBytes();
-    final src = img.decodeImage(bytes);
-    final tileWidth =
-        (src?.width ?? 1) / (_previewKey.currentContext?.size?.width ?? 1);
-    final tileHeight =
-        (src?.height ?? 1) / (_previewKey.currentContext?.size?.height ?? 1);
-    final box = _cropKey.currentContext!.findRenderObject() as RenderBox;
-    final previewBox =
-        _previewKey.currentContext!.findRenderObject() as RenderBox;
-    final offsetX = box.localToGlobal(Offset.zero).dx;
-    final offsetBoxY = box.localToGlobal(Offset.zero).dy;
-    final offsetPreviewY = previewBox.localToGlobal(Offset.zero).dy;
-    final width = box.size.width;
-    final height = box.size.height;
-    final destImage = img.copyCrop(
-      src!,
-      (offsetX * tileWidth).toInt(),
-      ((offsetBoxY - offsetPreviewY) * tileHeight).toInt(),
-      (width * tileWidth).toInt(),
-      (height * tileHeight).toInt(),
-    );
-    final jpg = img.encodeJpg(destImage);
-    final Directory dir = await getTemporaryDirectory();
-    final String path = '${dir.path}/${_randomNonceString()}.png';
-    _capturedImage = await File(path).writeAsBytes(jpg);
-    setState(() {});
   }
 
   @override
@@ -128,6 +263,19 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND> {
                 key: _previewKey,
               ),
             ),
+          if (showFocusCircle)
+            Positioned(
+              top: y - 20,
+              left: x - 20,
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 1.5),
+                ),
+              ),
+            ),
           Column(
             children: [
               Container(
@@ -135,7 +283,7 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND> {
                 height: 16,
               ),
               SizedBox(
-                height: (MediaQuery.of(context).size.width - 32)  / 1.8,
+                height: (MediaQuery.of(context).size.width - 32) / 1.8,
                 child: Row(
                   children: [
                     Container(
@@ -152,8 +300,14 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND> {
                                   fit: BoxFit.fill,
                                 ),
                               )
-                            : WidgetFrameConner(
-                                key: _cropKey,
+                            : GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTapUp: (details) {
+                                  _tapToFocus(details);
+                                },
+                                child: WidgetFrameConner(
+                                  key: _cropKey,
+                                ),
                               ),
                       ),
                     ),

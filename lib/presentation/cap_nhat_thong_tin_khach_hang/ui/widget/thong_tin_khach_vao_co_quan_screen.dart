@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/cap_nhat_thong_tin_khach/LoaiTheModel.dart';
+import 'package:ccvc_mobile/domain/model/thong_tin_khach/check_id_card_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/bloc/cap_nhat_thong_tin_khach_hang_cubit.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
@@ -16,7 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ThongTinKhachVaoCoQuanScreen extends StatefulWidget {
-  const ThongTinKhachVaoCoQuanScreen({Key? key}) : super(key: key);
+ final CheckIdCardModel checkIdCardModel;
+   ThongTinKhachVaoCoQuanScreen({Key? key, required this.checkIdCardModel}) : super(key: key);
 
   @override
   _ThongTinKhachVaoCoQuanScreenState createState() =>
@@ -44,6 +46,8 @@ class _ThongTinKhachVaoCoQuanScreenState
   void initState() {
     cubit.postThongTinKhach();
     super.initState();
+    hoTenEditingController.text=widget.checkIdCardModel.frontContent?.content?.name??'';
+    soCmndEditingController.text=widget.checkIdCardModel.frontContent?.content?.id??'';
   }
 
   @override
@@ -126,7 +130,7 @@ class _ThongTinKhachVaoCoQuanScreenState
                 title: S.current.gioi_tinh,
                 child: CoolDropDown(
                   key: UniqueKey(),
-                  initData: S.current.Nam,
+                  initData: widget.checkIdCardModel.frontContent?.content?.gender??'',
                   placeHoder: S.current.gioi_tinh,
                   onChange: (value) {},
                   listData: cubit.dataGioiTinh,
@@ -175,11 +179,11 @@ class _ThongTinKhachVaoCoQuanScreenState
                 isObligatory: true,
                 title: S.current.ly_do_vao_co_quan,
                 child: TextFieldValidator(
-                  hintText: 'Nhập lý do',
+                  hintText:  S.current.nhap_ly_do,
                   controller: nhapLyDoEditingController,
                   maxLength: 255,
                   validator: (value) {
-                    return (value ?? '').checkTruongNull('Nhập lý do');
+                    return (value ?? '').checkTruongNull(S.current.nhap_ly_do);
                   },
                 ),
               ),

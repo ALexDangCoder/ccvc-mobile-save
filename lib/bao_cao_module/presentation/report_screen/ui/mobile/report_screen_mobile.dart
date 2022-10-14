@@ -61,7 +61,7 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
         stream: cubit.isStatusSearch,
         builder: (context, snapshot) {
           return Scaffold(
-            appBar: widgetAppbar(snapshot.data ?? false),
+            appBar: (snapshot.data ?? false) ? widgetAppbar() : searchAppBar(),
             body: snapshot.data ?? false ? body() : bodySearch(),
           );
         },
@@ -326,121 +326,127 @@ class _ReportScreenMobileState extends State<ReportScreenMobile> {
     );
   }
 
-  BaseAppBarMobile widgetAppbar(
-    bool isSearch,
-  ) {
+  BaseAppBarMobile widgetAppbar() {
     return BaseAppBarMobile(
-      title: isSearch ? S.current.bac_cao : '',
+      title: S.current.bac_cao,
       leadingIcon: widget.title?.isNotEmpty ?? false
           ? IconButton(
-              onPressed: () => {Navigator.pop(context)},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               icon: SvgPicture.asset(
                 ImageAssets.icBack,
               ),
             )
           : null,
       actions: [
-        if (isSearch)
-          GestureDetector(
-            onTap: () {
-              cubit.clickIconSearch();
-            },
-            child: Container(
-              padding: const EdgeInsets.only(
-                top: 16,
-                right: 16,
-                bottom: 16,
-              ),
-              child: SvgPicture.asset(
-                ImageAssets.icSearchPAKN,
-                color: AppTheme.getInstance().unselectedLabelColor(),
-              ),
-            ),
-          )
-        else
-          Container(
-            height: 40,
+        GestureDetector(
+          onTap: () {
+            cubit.clickIconSearch();
+          },
+          child: Container(
             padding: const EdgeInsets.only(
-              top: 2.5,
+              top: 16,
+              right: 16,
+              bottom: 16,
             ),
-            decoration: BoxDecoration(
-              border: Border.symmetric(
-                horizontal: BorderSide(
-                  color: cellColorborder,
-                ),
+            child: SvgPicture.asset(
+              ImageAssets.icSearchPAKN,
+              color: AppTheme.getInstance().unselectedLabelColor(),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  BaseAppBarMobile searchAppBar() {
+    return BaseAppBarMobile(
+      title: '',
+      actions: [
+        Container(
+          height: 40,
+          padding: const EdgeInsets.only(
+            top: 2.5,
+          ),
+          decoration: BoxDecoration(
+            border: Border.symmetric(
+              horizontal: BorderSide(
+                color: cellColorborder,
               ),
             ),
-            width: MediaQuery.of(context).size.width,
-            child: StreamBuilder<String>(
-              stream: cubit.textSearch,
-              builder: (context, snapshot) {
-                return TextFormField(
-                  controller: _searchController,
-                  onChanged: (value) {
-                    cubit.searchReport(value);
-                  },
-                  decoration: InputDecoration(
-                    counterStyle: textNormalCustom(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    border: InputBorder.none,
-                    hintStyle: textNormalCustom(
-                      color: AppTheme.getInstance().unselectedLabelColor(),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    hintText: S.current.nhap_tu_khoa_tim_kiem,
-                    prefixIcon: GestureDetector(
-                      onTap: () {
-                        _searchController.clear();
-                        cubit.clearSearch();
-                      },
-                      child: SizedBox(
-                        width: 48,
-                        child: SvgPicture.asset(
-                          ImageAssets.icBack,
-                          color: AppTheme.getInstance().unselectedLabelColor(),
-                        ),
-                      ),
-                    ),
-                    prefixIconConstraints: const BoxConstraints(
-                      minHeight: 20,
-                      minWidth: 20,
-                      maxHeight: 48,
-                      maxWidth: 48,
-                    ),
-                    suffixIconConstraints: BoxConstraints(
-                      minHeight: snapshot.data?.isNotEmpty ?? false ? 16 : 20,
-                      minWidth: snapshot.data?.isNotEmpty ?? false ? 16 : 20,
-                      maxHeight: 48,
-                      maxWidth: 48,
-                    ),
-                    suffixIcon: SizedBox(
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: StreamBuilder<String>(
+            stream: cubit.textSearch,
+            builder: (context, snapshot) {
+              return TextFormField(
+                controller: _searchController,
+                onChanged: (value) {
+                  cubit.searchReport(value);
+                },
+                decoration: InputDecoration(
+                  counterStyle: textNormalCustom(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  border: InputBorder.none,
+                  hintStyle: textNormalCustom(
+                    color: AppTheme.getInstance().unselectedLabelColor(),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  hintText: S.current.nhap_tu_khoa_tim_kiem,
+                  prefixIcon: IconButton(
+                    onPressed: () {
+                      _searchController.clear();
+                      cubit.clearSearch();
+                    },
+                    icon: SizedBox(
                       width: 48,
-                      child: GestureDetector(
-                        onTap: () {
-                          if (snapshot.data?.isNotEmpty ?? false) {
-                            _searchController.text = '';
-                            cubit.textSearch.add('');
-                            cubit.getListReport(
-                              isSearch: true,
-                            );
-                          }
-                        },
-                        child: SvgPicture.asset(
-                          snapshot.data?.isNotEmpty ?? false
-                              ? ImageAssets.icClose
-                              : ImageAssets.icSearchPAKN,
-                          color: AppTheme.getInstance().unselectedLabelColor(),
-                        ),
+                      child: SvgPicture.asset(
+                        ImageAssets.icBack,
+                        color: AppTheme.getInstance().unselectedLabelColor(),
                       ),
                     ),
                   ),
-                );
-              },
-            ),
-          )
+                  prefixIconConstraints: const BoxConstraints(
+                    minHeight: 20,
+                    minWidth: 20,
+                    maxHeight: 48,
+                    maxWidth: 48,
+                  ),
+                  suffixIconConstraints: BoxConstraints(
+                    minHeight: snapshot.data?.isNotEmpty ?? false ? 16 : 20,
+                    minWidth: snapshot.data?.isNotEmpty ?? false ? 16 : 20,
+                    maxHeight: 48,
+                    maxWidth: 48,
+                  ),
+                  suffixIcon: SizedBox(
+                    width: 48,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (snapshot.data?.isNotEmpty ?? false) {
+                          _searchController.text = '';
+                          cubit.textSearch.add('');
+                          cubit.getListReport(
+                            isSearch: true,
+                          );
+                        }
+                      },
+                      child: SvgPicture.asset(
+                        snapshot.data?.isNotEmpty ?? false
+                            ? ImageAssets.icClose
+                            : ImageAssets.icSearchPAKN,
+                        color: AppTheme.getInstance().unselectedLabelColor(),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        )
       ],
     );
   }

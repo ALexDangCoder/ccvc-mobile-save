@@ -328,6 +328,7 @@ class ApiConstants {
   static const CU_CAN_BO_DI_THAY_LICH_LAM_VIEC =
       '/vpdt/api/ScheduleCoperative/cu-can-bo-di-thay';
   static const MPIDDTH_CREATE_EVENT = '/events/create-event';
+  static const MPIDDTH_CHECK_CARD = '/id_card';
 }
 
 class ImageConstants {

@@ -35,6 +35,8 @@ class AppConstants {
   String baseUrlHTCS;
   @JsonKey(name: 'base_url_mpiddth')
   String baseUrlMpiddth;
+  @JsonKey(name: 'base_url_mpiddth_local')
+  String baseUrlMpiddthLocal;
 
   AppConstants(
     this.type,
@@ -49,6 +51,7 @@ class AppConstants {
     this.urlHTCS,
     this.baseUrlHTCS,
     this.baseUrlMpiddth,
+    this.baseUrlMpiddthLocal,
   );
 
   factory AppConstants.fromJson(Map<String, dynamic> json) =>

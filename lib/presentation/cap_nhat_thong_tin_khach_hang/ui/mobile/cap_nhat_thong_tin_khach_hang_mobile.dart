@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/domain/model/thong_tin_khach/check_id_card_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/widget/widget_chup_anh_cmnd.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/bloc/cap_nhat_thong_tin_khach_hang_cubit.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/widget/thong_tin_khach_vao_co_quan_screen.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/widget/widget_pick_image_default.dart';
@@ -48,7 +49,15 @@ class _CapNhatThongTinKhachHangMobileState
               ),
               spaceH16,
               PickImageDefault(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => WidgetChupAnhCMND(
+                        title: S.current.chup_anh_mat_truoc,
+                      ),
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -61,7 +70,15 @@ class _CapNhatThongTinKhachHangMobileState
                 ),
               ),
               PickImageDefault(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => WidgetChupAnhCMND(
+                        title: S.current.chup_anh_mat_sau,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

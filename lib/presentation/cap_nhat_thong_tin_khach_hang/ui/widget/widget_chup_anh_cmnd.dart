@@ -1,14 +1,19 @@
+import 'dart:io';
+import 'dart:math' as math;
+
+import 'package:camera/camera.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/widget/widget_frame_conner.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
 
 class WidgetChupAnhCMND extends StatefulWidget {
   final String title;
@@ -23,78 +28,204 @@ class WidgetChupAnhCMND extends StatefulWidget {
 }
 
 class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND> {
-  bool isAttack = false;
+  final GlobalKey _cropKey = GlobalKey();
+  final GlobalKey _previewKey = GlobalKey();
+  File? _capturedImage;
+  late List<CameraDescription> _cameras;
+
+  CameraController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCameras();
+  }
+
+  Future<void> _getCameras() async {
+    _cameras = await availableCameras();
+    _controller = CameraController(_cameras[0], ResolutionPreset.max);
+    await _controller?.initialize();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  String _randomNonceString([int length = 32]) {
+    final random = math.Random();
+
+    final charCodes = List<int>.generate(length, (_) {
+      late int codeUnit;
+
+      switch (random.nextInt(3)) {
+        case 0:
+          codeUnit = random.nextInt(10) + 48;
+          break;
+        case 1:
+          codeUnit = random.nextInt(26) + 65;
+          break;
+        case 2:
+          codeUnit = random.nextInt(26) + 97;
+          break;
+      }
+
+      return codeUnit;
+    });
+
+    return String.fromCharCodes(charCodes);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
+
+  Future<void> takePhoto() async {
+    final XFile file = await _controller!.takePicture();
+    await _controller?.pausePreview();
+    _capturedImage = File(file.path);
+    final bytes = await _capturedImage!.readAsBytes();
+    final src = img.decodeImage(bytes);
+    final tileWidth =
+        (src?.width ?? 1) / (_previewKey.currentContext?.size?.width ?? 1);
+    final tileHeight =
+        (src?.height ?? 1) / (_previewKey.currentContext?.size?.height ?? 1);
+    final box = _cropKey.currentContext!.findRenderObject() as RenderBox;
+    final previewBox =
+        _previewKey.currentContext!.findRenderObject() as RenderBox;
+    final offsetX = box.localToGlobal(Offset.zero).dx;
+    final offsetBoxY = box.localToGlobal(Offset.zero).dy;
+    final offsetPreviewY = previewBox.localToGlobal(Offset.zero).dy;
+    final width = box.size.width;
+    final height = box.size.height;
+    final destImage = img.copyCrop(
+      src!,
+      (offsetX * tileWidth).toInt(),
+      ((offsetBoxY - offsetPreviewY) * tileHeight).toInt(),
+      (width * tileWidth).toInt(),
+      (height * tileHeight).toInt(),
+    );
+    final jpg = img.encodeJpg(destImage);
+    final Directory dir = await getTemporaryDirectory();
+    final String path = '${dir.path}/${_randomNonceString()}.png';
+    _capturedImage = await File(path).writeAsBytes(jpg);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarDefaultBack(widget.title),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            Container(
-              height: 200,
+      appBar: AppBarDefaultBack(
+        widget.title,
+      ),
+      body: Stack(
+        children: [
+          if (_controller != null)
+            SizedBox(
               width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
-              child: Stack(
-                children: const [
-                  WidgetFrameConner(),
-                ],
+              child: CameraPreview(
+                _controller!,
+                key: _previewKey,
               ),
             ),
-            spaceH16,
-            Text(
-              isAttack ? S.current.bam_chup : S.current.bam_chon,
-              style: textNormalCustom(
-                color: color3D5586,
-                fontWeight: FontWeight.w400,
+          Column(
+            children: [
+              Container(
+                color: AppTheme.getInstance().backGroundColor(),
+                height: 16,
               ),
-              textAlign: TextAlign.center,
-            )
-          ],
-        ),
+              SizedBox(
+                height: (MediaQuery.of(context).size.width - 32)  / 1.8,
+                child: Row(
+                  children: [
+                    Container(
+                      color: AppTheme.getInstance().backGroundColor(),
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.transparent,
+                        child: _capturedImage != null
+                            ? SizedBox(
+                                child: Image.file(
+                                  _capturedImage!,
+                                  fit: BoxFit.fill,
+                                ),
+                              )
+                            : WidgetFrameConner(
+                                key: _cropKey,
+                              ),
+                      ),
+                    ),
+                    Container(
+                      color: AppTheme.getInstance().backGroundColor(),
+                      width: 16,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: AppTheme.getInstance().backGroundColor(),
+                  child: Text(
+                    _capturedImage == null
+                        ? S.current.bam_chup
+                        : S.current.bam_chon,
+                    style: textNormalCustom(
+                      color: color3D5586,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 24.0, right: 16.0, left: 16.0),
-        child: isAttack
+        child: _capturedImage == null
             ? SolidButton(
                 isColorBlue: true,
                 mainAxisAlignment: MainAxisAlignment.center,
                 text: S.current.chup,
                 urlIcon: ImageAssets.icCameraWhite,
                 onTap: () {
-                  isAttack = !isAttack;
                   setState(() {});
-                  showDiaLog(
-                    context,
-                    title: S.current.hinh_anh_nhan_dien_khong_hop_le,
-                    icon: Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                          color: choVaoSoColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(6.0)),
-                      padding: const EdgeInsets.all(14.0),
-                      child: SvgPicture.asset(
-                        ImageAssets.icAlertDanger,
-                      ),
-                    ),
-                    btnLeftTxt: S.current.dong,
-                    btnRightTxt: S.current.thu_lai,
-                    funcBtnRight: () {},
-                    showTablet: false,
-                    textAlign: TextAlign.start,
-                    textContent:
-                        '${S.current.mesage_thong_tin_khach}\n${S.current.mesage_thong_tin_khach1}\n'
-                        '${S.current.mesage_thong_tin_khach2}\n${S.current.mesage_thong_tin_khach3}\n'
-                        '${S.current.mesage_thong_tin_khach4}',
-                  );
+                  takePhoto();
+                  // showDiaLog(
+                  //   context,
+                  //   title: S.current.hinh_anh_nhan_dien_khong_hop_le,
+                  //   icon: Container(
+                  //     width: 56,
+                  //     height: 56,
+                  //     decoration: BoxDecoration(
+                  //       color: choVaoSoColor.withOpacity(0.1),
+                  //       borderRadius: BorderRadius.circular(6.0),
+                  //     ),
+                  //     padding: const EdgeInsets.all(14.0),
+                  //     child: SvgPicture.asset(
+                  //       ImageAssets.icAlertDanger,
+                  //     ),
+                  //   ),
+                  //   btnLeftTxt: S.current.dong,
+                  //   btnRightTxt: S.current.thu_lai,
+                  //   funcBtnRight: () {},
+                  //   showTablet: false,
+                  //   textAlign: TextAlign.start,
+                  //   textContent:
+                  //       '${S.current.mesage_thong_tin_khach}\n${S.current.mesage_thong_tin_khach1}\n'
+                  //       '${S.current.mesage_thong_tin_khach2}\n${S.current.mesage_thong_tin_khach3}\n'
+                  //       '${S.current.mesage_thong_tin_khach4}',
+                  // );
                 },
               )
             : DoubleButtonBottom(
                 onClickLeft: () {
-                  isAttack = !isAttack;
+                  _capturedImage = null;
+                  _controller?.resumePreview();
                   setState(() {});
                 },
                 onClickRight: () {},

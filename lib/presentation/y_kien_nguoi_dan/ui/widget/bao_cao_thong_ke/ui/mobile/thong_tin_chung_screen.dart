@@ -120,7 +120,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             fontSize: 14,
                           ),
                         ),
-                        onChanged: (searchText) {
+                        onSubmitted: (searchText) {
                           if (searchText.isEmpty) {
                             setState(() {});
                             widget.cubit.showCleanText = false;
@@ -128,7 +128,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             widget.cubit.clearDSPAKN();
                             if (widget.cubit.trangThaiFilter != null) {
                               widget.cubit.getDanhSachPAKNFilterChart(
-                                  flagLoadMore: true);
+                                  flagLoadMore: true,);
                             } else {
                               widget.cubit.getDanhSachPAKN(isSearch: true);
                             }
@@ -146,6 +146,33 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                               widget.cubit.showCleanText = true;
                             });
                           }
+                        },
+                        onChanged: (searchText) {
+                          // if (searchText.isEmpty) {
+                          //   setState(() {});
+                          //   widget.cubit.showCleanText = false;
+                          //   widget.cubit.tuKhoa = '';
+                          //   widget.cubit.clearDSPAKN();
+                          //   if (widget.cubit.trangThaiFilter != null) {
+                          //     widget.cubit.getDanhSachPAKNFilterChart(
+                          //         flagLoadMore: true);
+                          //   } else {
+                          //     widget.cubit.getDanhSachPAKN(isSearch: true);
+                          //   }
+                          // } else {
+                          //   widget.cubit.debouncer.run(() {
+                          //     setState(() {});
+                          //     widget.cubit.tuKhoa = searchText.trim();
+                          //     widget.cubit.clearDSPAKN();
+                          //     if (widget.cubit.trangThaiFilter != null) {
+                          //       widget.cubit.getDanhSachPAKNFilterChart(
+                          //           flagLoadMore: true);
+                          //     } else {
+                          //       widget.cubit.getDanhSachPAKN(isSearch: true);
+                          //     }
+                          //     widget.cubit.showCleanText = true;
+                          //   });
+                          // }
                         },
                       ),
                     ),

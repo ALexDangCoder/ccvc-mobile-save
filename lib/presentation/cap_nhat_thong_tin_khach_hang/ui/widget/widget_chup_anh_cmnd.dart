@@ -308,25 +308,22 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
                       width: 16,
                     ),
                     Expanded(
-                      child: Container(
-                        color: Colors.transparent,
-                        child: _capturedImage != null
-                            ? WidgetFrameConner(
-                                child: Image.file(
-                                  _capturedImage!,
-                                  fit: BoxFit.fill,
-                                ),
-                              )
-                            : GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTapUp: (details) {
-                                  _tapToFocus(details);
-                                },
-                                child: WidgetFrameConner(
-                                  key: _cropKey,
-                                ),
+                      child: _capturedImage != null
+                          ? WidgetFrameConner(
+                              child: Image.file(
+                                _capturedImage!,
+                                fit: BoxFit.fill,
                               ),
-                      ),
+                            )
+                          : GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTapUp: (details) {
+                                _tapToFocus(details);
+                              },
+                              child: WidgetFrameConner(
+                                key: _cropKey,
+                              ),
+                            ),
                     ),
                     Container(
                       color: AppTheme.getInstance().backGroundColor(),

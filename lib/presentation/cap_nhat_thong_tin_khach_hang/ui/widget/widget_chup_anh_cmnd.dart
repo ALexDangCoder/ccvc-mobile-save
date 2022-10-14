@@ -294,7 +294,7 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
                       child: Container(
                         color: Colors.transparent,
                         child: _capturedImage != null
-                            ? SizedBox(
+                            ? WidgetFrameConner(
                                 child: Image.file(
                                   _capturedImage!,
                                   fit: BoxFit.fill,

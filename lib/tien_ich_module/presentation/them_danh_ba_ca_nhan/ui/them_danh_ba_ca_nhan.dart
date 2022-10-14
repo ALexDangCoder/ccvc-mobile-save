@@ -302,7 +302,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     urlIcon: ImageAssets.icMessage,
                     hintText: S.current.email,
                     onChange: (value) {
-                      widget.cubit.email = value;
+                      widget.cubit.email = value.trim();
                     },
                     validator: (value) {
                       if ((value ?? '').isNotEmpty) {

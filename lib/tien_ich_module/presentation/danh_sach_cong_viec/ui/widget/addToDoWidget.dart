@@ -98,7 +98,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                 Navigator.pop(context);
               },
               onPressed2: () {
-                if (controller.text.isEmpty) {
+                if (controller.text.trim().isEmpty) {
                   setState(() {
                     isShow = true;
                   });

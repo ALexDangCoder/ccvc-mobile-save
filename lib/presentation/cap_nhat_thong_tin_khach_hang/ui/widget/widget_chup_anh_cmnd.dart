@@ -10,10 +10,10 @@ import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/widget
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
@@ -50,7 +50,6 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
     toast = FToast();
     toast.init(context);
     WidgetsBinding.instance?.addObserver(this);
-    _controller?.addListener(() {});
     _getCameras();
   }
 
@@ -79,6 +78,8 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
     final CameraController cameraController = CameraController(
       cameraDescription,
       ResolutionPreset.max,
+      imageFormatGroup:
+          Platform.isIOS ? ImageFormatGroup.bgra8888 : ImageFormatGroup.yuv420,
     );
     _controller = cameraController;
     // If the controller is updated then update the UI.
@@ -124,9 +125,6 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
         case 'AudioAccessRestricted':
           // iOS only
           showToast(message: S.current.audio_restricted);
-          showToast(
-            message: 'Audio access is restricted.',
-          );
           break;
         default:
           showToast(
@@ -142,7 +140,12 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
 
   Future<void> _getCameras() async {
     _cameras = await availableCameras();
-    _controller = CameraController(_cameras[0], ResolutionPreset.max);
+    _controller = CameraController(
+      _cameras[0],
+      ResolutionPreset.max,
+      imageFormatGroup:
+          Platform.isIOS ? ImageFormatGroup.bgra8888 : ImageFormatGroup.yuv420,
+    );
     await initCamera(_controller!);
     if (mounted) {
       setState(() {});
@@ -160,7 +163,7 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
     );
   }
 
-  Future<void> _tapToFocus (TapUpDetails details) async {
+  Future<void> _tapToFocus(TapUpDetails details) async {
     if (_controller?.value.isInitialized ?? false) {
       showFocusCircle = true;
       x = details.localPosition.dx;
@@ -203,40 +206,54 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
     return String.fromCharCodes(charCodes);
   }
 
-
   Future<void> takePhoto() async {
-    if (!isTakePhoto) {
-      isTakePhoto = true;
-      final XFile file = await _controller!.takePicture();
-      await _controller?.pausePreview();
-      _capturedImage = File(file.path);
-      final bytes = await _capturedImage!.readAsBytes();
-      final src = img.decodeImage(bytes);
-      final tileWidth =
-          (src?.width ?? 1) / (_previewKey.currentContext?.size?.width ?? 1);
-      final tileHeight =
-          (src?.height ?? 1) / (_previewKey.currentContext?.size?.height ?? 1);
-      final box = _cropKey.currentContext!.findRenderObject() as RenderBox;
-      final previewBox =
-          _previewKey.currentContext!.findRenderObject() as RenderBox;
-      final offsetX = box.localToGlobal(Offset.zero).dx;
-      final offsetBoxY = box.localToGlobal(Offset.zero).dy;
-      final offsetPreviewY = previewBox.localToGlobal(Offset.zero).dy;
-      final width = box.size.width;
-      final height = box.size.height;
-      final destImage = img.copyCrop(
-        src!,
-        (offsetX * tileWidth).toInt(),
-        ((offsetBoxY - offsetPreviewY) * tileHeight).toInt(),
-        (width * tileWidth).toInt(),
-        (height * tileHeight).toInt(),
-      );
-      final jpg = img.encodeJpg(destImage);
-      final Directory dir = await getTemporaryDirectory();
-      final String path = '${dir.path}/${_randomNonceString()}.png';
-      _capturedImage = await File(path).writeAsBytes(jpg);
-      setState(() {});
-      isTakePhoto = false;
+    if (!isTakePhoto &&
+        _cropKey.currentContext != null &&
+        _previewKey.currentContext != null) {
+      try {
+        isTakePhoto = true;
+        final XFile file = await _controller!.takePicture();
+        await _controller?.pausePreview();
+        final image = File(file.path);
+        final bytes = await image.readAsBytes();
+        final src = img.decodeImage(bytes);
+        final tileWidth =
+            (src?.width ?? 1) / (_previewKey.currentContext?.size?.width ?? 1);
+        final tileHeight = (src?.height ?? 1) /
+            (_previewKey.currentContext?.size?.height ?? 1);
+        final _box = getBox(_cropKey);
+        final _previewBox = getBox(_previewKey);
+        final offsetX = _box.localToGlobal(Offset.zero).dx;
+        final offsetBoxY = _box.localToGlobal(Offset.zero).dy;
+        final offsetPreviewY = _previewBox.localToGlobal(Offset.zero).dy;
+        final width = _box.size.width;
+        final height = _box.size.height;
+        final destImage = img.copyCrop(
+          src!,
+          (offsetX * tileWidth).toInt(),
+          ((offsetBoxY - offsetPreviewY) * tileHeight).toInt(),
+          (width * tileWidth).toInt(),
+          (height * tileHeight).toInt(),
+        );
+        final jpg = img.encodeJpg(destImage);
+        final Directory dir = await getTemporaryDirectory();
+        final String path = '${dir.path}/${_randomNonceString()}.png';
+        _capturedImage = await File(path).writeAsBytes(jpg);
+        setState(() {});
+        isTakePhoto = false;
+      } catch (_) {
+      } finally {
+        isTakePhoto = false;
+      }
+    }
+  }
+
+  RenderBox getBox(GlobalKey key) {
+    try {
+      final _box = key.currentContext!.findRenderObject() as RenderBox;
+      return _box;
+    } catch (_) {
+      return getBox(key);
     }
   }
 
@@ -342,12 +359,8 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
         padding: const EdgeInsets.only(bottom: 24.0, right: 16.0, left: 16.0),
         child: _capturedImage == null
             ? SolidButton(
-                isColorBlue: true,
-                mainAxisAlignment: MainAxisAlignment.center,
-                text: S.current.chup,
-                urlIcon: ImageAssets.icCameraWhite,
+                showLoad: isTakePhoto,
                 onTap: () {
-                  setState(() {});
                   takePhoto();
                   // showDiaLog(
                   //   context,
@@ -385,6 +398,63 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
                 onClickRight: () {},
                 title1: S.current.thu_lai,
                 title2: S.current.chon,
+              ),
+      ),
+    );
+  }
+}
+
+class SolidButton extends StatelessWidget {
+  final Function() onTap;
+  final bool showLoad;
+
+  const SolidButton({
+    Key? key,
+    required this.onTap,
+    required this.showLoad,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        height: 40,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: AppTheme.getInstance().colorField(),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+        ),
+        child: showLoad
+            ? SizedBox(
+                height: 28,
+                width: 28,
+                child: CircularProgressIndicator(
+                  color: AppTheme.getInstance().backGroundColor(),
+                ),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    ImageAssets.icCameraWhite,
+                    width: 20,
+                    height: 20,
+                    color: AppTheme.getInstance().backGroundColor(),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    S.current.chup,
+                    style: textNormalCustom(
+                      color: AppTheme.getInstance().backGroundColor(),
+                    ),
+                  )
+                ],
               ),
       ),
     );

@@ -126,11 +126,17 @@ class SelectDonViCell extends StatelessWidget {
             );
           }
           final data = listSelect[index];
-          return tag(
-            title: data.value.name,
-            onDelete: () {
-              onDelete(data);
-            },
+          return IgnorePointer(
+            ignoring: !data.visible,
+            child: Opacity(
+              opacity: data.visible ? 1 : 0.5,
+              child: tag(
+                title: data.value.name,
+                onDelete: () {
+                  onDelete(data);
+                },
+              ),
+            ),
           );
         }),
       ),

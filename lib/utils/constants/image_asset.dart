@@ -561,6 +561,7 @@ class ImageAssets {
   static const String icAlertDanger = '$baseImg/ic_alert_danger.svg';
   static const String icCameraWhite = '$baseImg/ic_camera_white.svg';
   static const String icUploadImage = '$baseImg/ic_upload_image.svg';
+  static const String icRemoveImg = '$baseImg/ic_remove_img.svg';
 
   static SvgPicture svgAssets(
     String name, {

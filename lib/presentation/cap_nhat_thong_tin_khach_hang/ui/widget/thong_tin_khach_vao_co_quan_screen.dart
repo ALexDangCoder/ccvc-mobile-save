@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -44,7 +45,6 @@ class _ThongTinKhachVaoCoQuanScreenState
 
   @override
   void initState() {
-    cubit.postThongTinKhach();
     super.initState();
     hoTenEditingController.text=widget.checkIdCardModel.frontContent?.content?.name??'';
     soCmndEditingController.text=widget.checkIdCardModel.frontContent?.content?.id??'';
@@ -97,7 +97,11 @@ class _ThongTinKhachVaoCoQuanScreenState
                   return InputInfoUserWidget(
                     title: S.current.loai_the,
                     child: CoolDropDown(
-                      onChange: (value) {},
+                      onChange: (value) {
+                        value == 0
+                            ? cubit.loaiThe = 'CMT'
+                            : cubit.loaiThe = 'CCCD';
+                      },
                       initData: S.current.chung_minh_nhan_dan,
                       listData: data.map((e) => e.ten ?? '').toList(),
                     ),
@@ -122,17 +126,25 @@ class _ThongTinKhachVaoCoQuanScreenState
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                  value: DateTime.now().toString(),
-                  onSelectDate: (dateTime) {},
+                  value: (widget.checkIdCardModel.frontContent?.content?.dob)?.convertStringToDate(
+                    formatPattern: DateTimeFormat.DATE_TIME_HM,
+                  ).toString(),
+                  onSelectDate: (dateTime) {
+                    cubit.ngaySinh=DateTime.parse(dateTime).millisecondsSinceEpoch;
+                  },
                 ),
               ),
               InputInfoUserWidget(
                 title: S.current.gioi_tinh,
                 child: CoolDropDown(
                   key: UniqueKey(),
-                  initData: widget.checkIdCardModel.frontContent?.content?.gender??'',
+                  initData: widget.checkIdCardModel.frontContent?.content?.gender??'Nam',
                   placeHoder: S.current.gioi_tinh,
-                  onChange: (value) {},
+                  onChange: (value) {
+                    value == 0
+                        ? cubit.gioitinh = '1'
+                        : cubit.gioitinh = '2';
+                  },
                   listData: cubit.dataGioiTinh,
                 ),
               ),
@@ -193,6 +205,17 @@ class _ThongTinKhachVaoCoQuanScreenState
                   customColor: true,
                   onPressed: () {
                     if (keyGroup.currentState?.validator() ?? true) {
+                      cubit.postThongTinKhach(
+                        soCMT:widget.checkIdCardModel.frontContent?.content?.id,
+                        coQuanToChuc:coQuanToChucEditingController.text.trim(),
+                        document:'',
+                        homeTown:widget.checkIdCardModel.frontContent?.content?.hometown,
+                        hoVaTen:widget.checkIdCardModel.frontContent?.content?.name,
+                        idTheVao:idTheVaoEditingController.text,
+                        residence:widget.checkIdCardModel.frontContent?.content?.residence,
+                        lyDoVaoCoQuan:nhapLyDoEditingController.text.trim(),
+                        nguoiTiepDon:nguoiTiepDonEditingController.text.trim(),
+                      );
                     } else {
                       return;
                     }

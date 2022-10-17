@@ -107,7 +107,7 @@ class _DanhSachCongViecTienIchMobileState
                                 dataType == DSCVScreen.GCT ||
                                 dataType == DSCVScreen.NCVM ||
                                 dataType == DSCVScreen.DBX)
-                              StreamBuilder<List<TodoDSCVModel>>(
+                              StreamBuilder<List<TodoDSCVModel>?>(
                                 stream: cubit.listDSCVStream.stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data
@@ -120,62 +120,67 @@ class _DanhSachCongViecTienIchMobileState
                                   final currentUserCreate =
                                       cubit.currentCreate(data);
                                   final ganChoToi = cubit.listCVGanChoToi(data);
-                                  if (data.isNotEmpty) {
-                                    if (dataType == DSCVScreen.CVCB) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          expandMobile(
-                                            child: ListUpDSCV(
-                                              data: currentUserCreate,
-                                              cubit: cubit,
-                                              dataType: dataType,
+                                  if(snapshot.data == null) {
+                                    return const SizedBox();
+                                  }
+                                  else {
+                                    if (data.isNotEmpty) {
+                                      if (dataType == DSCVScreen.CVCB) {
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            expandMobile(
+                                              child: ListUpDSCV(
+                                                data: currentUserCreate,
+                                                cubit: cubit,
+                                                dataType: dataType,
+                                              ),
+                                              header: textTitle(
+                                                S.current.cong_viec_cua_toi,
+                                                number: currentUserCreate.length,
+                                              ),
                                             ),
-                                            header: textTitle(
-                                              S.current.cong_viec_cua_toi,
-                                              number: currentUserCreate.length,
+                                            if (currentUserCreate.isNotEmpty)
+                                              spaceH12,
+                                            expandMobile(
+                                              child: ListUpDSCV(
+                                                data: ganChoToi,
+                                                cubit: cubit,
+                                                dataType: dataType,
+                                              ),
+                                              header: textTitle(
+                                                S.current.gan_cho_toi,
+                                                number: ganChoToi.length,
+                                              ),
                                             ),
-                                          ),
-                                          if (currentUserCreate.isNotEmpty)
-                                            spaceH12,
-                                          expandMobile(
-                                            child: ListUpDSCV(
-                                              data: ganChoToi,
-                                              cubit: cubit,
-                                              dataType: dataType,
-                                            ),
-                                            header: textTitle(
-                                              S.current.gan_cho_toi,
-                                              number: ganChoToi.length,
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        );
+                                      }
+                                      return ListUpDSCV(
+                                        data: data,
+                                        cubit: cubit,
+                                        dataType: dataType,
                                       );
                                     }
-                                    return ListUpDSCV(
-                                      data: data,
-                                      cubit: cubit,
-                                      dataType: dataType,
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 30,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          if (dataType == DSCVScreen.DBX)
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.only(top: 16),
+                                              child: textTitle(
+                                                S.current.gan_cho_toi,
+                                              ),
+                                            ),
+                                          const NodataWidget(),
+                                        ],
+                                      ),
                                     );
                                   }
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 30,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        if (dataType == DSCVScreen.DBX)
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 16),
-                                            child: textTitle(
-                                              S.current.gan_cho_toi,
-                                            ),
-                                          ),
-                                        const NodataWidget(),
-                                      ],
-                                    ),
-                                  );
                                 },
                               ),
                             if (dataType == DSCVScreen.DBX) spaceH18,
@@ -183,7 +188,7 @@ class _DanhSachCongViecTienIchMobileState
                             /// list down
                             if (dataType == DSCVScreen.DBX ||
                                 dataType == DSCVScreen.DHT)
-                              StreamBuilder<List<TodoDSCVModel>>(
+                              StreamBuilder<List<TodoDSCVModel>?>(
                                 stream: cubit.listDSCVStream.stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data
@@ -193,43 +198,48 @@ class _DanhSachCongViecTienIchMobileState
                                           )
                                           .toList() ??
                                       [];
-                                  if (data.isNotEmpty) {
-                                    if (dataType == DSCVScreen.DBX) {
-                                      return expandMobile(
-                                        child: ListDownDSCV(
-                                          data: data,
-                                          dataType: dataType,
-                                          cubit: cubit,
-                                        ),
-                                        header: textTitle(
-                                          S.current.da_hoan_thanh,
-                                        ),
+                                  if(snapshot.data == null) {
+                                    return const SizedBox();
+                                  }
+                                   else {
+                                    if (data.isNotEmpty) {
+                                      if (dataType == DSCVScreen.DBX) {
+                                        return expandMobile(
+                                          child: ListDownDSCV(
+                                            data: data,
+                                            dataType: dataType,
+                                            cubit: cubit,
+                                          ),
+                                          header: textTitle(
+                                            S.current.da_hoan_thanh,
+                                          ),
+                                        );
+                                      }
+                                      return ListDownDSCV(
+                                        data: data,
+                                        dataType: dataType,
+                                        cubit: cubit,
                                       );
                                     }
-                                    return ListDownDSCV(
-                                      data: data,
-                                      dataType: dataType,
-                                      cubit: cubit,
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 30,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          if (dataType == DSCVScreen.DBX)
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.only(top: 16),
+                                              child: textTitle(
+                                                S.current.da_hoan_thanh,
+                                              ),
+                                            ),
+                                          const NodataWidget(),
+                                        ],
+                                      ),
                                     );
                                   }
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 30,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        if (dataType == DSCVScreen.DBX)
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 16),
-                                            child: textTitle(
-                                              S.current.da_hoan_thanh,
-                                            ),
-                                          ),
-                                        const NodataWidget(),
-                                      ],
-                                    ),
-                                  );
                                 },
                               ),
                           ],

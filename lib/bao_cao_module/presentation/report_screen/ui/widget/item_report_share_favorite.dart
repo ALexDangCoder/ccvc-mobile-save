@@ -229,8 +229,8 @@ class _ItemReportShareFavoriteState extends State<ItemReportShareFavorite> {
                       width: 16,
                       height: 16,
                       color: isLove
-                          ? AppTheme.getInstance().unselectColor()
-                          : AppTheme.getInstance().colorField(),
+                          ?  AppTheme.getInstance().colorField()
+                          :AppTheme.getInstance().unselectColor(),
                     ),
                     spaceW13,
                     Text(

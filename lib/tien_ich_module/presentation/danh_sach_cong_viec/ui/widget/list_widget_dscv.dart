@@ -13,12 +13,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ListUpDSCV extends StatelessWidget {
+class AboveListDSCV extends StatelessWidget {
   final List<TodoDSCVModel> data;
   final String dataType;
   final DanhSachCongViecTienIchCubit cubit;
 
-  const ListUpDSCV({
+  const AboveListDSCV({
     Key? key,
     required this.data,
     required this.dataType,
@@ -142,12 +142,12 @@ class ListUpDSCV extends StatelessWidget {
   }
 }
 
-class ListDownDSCV extends StatelessWidget {
+class BelowListDSCV extends StatelessWidget {
   final List<TodoDSCVModel> data;
   final String dataType;
   final DanhSachCongViecTienIchCubit cubit;
 
-  const ListDownDSCV({
+  const BelowListDSCV({
     Key? key,
     required this.data,
     required this.dataType,

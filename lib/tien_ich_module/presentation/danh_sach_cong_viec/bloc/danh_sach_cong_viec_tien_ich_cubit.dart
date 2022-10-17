@@ -90,12 +90,14 @@ class DanhSachCongViecTienIchCubit
     String? groupId,
     bool isLoadmore = false,
   }) async {
+
     if (isLoadmore) {
       inLoadmore.sink.add(true);
     } else {
       showLoading();
     }
     bool result = false;
+
     switch (statusDSCV.value) {
       case DSCVScreen.CVCB:
         result = await getAllListDSCVWithFilter(
@@ -235,7 +237,7 @@ class DanhSachCongViecTienIchCubit
       groupId,
       isGiveOther,
     );
-
+    listDSCVStream.sink.add(null);
     result.when(
       success: (res) {
         final List<TodoDSCVModel> data = listDSCVStream.valueOrNull ?? [];

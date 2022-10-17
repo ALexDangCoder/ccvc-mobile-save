@@ -177,29 +177,19 @@ class _CongTacChuanBiWidgetTabletState
             stream: widget.cubit.getThongTinYeuCauChuanBi,
             builder: (context, snapshot) {
               final data = snapshot.data ?? ThongTinPhongHopModel();
-              if (widget.cubit.isHasPhong() &&
-                  widget.cubit.isButtonYeuCauChuanBiPhong()) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: titleType(
-                    title: S.current.thong_tin_yeu_cau_chuan_bi,
-                    child: ((data.noiDungYeuCau ?? '').isNotEmpty)
-                        ? ItemThongTinYCCB(
-                            cubit: widget.cubit,
-                          )
-                        : const NodataWidget(
-                            height: 50.0,
-                          ),
-                  ),
-                );
-              }
+
               return Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: titleType(
                   title: S.current.thong_tin_yeu_cau_chuan_bi,
-                  child: const NodataWidget(
-                    height: 50.0,
-                  ),
+                  child: ((data.noiDungYeuCau ?? '').isNotEmpty &&
+                          widget.cubit.isHasPhong())
+                      ? ItemThongTinYCCB(
+                          cubit: widget.cubit,
+                        )
+                      : const NodataWidget(
+                          height: 50.0,
+                        ),
                 ),
               );
             },

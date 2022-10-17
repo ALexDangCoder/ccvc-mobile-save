@@ -5,8 +5,6 @@ import 'package:ccvc_mobile/domain/model/thong_tin_khach/check_id_card_model.dar
 import 'package:ccvc_mobile/domain/repository/thong_tin_khach/thong_tin_khach_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/data/services/thong_tin_khach/thong_tin_khach_service.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/bloc/cap_nhat_tong_tin_khach_hang_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/widgets.dart';
@@ -20,7 +18,8 @@ class CapNhatThongTinKhachHangCubit
       : super(
           CapNhatThongTinKhachHangStateIntial(),
         );
-  List<File> filePickImage = [];
+  List<File> filePickImageFrontend = [];
+  List<File> filePickImageBackEnd = [];
   BehaviorSubject<CheckIdCardModel> checkIdCardModelsubject = BehaviorSubject();
 
   ThongTinKhachRepository get _thongTinKhach => Get.find();
@@ -32,21 +31,33 @@ class CapNhatThongTinKhachHangCubit
     'Nam',
     'Nữ',
   ];
-  String loaiThe='';
+  String loaiThe = 'CMT';
+  String gioitinh = '1';
+  int ngaySinh = DateTime.now().millisecondsSinceEpoch;
 
-  Future<void> postThongTinKhach() async {
+  Future<void> postThongTinKhach({
+    required String? soCMT,
+    required String? coQuanToChuc,
+    required String? document,
+    required String? homeTown,
+    required String? hoVaTen,
+    required String? idTheVao,
+    required String? residence,
+    required String? lyDoVaoCoQuan,
+    required String? nguoiTiepDon,
+  }) async {
     TaoThongTinKhachRequest taoThongTinKhachRequest = TaoThongTinKhachRequest(
-      birth: DateTime.now().millisecondsSinceEpoch,
-      cardId: 'cardId',
-      department: 'department',
-      homeTown: 'homeTown',
-      name: 'name ',
-      no: 'no',
-      place: 'place',
-      reason: 'reason',
-      receptionPerson: 'receptionPerson',
-      sex: 'sex',
-      typeDoc: 'typeDoc',
+      birth: ngaySinh,
+      cardId: soCMT ?? ''.trim(),
+      department: coQuanToChuc ?? ''.trim(),
+      homeTown: homeTown ?? ''.trim(),
+      name: hoVaTen ?? ''.trim(),
+      no: idTheVao ?? ''.trim(),
+      place: residence ?? ''.trim(),
+      reason: lyDoVaoCoQuan ?? ''.trim(),
+      receptionPerson: nguoiTiepDon ?? ''.trim(),
+      sex: gioitinh.trim(),
+      typeDoc: loaiThe.trim(),
     );
     final result =
         await _thongTinKhach.taoThongTinKhach(taoThongTinKhachRequest);
@@ -62,22 +73,22 @@ class CapNhatThongTinKhachHangCubit
       accept: 'application/json',
       clientID: '27ff5a35-1d34-4811-bd2f-1a28505ea7a4',
       clientSecret: 'Wpo13R61OL9zMSlocxoa0vusMt78hEh8XIAHe7VtQrQ',
-      back_image: filePickImage,
-      front_image: filePickImage,
+      back_image: filePickImageFrontend,
+      front_image: filePickImageBackEnd,
     );
     bool? isShowPopUp;
     result.when(
-        success: (res) {
-          if ((res.backContent?.statusCode == StatusMpiddth.OK) &&
-              (res.frontContent?.statusCode == StatusMpiddth.OK)) {
-            checkIdCardModelsubject.sink.add(res);
-            isShowPopUp=false;
-          }else{
-            isShowPopUp=true;
-          }
-        },
-        error: (err) {
-        },);
+      success: (res) {
+        if ((res.backContent?.statusCode == StatusMpiddth.OK) &&
+            ((res.frontContent?.statusCode == StatusMpiddth.OK))) {
+          checkIdCardModelsubject.sink.add(res);
+          isShowPopUp = false;
+        } else {
+          isShowPopUp = true;
+        }
+      },
+      error: (err) {},
+    );
     return isShowPopUp;
   }
 }

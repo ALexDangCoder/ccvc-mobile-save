@@ -84,9 +84,9 @@ String titleCanBo(){
       case 1:
         return daXuLyColor;
       case 2:
-        return color5A8DEE;
-      case 4:
         return statusCalenderRed;
+      case 4:
+        return color5A8DEE;
       default:
         return itemWidgetNotUse;
     }

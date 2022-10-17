@@ -111,7 +111,9 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
     createCubit.typeScheduleName = event.typeScheduleName;
     createCubit.changeOption.sink.add(event.typeScheduleName ?? '');
     createCubit.publishSchedule = event.publishSchedule;
-
+    createCubit.lichLapItem1=createCubit.listNgayChonTuan(
+      event.days??''
+    );
     createCubit.dateRepeat = event.dateRepeat;
     createCubit.endDateSubject.add(
         DateTime.parse(createCubit.dateRepeat ?? DateTime.now().toString()));
@@ -378,6 +380,7 @@ class _EditCalendarWorkState extends State<EditCalendarWork> {
                                           createCubit.listNgayChonTuan(
                                         createCubit.days ?? '',
                                       ),
+                                      isSort: true,
                                       initDate: createCubit.dateRepeat
                                           ?.convertStringToDate(),
                                       listSelect: danhSachLichLap

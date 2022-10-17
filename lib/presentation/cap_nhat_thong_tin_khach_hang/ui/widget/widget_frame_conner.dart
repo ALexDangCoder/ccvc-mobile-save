@@ -9,7 +9,7 @@ class WidgetFrameConner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-         if (child != null)child!,
+         if (child != null)Positioned.fill(child: child!),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

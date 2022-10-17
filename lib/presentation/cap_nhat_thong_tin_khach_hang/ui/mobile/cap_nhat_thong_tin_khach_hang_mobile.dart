@@ -27,6 +27,7 @@ class _CapNhatThongTinKhachHangMobileState
 
   @override
   void initState() {
+    print(cubit.filePickImageFrontend.isNotEmpty);
     super.initState();
   }
 
@@ -48,17 +49,46 @@ class _CapNhatThongTinKhachHangMobileState
                 ),
               ),
               spaceH16,
-              PickImageDefault(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => WidgetChupAnhCMND(
-                        title: S.current.chup_anh_mat_truoc,
+              if (cubit.filePickImageFrontend.isNotEmpty)
+                Stack(
+                  children: [
+                    SizedBox(
+                      child: Image.file(
+                        cubit.filePickImageFrontend.first,
+                        fit: BoxFit.fill,
                       ),
                     ),
-                  );
-                },
-              ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          cubit.filePickImageFrontend = [];
+                          setState(() {});
+                        },
+                        child: SvgPicture.asset(
+                          ImageAssets.icRemoveImg,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              else
+                PickImageDefault(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => WidgetChupAnhCMND(
+                          title: S.current.chup_anh_mat_truoc,
+                          onChange: (onChange) {
+                            cubit.filePickImageFrontend = onChange;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
@@ -69,17 +99,44 @@ class _CapNhatThongTinKhachHangMobileState
                   ),
                 ),
               ),
-              PickImageDefault(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => WidgetChupAnhCMND(
-                        title: S.current.chup_anh_mat_sau,
+              if (cubit.filePickImageBackEnd.isNotEmpty)
+                Stack(
+                  children: [
+                    Image.file(
+                      cubit.filePickImageBackEnd.first,
+                      fit: BoxFit.fill,
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          cubit.filePickImageBackEnd = [];
+                          setState(() {});
+                        },
+                        child: SvgPicture.asset(
+                          ImageAssets.icRemoveImg,
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ],
+                )
+              else
+                PickImageDefault(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => WidgetChupAnhCMND(
+                          title: S.current.chup_anh_mat_sau,
+                          onChange: (onChange) {
+                            cubit.filePickImageBackEnd = onChange;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
             ],
           ),
         ),
@@ -89,48 +146,57 @@ class _CapNhatThongTinKhachHangMobileState
         child: StreamBuilder<CheckIdCardModel>(
             stream: cubit.checkIdCardModelsubject,
             builder: (context, snapshot) {
-              final typeData = snapshot.data;
+              final typeData = snapshot.data ??
+                  CheckIdCardModel(
+                    backContent: null,
+                    frontContent: null,
+                    requestId: '',
+                  );
               return ButtonCustomBottom(
-                isColorBlue: false,
+                isColorBlue: cubit.filePickImageFrontend.isNotEmpty &&
+                    cubit.filePickImageBackEnd.isNotEmpty,
                 title: S.current.tiep_theo,
                 onPressed: () {
-                  cubit.postCheckIdCard(context).then((value) {
-                    if (value == true) {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ThongTinKhachVaoCoQuanScreen(
-                      //       checkIdCardModel: typeData,
-                      //     ),
-                      //   ),
-                      // );
-                    } else {
-                      showDiaLog(
-                        context,
-                        title: S.current.hinh_anh_nhan_dien_khong_hop_le,
-                        icon: Container(
-                          width: 56,
-                          height: 56,
-                          decoration: BoxDecoration(
-                              color: choVaoSoColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(6.0)),
-                          padding: const EdgeInsets.all(14.0),
-                          child: SvgPicture.asset(
-                            ImageAssets.icAlertDanger,
+                  if (cubit.filePickImageFrontend.isNotEmpty &&
+                      cubit.filePickImageBackEnd.isNotEmpty) {
+                    cubit.postCheckIdCard(context).then((value) {
+                      if (value == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ThongTinKhachVaoCoQuanScreen(
+                              checkIdCardModel: typeData,
+                            ),
                           ),
-                        ),
-                        btnLeftTxt: S.current.dong,
-                        btnRightTxt: S.current.thu_lai,
-                        funcBtnRight: () {},
-                        showTablet: false,
-                        textAlign: TextAlign.start,
-                        textContent:
-                            '${S.current.mesage_thong_tin_khach}\n${S.current.mesage_thong_tin_khach1}\n'
-                            '${S.current.mesage_thong_tin_khach2}\n${S.current.mesage_thong_tin_khach3}\n'
-                            '${S.current.mesage_thong_tin_khach4}',
-                      );
-                    }
-                  });
+                        );
+                      } else {
+                        showDiaLog(
+                          context,
+                          title: S.current.hinh_anh_nhan_dien_khong_hop_le,
+                          icon: Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                                color: choVaoSoColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(6.0)),
+                            padding: const EdgeInsets.all(14.0),
+                            child: SvgPicture.asset(
+                              ImageAssets.icAlertDanger,
+                            ),
+                          ),
+                          btnLeftTxt: S.current.dong,
+                          btnRightTxt: S.current.thu_lai,
+                          funcBtnRight: () {},
+                          showTablet: false,
+                          textAlign: TextAlign.start,
+                          textContent:
+                              '${S.current.mesage_thong_tin_khach}\n${S.current.mesage_thong_tin_khach1}\n'
+                              '${S.current.mesage_thong_tin_khach2}\n${S.current.mesage_thong_tin_khach3}\n'
+                              '${S.current.mesage_thong_tin_khach4}',
+                        );
+                      }
+                    });
+                  } else {}
                 },
               );
             }),

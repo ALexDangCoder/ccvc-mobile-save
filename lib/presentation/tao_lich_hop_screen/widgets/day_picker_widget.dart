@@ -14,11 +14,13 @@ class DayPickerWidget extends StatefulWidget {
     this.initDate,
     this.initDayPicked,
     this.isUpdate = false,
+    this.isSort=false,
   }) : super(key: key);
   final Function(List<int>) onChange;
   final DateTime? initDate;
   final List<int>? initDayPicked;
   final bool isUpdate;
+  final bool? isSort;
 
   @override
   _DayPickerWidgetState createState() => _DayPickerWidgetState();
@@ -57,6 +59,9 @@ class _DayPickerWidgetState extends State<DayPickerWidget> {
                   selectedIndex.remove(daysOfWeek[index].id);
                 } else {
                   selectedIndex.add(daysOfWeek[index].id);
+                  if(widget.isSort==true) {
+                    selectedIndex.sort();
+                  }
                 }
                 widget.onChange(selectedIndex);
                 setState(() {});

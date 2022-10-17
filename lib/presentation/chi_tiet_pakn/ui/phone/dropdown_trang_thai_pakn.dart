@@ -68,6 +68,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       item(
+                        colorBorder: purpleChart,
                         callBack: (value, index) {
                           widget.cubit.textFilter.add(value);
                           widget.cubit.isShowFilterList.add(false);
@@ -105,6 +106,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             children: [
                               spaceH12,
                               item(
+                                colorBorder: color02C5DD,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -127,6 +129,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: numberOfCalenders,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -149,6 +152,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: textColorForum,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -171,6 +175,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: textColorForum,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -193,6 +198,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: color02C5DD,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -210,6 +216,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: greenChart,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -227,6 +234,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: greenChart,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -249,6 +257,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: color02C5DD,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -271,6 +280,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: colorEA5455,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -291,32 +301,11 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                                 isChoosing: data[YKienNguoiDanCubitt
                                     .INDEX_FILTER_TC_BI_TU_CHOI_TIEP_NHAN],
                               ),
-                              spaceH16,
-                              item(
-                                callBack: (value, index) {
-                                  widget.cubit.textFilter.add(value);
-                                  widget.cubit.isShowFilterList.add(false);
-                                  widget.cubit.trangThaiFilter =
-                                      YKienNguoiDanCubitt.HuyBo;
-                                  widget.cubit.hanXuLy = null;
-                                  widget.cubit.loaiMenu =
-                                      YKienNguoiDanCubitt.TiepNhan;
-                                  widget.cubit.isFilterXuLy = false;
-                                  widget.cubit.isFilterTiepNhan = false;
-                                  widget.cubit
-                                      .setColorWhenChooseDropDown(index);
-                                  widget.cubit.getDanhSachPAKNFilterChart();
-                                },
-                                title: S.current.bi_huy_bo,
-                                index: YKienNguoiDanCubitt
-                                    .INDEX_FILTER_TC_BI_HUY_BO,
-                                isChoosing: data[YKienNguoiDanCubitt
-                                    .INDEX_FILTER_TC_BI_HUY_BO],
-                              ),
 
                               ///them
                               spaceH16,
                               item(
+                                colorBorder: colorEA5455,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -341,6 +330,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: colorEA5455,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -365,6 +355,30 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                               ),
                               spaceH16,
                               item(
+                                colorBorder: colorEA5455,
+                                callBack: (value, index) {
+                                  widget.cubit.textFilter.add(value);
+                                  widget.cubit.isShowFilterList.add(false);
+                                  widget.cubit.trangThaiFilter =
+                                      YKienNguoiDanCubitt.HuyBo;
+                                  widget.cubit.hanXuLy = null;
+                                  widget.cubit.loaiMenu =
+                                      YKienNguoiDanCubitt.TiepNhan;
+                                  widget.cubit.isFilterXuLy = false;
+                                  widget.cubit.isFilterTiepNhan = false;
+                                  widget.cubit
+                                      .setColorWhenChooseDropDown(index);
+                                  widget.cubit.getDanhSachPAKNFilterChart();
+                                },
+                                title: S.current.bi_huy_bo,
+                                index: YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_BI_HUY_BO,
+                                isChoosing: data[YKienNguoiDanCubitt
+                                    .INDEX_FILTER_TC_BI_HUY_BO],
+                              ),
+                              spaceH16,
+                              item(
+                                colorBorder: purpleChart,
                                 callBack: (value, index) {
                                   widget.cubit.textFilter.add(value);
                                   widget.cubit.isShowFilterList.add(false);
@@ -407,6 +421,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                           children: [
                             spaceH12,
                             item(
+                              colorBorder: color02C5DD,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -428,6 +443,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: color02C5DD,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -449,6 +465,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: daXuLyColor,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -469,6 +486,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: colorFF9F43,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -490,6 +508,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: colorFF9F43,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -511,6 +530,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: colorFF9F43,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -527,6 +547,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: daXuLyColor,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -543,6 +564,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: daXuLyColor,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -564,6 +586,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: colorFF9F43,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -580,6 +603,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: daXuLyColor,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -596,6 +620,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: statusCalenderRed,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -618,6 +643,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: statusCalenderRed,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -640,6 +666,7 @@ class _DropDownTrangThaiPAKNState extends State<DropDownTrangThaiPAKN> {
                             ),
                             spaceH16,
                             item(
+                              colorBorder: purpleChart,
                               callBack: (value, index) {
                                 widget.cubit.textFilter.add(value);
                                 widget.cubit.isShowFilterList.add(false);
@@ -677,6 +704,7 @@ Widget item({
   required String title,
   required int index,
   required Function(TextTrangThai, int index) callBack,
+  required Color colorBorder,
 }) {
   return InkWell(
     onTap: () => callBack(TextTrangThai(title, textDefault), index),
@@ -689,16 +717,15 @@ Widget item({
         borderRadius: const BorderRadius.all(
           Radius.circular(30),
         ),
-        color: isChoosing
-            ? AppTheme.getInstance().colorField()
-            : Colors.transparent,
+        border: Border.all(color: colorBorder),
+        color: isChoosing ? colorBorder : Colors.transparent,
       ),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
           title,
           style: textNormalCustom(
-            color: textTitle,
+            color: isChoosing ? Colors.white : colorBorder,
             fontWeight: FontWeight.w500,
           ),
         ),

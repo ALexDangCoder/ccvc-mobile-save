@@ -1484,5 +1484,10 @@
   "ly_do_vao_co_quan": "Lý do vào cơ quan",
   "nhap_ten_day_du_co_quan": "Nhập tên đầy đủ cơ quan/tổ chức",
   "nhap_ten_nguoi_don": "Nhập tên người tiếp đón",
-  "nhap_ly_do": "Nhập lý do"
+  "nhap_ly_do": "Nhập lý do",
+  "cong_dvc_bo": "Cổng DVC của Bộ",
+  "ung_dung_dieu_hanh": "Ứng dụng điều hành",
+  "thu_dien_tu": "Thư điện tử ",
+  "the_thong_qlvb": "Hệ thống QLVB",
+  "pakn_theo_nguon": "Phản ánh kiến nghị theo nguồn"
 }

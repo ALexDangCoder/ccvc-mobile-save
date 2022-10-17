@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/chi_tiet_kien_nghi_req
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/danh_sach_pakn_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/danh_sach_y_kien_pakn_request.dart';
 import 'package:ccvc_mobile/data/response/dashboard_pakn/dashboard_tinh_hinh_pakn_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_pie_chart_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/chart_don_vi_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/chart_linh_vuc_khac_response.dart';
@@ -485,4 +486,20 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
     );
   }
+  @override
+  Future<Result<List<int>>> getBaoCaoPieChart(int filterBy, bool isAll) {
+    return runCatchingAsync<BaoCaoPieChartResponse,
+        List<int>>(
+          () => _yKienNguoiDanService.getBaoCaoPieChartYKND(
+        filterBy,
+        isAll,
+      ),
+          (res) =>
+          res.toDomain(),
+    );
+  }
+
 }
+
+
+

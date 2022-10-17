@@ -101,22 +101,12 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     String endDate, {
     List<String>? listDonVi,
   }) async {
-    final queue = Queue(parallel: 5);
+    final queue = Queue(parallel: 4);
     unawaited(
       queue.add(
-        () => baoCaoYKND(
-          startDate,
-          endDate,
-          listDonVi: listDonVi,
-        ),
-      ),
-    );
-    unawaited(
-      queue.add(
-        () => dashBoardBaoCaoYKND(
-          startDate,
-          endDate,
-          listDonVi: listDonVi,
+        () => dashBoardBaoCaoPieChartYKND(
+          0,
+          true,
         ),
       ),
     );
@@ -297,6 +287,38 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
             quaHan: dashBroadItemYKNDModel.quaHan,
           ),
         );
+      },
+      error: (err) {
+        return;
+      },
+    );
+  }
+
+  Future<void> dashBoardBaoCaoPieChartYKND(
+    int filterBy,
+    bool isAll,
+  ) async {
+    showLoading();
+    final result = await _YKNDRepo.getBaoCaoPieChart(
+      filterBy,
+      isAll,
+    );
+    showContent();
+    result.when(
+      success: (res) {
+        final List<ChartData> listData = [];
+        listData.add(ChartData(
+            S.current.cong_dvc_quoc_gia, res[0].toDouble(), choBanHanhColor,));
+        listData.add(ChartData(
+            S.current.cong_dvc_bo, res[1].toDouble(), radioFocusColor,));
+        listData.add(ChartData(
+            S.current.ung_dung_dieu_hanh, res[3].toDouble(), choTrinhKyColor,));
+        listData.add(ChartData(
+            S.current.thu_dien_tu, res[4].toDouble(), textColorForum,));
+        listData.add(ChartData(
+            S.current.the_thong_qlvb, res[6].toDouble(), choXuLyYKND,));
+
+        _listChartDashBoard.sink.add(listData);
       },
       error: (err) {
         return;

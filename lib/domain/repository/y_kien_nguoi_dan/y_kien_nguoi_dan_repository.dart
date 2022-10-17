@@ -176,4 +176,9 @@ mixin YKienNguoiDanRepository {
     String dateFrom,
     String dateTo,
   );
+
+  Future<Result<List<int>>> getBaoCaoPieChart(
+      int filterBy,
+      bool isAll,
+      );
 }

@@ -43,7 +43,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
     super.initState();
     widget.cubit.initTimeRange();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
-    widget.cubit.getDanhSachPAKN();
+    widget.cubit.loaiMenu =
+        YKienNguoiDanCubitt.TiepNhan;
+    widget.cubit.trangThaiFilter =
+        YKienNguoiDanCubitt.ChoTiepNhan;
+    widget.cubit.getDanhSachPAKNFilterChart(flagLoadMore: true);
   }
 
   @override

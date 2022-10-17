@@ -69,6 +69,7 @@ class MessageConfig {
   }
 
   static Future<void> showDialogSetting({
+    String? title,
     String? okBtnTxt,
     String? cancelBtnTxt,
   }) async {
@@ -94,7 +95,7 @@ class MessageConfig {
     );
     // set up the AlertDialog
     final AlertDialog alert = AlertDialog(
-      title: Text(S.current.ban_can_mo_quyen_de_truy_cap_ung_dung,
+      title: Text(title ?? S.current.ban_can_mo_quyen_de_truy_cap_ung_dung,
           style: textNormal(titleColumn, 15)),
       actions: [okButton, cancelBtnText],
     );

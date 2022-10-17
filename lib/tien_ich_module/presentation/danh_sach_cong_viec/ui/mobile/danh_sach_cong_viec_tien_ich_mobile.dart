@@ -99,7 +99,6 @@ class _DanhSachCongViecTienIchMobileState
                               cubit: cubit,
                             ),
                             spaceH12,
-
                             /// list up
                             if (dataType == DSCVScreen.CVCB ||
                                 dataType == DSCVScreen.CVQT ||
@@ -120,67 +119,67 @@ class _DanhSachCongViecTienIchMobileState
                                   final currentUserCreate =
                                       cubit.currentCreate(data);
                                   final ganChoToi = cubit.listCVGanChoToi(data);
-                                  if(snapshot.data == null) {
-                                    return const SizedBox();
-                                  }
-                                  else {
-                                    if (data.isNotEmpty) {
-                                      if (dataType == DSCVScreen.CVCB) {
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            expandMobile(
-                                              child: ListUpDSCV(
-                                                data: currentUserCreate,
-                                                cubit: cubit,
-                                                dataType: dataType,
-                                              ),
-                                              header: textTitle(
-                                                S.current.cong_viec_cua_toi,
-                                                number: currentUserCreate.length,
-                                              ),
-                                            ),
-                                            if (currentUserCreate.isNotEmpty)
-                                              spaceH12,
-                                            expandMobile(
-                                              child: ListUpDSCV(
-                                                data: ganChoToi,
-                                                cubit: cubit,
-                                                dataType: dataType,
-                                              ),
-                                              header: textTitle(
-                                                S.current.gan_cho_toi,
-                                                number: ganChoToi.length,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }
-                                      return ListUpDSCV(
-                                        data: data,
-                                        cubit: cubit,
-                                        dataType: dataType,
-                                      );
-                                    }
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 30,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          if (dataType == DSCVScreen.DBX)
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(top: 16),
-                                              child: textTitle(
-                                                S.current.gan_cho_toi,
-                                              ),
-                                            ),
-                                          const NodataWidget(),
-                                        ],
-                                      ),
-                                    );
-                                  }
+                                 if(snapshot.data == null) {
+                                   return const SizedBox();
+                                 }
+                                 else {
+                                   if (data.isNotEmpty) {
+                                     if (dataType == DSCVScreen.CVCB) {
+                                       return Column(
+                                         mainAxisSize: MainAxisSize.min,
+                                         children: [
+                                           expandMobile(
+                                             child: AboveListDSCV(
+                                               data: currentUserCreate,
+                                               cubit: cubit,
+                                               dataType: dataType,
+                                             ),
+                                             header: textTitle(
+                                               S.current.cong_viec_cua_toi,
+                                               number: currentUserCreate.length,
+                                             ),
+                                           ),
+                                           if (currentUserCreate.isNotEmpty)
+                                             spaceH12,
+                                           expandMobile(
+                                             child: AboveListDSCV(
+                                               data: ganChoToi,
+                                               cubit: cubit,
+                                               dataType: dataType,
+                                             ),
+                                             header: textTitle(
+                                               S.current.gan_cho_toi,
+                                               number: ganChoToi.length,
+                                             ),
+                                           ),
+                                         ],
+                                       );
+                                     }
+                                     return AboveListDSCV(
+                                       data: data,
+                                       cubit: cubit,
+                                       dataType: dataType,
+                                     );
+                                   }
+                                   return Padding(
+                                     padding: const EdgeInsets.symmetric(
+                                       vertical: 30,
+                                     ),
+                                     child: Column(
+                                       children: [
+                                         if (dataType == DSCVScreen.DBX)
+                                           Padding(
+                                             padding:
+                                             const EdgeInsets.only(top: 16),
+                                             child: textTitle(
+                                               S.current.gan_cho_toi,
+                                             ),
+                                           ),
+                                         const NodataWidget(),
+                                       ],
+                                     ),
+                                   );
+                                 }
                                 },
                               ),
                             if (dataType == DSCVScreen.DBX) spaceH18,
@@ -198,48 +197,48 @@ class _DanhSachCongViecTienIchMobileState
                                           )
                                           .toList() ??
                                       [];
-                                  if(snapshot.data == null) {
-                                    return const SizedBox();
-                                  }
-                                   else {
-                                    if (data.isNotEmpty) {
-                                      if (dataType == DSCVScreen.DBX) {
-                                        return expandMobile(
-                                          child: ListDownDSCV(
-                                            data: data,
-                                            dataType: dataType,
-                                            cubit: cubit,
-                                          ),
-                                          header: textTitle(
-                                            S.current.da_hoan_thanh,
-                                          ),
-                                        );
-                                      }
-                                      return ListDownDSCV(
-                                        data: data,
-                                        dataType: dataType,
-                                        cubit: cubit,
-                                      );
-                                    }
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 30,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          if (dataType == DSCVScreen.DBX)
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(top: 16),
-                                              child: textTitle(
-                                                S.current.da_hoan_thanh,
-                                              ),
-                                            ),
-                                          const NodataWidget(),
-                                        ],
-                                      ),
-                                    );
-                                  }
+                                 if(snapshot.data == null) {
+                                   return const SizedBox();
+                                 }
+                                 else {
+                                   if (data.isNotEmpty) {
+                                     if (dataType == DSCVScreen.DBX) {
+                                       return expandMobile(
+                                         child: BelowListDSCV(
+                                           data: data,
+                                           dataType: dataType,
+                                           cubit: cubit,
+                                         ),
+                                         header: textTitle(
+                                           S.current.da_hoan_thanh,
+                                         ),
+                                       );
+                                     }
+                                     return BelowListDSCV(
+                                       data: data,
+                                       dataType: dataType,
+                                       cubit: cubit,
+                                     );
+                                   }
+                                   return Padding(
+                                     padding: const EdgeInsets.symmetric(
+                                       vertical: 30,
+                                     ),
+                                     child: Column(
+                                       children: [
+                                         if (dataType == DSCVScreen.DBX)
+                                           Padding(
+                                             padding:
+                                             const EdgeInsets.only(top: 16),
+                                             child: textTitle(
+                                               S.current.da_hoan_thanh,
+                                             ),
+                                           ),
+                                         const NodataWidget(),
+                                       ],
+                                     ),
+                                   );
+                                 }
                                 },
                               ),
                           ],

@@ -81,7 +81,7 @@ class Data {
       avatar: avatar ?? '',
       nguoiTaoId: nguoiTaoId ?? '',
       nguoiTao: nguoiTao ?? '',
-      content: content?.parseHtml() ?? '',
+      content: content ?? '',
       scheduleId: scheduleId,
       traLoiYKien: listTraLoi,
     );

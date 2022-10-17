@@ -54,8 +54,6 @@ class _SelectCanBoState extends State<SelectCanBo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.themCanBoCubit.listCanBoTemp = [...widget.themCanBoCubit.listCanBo];
-    widget.themCanBoCubit.getCanbo.sink.add(widget.themCanBoCubit.listCanBo);
   }
 
   @override
@@ -72,6 +70,12 @@ class _SelectCanBoState extends State<SelectCanBo> {
         ),
         GestureDetector(
           onTap: () {
+            for (int i = 0; i < widget.themCanBoCubit.listCanBo.length; i++) {
+              widget.themCanBoCubit.listCanBo[i].isCheck =
+                  widget.themCanBoCubit.listCheck[i];
+            }
+            widget.themCanBoCubit.getCanbo.sink
+                .add(widget.themCanBoCubit.listCanBo);
             isMobile()
                 ? showBottomSheetCustom<List<DonViModel>>(
                     context,
@@ -92,8 +96,14 @@ class _SelectCanBoState extends State<SelectCanBo> {
                               Navigator.pop(context);
                             },
                             onClickRight: () {
+                              widget.themCanBoCubit.listCheck = widget
+                                  .themCanBoCubit.listCanBo
+                                  .map((e) => e.isCheck)
+                                  .toList();
                               widget.themCanBoCubit.titleCanBo.sink
                                   .add(tenCanBo);
+                              widget.themCanBoCubit.donViModel =
+                                  widget.themCanBoCubit.tmpDonViModel;
                               Navigator.pop(
                                 context,
                                 widget.onChangeCheckbox(
@@ -119,8 +129,7 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                 bloc: widget.themCanBoCubit,
                                 builder: (context, state) {
                                   return StreamBuilder<List<DonViModel>>(
-                                    stream:
-                                        widget.themCanBoCubit.getCanboStream,
+                                    stream: widget.themCanBoCubit.getCanbo,
                                     builder: (context, snapshot) {
                                       final data =
                                           widget.themCanBoCubit.searchCanBo(
@@ -138,32 +147,32 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                 ),
                                                 child: itemCanBo(
                                                   onCheckBox: (value) async {
-                                                    widget.themCanBoCubit
-                                                        .addDataListByModel(
-                                                      result,
-                                                      sinkData: false,
-                                                    );
                                                     if (!value) {
                                                       widget.themCanBoCubit
                                                           .addDataListByModel(
                                                         result,
                                                         sinkData: false,
                                                       );
+                                                      widget.themCanBoCubit
+                                                              .tmpDonViModel =
+                                                          result;
+                                                      tenCanBo =
+                                                          result.tenCanBo;
                                                     } else {
                                                       widget.themCanBoCubit
                                                           .removeByModel(
                                                         result,
                                                       );
+                                                      widget.themCanBoCubit
+                                                              .tmpDonViModel =
+                                                          DonViModel();
+                                                      tenCanBo = '';
                                                     }
                                                   },
                                                   canBoModel: result,
                                                   themCanBoCubit:
                                                       widget.themCanBoCubit,
-                                                  onChange: (value) {
-                                                    tenCanBo = value.tenCanBo;
-                                                    widget.themCanBoCubit
-                                                        .donViModel = value;
-                                                  },
+                                                  onChange: (value) {},
                                                   isCheck: data[index].isCheck,
                                                 ),
                                               );
@@ -210,8 +219,14 @@ class _SelectCanBoState extends State<SelectCanBo> {
                               Navigator.pop(context);
                             },
                             onClickRight: () {
+                              widget.themCanBoCubit.listCheck = widget
+                                  .themCanBoCubit.listCanBo
+                                  .map((e) => e.isCheck)
+                                  .toList();
                               widget.themCanBoCubit.titleCanBo.sink
                                   .add(tenCanBo);
+                              widget.themCanBoCubit.donViModel =
+                                  widget.themCanBoCubit.tmpDonViModel;
                               Navigator.pop(
                                 context,
                                 widget.onChangeCheckbox(
@@ -270,33 +285,32 @@ class _SelectCanBoState extends State<SelectCanBo> {
                                                     child: itemCanBo(
                                                       onCheckBox:
                                                           (value) async {
-                                                        widget.themCanBoCubit
-                                                            .addDataListByModel(
-                                                          result,
-                                                          sinkData: false,
-                                                        );
                                                         if (!value) {
                                                           widget.themCanBoCubit
                                                               .addDataListByModel(
                                                             result,
                                                             sinkData: false,
                                                           );
+                                                          widget.themCanBoCubit
+                                                                  .tmpDonViModel =
+                                                              result;
+                                                          tenCanBo =
+                                                              result.tenCanBo;
                                                         } else {
                                                           widget.themCanBoCubit
                                                               .removeByModel(
                                                             result,
                                                           );
+                                                          widget.themCanBoCubit
+                                                                  .tmpDonViModel =
+                                                              DonViModel();
+                                                          tenCanBo = '';
                                                         }
                                                       },
                                                       canBoModel: result,
                                                       themCanBoCubit:
                                                           widget.themCanBoCubit,
-                                                      onChange: (value) {
-                                                        tenCanBo =
-                                                            value.tenCanBo;
-                                                        widget.themCanBoCubit
-                                                            .donViModel = value;
-                                                      },
+                                                      onChange: (value) {},
                                                       isCheck:
                                                           data[index].isCheck,
                                                     ),

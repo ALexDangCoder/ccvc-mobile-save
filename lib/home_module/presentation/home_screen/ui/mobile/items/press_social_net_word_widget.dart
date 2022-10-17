@@ -287,7 +287,10 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                     );
                   },
                 ),
-                addTagWidget(),
+                Padding(
+                  padding: EdgeInsets.only(left: (data.isEmpty) ? 16.0 : 0.0),
+                  child: addTagWidget(),
+                ),
               ],
             ),
           );

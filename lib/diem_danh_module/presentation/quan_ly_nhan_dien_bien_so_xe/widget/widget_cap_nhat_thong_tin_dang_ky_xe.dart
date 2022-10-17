@@ -66,38 +66,36 @@ class _WidgetCapNhatThongTinDangKyXeState
       child: FollowKeyBoardEdt(
         bottomWidget: Padding(
           padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 30),
-          child: SizedBox(
-            width: isMobile() ? MediaQuery.of(context).size.width : 300,
-            child: DoubleButtonBottom(
-              title1: S.current.huy,
-              title2: S.current.cap_nhat,
-              onClickLeft: () {
-                Navigator.pop(widget.context);
-                widget.cubit.fileItemBienSoXe.clear();
-              },
-              onClickRight: () {
-                if (hasImage == false) {
-                  widget.cubit.toast.removeQueuedCustomToasts();
-                  widget.cubit.toast.showToast(
-                    child: ShowToast(
-                      text: S.current.vui_long_them_anh_giay_dang_ky_xe,
-                    ),
-                    gravity: ToastGravity.TOP_RIGHT,
-                  );
-                  return;
-                }
-                if (keyGroup.currentState!.validator()) {
-                  Navigator.pop(context);
-                  widget.cubit.postImageResgiter(
-                    bienKiemSoat: bienKiemSoatController.value.text,
-                    isTao: false,
-                    id: widget.chiTietBienSoXeModel.id ?? '',
-                    fileId: widget.chiTietBienSoXeModel.fileId ?? '',
-                    context: widget.context,
-                  );
-                }
-              },
-            ),
+          child: DoubleButtonBottom(
+            isTablet: ! isMobile(),
+            title1: S.current.huy,
+            title2: S.current.cap_nhat,
+            onClickLeft: () {
+              Navigator.pop(widget.context);
+              widget.cubit.fileItemBienSoXe.clear();
+            },
+            onClickRight: () {
+              if (hasImage == false) {
+                widget.cubit.toast.removeQueuedCustomToasts();
+                widget.cubit.toast.showToast(
+                  child: ShowToast(
+                    text: S.current.vui_long_them_anh_giay_dang_ky_xe,
+                  ),
+                  gravity: ToastGravity.TOP_RIGHT,
+                );
+                return;
+              }
+              if (keyGroup.currentState!.validator()) {
+                Navigator.pop(context);
+                widget.cubit.postImageResgiter(
+                  bienKiemSoat: bienKiemSoatController.value.text,
+                  isTao: false,
+                  id: widget.chiTietBienSoXeModel.id ?? '',
+                  fileId: widget.chiTietBienSoXeModel.fileId ?? '',
+                  context: widget.context,
+                );
+              }
+            },
           ),
         ),
         child: Column(

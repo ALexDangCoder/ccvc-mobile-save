@@ -13,8 +13,10 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   List<DonViModel> listSelectCanBo = [];
   final List<RemoveItemTree> listCaNhanRemove = [];
   DonViModel donViModel = DonViModel();
+  DonViModel tmpDonViModel = DonViModel();
   List<DonViModel> listCanBo = [];
   List<DonViModel> listCanBoTemp = [];
+  List<bool> listCheck = [];
   BehaviorSubject<String> titleCanBo = BehaviorSubject();
 
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
@@ -47,6 +49,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
             return a;
           },
         );
+        listCheck = listCanBo.map((e) => e.isCheck).toList();
         getCanbo.sink.add(listCanBo);
       },
       error: (err) {},
@@ -75,14 +78,10 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     final currentList = getCanbo.valueOrNull ?? [];
     for (final value in listCanBo) {
       value.isCheck = false;
-      titleCanBo.sink.add('');
     }
     final index = currentList.indexOf(data);
     if (index != -1) {
       currentList[index].isCheck = true;
-    }
-    if (sinkData) {
-      titleCanBo.sink.add(currentList[index].tenCanBo);
     }
     getCanbo.sink.add(currentList);
   }
@@ -91,7 +90,6 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     final currentList = getCanbo.valueOrNull ?? [];
     for (final value in currentList) {
       value.isCheck = false;
-      titleCanBo.sink.add('');
     }
     getCanbo.sink.add(currentList);
   }
@@ -142,7 +140,8 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
     final vl = searchCanBo(text);
     getCanbo.sink.add(vl);
   }
-  List<DonViModel> searchCanBo (String text){
+
+  List<DonViModel> searchCanBo(String text) {
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(DonViModel canBo) {
       return canBo.name.toLowerCase().vietNameseParse().contains(searchTxt) ||
@@ -150,7 +149,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
           canBo.tenCanBo.toLowerCase().vietNameseParse().contains(searchTxt);
     }
 
-    return  listCanBo.where((element) => isListCanBo(element)).toList();
+    return listCanBo.where((element) => isListCanBo(element)).toList();
   }
 
   void dispose() {

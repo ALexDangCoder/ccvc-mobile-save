@@ -31,6 +31,7 @@ class LichLapWidget extends StatefulWidget {
   final List<int>? initDayPicked;
   final bool isUpdate;
   final String? miniumDate;
+  final bool? isSort;
 
   const LichLapWidget({
     Key? key,
@@ -48,6 +49,7 @@ class LichLapWidget extends StatefulWidget {
     this.isUpdate = false,
     this.initDayPicked,
     this.miniumDate,
+    this.isSort
   }) : super(key: key);
 
   @override
@@ -215,6 +217,7 @@ class _ExpandedSectionState extends State<LichLapWidget>
                             top: 24,
                           ),
                           child: DayPickerWidget(
+                            isSort: widget.isSort,
                             isUpdate: widget.isUpdate,
                             initDayPicked: widget.initDayPicked,
                             onChange: (listId) {

@@ -39,7 +39,7 @@ class DanhSachCongViecTienIchCubit
   String groupId = '';
 
   ///Stream
-  BehaviorSubject<List<TodoDSCVModel>> listDSCVStream = BehaviorSubject();
+  BehaviorSubject<List<TodoDSCVModel>?> listDSCVStream = BehaviorSubject();
   BehaviorSubject<bool> editPop = BehaviorSubject();
 
   BehaviorSubject<String> titleAppBar = BehaviorSubject();
@@ -90,12 +90,14 @@ class DanhSachCongViecTienIchCubit
     String? groupId,
     bool isLoadmore = false,
   }) async {
+
     if (isLoadmore) {
       inLoadmore.sink.add(true);
     } else {
       showLoading();
     }
     bool result = false;
+
     switch (statusDSCV.value) {
       case DSCVScreen.CVCB:
         result = await getAllListDSCVWithFilter(
@@ -235,6 +237,7 @@ class DanhSachCongViecTienIchCubit
       groupId,
       isGiveOther,
     );
+    listDSCVStream.sink.add(null);
     result.when(
       success: (res) {
         final List<TodoDSCVModel> data = listDSCVStream.valueOrNull ?? [];
@@ -611,7 +614,7 @@ class DanhSachCongViecTienIchCubit
           title: S.current.thanh_cong,
         );
         final data = listDSCVStream.value;
-        data.remove(todo);
+        data?.remove(todo);
         listDSCVStream.sink.add(data);
       },
       error: (error) {

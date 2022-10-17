@@ -191,7 +191,7 @@ Widget searchWidgetDscv({
         cubit.countLoadMore = ApiConstants.PAGE_BEGIN;
         cubit.waitToDelay(
           actionNeedDelay: () {
-            cubit.listDSCVStream.sink.add([]);
+            cubit.listDSCVStream.sink.add(null);
             cubit.callAPITheoFilter(textSearch: value ,isLoadmore: true,);
           },
           timeSecond: 1,

@@ -111,7 +111,7 @@ class _DanhSachCongViecTienIchTabletState
                                 dataType == DSCVScreen.DBX)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 28),
-                                child: StreamBuilder<List<TodoDSCVModel>>(
+                                child: StreamBuilder<List<TodoDSCVModel>?>(
                                   stream: cubit.listDSCVStream.stream,
                                   builder: (context, snapshot) {
                                     final data = snapshot.data
@@ -125,58 +125,63 @@ class _DanhSachCongViecTienIchTabletState
                                         cubit.currentCreate(data);
                                     final ganChoToi =
                                         cubit.listCVGanChoToi(data);
-                                    if (data.isNotEmpty) {
-                                      return Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(12)),
-                                          border: Border.all(
-                                              color:
-                                                  toDayColor.withOpacity(0.5)),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16),
-                                              child: ListUpDSCV(
-                                                data: currentUserCreate,
-                                                dataType: dataType,
-                                                cubit: cubit,
+                                    if(snapshot.data == null) {
+                                      return const SizedBox();
+                                    }
+                                    else {
+                                      if (data.isNotEmpty) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: const BorderRadius.all(
+                                                Radius.circular(12)),
+                                            border: Border.all(
+                                                color:
+                                                toDayColor.withOpacity(0.5)),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                                child: AboveListDSCV(
+                                                  data: currentUserCreate,
+                                                  dataType: dataType,
+                                                  cubit: cubit,
+                                                ),
                                               ),
-                                            ),
-                                            if (currentUserCreate.isNotEmpty)
-                                              spaceH12,
-                                            expanTablet(
-                                              isOtherType:
-                                                  dataType == DSCVScreen.CVCB,
-                                              isCheck: isOpenWhenInitListUp,
-                                              title: S.current.gan_cho_toi,
-                                              count: ganChoToi.length,
-                                              child: ListUpDSCV(
-                                                data: ganChoToi,
-                                                dataType: dataType,
-                                                cubit: cubit,
+                                              if (currentUserCreate.isNotEmpty)
+                                                spaceH12,
+                                              expanTablet(
+                                                isOtherType:
+                                                dataType == DSCVScreen.CVCB,
+                                                isCheck: isOpenWhenInitListUp,
+                                                title: S.current.gan_cho_toi,
+                                                count: ganChoToi.length,
+                                                child: AboveListDSCV(
+                                                  data: ganChoToi,
+                                                  dataType: dataType,
+                                                  cubit: cubit,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                      return const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 20,
                                         ),
+                                        child: NodataWidget(),
                                       );
                                     }
-                                    return const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 20,
-                                      ),
-                                      child: NodataWidget(),
-                                    );
                                   },
                                 ),
                               ),
                             if (dataType == DSCVScreen.DBX ||
                                 dataType == DSCVScreen.DHT)
-                              StreamBuilder<List<TodoDSCVModel>>(
+                              StreamBuilder<List<TodoDSCVModel>?>(
                                 stream: cubit.listDSCVStream.stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data
@@ -200,7 +205,7 @@ class _DanhSachCongViecTienIchTabletState
                                       title: S.current.da_hoan_thanh,
                                       count: data.length,
                                       child: data.isNotEmpty
-                                          ? ListDownDSCV(
+                                          ? BelowListDSCV(
                                               data: data,
                                               dataType: dataType,
                                               cubit: cubit,

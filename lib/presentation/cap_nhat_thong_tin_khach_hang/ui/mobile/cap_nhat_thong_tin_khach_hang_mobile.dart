@@ -188,17 +188,6 @@ class _CapNhatThongTinKhachHangMobileState
                       cubit.filePickImageBackEnd.isNotEmpty,
                   title: S.current.tiep_theo,
                   onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ThongTinKhachVaoCoQuanScreen(
-                              checkIdCardModel: typeData,
-                              base64Image: 'base64Image',
-                            ),
-                      ),
-                          (Route<dynamic> route) => route.isFirst,
-                    );
                     if (cubit.filePickImageFrontend.isNotEmpty &&
                         cubit.filePickImageBackEnd.isNotEmpty) {
                       cubit.postCheckIdCard(context).then((value) {

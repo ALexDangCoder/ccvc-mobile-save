@@ -219,6 +219,7 @@ class Node<T> {
   bool expand = false;
   TickChildren isTickChildren = TickChildren();
   bool isCallApi = false;
+  bool visible = true;
   CheckBox isCheck = CheckBox();
   int level = 0;
   List<Node<T>> children = [];
@@ -275,6 +276,18 @@ class Node<T> {
           }
         }
         return null;
+      }
+    }
+  }
+
+  void foreach(bool? Function(Node<T> element) event) {
+    bool? result = false;
+    result = event(this);
+    if (result == true) return;
+    if (children.isNotEmpty ) {
+      for (final element in children) {
+        result = event(element);
+        if (result == true) return;
       }
     }
   }

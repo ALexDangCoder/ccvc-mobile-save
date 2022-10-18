@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 enum TimeRange { HOM_NAY, TUAN_NAY, THANG_NAY, NAM_NAY }
 
 extension DateFormatString on DateTime {
-  String get getMonth => 'Th${this.month}';
+  String get getMonth => 'Th${this.month.toString().padLeft(2, '0')}';
 
   String get convertDateTimeApi => toString().replaceFirst(' ', 'T');
 

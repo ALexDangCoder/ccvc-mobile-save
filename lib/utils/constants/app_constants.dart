@@ -266,6 +266,7 @@ const String TIME = '00:00:00';
 const String PRIMARY = 'primary';
 const String INIT_TIME = '00:00';
 const int DA_THAM_GIA = 1;
+const String BASE_64 = 'data:image/png;base64';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -411,7 +412,7 @@ class MenuItemConst {
   static const BAO_CAO = 'bao-cao';
   static const DIEM_DANH = 'diem_danh';
   static const HO_TRO_KY_THUAT = 'ho_tro_ky_thuat';
-  static const CAP_NHAT_THONG_TIN_KHACH = 'tin_noi_bo';
+  static const CAP_NHAT_THONG_TIN_KHACH = 'cap_nhat_thong_tin_khach_hang';
 }
 
 class StatusCodeConst {

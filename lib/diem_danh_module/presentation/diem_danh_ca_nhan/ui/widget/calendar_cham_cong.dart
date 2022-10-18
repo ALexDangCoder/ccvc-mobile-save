@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/w
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
                 ),
                 // todayBackgroundColor: widget.isTablet ?  bgCalenderColor : null,
               ),
+              dayFormat: isMobile()?'EE':'EEEE',
               appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
             ),
             selectionDecoration: const BoxDecoration(color: Colors.transparent),

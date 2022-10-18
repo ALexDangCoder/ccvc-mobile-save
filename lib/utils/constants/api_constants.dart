@@ -235,6 +235,7 @@ class ApiConstants {
   static const GET_DANH_SACH_Y_KIEN_PAKN =
       '/pakn/api/TaskYKien/danh-sach-ykien';
   static const BAO_CAO_YKND = '/pakn/api/Dashboard/statistics-by-top';
+  static const PIE_CHART_BAO_CAO_YKND = '/PAKN/api/KienNghi/DashboardPAKNFilter';
   static const DASH_BOARD_BAO_CAO_YKND =
       '/pakn/api/Dashboard/statistics-by-status';
   static const RESET_LIST_WIDGET = '/api/Widget/reset-dashboard-widget';

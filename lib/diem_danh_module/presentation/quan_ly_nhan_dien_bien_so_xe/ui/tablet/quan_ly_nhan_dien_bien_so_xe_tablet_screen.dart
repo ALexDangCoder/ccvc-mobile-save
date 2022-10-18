@@ -170,64 +170,61 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                                   '',
                                             ),
                                             spaceH28,
-                                            SizedBox(
-                                              width: 300,
-                                              height: 44,
-                                              child: DoubleButtonBottom(
-                                                title1: S.current.chinh_sua,
-                                                title2: S.current.xoa,
-                                                onClickLeft: () {
-                                                  showDiaLogTablet(
-                                                    context,
-                                                    title: S.current
-                                                        .cap_nhat_tong_tin_dang_ky_xe,
-                                                    isBottomShow: false,
-                                                    child:
-                                                        WidgetCapNhatThongTinDangKyXe(
-                                                      imagePermission:
-                                                          imagePermission,
-                                                      context: context,
-                                                      cubit: widget.cubit,
-                                                      chiTietBienSoXeModel:
-                                                          dataChiTiet[index],
-                                                    ),
-                                                    funcBtnOk: () {},
-                                                  ).then((value) {
-                                                    if (value == true) {
+                                            DoubleButtonBottom(
+                                              isTablet: true,
+                                              title1: S.current.chinh_sua,
+                                              title2: S.current.xoa,
+                                              onClickLeft: () {
+                                                showDiaLogTablet(
+                                                  context,
+                                                  title: S.current
+                                                      .cap_nhat_tong_tin_dang_ky_xe,
+                                                  isBottomShow: false,
+                                                  child:
+                                                      WidgetCapNhatThongTinDangKyXe(
+                                                    imagePermission:
+                                                        imagePermission,
+                                                    context: context,
+                                                    cubit: widget.cubit,
+                                                    chiTietBienSoXeModel:
+                                                        dataChiTiet[index],
+                                                  ),
+                                                  funcBtnOk: () {},
+                                                ).then((value) {
+                                                  if (value == true) {
+                                                    widget.cubit
+                                                        .getDanhSachBienSoXe();
+                                                  }
+                                                });
+                                              },
+                                              onClickRight: () {
+                                                showDiaLog(
+                                                  context,
+                                                  title: S.current
+                                                      .xoa_nhan_bien_so_xe,
+                                                  icon: SvgPicture.asset(
+                                                    ImageAssets
+                                                        .icXoaNhanhDienBienSoXe,
+                                                  ),
+                                                  btnLeftTxt: S.current.khong,
+                                                  btnRightTxt:
+                                                      S.current.dong_y,
+                                                  funcBtnRight: () async {
+                                                    await widget.cubit
+                                                        .xoaBienSoXe(
+                                                            dataChiTiet[index]
+                                                                    .id ??
+                                                                '')
+                                                        .then((value) {
                                                       widget.cubit
                                                           .getDanhSachBienSoXe();
-                                                    }
-                                                  });
-                                                },
-                                                onClickRight: () {
-                                                  showDiaLog(
-                                                    context,
-                                                    title: S.current
-                                                        .xoa_nhan_bien_so_xe,
-                                                    icon: SvgPicture.asset(
-                                                      ImageAssets
-                                                          .icXoaNhanhDienBienSoXe,
-                                                    ),
-                                                    btnLeftTxt: S.current.khong,
-                                                    btnRightTxt:
-                                                        S.current.dong_y,
-                                                    funcBtnRight: () async {
-                                                      await widget.cubit
-                                                          .xoaBienSoXe(
-                                                              dataChiTiet[index]
-                                                                      .id ??
-                                                                  '')
-                                                          .then((value) {
-                                                        widget.cubit
-                                                            .getDanhSachBienSoXe();
-                                                      });
-                                                    },
-                                                    showTablet: true,
-                                                    textContent: S.current
-                                                        .ban_co_muon_xoa_nhan_dien_bien_so_xe,
-                                                  );
-                                                },
-                                              ),
+                                                    });
+                                                  },
+                                                  showTablet: true,
+                                                  textContent: S.current
+                                                      .ban_co_muon_xoa_nhan_dien_bien_so_xe,
+                                                );
+                                              },
                                             ),
                                             spaceH28,
                                           ],

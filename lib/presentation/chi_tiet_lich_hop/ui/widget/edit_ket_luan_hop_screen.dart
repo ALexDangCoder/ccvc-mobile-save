@@ -31,49 +31,46 @@ class _EditKetLuanHopScreenState extends State<EditKetLuanHopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Scaffold(
-        appBar: BaseAppBar(
-          leadingIcon: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
+    return Scaffold(
+      appBar: BaseAppBar(
+        leadingIcon: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: AqiColor,
+            size: 20,
+          ),
+        ),
+        title: S.current.sua_bien_ban_ket_luan_hop,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final getHtml =
+                  await controller.getText();
+              Navigator.pop(context, getHtml.removeSpaceHtml);
             },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: AqiColor,
-              size: 20,
+            icon: SvgPicture.asset(
+              ImageAssets.icTickCircle,
             ),
           ),
-          title: S.current.sua_bien_ban_ket_luan_hop,
-          actions: [
-            IconButton(
-              onPressed: () async {
-                final getHtml =
-                    await controller.getText();
-                Navigator.pop(context, getHtml.removeSpaceHtml);
-              },
-              icon: SvgPicture.asset(
-                ImageAssets.icTickCircle,
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.9,
+          ),
+          child: SingleChildScrollView(
+            child: HtmlEditor(
+              controller: controller,
+              htmlEditorOptions: HtmlEditorOptions(
+                initialText: widget.htmlText,
               ),
-            ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.9,
-            ),
-            child: SingleChildScrollView(
-              child: HtmlEditor(
-                controller: controller,
-                htmlEditorOptions: HtmlEditorOptions(
-                  initialText: widget.htmlText,
-                ),
-                otherOptions: OtherOptions(
-                  height: MediaQuery.of(context).size.height,
-                ),
+              otherOptions: OtherOptions(
+                height: MediaQuery.of(context).size.height,
               ),
             ),
           ),

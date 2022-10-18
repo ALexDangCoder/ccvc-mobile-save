@@ -64,6 +64,6 @@ class Data {
         fileName: '',
         imgAvatar: avatar ?? '',
         name: nguoiTao ?? '',
-        content: content?.parseHtml() ?? '',
+        content: content ?? '',
       );
 }

@@ -42,7 +42,11 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     super.initState();
     widget.cubit.initTimeRange();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
-    widget.cubit.getDanhSachPAKN();
+    widget.cubit.loaiMenu =
+        YKienNguoiDanCubitt.TiepNhan;
+    widget.cubit.trangThaiFilter =
+        YKienNguoiDanCubitt.ChoTiepNhan;
+    widget.cubit.getDanhSachPAKNFilterChart(flagLoadMore: true);
   }
 
   @override
@@ -120,7 +124,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             fontSize: 14,
                           ),
                         ),
-                        onChanged: (searchText) {
+                        onSubmitted: (searchText) {
                           if (searchText.isEmpty) {
                             setState(() {});
                             widget.cubit.showCleanText = false;
@@ -128,7 +132,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             widget.cubit.clearDSPAKN();
                             if (widget.cubit.trangThaiFilter != null) {
                               widget.cubit.getDanhSachPAKNFilterChart(
-                                  flagLoadMore: true);
+                                flagLoadMore: true,
+                              );
                             } else {
                               widget.cubit.getDanhSachPAKN(isSearch: true);
                             }
@@ -147,6 +152,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             });
                           }
                         },
+                        onChanged: (searchText) {},
                       ),
                     ),
                   )

@@ -76,12 +76,6 @@ extension ItemPreview on WidgetType {
           key: KeyKeepAlivePreview._keyListWork,
           homeItemType: WidgetType.listWork,
         );
-      case WidgetType.eventOfDay:
-        return const SizedBox();
-      // return EventOfDayWidget(
-      //   key: KeyKeepAlivePreview._keyEventOfDay,
-      //   homeItemType: WidgetType.eventOfDay,
-      // );
       case WidgetType.sinhNhat:
         return SinhNhatWidget(
           key: KeyKeepAlivePreview._keySinhNhat,
@@ -152,13 +146,6 @@ extension ItemPreview on WidgetType {
           key: KeyKeepAlivePreview._keyListWork,
           homeItemType: WidgetType.listWork,
         );
-      case WidgetType.eventOfDay:
-        return const SizedBox();
-      // return EventOfDayTabletWidget(
-      //   key: KeyKeepAlivePreview._keyEventOfDay,
-      //   homeItemType: WidgetType.eventOfDay,
-      // );
-
       case WidgetType.sinhNhat:
         return SinhNhatTabletWidget(
           key: KeyKeepAlivePreview._keySinhNhat,

@@ -13,7 +13,6 @@ enum WidgetType {
   meetingSchedule,
   pressSocialNetWork,
   listWork,
-  eventOfDay,
   sinhNhat,
   vanBanDonVi,
   phanAnhKienNghiDonVi,
@@ -107,8 +106,6 @@ class WidgetModel {
         return WidgetType.pressSocialNetWork;
       case WidgetTypeConstant.DANH_SANH_CONG_VIEC:
         return WidgetType.listWork;
-      case WidgetTypeConstant.SU_KIEN_TRONG_NGAY:
-        return WidgetType.eventOfDay;
       case WidgetTypeConstant.SINH_NHAT:
         return WidgetType.sinhNhat;
       case WidgetTypeConstant.TINH_HINH_XU_LY_PAKN_DON_VI:

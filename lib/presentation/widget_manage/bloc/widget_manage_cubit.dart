@@ -44,6 +44,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetTypeConstant.TINH_HINH_XU_LY_HO_SO_CA_NHAN,
     WidgetTypeConstant.TiNH_HINH_XU_LY_HO_SO_DON_VI,
     WidgetTypeConstant.DANH_SACH_DICH_VU_CONG,
+    WidgetTypeConstant.SU_KIEN_TRONG_NGAY,
   ];
 
   Future<void> _getListWidgetNotUse() async {

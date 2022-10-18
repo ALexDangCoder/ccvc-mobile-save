@@ -79,10 +79,11 @@ extension ItemExtension on WidgetType {
           homeItemType: WidgetType.listWork,
         );
       case WidgetType.eventOfDay:
-        return EventOfDayWidget(
-          key: KeyKeepAlive._keyEventOfDay,
-          homeItemType: WidgetType.eventOfDay,
-        );
+        return const SizedBox();
+        // return EventOfDayWidget(
+        //   key: KeyKeepAlive._keyEventOfDay,
+        //   homeItemType: WidgetType.eventOfDay,
+        // );
       case WidgetType.sinhNhat:
         return SinhNhatWidget(
           key: KeyKeepAlive._keySinhNhat,
@@ -154,10 +155,11 @@ extension ItemExtension on WidgetType {
           homeItemType: WidgetType.listWork,
         );
       case WidgetType.eventOfDay:
-        return EventOfDayTabletWidget(
-          key: KeyKeepAlive._keyEventOfDay,
-          homeItemType: WidgetType.eventOfDay,
-        );
+         return const SizedBox();
+        // return EventOfDayTabletWidget(
+        //   key: KeyKeepAlive._keyEventOfDay,
+        //   homeItemType: WidgetType.eventOfDay,
+        // );
 
       case WidgetType.sinhNhat:
         return SinhNhatTabletWidget(

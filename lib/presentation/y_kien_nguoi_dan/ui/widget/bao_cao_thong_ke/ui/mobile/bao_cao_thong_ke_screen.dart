@@ -164,38 +164,6 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        left: 16.0,
-                      ),
-                      height: 88,
-                      child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
-                        initialData: baoCaoCubit.listInitDataBaoCao,
-                        stream: baoCaoCubit.listBaoCaoYKND,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              return CustomItemCalenderWork(
-                                image: data[index].img ?? '',
-                                typeName: data[index].typeName ?? '',
-                                numberOfCalendars:
-                                    data[index].numberOfCalendars ?? 0,
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 14,
                 ),
@@ -213,25 +181,17 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                         builder: (context, snapshot) {
                           final listDataChart = snapshot.data ?? [];
                           return PieChart(
-                            title: S.current.tinh_trang_thuc_hien_yknd,
+                            title: S.current.pakn_theo_nguon,
                             chartData: listDataChart,
                             onTap: (int value) {},
                           );
-                        },
-                      ),
-                      Container(height: 20),
-                      StreamBuilder<List<ChartData>>(
-                        stream: baoCaoCubit.statusChartData,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return StatusWidget(listData: data);
                         },
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 14,
                 ),
                 Container(
                   height: 6,

@@ -69,7 +69,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   final List<bool> constListValueDropdown = List.filled(Length_Drop_Down, false)
     ..setAll(
-      0,
+      1,
       [true],
     );
   final BehaviorSubject<List<bool>> listValueDropDownBHVSJ = BehaviorSubject();
@@ -94,7 +94,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   BehaviorSubject<double> sizeDropDown = BehaviorSubject.seeded(500);
   BehaviorSubject<TextTrangThai> textFilter = BehaviorSubject.seeded(
     TextTrangThai(
-      S.current.all,
+      S.current.cho_tiep_nhan,
       titleCalenderWork,
     ),
   );

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/thong_tin_khach/tao_thong_tin_khach_request.dart';
 import 'package:ccvc_mobile/domain/model/cap_nhat_thong_tin_khach/LoaiTheModel.dart';
 import 'package:ccvc_mobile/domain/model/thong_tin_khach/check_id_card_model.dart';
@@ -7,6 +8,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/bloc/cap_nhat_tong_tin_khach_hang_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -34,6 +36,9 @@ class CapNhatThongTinKhachHangCubit
   String loaiThe = 'CMT';
   String gioitinh = '1';
   int ngaySinh = DateTime.now().millisecondsSinceEpoch;
+  void initState(){
+    showContent();
+  }
 
   Future<void> postThongTinKhach({
     required String? soCMT,
@@ -45,11 +50,14 @@ class CapNhatThongTinKhachHangCubit
     required String? residence,
     required String? lyDoVaoCoQuan,
     required String? nguoiTiepDon,
+    required BuildContext context,
   }) async {
+    showLoading();
     TaoThongTinKhachRequest taoThongTinKhachRequest = TaoThongTinKhachRequest(
       birth: ngaySinh,
       cardId: soCMT ?? ''.trim(),
       department: coQuanToChuc ?? ''.trim(),
+      document: document??''.trim(),
       homeTown: homeTown ?? ''.trim(),
       name: hoVaTen ?? ''.trim(),
       no: idTheVao ?? ''.trim(),
@@ -63,12 +71,24 @@ class CapNhatThongTinKhachHangCubit
         await _thongTinKhach.taoThongTinKhach(taoThongTinKhachRequest);
     result.when(
         success: (res) {
-          print(res.desc);
+          showContent();
+          MessageConfig.show(
+            title: res.desc??S.current.thanh_cong,
+          );
+          Navigator.pop(context);
         },
-        error: (err) {});
+        error: (error) {
+          if (error is NoNetworkException || error is TimeoutException) {
+            MessageConfig.show(
+              title: S.current.no_internet,
+              messState: MessState.error,
+            );
+          }
+        });
   }
 
   Future<bool?> postCheckIdCard(BuildContext context) async {
+    showLoading();
     final result = await _thongTinKhach.checkIdCard(
       accept: 'application/json',
       clientID: '27ff5a35-1d34-4811-bd2f-1a28505ea7a4',
@@ -79,6 +99,7 @@ class CapNhatThongTinKhachHangCubit
     bool? isShowPopUp;
     result.when(
       success: (res) {
+        showContent();
         if ((res.backContent?.statusCode == StatusMpiddth.OK) &&
             ((res.frontContent?.statusCode == StatusMpiddth.OK))) {
           checkIdCardModelsubject.sink.add(res);
@@ -87,7 +108,14 @@ class CapNhatThongTinKhachHangCubit
           isShowPopUp = true;
         }
       },
-      error: (err) {},
+      error: (error) {
+        if (error is NoNetworkException || error is TimeoutException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
     );
     return isShowPopUp;
   }

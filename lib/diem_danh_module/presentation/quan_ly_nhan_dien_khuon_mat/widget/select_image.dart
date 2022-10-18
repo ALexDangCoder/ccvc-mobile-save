@@ -100,7 +100,9 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
       }
       setState(() {});
     } else {
-      final permission = await handlePhotosPermission();
+      final permission = (Platform.isAndroid && isImage)
+          ? await handlePhotosPermission()
+          : await handleCameraPermission();
       if (permission) {
         late dynamic results;
         late int fileSize;

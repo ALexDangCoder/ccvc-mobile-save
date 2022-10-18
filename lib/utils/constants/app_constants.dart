@@ -266,6 +266,7 @@ const String TIME = '00:00:00';
 const String PRIMARY = 'primary';
 const String INIT_TIME = '00:00';
 const int DA_THAM_GIA = 1;
+const String BASE_64 = 'data:image/png;base64';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;

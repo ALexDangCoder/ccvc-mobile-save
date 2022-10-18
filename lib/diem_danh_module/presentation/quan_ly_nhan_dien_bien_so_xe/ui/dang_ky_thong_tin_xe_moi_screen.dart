@@ -400,19 +400,16 @@ class _DangKyThongTinXeMoiState extends State<DangKyThongTinXeMoi> {
                         ),
                       ),
                       spaceH32,
-                      SizedBox(
-                        width: 300,
-                        height: 44,
-                        child: DoubleButtonBottom(
-                          title1: S.current.huy_bo,
-                          title2: S.current.them_moi,
-                          onClickLeft: () {
-                            Navigator.pop(context);
-                          },
-                          onClickRight: () {
-                            postDangKyXe();
-                          },
-                        ),
+                      DoubleButtonBottom(
+                        isTablet: true,
+                        title1: S.current.huy_bo,
+                        title2: S.current.them_moi,
+                        onClickLeft: () {
+                          Navigator.pop(context);
+                        },
+                        onClickRight: () {
+                          postDangKyXe();
+                        },
                       ),
                     ],
                   ),

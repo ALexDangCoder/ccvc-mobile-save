@@ -59,20 +59,31 @@ class CongViecCellTienIch extends StatefulWidget {
 class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
   final FocusNode focusNode = FocusNode();
 
+  String get userId =>
+      HiveLocal.getDataUser()?.userInformation?.id?.toLowerCase() ?? '';
+
+  bool get quaHan =>
+      widget.todoModel.isTicked == false &&
+      (DateTime.tryParse(widget.todoModel.finishDay ?? '')
+              ?.isBefore(DateTime.now()) ??
+          false);
+
+  bool get createByMe =>
+      userId == (widget.todoModel.createdBy?.toLowerCase() ?? '');
+
+  double get paddingIcon => MediaQuery.of(context).size.width * 0.03;
+
+
+  bool get canEdit => widget.isEnableIcon &&
+      (widget.showIcon?.contains(IconDSCV.icEdit) ?? false) &&
+      createByMe;
+
+  bool get canClose => widget.isEnableIcon &&
+      (widget.showIcon?.contains(IconDSCV.icClose) ?? false) &&
+      createByMe;
+
   @override
   Widget build(BuildContext context) {
-    final quaHan = widget.todoModel.isTicked == false &&
-        (DateTime.tryParse(widget.todoModel.finishDay ?? '')
-                ?.isBefore(DateTime.now()) ??
-            false);
-    final double padingIcon = MediaQuery.of(context).size.width * 0.03;
-    final userId =
-        HiveLocal.getDataUser()?.userInformation?.id?.toLowerCase() ?? '';
-    final createByMe =
-        userId == (widget.todoModel.createdBy?.toLowerCase() ?? '');
-    final canEdit = widget.isEnableIcon &&
-        (widget.showIcon?.contains(IconDSCV.icEdit) ?? false) &&
-        createByMe;
     return Container(
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: borderButtomColor)),
@@ -149,7 +160,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                 ),
                 if (canEdit)
                   Padding(
-                    padding: EdgeInsets.only(right: padingIcon),
+                    padding: EdgeInsets.only(right: paddingIcon),
                     child: GestureDetector(
                       onTap: widget.isEnableIcon ? widget.onEdit : onTapNull,
                       child: SvgPicture.asset(
@@ -159,7 +170,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   ),
                 if (widget.showIcon?.contains(IconDSCV.icImportant) ?? false)
                   Padding(
-                    padding: EdgeInsets.only(right: padingIcon),
+                    padding: EdgeInsets.only(right: paddingIcon),
                     child: GestureDetector(
                       onTap: widget.isEnableIcon ? widget.onStar : onTapNull,
                       child: widget.todoModel.important ?? false
@@ -177,7 +188,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   GestureDetector(
                     onTap: widget.onThuHoi,
                     child: Padding(
-                      padding: EdgeInsets.only(right: padingIcon),
+                      padding: EdgeInsets.only(right: paddingIcon),
                       child: SvgPicture.asset(
                         ImageAssets.ic_hoan_tac,
                       ),
@@ -187,13 +198,13 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   GestureDetector(
                     onTap: widget.onXoaVinhVien,
                     child: Padding(
-                      padding: EdgeInsets.only(right: padingIcon),
+                      padding: EdgeInsets.only(right: paddingIcon),
                       child: SvgPicture.asset(
                         ImageAssets.ic_delete_dscv,
                       ),
                     ),
                   ),
-                if (widget.showIcon?.contains(IconDSCV.icClose) ?? false)
+                if (canClose)
                   GestureDetector(
                     onTap: widget.isEnableIcon ? widget.onClose : onTapNull,
                     child: SvgPicture.asset(

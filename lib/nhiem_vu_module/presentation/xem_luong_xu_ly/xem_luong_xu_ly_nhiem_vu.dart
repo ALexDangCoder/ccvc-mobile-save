@@ -65,7 +65,7 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                                     maxWidth: 200,
                                   ),
                                   padding: const EdgeInsets.only(
-                                      top: 13, bottom: 10),
+                                      top: 13, bottom: 10,left: 6,right: 6),
                                   clipBehavior: Clip.hardEdge,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
@@ -88,7 +88,7 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                                         textAlign: TextAlign.center,
                                       ),
                                       Text(
-                                        '${S.current.nguoi_tao}:${value.ten}',
+                                        '${S.current.nguoi_tao}: ${value.ten}',
                                         style: textNormal(infoColor, 12),
                                         textAlign: TextAlign.center,
                                       ),

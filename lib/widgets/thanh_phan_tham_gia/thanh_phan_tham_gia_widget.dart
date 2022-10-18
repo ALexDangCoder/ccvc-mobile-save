@@ -83,7 +83,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 data.where((element) => element.canBoId.isEmpty).toList();
             return ThemDonViWidget(
               cubit: _cubit,
-              listIdDonViRemove: widget.isEditCalendarWord
+              disableIdDonViRemove: widget.isEditCalendarWord
                   ? selectedNode
                       .map(
                         (e) => RemoveItemTree(donViId: e.donViId, canBoId: ''),

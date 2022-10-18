@@ -7,7 +7,7 @@ class TaoThongTinKhachRequest {
   final int? birth;
   final String? cardId;
   final String? department;
-  // final String? document;
+  final String? document;
   final String? homeTown;
   final String? name;
   final String? no;
@@ -21,7 +21,7 @@ class TaoThongTinKhachRequest {
     required this.birth,
     required this.cardId,
     required this.department,
-    // required this.document,
+    required this.document,
     required this.homeTown,
     required this.name,
     required this.no,

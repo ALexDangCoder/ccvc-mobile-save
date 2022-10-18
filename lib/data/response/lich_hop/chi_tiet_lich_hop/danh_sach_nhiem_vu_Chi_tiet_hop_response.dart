@@ -85,7 +85,7 @@ class PageData {
         soNhiemVu: soNhiemVu ?? '',
         tinhHinhThucHienNoiBo: tinhHinhThucHienNoiBo ?? '',
         trangThaiThucHien: listTrangThaiThucHien
-                ?.map((e) => e.tinhHinhThucHien)
+                ?.map((e) => e.tinhHinhThucHien())
                 .toList()
                 .join('\n') ??
             '',
@@ -103,6 +103,17 @@ class TrangThaiThucHienResponse {
     vaiTroXuLy = json['VaiTroXuLy'];
   }
 
-  String get tinhHinhThucHien => '$doiTuong ${doiTuong != null ? '-' : ''} '
-      '$vaiTroXuLy ${vaiTroXuLy != null ? '-' : ''} $trangThai';
+  String tinhHinhThucHien(){
+    final list = [];
+    if ((doiTuong  ?? '').isNotEmpty){
+      list.add(doiTuong ?? '');
+    }
+    if ((vaiTroXuLy  ?? '').isNotEmpty){
+      list.add(vaiTroXuLy ?? '');
+    }
+    if ((trangThai  ?? '').isNotEmpty){
+      list.add(trangThai ?? '');
+    }
+    return list.join(' - ');
+  }
 }

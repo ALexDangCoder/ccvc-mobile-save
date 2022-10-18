@@ -102,6 +102,16 @@ Future<bool> handlePhotosPermission() async {
   }
 }
 
+Future<bool> handleCameraPermission() async {
+  final permission = await Permission.camera.request();
+  if (permission == PermissionStatus.denied ||
+      permission == PermissionStatus.permanentlyDenied) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 Future<Map<String, dynamic>> pickImageFunc({
   required String tittle,
   ImageSource source = ImageSource.gallery,

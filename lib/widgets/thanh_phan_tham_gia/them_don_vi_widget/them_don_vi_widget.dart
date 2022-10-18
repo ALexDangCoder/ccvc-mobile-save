@@ -29,6 +29,7 @@ class ThemDonViWidget extends StatefulWidget {
   final Function(List<Node<DonViModel>>) onChange;
   final List<DonViModel> listSelectNode;
   final List<RemoveItemTree> listIdDonViRemove;
+  final List<RemoveItemTree> disableIdDonViRemove;
 
   final ThanhPhanThamGiaCubit cubit;
 
@@ -38,6 +39,7 @@ class ThemDonViWidget extends StatefulWidget {
     this.listSelectNode = const [],
     required this.cubit,
     this.listIdDonViRemove = const [],
+    this.disableIdDonViRemove = const [],
   }) : super(key: key);
 
   @override
@@ -60,6 +62,8 @@ class _ThemDonViScreenState extends State<ThemDonViWidget> {
   void didUpdateWidget(covariant ThemDonViWidget oldWidget) {
     _themDonViCubit.listIdDonViRemove.clear();
     _themDonViCubit.listIdDonViRemove.addAll(widget.listIdDonViRemove);
+    _themDonViCubit.disableIdDonViRemove.clear();
+    _themDonViCubit.disableIdDonViRemove.addAll(widget.disableIdDonViRemove);
 
     widget.cubit.treeDonViSink.add(
       widget.cubit.dataDonVi,

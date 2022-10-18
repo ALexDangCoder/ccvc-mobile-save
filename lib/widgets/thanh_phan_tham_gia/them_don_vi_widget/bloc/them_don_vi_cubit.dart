@@ -17,6 +17,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   Timer? _debounce;
   List<Node<DonViModel>> selectNode = [];
   final List<RemoveItemTree> listIdDonViRemove = [];
+  final List<RemoveItemTree> disableIdDonViRemove = [];
   Node<DonViModel>? selectNodeOnlyValue;
   BehaviorSubject<bool> themDonViSubject = BehaviorSubject();
   BehaviorSubject<bool> validateDonVi = BehaviorSubject();
@@ -24,12 +25,12 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
 
   ///
   final BehaviorSubject<List<Node<DonViModel>>> _getTree =
-      BehaviorSubject<List<Node<DonViModel>>>();
+  BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTree => _getTree.stream;
 
   final BehaviorSubject<List<Node<DonViModel>>> _selectDonVi =
-      BehaviorSubject<List<Node<DonViModel>>>();
+  BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get selectDonVi => _selectDonVi.stream;
 
@@ -38,7 +39,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   Sink<List<Node<DonViModel>>> get selectDonViSink => _selectDonVi.sink;
 
   final BehaviorSubject<Node<DonViModel>?> _selectOnlyDonVi =
-      BehaviorSubject<Node<DonViModel>?>();
+  BehaviorSubject<Node<DonViModel>?>();
 
   Stream<Node<DonViModel>?> get selectOnlyDonVi => _selectOnlyDonVi.stream;
 
@@ -51,10 +52,19 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       Node<DonViModel>? nodeAdd = vl.coppyWith();
       if (isDonVi) {
         for (final donViRemove in listIdDonViRemove) {
-          if((donViRemove.canBoId ?? '').isNotEmpty) continue;
+          if ((donViRemove.canBoId ?? '').isNotEmpty) continue;
           nodeAdd = nodeAdd?.removeFirstWhere(
-            (element) => donViRemove.donViId == element.id,
+                (element) => donViRemove.donViId == element.id,
           );
+        }
+        for (final donViDisable in disableIdDonViRemove) {
+          if ((donViDisable.canBoId ?? '').isNotEmpty) continue;
+          nodeAdd?.foreach((element) {
+            if (donViDisable.donViId == element.value.id){
+              element.visible = false;
+              return true;
+            }
+          });
         }
       }
       if (nodeAdd != null) {
@@ -69,9 +79,11 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     _getTree.sink.add(tree);
     listTree = tree;
   }
-   List<Node<DonViModel>> listTreeCached = [];
-  void getParentStart(Node<DonViModel> node){
-    if(node.level == 0){
+
+  List<Node<DonViModel>> listTreeCached = [];
+
+  void getParentStart(Node<DonViModel> node) {
+    if (node.level == 0) {
       listTreeCached = [node];
       _getTree.sink.add(listTreeCached);
     } else {
@@ -119,7 +131,7 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     selectNode.remove(node);
     _selectDonVi.sink.add(selectNode);
     node.isCheck.isCheck =
-        false; //dùng tham chiếu không phải loop lại tree để xét lại checkbox
+    false; //dùng tham chiếu không phải loop lại tree để xét lại checkbox
     _getTree.sink.add(listTree);
   }
 
@@ -194,9 +206,13 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     final Set<Node<DonViModel>> listNodeSearch = {};
     _listSearch(listNodeSearch, node, search);
     if (listNodeSearch.isNotEmpty &&
-        listNodeSearch.where((element) => element.parent == null).isNotEmpty) {
+        listNodeSearch
+            .where((element) => element.parent == null)
+            .isNotEmpty) {
       final parent =
-          listNodeSearch.where((element) => element.parent == null).first;
+          listNodeSearch
+              .where((element) => element.parent == null)
+              .first;
       final Node<DonViModel> treeSearch = Node.init(parent);
       _makeBuildTreeSearch(treeSearch, listNodeSearch);
       return treeSearch;
@@ -204,10 +220,8 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     return null;
   }
 
-  void _makeBuildTreeSearch(
-    Node<DonViModel> node,
-    Set<Node<DonViModel>> listNodeSearch,
-  ) {
+  void _makeBuildTreeSearch(Node<DonViModel> node,
+      Set<Node<DonViModel>> listNodeSearch,) {
     final children = listNodeSearch
         .where((element) => element.parent?.value.id == node.value.id);
     if (children.isNotEmpty) {
@@ -221,11 +235,9 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
     }
   }
 
-  void _listSearch(
-    Set<Node<DonViModel>> list,
-    Node<DonViModel> node,
-    String search,
-  ) {
+  void _listSearch(Set<Node<DonViModel>> list,
+      Node<DonViModel> node,
+      String search,) {
     if (node.value.name
         .toLowerCase()
         .vietNameseParse()

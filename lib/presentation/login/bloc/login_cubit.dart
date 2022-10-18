@@ -17,7 +17,7 @@ import 'package:ccvc_mobile/domain/model/account/login_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog_menu.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -171,6 +171,10 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   Future<void> canCheckIsDevice() async {
     canCheckIsDeviceSupported = await localAuth.isDeviceSupported();
+    final List<BiometricType> availableBiometrics = await localAuth.getAvailableBiometrics();
+    if(availableBiometrics.isEmpty){
+      canCheckIsDeviceSupported=false;
+    }
     canCheckIsDeviceSupportedSubject.sink.add(canCheckIsDeviceSupported);
   }
 
@@ -199,6 +203,8 @@ class LoginCubit extends BaseCubit<LoginState> {
   Future<void> checkBiometrics(BuildContext context) async {
     if (!isCheck) {
       isCheck = true;
+      final List<BiometricType> result = await localAuth.getAvailableBiometrics();
+      print(result.join(' , '));
       final bool canCheckBiometrics = await localAuth.canCheckBiometrics;
       if (canCheckBiometrics) {
         List<BiometricType> availableBiometrics =
@@ -279,7 +285,7 @@ class LoginCubit extends BaseCubit<LoginState> {
       {required BuildContext context,
       required String title,
       required String content}) {
-    showDiaLog(
+    showDiaLogMenu(
       context,
       title: title,
       textContent: content,

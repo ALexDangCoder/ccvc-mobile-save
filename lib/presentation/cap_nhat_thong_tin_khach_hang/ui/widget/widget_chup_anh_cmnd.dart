@@ -2,12 +2,14 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
+import 'package:ccvc_mobile/bao_cao_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/ui/widget/widget_frame_conner.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -279,6 +281,65 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
               child: CameraPreview(
                 _controller!,
                 key: _previewKey,
+                child: Column(
+                  children: [
+                    Container(
+                      color: AppTheme.getInstance().backGroundColor(),
+                      height: 16,
+                    ),
+                    SizedBox(
+                      height: (MediaQuery.of(context).size.width - 32) / 1.8,
+                      child: Row(
+                        children: [
+                          Container(
+                            color: AppTheme.getInstance().backGroundColor(),
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: _capturedImage != null
+                                ? WidgetFrameConner(
+                              child: Image.file(
+                                _capturedImage!,
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                                : GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTapUp: (details) {
+                                _tapToFocus(details);
+                              },
+                              child: WidgetFrameConner(
+                                key: _cropKey,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            color: AppTheme.getInstance().backGroundColor(),
+                            width: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        width: MediaQuery.of(context).size.width,
+                        color: AppTheme.getInstance().backGroundColor(),
+                        child: Text(
+                          _capturedImage == null
+                              ? S.current.bam_chup
+                              : S.current.bam_chon,
+                          style: textNormalCustom(
+                            color: color3D5586,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.0.textScale()
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           if (showFocusCircle)
@@ -294,63 +355,6 @@ class _WidgetChupAnhCMNDState extends State<WidgetChupAnhCMND>
                 ),
               ),
             ),
-          Column(
-            children: [
-              Container(
-                color: AppTheme.getInstance().backGroundColor(),
-                height: 16,
-              ),
-              SizedBox(
-                height: (MediaQuery.of(context).size.width - 32) / 1.8,
-                child: Row(
-                  children: [
-                    Container(
-                      color: AppTheme.getInstance().backGroundColor(),
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: _capturedImage != null
-                          ? WidgetFrameConner(
-                              child: Image.file(
-                                _capturedImage!,
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                          : GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTapUp: (details) {
-                                _tapToFocus(details);
-                              },
-                              child: WidgetFrameConner(
-                                key: _cropKey,
-                              ),
-                            ),
-                    ),
-                    Container(
-                      color: AppTheme.getInstance().backGroundColor(),
-                      width: 16,
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  color: AppTheme.getInstance().backGroundColor(),
-                  child: Text(
-                    _capturedImage == null
-                        ? S.current.bam_chup
-                        : S.current.bam_chon,
-                    style: textNormalCustom(
-                      color: color3D5586,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
       bottomNavigationBar: Padding(
@@ -398,42 +402,51 @@ class SolidButton extends StatelessWidget {
       onTap: () {
         onTap();
       },
-      child: Container(
-        height: 40,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppTheme.getInstance().colorField(),
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
-        ),
-        child: showLoad
-            ? SizedBox(
-                height: 28,
-                width: 28,
-                child: CircularProgressIndicator(
-                  color: AppTheme.getInstance().backGroundColor(),
-                ),
-              )
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    ImageAssets.icCameraWhite,
-                    width: 20,
-                    height: 20,
-                    color: AppTheme.getInstance().backGroundColor(),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    S.current.chup,
-                    style: textNormalCustom(
-                      color: AppTheme.getInstance().backGroundColor(),
-                    ),
-                  )
-                ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: SizedBox(
+          height: 40.0.textScale(space: 4),
+          child: Center(
+            child: Container(
+              width: !isMobile() ? 200 :  null,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: AppTheme.getInstance().colorField(),
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
+              child: showLoad
+                  ? SizedBox(
+                      height: 28,
+                      width: 28,
+                      child: CircularProgressIndicator(
+                        color: AppTheme.getInstance().backGroundColor(),
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          ImageAssets.icCameraWhite,
+                          width: 20,
+                          height: 20,
+                          color: AppTheme.getInstance().backGroundColor(),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          S.current.chup,
+                          style: textNormalCustom(
+                            color: AppTheme.getInstance().backGroundColor(),
+                              fontSize: 14.0.textScale()
+                          ),
+                        )
+                      ],
+                    ),
+            ),
+          ),
+        ),
       ),
     );
   }

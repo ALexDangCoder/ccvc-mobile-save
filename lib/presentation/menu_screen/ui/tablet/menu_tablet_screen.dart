@@ -49,6 +49,7 @@ class MenuTabletScreen extends StatefulWidget {
 class _MenuTabletScreenState extends State<MenuTabletScreen> {
   late MenuCubit menuCubit;
   String version = '';
+  bool checkShowFaceId=false;
 
   @override
   void initState() {
@@ -56,11 +57,20 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
     super.initState();
     menuCubit = widget.menuCubit;
     menuCubit.getUser();
+    (PrefsService.getOpenFaceId() != '')
+        ? checkShowFaceId = true
+        : checkShowFaceId = false;
     PackageInfo.fromPlatform().then((packageInfo) {
       setState(() {
         version = 'v${packageInfo.version}#${packageInfo.buildNumber}';
       });
     });
+  }
+  @override
+  void didUpdateWidget(covariant MenuTabletScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    checkShowFaceId=menuCubit.isShowPopup;
   }
 
   @override
@@ -234,6 +244,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                         onTap: () {
                                           if (type == MenuType.chuyenPhamVi) {
                                             showChuyenPhamVi();
+                                          } else if(type == MenuType.faceId) {
                                           } else {
                                             if (Platform.isIOS) {
                                               Navigator.push(
@@ -259,6 +270,15 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                           urlIcon: type.getItem().url,
                                           isBorder: index !=
                                               listFeatureAccount.length - 1,
+                                          initSwitchButton: checkShowFaceId,
+                                          switchFunction: (value){
+                                            menuCubit.faceIdTap(value,context).then((value) {
+                                              setState(() {
+                                                checkShowFaceId=menuCubit.isShowPopup;
+                                              });
+                                            });
+                                          },
+                                          isSwitchButton: type == MenuType.faceId,
                                         ),
                                       );
                                     }),

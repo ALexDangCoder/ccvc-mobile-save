@@ -41,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    loginCubit.canCheckIsDevice();
     loginCubit.checkDevice();
     loginCubit.closeDialog();
     loginCubit.toast.init(context);

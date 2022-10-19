@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -74,31 +75,51 @@ class _PhanAnhKienNghiDonViWidgetState
               stream: _phanAnhKienNghiCubit.getTinhHinhXuLy,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? DocumentDashboardModel();
-                return statusBarWidget(
-                  [
-                    ChartData(
-                      S.current.dang_xu_ly,
-                      data.soLuongDangXuLy.toDouble(),
-                      choVaoSoColor,
-                    ),
-                    ChartData(
-                      S.current.da_qua_han,
-                      data.soLuongQuaHan.toDouble(),
-                      statusCalenderRed,
-                    ),
-                    ChartData(
-                      S.current.da_hoan_thanh,
-                      data.soLuongDaHoanThanh.toDouble(),
-                      itemWidgetUsing,
-                    )
-                  ],
-                );
-              }),
+                final bool checkDisplay=checkDisplaySub(data);
+                if(checkDisplay){
+                  return statusBarWidget(
+                    [
+                      ChartData(
+                        S.current.dang_xu_ly,
+                        data.soLuongDangXuLy.toDouble(),
+                        choVaoSoColor,
+                      ),
+                      ChartData(
+                        S.current.da_qua_han,
+                        data.soLuongQuaHan.toDouble(),
+                        statusCalenderRed,
+                      ),
+                      ChartData(
+                        S.current.da_hoan_thanh,
+                        data.soLuongDaHoanThanh.toDouble(),
+                        itemWidgetUsing,
+                      )
+                    ],
+                  );
+                }
+                else{
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 50),
+                    child: NodataWidget(),
+                  );
+                }
+              },),
         ),
       ),
     );
   }
+  bool checkDisplaySub(DocumentDashboardModel data){
+    bool checkDisplay=false;
+    int sum=0;
+    sum+=data.soLuongDangXuLy;
+    sum+=data.soLuongQuaHan;
+    sum+=data.soLuongDaHoanThanh;
+    if(sum !=0){
+      checkDisplay=true;
+    }
+    return checkDisplay;
 
+  }
   Widget statusBarWidget(List<ChartData> listData) {
     final data = listData.map((e) => e.value).toList();
     final total = data.reduce((a, b) => a + b);

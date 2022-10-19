@@ -1017,6 +1017,44 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
 
   Stream<VanBanDonViModel> get getVanBanDonVi => _getVanBanDonVi.stream;
 
+  bool displaySubGoDocument(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    sum += data.soLuongChoTrinhKy;
+    sum += data.soLuongChoXuLy;
+    sum += data.soLuongDaXuLy;
+    sum += data.soLuongChoCapSo;
+    sum += data.soLuongChoBanHanh;
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
+  }
+
+  bool displaySubComeDocument(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    sum += data.soLuongChoVaoSo;
+    sum += data.soLuongDangXuLy;
+    sum += data.soLuongDaXuLy;
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
+  }
+
+  bool displayStatus(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    sum += data.soLuongQuaHan;
+    sum += data.soLuongDenHan;
+    sum += data.soLuongTrongHan;
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
+  }
+
   @override
   void dispose() {
     _getVanBanDonVi.close();
@@ -1227,6 +1265,44 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
     );
     await queue.onComplete;
     showContent();
+  }
+
+  bool displayIndicatorGoDocument(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    sum += data.soLuongChoTrinhKy;
+    sum += data.soLuongChoXuLy;
+    sum += data.soLuongDaXuLy;
+    sum += data.soLuongChoCapSo;
+    sum += data.soLuongChoBanHanh;
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
+  }
+
+  bool displayIndicatorIncomingDocument(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    data.listVBDen().forEach((element) {
+      sum += element.value;
+    });
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
+  }
+
+  bool displayStatus(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    sum += data.soLuongQuaHan;
+    sum += data.soLuongDenHan;
+    sum += data.soLuongTrongHan;
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
   }
 
   Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
@@ -1877,6 +1953,33 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
         error: (err) {},
       );
     }
+  }
+
+  bool displayHandle(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    sum += data.soLuongChoTiepNhanXuLy;
+    sum += data.soLuongChoXuLy;
+    sum += data.soLuongChoPhanXuLy;
+    sum += data.soLuongChoDuyet;
+    sum += data.soLuongDaPhanCong;
+    sum += data.soLuongDaHoanThanh;
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
+  }
+
+  bool displayStatus(DocumentDashboardModel data) {
+    bool isDisplay = false;
+    int sum = 0;
+    sum += data.soLuongQuaHan;
+    sum += data.soLuongDenHan;
+    sum += data.soLuongTrongHan;
+    if (sum != 0) {
+      isDisplay = true;
+    }
+    return isDisplay;
   }
 }
 

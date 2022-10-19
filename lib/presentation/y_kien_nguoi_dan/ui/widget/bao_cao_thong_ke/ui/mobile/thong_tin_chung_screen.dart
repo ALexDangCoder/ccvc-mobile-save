@@ -42,11 +42,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     super.initState();
     widget.cubit.initTimeRange();
     widget.cubit.getDashBoardPAKNTiepCanXuLy();
-    widget.cubit.loaiMenu =
-        YKienNguoiDanCubitt.TiepNhan;
-    widget.cubit.trangThaiFilter =
-        YKienNguoiDanCubitt.ChoTiepNhan;
-    widget.cubit.getDanhSachPAKNFilterChart(flagLoadMore: true);
+    widget.cubit.getDanhSachPAKN();
   }
 
   @override

@@ -8,26 +8,23 @@ import 'package:flutter/cupertino.dart';
 
 import '/home_module/presentation/home_screen/ui/mobile/items/calendar_work_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/document_widget.dart';
-import '/home_module/presentation/home_screen/ui/mobile/items/event_of_day_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/meeting_schedule_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/nhiem_vu_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/people_opinions_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/press_social_net_word_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/sinh_nhat_widget.dart';
-
 import '/home_module/presentation/home_screen/ui/mobile/items/summary_of_task_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/word_processing_state_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/work_list_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/calendar_work_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/document_tablet_widget.dart';
-import '/home_module/presentation/home_screen/ui/tablet/items/event_of_day_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/meeting_schedule__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/nhiem_vu_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/people_opinions__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/press_social_net_word__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/sinh_nhat__tablet_widget.dart';
-import '/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_pakn_cua_ca_nhan_tablet.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/summary_of_task_tablet_widget.dart';
+import '/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_pakn_cua_ca_nhan_tablet.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/word_processing_state_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/work_list_tablet_widget.dart';
 
@@ -35,65 +32,41 @@ extension ItemPreview on WidgetType {
   Widget getItemsMobilePreview() {
     switch (this) {
       case WidgetType.wordProcessState:
-        // return PreTinhHinhXuLyVanBan(
-        //   sourceImg:soureImage,
-        // );
         return WordProcessingStateWidget(
           key: KeyKeepAlivePreview._keyWordProcessState,
           homeItemType: WidgetType.wordProcessState,
         );
       case WidgetType.document:
-        // return PreVanBan(
-        //   sourceImg:soureImage,
-        // );
         return DocumentWidget(
           key: KeyKeepAlivePreview._keyDocument,
           homeItemType: WidgetType.document,
         );
       case WidgetType.summaryOfTask:
-        // return PreTongHopNhiemVu(
-        //   sourceImg:soureImage,
-        // );
         return SummaryOfTaskWidget(
           key: KeyKeepAlivePreview._keySummaryOfTask,
           homeItemType: WidgetType.summaryOfTask,
         );
       case WidgetType.situationHandlingPeople:
-        // return PreTinhHinhXuLyYKND(
-        //   sourceImg:soureImage,
-        // );
         return TinhHinhPAKNCuaCaNhanMobileWidget(
           key: KeyKeepAlivePreview._keySituationHandlingPeople,
           homeItemType: WidgetType.situationHandlingPeople,
         );
       case WidgetType.peopleOpinions:
-        // return PreYKienNguoiDan(
-        //   sourceImg:soureImage,
-        // );
         return PeopleOpinions(
           key: KeyKeepAlivePreview._keyPeopleOpinions,
           homeItemType: WidgetType.peopleOpinions,
         );
       case WidgetType.workSchedule:
-        // return PreLichLamViec(
-        //   sourceImg:soureImage,
-        // );
         return CalendarWorkWidget(
           key: KeyKeepAlivePreview._keyWorkSchedule,
           homeItemType: WidgetType.workSchedule,
         );
       case WidgetType.meetingSchedule:
-        // return PreLichHop(
-        //   sourceImg:soureImage,
-        // );
         return MeetingScheduleWidget(
           key: KeyKeepAlivePreview._keyMeetingSchedule,
           homeItemType: WidgetType.meetingSchedule,
         );
       case WidgetType.pressSocialNetWork:
-        // return PreBaoChiMangXaHoi(
-        //   sourceImg:soureImage,
-        //);
         return PressSocialNetWork(
           key: KeyKeepAlivePreview._keyPressSocialNetWork,
           homeItemType: WidgetType.pressSocialNetWork,
@@ -103,49 +76,26 @@ extension ItemPreview on WidgetType {
           key: KeyKeepAlivePreview._keyListWork,
           homeItemType: WidgetType.listWork,
         );
-      // return PreDanhSachCongViec(
-      //   sourceImg:soureImage,
-      // );
-      case WidgetType.eventOfDay:
-        // return PreSuKienTrongNgay(
-        //   sourceImg:soureImage,
-        // );
-        return EventOfDayWidget(
-          key: KeyKeepAlivePreview._keyEventOfDay,
-          homeItemType: WidgetType.eventOfDay,
-        );
       case WidgetType.sinhNhat:
         return SinhNhatWidget(
           key: KeyKeepAlivePreview._keySinhNhat,
           homeItemType: WidgetType.sinhNhat,
         );
-      // return PreSinhNhat(
-      //   sourceImg:soureImage,
-      // );
       case WidgetType.nhiemVu:
         return NhiemVuWidget(
           key: KeyKeepAlivePreview._keyNhiemVu,
           homeItemType: WidgetType.nhiemVu,
         );
-      // return PreNhiemVu(
-      //   sourceImg:soureImage,
-      // );
       case WidgetType.vanBanDonVi:
         return VanBanDonViWidget(
           key: KeyKeepAlivePreview._keyVabBanDonVi,
           homeItemType: WidgetType.vanBanDonVi,
         );
-      // return PreVanBanDonVi(
-      //   sourceImg:soureImage,
-      // );
       case WidgetType.phanAnhKienNghiDonVi:
         return PhanAnhKienNghiDonViWidget(
           key: KeyKeepAlivePreview._keyPhanAnhKienNghiDonVi,
           homeItemType: WidgetType.phanAnhKienNghiDonVi,
         );
-      // return PrePAKNDonVi(
-      //   sourceImg:soureImage,
-      // );
     }
   }
 
@@ -196,12 +146,6 @@ extension ItemPreview on WidgetType {
           key: KeyKeepAlivePreview._keyListWork,
           homeItemType: WidgetType.listWork,
         );
-      case WidgetType.eventOfDay:
-        return EventOfDayTabletWidget(
-          key: KeyKeepAlivePreview._keyEventOfDay,
-          homeItemType: WidgetType.eventOfDay,
-        );
-
       case WidgetType.sinhNhat:
         return SinhNhatTabletWidget(
           key: KeyKeepAlivePreview._keySinhNhat,

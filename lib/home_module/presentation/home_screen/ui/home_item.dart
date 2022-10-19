@@ -78,11 +78,6 @@ extension ItemExtension on WidgetType {
           key: KeyKeepAlive._keyListWork,
           homeItemType: WidgetType.listWork,
         );
-      case WidgetType.eventOfDay:
-        return EventOfDayWidget(
-          key: KeyKeepAlive._keyEventOfDay,
-          homeItemType: WidgetType.eventOfDay,
-        );
       case WidgetType.sinhNhat:
         return SinhNhatWidget(
           key: KeyKeepAlive._keySinhNhat,
@@ -153,12 +148,6 @@ extension ItemExtension on WidgetType {
           key: KeyKeepAlive._keyListWork,
           homeItemType: WidgetType.listWork,
         );
-      case WidgetType.eventOfDay:
-        return EventOfDayTabletWidget(
-          key: KeyKeepAlive._keyEventOfDay,
-          homeItemType: WidgetType.eventOfDay,
-        );
-
       case WidgetType.sinhNhat:
         return SinhNhatTabletWidget(
           key: KeyKeepAlive._keySinhNhat,

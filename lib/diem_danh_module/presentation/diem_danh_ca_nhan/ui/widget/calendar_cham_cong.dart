@@ -36,7 +36,7 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
         stream: widget.cubit.listBangDiemDanh,
         builder: (context, snapshot) {
           return SfCalendar(
-            firstDayOfWeek: 1,
+            firstDayOfWeek: 7,
             allowAppointmentResize: true,
             controller: widget.controller,
             headerHeight: 0.0,

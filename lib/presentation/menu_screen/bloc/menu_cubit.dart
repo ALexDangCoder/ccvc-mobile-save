@@ -11,7 +11,7 @@ import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
-import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog_menu.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_state.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -49,8 +48,9 @@ class MenuCubit extends BaseCubit<MenuState> {
           await localAuth.getAvailableBiometrics();
       if (availableBiometrics.isEmpty) {
         isShowPopup = false;
-        showDiaLog(
+        showDiaLogMenu(
           context,
+          showTablet: !isMobile(),
           title: S.current.thong_bao,
           textContent: S.current.thiet_bi_cua_ban_chua_bat,
           icon: Container(),

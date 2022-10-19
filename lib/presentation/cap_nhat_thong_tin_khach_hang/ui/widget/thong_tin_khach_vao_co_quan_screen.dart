@@ -6,6 +6,8 @@ import 'package:ccvc_mobile/domain/model/thong_tin_khach/check_id_card_model.dar
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/cap_nhat_thong_tin_khach_hang/bloc/cap_nhat_thong_tin_khach_hang_cubit.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
@@ -83,17 +85,22 @@ class _ThongTinKhachVaoCoQuanScreenState
             scrollController: scrollController,
             key: keyGroup,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: Text(
-                    S.current.thong_tin_cmnd_cccd,
-                    style: textNormalCustom(
-                      color: AppTheme.getInstance().colorField(),
-                      fontWeight: FontWeight.w500,
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Text(
+                        S.current.thong_tin_cmnd_cccd,
+                        style: textNormalCustom(
+                          color: AppTheme.getInstance().colorField(),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0.textScale()
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 InputInfoUserWidget(
                   title: S.current.ho_va_ten,
@@ -175,15 +182,20 @@ class _ThongTinKhachVaoCoQuanScreenState
                     listData: cubit.dataGioiTinh,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Text(
-                    S.current.thong_tin_khach,
-                    style: textNormalCustom(
-                      color: AppTheme.getInstance().colorField(),
-                      fontWeight: FontWeight.w500,
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Text(
+                        S.current.thong_tin_khach,
+                        style: textNormalCustom(
+                          color: AppTheme.getInstance().colorField(),
+                          fontWeight: FontWeight.w500,
+                            fontSize: 14.0.textScale()
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 InputInfoUserWidget(
                   title: S.current.id_the_vao,
@@ -228,7 +240,11 @@ class _ThongTinKhachVaoCoQuanScreenState
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 24, top: 16),
+                  padding: EdgeInsets.only(
+                    bottom: 24.0.textScale(space: 8),
+                    top: 16.0.textScale(space: 8),
+                  ),
+                  width:!isMobile()? 200:null,
                   child: ButtonBottom(
                     customColor: true,
                     onPressed: () {

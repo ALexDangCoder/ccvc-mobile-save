@@ -202,9 +202,20 @@ class _QuanLyNhanDienBienSoXeTabletScreenState
                                                   context,
                                                   title: S.current
                                                       .xoa_nhan_bien_so_xe,
-                                                  icon: SvgPicture.asset(
-                                                    ImageAssets
-                                                        .icXoaNhanhDienBienSoXe,
+                                                  icon: Container(
+                                                    width: 56,
+                                                    height: 56,
+                                                    decoration: BoxDecoration(
+                                                      color: colorEA5455.withOpacity(0.1),
+                                                      borderRadius: BorderRadius.circular(
+                                                        6.0,
+                                                      ),
+                                                    ),
+                                                    padding: const EdgeInsets.all(14.0),
+                                                    child: SvgPicture.asset(
+                                                      ImageAssets
+                                                          .icXoaNhanhDienBienSoXe,
+                                                    ),
                                                   ),
                                                   btnLeftTxt: S.current.khong,
                                                   btnRightTxt:

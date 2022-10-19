@@ -161,23 +161,9 @@ class _DanhSachCongViecTienIchMobileState
                                        dataType: dataType,
                                      );
                                    }
-                                   return Padding(
-                                     padding: const EdgeInsets.symmetric(
-                                       vertical: 30,
-                                     ),
-                                     child: Column(
-                                       children: [
-                                         if (dataType == DSCVScreen.DBX)
-                                           Padding(
-                                             padding:
-                                             const EdgeInsets.only(top: 16),
-                                             child: textTitle(
-                                               S.current.gan_cho_toi,
-                                             ),
-                                           ),
-                                         const NodataWidget(),
-                                       ],
-                                     ),
+                                   return const Padding(
+                                     padding:  EdgeInsets.only(top: 12),
+                                     child:  NodataWidget(),
                                    );
                                  }
                                 },
@@ -221,8 +207,8 @@ class _DanhSachCongViecTienIchMobileState
                                      );
                                    }
                                    return Padding(
-                                     padding: const EdgeInsets.symmetric(
-                                       vertical: 30,
+                                     padding: const EdgeInsets.only(
+                                       top: 12,
                                      ),
                                      child: Column(
                                        children: [

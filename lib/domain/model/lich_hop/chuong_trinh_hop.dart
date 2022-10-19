@@ -73,12 +73,14 @@ class CanBoModel {
         return S.current.cho_xac_nhan;
     }
   }
-String titleCanBo(){
-    if(dauMoiLienHe?.isNotEmpty ?? false){
+
+  String titleCanBo() {
+    if (dauMoiLienHe?.isNotEmpty ?? false) {
       return dauMoiLienHe ?? '';
     }
     return tenCanBo ?? '';
-}
+  }
+
   Color trangThaiColor() {
     switch (trangThai) {
       case 1:
@@ -93,23 +95,19 @@ String titleCanBo(){
   }
 
   String diemDanhTPTG() {
-    if (isVangMat == true) {
-      return S.current.vang_mat;
-    } else if (isVangMat == false && diemDanh == true) {
+    if (isVangMat == false && diemDanh == true) {
       return S.current.da_diem_danh;
-    } else if (isVangMat == false && diemDanh == false) {
-      return S.current.chua_diem_danh;
+    } else if (isVangMat == true && diemDanh == false) {
+      return S.current.vang_mat;
     } else {
       return '';
     }
   }
 
   bool showCheckBox() {
-    if (isVangMat == true) {
-      return true;
-    } else if (isVangMat == false && diemDanh == true) {
+    if (isVangMat == false && diemDanh == true) {
       return false;
-    } else if (isVangMat == false && diemDanh == false) {
+    } else if (isVangMat == true && diemDanh == false) {
       return true;
     } else {
       return false;
@@ -117,19 +115,17 @@ String titleCanBo(){
   }
 
   Color diemDanhColors() {
-    if (isVangMat == true) {
+    if (isVangMat == false && diemDanh == true) {
+      return color28C76F;
+    } else if (isVangMat == true && diemDanh == false) {
       return infoColor;
-    } else if (isVangMat == false && diemDanh == true) {
-      return deliveredColor;
-    } else if (isVangMat == false && diemDanh == false) {
-      return statusCalenderRed;
     } else {
       return backgroundColorApp;
     }
   }
 
   String getNameVaiTro() {
-    if(isThuKy ?? false){
+    if (isThuKy ?? false) {
       return S.current.thu_ky;
     }
     switch (vaiTroThamGia) {

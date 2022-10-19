@@ -117,7 +117,7 @@ class _ContainerMenuBaoChiWidgetState extends State<ContainerMenuBaoChiWidget> {
                     Container()
                   else
                     Icon(
-                      isExpand
+                      !isExpand
                           ? Icons.keyboard_arrow_down_outlined
                           : Icons.keyboard_arrow_up_rounded,
                       color: AqiColor,

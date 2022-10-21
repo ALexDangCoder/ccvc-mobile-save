@@ -1305,12 +1305,15 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         isSortByDoKhan: true,
         ngayTaoEndSearch: '',
         ngayTaoStartSearch: '',
-        size: 10,
+        size: 5,
       ),
     );
     showContent();
     result.when(
       success: (res) {
+         if(res.length>5){
+           res=res.take(5).toList();
+         }
         _getDanhSachVb.sink.add(res);
       },
       error: (err) {},

@@ -255,7 +255,14 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   }
 
   void showAddTag() {
-    showAddTagStream.sink.add(true);
+    final showAddTag=showAddTagStream.value;
+    if(!showAddTag){
+      showAddTagStream.sink.add(true);
+    }
+    else{
+      showAddTagStream.sink.add(false);
+    }
+
   }
 
   void removeTag(String tag) {

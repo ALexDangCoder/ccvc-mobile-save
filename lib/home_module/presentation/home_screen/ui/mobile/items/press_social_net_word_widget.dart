@@ -242,6 +242,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                               const BorderRadius.all(Radius.circular(6)),
                         ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               '#$result',
@@ -261,19 +262,29 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                                         onTap: () {
                                           _xaHoiCubit.removeTag(result);
                                         },
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: SizedBox(
-                                            width: 7,
-                                            height: 7,
-                                            child: SvgPicture.asset(
-                                              ImageAssets.icClose,
-                                              color:
-                                                  result == _xaHoiCubit.tagKey
-                                                      ? dfBtnTxtColor
-                                                      : AppTheme.getInstance()
-                                                          .colorSelect(),
+                                        child: SizedBox(
+                                          height: double.maxFinite,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 7,
+                                                  height: 7,
+                                                  child: SvgPicture.asset(
+                                                    ImageAssets.icClose,
+                                                    color: result ==
+                                                            _xaHoiCubit.tagKey
+                                                        ? dfBtnTxtColor
+                                                        : AppTheme.getInstance()
+                                                            .colorSelect(),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),

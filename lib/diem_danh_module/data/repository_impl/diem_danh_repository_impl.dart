@@ -41,7 +41,7 @@ class DiemDanhRepoImpl implements DiemDanhRepository {
         ThongKeDiemDanhCaNhanModel>(
       () =>
           _diemDanhService.thongKeDiemDanhCaNhan(thongKeDiemDanhCaNhanRequest),
-      (response) => response.data?.toModel() ?? ThongKeDiemDanhCaNhanModel(),
+      (response) => response.data?.toModel() ?? ThongKeDiemDanhCaNhanModel.empty(),
     );
   }
 

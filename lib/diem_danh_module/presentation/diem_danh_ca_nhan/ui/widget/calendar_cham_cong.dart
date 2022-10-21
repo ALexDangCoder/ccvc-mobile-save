@@ -87,6 +87,8 @@ class _CalendarChamCongState extends State<CalendarChamCong> {
                 dayWage: appointment.model.dayWage ?? 0.0,
                 timeIn: appointment.model.timeIn ?? '',
                 timeOut: appointment.model.timeOut ?? '',
+                type: appointment.model.type??'',
+                leaveRequestReasonCode: appointment.model.leaveRequestReasonCode??'',
               );
             },
           );

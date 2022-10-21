@@ -23,17 +23,17 @@ class DataThongKeDiemDanhCaNhanResponse {
 @JsonSerializable()
 class ThongKeDiemDanhCaNhanModelResponse {
   @JsonKey(name: 'soLanDiMuon')
-  int? soLanDiMuon;
+  num? soLanDiMuon;
   @JsonKey(name: 'soLanVeSom')
-  int? soLanVeSom;
+  num? soLanVeSom;
   @JsonKey(name: 'soNgayLamViec')
-  double? soNgayLamViec;
+  num? soNgayLamViec;
   @JsonKey(name: 'soLanChamCongThuCong')
-  int? soLanChamCongThuCong;
+  num? soLanChamCongThuCong;
   @JsonKey(name: 'soNgayVangMatKhongLyDo')
-  int? soNgayVangMatKhongLyDo;
+  num? soNgayVangMatKhongLyDo;
   @JsonKey(name: 'soNgayNghiCoLyDo')
-  int? soNgayNghiCoLyDo;
+  num? soNgayNghiCoLyDo;
 
   ThongKeDiemDanhCaNhanModelResponse(
       this.soLanDiMuon,
@@ -51,11 +51,11 @@ class ThongKeDiemDanhCaNhanModelResponse {
       _$ThongKeDiemDanhCaNhanModelResponseToJson(this);
 
   ThongKeDiemDanhCaNhanModel toModel() => ThongKeDiemDanhCaNhanModel(
-        soLanDiMuon: soLanDiMuon,
-        soLanVeSom: soLanVeSom,
-        soNgayNghiCoLyDo: soNgayNghiCoLyDo,
-        soLanChamCongThuCong: soLanChamCongThuCong,
-        soNgayLamViec: soNgayLamViec,
-        soNgayVangMatKhongLyDo: soNgayVangMatKhongLyDo,
+        soLanDiMuon: soLanDiMuon??0,
+        soLanVeSom: soLanVeSom??0,
+        soNgayNghiCoLyDo: soNgayNghiCoLyDo??0,
+        soLanChamCongThuCong: soLanChamCongThuCong??0,
+        soNgayLamViec: soNgayLamViec??0,
+        soNgayVangMatKhongLyDo: soNgayVangMatKhongLyDo??0,
       );
 }

@@ -154,7 +154,7 @@ class _DiemDanhCaNhanTabletScreenState
                                   final data = snapshot.data;
                                   return WidgetItemThongKe(
                                     thongKeDiemDanhCaNhanModel:
-                                        data ?? ThongKeDiemDanhCaNhanModel(),
+                                        data ?? ThongKeDiemDanhCaNhanModel.empty(),
                                   );
                                 },
                               ),

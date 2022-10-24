@@ -1,19 +1,19 @@
 class ThongKeDiemDanhCaNhanModel {
-  int? soLanDiMuon;
-  int? soLanVeSom;
-  double? soNgayLamViec;
-  int? soLanChamCongThuCong;
-  int? soNgayVangMatKhongLyDo;
-  int? soNgayNghiCoLyDo;
+  num soLanDiMuon=0;
+  num soLanVeSom=0;
+  num soNgayLamViec=0;
+  num soLanChamCongThuCong=0;
+  num soNgayVangMatKhongLyDo=0;
+  num soNgayNghiCoLyDo=0;
 
   ThongKeDiemDanhCaNhanModel({
-    this.soLanDiMuon,
-    this.soLanVeSom,
-    this.soNgayLamViec,
-    this.soLanChamCongThuCong,
-    this.soNgayVangMatKhongLyDo,
-    this.soNgayNghiCoLyDo,
+    required this.soLanDiMuon,
+    required this.soLanVeSom,
+    required this.soNgayLamViec,
+    required this.soLanChamCongThuCong,
+    required this.soNgayVangMatKhongLyDo,
+    required this.soNgayNghiCoLyDo,
   });
+  ThongKeDiemDanhCaNhanModel.empty() {}
 
-  int get soNgayNghi => (soNgayNghiCoLyDo ?? 0) + (soNgayVangMatKhongLyDo ?? 0);
 }

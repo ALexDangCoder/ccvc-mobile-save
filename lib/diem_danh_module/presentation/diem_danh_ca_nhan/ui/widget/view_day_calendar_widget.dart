@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/bao_cao_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/type_state_diem_danh.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/extension/quan_ly_diem_danh_ca_nhan.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class ViewDayCalendarWidget extends StatefulWidget {
   final String timeOut;
   final double dayWage;
   final bool isShowDateAndDayWage;
+  final String type;
+  final String leaveRequestReasonCode;
 
   const ViewDayCalendarWidget({
     Key? key,
@@ -20,6 +23,8 @@ class ViewDayCalendarWidget extends StatefulWidget {
     required this.timeIn,
     required this.timeOut,
     required this.isShowDateAndDayWage,
+    required this.type,
+    required this.leaveRequestReasonCode,
   }) : super(key: key);
 
   @override
@@ -56,22 +61,30 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
   }
 
   String get getStringDate {
-    if (widget.timeIn.isEmpty && widget.timeOut.isNotEmpty) {
-      return '??:??-${widget.timeOut.getTime}';
-    }
+    if (widget.type == Type.HOLIDAY) {
+      return '';
+    } else if (widget.type == Type.WORKING &&
+        widget.timeIn.isEmpty &&
+        widget.timeOut.isEmpty &&
+        widget.leaveRequestReasonCode.isNotEmpty) {
+      return '';
+    } else {
+      if (widget.timeIn.isEmpty && widget.timeOut.isNotEmpty) {
+        return '??:??-${widget.timeOut.getTime}';
+      }
 
-    if (widget.timeOut.isEmpty && widget.timeIn.isNotEmpty) {
-      return '${widget.timeIn.getTime}-??:??';
-    }
+      if (widget.timeOut.isEmpty && widget.timeIn.isNotEmpty) {
+        return '${widget.timeIn.getTime}-??:??';
+      }
 
-    if (widget.timeIn.isEmpty && widget.timeOut.isEmpty) {
-      return '??:??-??:??';
-    }
+      if (widget.timeIn.isEmpty && widget.timeOut.isEmpty) {
+        return '??:??-??:??';
+      }
 
-    if (widget.timeIn.isNotEmpty && widget.timeOut.isNotEmpty) {
-      return '${widget.timeIn.getTime}-${widget.timeOut.getTime}';
+      if (widget.timeIn.isNotEmpty && widget.timeOut.isNotEmpty) {
+        return '${widget.timeIn.getTime}-${widget.timeOut.getTime}';
+      }
     }
-
     return '??:??-??:??';
   }
 
@@ -97,48 +110,53 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
               else
                 dayWageWidget(),
               spaceH12,
-              GestureDetector(
-                onTap: () {
-                  isShowDate = !isShowDate;
-                  setState(() {});
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 4,
-                    horizontal: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: widget.timeIn.isEmpty || widget.timeOut.isEmpty
-                        ? colorEA5455
-                        : color20C997,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                  child: isShowDate
-                      ? Text(
-                          getStringDate,
-                          style: textNormalCustom(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 9,
+              if (getStringDate.isEmpty)
+                const SizedBox(
+                  height: 16,
+                )
+              else
+                GestureDetector(
+                  onTap: () {
+                    isShowDate = !isShowDate;
+                    setState(() {});
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: widget.timeIn.isEmpty || widget.timeOut.isEmpty
+                          ? colorEA5455
+                          : color20C997,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    child: isShowDate
+                        ? Text(
+                            getStringDate,
+                            style: textNormalCustom(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 9,
+                            ),
+                          )
+                        : Text(
+                            getStringDate,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: textNormalCustom(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 9,
+                            ),
                           ),
-                        )
-                      : Text(
-                          getStringDate,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: textNormalCustom(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 9,
-                          ),
-                        ),
+                  ),
                 ),
-              ),
               spaceH4,
             ],
           )
         : Center(
-          child: Wrap(
+            child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: widget.state
                   .map(
@@ -150,7 +168,7 @@ class _ViewDayCalendarWidgetState extends State<ViewDayCalendarWidget> {
                   )
                   .toList(),
             ),
-        );
+          );
   }
 
   Widget dayWageWidget() {

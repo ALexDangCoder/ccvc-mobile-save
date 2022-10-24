@@ -22,7 +22,7 @@ class WidgetItemThongKe extends StatelessWidget {
         children: [
           itemthongKe(
             title: S.current.so_lan_di_muon,
-            number: thongKeDiemDanhCaNhanModel.soLanDiMuon ?? 0,
+            number: thongKeDiemDanhCaNhanModel.soLanDiMuon.toInt(),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
@@ -35,7 +35,7 @@ class WidgetItemThongKe extends StatelessWidget {
           ),
           itemthongKe(
             title: S.current.so_lan_ve_som,
-            number: thongKeDiemDanhCaNhanModel.soLanVeSom ?? 0,
+            number: thongKeDiemDanhCaNhanModel.soLanVeSom.toInt(),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
@@ -46,9 +46,9 @@ class WidgetItemThongKe extends StatelessWidget {
               ),
             ),
           ),
-          itemthongKe(
+          itemthongKeDouble(
             title: S.current.so_ngay_nghi_co_ly_do,
-            number: thongKeDiemDanhCaNhanModel.soNgayNghiCoLyDo ?? 0,
+            number: thongKeDiemDanhCaNhanModel.soNgayNghiCoLyDo.toDouble(),
           ),
         ],
       ),
@@ -56,6 +56,35 @@ class WidgetItemThongKe extends StatelessWidget {
   }
 
   Widget itemthongKe({required String title, required int number}) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 16.0,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: textNormalCustom(
+              color: color667793,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          Text(
+            number.toString(),
+            style: textNormalCustom(
+              color: color667793,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget itemthongKeDouble({required String title, required double number}) {
     return Padding(
       padding: const EdgeInsets.only(
         bottom: 16.0,

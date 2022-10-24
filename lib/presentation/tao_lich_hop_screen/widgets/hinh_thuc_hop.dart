@@ -94,7 +94,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               setState(() {});
             },
           ),
-          if (!isHopTrucTiep)
+          // if (!isHopTrucTiep)
             const Padding(
               padding: EdgeInsets.only(left: 28.0),
               child: Divider(
@@ -102,25 +102,25 @@ class _HinhThucHopState extends State<HinhThucHop> {
                 thickness: 1,
               ),
             ),
-          if (isHopTrucTiep) ...[
-            TextFieldStyle(
-              initValue: widget.chiTietHop?.diaDiemHop,
-              urlIcon: ImageAssets.icLocation,
-              hintText: S.current.dia_diem_hop,
-              maxLength: 200,
-              onChange: (value) {
-                widget.cubit.taoLichHopRequest.diaDiemHop = value;
-              },
-              validate: (value) {
-                if (isHopTrucTiep) {
-                  if (value.trim().isEmpty) {
-                    return '${S.current.vui_long_nhap} '
-                        '${S.current.dia_diem_hop.toLowerCase()}';
-                  }
-                }
-              },
-            ),
-          ],
+          // if (isHopTrucTiep) ...[
+          //   TextFieldStyle(
+          //     initValue: widget.chiTietHop?.diaDiemHop,
+          //     urlIcon: ImageAssets.icLocation,
+          //     hintText: S.current.dia_diem_hop,
+          //     maxLength: 200,
+          //     onChange: (value) {
+          //       widget.cubit.taoLichHopRequest.diaDiemHop = value;
+          //     },
+          //     validate: (value) {
+          //       if (isHopTrucTiep) {
+          //         if (value.trim().isEmpty) {
+          //           return '${S.current.vui_long_nhap} '
+          //               '${S.current.dia_diem_hop.toLowerCase()}';
+          //         }
+          //       }
+          //     },
+          //   ),
+          // ],
           spaceH5,
           ContainerToggleWidget(
             initData: isHopTrucTuyen,

@@ -255,7 +255,14 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   }
 
   void showAddTag() {
-    showAddTagStream.sink.add(true);
+    final showAddTag=showAddTagStream.value;
+    if(!showAddTag){
+      showAddTagStream.sink.add(true);
+    }
+    else{
+      showAddTagStream.sink.add(false);
+    }
+
   }
 
   void removeTag(String tag) {
@@ -1298,12 +1305,15 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         isSortByDoKhan: true,
         ngayTaoEndSearch: '',
         ngayTaoStartSearch: '',
-        size: 10,
+        size: 5,
       ),
     );
     showContent();
     result.when(
       success: (res) {
+         if(res.length>5){
+           res=res.take(5).toList();
+         }
         _getDanhSachVb.sink.add(res);
       },
       error: (err) {},

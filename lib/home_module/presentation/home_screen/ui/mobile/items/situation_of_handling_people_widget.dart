@@ -59,7 +59,8 @@ class _SituationOfHandlingPeopleWidgetState
             stream: _yKienCubit.getTinhHinhXuLy,
             builder: (context, snapshot) {
               final data = snapshot.data ?? DocumentDashboardModel();
-
+              final displaySub = _yKienCubit.displayHandle(data);
+              final displayStatus = _yKienCubit.displayStatus(data);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -109,31 +110,35 @@ class _SituationOfHandlingPeopleWidgetState
                   const SizedBox(
                     height: 24,
                   ),
-                  StatusWidget(
-                    showZeroValue: false,
-                    listData: [
-                      ChartData(
-                        S.current.qua_han,
-                        data.soLuongQuaHan.toDouble(),
-                        statusCalenderRed,
-                        SelectKey.CHO_VAO_SO,
-                      ),
-                      ChartData(
-                        S.current.den_han,
-                        data.soLuongDenHan.toDouble(),
-                        yellowColor,
-                        SelectKey.DANG_XU_LY,
-                      ),
-                      ChartData(
-                        S.current.trong_han,
-                        data.soLuongTrongHan.toDouble(),
-                        choTrinhKyColor,
-                        SelectKey.DA_XU_LY,
-                      ),
-                    ],
+                  Visibility(
+                    visible: displayStatus,
+                    child: StatusWidget(
+                      showZeroValue: false,
+                      listData: [
+                        ChartData(
+                          S.current.qua_han,
+                          data.soLuongQuaHan.toDouble(),
+                          statusCalenderRed,
+                          SelectKey.CHO_VAO_SO,
+                        ),
+                        ChartData(
+                          S.current.den_han,
+                          data.soLuongDenHan.toDouble(),
+                          yellowColor,
+                          SelectKey.DANG_XU_LY,
+                        ),
+                        ChartData(
+                          S.current.trong_han,
+                          data.soLuongTrongHan.toDouble(),
+                          choTrinhKyColor,
+                          SelectKey.DA_XU_LY,
+                        ),
+                      ],
+                    ),
                   ),
                   PieChart(
                     title: S.current.xu_ly,
+                    isSubjectInfo: displaySub,
                     chartData: [
                       ChartData(
                         S.current.cho_tiep_nhan_xu_ly,

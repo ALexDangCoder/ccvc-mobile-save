@@ -157,7 +157,7 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
           chonPhongHopCubit: _cubit,
           from: widget.dateFrom ?? '',
           to: widget.dateTo ?? '',
-          initPhongHop: _cubit.thongTinPhongHopSubject.value.phongHop,
+          initPhongHop: _cubit.thongTinPhongHopSubject.valueOrNull?.phongHop,
           initThietBi: _cubit.thongTinPhongHopSubject.valueOrNull?.listThietBi
                   .map(
                     (e) => PhongHopThietBi(

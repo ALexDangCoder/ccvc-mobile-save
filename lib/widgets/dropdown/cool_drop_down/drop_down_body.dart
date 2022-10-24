@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/util/drop_down_util.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -523,185 +524,223 @@ class DropdownBodyState extends State<DropdownBody>
                               constraints: BoxConstraints(
                                 maxHeight: widget.dropdownHeight,
                               ),
-                              child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                physics: const ScrollPhysics(),
-                                shrinkWrap: true,
-                                controller: _scrollController,
-                                itemCount: widget.dropdownList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Column(
-                                    children: [
-                                      if (index == 0)
-                                        Container(
-                                          height: widget.dropdownItemTopGap,
-                                        ),
-                                      GestureDetector(
-                                        onTap: () async {
-                                          setState(() {
-                                            isTap = true;
-                                            for (var i = 0;
-                                                i < widget.dropdownList.length;
-                                                i++) {
-                                              if (index == i) {
-                                                widget.dropdownIsSelected[i] =
-                                                    true;
-                                              } else {
-                                                widget.dropdownIsSelected[i] =
-                                                    false;
-                                              }
-                                            }
-                                          });
-                                          if (currentIndex != -1) {
-                                            if (currentIndex != index) {
-                                              unawaited(
-                                                _paddingController[currentIndex]
-                                                    .reverse(),
-                                              );
-                                              unawaited(
-                                                _paddingController[currentIndex]
-                                                    .reverse(),
-                                              );
-                                              unawaited(
-                                                _dCController[currentIndex]
-                                                    .reverse(),
-                                              );
-                                            }
-                                          }
-                                          unawaited(
-                                            _paddingController[index].forward(),
-                                          );
-                                          await _dCController[index].forward();
-                                          await animationReverse();
-                                          widget.getSelectedItem(
-                                            widget.dropdownList[index],
-                                          );
-                                          widget.onChange(
-                                            widget.dropdownList[index],
-                                          );
-                                          widget.closeDropdown();
-                                        },
-                                        child: DecoratedBoxTransition(
-                                          decoration: selectedDecorationTween
-                                              .animate(_dCController[index]),
-                                          child: Container(
-                                            padding:
-                                                _paddingAnimation[index].value,
-                                            height: widget.dropdownItemHeight,
-                                            child: Align(
-                                              alignment:
-                                                  widget.dropdownItemAlign,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    widget.dropdownItemMainAxis,
-                                                children: [
-                                                  if (widget.isDropdownLabel)
-                                                    DefaultTextStyleTransition(
-                                                      style: selectedTSTween
-                                                          .animate(
-                                                        _dCController[index],
-                                                      ),
-                                                      child: Flexible(
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child: Text(
-                                                                widget.dropdownList[
-                                                                        index]
-                                                                    ['label'],
-                                                                maxLines: widget
-                                                                    .maxLines,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
+                              child: widget.dropdownList.isNotEmpty
+                                  ? ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      physics: const ScrollPhysics(),
+                                      shrinkWrap: true,
+                                      controller: _scrollController,
+                                      itemCount: widget.dropdownList.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Column(
+                                          children: [
+                                            if (index == 0)
+                                              Container(
+                                                height:
+                                                    widget.dropdownItemTopGap,
+                                              ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                setState(() {
+                                                  isTap = true;
+                                                  for (var i = 0;
+                                                      i <
+                                                          widget.dropdownList
+                                                              .length;
+                                                      i++) {
+                                                    if (index == i) {
+                                                      widget.dropdownIsSelected[
+                                                          i] = true;
+                                                    } else {
+                                                      widget.dropdownIsSelected[
+                                                          i] = false;
+                                                    }
+                                                  }
+                                                });
+                                                if (currentIndex != -1) {
+                                                  if (currentIndex != index) {
+                                                    unawaited(
+                                                      _paddingController[
+                                                              currentIndex]
+                                                          .reverse(),
+                                                    );
+                                                    unawaited(
+                                                      _paddingController[
+                                                              currentIndex]
+                                                          .reverse(),
+                                                    );
+                                                    unawaited(
+                                                      _dCController[
+                                                              currentIndex]
+                                                          .reverse(),
+                                                    );
+                                                  }
+                                                }
+                                                unawaited(
+                                                  _paddingController[index]
+                                                      .forward(),
+                                                );
+                                                await _dCController[index]
+                                                    .forward();
+                                                await animationReverse();
+                                                widget.getSelectedItem(
+                                                  widget.dropdownList[index],
+                                                );
+                                                widget.onChange(
+                                                  widget.dropdownList[index],
+                                                );
+                                                widget.closeDropdown();
+                                              },
+                                              child: DecoratedBoxTransition(
+                                                decoration:
+                                                    selectedDecorationTween
+                                                        .animate(_dCController[
+                                                            index]),
+                                                child: Container(
+                                                  padding:
+                                                      _paddingAnimation[index]
+                                                          .value,
+                                                  height:
+                                                      widget.dropdownItemHeight,
+                                                  child: Align(
+                                                    alignment: widget
+                                                        .dropdownItemAlign,
+                                                    child: Row(
+                                                      mainAxisAlignment: widget
+                                                          .dropdownItemMainAxis,
+                                                      children: [
+                                                        if (widget
+                                                            .isDropdownLabel)
+                                                          DefaultTextStyleTransition(
+                                                            style:
+                                                                selectedTSTween
+                                                                    .animate(
+                                                              _dCController[
+                                                                  index],
+                                                            ),
+                                                            child: Flexible(
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      widget.dropdownList[
+                                                                              index]
+                                                                          [
+                                                                          'label'],
+                                                                      maxLines:
+                                                                          widget
+                                                                              .maxLines,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  ),
+                                                                  if (index ==
+                                                                      currentIndex)
+                                                                    widget
+                                                                        .selectedIcon
+                                                                ],
                                                               ),
                                                             ),
-                                                            if (index ==
-                                                                currentIndex)
-                                                              widget
-                                                                  .selectedIcon
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  if (widget.isDropdownLabel)
-                                                    SizedBox(
-                                                      width:
-                                                          widget.labelIconGap,
-                                                    ),
-                                                  if (widget.dropdownList[index]
-                                                              ['icon'] !=
-                                                          null &&
-                                                      widget.dropdownList[index]
-                                                              [
-                                                              'selectedIcon'] !=
-                                                          null)
-                                                    AnimatedSwitcher(
-                                                      duration: au.isAnimation(
-                                                        status:
-                                                            widget.isAnimation,
-                                                        duration:
-                                                            const Duration(
-                                                          milliseconds: 300,
-                                                        ),
-                                                      ),
-                                                      transitionBuilder: (
-                                                        Widget child,
-                                                        Animation<double>
-                                                            animation,
-                                                      ) {
-                                                        return FadeTransition(
-                                                          opacity: animation,
-                                                          child: child,
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        child: widget
-                                                                    .dropdownIsSelected[
-                                                                index]
-                                                            ? widget.dropdownList[
-                                                                        index][
-                                                                    'selectedIcon']
-                                                                as Widget
-                                                            : widget.dropdownList[
+                                                          ),
+                                                        if (widget
+                                                            .isDropdownLabel)
+                                                          SizedBox(
+                                                            width: widget
+                                                                .labelIconGap,
+                                                          ),
+                                                        if (widget.dropdownList[
                                                                         index]
-                                                                    ['icon']
-                                                                as Widget,
-                                                      ),
-                                                    )
-                                                  else
-                                                    widget.dropdownList[index]
-                                                                ['icon'] !=
-                                                            null
-                                                        ? Container(
-                                                            child: widget
-                                                                    .dropdownList[
-                                                                index]['icon'],
+                                                                    ['icon'] !=
+                                                                null &&
+                                                            widget.dropdownList[
+                                                                        index][
+                                                                    'selectedIcon'] !=
+                                                                null)
+                                                          AnimatedSwitcher(
+                                                            duration:
+                                                                au.isAnimation(
+                                                              status: widget
+                                                                  .isAnimation,
+                                                              duration:
+                                                                  const Duration(
+                                                                milliseconds:
+                                                                    300,
+                                                              ),
+                                                            ),
+                                                            transitionBuilder: (
+                                                              Widget child,
+                                                              Animation<double>
+                                                                  animation,
+                                                            ) {
+                                                              return FadeTransition(
+                                                                opacity:
+                                                                    animation,
+                                                                child: child,
+                                                              );
+                                                            },
+                                                            child: Container(
+                                                              child: widget
+                                                                          .dropdownIsSelected[
+                                                                      index]
+                                                                  ? widget.dropdownList[
+                                                                              index]
+                                                                          [
+                                                                          'selectedIcon']
+                                                                      as Widget
+                                                                  : widget.dropdownList[
+                                                                              index]
+                                                                          [
+                                                                          'icon']
+                                                                      as Widget,
+                                                            ),
                                                           )
-                                                        : Container(),
-                                                ].isReverse(
-                                                  isReverse: widget
-                                                      .dropdownItemReverse,
+                                                        else
+                                                          widget.dropdownList[
+                                                                          index]
+                                                                      [
+                                                                      'icon'] !=
+                                                                  null
+                                                              ? Container(
+                                                                  child: widget
+                                                                              .dropdownList[
+                                                                          index]
+                                                                      ['icon'],
+                                                                )
+                                                              : Container(),
+                                                      ].isReverse(
+                                                        isReverse: widget
+                                                            .dropdownItemReverse,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
+                                            if (index !=
+                                                widget.dropdownList.length - 1)
+                                              Container(
+                                                height: widget.dropdownItemGap,
+                                              ),
+                                            if (index ==
+                                                widget.dropdownList.length - 1)
+                                              Container(
+                                                height: widget
+                                                    .dropdownItemBottomGap,
+                                              )
+                                          ],
+                                        );
+                                      },
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        widget.closeDropdown();
+                                      },
+                                      child: const NodataWidget(
+                                        height: 50,
                                       ),
-                                      if (index !=
-                                          widget.dropdownList.length - 1)
-                                        Container(
-                                          height: widget.dropdownItemGap,
-                                        ),
-                                      if (index ==
-                                          widget.dropdownList.length - 1)
-                                        Container(
-                                          height: widget.dropdownItemBottomGap,
-                                        )
-                                    ],
-                                  );
-                                },
-                              ),
+                                    ),
                             ),
                           ),
                         ),
